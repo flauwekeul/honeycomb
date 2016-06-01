@@ -1,0 +1,23 @@
+{
+  "name": "abstract-hex-grid",
+  "version": "0.1.0",
+  "description": "Hex grid without any view logic",
+  "main": "src/index.js",
+  "scripts": {
+    "compile": "babel -d lib/ src/",
+    "start": "npm run compile && node lib/index.js",
+    "lint": "eslint src; exit 0"
+  },
+  "author": "Abbe Keultjes <flauwekeul@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.9.0",
+    "babel-preset-es2015": "^6.9.0",
+    "eslint": "^2.11.1"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  }
+}
