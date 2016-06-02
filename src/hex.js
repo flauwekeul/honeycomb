@@ -7,11 +7,11 @@ import {
 
 const proto = {
     add(hex) {
-        return Hex(this.q + hex.q, this.r + hex.r, this.s + hex.s)
+        return Hex(this.x + hex.x, this.y + hex.y, this.z + hex.z)
     },
 
     subtract(hex) {
-        return Hex(this.q - hex.q, this.r - hex.r, this.s - hex.s)
+        return Hex(this.x - hex.x, this.y - hex.y, this.z - hex.z)
     },
 
     // direction is number in the range (0..5)
@@ -30,9 +30,9 @@ const proto = {
     distance(hex) {
         const relativeHex = this.subtract(hex)
         return Math.max(
-            Math.abs(relativeHex.q),
-            Math.abs(relativeHex.r),
-            Math.abs(relativeHex.s)
+            Math.abs(relativeHex.x),
+            Math.abs(relativeHex.y),
+            Math.abs(relativeHex.z)
         )
     }
 }
@@ -40,6 +40,7 @@ const proto = {
 
 // accepts axial or cube coordinates
 // http://www.redblobgames.com/grids/hexagons/#coordinates
-export default function Hex(q, r, s = (-q - r)) {
-    return Object.assign(Object.create(proto), { q, r, s })
+export default function Hex(x, y, z = (-x - y)) {
+    // TODO: validate z. It should always be (-x - y)
+    return Object.assign(Object.create(proto), { x, y, z })
 }
