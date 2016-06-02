@@ -1,4 +1,4 @@
 import Hex from './hex'
 
-const hex = new Hex(0, 0, 0)
-console.log(hex.distance(new Hex(-3, 4, 1)))
+const hex = Hex(0, 0)
+console.log(hex.distance(Hex(-5, 1)))

@@ -1,24 +1,18 @@
+// Inspired by http://www.redblobgames.com/grids/hexagons/codegen/output/lib.js
+
 import {
     DIRECTION_COORDINATES,
     DIAGONAL_DIRECTION_COORDINATES
 } from './constants'
 
-export default class Hex {
-    // accepts cube coordinates
-    // http://www.redblobgames.com/grids/hexagons/#coordinates
-    constructor(q, r, s) {
-        this.q = q
-        this.r = r
-        this.s = s
-    }
-
+const proto = {
     add(hex) {
-        return new Hex(this.q + hex.q, this.r + hex.r, this.s + hex.s)
-    }
+        return Hex(this.q + hex.q, this.r + hex.r, this.s + hex.s)
+    },
 
     subtract(hex) {
-        return new Hex(this.q - hex.q, this.r - hex.r, this.s - hex.s)
-    }
+        return Hex(this.q - hex.q, this.r - hex.r, this.s - hex.s)
+    },
 
     // direction is number in the range (0..5)
     // returns the neighboring hex
@@ -28,8 +22,8 @@ export default class Hex {
             DIAGONAL_DIRECTION_COORDINATES[direction] :
             DIRECTION_COORDINATES[direction]
 
-        return this.add(new Hex(...coordinates))
-    }
+        return this.add(Hex(...coordinates))
+    },
 
     // returns distance (steps) to given hex
     // http://www.redblobgames.com/grids/hexagons/#distances
@@ -41,4 +35,11 @@ export default class Hex {
             Math.abs(relativeHex.s)
         )
     }
+}
+
+
+// accepts axial or cube coordinates
+// http://www.redblobgames.com/grids/hexagons/#coordinates
+export default function Hex(q, r, s = (-q - r)) {
+    return Object.assign(Object.create(proto), { q, r, s })
 }
