@@ -1,0 +1,95 @@
+import Hex from '.'
+import {
+    DIRECTION_COORDINATES,
+    DIAGONAL_DIRECTION_COORDINATES
+} from './constants'
+
+export default {
+    add(hex) {
+        return Hex(this.x + hex.x, this.y + hex.y, this.z + hex.z)
+    },
+
+    subtract(hex) {
+        return Hex(this.x - hex.x, this.y - hex.y, this.z - hex.z)
+    },
+
+    // direction is number in the range (0..5)
+    // returns the neighboring hex
+    // http://www.redblobgames.com/grids/hexagons/#neighbors
+    neighbor(direction = 0, diagonal = false) {
+        const coordinates = diagonal ?
+            DIAGONAL_DIRECTION_COORDINATES[direction] :
+            DIRECTION_COORDINATES[direction]
+
+        return this.add(Hex(...coordinates))
+    },
+
+    // returns the amount of hexes from itself to the given hex
+    // http://www.redblobgames.com/grids/hexagons/#distances
+    distance(hex) {
+        const relativeHex = this.subtract(hex)
+        return Math.max(
+            Math.abs(relativeHex.x),
+            Math.abs(relativeHex.y),
+            Math.abs(relativeHex.z)
+        )
+    },
+
+    // rounds floating point coordinates to their nearest integer coordinates
+    // http://www.redblobgames.com/grids/hexagons/#rounding
+    round() {
+        let roundedX = Math.round(this.x)
+        let roundedY = Math.round(this.y)
+        let roundedZ = Math.round(this.z)
+        const diffX = Math.abs(this.x - roundedX)
+        const diffY = Math.abs(this.y - roundedY)
+        const diffZ = Math.abs(this.z - roundedZ)
+
+        if (diffX > diffY && diffX > diffZ) {
+            roundedX = Hex.thirdDimension(roundedY, roundedZ)
+        } else if (diffY > diffZ) {
+            roundedY = Hex.thirdDimension(roundedX, roundedZ)
+        } else {
+            roundedZ = Hex.thirdDimension(roundedX, roundedY)
+        }
+
+        return Hex(roundedX, roundedY, roundedZ)
+    },
+
+    // returns an interpolation between self and the passed hex for a `t` between 0..1
+    // why it's called 'lerp': https://en.wikipedia.org/wiki/Linear_interpolation#Applications
+    lerp(hex, t) {
+        return Hex(
+            this.x * (1 - t) + hex.x * t,
+            this.y * (1 - t) + hex.y * t,
+            this.z * (1 - t) + hex.z * t
+        )
+    },
+
+    // returns itself with a tiny offset, useful for interpolating in a consistent direction
+    // see also: http://www.redblobgames.com/grids/hexagons/#line-drawing
+    nudge() {
+        return this.add(Hex(1e-6, 1e-6, -2e-6))
+    },
+
+    // returns the hexes in a straight line between itself and the given hex, inclusive
+    // http://www.redblobgames.com/grids/hexagons/#line-drawing
+    hexesTo(hex) {
+        const distance = this.distance(hex)
+
+        if (distance === 1) {
+            return [this, hex]
+        }
+
+        const nudgedSelf = this.nudge()
+        const nudgedHex = hex.nudge()
+        const step = 1.0 / Math.max(distance, 1)
+        let hexes = []
+
+        for (let i = 0; i <= distance; i++) {
+            hexes.push(nudgedSelf.lerp(nudgedHex, step * i).round())
+        }
+
+        return hexes
+    }
+}
