@@ -1,5 +1,7 @@
 import { expect } from 'chai'
 import Hex from '../src/hex'
+import Point from '../src/point'
+import { ORIENTATIONS } from '../src/hex/constants'
 
 describe('Hex', () => {
     describe('static methods', () => {
@@ -7,6 +9,20 @@ describe('Hex', () => {
             it('returns a third coordinate using the given two coordinates', () => {
                 const result = Hex.thirdDimension(3, -1)
                 expect(result).to.equal(-2)
+            })
+        })
+
+        describe('pointy', () => {
+            it('sets the orientation of all hexes to pointy', () => {
+                Hex.pointy()
+                expect(Hex.orientation).to.equal(ORIENTATIONS.POINTY)
+            })
+        })
+
+        describe('flat', () => {
+            it('sets the orientation of all hexes to flat', () => {
+                Hex.flat()
+                expect(Hex.orientation).to.equal(ORIENTATIONS.FLAT)
             })
         })
     })
@@ -34,6 +50,26 @@ describe('Hex', () => {
     })
 
     describe('instance methods', () => {
+        describe('hasSize', () => {
+            afterEach(() => { delete Hex.size })
+
+            it('returns true if size is valid', () => {
+                Hex.size = 0
+                expect(Hex(0, 0).hasSize()).to.be.true
+                Hex.size = 4
+                expect(Hex(0, 0).hasSize()).to.be.true
+            })
+
+            it('returns false if size is invalid', () => {
+                Hex.size = -2
+                expect(Hex(0, 0).hasSize()).to.be.false
+                Hex.size = undefined
+                expect(Hex(0, 0).hasSize()).to.be.false
+                Hex.size = null
+                expect(Hex(0, 0).hasSize()).to.be.false
+            })
+        })
+
         describe('add', () => {
             it('adds all coordinates of the given hex to itself', () => {
                 const result = Hex(1, -3, 2).add(Hex(2, 0, -2))
@@ -118,6 +154,34 @@ describe('Hex', () => {
                     Hex(0, 0, 0),
                     Hex(1, -1, 0)
                 ])
+            })
+        })
+
+        describe('toPoint', () => {
+            describe('when size isn\'t set', () => {
+                it('throws an error', () => {
+                    const hex = Hex(0, 0)
+                    expect(hex.toPoint.bind(hex)).to.throw(Error)
+                })
+            })
+
+            describe('when size is set', () => {
+                beforeEach(() => { Hex.size = 10 })
+
+                describe('when orientation is pointy', () => {
+                    beforeEach(Hex.pointy)
+
+                    it('returns the center point of the hex', () => {
+                        const result = Hex(0, 0).toPoint()
+                        expect(result).to.eql(Point(10, 10))
+                    })
+                })
+
+                describe('when orientation is flat', () => {
+                    beforeEach(Hex.flat)
+
+                    it('returns the center point of the hex')
+                })
             })
         })
     })

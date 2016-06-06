@@ -1,10 +1,16 @@
 import Hex from '.'
+import Point from '../point'
 import {
+    ORIENTATIONS,
     DIRECTION_COORDINATES,
     DIAGONAL_DIRECTION_COORDINATES
 } from './constants'
 
 export default {
+    hasSize() {
+        return Hex.size >= 0 && Hex.size !== null
+    },
+
     add(hex) {
         return Hex(this.x + hex.x, this.y + hex.y, this.z + hex.z)
     },
@@ -91,5 +97,15 @@ export default {
         }
 
         return hexes
+    },
+
+    toPoint() {
+        if (!this.hasSize()) {
+            throw new Error(`No valid size set: ${ Hex.size }`)
+        }
+
+        const x = Hex.size * Math.sqrt(3) * (this.x + this.y / 2)
+        const y = Hex.size * 3/2 * this.y
+        return Point(x, y)
     }
 }

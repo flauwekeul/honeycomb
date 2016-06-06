@@ -1,5 +1,5 @@
 import prototype from './prototype'
-import * as statics from './statics'
+import statics from './statics'
 
 Object.assign(Hex, statics)
 
