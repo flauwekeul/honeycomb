@@ -4,7 +4,7 @@
   "description": "Hex grid without any view logic",
   "main": "src/index.js",
   "scripts": {
-    "compile": "babel -d lib/ src/",
+    "compile": "rm -rf lib && babel src -d lib",
     "lint": "eslint src; exit 0",
     "start": "npm run compile && node lib/index.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/config.js --recursive",
