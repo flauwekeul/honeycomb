@@ -104,8 +104,16 @@ export default {
             throw new Error(`No valid size set: ${ Hex.size }`)
         }
 
-        const x = Hex.size * Math.sqrt(3) * (this.x + this.y / 2)
-        const y = Hex.size * 3/2 * this.y
+        let x, y
+
+        if (Hex.isPointy()) {
+            x = Hex.size * Math.sqrt(3) * (this.x + this.z / 2)
+            y = Hex.size * 3/2 * this.z
+        } else if (Hex.isFlat()) {
+            x = Hex.size * 3/2 * this.x
+            y = Hex.size * Math.sqrt(3) * (this.z + this.x / 2)
+        }
+
         return Point(x, y)
     }
 }

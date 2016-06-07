@@ -12,5 +12,13 @@ export default {
 
     flat() {
         this.orientation = ORIENTATIONS.FLAT
+    },
+
+    isPointy() {
+        return this.orientation === ORIENTATIONS.POINTY
+    },
+
+    isFlat() {
+        return this.orientation === ORIENTATIONS.FLAT
     }
 }
