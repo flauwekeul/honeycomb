@@ -23,5 +23,25 @@
     "presets": [
       "es2015"
     ]
-  }
+  },
+  "directories": {
+    "lib": "./lib",
+    "test": "./test"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flauwekeul/honeycomb.git"
+  },
+  "keywords": [
+    "hex",
+    "hexagon",
+    "hex-grid",
+    "node",
+    "es2015"
+  ],
+  "bugs": {
+    "url": "https://github.com/flauwekeul/honeycomb/issues"
+  },
+  "homepage": "https://github.com/flauwekeul/honeycomb#readme"
 }
