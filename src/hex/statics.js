@@ -1,6 +1,6 @@
-import { ORIENTATIONS } from './constants'
+const { ORIENTATIONS } = require('./constants')
 
-export default {
+Object.assign(exports, {
     // `0` is returned if `-firstDimension - secondDimension` result in `-0`
     thirdDimension(firstDimension, secondDimension) {
         return -firstDimension - secondDimension || 0
@@ -21,4 +21,4 @@ export default {
     isFlat() {
         return this.orientation === ORIENTATIONS.FLAT
     }
-}
+})
