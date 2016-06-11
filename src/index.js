@@ -1,4 +1,1 @@
-exports = {
-    Hex: require('./hex'),
-    Point: require('./point')
-}
+import Hex from './hex'

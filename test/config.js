@@ -1,1 +1,1 @@
-require('chai')
+import chai from 'chai'

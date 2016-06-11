@@ -1,7 +1,7 @@
-const { expect } = require('chai')
-const { Hex } = require('../src/hex')
-const { Point } = require('../src/point')
-const { ORIENTATIONS } = require('../src/hex/constants')
+import { expect } from 'chai'
+import Hex from '../src/hex'
+import Point from '../src/point'
+import { ORIENTATIONS } from '../src/hex/constants'
 
 describe('Hex', () => {
     describe('static methods', () => {
