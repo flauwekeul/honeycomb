@@ -34,7 +34,7 @@ const prototype = {
             DIAGONAL_DIRECTION_COORDINATES[direction] :
             DIRECTION_COORDINATES[direction]
 
-        return this.add(Hex(...coordinates))
+        return this.add(coordinates)
     },
 
     // returns the amount of hexes from itself to the given hex
@@ -83,27 +83,6 @@ const prototype = {
     // see also: http://www.redblobgames.com/grids/hexagons/#line-drawing
     nudge() {
         return this.add(Hex(1e-6, 1e-6, -2e-6))
-    },
-
-    // returns the hexes in a straight line between itself and the given hex, inclusive
-    // http://www.redblobgames.com/grids/hexagons/#line-drawing
-    hexesTo(hex) {
-        const distance = this.distance(hex)
-
-        if (distance === 1) {
-            return [this, hex]
-        }
-
-        const nudgedSelf = this.nudge()
-        const nudgedHex = hex.nudge()
-        const step = 1.0 / Math.max(distance, 1)
-        let hexes = []
-
-        for (let i = 0; i <= distance; i++) {
-            hexes.push(nudgedSelf.lerp(nudgedHex, step * i).round())
-        }
-
-        return hexes
     },
 
     toPoint() {

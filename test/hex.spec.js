@@ -25,6 +25,28 @@ describe('Hex', () => {
                 expect(Hex.orientation).to.equal(ORIENTATIONS.FLAT)
             })
         })
+
+        describe('hexesBetween', () => {
+            it('returns the hexes in a straight line between the two given hexes, inclusive', () => {
+                const result = Hex.hexesBetween(Hex(0, 0, 0), Hex(1, -5, 4))
+                expect(result).to.eql([
+                    Hex(0, 0, 0),
+                    Hex(0, -1, 1),
+                    Hex(0, -2, 2),
+                    Hex(1, -3, 2),
+                    Hex(1, -4, 3),
+                    Hex(1, -5, 4)
+                ])
+            })
+
+            it('returns early if the given hex is its neighbor', () => {
+                const result = Hex.hexesBetween(Hex(0, 0, 0), Hex(1, -1, 0))
+                expect(result).to.eql([
+                    Hex(0, 0, 0),
+                    Hex(1, -1, 0)
+                ])
+            })
+        })
     })
 
     describe('creation', () => {
@@ -152,28 +174,6 @@ describe('Hex', () => {
             it('returns itself with a tiny offset', () => {
                 const result = Hex(-2, 6, -4).nudge()
                 expect(result).to.eql(Hex(-1.999999, 6.000001, -4.000002))
-            })
-        })
-
-        describe('hexesTo', () => {
-            it('returns the hexes in a straight line between itself and the given hex, inclusive', () => {
-                const result = Hex(0, 0, 0).hexesTo(Hex(1, -5, 4))
-                expect(result).to.eql([
-                    Hex(0, 0, 0),
-                    Hex(0, -1, 1),
-                    Hex(0, -2, 2),
-                    Hex(1, -3, 2),
-                    Hex(1, -4, 3),
-                    Hex(1, -5, 4)
-                ])
-            })
-
-            it('returns early if the given hex is its neighbor', () => {
-                const result = Hex(0, 0, 0).hexesTo(Hex(1, -1, 0))
-                expect(result).to.eql([
-                    Hex(0, 0, 0),
-                    Hex(1, -1, 0)
-                ])
             })
         })
 
