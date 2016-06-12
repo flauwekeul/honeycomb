@@ -4,10 +4,11 @@
   "description": "Hex grid without any view logic in javascript.",
   "main": "src/index.js",
   "scripts": {
-    "build": "webpack",
+    "build": "NODE_ENV=production webpack",
+    "dev": "webpack --progress --colors --watch",
     "lint": "eslint src; exit 0",
     "lint:fix": "eslint src --fix; exit 0",
-    "start": "npm run build && node lib/bundle.js",
+    "start": "npm run build && node lib/honeycomb.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/config.js --recursive",
     "test:watch": "npm test -- --watch"
   },
