@@ -1,7 +1,6 @@
 import Hex from '.'
 import Point from '../point'
 import {
-    ORIENTATIONS,
     DIRECTION_COORDINATES,
     DIAGONAL_DIRECTION_COORDINATES
 } from './constants'
