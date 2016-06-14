@@ -8,7 +8,7 @@
     "dev": "webpack --progress --colors --watch",
     "lint": "eslint src; exit 0",
     "lint:fix": "eslint src --fix; exit 0",
-    "start": "npm run build && node lib/honeycomb.js",
+    "start": "npm run build && node dist/honeycomb.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/config.js --recursive",
     "test:watch": "npm test -- --watch"
   },
@@ -24,7 +24,7 @@
     "webpack": "^1.13.1"
   },
   "directories": {
-    "lib": "lib",
+    "dist": "dist",
     "test": "test"
   },
   "dependencies": {},
