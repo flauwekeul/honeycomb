@@ -115,6 +115,60 @@ describe('Hex', () => {
             })
         })
 
+        describe('oppositeCornerDistance', () => {
+            it('returns the distance between two opposite points', () => {
+                Hex.size(10)
+                expect(Hex.oppositeCornerDistance()).to.equal(20)
+            })
+        })
+
+        describe('oppositeSideDistance', () => {
+            it('returns the distance between two opposite sides', () => {
+                Hex.size(10)
+                expect(Hex.oppositeSideDistance()).to.be.closeTo(17.3205, 0.0005)
+            })
+        })
+
+        describe('width', () => {
+            describe('when orientation is POINTY', () => {
+                beforeEach(() => Hex.orientation('pointy'))
+
+                it('returns Hex.oppositeSideDistance()', () => {
+                    Hex.size(10)
+                    expect(Hex.width()).to.equal(Hex.oppositeSideDistance())
+                })
+            })
+
+            describe('when orientation is FLAT', () => {
+                beforeEach(() => Hex.orientation('flat'))
+
+                it('returns Hex.oppositeCornerDistance()', () => {
+                    Hex.size(10)
+                    expect(Hex.width()).to.equal(Hex.oppositeCornerDistance())
+                })
+            })
+        })
+
+        describe('height', () => {
+            describe('when orientation is POINTY', () => {
+                beforeEach(() => Hex.orientation('pointy'))
+
+                it('returns Hex.oppositeCornerDistance()', () => {
+                    Hex.size(10)
+                    expect(Hex.height()).to.equal(Hex.oppositeCornerDistance())
+                })
+            })
+
+            describe('when orientation is FLAT', () => {
+                beforeEach(() => Hex.orientation('flat'))
+
+                it('returns Hex.oppositeSideDistance()', () => {
+                    Hex.size(10)
+                    expect(Hex.height()).to.equal(Hex.oppositeSideDistance())
+                })
+            })
+        })
+
         describe('hexesBetween', () => {
             it('returns the hexes in a straight line between the two given hexes, inclusive', () => {
                 const result = Hex.hexesBetween(Hex(0, 0, 0), Hex(1, -5, 4))

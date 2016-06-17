@@ -38,6 +38,26 @@ export default {
         return size >= 0 && size !== null
     },
 
+    oppositeCornerDistance() {
+        return _size * 2
+    },
+
+    oppositeSideDistance() {
+        return Math.sqrt(3) / 2 * this.oppositeCornerDistance()
+    },
+
+    width() {
+        return this.isPointy() ?
+            this.oppositeSideDistance() :
+            this.oppositeCornerDistance()
+    },
+
+    height() {
+        return this.isPointy() ?
+            this.oppositeCornerDistance() :
+            this.oppositeSideDistance()
+    },
+
     // returns the hexes in a straight line between itself and the given hex, inclusive
     // http://www.redblobgames.com/grids/hexagons/#line-drawing
     hexesBetween(hex, otherHex) {
