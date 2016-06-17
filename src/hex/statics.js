@@ -2,6 +2,7 @@ import { ORIENTATIONS } from './constants'
 
 // private properties
 let _orientation = ORIENTATIONS.FLAT
+let _size = 1
 
 export default {
     // `0` is returned if `-firstDimension - secondDimension` result in `-0`
@@ -23,6 +24,18 @@ export default {
 
     isFlat() {
         return _orientation === ORIENTATIONS.FLAT
+    },
+
+    // setter when called with newSize
+    // getter when called without params
+    size(newSize) {
+        return this.validSize(newSize) ?
+            _size = newSize :
+            _size
+    },
+
+    validSize(size) {
+        return size >= 0 && size !== null
     },
 
     // returns the hexes in a straight line between itself and the given hex, inclusive

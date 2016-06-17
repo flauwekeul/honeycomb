@@ -65,6 +65,43 @@ describe('Hex', () => {
             })
         })
 
+        describe('size', () => {
+            describe('when called without arguments', () => {
+                describe('when called for the first time', () => {
+                    it('returns the default size of 1', () => {
+                        expect(Hex.size()).to.equal(1)
+                    })
+                })
+
+                describe('when already set', () => {
+                    beforeEach(() => { Hex.size(10) })
+
+                    it('returns the size of Hex', () => {
+                        expect(Hex.size()).to.equal(10)
+                    })
+                })
+            })
+
+            describe('when called with a valid size', () => {
+                it('sets and returns the size of Hex', () => {
+                    expect(Hex.size(0)).to.equal(0)
+                    expect(Hex.size()).to.equal(0)
+                    expect(Hex.size(100)).to.equal(100)
+                    expect(Hex.size()).to.equal(100)
+                })
+            })
+
+            describe('when called with an invalid size', () => {
+                it('doesn\'t change the size of Hex', () => {
+                    Hex.size(20)
+                    Hex.size('invalid')
+                    expect(Hex.size()).to.equal(20)
+                    Hex.size(-1)
+                    expect(Hex.size()).to.equal(20)
+                })
+            })
+        })
+
         describe('hexesBetween', () => {
             it('returns the hexes in a straight line between the two given hexes, inclusive', () => {
                 const result = Hex.hexesBetween(Hex(0, 0, 0), Hex(1, -5, 4))
@@ -131,26 +168,6 @@ describe('Hex', () => {
     })
 
     describe('instance methods', () => {
-        describe('hasSize', () => {
-            afterEach(() => { delete Hex.size })
-
-            it('returns true if size is valid', () => {
-                Hex.size = 0
-                expect(Hex(0, 0, 0).hasSize()).to.be.true
-                Hex.size = 4
-                expect(Hex(0, 0, 0).hasSize()).to.be.true
-            })
-
-            it('returns false if size is invalid', () => {
-                Hex.size = -2
-                expect(Hex(0, 0, 0).hasSize()).to.be.false
-                Hex.size = undefined
-                expect(Hex(0, 0, 0).hasSize()).to.be.false
-                Hex.size = null
-                expect(Hex(0, 0, 0).hasSize()).to.be.false
-            })
-        })
-
         describe('add', () => {
             it('adds all coordinates of the given hex to itself', () => {
                 const result = Hex(1, -3, 2).add(Hex(2, 0, -2))
@@ -216,32 +233,21 @@ describe('Hex', () => {
             })
         })
 
-        describe('toPoint', () => {
-            describe('when size isn\'t set', () => {
-                it('throws an error', () => {
-                    const hex = Hex(0, 0, 0)
-                    expect(hex.toPoint.bind(hex)).to.throw(Error)
+        // disabled because it seems broken
+        xdescribe('toPoint', () => {
+            describe('when orientation is pointy', () => {
+                beforeEach(Hex.orientation('pointy'))
+
+                it('returns the center point of the hex', () => {
+                    const result = Hex(1, -1, 0).toPoint()
+                    expect(result).to.eql(Point(10, 10))
                 })
             })
 
-            // disabled because it seems broken
-            xdescribe('when size is set', () => {
-                beforeEach(() => { Hex.size = 10 })
+            describe('when orientation is flat', () => {
+                beforeEach(Hex.orientation('flat'))
 
-                describe('when orientation is pointy', () => {
-                    beforeEach(Hex.pointy)
-
-                    it('returns the center point of the hex', () => {
-                        const result = Hex(1, -1, 0).toPoint()
-                        expect(result).to.eql(Point(10, 10))
-                    })
-                })
-
-                describe('when orientation is flat', () => {
-                    beforeEach(Hex.flat)
-
-                    it('returns the center point of the hex')
-                })
+                it('returns the center point of the hex')
             })
         })
     })

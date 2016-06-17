@@ -6,10 +6,6 @@ import {
 } from './constants'
 
 export default {
-    hasSize() {
-        return Hex.size >= 0 && Hex.size !== null
-    },
-
     add(hex) {
         return Hex(this.x + hex.x, this.y + hex.y, this.z + hex.z)
     },
@@ -78,18 +74,14 @@ export default {
     },
 
     toPoint() {
-        if (!this.hasSize()) {
-            throw new Error(`No valid size set: ${ Hex.size }`)
-        }
-
         let x, y
 
         if (Hex.isPointy()) {
-            x = Hex.size * Math.sqrt(3) * (this.x + this.z / 2)
-            y = Hex.size * 3/2 * this.z
+            x = Hex.size() * Math.sqrt(3) * (this.x + this.z / 2)
+            y = Hex.size() * 3/2 * this.z
         } else if (Hex.isFlat()) {
-            x = Hex.size * 3/2 * this.x
-            y = Hex.size * Math.sqrt(3) * (this.z + this.x / 2)
+            x = Hex.size() * 3/2 * this.x
+            y = Hex.size() * Math.sqrt(3) * (this.z + this.x / 2)
         }
 
         return Point(x, y)
