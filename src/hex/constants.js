@@ -17,6 +17,6 @@ export const DIAGONAL_DIRECTION_COORDINATES = [
 ]
 
 export const ORIENTATIONS = {
-    POINTY: Symbol('POINTY'),
-    FLAT: Symbol('FLAT')
+    POINTY: 'POINTY',
+    FLAT: 'FLAT'
 }

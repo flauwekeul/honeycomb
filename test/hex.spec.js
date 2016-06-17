@@ -12,17 +12,29 @@ describe('Hex', () => {
             })
         })
 
-        describe('pointy', () => {
-            it('sets the orientation of all hexes to pointy', () => {
-                Hex.pointy()
-                expect(Hex.orientation).to.equal(ORIENTATIONS.POINTY)
+        describe('orientation', () => {
+            describe('when called without arguments', () => {
+                it('returns the orientation of Hex', () => {
+                    expect(Hex.orientation()).to.exist
+                    Hex.orientation('flat')
+                    expect(Hex.orientation()).to.equal(ORIENTATIONS.FLAT)
+                })
             })
-        })
 
-        describe('flat', () => {
-            it('sets the orientation of all hexes to flat', () => {
-                Hex.flat()
-                expect(Hex.orientation).to.equal(ORIENTATIONS.FLAT)
+            describe('when called with a valid orientation', () => {
+                it('sets the orientation of Hex', () => {
+                    Hex.orientation('pointy')
+                    expect(Hex.orientation()).to.equal(ORIENTATIONS.POINTY)
+                    Hex.orientation('flat')
+                    expect(Hex.orientation()).to.equal(ORIENTATIONS.FLAT)
+                })
+            })
+
+            describe('when called with an invalid orientation', () => {
+                it('doesn\'t sets the orientation of Hex', () => {
+                    Hex.orientation('invalid')
+                    expect(Hex.orientation()).not.to.exist
+                })
             })
         })
 

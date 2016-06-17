@@ -1,7 +1,7 @@
 {
   "name": "honeycomb",
   "version": "0.1.0",
-  "description": "Hex grid without any view logic in javascript.",
+  "description": "Hex grid without views for usage in node or with optional multiple views for usage in the browser. Written in javascript.",
   "main": "src/index.js",
   "scripts": {
     "build": "NODE_ENV=production webpack",
