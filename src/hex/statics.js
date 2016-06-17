@@ -29,12 +29,12 @@ export default {
     // setter when called with newSize
     // getter when called without params
     size(newSize) {
-        return this.validSize(newSize) ?
+        return this.isValidSize(newSize) ?
             _size = newSize :
             _size
     },
 
-    validSize(size) {
+    isValidSize(size) {
         return size >= 0 && size !== null
     },
 

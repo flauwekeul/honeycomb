@@ -102,6 +102,19 @@ describe('Hex', () => {
             })
         })
 
+        describe('isValidSize', () => {
+            it('returns true if passed size is valid', () => {
+                expect(Hex.isValidSize(0)).to.be.true
+                expect(Hex.isValidSize(4)).to.be.true
+            })
+
+            it('returns false if passed size is invalid', () => {
+                expect(Hex.isValidSize(-2)).to.be.false
+                expect(Hex.isValidSize(undefined)).to.be.false
+                expect(Hex.isValidSize(null)).to.be.false
+            })
+        })
+
         describe('hexesBetween', () => {
             it('returns the hexes in a straight line between the two given hexes, inclusive', () => {
                 const result = Hex.hexesBetween(Hex(0, 0, 0), Hex(1, -5, 4))
