@@ -7,11 +7,11 @@ import {
 
 export default {
     add(hex) {
-        return Hex(this.x + hex.x, this.y + hex.y, this.z + hex.z)
+        return Hex(this.q + hex.q, this.r + hex.r, this.s + hex.s)
     },
 
     subtract(hex) {
-        return Hex(this.x - hex.x, this.y - hex.y, this.z - hex.z)
+        return Hex(this.q - hex.q, this.r - hex.r, this.s - hex.s)
     },
 
     // direction is number in the range (0..5)
@@ -30,21 +30,21 @@ export default {
     distance(hex) {
         const relativeHex = this.subtract(hex)
         return Math.max(
-            Math.abs(relativeHex.x),
-            Math.abs(relativeHex.y),
-            Math.abs(relativeHex.z)
+            Math.abs(relativeHex.q),
+            Math.abs(relativeHex.r),
+            Math.abs(relativeHex.s)
         )
     },
 
     // rounds floating point coordinates to their nearest integer coordinates
     // http://www.redblobgames.com/grids/hexagons/#rounding
     round() {
-        let roundedX = Math.round(this.x)
-        let roundedY = Math.round(this.y)
-        let roundedZ = Math.round(this.z)
-        const diffX = Math.abs(this.x - roundedX)
-        const diffY = Math.abs(this.y - roundedY)
-        const diffZ = Math.abs(this.z - roundedZ)
+        let roundedX = Math.round(this.q)
+        let roundedY = Math.round(this.r)
+        let roundedZ = Math.round(this.s)
+        const diffX = Math.abs(this.q - roundedX)
+        const diffY = Math.abs(this.r - roundedY)
+        const diffZ = Math.abs(this.s - roundedZ)
 
         if (diffX > diffY && diffX > diffZ) {
             roundedX = Hex.thirdDimension(roundedY, roundedZ)
@@ -61,9 +61,9 @@ export default {
     // why it's called 'lerp': https://en.wikipedia.org/wiki/Linear_interpolation#Applications
     lerp(hex, t) {
         return Hex(
-            this.x * (1 - t) + hex.x * t,
-            this.y * (1 - t) + hex.y * t,
-            this.z * (1 - t) + hex.z * t
+            this.q * (1 - t) + hex.q * t,
+            this.r * (1 - t) + hex.r * t,
+            this.s * (1 - t) + hex.s * t
         )
     },
 
@@ -77,11 +77,11 @@ export default {
         let x, y
 
         if (Hex.isPointy()) {
-            x = Hex.size() * Math.sqrt(3) * (this.x + this.z / 2)
-            y = Hex.size() * 3/2 * this.z
+            x = Hex.size() * Math.sqrt(3) * (this.q + this.s / 2)
+            y = Hex.size() * 3/2 * this.s
         } else if (Hex.isFlat()) {
-            x = Hex.size() * 3/2 * this.x
-            y = Hex.size() * Math.sqrt(3) * (this.z + this.x / 2)
+            x = Hex.size() * 3/2 * this.q
+            y = Hex.size() * Math.sqrt(3) * (this.s + this.q / 2)
         }
 
         return Point(x, y)
