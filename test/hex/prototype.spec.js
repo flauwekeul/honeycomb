@@ -1,5 +1,6 @@
 import { expect } from 'chai'
 import Hex from '../../src/hex'
+import Point from '../../src/point'
 
 describe('Hex', () => {
     describe('prototype', () => {
@@ -68,21 +69,21 @@ describe('Hex', () => {
             })
         })
 
-        // disabled because it seems broken
-        xdescribe('toPoint', () => {
+        describe('toPoint', () => {
             describe('when orientation is pointy', () => {
-                beforeEach(Hex.orientation('pointy'))
+                beforeEach(() => Hex.orientation('pointy'))
 
-                it('returns the center point of the hex', () => {
-                    const result = Hex(1, -1, 0).toPoint()
-                    expect(result).to.eql(Point(10, 10))
+                it('returns the point', () => {
+                    expect(Hex(1, 0).toPoint()).to.eql(Point(Hex.width(), 0))
                 })
             })
 
             describe('when orientation is flat', () => {
-                beforeEach(Hex.orientation('flat'))
+                beforeEach(() => Hex.orientation('flat'))
 
-                it('returns the center point of the hex')
+                it('returns the point', () => {
+                    expect(Hex(1, 0).toPoint()).to.eql(Point(Hex.width() * 3/4, Hex.height() / 2))
+                })
             })
         })
     })
