@@ -13,7 +13,7 @@ export default {
     // getter when called without params
     orientation(newOrientation) {
         return newOrientation ?
-            _orientation = ORIENTATIONS[newOrientation.toUpperCase()] :
+            _orientation = ORIENTATIONS[newOrientation.toUpperCase()] || _orientation :
             ORIENTATIONS[_orientation]
     },
 

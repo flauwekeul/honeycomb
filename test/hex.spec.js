@@ -14,27 +14,54 @@ describe('Hex', () => {
 
         describe('orientation', () => {
             describe('when called without arguments', () => {
-                it('returns the orientation of Hex', () => {
-                    expect(Hex.orientation()).to.exist
-                    Hex.orientation('flat')
-                    expect(Hex.orientation()).to.equal(ORIENTATIONS.FLAT)
+                describe('when called for the first time', () => {
+                    it('returns the default FLAT orientation', () => {
+                        expect(Hex.orientation()).to.equal(ORIENTATIONS.FLAT)
+                    })
+                })
+
+                describe('when already set', () => {
+                    beforeEach(() => { Hex.orientation('pointy') })
+
+                    it('returns the orientation of Hex', () => {
+                        expect(Hex.orientation()).to.equal(ORIENTATIONS.POINTY)
+                    })
                 })
             })
 
             describe('when called with a valid orientation', () => {
-                it('sets the orientation of Hex', () => {
-                    Hex.orientation('pointy')
+                it('sets and returns the orientation of Hex', () => {
+                    expect(Hex.orientation('pointy')).to.equal(ORIENTATIONS.POINTY)
                     expect(Hex.orientation()).to.equal(ORIENTATIONS.POINTY)
-                    Hex.orientation('flat')
+                    expect(Hex.orientation('flat')).to.equal(ORIENTATIONS.FLAT)
                     expect(Hex.orientation()).to.equal(ORIENTATIONS.FLAT)
                 })
             })
 
             describe('when called with an invalid orientation', () => {
-                it('doesn\'t sets the orientation of Hex', () => {
+                it('doesn\'t change the orientation of Hex', () => {
+                    Hex.orientation(ORIENTATIONS.POINTY)
                     Hex.orientation('invalid')
-                    expect(Hex.orientation()).not.to.exist
+                    expect(Hex.orientation()).to.equal(ORIENTATIONS.POINTY)
                 })
+            })
+        })
+
+        describe('isPointy', () => {
+            it('returns whether Hex.orientation() is POINTY', () => {
+                Hex.orientation('point')
+                expect(Hex.isPointy()).to.be.true
+                Hex.orientation('flat')
+                expect(Hex.isPointy()).to.be.false
+            })
+        })
+
+        describe('isFlat', () => {
+            it('returns whether Hex.orientation() is FLAT', () => {
+                Hex.orientation('flat')
+                expect(Hex.isFlat()).to.be.true
+                Hex.orientation('pointy')
+                expect(Hex.isFlat()).to.be.false
             })
         })
 
