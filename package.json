@@ -21,6 +21,7 @@
     "chai": "^3.5.0",
     "eslint": "^2.11.1",
     "mocha": "^2.5.3",
+    "sinon-chai": "^2.8.0",
     "webpack": "^1.13.1"
   },
   "directories": {

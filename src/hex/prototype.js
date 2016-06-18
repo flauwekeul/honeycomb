@@ -1,11 +1,69 @@
 import Hex from '.'
-import Point from '../point'
 import {
+    ORIENTATIONS,
     DIRECTION_COORDINATES,
     DIAGONAL_DIRECTION_COORDINATES
 } from './constants'
+import Point from '../point'
+
+// private properties
+let _orientation
+let _size
 
 export default {
+    // setter when called with newOrientation
+    // getter when called without params
+    orientation(newOrientation) {
+        if (newOrientation) {
+            _orientation = ORIENTATIONS[newOrientation.toUpperCase()]
+            return this
+        }
+
+        return ORIENTATIONS[_orientation]
+    },
+
+    isPointy() {
+        return _orientation === ORIENTATIONS.POINTY
+    },
+
+    isFlat() {
+        return _orientation === ORIENTATIONS.FLAT
+    },
+
+    // setter when called with newSize
+    // getter when called without params
+    size(newSize) {
+        if (arguments.length > 0) {
+            Hex.isValidSize(newSize) ?
+                _size = newSize :
+                console.warn(`Invalid size: ${newSize}`)
+
+            return this
+        }
+
+        return _size
+    },
+
+    oppositeCornerDistance() {
+        return _size * 2
+    },
+
+    oppositeSideDistance() {
+        return Math.sqrt(3) / 2 * this.oppositeCornerDistance()
+    },
+
+    width() {
+        return this.isPointy() ?
+            this.oppositeSideDistance() :
+            this.oppositeCornerDistance()
+    },
+
+    height() {
+        return this.isPointy() ?
+            this.oppositeCornerDistance() :
+            this.oppositeSideDistance()
+    },
+
     add(hex) {
         return Hex(this.q + hex.q, this.r + hex.r, this.s + hex.s)
     },
@@ -76,12 +134,12 @@ export default {
     toPoint() {
         let x, y
 
-        if (Hex.isPointy()) {
-            x = Hex.size() * Math.sqrt(3) * (this.q + this.s / 2)
-            y = Hex.size() * 3/2 * this.s
-        } else if (Hex.isFlat()) {
-            x = Hex.size() * 3/2 * this.q
-            y = Hex.size() * Math.sqrt(3) * (this.s + this.q / 2)
+        if (this.isPointy()) {
+            x = this.size() * Math.sqrt(3) * (this.q + this.s / 2)
+            y = this.size() * 3/2 * this.s
+        } else if (this.isFlat()) {
+            x = this.size() * 3/2 * this.q
+            y = this.size() * Math.sqrt(3) * (this.s + this.q / 2)
         }
 
         return Point(x, y)
