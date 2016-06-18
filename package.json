@@ -6,8 +6,8 @@
   "scripts": {
     "build": "NODE_ENV=production webpack",
     "dev": "webpack --progress --colors --watch",
-    "lint": "eslint src; exit 0",
-    "lint:fix": "eslint src --fix; exit 0",
+    "lint": "eslint src test; exit 0",
+    "lint:fix": "eslint src test --fix; exit 0",
     "start": "npm run build && node dist/honeycomb.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/config.js --recursive",
     "test:watch": "npm test -- --watch"

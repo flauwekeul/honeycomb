@@ -21,7 +21,7 @@ describe('Hex prototype', () => {
                 const hex2 = Hex()
                 expect(Hex.prototype.orientation()).to.equal(ORIENTATIONS.POINTY)
                 expect(hex1.orientation()).to.equal(ORIENTATIONS.POINTY)
-                expect(hex1.orientation()).to.equal(ORIENTATIONS.POINTY)
+                expect(hex2.orientation()).to.equal(ORIENTATIONS.POINTY)
             })
         })
     })
@@ -59,7 +59,7 @@ describe('Hex prototype', () => {
                 const hex2 = Hex()
                 expect(Hex.prototype.size()).to.equal(0)
                 expect(hex1.size()).to.equal(0)
-                expect(hex1.size()).to.equal(0)
+                expect(hex2.size()).to.equal(0)
             })
         })
 
@@ -69,11 +69,11 @@ describe('Hex prototype', () => {
 
             it('shows a warning', () => {
                 Hex.prototype.size('invalid')
-                expect(console.warn).to.have.been.calledWith(`Invalid size: invalid`)
+                expect(console.warn).to.have.been.calledWith('Invalid size: invalid')
                 Hex.prototype.size(-1)
-                expect(console.warn).to.have.been.calledWith(`Invalid size: -1`)
+                expect(console.warn).to.have.been.calledWith('Invalid size: -1')
                 Hex.prototype.size(null)
-                expect(console.warn).to.have.been.calledWith(`Invalid size: null`)
+                expect(console.warn).to.have.been.calledWith('Invalid size: null')
             })
         })
     })

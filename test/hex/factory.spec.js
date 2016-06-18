@@ -62,7 +62,7 @@ describe('Hex factory', () => {
             it('shows a warning', () => {
                 Hex().orientation('flat')
                 expect(console.warn).to.have.been
-                    .calledWith(`Can't set orientation of single hex. Use Hex.prototype.orientation('flat') to set orientation for all hexes.`)
+                    .calledWith('Can\'t set orientation of single hex. Use Hex.prototype.orientation(\'flat\') to set orientation for all hexes.')
             })
 
             it('doesn\'t change the orientation', () => {
@@ -88,7 +88,7 @@ describe('Hex factory', () => {
             it('shows a warning', () => {
                 Hex().size(20)
                 expect(console.warn).to.have.been
-                    .calledWith(`Can't set size of single hex. Use Hex.prototype.size(20) to set size for all hexes.`)
+                    .calledWith('Can\'t set size of single hex. Use Hex.prototype.size(20) to set size for all hexes.')
             })
 
             it('doesn\'t change the size', () => {
