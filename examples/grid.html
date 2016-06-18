@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Hex Grid Example</title>
+        <style>
+            html,
+            body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+            }
+
+            svg {
+                fill: orange;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- TODO: move this into lib. Maybe generate an svg dynamically, because the `points` depend on the hex orientation -->
+        <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
+            <symbol id="hex" viewBox="0 0 86.60254039 100">
+                <title>Regular hexagon</title>
+                <desc>Hexagon with pointy orientation.</desc>
+                <polygon points="43.30127019 0 86.60254039 25 86.60254039 75 43.30127019 100 0 75 0 25"/>
+            </symbol>
+        </svg>
+
+        <script src="../dist/honeycomb.js"></script>
+        <script>
+            var grid = Honeycomb.Grid({
+                    hex: {
+                        size: 50,
+                        orientation: 'pointy'
+                    },
+                    width: 3, // hexes
+                    height: 3 // hexes
+                })
+
+            grid.render({
+                view: 'svg',
+                container: document.getElementsByTagName('body')[0],
+                hexElement: '<svg><use xlink:href="#hex"/></svg>'
+            })
+        </script>
+    </body>
+</html>
