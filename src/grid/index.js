@@ -1,12 +1,12 @@
 import Hex from '../hex'
 import prototype from './prototype'
 
-export default function Grid(options = {}) {
-    Hex.prototype.size(options.hex.size)
-    Hex.prototype.orientation(options.hex.orientation)
+export default function Grid({ hex, width, height }) {
+    Hex.prototype.size(hex.size)
+    Hex.prototype.orientation(hex.orientation)
 
     return Object.assign(Object.create(prototype), {
-        width: options.width,
-        height: options.height
+        width: width,
+        height: height
     })
 }

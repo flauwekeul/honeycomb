@@ -2,12 +2,10 @@ import Hex from '../hex'
 
 export default {
     // currently only supports svg
-    render(options = {}) {
-        const { container } = options
-
-        if (/svg/i.test(options.view)) {
+    render({ container, view, hexElement }) {
+        if (/svg/i.test(view)) {
             // TODO: move this to a separate module
-            const svg = stringToDOMNodes(options.hexElement)[0]
+            const svg = stringToDOMNodes(hexElement)[0]
 
             Object.assign(svg.style, {
                 position: 'absolute',
