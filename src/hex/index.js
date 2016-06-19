@@ -1,4 +1,4 @@
-import { isObject, noNegativeZero } from '../utils'
+import { isObject, isNumber, noNegativeZero } from '../utils'
 
 import prototype from './prototype'
 import statics from './statics'
@@ -17,7 +17,7 @@ export default function Hex(...coordinates) {
     if (isObject(coordinates[0])) {
         let { x, y } = coordinates[0]
         // set y to x when y isn't passed
-        y = y || x
+        y = isNumber(y) ? y : x
         return Hex(x, y)
     }
 

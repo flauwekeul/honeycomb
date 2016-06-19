@@ -30,7 +30,7 @@ describe('Hex factory', () => {
             })
         })
 
-        describe('with an object containing 3 entries, with keys: x, y or z', () => {
+        describe('with an object containing x, y and z', () => {
             it('sets the coordinates', () => {
                 expect(Hex({ x: 3, y: 2, z: -5 })).to.contain({ x: 3, y: 2, z: -5 })
             })
@@ -44,7 +44,7 @@ describe('Hex factory', () => {
 
         describe('with an object containing x and y', () => {
             it('calculates the third coordinate and sets all 3', () => {
-                expect(Hex({ x: 3, y: 2 })).to.contain({ x: 3, y: 2, z: -5 })
+                expect(Hex({ x: 3, y: 0 })).to.contain({ x: 3, y: 0, z: -3 })
             })
         })
 
