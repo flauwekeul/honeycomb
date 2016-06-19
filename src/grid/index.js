@@ -5,7 +5,5 @@ export default function Grid({ hex }) {
     Hex.prototype.size(hex.size)
     Hex.prototype.orientation(hex.orientation)
 
-    let hexes = []
-
-    return Object.assign(Object.create(prototype), { hexes })
+    return Object.assign(Object.create(prototype), { hex })
 }

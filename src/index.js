@@ -1,4 +1,8 @@
 import Grid from './grid'
 import Hex from './hex'
+import Point from './point'
+import DOM from './views/dom'
 
-export { Grid, Hex }
+const Views = { DOM }
+
+export { Grid, Hex, Point, Views }

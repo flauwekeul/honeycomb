@@ -37,22 +37,25 @@
 
         <script src="../dist/honeycomb.js"></script>
         <script>
-            var grid = Honeycomb.Grid({
-                    hex: {
-                        size: 50,
-                        orientation: 'pointy'
-                    }
-                })
-                // .rectangle(4, 3)
-                .parallelogram(4, 3)
-                // .triangle(3)
-                // .hexagon(3)
-                .DOMRender({
-                    container: document.getElementById('container'),
-                    hex: {
-                        element: '<svg><use xlink:href="#hex"/></svg>'
-                    }
-                })
+            var Grid = Honeycomb.Grid,
+                Point = Honeycomb.Point,
+                DOMView = Honeycomb.Views.DOM,
+                grid,
+                view
+
+            grid = Grid({
+                hex: {
+                    size: 50,
+                    orientation: 'pointy'
+                }
+            })
+
+            view = DOMView({
+                container: document.getElementById('container'),
+                hexElement: '<svg><use xlink:href="#hex"/></svg>'
+            })
+                // draw() expects an array of hexes
+                .draw(grid.rectangle(4, 4))
         </script>
     </body>
 </html>
