@@ -1,3 +1,5 @@
+import { isObject, noNegativeZero } from '../utils'
+
 import prototype from './prototype'
 import statics from './statics'
 
@@ -5,21 +7,35 @@ import statics from './statics'
 // to set orientation and size for all hexes
 Object.assign(Hex, statics, { prototype })
 
-// accepts 0, 1 or 2 axial coordinates or 3 cube coordinates
+// accepts an object containing coordinates (either x, y, z or q, r, s)
+// or accepts numbers: 0, 1 or 2 axial coordinates or 3 cube coordinates
 // http://www.redblobgames.com/grids/hexagons/#coordinates
-export default function Hex() {
+export default function Hex(...coordinates) {
     let q, r, s
 
-    switch (arguments.length) {
+    // if an object is passed, extract coordinates and return
+    if (isObject(coordinates[0])) {
+        let { x, y } = coordinates[0]
+        // set y to x when y isn't passed
+        y = y || x
+        const z = Hex.thirdDimension(x, y)
+        // TODO: improve mapping from x, y, z => q, r, s
+        return Hex(x, z, y)
+    }
+
+    coordinates = coordinates.map(noNegativeZero)
+
+    // TODO: validate q + r + s === 0
+    switch (coordinates.length) {
         case 3:
-            [ q, r, s ] = arguments
+            [ q, r, s ] = coordinates
             break
         case 2:
-            [ q, s ] = arguments
+            [ q, s ] = coordinates
             r = Hex.thirdDimension(q, s)
             break
         case 1:
-            q = arguments[0]
+            q = coordinates[0]
             s = q
             r = Hex.thirdDimension(q, s)
             break
