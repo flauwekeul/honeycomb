@@ -11,6 +11,11 @@ let _orientation
 let _size
 
 export default {
+    coordinates() {
+        const { x, y, z } = this
+        return { x, y, z }
+    },
+
     // setter when called with newOrientation
     // getter when called without params
     orientation(newOrientation) {
@@ -65,17 +70,18 @@ export default {
     },
 
     add(hex) {
-        return Hex(this.q + hex.q, this.r + hex.r, this.s + hex.s)
+        return Hex(this.x + hex.x, this.y + hex.y, this.z + hex.z)
     },
 
     subtract(hex) {
-        return Hex(this.q - hex.q, this.r - hex.r, this.s - hex.s)
+        return Hex(this.x - hex.x, this.y - hex.y, this.z - hex.z)
     },
 
     // direction is number in the range (0..5)
     // returns the neighboring hex
     // http://www.redblobgames.com/grids/hexagons/#neighbors
     neighbor(direction = 0, diagonal = false) {
+        direction = direction % 6
         const coordinates = diagonal ?
             DIAGONAL_DIRECTION_COORDINATES[direction] :
             DIRECTION_COORDINATES[direction]
@@ -88,21 +94,21 @@ export default {
     distance(hex) {
         const relativeHex = this.subtract(hex)
         return Math.max(
-            Math.abs(relativeHex.q),
-            Math.abs(relativeHex.r),
-            Math.abs(relativeHex.s)
+            Math.abs(relativeHex.x),
+            Math.abs(relativeHex.y),
+            Math.abs(relativeHex.z)
         )
     },
 
     // rounds floating point coordinates to their nearest integer coordinates
     // http://www.redblobgames.com/grids/hexagons/#rounding
     round() {
-        let roundedX = Math.round(this.q)
-        let roundedY = Math.round(this.r)
-        let roundedZ = Math.round(this.s)
-        const diffX = Math.abs(this.q - roundedX)
-        const diffY = Math.abs(this.r - roundedY)
-        const diffZ = Math.abs(this.s - roundedZ)
+        let roundedX = Math.round(this.x)
+        let roundedY = Math.round(this.y)
+        let roundedZ = Math.round(this.z)
+        const diffX = Math.abs(this.x - roundedX)
+        const diffY = Math.abs(this.y - roundedY)
+        const diffZ = Math.abs(this.z - roundedZ)
 
         if (diffX > diffY && diffX > diffZ) {
             roundedX = Hex.thirdDimension(roundedY, roundedZ)
@@ -119,9 +125,9 @@ export default {
     // why it's called 'lerp': https://en.wikipedia.org/wiki/Linear_interpolation#Applications
     lerp(hex, t) {
         return Hex(
-            this.q * (1 - t) + hex.q * t,
-            this.r * (1 - t) + hex.r * t,
-            this.s * (1 - t) + hex.s * t
+            this.x * (1 - t) + hex.x * t,
+            this.y * (1 - t) + hex.y * t,
+            this.z * (1 - t) + hex.z * t
         )
     },
 
@@ -135,11 +141,11 @@ export default {
         let x, y
 
         if (this.isPointy()) {
-            x = this.size() * Math.sqrt(3) * (this.q + this.s / 2)
-            y = this.size() * 3/2 * this.s
+            x = this.size() * Math.sqrt(3) * (this.x + this.y / 2)
+            y = this.size() * 3/2 * this.y
         } else if (this.isFlat()) {
-            x = this.size() * 3/2 * this.q
-            y = this.size() * Math.sqrt(3) * (this.s + this.q / 2)
+            x = this.size() * 3/2 * this.x
+            y = this.size() * Math.sqrt(3) * (this.y + this.x / 2)
         }
 
         return Point(x, y)

@@ -8,71 +8,55 @@ describe('Hex factory', () => {
     describe('creation', () => {
         describe('with 3 numbers', () => {
             it('assumes the numbers are cube coordinates', () => {
-                expect(Hex(3, 2, -5)).to.contain({
-                    q: 3,
-                    r: 2,
-                    s: -5
+                expect(Hex(3, -5, 2)).to.contain({ x: 3, y: -5, z: 2 })
+            })
+
+            describe('when x + y + z !== 0', () => {
+                it('overrides z', () => {
+                    expect(Hex(3, -5, 8)).to.contain({ x: 3, y: -5, z: 2 })
                 })
             })
         })
 
         describe('with 2 numbers', () => {
             it('assumes the numbers are axial coordinates and converts them to cube', () => {
-                expect(Hex(3, 2)).to.contain({
-                    q: 3,
-                    r: -5,
-                    s: 2
-                })
+                expect(Hex(3, 2)).to.contain({ x: 3, y: 2, z: -5 })
             })
         })
 
         describe('with 1 number', () => {
             it('assumes the number is an axial x coordinate, sets y to the same value and converts them to cube', () => {
-                expect(Hex(3)).to.contain({
-                    q: 3,
-                    r: -6,
-                    s: 3
-                })
+                expect(Hex(3)).to.contain({ x: 3, y: 3, z: -6 })
             })
         })
 
         describe('with an object containing 3 entries, with keys: x, y or z', () => {
             it('sets the coordinates', () => {
-                expect(Hex({ x: 3, y: 2, z: -5 })).to.contain({
-                    q: 3,
-                    r: -5,
-                    s: 2
+                expect(Hex({ x: 3, y: 2, z: -5 })).to.contain({ x: 3, y: 2, z: -5 })
+            })
+
+            describe('when x + y + z !== 0', () => {
+                it('overrides z', () => {
+                    expect(Hex(3, 2, -10)).to.contain({ x: 3, y: 2, z: -5 })
                 })
             })
         })
 
         describe('with an object containing x and y', () => {
             it('calculates the third coordinate and sets all 3', () => {
-                expect(Hex({ x: 3, y: 2 })).to.contain({
-                    q: 3,
-                    r: -5,
-                    s: 2
-                })
+                expect(Hex({ x: 3, y: 2 })).to.contain({ x: 3, y: 2, z: -5 })
             })
         })
 
         describe('with an object containing only x', () => {
             it('sets y to the same value as x and calculates the third coordinate', () => {
-                expect(Hex({ x: 3 })).to.contain({
-                    q: 3,
-                    r: -6,
-                    s: 3
-                })
+                expect(Hex({ x: 3 })).to.contain({ x: 3, y: 3, z: -6 })
             })
         })
 
         describe('without parameters', () => {
             it('sets all cube coordinates to 0', () => {
-                expect(Hex()).to.contain({
-                    q: 0,
-                    r: 0,
-                    s: 0
-                })
+                expect(Hex()).to.contain({ x: 0, y: 0, z: 0 })
             })
         })
     })

@@ -24,30 +24,22 @@ describe('Hex static methods', () => {
 
     describe('hexesBetween', () => {
         it('returns the hexes in a straight line between the two given hexes, inclusive', () => {
-            const coordinates = Hex.hexesBetween(Hex(0, 0, 0), Hex(1, -5, 4))
-                .map(hex => {
-                    const { q, r, s } = hex
-                    return { q, r, s }
-                })
+            const coordinates = Hex.hexesBetween(Hex(0, 0, 0), Hex(1, -5, 4)).map(hex => hex.coordinates())
             expect(coordinates).to.eql([
-                { q: 0, r: 0, s: 0 },
-                { q: 0, r: -1, s: 1 },
-                { q: 0, r: -2, s: 2 },
-                { q: 1, r: -3, s: 2 },
-                { q: 1, r: -4, s: 3 },
-                { q: 1, r: -5, s: 4 }
+                { x: 0, y: 0, z: 0 },
+                { x: 0, y: -1, z: 1 },
+                { x: 0, y: -2, z: 2 },
+                { x: 1, y: -3, z: 2 },
+                { x: 1, y: -4, z: 3 },
+                { x: 1, y: -5, z: 4 }
             ])
         })
 
         it('returns early if the given hex is its neighbor', () => {
-            const coordinates = Hex.hexesBetween(Hex(0, 0, 0), Hex(1, -1, 0))
-                .map(hex => {
-                    const { q, r, s } = hex
-                    return { q, r, s }
-                })
+            const coordinates = Hex.hexesBetween(Hex(0, 0, 0), Hex(1, -1, 0)).map(hex => hex.coordinates())
             expect(coordinates).to.eql([
-                { q: 0, r: 0, s: 0 },
-                { q: 1, r: -1, s: 0 }
+                { x: 0, y: 0, z: 0 },
+                { x: 1, y: -1, z: 0 }
             ])
         })
     })

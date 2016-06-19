@@ -7,41 +7,37 @@ import statics from './statics'
 // to set orientation and size for all hexes
 Object.assign(Hex, statics, { prototype })
 
-// accepts an object containing coordinates (either x, y, z or q, r, s)
+// accepts an object containing coordinates (x, y or z)
 // or accepts numbers: 0, 1 or 2 axial coordinates or 3 cube coordinates
 // http://www.redblobgames.com/grids/hexagons/#coordinates
 export default function Hex(...coordinates) {
-    let q, r, s
+    let x, y
 
     // if an object is passed, extract coordinates and return
     if (isObject(coordinates[0])) {
         let { x, y } = coordinates[0]
         // set y to x when y isn't passed
         y = y || x
-        const z = Hex.thirdDimension(x, y)
-        // TODO: improve mapping from x, y, z => q, r, s
-        return Hex(x, z, y)
+        return Hex(x, y)
     }
 
     coordinates = coordinates.map(noNegativeZero)
 
-    // TODO: validate q + r + s === 0
     switch (coordinates.length) {
         case 3:
-            [ q, r, s ] = coordinates
-            break
         case 2:
-            [ q, s ] = coordinates
-            r = Hex.thirdDimension(q, s)
+            [ x, y ] = coordinates
             break
         case 1:
-            q = coordinates[0]
-            s = q
-            r = Hex.thirdDimension(q, s)
+            x = coordinates[0]
+            y = x
             break
         default:
-            q = r = s = 0
+            x = y = 0
     }
+
+    // set `z` to a value that guarantees x + y + z === 0
+    const z = Hex.thirdDimension(x, y)
 
     // overrides prototype.orientation
     function orientation(ignoredOrientation) {
@@ -61,6 +57,6 @@ export default function Hex(...coordinates) {
 
     return Object.assign(
         Object.create(prototype),
-        { q, r, s, orientation, size }
+        { x, y, z, orientation, size }
     )
 }

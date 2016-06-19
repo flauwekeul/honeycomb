@@ -6,6 +6,13 @@ import Hex from '../../src/hex'
 import Point from '../../src/point'
 
 describe('Hex prototype', () => {
+    describe('coordinates', () => {
+        it('returns the x, y and z coordinates', () => {
+            expect(Hex().coordinates()).to.eql({ x: 0, y: 0, z: 0 })
+            expect(Hex(8, -3, -5).coordinates()).to.eql({ x: 8, y: -3, z: -5 })
+        })
+    })
+
     describe('orientation', () => {
         describe('when called without arguments', () => {
             it('returns the orientation of every hex', () => {
@@ -135,14 +142,14 @@ describe('Hex prototype', () => {
     describe('add', () => {
         it('adds all coordinates of the given hex to itself', () => {
             const result = Hex(1, -3, 2).add(Hex(2, 0, -2))
-            expect(result).to.contain({ q: 3, r: -3, s: 0 })
+            expect(result).to.contain({ x: 3, y: -3, z: 0 })
         })
     })
 
     describe('subtract', () => {
         it('subtracts all coordinates of given hex from itself', () => {
             const result = Hex(1, -3, 2).subtract(Hex(2, 0, -2))
-            expect(result).to.contain({ q: -1, r: -3, s: 4 })
+            expect(result).to.contain({ x: -1, y: -3, z: 4 })
         })
     })
 
@@ -150,21 +157,28 @@ describe('Hex prototype', () => {
         describe('without arguments', () => {
             it('returns the neighboring hex in direction 0', () => {
                 const result = Hex(-5, -2, 7).neighbor()
-                expect(result).to.contain({ q: -4, r: -2, s: 6 })
+                expect(result).to.contain({ x: -4, y: -3, z: 7 })
             })
         })
 
-        describe('with a given direction', () => {
+        describe('with a given direction in range 0..5', () => {
             it('returns the neighboring hex in the given direction', () => {
                 const result = Hex(-5, -2, 7).neighbor(3)
-                expect(result).to.contain({ q: -6, r: -2, s: 8 })
+                expect(result).to.contain({ x: -6, y: -1, z: 7 })
+            })
+        })
+
+        describe('with a given direction > 5', () => {
+            it('returns the neighboring hex in the given direction after getting the direction\'s remainder', () => {
+                const result = Hex(-5, -2, 7).neighbor(38)
+                expect(result).to.contain({ x: -5, y: -1, z: 6 })
             })
         })
 
         describe('with the diagonal flag enabled', () => {
             it('returns the diagonally neighboring hex in the given direction', () => {
                 const result = Hex(-5, -2, 7).neighbor(5, true)
-                expect(result).to.contain({ q: -4, r: -1, s: 5 })
+                expect(result).to.contain({ x: -4, y: -4, z: 8 })
             })
         })
     })
@@ -179,21 +193,21 @@ describe('Hex prototype', () => {
     describe('round', () => {
         it('rounds floating point coordinates to their nearest integer coordinates', () => {
             const result = Hex(2.7, 2.1, -4.8).round()
-            expect(result).to.contain({ q: 3, r: 2, s: -5 })
+            expect(result).to.contain({ x: 3, y: 2, z: -5 })
         })
     })
 
     describe('lerp', () => {
         it('returns an interpolation between itself and the passed hex for a `t` between 0..1', () => {
             const result = Hex(0, 0, 0).lerp(Hex(4, -5, 1), 0.5)
-            expect(result).to.contain({ q: 2, r: -2.5, s: 0.5 })
+            expect(result).to.contain({ x: 2, y: -2.5, z: 0.5 })
         })
     })
 
     describe('nudge', () => {
         it('returns itself with a tiny offset', () => {
             const result = Hex(-2, 6, -4).nudge()
-            expect(result).to.contain({ q: -1.999999, r: 6.000001, s: -4.000002 })
+            expect(result).to.contain({ x: -1.999999, y: 6.000001, z: -4.000002 })
         })
     })
 
