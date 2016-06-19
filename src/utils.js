@@ -1,4 +1,4 @@
-export function noNegativeZero(value) {
+export function unsignNegativeZero(value) {
     return isNumber(value) ? (value || 0) : value
 }
 

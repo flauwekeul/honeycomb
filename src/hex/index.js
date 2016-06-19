@@ -1,4 +1,4 @@
-import { isObject, isNumber, noNegativeZero } from '../utils'
+import { isObject, isNumber, unsignNegativeZero } from '../utils'
 
 import prototype from './prototype'
 import statics from './statics'
@@ -21,7 +21,7 @@ export default function Hex(...coordinates) {
         return Hex(x, y)
     }
 
-    coordinates = coordinates.map(noNegativeZero)
+    coordinates = coordinates.map(unsignNegativeZero)
 
     switch (coordinates.length) {
         case 3:

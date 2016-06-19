@@ -1,8 +1,8 @@
-import { noNegativeZero } from '../utils'
+import { unsignNegativeZero } from '../utils'
 
 export default {
     thirdCoordinate(firstCoordinate, secondCoordinate) {
-        return noNegativeZero(-firstCoordinate - secondCoordinate)
+        return unsignNegativeZero(-firstCoordinate - secondCoordinate)
     },
 
     isValidSize(size) {
