@@ -6,9 +6,16 @@
         <style>
             html,
             body {
-                width: 100%;
                 height: 100%;
                 margin: 0;
+            }
+
+            #container {
+                position: relative;
+                width: 80%;
+                height: 100%;
+                margin: 0 auto;
+                background-color: #eee;
             }
 
             svg {
@@ -26,22 +33,26 @@
             </symbol>
         </svg>
 
+        <div id="container"></div>
+
         <script src="../dist/honeycomb.js"></script>
         <script>
             var grid = Honeycomb.Grid({
                     hex: {
                         size: 50,
                         orientation: 'pointy'
-                    },
-                    width: 3, // hexes
-                    height: 3 // hexes
+                    }
                 })
-
-            grid.render({
-                view: 'svg',
-                container: document.getElementsByTagName('body')[0],
-                hexElement: '<svg><use xlink:href="#hex"/></svg>'
-            })
+                // .rectangle(4, 3)
+                .parallelogram(4, 3)
+                // .triangle(3)
+                // .hexagon(3)
+                .DOMRender({
+                    container: document.getElementById('container'),
+                    hex: {
+                        element: '<svg><use xlink:href="#hex"/></svg>'
+                    }
+                })
         </script>
     </body>
 </html>
