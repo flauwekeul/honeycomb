@@ -9,3 +9,9 @@ export function isNumber(value) {
 export function isObject(value) {
     return value !== null && typeof value === 'object'
 }
+
+export function stringToDOMNodes(string) {
+    const div = document.createElement('div')
+    div.innerHTML = string.trim()
+    return div.childNodes
+}

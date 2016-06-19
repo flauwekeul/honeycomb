@@ -1,3 +1,4 @@
+import { stringToDOMNodes } from '../utils'
 import Hex from '../hex'
 
 export default {
@@ -5,7 +6,6 @@ export default {
     parallelogram(width, height) {
         for (let x = 0; x < width; x++) {
             for (let y = 0; y < height; y++) {
-                const thirdDimension = Hex.thirdDimension(x, y)
                 this.hexes.push(Hex(x, y))
             }
         }
@@ -68,10 +68,4 @@ export default {
 
         return this
     }
-}
-
-const stringToDOMNodes = (string) => {
-    const div = document.createElement('div')
-    div.innerHTML = string.trim()
-    return div.childNodes
 }
