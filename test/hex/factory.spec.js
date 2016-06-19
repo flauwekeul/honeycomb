@@ -70,8 +70,8 @@ describe('Hex factory', () => {
         })
 
         describe('when called with an orientation', () => {
-            beforeEach(() => sinon.spy(console, 'warn'))
-            afterEach(() => console.warn.restore())
+            before(() => sinon.spy(console, 'warn'))
+            after(() => console.warn.restore())
 
             it('shows a warning', () => {
                 Hex().orientation('flat')
@@ -96,8 +96,8 @@ describe('Hex factory', () => {
         })
 
         describe('when called with a size', () => {
-            beforeEach(() => sinon.spy(console, 'warn'))
-            afterEach(() => console.warn.restore())
+            before(() => sinon.spy(console, 'warn'))
+            after(() => console.warn.restore())
 
             it('shows a warning', () => {
                 Hex().size(20)

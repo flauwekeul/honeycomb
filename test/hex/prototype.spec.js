@@ -71,8 +71,8 @@ describe('Hex prototype', () => {
         })
 
         describe('when called with an invalid size', () => {
-            beforeEach(() => sinon.spy(console, 'warn'))
-            afterEach(() => console.warn.restore())
+            before(() => sinon.spy(console, 'warn'))
+            after(() => console.warn.restore())
 
             it('shows a warning', () => {
                 Hex.prototype.size('invalid')
@@ -101,7 +101,7 @@ describe('Hex prototype', () => {
 
     describe('width', () => {
         describe('when orientation is POINTY', () => {
-            beforeEach(() => Hex.prototype.orientation('pointy'))
+            before(() => Hex.prototype.orientation('pointy'))
 
             it('returns Hex.prototype.oppositeSideDistance()', () => {
                 Hex.prototype.size(10)
@@ -110,7 +110,7 @@ describe('Hex prototype', () => {
         })
 
         describe('when orientation is FLAT', () => {
-            beforeEach(() => Hex.prototype.orientation('flat'))
+            before(() => Hex.prototype.orientation('flat'))
 
             it('returns Hex.prototype.oppositeCornerDistance()', () => {
                 Hex.prototype.size(10)
@@ -121,7 +121,7 @@ describe('Hex prototype', () => {
 
     describe('height', () => {
         describe('when orientation is POINTY', () => {
-            beforeEach(() => Hex.prototype.orientation('pointy'))
+            before(() => Hex.prototype.orientation('pointy'))
 
             it('returns Hex.prototype.oppositeCornerDistance()', () => {
                 Hex.prototype.size(10)
@@ -130,7 +130,7 @@ describe('Hex prototype', () => {
         })
 
         describe('when orientation is FLAT', () => {
-            beforeEach(() => Hex.prototype.orientation('flat'))
+            before(() => Hex.prototype.orientation('flat'))
 
             it('returns Hex.prototype.oppositeSideDistance()', () => {
                 Hex.prototype.size(10)
@@ -213,7 +213,7 @@ describe('Hex prototype', () => {
 
     describe('toPoint', () => {
         describe('when orientation is pointy', () => {
-            beforeEach(() => Hex.prototype.orientation('pointy'))
+            before(() => Hex.prototype.orientation('pointy'))
 
             it('returns the point', () => {
                 expect(Hex(1, 0).toPoint()).to.eql(Point(Hex.prototype.width(), 0))
@@ -221,7 +221,7 @@ describe('Hex prototype', () => {
         })
 
         describe('when orientation is flat', () => {
-            beforeEach(() => Hex.prototype.orientation('flat'))
+            before(() => Hex.prototype.orientation('flat'))
 
             it('returns the point', () => {
                 expect(Hex(1, 0).toPoint()).to.eql(Point(Hex.prototype.width() * 3/4, Hex.prototype.height() / 2))
