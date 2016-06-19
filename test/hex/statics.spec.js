@@ -2,9 +2,9 @@ import { expect } from 'chai'
 import Hex from '../../src/hex'
 
 describe('Hex static methods', () => {
-    describe('thirdDimension', () => {
+    describe('thirdCoordinate', () => {
         it('returns a third coordinate using the given two coordinates', () => {
-            const result = Hex.thirdDimension(3, -1)
+            const result = Hex.thirdCoordinate(3, -1)
             expect(result).to.equal(-2)
         })
     })

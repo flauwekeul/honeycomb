@@ -1,8 +1,8 @@
 import { noNegativeZero } from '../utils'
 
 export default {
-    thirdDimension(firstDimension, secondDimension) {
-        return noNegativeZero(-firstDimension - secondDimension)
+    thirdCoordinate(firstCoordinate, secondCoordinate) {
+        return noNegativeZero(-firstCoordinate - secondCoordinate)
     },
 
     isValidSize(size) {

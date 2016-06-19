@@ -37,7 +37,7 @@ export default function Hex(...coordinates) {
     }
 
     // set `z` to a value that guarantees x + y + z === 0
-    const z = Hex.thirdDimension(x, y)
+    const z = Hex.thirdCoordinate(x, y)
 
     // overrides prototype.orientation
     function orientation(ignoredOrientation) {

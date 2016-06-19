@@ -111,11 +111,11 @@ export default {
         const diffZ = Math.abs(this.z - roundedZ)
 
         if (diffX > diffY && diffX > diffZ) {
-            roundedX = Hex.thirdDimension(roundedY, roundedZ)
+            roundedX = Hex.thirdCoordinate(roundedY, roundedZ)
         } else if (diffY > diffZ) {
-            roundedY = Hex.thirdDimension(roundedX, roundedZ)
+            roundedY = Hex.thirdCoordinate(roundedX, roundedZ)
         } else {
-            roundedZ = Hex.thirdDimension(roundedX, roundedY)
+            roundedZ = Hex.thirdCoordinate(roundedX, roundedY)
         }
 
         return Hex(roundedX, roundedY, roundedZ)
