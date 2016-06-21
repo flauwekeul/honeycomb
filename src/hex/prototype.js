@@ -9,7 +9,7 @@ import Point from '../point'
 // private properties
 let _orientation
 let _size
-let _element
+let _elementInterpolator
 
 export default {
     coordinates() {
@@ -58,15 +58,18 @@ export default {
         return Math.sqrt(3) / 2 * this.oppositeCornerDistance()
     },
 
-    // setter when called with newElement
-    // getter when called without params
-    element(newElement) {
-        if (newElement) {
-            _element = newElement
+    // setter when called with elementInterpolator
+    // getter when called without params; returns result of the elementInterpolator called with this
+    // TODO: add validations (show warning if elementInterpolator isn't set)
+    // TODO: should also accept an element of type template literal?
+    // TODO: should also accept a path to a template of type string?
+    element(elementInterpolator) {
+        if (elementInterpolator) {
+            _elementInterpolator = elementInterpolator
             return this
         }
 
-        return _element
+        return _elementInterpolator(this)
     },
 
     width() {

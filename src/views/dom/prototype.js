@@ -2,24 +2,26 @@ import { stringToDOMNodes } from '../../utils'
 import Hex from '../../hex'
 
 export default {
-    // TODO: optimize
     render(hexes) {
-        const hexNode = stringToDOMNodes(Hex.prototype.element())[0]
-
-        Object.assign(hexNode.style, {
+        const style = {
             position: 'absolute',
             width: Hex.prototype.width(),
             height: Hex.prototype.height()
-        })
+        }
+        const fragment = document.createDocumentFragment()
 
         hexes.forEach(hex => {
-            Object.assign(hexNode.style, {
+            const hexNode = stringToDOMNodes(hex.element())[0]
+
+            Object.assign(hexNode.style, style, {
                 left: hex.toPoint().x,
                 top: hex.toPoint().y
             })
-            this.container.appendChild(hexNode.cloneNode(true))
+
+            fragment.appendChild(hexNode)
         })
 
+        this.container.appendChild(fragment)
         return this
     }
 }

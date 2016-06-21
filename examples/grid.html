@@ -8,6 +8,8 @@
             body {
                 height: 100%;
                 margin: 0;
+                color: #333;
+                font-family: sans-serif;
             }
 
             #container {
@@ -18,8 +20,15 @@
                 background-color: #eee;
             }
 
-            svg {
+            svg use {
                 fill: orange;
+            }
+
+            svg text {
+                font-size: 12px;
+                line-height: 1.4;
+                vertical-align: middle;
+                text-align: center;
             }
         </style>
     </head>
@@ -53,7 +62,21 @@
             view = DOMView({
                 container: document.getElementById('container'),
                 hex: {
-                    element: '<svg><use xlink:href="#hex"/></svg>'
+                    element: function(hex) {
+                        var coordinates = hex.coordinates(),
+                            x = coordinates.x,
+                            y = coordinates.y,
+                            z = coordinates.z
+                        return `
+                            <svg>
+                                <use xlink:href="#hex"/>
+                                <text>
+                                    <tspan x="10" y="40">${x}</tspan>
+                                    <tspan x="70" y="40">${y}</tspan>
+                                    <tspan x="40" y="87">${y}</tspan>
+                                </text>
+                            </svg>`
+                    }
                 }
             }).render(grid.rectangle(4, 4))
         </script>
