@@ -52,10 +52,10 @@
 
             view = DOMView({
                 container: document.getElementById('container'),
-                hexElement: '<svg><use xlink:href="#hex"/></svg>'
-            })
-                // draw() expects an array of hexes
-                .draw(grid.rectangle(4, 4))
+                hex: {
+                    element: '<svg><use xlink:href="#hex"/></svg>'
+                }
+            }).render(grid.rectangle(4, 4))
         </script>
     </body>
 </html>

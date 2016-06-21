@@ -9,6 +9,7 @@ import Point from '../point'
 // private properties
 let _orientation
 let _size
+let _element
 
 export default {
     coordinates() {
@@ -55,6 +56,17 @@ export default {
 
     oppositeSideDistance() {
         return Math.sqrt(3) / 2 * this.oppositeCornerDistance()
+    },
+
+    // setter when called with newElement
+    // getter when called without params
+    element(newElement) {
+        if (newElement) {
+            _element = newElement
+            return this
+        }
+
+        return _element
     },
 
     width() {
