@@ -18,6 +18,7 @@
                 height: 100%;
                 margin: 0 auto;
                 background-color: #eee;
+                overflow: auto;
             }
 
             svg use {
@@ -73,15 +74,15 @@
                             x = coordinates.x,
                             y = coordinates.y,
                             z = coordinates.z
-                        return `
-                            <svg>
-                                <use xlink:href="#hex"/>
-                                <text>
-                                    <tspan x="10" y="40">${x}</tspan>
-                                    <tspan x="70" y="40">${y}</tspan>
-                                    <tspan x="40" y="87">${y}</tspan>
-                                </text>
-                            </svg>`
+                        return '\
+                            <svg>\
+                                <use xlink:href="#hex"/>\
+                                <text>\
+                                    <tspan x="10" y="40">' + x + '</tspan>\
+                                    <tspan x="70" y="40">' + y + '</tspan>\
+                                    <tspan x="40" y="87">' + z + '</tspan>\
+                                </text>\
+                            </svg>'
                     }
                 }
             }).render(grid.rectangle(4, 4))
