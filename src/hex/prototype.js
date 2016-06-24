@@ -84,6 +84,16 @@ export default {
             this.oppositeSideDistance()
     },
 
+    // returns relative center of the hex
+    center() {
+        return Point(this.width() / 2, this.height() / 2)
+    },
+
+    // currently defaults to center, might be settable later
+    origin() {
+        return this.center()
+    },
+
     add(hex) {
         return Hex(this.x + hex.x, this.y + hex.y, this.z + hex.z)
     },
@@ -163,6 +173,6 @@ export default {
             y = this.size() * Math.sqrt(3) * (this.y + this.x / 2)
         }
 
-        return Point(x, y)
+        return Point(x, y).subtract(this.origin())
     }
 }
