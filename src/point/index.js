@@ -1,24 +1,26 @@
 import { isNumber, isObject, isArray } from '../utils'
+import prototype from './prototype'
 
 export default function Point(coordinatesOrX, y) {
-    // don't know how to make this more elegant **and** not fool babel
-    // e.g.: when replacing the last 3 return statements with a single
-    // return statement outside the if/else blocks, babel loses reference
-    // to x and y.
-    if (isNumber(coordinatesOrX)) {
-        const x = coordinatesOrX
-        return {
-            x,
-            y: isNumber(y) ? y : x
-        }
-    } else if (isArray(coordinatesOrX)) {
-        const [ x, y ] = coordinatesOrX
-        return { x, y }
-    } else if (isObject(coordinatesOrX)) {
-        const { x, y } = coordinatesOrX
-        return { x, y }
-    } else {
-        const x = y = 0
-        return { x, y }
+    let x
+
+    switch (true) {
+        case isNumber(coordinatesOrX):
+            x = coordinatesOrX
+            y = isNumber(y) ? y : x
+            break
+        case isArray(coordinatesOrX):
+            [ x, y ] = coordinatesOrX
+            break
+        case isObject(coordinatesOrX):
+            ({ x, y } = coordinatesOrX)
+            break
+        default:
+            x = y = 0
     }
+
+    return Object.assign(
+        Object.create(prototype),
+        { x, y }
+    )
 }
