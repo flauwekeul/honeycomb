@@ -6,6 +6,7 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 
 ## TODO
 
+1. Look into [code coverage](https://github.com/jmeas/testing-with-babel).
 1. Add hex origin (defaults to hex center?).
 1. Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped.
 2. Determine what to do when multiple shapes are called on a grid instance. E.g.: `grid().rectangle().triangle()`. Currently shapes are just added with potentially overlapping hexes.
