@@ -49,6 +49,11 @@
             var Grid = Honeycomb.Grid,
                 Point = Honeycomb.Point,
                 DOMView = Honeycomb.Views.DOM,
+                container = document.getElementById('container'),
+                containerCenter = {
+                    x: container.offsetWidth / 2,
+                    y: container.offsetHeight / 2
+                },
                 grid,
                 view
 
@@ -60,7 +65,8 @@
             })
 
             view = DOMView({
-                container: document.getElementById('container'),
+                container: container,
+                origin: containerCenter,
                 hex: {
                     element: function(hex) {
                         var coordinates = hex.coordinates(),

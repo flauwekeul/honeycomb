@@ -12,10 +12,11 @@ export default {
 
         hexes.forEach(hex => {
             const hexNode = stringToDOMNodes(hex.element())[0]
+            const hexOffset = this.origin.add(hex.toPoint())
 
             Object.assign(hexNode.style, style, {
-                left: hex.toPoint().x,
-                top: hex.toPoint().y
+                left: hexOffset.x,
+                top: hexOffset.y
             })
 
             fragment.appendChild(hexNode)
