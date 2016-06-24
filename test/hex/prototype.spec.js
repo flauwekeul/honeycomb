@@ -3,7 +3,6 @@ import sinon from 'sinon'
 
 import { ORIENTATIONS } from '../../src/hex/constants'
 import Hex from '../../src/hex'
-import Point from '../../src/point'
 
 describe('Hex prototype', () => {
     describe('coordinates', () => {
@@ -216,7 +215,10 @@ describe('Hex prototype', () => {
             before(() => Hex.prototype.orientation('pointy'))
 
             it('returns the point', () => {
-                expect(Hex(1, 0).toPoint()).to.eql(Point(Hex.prototype.width(), 0))
+                const expectedX = 51.9615
+                const expectedY = 35
+                expect(Hex(2, 3).toPoint()).to.have.property('x').that.is.closeTo(expectedX, 0.0005)
+                expect(Hex(2, 3).toPoint()).to.have.property('y').that.is.closeTo(expectedY, 0.0005)
             })
         })
 
@@ -224,7 +226,10 @@ describe('Hex prototype', () => {
             before(() => Hex.prototype.orientation('flat'))
 
             it('returns the point', () => {
-                expect(Hex(1, 0).toPoint()).to.eql(Point(Hex.prototype.width() * 3/4, Hex.prototype.height() / 2))
+                const expectedX = 20
+                const expectedY = 60.6217
+                expect(Hex(2, 3).toPoint()).to.have.property('x').that.is.closeTo(expectedX, 0.0005)
+                expect(Hex(2, 3).toPoint()).to.have.property('y').that.is.closeTo(expectedY, 0.0005)
             })
         })
     })
