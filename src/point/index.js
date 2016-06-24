@@ -1,18 +1,18 @@
-import { isNumber, isObject, isArray } from '../utils'
+import { is } from '../utils'
 import prototype from './prototype'
 
 export default function Point(coordinatesOrX, y) {
     let x
 
     switch (true) {
-        case isNumber(coordinatesOrX):
+        case is.number(coordinatesOrX):
             x = coordinatesOrX
-            y = isNumber(y) ? y : x
+            y = is.number(y) ? y : x
             break
-        case isArray(coordinatesOrX):
+        case is.array(coordinatesOrX):
             [ x, y ] = coordinatesOrX
             break
-        case isObject(coordinatesOrX):
+        case is.object(coordinatesOrX):
             ({ x, y } = coordinatesOrX)
             break
         default:
