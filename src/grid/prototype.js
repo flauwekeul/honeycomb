@@ -24,15 +24,21 @@ export default {
         return hexes
     },
 
-    hexagon(side) {
+    // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline14
+    hexagon(radius) {
         const hexes = []
-        for (let x = -side; x < side; x++) {
-            const yStart = Math.max(-side, -x - side)
-            const yEnd = Math.min(side, -x + side)
-            for (let y = yStart; y < yEnd; y++) {
+        // radius includes the center hex
+        radius -= 1
+
+        for (let x = -radius; x <= radius; x++) {
+            const startY = Math.max(-radius, -x - radius)
+            const endY = Math.min(radius, -x + radius)
+
+            for (let y = startY; y <= endY; y++) {
                 hexes.push(Hex(x, y))
             }
         }
+
         return hexes
     },
 
