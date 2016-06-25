@@ -1,3 +1,4 @@
+import Point from '../point'
 import Hex from '../hex'
 
 export default {
@@ -36,14 +37,19 @@ export default {
     },
 
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline15
-    rectangle(width, height) {
+    rectangle(topLeft, width, height) {
         const hexes = []
-        for (let y = 0; y < height; y++) {
+        const start = Point(topLeft)
+        const endX = start.x + width
+        const endY = start.y + height
+
+        for (let y = start.y; y < endY; y++) {
             const yOffset = Math.floor(y / 2)
-            for (let x = -yOffset; x < width - yOffset; x++) {
+            for (let x = -yOffset + start.x; x < endX - yOffset; x++) {
                 hexes.push(Hex(x, y))
             }
         }
+
         return hexes
     }
 }
