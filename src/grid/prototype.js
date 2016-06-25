@@ -27,8 +27,7 @@ export default {
     },
 
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline14
-    // TODO: add possibility to pass the center coordinate. Currently it's always [0, 0].
-    hexagon(radius) {
+    hexagon(center, radius) {
         const hexes = []
         // radius includes the center hex
         radius -= 1
@@ -38,7 +37,7 @@ export default {
             const endY = Math.min(radius, -x + radius)
 
             for (let y = startY; y <= endY; y++) {
-                hexes.push(Hex(x, y))
+                hexes.push(Hex(x, y).add(Point(center)))
             }
         }
 
