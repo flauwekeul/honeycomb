@@ -47,14 +47,12 @@ export default {
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline15
     rectangle(topLeft, width, height) {
         const hexes = []
-        const start = Point(topLeft)
-        const endX = start.x + width
-        const endY = start.y + height
 
-        for (let y = start.y; y < endY; y++) {
+        for (let y = 0; y < height; y++) {
             const yOffset = Math.floor(y / 2)
-            for (let x = -yOffset + start.x; x < endX - yOffset; x++) {
-                hexes.push(Hex(x, y))
+
+            for (let x = -yOffset; x < width - yOffset; x++) {
+                hexes.push(Hex(x, y).add(Point(topLeft)))
             }
         }
 
