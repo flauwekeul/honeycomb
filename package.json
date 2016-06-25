@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "build": "NODE_ENV=production webpack",
-    "coverage": "rm -rf coverage && babel-node node_modules/isparta/bin/isparta cover src --report html node_modules/.bin/_mocha -- test",
+    "coverage": "babel-node $(npm bin)/isparta cover --include-all-sources --report html $(npm bin)/_mocha -- --recursive",
     "dev": "webpack --progress --colors --watch",
     "lint": "eslint src test; exit 0",
     "lint:fix": "eslint src test --fix; exit 0",
