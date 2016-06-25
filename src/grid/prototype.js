@@ -14,17 +14,20 @@ export default {
     },
 
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline13
-    triangle(side) {
+    triangle(start, side) {
         const hexes = []
+
         for (let x = 0; x < side; x++) {
             for (let y = 0; y < side - x; y++) {
-                hexes.push(Hex(x, y))
+                hexes.push(Hex(x, y).add(Point(start)))
             }
         }
+
         return hexes
     },
 
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline14
+    // TODO: add possibility to pass the center coordinate. Currently it's always [0, 0].
     hexagon(radius) {
         const hexes = []
         // radius includes the center hex
