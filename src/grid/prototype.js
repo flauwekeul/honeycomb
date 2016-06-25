@@ -3,18 +3,20 @@ import Hex from '../hex'
 
 export default {
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline12
-    parallelogram(width, height) {
+    parallelogram(width, height, start = Point()) {
         const hexes = []
+
         for (let x = 0; x < width; x++) {
             for (let y = 0; y < height; y++) {
-                hexes.push(Hex(x, y))
+                hexes.push(Hex(x, y).add(Point(start)))
             }
         }
+
         return hexes
     },
 
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline13
-    triangle(start, side) {
+    triangle(side, start = Point()) {
         const hexes = []
 
         for (let x = 0; x < side; x++) {
@@ -27,7 +29,7 @@ export default {
     },
 
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline14
-    hexagon(center, radius) {
+    hexagon(radius, center = Point()) {
         const hexes = []
         // radius includes the center hex
         radius -= 1
@@ -45,14 +47,14 @@ export default {
     },
 
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline15
-    rectangle(topLeft, width, height) {
+    rectangle(width, height, start = Point()) {
         const hexes = []
 
         for (let y = 0; y < height; y++) {
             const yOffset = Math.floor(y / 2)
 
             for (let x = -yOffset; x < width - yOffset; x++) {
-                hexes.push(Hex(x, y).add(Point(topLeft)))
+                hexes.push(Hex(x, y).add(Point(start)))
             }
         }
 
