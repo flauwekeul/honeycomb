@@ -8,6 +8,10 @@ export default function DOM({ container, origin, hex } = { origin: Point(0, 0) }
 
     return Object.assign(
         Object.create(prototype),
-        { origin: Point(origin), container }
+        {
+            origin: Point(origin),
+            container,
+            hex
+        }
     )
 }

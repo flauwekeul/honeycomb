@@ -21,12 +21,12 @@ describe('Grid factory', () => {
                 expect(grid).to.have.property('hex').that.eqls({ size: 10, orientation: 'flat' })
             })
 
-            it('calls Hex.prototype.size', () => {
+            it('sets Hex.prototype.size', () => {
                 Grid({ hex: { size: 5 } })
                 expect(Hex.prototype.size).to.have.been.calledWith(5)
             })
 
-            it('calls Hex.prototype.orientation', () => {
+            it('sets Hex.prototype.orientation', () => {
                 Grid({ hex: { orientation: 'pointy' } })
                 expect(Hex.prototype.orientation).to.have.been.calledWith('pointy')
             })
