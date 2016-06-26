@@ -1,14 +1,17 @@
-import Hex from '.'
+import { is } from '../utils'
+
 import {
     ORIENTATIONS,
     DIRECTION_COORDINATES,
     DIAGONAL_DIRECTION_COORDINATES
 } from './constants'
+import Hex from '.'
 import Point from '../point'
 
 // private properties
 let _orientation
 let _size
+let _element
 let _elementInterpolator
 
 export default {
@@ -61,15 +64,18 @@ export default {
     // setter when called with elementInterpolator
     // getter when called without params; returns result of the elementInterpolator called with this
     // TODO: add validations (show warning if elementInterpolator isn't set)
-    // TODO: should also accept an element of type template literal?
-    // TODO: should also accept a path to a template of type string?
-    element(elementInterpolator) {
-        if (elementInterpolator) {
-            _elementInterpolator = elementInterpolator
-            return this
+    element(stringOrInterpolator) {
+        switch(true) {
+            case is.string(stringOrInterpolator):
+                _element = stringOrInterpolator
+                return this
+            case is.function(stringOrInterpolator):
+                _elementInterpolator = stringOrInterpolator
+                _element = null
+                return this
+            case arguments.length === 0:
+                return _element = _element || _elementInterpolator(this)
         }
-
-        return _elementInterpolator(this)
     },
 
     width() {

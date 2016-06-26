@@ -98,6 +98,33 @@ describe('Hex prototype', () => {
         })
     })
 
+    describe('element', () => {
+        describe('when called with a string', () => {
+            it('sets the element for every hex', () => {
+                Hex.prototype.element('<div></div>')
+                expect(Hex().element()).to.equal('<div></div>')
+            })
+        })
+
+        describe('when called with an element interpolator', () => {
+            const elementInterpolator = sinon.spy((hex) => `hex x: ${hex.coordinates().x}`)
+
+            it('sets the element interpolator for every hex', () => {
+                Hex.prototype.element(elementInterpolator)
+                const hex = Hex()
+                hex.element()
+                expect(elementInterpolator).to.have.been.calledWith(hex)
+            })
+
+            describe('when called without arguments', () => {
+                it('returns the interpolated element of every hex', () => {
+                    Hex.prototype.element(elementInterpolator)
+                    expect(Hex(4).element()).to.equal('hex x: 4')
+                })
+            })
+        })
+    })
+
     describe('width', () => {
         describe('when orientation is POINTY', () => {
             before(() => Hex.prototype.orientation('pointy'))
