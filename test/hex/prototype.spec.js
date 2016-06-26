@@ -138,6 +138,21 @@ describe('Hex prototype', () => {
         })
     })
 
+    describe('center', () => {
+        it('returns the relative center of the hex', () => {
+            Hex.prototype.size(10)
+            Hex.prototype.orientation('pointy')
+            expect(Hex().center()).to.have.property('x').that.is.closeTo(8.6603, 0.0005)
+            expect(Hex().center()).to.have.property('y').that.is.closeTo(10, 0.0005)
+        })
+    })
+
+    describe('origin', () => {
+        it('returns hex.center()', () => {
+            expect(Hex().origin()).to.eql(Hex().center())
+        })
+    })
+
     describe('add', () => {
         it('adds all coordinates of the given hex to itself', () => {
             const result = Hex(1, -3, 2).add(Hex(2, 0, -2))
@@ -215,10 +230,8 @@ describe('Hex prototype', () => {
             before(() => Hex.prototype.orientation('pointy'))
 
             it('returns the point', () => {
-                const expectedX = 51.9615
-                const expectedY = 35
-                expect(Hex(2, 3).toPoint()).to.have.property('x').that.is.closeTo(expectedX, 0.0005)
-                expect(Hex(2, 3).toPoint()).to.have.property('y').that.is.closeTo(expectedY, 0.0005)
+                expect(Hex(2, 3).toPoint()).to.have.property('x').that.is.closeTo(51.9615, 0.0005)
+                expect(Hex(2, 3).toPoint()).to.have.property('y').that.is.closeTo(35, 0.0005)
             })
         })
 
@@ -226,10 +239,8 @@ describe('Hex prototype', () => {
             before(() => Hex.prototype.orientation('flat'))
 
             it('returns the point', () => {
-                const expectedX = 20
-                const expectedY = 60.6217
-                expect(Hex(2, 3).toPoint()).to.have.property('x').that.is.closeTo(expectedX, 0.0005)
-                expect(Hex(2, 3).toPoint()).to.have.property('y').that.is.closeTo(expectedY, 0.0005)
+                expect(Hex(2, 3).toPoint()).to.have.property('x').that.is.closeTo(20, 0.0005)
+                expect(Hex(2, 3).toPoint()).to.have.property('y').that.is.closeTo(60.6217, 0.0005)
             })
         })
     })
