@@ -233,7 +233,7 @@ describe('Hex prototype', () => {
 
     describe('round', () => {
         it('rounds floating point coordinates to their nearest integer coordinates', () => {
-            const result = Hex(2.7, 2.1, -4.8).round()
+            const result = Hex(2.9, 2.2, -4.7).round()
             expect(result).to.contain({ x: 3, y: 2, z: -5 })
         })
     })
