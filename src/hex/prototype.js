@@ -11,7 +11,6 @@ import Point from '../point'
 // private properties
 let _orientation
 let _size
-let _element
 let _elementInterpolator
 
 export default {
@@ -67,14 +66,13 @@ export default {
     element(stringOrInterpolator) {
         switch(true) {
             case is.string(stringOrInterpolator):
-                _element = stringOrInterpolator
+                _elementInterpolator = () => stringOrInterpolator
                 return this
             case is.function(stringOrInterpolator):
                 _elementInterpolator = stringOrInterpolator
-                _element = null
                 return this
             case arguments.length === 0:
-                return _element = _element || _elementInterpolator(this)
+                return _elementInterpolator(this)
         }
     },
 

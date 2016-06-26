@@ -111,9 +111,12 @@ describe('Hex prototype', () => {
 
             it('sets the element interpolator for every hex', () => {
                 Hex.prototype.element(elementInterpolator)
-                const hex = Hex()
-                hex.element()
-                expect(elementInterpolator).to.have.been.calledWith(hex)
+                const hex1 = Hex()
+                const hex2 = Hex(1, 2)
+                hex1.element()
+                expect(elementInterpolator).to.have.been.calledWith(hex1)
+                hex2.element()
+                expect(elementInterpolator).to.have.been.calledWith(hex2)
             })
 
             describe('when called without arguments', () => {
