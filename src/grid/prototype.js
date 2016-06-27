@@ -2,6 +2,22 @@ import Point from '../point'
 import Hex from '../hex'
 
 export default {
+    // width of a hex column
+    // http://www.redblobgames.com/grids/hexagons/#basics
+    colSize() {
+        return Hex.prototype.isPointy() ?
+            Hex.prototype.width() :
+            Hex.prototype.width() * 3/4
+    },
+
+    // width of a hex row
+    // http://www.redblobgames.com/grids/hexagons/#basics
+    rowSize() {
+        return Hex.prototype.isPointy() ?
+            Hex.prototype.height() * 3/4 :
+            Hex.prototype.height()
+    },
+
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline12
     parallelogram(width, height, start = Point()) {
         const hexes = []

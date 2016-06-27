@@ -5,6 +5,42 @@ import Hex from '../../src/hex'
 describe('Grid prototype', () => {
     const grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
 
+    describe('colSize', () => {
+        describe('when hexes are pointy', () => {
+            before(() => Hex.prototype.orientation('pointy'))
+
+            it('returns the size of the grid\'s columns', () => {
+                expect(grid.colSize()).to.be.closeTo(8.6603, 0.0005)
+            })
+        })
+
+        describe('when hexes are flat', () => {
+            before(() => Hex.prototype.orientation('flat'))
+
+            it('returns the size of the grid\'s columns', () => {
+                expect(grid.colSize()).to.be.closeTo(7.5, 0.0005)
+            })
+        })
+    })
+
+    describe('rowSize', () => {
+        describe('when hexes are pointy', () => {
+            before(() => Hex.prototype.orientation('pointy'))
+
+            it('returns the size of the grid\'s rows', () => {
+                expect(grid.rowSize()).to.be.closeTo(7.5, 0.0005)
+            })
+        })
+
+        describe('when hexes are flat', () => {
+            before(() => Hex.prototype.orientation('flat'))
+
+            it('returns the size of the grid\'s rows', () => {
+                expect(grid.rowSize()).to.be.closeTo(8.6603, 0.0005)
+            })
+        })
+    })
+
     describe('parallelogram', () => {
         describe('when called without start', () => {
             it('returns the hexes in a parallelogram shape, starting at 0,0,0', () => {
