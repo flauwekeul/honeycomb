@@ -12,6 +12,7 @@ import Point from '../point'
 let _orientation
 let _size
 let _elementInterpolator
+let _origin
 
 export default {
     coordinates() {
@@ -93,9 +94,15 @@ export default {
         return Point(this.width() / 2, this.height() / 2)
     },
 
-    // currently defaults to center, might be settable later
-    origin() {
-        return this.center()
+    // setter when called with origin
+    // getter when called without params; returns result of the elementInterpolator called with this
+    origin(newOrigin) {
+        if (newOrigin) {
+            _origin = Point(newOrigin)
+            return this
+        }
+
+        return _origin || this.center()
     },
 
     add(hex) {

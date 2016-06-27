@@ -178,8 +178,22 @@ describe('Hex prototype', () => {
     })
 
     describe('origin', () => {
-        it('returns hex.center()', () => {
-            expect(Hex().origin()).to.eql(Hex().center())
+        describe('when called without arguments', () => {
+            it('returns the origin of every hex', () => {
+                Hex.prototype.origin([4, -2])
+                expect(Hex.prototype.origin()).to.contain({ x: 4, y: -2 })
+            })
+        })
+
+        describe('when called with a valid origin', () => {
+            it('sets the origin of every hex', () => {
+                Hex.prototype.origin([-1, 3])
+                const hex1 = Hex()
+                const hex2 = Hex()
+                expect(Hex.prototype.origin()).to.contain({ x: -1, y: 3})
+                expect(hex1.origin()).to.contain({ x: -1, y: 3})
+                expect(hex2.origin()).to.contain({ x: -1, y: 3})
+            })
         })
     })
 
@@ -256,6 +270,8 @@ describe('Hex prototype', () => {
     })
 
     describe('toPoint', () => {
+        beforeEach(() => Hex.prototype.origin(Hex.prototype.center()))
+
         describe('when orientation is pointy', () => {
             before(() => Hex.prototype.orientation('pointy'))
 

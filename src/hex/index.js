@@ -55,6 +55,14 @@ export default function Hex(...coordinates) {
         return prototype.size()
     }
 
+    // overrides prototype.origin
+    function origin(ignoredOrigin) {
+        if (arguments.length > 0) {
+            console.warn(`Can't set origin of single hex. Use Hex.prototype.origin(${ignoredOrigin}) to set origin for all hexes.`)
+        }
+        return prototype.origin()
+    }
+
     return Object.assign(
         Object.create(prototype),
         { x, y, z, orientation, size }
