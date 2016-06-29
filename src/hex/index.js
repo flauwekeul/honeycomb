@@ -65,6 +65,6 @@ export default function Hex(...coordinates) {
 
     return Object.assign(
         Object.create(prototype),
-        { x, y, z, orientation, size }
+        { x, y, z, orientation, size, origin }
     )
 }

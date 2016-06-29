@@ -23,7 +23,9 @@
     "chai": "^3.5.0",
     "eslint": "^2.11.1",
     "isparta": "^4.0.0",
+    "jsdom": "^9.3.0",
     "mocha": "^2.5.3",
+    "mocha-jsdom": "^1.1.0",
     "sinon-chai": "^2.8.0",
     "webpack": "^1.13.1"
   },
@@ -31,7 +33,9 @@
     "dist": "dist",
     "test": "test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "is-dom": "^1.0.5"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/flauwekeul/honeycomb.git"

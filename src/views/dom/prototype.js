@@ -1,7 +1,14 @@
 import Hex from '../../hex'
 
 export default {
-    render(hexes) {
+    render(grid) {
+        const width = Math.round(this.container.offsetWidth / grid.colSize())
+        const height = Math.round(this.container.offsetHeight / grid.rowSize())
+
+        return this.renderHexes(grid.rectangle(width, height))
+    },
+
+    renderHexes(hexes) {
         const style = {
             position: 'absolute',
             width: Hex.prototype.width(),
