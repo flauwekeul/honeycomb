@@ -112,4 +112,30 @@ describe('Hex factory', () => {
             })
         })
     })
+
+    describe('origin', () => {
+        describe('when called without arguments', () => {
+            it('returns the hex\'s origin', () => {
+                Hex.prototype.origin([-3, -1])
+                expect(Hex().origin()).to.contain({ x: -3, y: -1 })
+            })
+        })
+
+        describe('when called with a origin', () => {
+            before(() => sinon.spy(console, 'warn'))
+            after(() => console.warn.restore())
+
+            it('shows a warning', () => {
+                Hex().origin([2, 0])
+                expect(console.warn).to.have.been
+                    .calledWith('Can\'t set origin of single hex. Use Hex.prototype.origin([2, 0]) to set origin for all hexes.')
+            })
+
+            it('doesn\'t change the origin', () => {
+                Hex.prototype.origin([-3, -1])
+                Hex().origin([9, 5])
+                expect(Hex().origin()).to.contain({ x: -3, y: -1 })
+            })
+        })
+    })
 })

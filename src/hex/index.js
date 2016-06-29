@@ -58,7 +58,8 @@ export default function Hex(...coordinates) {
     // overrides prototype.origin
     function origin(ignoredOrigin) {
         if (arguments.length > 0) {
-            console.warn(`Can't set origin of single hex. Use Hex.prototype.origin(${ignoredOrigin}) to set origin for all hexes.`)
+            const formattedIgnoredOrigin = `[${ignoredOrigin[0]}, ${ignoredOrigin[1]}]`
+            console.warn(`Can't set origin of single hex. Use Hex.prototype.origin(${formattedIgnoredOrigin}) to set origin for all hexes.`)
         }
         return prototype.origin()
     }
