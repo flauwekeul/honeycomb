@@ -6,6 +6,7 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 
 ## TODO
 
+1. Hex orientation, size and origin should (also) be get through Grid. Because they're mainly set through Grid.
 1. Maybe add instance methods for `Grid` and `Views.DOM` to get/set options. Then it's optional to pass the options to the `Grid` and `Views.DOM` factories and set those options later.
 4. Add an option to create hexes within a certain area and have the hexes `cover`/`contain` that area. `cover` meaning hexes may spill over the area boundaries so that the whole area is covered with hexes. `contain` meaning no hexes will spill over the area boundaries so that all hexes are contained within the area.
 1. Add `Grid.prototype.pointToHex()` or something.

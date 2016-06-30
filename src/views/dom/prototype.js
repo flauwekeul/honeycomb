@@ -11,8 +11,8 @@ export default {
     renderHexes(hexes) {
         const style = {
             position: 'absolute',
-            width: Hex.prototype.width(),
-            height: Hex.prototype.height()
+            width: `${Hex.prototype.width()}px`,
+            height: `${Hex.prototype.height()}px`
         }
         const fragment = document.createDocumentFragment()
 
@@ -21,8 +21,8 @@ export default {
             const hexOffset = this.origin.add(hex.toPoint())
 
             Object.assign(hexNode.style, style, {
-                left: hexOffset.x,
-                top: hexOffset.y
+                left: `${hexOffset.x}px`,
+                top: `${hexOffset.y}px`
             })
 
             fragment.appendChild(hexNode)
