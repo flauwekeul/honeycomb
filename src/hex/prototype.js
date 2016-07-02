@@ -24,8 +24,7 @@ export default {
     // getter when called without params
     orientation(newOrientation) {
         if (newOrientation) {
-            _orientation = ORIENTATIONS[newOrientation.toUpperCase()]
-            return this
+            return _orientation = ORIENTATIONS[newOrientation.toUpperCase()]
         }
 
         return ORIENTATIONS[_orientation]
@@ -43,11 +42,9 @@ export default {
     // getter when called without params
     size(newSize) {
         if (arguments.length > 0) {
-            Hex.isValidSize(newSize) ?
+            return Hex.isValidSize(newSize) ?
                 _size = newSize :
                 console.warn(`Invalid size: ${newSize}`)
-
-            return this
         }
 
         return _size
@@ -68,10 +65,10 @@ export default {
         switch(true) {
             case is.string(stringOrInterpolator):
                 _elementInterpolator = () => stringOrInterpolator
-                return this
+                break
             case is.function(stringOrInterpolator):
                 _elementInterpolator = stringOrInterpolator
-                return this
+                break
             case arguments.length === 0:
                 return _elementInterpolator(this)
         }
@@ -98,8 +95,7 @@ export default {
     // getter when called without params; returns result of the elementInterpolator called with this
     origin(newOrigin) {
         if (newOrigin) {
-            _origin = Point(newOrigin)
-            return this
+            return _origin = Point(newOrigin)
         }
 
         return _origin || this.center()
