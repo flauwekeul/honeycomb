@@ -6,18 +6,18 @@ describe('Grid prototype', () => {
     describe('colSize', () => {
         it('returns the size of the grid\'s columns', () => {
             const grid1 = Grid({ hex: { size: 20, orientation: 'pointy' } })
-            expect(grid1.colSize()).to.be.closeTo(34, 1)
+            expect(grid1.colSize()).to.be.closeTo(35, 0.5)
             const grid2 = Grid({ hex: { size: 20, orientation: 'flat' } })
-            expect(grid2.colSize()).to.be.closeTo(30, 1)
+            expect(grid2.colSize()).to.be.closeTo(30, 0.5)
         })
     })
 
     describe('rowSize', () => {
         it('returns the size of the grid\'s columns', () => {
             const grid1 = Grid({ hex: { size: 20, orientation: 'pointy' } })
-            expect(grid1.rowSize()).to.be.closeTo(30, 1)
+            expect(grid1.rowSize()).to.be.closeTo(30, 0.5)
             const grid2 = Grid({ hex: { size: 20, orientation: 'flat' } })
-            expect(grid2.rowSize()).to.be.closeTo(34, 1)
+            expect(grid2.rowSize()).to.be.closeTo(35, 0.5)
         })
     })
 

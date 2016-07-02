@@ -94,7 +94,7 @@ describe('Hex prototype', () => {
     describe('oppositeSideDistance', () => {
         it('returns the distance between two opposite sides of a hex', () => {
             Hex.prototype.size(10)
-            expect(Hex.prototype.oppositeSideDistance()).to.be.closeTo(17.3205, 0.0005)
+            expect(Hex.prototype.oppositeSideDistance()).to.be.closeTo(17.3, 0.5)
         })
     })
 
@@ -172,8 +172,8 @@ describe('Hex prototype', () => {
         it('returns the relative center of the hex', () => {
             Hex.prototype.size(10)
             Hex.prototype.orientation('pointy')
-            expect(Hex().center()).to.have.property('x').that.is.closeTo(8.6603, 0.0005)
-            expect(Hex().center()).to.have.property('y').that.is.closeTo(10, 0.0005)
+            expect(Hex().center()).to.have.property('x').that.is.closeTo(8.7, 0.5)
+            expect(Hex().center()).to.have.property('y').that.is.closeTo(10, 0.5)
         })
     })
 
@@ -276,8 +276,8 @@ describe('Hex prototype', () => {
             before(() => Hex.prototype.orientation('pointy'))
 
             it('returns the point', () => {
-                expect(Hex(2, 3).toPoint()).to.have.property('x').that.is.closeTo(51.9615, 0.0005)
-                expect(Hex(2, 3).toPoint()).to.have.property('y').that.is.closeTo(35, 0.0005)
+                expect(Hex(2, 3).toPoint()).to.have.property('x').that.is.closeTo(51.9, 0.5)
+                expect(Hex(2, 3).toPoint()).to.have.property('y').that.is.closeTo(35, 0.5)
             })
         })
 
@@ -285,8 +285,8 @@ describe('Hex prototype', () => {
             before(() => Hex.prototype.orientation('flat'))
 
             it('returns the point', () => {
-                expect(Hex(2, 3).toPoint()).to.have.property('x').that.is.closeTo(20, 0.0005)
-                expect(Hex(2, 3).toPoint()).to.have.property('y').that.is.closeTo(60.6217, 0.0005)
+                expect(Hex(2, 3).toPoint()).to.have.property('x').that.is.closeTo(20, 0.5)
+                expect(Hex(2, 3).toPoint()).to.have.property('y').that.is.closeTo(60.6, 0.5)
             })
         })
     })
