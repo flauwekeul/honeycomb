@@ -3,45 +3,27 @@ import Grid from '../../src/grid'
 import Hex from '../../src/hex'
 
 describe('Grid prototype', () => {
-    const grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
-
     describe('colSize', () => {
-        describe('when hexes are pointy', () => {
-            before(() => Hex.prototype.orientation('pointy'))
-
-            it('returns the size of the grid\'s columns', () => {
-                expect(grid.colSize()).to.be.closeTo(8.6603, 0.0005)
-            })
-        })
-
-        describe('when hexes are flat', () => {
-            before(() => Hex.prototype.orientation('flat'))
-
-            it('returns the size of the grid\'s columns', () => {
-                expect(grid.colSize()).to.be.closeTo(7.5, 0.0005)
-            })
+        it('returns the size of the grid\'s columns', () => {
+            const grid1 = Grid({ hex: { size: 20, orientation: 'pointy' } })
+            expect(grid1.colSize()).to.be.closeTo(34, 1)
+            const grid2 = Grid({ hex: { size: 20, orientation: 'flat' } })
+            expect(grid2.colSize()).to.be.closeTo(30, 1)
         })
     })
 
     describe('rowSize', () => {
-        describe('when hexes are pointy', () => {
-            before(() => Hex.prototype.orientation('pointy'))
-
-            it('returns the size of the grid\'s rows', () => {
-                expect(grid.rowSize()).to.be.closeTo(7.5, 0.0005)
-            })
-        })
-
-        describe('when hexes are flat', () => {
-            before(() => Hex.prototype.orientation('flat'))
-
-            it('returns the size of the grid\'s rows', () => {
-                expect(grid.rowSize()).to.be.closeTo(8.6603, 0.0005)
-            })
+        it('returns the size of the grid\'s columns', () => {
+            const grid1 = Grid({ hex: { size: 20, orientation: 'pointy' } })
+            expect(grid1.rowSize()).to.be.closeTo(30, 1)
+            const grid2 = Grid({ hex: { size: 20, orientation: 'flat' } })
+            expect(grid2.rowSize()).to.be.closeTo(34, 1)
         })
     })
 
     describe('parallelogram', () => {
+        const grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
+
         describe('when called without start', () => {
             it('returns the hexes in a parallelogram shape, starting at 0,0,0', () => {
                 const hexCoordinates = grid.parallelogram(2, 2).map(hex => hex.coordinates())
@@ -68,6 +50,8 @@ describe('Grid prototype', () => {
     })
 
     describe('triangle', () => {
+        const grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
+
         describe('when called without start', () => {
             it('returns the hexes in a triangle shape, starting at 0,0,0', () => {
                 const hexCoordinates = grid.triangle(2).map(hex => hex.coordinates())
@@ -92,6 +76,8 @@ describe('Grid prototype', () => {
     })
 
     describe('hexagon', () => {
+        const grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
+
         describe('when called without start', () => {
             it('returns the hexes in a hexagon shape, with its center at 0,0,0', () => {
                 const hexCoordinates = grid.hexagon(2).map(hex => hex.coordinates())
@@ -124,6 +110,8 @@ describe('Grid prototype', () => {
     })
 
     describe('rectangle', () => {
+        const grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
+
         describe('when called without start', () => {
             it('returns the hexes in a rectangle shape, starting at 0,0,0', () => {
                 const hexCoordinates = grid.rectangle(2, 3).map(hex => hex.coordinates())
