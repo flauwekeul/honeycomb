@@ -24,8 +24,8 @@ describe('Grid prototype', () => {
     describe('parallelogram', () => {
         const grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
 
-        describe('when called without start', () => {
-            it('returns the hexes in a parallelogram shape, starting at 0,0,0', () => {
+        describe('when called without start hex', () => {
+            it('returns the hexes in a parallelogram shape, starting at Hex(0)', () => {
                 const hexCoordinates = grid.parallelogram(2, 2).map(hex => hex.coordinates())
                 expect(hexCoordinates).to.deep.include.members([
                     Hex(0, 0).coordinates(),
@@ -36,9 +36,9 @@ describe('Grid prototype', () => {
             })
         })
 
-        describe('when called with start', () => {
-            it('returns the hexes in a parallelogram shape, starting at the given start', () => {
-                const hexCoordinates = grid.parallelogram(2, 2, [ 5, 4 ]).map(hex => hex.coordinates())
+        describe('when called with start hex', () => {
+            it('returns the hexes in a parallelogram shape, starting at the given start hex', () => {
+                const hexCoordinates = grid.parallelogram(2, 2, Hex(5, 4)).map(hex => hex.coordinates())
                 expect(hexCoordinates).to.deep.include.members([
                     Hex(5, 4).coordinates(),
                     Hex(6, 4).coordinates(),
@@ -52,8 +52,8 @@ describe('Grid prototype', () => {
     describe('triangle', () => {
         const grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
 
-        describe('when called without start', () => {
-            it('returns the hexes in a triangle shape, starting at 0,0,0', () => {
+        describe('when called without start hex', () => {
+            it('returns the hexes in a triangle shape, starting at Hex(0)', () => {
                 const hexCoordinates = grid.triangle(2).map(hex => hex.coordinates())
                 expect(hexCoordinates).to.deep.include.members([
                     Hex(0, 0).coordinates(),
@@ -63,9 +63,9 @@ describe('Grid prototype', () => {
             })
         })
 
-        describe('when called with start', () => {
-            it('returns the hexes in a triangle shape, starting at the given start', () => {
-                const hexCoordinates = grid.triangle(2, [ 3, 6 ]).map(hex => hex.coordinates())
+        describe('when called with start hex', () => {
+            it('returns the hexes in a triangle shape, starting at the given start hex', () => {
+                const hexCoordinates = grid.triangle(2, Hex(3, 6)).map(hex => hex.coordinates())
                 expect(hexCoordinates).to.deep.include.members([
                     Hex(3, 6).coordinates(),
                     Hex(3, 7).coordinates(),
@@ -78,8 +78,8 @@ describe('Grid prototype', () => {
     describe('hexagon', () => {
         const grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
 
-        describe('when called without start', () => {
-            it('returns the hexes in a hexagon shape, with its center at 0,0,0', () => {
+        describe('when called without start hex', () => {
+            it('returns the hexes in a hexagon shape, with its center at Hex(0)', () => {
                 const hexCoordinates = grid.hexagon(2).map(hex => hex.coordinates())
                 expect(hexCoordinates).to.deep.include.members([
                     Hex(0, -1).coordinates(),
@@ -93,9 +93,9 @@ describe('Grid prototype', () => {
             })
         })
 
-        describe('when called with start', () => {
-            it('returns the hexes in a hexagon shape, with its center at the given center', () => {
-                const hexCoordinates = grid.hexagon(2, [ 3, 1 ]).map(hex => hex.coordinates())
+        describe('when called with start hex', () => {
+            it('returns the hexes in a hexagon shape, with its center at the given center hex', () => {
+                const hexCoordinates = grid.hexagon(2, Hex(3, 1)).map(hex => hex.coordinates())
                 expect(hexCoordinates).to.deep.include.members([
                     Hex(3, 0).coordinates(),
                     Hex(4, 0).coordinates(),
@@ -112,8 +112,8 @@ describe('Grid prototype', () => {
     describe('rectangle', () => {
         const grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
 
-        describe('when called without start', () => {
-            it('returns the hexes in a rectangle shape, starting at 0,0,0', () => {
+        describe('when called without start hex', () => {
+            it('returns the hexes in a rectangle shape, starting at Hex(0)', () => {
                 const hexCoordinates = grid.rectangle(2, 3).map(hex => hex.coordinates())
                 expect(hexCoordinates).to.deep.include.members([
                     Hex(0, 0).coordinates(),
@@ -126,9 +126,9 @@ describe('Grid prototype', () => {
             })
         })
 
-        describe('when called with start', () => {
-            it('returns the hexes in a rectangle shape, starting at the given start', () => {
-                const hexCoordinates = grid.rectangle(2, 3, [ -4, -2 ]).map(hex => hex.coordinates())
+        describe('when called with start hex', () => {
+            it('returns the hexes in a rectangle shape, starting at the given start hex', () => {
+                const hexCoordinates = grid.rectangle(2, 3, Hex(-4, -2)).map(hex => hex.coordinates())
                 expect(hexCoordinates).to.deep.include.members([
                     Hex(-4, -2).coordinates(),
                     Hex(-3, -2).coordinates(),

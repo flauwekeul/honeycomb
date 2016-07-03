@@ -1,4 +1,3 @@
-import Point from '../point'
 import Hex from '../hex'
 
 export default {
@@ -19,12 +18,12 @@ export default {
     },
 
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline12
-    parallelogram(width, height, start = Point()) {
+    parallelogram(width, height, start = Hex()) {
         const hexes = []
 
         for (let x = 0; x < width; x++) {
             for (let y = 0; y < height; y++) {
-                hexes.push(Hex(x, y).add(Point(start)))
+                hexes.push(Hex(x, y).add(Hex(start)))
             }
         }
 
@@ -32,12 +31,12 @@ export default {
     },
 
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline13
-    triangle(side, start = Point()) {
+    triangle(side, start = Hex()) {
         const hexes = []
 
         for (let x = 0; x < side; x++) {
             for (let y = 0; y < side - x; y++) {
-                hexes.push(Hex(x, y).add(Point(start)))
+                hexes.push(Hex(x, y).add(Hex(start)))
             }
         }
 
@@ -45,7 +44,7 @@ export default {
     },
 
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline14
-    hexagon(radius, center = Point()) {
+    hexagon(radius, center = Hex()) {
         const hexes = []
         // radius includes the center hex
         radius -= 1
@@ -55,7 +54,7 @@ export default {
             const endY = Math.min(radius, -x + radius)
 
             for (let y = startY; y <= endY; y++) {
-                hexes.push(Hex(x, y).add(Point(center)))
+                hexes.push(Hex(x, y).add(Hex(center)))
             }
         }
 
@@ -63,14 +62,14 @@ export default {
     },
 
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline15
-    rectangle(width, height, start = Point()) {
+    rectangle(width, height, start = Hex()) {
         const hexes = []
 
         for (let y = 0; y < height; y++) {
             const yOffset = Math.floor(y / 2)
 
             for (let x = -yOffset; x < width - yOffset; x++) {
-                hexes.push(Hex(x, y).add(Point(start)))
+                hexes.push(Hex(x, y).add(Hex(start)))
             }
         }
 
