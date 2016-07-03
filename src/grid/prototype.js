@@ -4,17 +4,17 @@ export default {
     // width of a hex column
     // http://www.redblobgames.com/grids/hexagons/#basics
     colSize() {
-        return Hex.prototype.isPointy() ?
-            Hex.prototype.width() :
-            Hex.prototype.width() * 3/4
+        return this.hex.isPointy() ?
+            this.hex.width() :
+            this.hex.width() * 3/4
     },
 
     // width of a hex row
     // http://www.redblobgames.com/grids/hexagons/#basics
     rowSize() {
-        return Hex.prototype.isPointy() ?
-            Hex.prototype.height() * 3/4 :
-            Hex.prototype.height()
+        return this.hex.isPointy() ?
+            this.hex.height() * 3/4 :
+            this.hex.height()
     },
 
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline12

@@ -18,13 +18,9 @@ describe('Grid factory', () => {
                 Hex.prototype.origin.restore()
             })
 
-            it('returns a grid containing the passed hex options', () => {
+            it('returns a grid with a hex property that references Hex.prototype', () => {
                 const grid = Grid({ hex: { size: 10, orientation: 'flat', origin: [-2, 7] } })
-                expect(grid).to.have.property('hex').that.eqls({
-                    size: Hex.prototype.size(),
-                    orientation: Hex.prototype.orientation(),
-                    origin: Hex.prototype.origin()
-                })
+                expect(grid).to.have.property('hex').that.eqls(Hex.prototype)
             })
 
             it('sets Hex.prototype.size', () => {
