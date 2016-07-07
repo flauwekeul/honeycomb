@@ -42,10 +42,15 @@
     <body>
         <!-- TODO: move this into lib. Maybe generate an svg dynamically, because the `points` depend on the hex orientation -->
         <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
-            <symbol id="hex" viewBox="0 0 86.60254039 100">
+            <symbol id="pointy-hex" viewBox="0 0 86.60254039 100">
                 <title>Regular hexagon</title>
                 <desc>Hexagon with pointy orientation.</desc>
                 <polygon points="43.30127019 0 86.60254039 25 86.60254039 75 43.30127019 100 0 75 0 25"/>
+            </symbol>
+            <symbol id="flat-hex" viewBox="0 0 100 86.60254039">
+                <title>Regular hexagon</title>
+                <desc>Hexagon with flat orientation.</desc>
+                <polygon points="25 0 75 0 100 43.30127019 75 86.60254039 25 86.60254039 0 43.30127019"/>
             </symbol>
         </svg>
 
@@ -53,7 +58,8 @@
 
         <script src="../dist/honeycomb.js"></script>
         <script>
-            var Grid = Honeycomb.Grid,
+            var Hex = Honeycomb.Hex,
+                Grid = Honeycomb.Grid,
                 DOMView = Honeycomb.Views.DOM,
                 container = document.getElementById('container'),
                 containerCenter = {
@@ -65,7 +71,7 @@
 
             grid = Grid({
                 hex: {
-                    size: 50,
+                    size: 30,
                     orientation: 'pointy'
                 }
             })
@@ -81,7 +87,7 @@
                             z = coordinates.z
                         return '\
                             <svg>\
-                                <use xlink:href="#hex"/>\
+                                <use xlink:href="#pointy-hex"/>\
                                 <text>\
                                     <tspan x="10" y="40">x:' + x + '</tspan>\
                                     <tspan x="60" y="40">y:' + y + '</tspan>\

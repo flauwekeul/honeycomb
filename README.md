@@ -7,7 +7,6 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 ## TODO
 
 1. Maybe add instance methods for `Grid` and `Views.DOM` to get/set options. Then it's optional to pass the options to the `Grid` and `Views.DOM` factories and set those options later.
-2. Visually test `Hex.hexesBetween()` in examples/grid.html.
 3. Visually test with flat hexes.
 3. `Grid` and `Views.DOM` don't need prototypes.
 2. Filter overlapping hexes when multiple shapes are rendered.

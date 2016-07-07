@@ -11,17 +11,23 @@ Object.assign(Hex, statics, { prototype })
 // or accepts numbers: 0, 1 or 2 axial coordinates or 3 cube coordinates
 // http://www.redblobgames.com/grids/hexagons/#coordinates
 export default function Hex(...coordinates) {
-    let x, y
-
-    // if an object is passed, extract coordinates and return
+    // if an object is passed, extract coordinates and call self
     if (is.object(coordinates[0])) {
-        let { x, y } = coordinates[0]
-        // set y to x when y isn't passed
-        y = is.number(y) ? y : x
-        return Hex(x, y)
+        let { x, y, z } = coordinates[0]
+
+        if ([ x, y, z ].filter(is.number).length < 2) {
+            return console.warn(`Invalid or not enough coordinates: { x: ${x}, y: ${y}, z: ${z} }.`)
+        }
+
+        return Hex(
+            is.number(x) ? x : Hex.thirdCoordinate(y, z),
+            is.number(y) ? y : Hex.thirdCoordinate(x, z),
+            is.number(z) ? z : Hex.thirdCoordinate(x, y)
+        )
     }
 
     coordinates = coordinates.map(unsignNegativeZero)
+    let x, y
 
     switch (coordinates.length) {
         case 3:

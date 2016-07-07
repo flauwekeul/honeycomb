@@ -5,6 +5,9 @@ import { ORIENTATIONS } from '../../src/hex/constants'
 import Hex from '../../src/hex'
 
 describe('Hex factory', () => {
+    before(() => sinon.spy(console, 'warn'))
+    after(() => console.warn.restore())
+
     describe('creation', () => {
         describe('with 3 numbers', () => {
             it('assumes the numbers are cube coordinates', () => {
@@ -42,15 +45,25 @@ describe('Hex factory', () => {
             })
         })
 
-        describe('with an object containing x and y', () => {
+        describe('with an object containing 2 coordinates (from x, y and z)', () => {
             it('calculates the third coordinate and sets all 3', () => {
                 expect(Hex({ x: 3, y: 0 })).to.contain({ x: 3, y: 0, z: -3 })
+                expect(Hex({ x: 3, z: 0 })).to.contain({ x: 3, y: -3, z: 0 })
+                expect(Hex({ y: 3, z: 0 })).to.contain({ x: -3, y: 3, z: 0 })
             })
         })
 
-        describe('with an object containing only x', () => {
-            it('sets y to the same value as x and calculates the third coordinate', () => {
-                expect(Hex({ x: 3 })).to.contain({ x: 3, y: 3, z: -6 })
+        describe('with an object containing 1 coordinate (from x, y and z)', () => {
+            it('show a warning', () => {
+                Hex({ x: 3 })
+                expect(console.warn).to.have.been
+                    .calledWith('Invalid or not enough coordinates: { x: 3, y: undefined, z: undefined }.')
+                Hex({ y: 3 })
+                expect(console.warn).to.have.been
+                    .calledWith('Invalid or not enough coordinates: { x: undefined, y: 3, z: undefined }.')
+                Hex({ z: 3 })
+                expect(console.warn).to.have.been
+                    .calledWith('Invalid or not enough coordinates: { x: undefined, y: undefined, z: 3 }.')
             })
         })
 
@@ -70,9 +83,6 @@ describe('Hex factory', () => {
         })
 
         describe('when called with an orientation', () => {
-            before(() => sinon.spy(console, 'warn'))
-            after(() => console.warn.restore())
-
             it('shows a warning', () => {
                 Hex().orientation('flat')
                 expect(console.warn).to.have.been
@@ -96,9 +106,6 @@ describe('Hex factory', () => {
         })
 
         describe('when called with a size', () => {
-            before(() => sinon.spy(console, 'warn'))
-            after(() => console.warn.restore())
-
             it('shows a warning', () => {
                 Hex().size(20)
                 expect(console.warn).to.have.been
@@ -122,9 +129,6 @@ describe('Hex factory', () => {
         })
 
         describe('when called with a origin', () => {
-            before(() => sinon.spy(console, 'warn'))
-            after(() => console.warn.restore())
-
             it('shows a warning', () => {
                 Hex().origin([2, 0])
                 expect(console.warn).to.have.been
