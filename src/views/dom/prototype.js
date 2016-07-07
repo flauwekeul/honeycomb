@@ -1,13 +1,6 @@
 import Hex from '../../hex'
 
 export default {
-    render(grid) {
-        const width = Math.round(this.container.offsetWidth / grid.colSize())
-        const height = Math.round(this.container.offsetHeight / grid.rowSize())
-
-        return this.renderHexes(grid.rectangle(width, height))
-    },
-
     renderHexes(hexes) {
         const style = {
             position: 'absolute',
@@ -30,6 +23,15 @@ export default {
 
         this.container.appendChild(fragment)
         return this
+    },
+
+    render(grid) {
+        // increase the size of the hex rectangle to guarantee it covers the container
+        const width = Math.round(this.container.offsetWidth / grid.colSize()) + 3
+        const height = Math.round(this.container.offsetHeight / grid.rowSize()) + 3
+        const start = grid.pointToHex(this.origin.invert()).subtract(Hex(1))
+
+        return this.renderHexes(grid.rectangle(width, height, start))
     }
 }
 

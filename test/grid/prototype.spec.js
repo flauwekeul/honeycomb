@@ -1,8 +1,38 @@
 import { expect } from 'chai'
+import sinon from 'sinon'
+
 import Grid from '../../src/grid'
 import Hex from '../../src/hex'
 
 describe('Grid prototype', () => {
+    describe('pointToHex', () => {
+        it('converts a point to a hex', () => {
+            const grid1 = Grid({ hex: { size: 20, orientation: 'pointy' } })
+            expect(grid1.pointToHex([0, 0])).to.contain({ x: 0, y: 0 })
+            expect(grid1.pointToHex([20, 20])).to.contain({ x: 0, y: 1 })
+            expect(grid1.pointToHex([40, 40])).to.contain({ x: 1, y: 1 })
+
+            const grid2 = Grid({ hex: { size: 20, orientation: 'flat' } })
+            expect(grid2.pointToHex([0, 0])).to.contain({ x: 0, y: 0 })
+            expect(grid2.pointToHex([20, 20])).to.contain({ x: 1, y: 0 })
+            expect(grid2.pointToHex([40, 40])).to.contain({ x: 1, y: 1 })
+        })
+    })
+
+    describe('hexToPoint', () => {
+        it('converts a hex to a point by calling the passed hex toPoint() method', () => {
+            const hex = Hex()
+            const grid = Grid({ hex: {} })
+
+            sinon.spy(hex, 'toPoint')
+
+            grid.hexToPoint(hex)
+            expect(hex.toPoint).to.have.been.called
+
+            hex.toPoint.restore()
+        })
+    })
+
     describe('colSize', () => {
         it('returns the size of the grid\'s columns', () => {
             const grid1 = Grid({ hex: { size: 20, orientation: 'pointy' } })

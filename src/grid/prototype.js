@@ -1,6 +1,31 @@
+import Point from '../point'
 import Hex from '../hex'
 
 export default {
+    // http://www.redblobgames.com/grids/hexagons/#pixel-to-hex
+    pointToHex(point) {
+        const size = this.hex.size()
+        let x, y
+
+        // guarantee point is an actual Point instance
+        point = Point(point)
+
+        if (this.hex.isPointy()) {
+            x = (point.x * Math.sqrt(3)/3 - point.y / 3) / size
+            y = point.y * 2/3 / size
+        } else {
+            x = point.x * 2/3 / size
+            y = (-point.x / 3 + Math.sqrt(3)/3 * point.y) / size
+        }
+
+        return Hex(x, y).round()
+    },
+
+    // convenience method
+    hexToPoint(hex) {
+        return hex.toPoint()
+    },
+
     // width of a hex column
     // http://www.redblobgames.com/grids/hexagons/#basics
     colSize() {

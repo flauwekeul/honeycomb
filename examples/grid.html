@@ -4,12 +4,17 @@
         <meta charset="utf-8">
         <title>Hex Grid Example</title>
         <style>
+            * {
+                box-sizing: border-box;
+            }
+
             html,
             body {
                 height: 100%;
                 margin: 0;
                 color: #333;
                 font-family: sans-serif;
+                overflow: hidden;
             }
 
             #container {
@@ -17,12 +22,13 @@
                 width: 80%;
                 height: 100%;
                 margin: 0 auto;
-                background-color: #eee;
-                overflow: auto;
+                background-color: #ccc;
+                overflow: hidden;
             }
 
             svg use {
-                fill: orange;
+                fill: #039;
+                opacity: 0.5;
             }
 
             svg text {

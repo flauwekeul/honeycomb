@@ -82,8 +82,22 @@ describe('Views.DOM prototype', () => {
 
             dom.render(grid)
 
-            expect(grid.rectangle).to.have.been.calledWith(2, 2)
-            expect(dom.renderHexes).to.have.been.calledWith(sinon.match(() => grid.rectangle(2, 2)))
+            const expectedStart = Hex(-1).coordinates()
+
+            function expectedGridRectangleResult(actualHexes) {
+                const expectedHexes = grid.rectangle(5, 5, expectedStart)
+
+                // every actual hex...
+                return actualHexes.every(actualHex => {
+                    // ...should equal at least 1 expected hex
+                    return expectedHexes.some(expectedHex => {
+                        return JSON.stringify(actualHex) === JSON.stringify(expectedHex)
+                    })
+                })
+            }
+
+            expect(grid.rectangle).to.have.been.calledWith(5, 5, sinon.match(expectedStart))
+            expect(dom.renderHexes).to.have.been.calledWith(sinon.match(expectedGridRectangleResult, 'array of hexes'))
         })
     })
 })
