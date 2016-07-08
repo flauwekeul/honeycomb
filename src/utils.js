@@ -11,6 +11,10 @@ export const is = {
         return value !== null && typeof value === 'object'
     },
 
+    objectLiteral(value) {
+        return Object.prototype.toString.call(value) === '[object Object]'
+    },
+
     function(value) {
         return typeof value === 'function'
     },

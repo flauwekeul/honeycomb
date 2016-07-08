@@ -12,38 +12,40 @@ Object.assign(Hex, statics, { prototype })
 // http://www.redblobgames.com/grids/hexagons/#coordinates
 export default function Hex(...coordinates) {
     // if an object is passed, extract coordinates and call self
-    if (is.object(coordinates[0])) {
+    if (is.objectLiteral(coordinates[0])) {
         let { x, y, z } = coordinates[0]
-
-        if ([ x, y, z ].filter(is.number).length < 2) {
-            return console.warn(`Invalid or not enough coordinates: { x: ${x}, y: ${y}, z: ${z} }.`)
-        }
-
-        return Hex(
-            is.number(x) ? x : Hex.thirdCoordinate(y, z),
-            is.number(y) ? y : Hex.thirdCoordinate(x, z),
-            is.number(z) ? z : Hex.thirdCoordinate(x, y)
-        )
+        return Hex(x, y, z)
     }
 
-    coordinates = coordinates.map(unsignNegativeZero)
-    let x, y
+    let [ x, y, z ] = coordinates.map(unsignNegativeZero)
 
-    switch (coordinates.length) {
+    switch (coordinates.filter(is.number).length) {
         case 3:
+            break
         case 2:
-            [ x, y ] = coordinates
+            x = is.number(x) ? x : Hex.thirdCoordinate(y, z)
+            y = is.number(y) ? y : Hex.thirdCoordinate(x, z)
+            z = is.number(z) ? z : Hex.thirdCoordinate(x, y)
             break
         case 1:
-            x = coordinates[0]
-            y = x
+            if (is.number(x)) {
+                y = x
+                z = Hex.thirdCoordinate(x, y)
+            } else if (is.number(y)) {
+                x = y
+                z = Hex.thirdCoordinate(x, y)
+            } else {
+                x = z
+                y = Hex.thirdCoordinate(x, z)
+            }
             break
         default:
-            x = y = 0
+            x = y = z = 0
     }
 
-    // set `z` to a value that guarantees x + y + z === 0
-    const z = Hex.thirdCoordinate(x, y)
+    if (Math.round(x + y + z) !== 0) {
+        throw new Error(`Coordinates don\'t sum to 0: { x: ${x}, y: ${y}, z: ${z} }.`)
+    }
 
     // overrides prototype.orientation
     function orientation(ignoredOrientation) {

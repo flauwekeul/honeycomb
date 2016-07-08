@@ -10,38 +10,36 @@ describe('Hex factory', () => {
 
     describe('creation', () => {
         describe('with 3 numbers', () => {
-            it('assumes the numbers are cube coordinates', () => {
+            it('sets them as cube coordinates in the order x, y, z', () => {
                 expect(Hex(3, -5, 2)).to.contain({ x: 3, y: -5, z: 2 })
             })
 
-            describe('when x + y + z !== 0', () => {
-                it('overrides z', () => {
-                    expect(Hex(3, -5, 8)).to.contain({ x: 3, y: -5, z: 2 })
+            describe('when x, y and z summed and rounded don\'t equal 0', () => {
+                it('throws an error', () => {
+                    expect(() => Hex(3, -5, 8)).to.throw(Error, 'Coordinates don\'t sum to 0: { x: 3, y: -5, z: 8 }.')
                 })
             })
         })
 
         describe('with 2 numbers', () => {
-            it('assumes the numbers are axial coordinates and converts them to cube', () => {
-                expect(Hex(3, 2)).to.contain({ x: 3, y: 2, z: -5 })
+            it('sets the missing coordinate', () => {
+                expect(Hex(3, 2, null)).to.contain({ x: 3, y: 2, z: -5 })
+                expect(Hex(3, null, 2)).to.contain({ x: 3, y: -5, z: 2 })
+                expect(Hex(null, 3, 2)).to.contain({ x: -5, y: 3, z: 2 })
             })
         })
 
         describe('with 1 number', () => {
-            it('assumes the number is an axial x coordinate, sets y to the same value and converts them to cube', () => {
-                expect(Hex(3)).to.contain({ x: 3, y: 3, z: -6 })
+            it('sets the first missing coordinate (in the order x, y, z) to the provided coordinate', () => {
+                expect(Hex(3, null, null)).to.contain({ x: 3, y: 3, z: -6 })
+                expect(Hex(null, 3, null)).to.contain({ x: 3, y: 3, z: -6 })
+                expect(Hex(null, null, 3)).to.contain({ x: 3, y: -6, z: 3 })
             })
         })
 
         describe('with an object containing x, y and z', () => {
             it('sets the coordinates', () => {
                 expect(Hex({ x: 3, y: 2, z: -5 })).to.contain({ x: 3, y: 2, z: -5 })
-            })
-
-            describe('when x + y + z !== 0', () => {
-                it('overrides z', () => {
-                    expect(Hex(3, 2, -10)).to.contain({ x: 3, y: 2, z: -5 })
-                })
             })
         })
 
@@ -54,22 +52,24 @@ describe('Hex factory', () => {
         })
 
         describe('with an object containing 1 coordinate (from x, y and z)', () => {
-            it('show a warning', () => {
-                Hex({ x: 3 })
-                expect(console.warn).to.have.been
-                    .calledWith('Invalid or not enough coordinates: { x: 3, y: undefined, z: undefined }.')
-                Hex({ y: 3 })
-                expect(console.warn).to.have.been
-                    .calledWith('Invalid or not enough coordinates: { x: undefined, y: 3, z: undefined }.')
-                Hex({ z: 3 })
-                expect(console.warn).to.have.been
-                    .calledWith('Invalid or not enough coordinates: { x: undefined, y: undefined, z: 3 }.')
+            it('sets the missing coordinates', () => {
+                expect(Hex({ x: 3 })).to.contain({ x: 3, y: 3, z: -6 })
+                expect(Hex({ y: 3 })).to.contain({ x: 3, y: 3, z: -6 })
+                expect(Hex({ z: 3 })).to.contain({ x: 3, y: -6, z: 3 })
             })
         })
 
         describe('without parameters', () => {
             it('sets all cube coordinates to 0', () => {
                 expect(Hex()).to.contain({ x: 0, y: 0, z: 0 })
+            })
+        })
+
+        describe('with a falsy value', () => {
+            it('sets all cube coordinates to 0', () => {
+                expect(Hex(null)).to.contain({ x: 0, y: 0, z: 0 })
+                expect(Hex(undefined)).to.contain({ x: 0, y: 0, z: 0 })
+                expect(Hex('')).to.contain({ x: 0, y: 0, z: 0 })
             })
         })
     })
