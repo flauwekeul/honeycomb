@@ -10,7 +10,6 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 3. Visually test with flat hexes.
 3. `Grid` and `Views.DOM` don't need prototypes.
 2. Filter overlapping hexes when multiple shapes are rendered.
-5. Make it possible to render all different shapes, e.g. there are [4 possible triangle configurations](http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline13). For this it's probably necessary to make a Hex accept **any** 2 of the 3 coordinates (just 1 is ambiguous) and automatically set the missing coordinate.
 1. Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped.
 3. Remove tiny gaps between SVG's
 4. Consider using [is.js](http://is.js.org).

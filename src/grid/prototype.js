@@ -43,12 +43,25 @@ export default {
     },
 
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline12
-    parallelogram(width, height, start = Hex()) {
+    // TODO: should also (only?) accept an object
+    parallelogram(width, height, start = Hex(), direction = 'SE') {
+        // TODO: validate direction
+        const DIRECTIONS = {
+            'SE': ['x', 'y'],
+            'SW': ['y', 'z'],
+            'N': ['z', 'x']
+        }
+        const [ firstCoordinate, secondCoordinate ] = DIRECTIONS[direction]
         const hexes = []
 
-        for (let x = 0; x < width; x++) {
-            for (let y = 0; y < height; y++) {
-                hexes.push(Hex(x, y).add(Hex(start)))
+        for (let first = 0; first < width; first++) {
+            for (let second = 0; second < height; second++) {
+                hexes.push(
+                    Hex({
+                        [firstCoordinate]: first,
+                        [secondCoordinate]: second
+                    }).add(Hex(start))
+                )
             }
         }
 
@@ -56,11 +69,24 @@ export default {
     },
 
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline13
-    triangle(side, start = Hex()) {
+    // TODO: should also (only?) accept an object
+    triangle(side, start = Hex(), direction = 'down') {
+        // TODO: validate direction
+        const DIRECTIONS = {
+            'down': {
+                yStart: () => 0,
+                yEnd: x => side - x
+            },
+            'up': {
+                yStart: x => side - x,
+                yEnd: () => side + 1
+            }
+        }
+        const { yStart, yEnd } = DIRECTIONS[direction]
         const hexes = []
 
         for (let x = 0; x < side; x++) {
-            for (let y = 0; y < side - x; y++) {
+            for (let y = yStart(x); y < yEnd(x); y++) {
                 hexes.push(Hex(x, y).add(Hex(start)))
             }
         }
@@ -69,6 +95,7 @@ export default {
     },
 
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline14
+    // TODO: should also (only?) accept an object
     hexagon(radius, center = Hex()) {
         const hexes = []
         // radius includes the center hex
@@ -87,14 +114,30 @@ export default {
     },
 
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline15
-    rectangle(width, height, start = Hex()) {
+    // TODO: should also (only?) accept an object
+    rectangle(width, height, start = Hex(), direction = 'E') {
+        // TODO: validate direction
+        const DIRECTIONS = {
+            'E': ['x', 'y'],
+            'NW': ['z', 'x'],
+            'SW': ['y', 'z'],
+            'SE': ['y', 'x'],
+            'NE': ['x', 'z'],
+            'W': ['z', 'y']
+        }
+        const [ firstCoordinate, secondCoordinate ] = DIRECTIONS[direction]
         const hexes = []
 
-        for (let y = 0; y < height; y++) {
-            const yOffset = Math.floor(y / 2)
+        for (let second = 0; second < height; second++) {
+            const secondOffset = Math.floor(second / 2)
 
-            for (let x = -yOffset; x < width - yOffset; x++) {
-                hexes.push(Hex(x, y).add(Hex(start)))
+            for (let first = -secondOffset; first < width - secondOffset; first++) {
+                hexes.push(
+                    Hex({
+                        [firstCoordinate]: first,
+                        [secondCoordinate]: second
+                    }).add(Hex(start))
+                )
             }
         }
 

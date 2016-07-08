@@ -54,7 +54,7 @@ describe('Grid prototype', () => {
     describe('parallelogram', () => {
         const grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
 
-        describe('when called without start hex', () => {
+        describe('when called without start hex or direction', () => {
             it('returns the hexes in a parallelogram shape, starting at Hex(0)', () => {
                 const hexCoordinates = grid.parallelogram(2, 2).map(hex => hex.coordinates())
                 expect(hexCoordinates).to.deep.include.members([
@@ -77,12 +77,52 @@ describe('Grid prototype', () => {
                 ])
             })
         })
+
+        describe('when hexes have pointy orientation', () => {
+            const grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
+
+            describe('when called with direction SE', () => {
+                it('returns the hexes in a parallelogram shape, in a southeastern direction', () => {
+                    const hexCoordinates = grid.parallelogram(2, 2, null, 'SE').map(hex => hex.coordinates())
+                    expect(hexCoordinates).to.deep.include.members([
+                        Hex(0, 0).coordinates(),
+                        Hex(1, 0).coordinates(),
+                        Hex(0, 1).coordinates(),
+                        Hex(1, 1).coordinates()
+                    ])
+                })
+            })
+
+            describe('when called with direction N', () => {
+                it('returns the hexes in a parallelogram shape, in a northern direction', () => {
+                    const hexCoordinates = grid.parallelogram(2, 2, null, 'N').map(hex => hex.coordinates())
+                    expect(hexCoordinates).to.deep.include.members([
+                        Hex(0, 0).coordinates(),
+                        Hex(1, -1).coordinates(),
+                        Hex(0, -1).coordinates(),
+                        Hex(1, -2).coordinates()
+                    ])
+                })
+            })
+
+            describe('when called with direction SW', () => {
+                it('returns the hexes in a parallelogram shape, in a southwestern direction', () => {
+                    const hexCoordinates = grid.parallelogram(2, 2, null, 'SW').map(hex => hex.coordinates())
+                    expect(hexCoordinates).to.deep.include.members([
+                        Hex(0, 0).coordinates(),
+                        Hex(-1, 0).coordinates(),
+                        Hex(-1, 1).coordinates(),
+                        Hex(-2, 1).coordinates()
+                    ])
+                })
+            })
+        })
     })
 
     describe('triangle', () => {
         const grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
 
-        describe('when called without start hex', () => {
+        describe('when called without start hex or direction', () => {
             it('returns the hexes in a triangle shape, starting at Hex(0)', () => {
                 const hexCoordinates = grid.triangle(2).map(hex => hex.coordinates())
                 expect(hexCoordinates).to.deep.include.members([
@@ -101,6 +141,32 @@ describe('Grid prototype', () => {
                     Hex(3, 7).coordinates(),
                     Hex(4, 6).coordinates()
                 ])
+            })
+        })
+
+        describe('when hexes have pointy orientation', () => {
+            const grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
+
+            describe('when called with direction down', () => {
+                it('returns the hexes in a triangle shape, pointing down', () => {
+                    const hexCoordinates = grid.triangle(2, null, 'down').map(hex => hex.coordinates())
+                    expect(hexCoordinates).to.deep.include.members([
+                        Hex(0, 0).coordinates(),
+                        Hex(0, 1).coordinates(),
+                        Hex(1, 0).coordinates()
+                    ])
+                })
+            })
+
+            describe('when called with direction up', () => {
+                it('returns the hexes in a triangle shape, pointing up', () => {
+                    const hexCoordinates = grid.triangle(2, null, 'up').map(hex => hex.coordinates())
+                    expect(hexCoordinates).to.deep.include.members([
+                        Hex(0, 2).coordinates(),
+                        Hex(1, 1).coordinates(),
+                        Hex(1, 2).coordinates()
+                    ])
+                })
             })
         })
     })
@@ -142,7 +208,7 @@ describe('Grid prototype', () => {
     describe('rectangle', () => {
         const grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
 
-        describe('when called without start hex', () => {
+        describe('when called without start hex or direction', () => {
             it('returns the hexes in a rectangle shape, starting at Hex(0)', () => {
                 const hexCoordinates = grid.rectangle(2, 3).map(hex => hex.coordinates())
                 expect(hexCoordinates).to.deep.include.members([
@@ -167,6 +233,82 @@ describe('Grid prototype', () => {
                     Hex(-5, 0).coordinates(),
                     Hex(-4, 0).coordinates()
                 ])
+            })
+        })
+
+        describe('when hexes have pointy orientation', () => {
+            const grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
+
+            describe('when called with direction E', () => {
+                it('returns the hexes in a rectangle shape, in an eastern direction', () => {
+                    const hexCoordinates = grid.rectangle(2, 2, null, 'E').map(hex => hex.coordinates())
+                    expect(hexCoordinates).to.deep.include.members([
+                        Hex(0, 0).coordinates(),
+                        Hex(1, 0).coordinates(),
+                        Hex(0, 1).coordinates(),
+                        Hex(1, 1).coordinates()
+                    ])
+                })
+            })
+
+            describe('when called with direction NW', () => {
+                it('returns the hexes in a rectangle shape, in an eastern direction', () => {
+                    const hexCoordinates = grid.rectangle(2, 2, null, 'NW').map(hex => hex.coordinates())
+                    expect(hexCoordinates).to.deep.include.members([
+                        Hex(0, 0).coordinates(),
+                        Hex(0, -1).coordinates(),
+                        Hex(1, -1).coordinates(),
+                        Hex(1, -2).coordinates()
+                    ])
+                })
+            })
+
+            describe('when called with direction SW', () => {
+                it('returns the hexes in a rectangle shape, in an eastern direction', () => {
+                    const hexCoordinates = grid.rectangle(2, 2, null, 'SW').map(hex => hex.coordinates())
+                    expect(hexCoordinates).to.deep.include.members([
+                        Hex(0, 0).coordinates(),
+                        Hex(-1, 1).coordinates(),
+                        Hex(-1, 0).coordinates(),
+                        Hex(-2, 1).coordinates()
+                    ])
+                })
+            })
+
+            describe('when called with direction SE', () => {
+                it('returns the hexes in a rectangle shape, in an eastern direction', () => {
+                    const hexCoordinates = grid.rectangle(2, 2, null, 'SE').map(hex => hex.coordinates())
+                    expect(hexCoordinates).to.deep.include.members([
+                        Hex(0, 0).coordinates(),
+                        Hex(0, 1).coordinates(),
+                        Hex(1, 0).coordinates(),
+                        Hex(1, 1).coordinates()
+                    ])
+                })
+            })
+
+            describe('when called with direction NE', () => {
+                it('returns the hexes in a rectangle shape, in an eastern direction', () => {
+                    const hexCoordinates = grid.rectangle(2, 2, null, 'NE').map(hex => hex.coordinates())
+                    expect(hexCoordinates).to.deep.include.members([
+                        Hex(0, 0).coordinates(),
+                        Hex(1, -1).coordinates(),
+                        Hex(0, -1).coordinates(),
+                        Hex(1, -2).coordinates()
+                    ])
+                })
+            })
+
+            describe('when called with direction W', () => {
+                it('returns the hexes in a rectangle shape, in an eastern direction', () => {
+                    const hexCoordinates = grid.rectangle(2, 2, null, 'W').map(hex => hex.coordinates())
+                    expect(hexCoordinates).to.deep.include.members([
+                        Hex(0, 0).coordinates(),
+                        Hex(-1, 0).coordinates(),
+                        Hex(-1, 1).coordinates(),
+                        Hex(-2, 1).coordinates()
+                    ])
+                })
             })
         })
     })
