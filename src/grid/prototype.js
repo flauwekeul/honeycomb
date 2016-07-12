@@ -44,7 +44,12 @@ export default {
 
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline12
     // TODO: should also (only?) accept an object
-    parallelogram(width, height, start = Hex(), direction = 'SE') {
+    parallelogram(
+        width,
+        height,
+        start = Hex(),
+        direction = 'SE'
+    ) {
         // TODO: validate direction
         const DIRECTIONS = {
             'SE': ['x', 'y'],
@@ -70,7 +75,11 @@ export default {
 
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline13
     // TODO: should also (only?) accept an object
-    triangle(side, start = Hex(), direction = 'down') {
+    triangle(
+        side,
+        start = Hex(),
+        direction = 'down'
+    ) {
         // TODO: validate direction
         const DIRECTIONS = {
             'down': {
@@ -96,7 +105,10 @@ export default {
 
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline14
     // TODO: should also (only?) accept an object
-    hexagon(radius, center = Hex()) {
+    hexagon(
+        radius,
+        center = Hex()
+    ) {
         const hexes = []
         // radius includes the center hex
         radius -= 1
@@ -115,7 +127,13 @@ export default {
 
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline15
     // TODO: should also (only?) accept an object
-    rectangle(width, height, start = Hex(), direction = 'E') {
+    rectangle(
+        width,
+        height,
+        start = Hex(),
+        // rotate 60° counterclockwise for flat hexes
+        direction = this.hex.isPointy() ? 'E' : 'SE'
+    ) {
         // TODO: validate direction
         const DIRECTIONS = {
             'E': ['x', 'y'],
@@ -126,12 +144,14 @@ export default {
             'W': ['z', 'y']
         }
         const [ firstCoordinate, secondCoordinate ] = DIRECTIONS[direction]
+        const firstStop = this.hex.isPointy() ? width : height
+        const secondStop = this.hex.isPointy() ? height : width
         const hexes = []
 
-        for (let second = 0; second < height; second++) {
+        for (let second = 0; second < secondStop; second++) {
             const secondOffset = Math.floor(second / 2)
 
-            for (let first = -secondOffset; first < width - secondOffset; first++) {
+            for (let first = -secondOffset; first < firstStop - secondOffset; first++) {
                 hexes.push(
                     Hex({
                         [firstCoordinate]: first,
