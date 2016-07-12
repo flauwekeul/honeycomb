@@ -12,11 +12,17 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 
 ### Features
 4. Make the 'shape' methods of `Grid` (also) accept an options object.
-1. Maybe add instance methods for `Grid` and `Views.DOM` to get/set options. Then it's optional to pass the options to the `Grid` and `Views.DOM` factories and set those options later.
-2. Filter overlapping hexes when multiple shapes are rendered.
+5. Add a `Views.Canvas`.
+6. Add a `Views.SVG`.
+7. Add a `Views.react`.
+8. Add a `Views.D3`?
+5. Optimize DOM node rendering: when hexes have a size of ~10 it takes way too long to render a full screen grid.
+1. Maybe add instance methods for `Grid` and `Views.DOM` to get/set options. Then it's optional to pass the options to the `Grid` and `Views.DOM` factories and makes it possible to get/set those options later.
+2. Make it an option to filter overlapping hexes when multiple shapes are rendered.
 1. Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped.
+2. Documentation.
+3. Shiny github.io pages 😎
 
 ### Refactorings
-4. Maybe create a 'base hex' and a 'pointy hex' and 'flat hex'. A lot of calculations differ based on the hex orientation.
-3. `Grid` and `Views.DOM` don't need prototypes.
-4. Consider using [is.js](http://is.js.org).
+4. Maybe create a 'base hex' prototype/factory which can be mixed in a 'pointy hex' and 'flat hex' factory. A lot of calculations differ based on the hex orientation.
+3. `Grid` and `Views.DOM` maybe don't need prototypes.
