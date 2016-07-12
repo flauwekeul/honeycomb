@@ -72,7 +72,7 @@
             grid = Grid({
                 hex: {
                     size: 50,
-                    orientation: 'pointy'
+                    orientation: 'flat'
                 }
             })
 
@@ -85,18 +85,29 @@
                             x = coordinates.x,
                             y = coordinates.y,
                             z = coordinates.z
+                        // return '\
+                        //     <svg>\
+                        //         <use xlink:href="#pointy-hex"/>\
+                        //         <text>\
+                        //             <tspan x="10" y="40">x:' + x + '</tspan>\
+                        //             <tspan x="60" y="40">y:' + y + '</tspan>\
+                        //             <tspan x="40" y="85">z:' + z + '</tspan>\
+                        //         </text>\
+                        //     </svg>'
                         return '\
                             <svg>\
-                                <use xlink:href="#pointy-hex"/>\
+                                <use xlink:href="#flat-hex"/>\
                                 <text>\
-                                    <tspan x="10" y="40">x:' + x + '</tspan>\
-                                    <tspan x="60" y="40">y:' + y + '</tspan>\
-                                    <tspan x="40" y="85">z:' + z + '</tspan>\
+                                    <tspan x="15" y="45">x:' + x + '</tspan>\
+                                    <tspan x="70" y="45">y:' + y + '</tspan>\
+                                    <tspan x="40" y="75">z:' + z + '</tspan>\
                                 </text>\
                             </svg>'
                     }
                 }
-            }).render(grid)
+            })
+                .render(grid)
+                // .renderHexes(grid.rectangle(4, 4))
         </script>
     </body>
 </html>
