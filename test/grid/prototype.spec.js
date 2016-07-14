@@ -54,8 +54,26 @@ describe('Grid prototype', () => {
     })
 
     describe('parallelogram', () => {
+        describe('when passed an options object', () => {
+            it('works', () => {
+                grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
+                const hexCoordinates = grid.parallelogram({
+                    width: 2,
+                    height: 2,
+                    start: Hex(5, 4),
+                    direction: 'SW'
+                }).map(hex => hex.coordinates())
+                expect(hexCoordinates).to.deep.include.members([
+                    Hex(5, 4).coordinates(),
+                    Hex(4, 4).coordinates(),
+                    Hex(4, 5).coordinates(),
+                    Hex(3, 5).coordinates()
+                ])
+            })
+        })
+
         describe('when hexes have a pointy orientation', () => {
-            beforeEach(() => {
+            before(() => {
                 grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
             })
 
@@ -121,7 +139,7 @@ describe('Grid prototype', () => {
         })
 
         describe('when hexes have a flat orientation', () => {
-            beforeEach(() => {
+            before(() => {
                 grid = Grid({ hex: { size: 20, orientation: 'flat' } })
             })
 
@@ -188,8 +206,24 @@ describe('Grid prototype', () => {
     })
 
     describe('triangle', () => {
+        describe('when passed an options object', () => {
+            it('works', () => {
+                grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
+                const hexCoordinates = grid.triangle({
+                    side: 2,
+                    start: Hex(5, 4),
+                    direction: 'up'
+                }).map(hex => hex.coordinates())
+                expect(hexCoordinates).to.deep.include.members([
+                    Hex(5, 6).coordinates(),
+                    Hex(6, 5).coordinates(),
+                    Hex(6, 6).coordinates()
+                ])
+            })
+        })
+
         describe('when hexes have a pointy orientation', () => {
-            beforeEach(() => {
+            before(() => {
                 grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
             })
 
@@ -239,7 +273,7 @@ describe('Grid prototype', () => {
         })
 
         describe('when hexes have a flat orientation', () => {
-            beforeEach(() => {
+            before(() => {
                 grid = Grid({ hex: { size: 20, orientation: 'flat' } })
             })
 
@@ -290,8 +324,27 @@ describe('Grid prototype', () => {
     })
 
     describe('hexagon', () => {
+        describe('when passed an options object', () => {
+            it('works', () => {
+                grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
+                const hexCoordinates = grid.hexagon({
+                    radius: 2,
+                    center: Hex(5, 4)
+                }).map(hex => hex.coordinates())
+                expect(hexCoordinates).to.deep.include.members([
+                    Hex(5, 3).coordinates(),
+                    Hex(6, 3).coordinates(),
+                    Hex(4, 4).coordinates(),
+                    Hex(5, 4).coordinates(),
+                    Hex(6, 4).coordinates(),
+                    Hex(4, 5).coordinates(),
+                    Hex(5, 5).coordinates()
+                ])
+            })
+        })
+
         describe('when hexes have a pointy orientation', () => {
-            beforeEach(() => {
+            before(() => {
                 grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
             })
 
@@ -327,7 +380,7 @@ describe('Grid prototype', () => {
         })
 
         describe('when hexes have a flat orientation', () => {
-            beforeEach(() => {
+            before(() => {
                 grid = Grid({ hex: { size: 20, orientation: 'flat' } })
             })
 
@@ -364,8 +417,26 @@ describe('Grid prototype', () => {
     })
 
     describe('rectangle', () => {
+        describe('when passed an options object', () => {
+            it('works', () => {
+                grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
+                const hexCoordinates = grid.rectangle({
+                    width: 2,
+                    height: 2,
+                    start: Hex(5, 4),
+                    direction: 'W'
+                }).map(hex => hex.coordinates())
+                expect(hexCoordinates).to.deep.include.members([
+                    Hex(5, 4).coordinates(),
+                    Hex(4, 4).coordinates(),
+                    Hex(4, 5).coordinates(),
+                    Hex(3, 5).coordinates()
+                ])
+            })
+        })
+
         describe('when hexes have a pointy orientation', () => {
-            beforeEach(() => {
+            before(() => {
                 grid = Grid({ hex: { size: 20, orientation: 'pointy' } })
             })
 
@@ -471,7 +542,7 @@ describe('Grid prototype', () => {
         })
 
         describe('when hexes have a flat orientation', () => {
-            beforeEach(() => {
+            before(() => {
                 grid = Grid({ hex: { size: 20, orientation: 'flat' } })
             })
 

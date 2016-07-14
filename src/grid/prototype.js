@@ -1,3 +1,4 @@
+import { is } from '../utils'
 import Point from '../point'
 import Hex from '../hex'
 
@@ -45,7 +46,7 @@ export default {
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline12
     // TODO: should also (only?) accept an object
     parallelogram(
-        width,
+        widthOrOptions,
         height,
         start = Hex(),
         direction = 'SE'
@@ -56,6 +57,13 @@ export default {
             'SW': ['y', 'z'],
             'N': ['z', 'x']
         }
+
+        if (is.objectLiteral(widthOrOptions)) {
+            ({ width, height, start = Hex(), direction = 'SE' } = widthOrOptions)
+            return this.parallelogram(width, height, start, direction)
+        }
+
+        let width = widthOrOptions
         const [ firstCoordinate, secondCoordinate ] = DIRECTIONS[direction]
         const hexes = []
 
@@ -76,7 +84,7 @@ export default {
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline13
     // TODO: should also (only?) accept an object
     triangle(
-        side,
+        sideOrOptions,
         start = Hex(),
         direction = 'down'
     ) {
@@ -91,6 +99,13 @@ export default {
                 yEnd: () => side + 1
             }
         }
+
+        if (is.objectLiteral(sideOrOptions)) {
+            ({ side, start = Hex(), direction = 'down' } = sideOrOptions)
+            return this.triangle(side, start, direction)
+        }
+
+        let side = sideOrOptions
         const { yStart, yEnd } = DIRECTIONS[direction]
         const hexes = []
 
@@ -106,9 +121,15 @@ export default {
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline14
     // TODO: should also (only?) accept an object
     hexagon(
-        radius,
+        radiusOrOptions,
         center = Hex()
     ) {
+        if (is.objectLiteral(radiusOrOptions)) {
+            ({ radius, center = Hex() } = radiusOrOptions)
+            return this.hexagon(radius, center)
+        }
+
+        let radius = radiusOrOptions
         const hexes = []
         // radius includes the center hex
         radius -= 1
@@ -128,7 +149,7 @@ export default {
     // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline15
     // TODO: should also (only?) accept an object
     rectangle(
-        width,
+        widthOrOptions,
         height,
         start = Hex(),
         // rotate 60° counterclockwise for flat hexes
@@ -143,6 +164,12 @@ export default {
             'NE': ['x', 'z'],
             'W': ['z', 'y']
         }
+        if (is.objectLiteral(widthOrOptions)) {
+            ({ width, height, start = Hex(), direction = this.hex.isPointy() ? 'E' : 'SE' } = widthOrOptions)
+            return this.rectangle(width, height, start, direction)
+        }
+
+        let width = widthOrOptions
         const [ firstCoordinate, secondCoordinate ] = DIRECTIONS[direction]
         const firstStop = this.hex.isPointy() ? width : height
         const secondStop = this.hex.isPointy() ? height : width

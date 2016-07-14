@@ -11,7 +11,6 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 3. Remove tiny gaps between SVG's (at least when size is 50)
 
 ### Features
-4. Make the 'shape' methods of `Grid` (also) accept an options object.
 5. Add a `Views.Canvas`.
 6. Add a `Views.SVG`.
 7. Add a `Views.react`.
@@ -24,5 +23,6 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 3. Shiny github.io pages 😎
 
 ### Refactorings
+1. Put tests in same directory as the code they're testing.
 4. Maybe create a 'base hex' prototype/factory which can be mixed in a 'pointy hex' and 'flat hex' factory. A lot of calculations differ based on the hex orientation.
 3. `Grid` and `Views.DOM` maybe don't need prototypes.
