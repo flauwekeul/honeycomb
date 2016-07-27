@@ -7,9 +7,8 @@ export default {
             width: `${Hex.prototype.width()}px`,
             height: `${Hex.prototype.height()}px`
         }
-        const fragment = document.createDocumentFragment()
 
-        hexes.forEach(hex => {
+        const hexNodes = hexes.reduce((fragment, hex) => {
             const hexNode = stringToDOMNodes(hex.element())[0]
             const hexOffset = this.origin.add(hex.toPoint())
 
@@ -19,9 +18,10 @@ export default {
             })
 
             fragment.appendChild(hexNode)
-        })
+            return fragment
+        }, document.createDocumentFragment())
 
-        this.container.appendChild(fragment)
+        this.container.appendChild(hexNodes)
         return this
     },
 

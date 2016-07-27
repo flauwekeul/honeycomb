@@ -7,7 +7,7 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 ## Backlog
 
 ### Bugs
-5. Shape directions only make sense for pointy hexes. Flat hexes are rotated clockwise, rotating their directions clockwise as well. Might be fixes by refactoring #1?
+5. Shape directions only make sense for pointy hexes. Flat hexes are rotated clockwise, rotating their directions clockwise as well. Might be fixed by refactoring #2?
 3. Remove tiny gaps between SVG's (at least when size is 50)
 
 ### Features
@@ -15,7 +15,7 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 6. Add a `Views.SVG`.
 7. Add a `Views.react`.
 8. Add a `Views.D3`?
-5. Optimize DOM node rendering: when hexes have a size of ~10 it takes way too long to render a full screen grid.
+5. Optimize DOM node rendering: when more than ~200 hexes are rendered it takes way too long.
 1. Maybe add instance methods for `Grid` and `Views.DOM` to get/set options. Then it's optional to pass the options to the `Grid` and `Views.DOM` factories and makes it possible to get/set those options later.
 2. Make it an option to filter overlapping hexes when multiple shapes are rendered.
 1. Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped.
