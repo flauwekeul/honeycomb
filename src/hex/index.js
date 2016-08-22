@@ -7,6 +7,20 @@ Object.assign(Hex, ProtoHex)
 // accepts an object containing coordinates (x, y or z)
 // or accepts numbers: 0, 1 or 2 axial coordinates or 3 cube coordinates
 // http://www.redblobgames.com/grids/hexagons/#coordinates
+/**
+ * Factory function for creating hexes.
+ *
+ * @param {?Number} [x] The x coordinate.
+ * @param {?Number} [y] The y coordinate.
+ * @param {?Number} [z] The z coordinate.
+ *
+ * Or:
+ *
+ * @param {Object} [coordinates] Object containing any of the x, y and z coordinates.
+ * @param {?Number} [coordinates.x] The x coordinate.
+ * @param {?Number} [coordinates.y] The y coordinate.
+ * @param {?Number} [coordinates.z] The z coordinate.
+ */
 export default function Hex(...coordinates) {
     // if an object is passed, extract coordinates and call self
     if (is.objectLiteral(coordinates[0])) {
