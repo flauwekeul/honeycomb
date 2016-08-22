@@ -25,4 +25,3 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 ### Refactorings
 1. Put tests in same directory as the code they're testing.
 4. Maybe create a 'base hex' prototype/factory which can be mixed in a 'pointy hex' and 'flat hex' factory. A lot of calculations differ based on the hex orientation.
-3. `Grid` and `Views.DOM` maybe don't need prototypes.
