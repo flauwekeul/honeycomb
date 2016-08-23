@@ -23,6 +23,15 @@ export default {
         }
     },
 
+    /**
+     * Calculates the third coordinate from the other two.
+     * @static
+     *
+     * @param   {Number} firstCoordinate  The first other coordinate.
+     * @param   {Number} secondCoordinate The second other coordinate.
+     *
+     * @returns {Number}                  The third coordinate.
+     */
     thirdCoordinate(firstCoordinate, secondCoordinate) {
         return unsignNegativeZero(-firstCoordinate - secondCoordinate)
     },

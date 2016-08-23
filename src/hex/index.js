@@ -10,6 +10,13 @@ Object.assign(Hex, ProtoHex)
 /**
  * Factory function for creating hexes.
  *
+ * Coordinates not passed to the factory are inferred using the other coordinates:
+ * * When two coordinates are passed, the third coordinate is set to the result of {@link Hex.thirdCoordinate|Hex.thirdCoordinate(firstCoordinate, secondCoordinate)}.
+ * * When one coordinate is passed, the second coordinate is set to the first and the third coordinate is set to the result of {@link Hex.thirdCoordinate|Hex.thirdCoordinate(firstCoordinate, secondCoordinate)}.
+ * * When nothing or a falsy value is passed, all coordinates are set to `0`.
+ *
+ * @module Hex
+ *
  * @param {?Number} [x] The x coordinate.
  * @param {?Number} [y] The y coordinate.
  * @param {?Number} [z] The z coordinate.
@@ -20,6 +27,8 @@ Object.assign(Hex, ProtoHex)
  * @param {?Number} [coordinates.x] The x coordinate.
  * @param {?Number} [coordinates.y] The y coordinate.
  * @param {?Number} [coordinates.z] The z coordinate.
+ *
+ * @returns {Hex} A hex object. It always contains all three coordinates (`x`, `y` and `z`).
  */
 export default function Hex(...coordinates) {
     // if an object is passed, extract coordinates and call self

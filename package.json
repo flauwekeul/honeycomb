@@ -7,6 +7,7 @@
     "build": "NODE_ENV=production webpack",
     "coverage": "babel-node $(npm bin)/isparta cover --include-all-sources --report html $(npm bin)/_mocha -- --recursive > /dev/null",
     "dev": "webpack --progress --colors --watch",
+    "docs": "documentation serve -w",
     "lint": "eslint src test --fix; exit 0",
     "prepublish": "npm run build",
     "start": "npm run build && node lib/honeycomb.js",

@@ -1,4 +1,4 @@
-module.exports = {
+{
     "env": {
         "es6": true,
         "shared-node-browser": true
@@ -19,6 +19,9 @@ module.exports = {
         "no-console": [
             "error",
             { "allow": [ "warn" ] }
+        ],
+        "valid-jsdoc": [
+            "warn"
         ]
     }
-};
+}
