@@ -2,14 +2,15 @@
   "name": "honeycomb",
   "version": "0.1.0",
   "description": "Hex grid without views for usage in node or with optional multiple views for usage in the browser. Written in javascript.",
-  "main": "src/index.js",
+  "main": "lib/honeycomb.min.js",
   "scripts": {
     "build": "NODE_ENV=production webpack",
     "coverage": "babel-node $(npm bin)/isparta cover --include-all-sources --report html $(npm bin)/_mocha -- --recursive > /dev/null",
     "dev": "webpack --progress --colors --watch",
     "lint": "eslint src test; exit 0",
     "lint:fix": "eslint src test --fix; exit 0",
-    "start": "npm run build && node dist/honeycomb.js",
+    "prepublish": "npm run build",
+    "start": "npm run build && node lib/honeycomb.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/config.js --recursive",
     "test:watch": "npm test -- --watch"
   },
@@ -31,7 +32,7 @@
     "webpack": "^1.13.1"
   },
   "directories": {
-    "dist": "dist",
+    "lib": "lib",
     "test": "test"
   },
   "dependencies": {

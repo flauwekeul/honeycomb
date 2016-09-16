@@ -21,7 +21,7 @@ if (PRODUCTION) {
 module.exports = {
     entry: './src/index',
     output: {
-        path: './dist',
+        path: './lib',
         filename: filename,
         library: libraryName,
         libraryTarget: 'umd',
