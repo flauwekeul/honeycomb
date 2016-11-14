@@ -4,6 +4,14 @@ Another hex grid library made in JavaScript, heavily inspired by [Red Blob Games
 
 All existing JS hex grid libraries I could find are coupled with some form of view. Most often a `<canvas>` element or the browser DOM. I want more separation of concerns...and a new hobby project to spend countless hours on.
 
+## Installation
+```bash
+npm i honeycomb-grid
+```
+
+## Documentation
+Working on it in the [documentation branch](https://github.com/flauwekeul/honeycomb/tree/documentation)!
+
 ## Backlog
 
 ### Bugs
@@ -24,4 +32,5 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 
 ### Refactorings
 1. Put tests in same directory as the code they're testing.
+2. Replace `Hex.prototype` by a regular object (could be `Grid`?). [`prototype` should only be used when creating objects using the `new` keyword](https://youtu.be/DqGwxR_0d1M?t=10m6s), which [I don't want](https://medium.com/javascript-scene/javascript-factory-functions-vs-constructor-functions-vs-classes-2f22ceddf33e#.hkixbbhbk) 🤓.
 4. Maybe create a 'base hex' prototype/factory which can be mixed in a 'pointy hex' and 'flat hex' factory. A lot of calculations differ based on the hex orientation.
