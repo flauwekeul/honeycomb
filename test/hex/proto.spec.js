@@ -4,7 +4,49 @@ import sinon from 'sinon'
 import { ORIENTATIONS } from '../../src/hex/constants'
 import Hex from '../../src/hex'
 
-describe('Hex prototype', () => {
+describe('ProtoHex', () => {
+    describe('thirdCoordinate', () => {
+        it('returns a third coordinate using the given two coordinates', () => {
+            const result = Hex.thirdCoordinate(3, -1)
+            expect(result).to.equal(-2)
+        })
+    })
+
+    describe('isValidSize', () => {
+        it('returns true if passed size is valid', () => {
+            expect(Hex.isValidSize(0)).to.be.true
+            expect(Hex.isValidSize(4)).to.be.true
+        })
+
+        it('returns false if passed size is invalid', () => {
+            expect(Hex.isValidSize(-2)).to.be.false
+            expect(Hex.isValidSize(undefined)).to.be.false
+            expect(Hex.isValidSize(null)).to.be.false
+        })
+    })
+
+    describe('hexesBetween', () => {
+        it('returns the hexes in a straight line between the two given hexes, inclusive', () => {
+            const coordinates = Hex.hexesBetween(Hex(0, 0, 0), Hex(1, -5, 4)).map(hex => hex.coordinates())
+            expect(coordinates).to.eql([
+                { x: 0, y: 0, z: 0 },
+                { x: 0, y: -1, z: 1 },
+                { x: 0, y: -2, z: 2 },
+                { x: 1, y: -3, z: 2 },
+                { x: 1, y: -4, z: 3 },
+                { x: 1, y: -5, z: 4 }
+            ])
+        })
+
+        it('returns early if the given hex is its neighbor', () => {
+            const coordinates = Hex.hexesBetween(Hex(0, 0, 0), Hex(1, -1, 0)).map(hex => hex.coordinates())
+            expect(coordinates).to.eql([
+                { x: 0, y: 0, z: 0 },
+                { x: 1, y: -1, z: 0 }
+            ])
+        })
+    })
+
     describe('coordinates', () => {
         it('returns the x, y and z coordinates', () => {
             expect(Hex().coordinates()).to.eql({ x: 0, y: 0, z: 0 })
@@ -15,17 +57,17 @@ describe('Hex prototype', () => {
     describe('orientation', () => {
         describe('when called without arguments', () => {
             it('returns the orientation of every hex', () => {
-                Hex.prototype.orientation('flat')
-                expect(Hex.prototype.orientation()).to.equal(ORIENTATIONS.FLAT)
+                Hex.orientation('flat')
+                expect(Hex.orientation()).to.equal(ORIENTATIONS.FLAT)
             })
         })
 
         describe('when called with an orientation', () => {
             it('sets the orientation of every hex', () => {
-                Hex.prototype.orientation('pointy')
+                Hex.orientation('pointy')
                 const hex1 = Hex()
                 const hex2 = Hex()
-                expect(Hex.prototype.orientation()).to.equal(ORIENTATIONS.POINTY)
+                expect(Hex.orientation()).to.equal(ORIENTATIONS.POINTY)
                 expect(hex1.orientation()).to.equal(ORIENTATIONS.POINTY)
                 expect(hex2.orientation()).to.equal(ORIENTATIONS.POINTY)
             })
@@ -34,18 +76,18 @@ describe('Hex prototype', () => {
 
     describe('isPointy', () => {
         it('returns whether the hex is POINTY', () => {
-            Hex.prototype.orientation('pointy')
+            Hex.orientation('pointy')
             expect(Hex().isPointy()).to.be.true
-            Hex.prototype.orientation('flat')
+            Hex.orientation('flat')
             expect(Hex().isPointy()).to.be.false
         })
     })
 
     describe('isFlat', () => {
         it('returns whether the hex is FLAT', () => {
-            Hex.prototype.orientation('flat')
+            Hex.orientation('flat')
             expect(Hex().isFlat()).to.be.true
-            Hex.prototype.orientation('pointy')
+            Hex.orientation('pointy')
             expect(Hex().isFlat()).to.be.false
         })
     })
@@ -53,17 +95,17 @@ describe('Hex prototype', () => {
     describe('size', () => {
         describe('when called without arguments', () => {
             it('returns the size of every hex', () => {
-                Hex.prototype.size(5)
-                expect(Hex.prototype.size()).to.equal(5)
+                Hex.size(5)
+                expect(Hex.size()).to.equal(5)
             })
         })
 
         describe('when called with a valid size', () => {
             it('sets the size of every hex', () => {
-                Hex.prototype.size(0)
+                Hex.size(0)
                 const hex1 = Hex()
                 const hex2 = Hex()
-                expect(Hex.prototype.size()).to.equal(0)
+                expect(Hex.size()).to.equal(0)
                 expect(hex1.size()).to.equal(0)
                 expect(hex2.size()).to.equal(0)
             })
@@ -74,11 +116,11 @@ describe('Hex prototype', () => {
             after(() => console.warn.restore())
 
             it('shows a warning', () => {
-                Hex.prototype.size('invalid')
+                Hex.size('invalid')
                 expect(console.warn).to.have.been.calledWith('Invalid size: invalid')
-                Hex.prototype.size(-1)
+                Hex.size(-1)
                 expect(console.warn).to.have.been.calledWith('Invalid size: -1')
-                Hex.prototype.size(null)
+                Hex.size(null)
                 expect(console.warn).to.have.been.calledWith('Invalid size: null')
             })
         })
@@ -86,22 +128,22 @@ describe('Hex prototype', () => {
 
     describe('oppositeCornerDistance', () => {
         it('returns the distance between two opposite corners of a hex', () => {
-            Hex.prototype.size(10)
-            expect(Hex.prototype.oppositeCornerDistance()).to.equal(20)
+            Hex.size(10)
+            expect(Hex.oppositeCornerDistance()).to.equal(20)
         })
     })
 
     describe('oppositeSideDistance', () => {
         it('returns the distance between two opposite sides of a hex', () => {
-            Hex.prototype.size(10)
-            expect(Hex.prototype.oppositeSideDistance()).to.be.closeTo(17.3, 0.5)
+            Hex.size(10)
+            expect(Hex.oppositeSideDistance()).to.be.closeTo(17.3, 0.5)
         })
     })
 
     describe('element', () => {
         describe('when called with a string', () => {
             it('sets the element for every hex', () => {
-                Hex.prototype.element('<div></div>')
+                Hex.element('<div></div>')
                 expect(Hex().element()).to.equal('<div></div>')
             })
         })
@@ -110,7 +152,7 @@ describe('Hex prototype', () => {
             const elementInterpolator = sinon.spy((hex) => `hex x: ${hex.coordinates().x}`)
 
             it('sets the element interpolator for every hex', () => {
-                Hex.prototype.element(elementInterpolator)
+                Hex.element(elementInterpolator)
                 const hex1 = Hex()
                 const hex2 = Hex(1, 2)
                 hex1.element()
@@ -121,7 +163,7 @@ describe('Hex prototype', () => {
 
             describe('when called without arguments', () => {
                 it('returns the interpolated element of every hex', () => {
-                    Hex.prototype.element(elementInterpolator)
+                    Hex.element(elementInterpolator)
                     expect(Hex(4).element()).to.equal('hex x: 4')
                 })
             })
@@ -130,48 +172,48 @@ describe('Hex prototype', () => {
 
     describe('width', () => {
         describe('when orientation is POINTY', () => {
-            before(() => Hex.prototype.orientation('pointy'))
+            before(() => Hex.orientation('pointy'))
 
-            it('returns Hex.prototype.oppositeSideDistance()', () => {
-                Hex.prototype.size(10)
-                expect(Hex.prototype.width()).to.equal(Hex.prototype.oppositeSideDistance())
+            it('returns Hex.oppositeSideDistance()', () => {
+                Hex.size(10)
+                expect(Hex.width()).to.equal(Hex.oppositeSideDistance())
             })
         })
 
         describe('when orientation is FLAT', () => {
-            before(() => Hex.prototype.orientation('flat'))
+            before(() => Hex.orientation('flat'))
 
-            it('returns Hex.prototype.oppositeCornerDistance()', () => {
-                Hex.prototype.size(10)
-                expect(Hex.prototype.width()).to.equal(Hex.prototype.oppositeCornerDistance())
+            it('returns Hex.oppositeCornerDistance()', () => {
+                Hex.size(10)
+                expect(Hex.width()).to.equal(Hex.oppositeCornerDistance())
             })
         })
     })
 
     describe('height', () => {
         describe('when orientation is POINTY', () => {
-            before(() => Hex.prototype.orientation('pointy'))
+            before(() => Hex.orientation('pointy'))
 
-            it('returns Hex.prototype.oppositeCornerDistance()', () => {
-                Hex.prototype.size(10)
-                expect(Hex.prototype.height()).to.equal(Hex.prototype.oppositeCornerDistance())
+            it('returns Hex.oppositeCornerDistance()', () => {
+                Hex.size(10)
+                expect(Hex.height()).to.equal(Hex.oppositeCornerDistance())
             })
         })
 
         describe('when orientation is FLAT', () => {
-            before(() => Hex.prototype.orientation('flat'))
+            before(() => Hex.orientation('flat'))
 
-            it('returns Hex.prototype.oppositeSideDistance()', () => {
-                Hex.prototype.size(10)
-                expect(Hex.prototype.height()).to.equal(Hex.prototype.oppositeSideDistance())
+            it('returns Hex.oppositeSideDistance()', () => {
+                Hex.size(10)
+                expect(Hex.height()).to.equal(Hex.oppositeSideDistance())
             })
         })
     })
 
     describe('center', () => {
         it('returns the relative center of the hex', () => {
-            Hex.prototype.size(10)
-            Hex.prototype.orientation('pointy')
+            Hex.size(10)
+            Hex.orientation('pointy')
             expect(Hex().center()).to.have.property('x').that.is.closeTo(8.7, 0.5)
             expect(Hex().center()).to.have.property('y').that.is.closeTo(10, 0.5)
         })
@@ -180,17 +222,17 @@ describe('Hex prototype', () => {
     describe('origin', () => {
         describe('when called without arguments', () => {
             it('returns the origin of every hex', () => {
-                Hex.prototype.origin([4, -2])
-                expect(Hex.prototype.origin()).to.contain({ x: 4, y: -2 })
+                Hex.origin([4, -2])
+                expect(Hex.origin()).to.contain({ x: 4, y: -2 })
             })
         })
 
         describe('when called with a valid origin', () => {
             it('sets the origin of every hex', () => {
-                Hex.prototype.origin([-1, 3])
+                Hex.origin([-1, 3])
                 const hex1 = Hex()
                 const hex2 = Hex()
-                expect(Hex.prototype.origin()).to.contain({ x: -1, y: 3})
+                expect(Hex.origin()).to.contain({ x: -1, y: 3})
                 expect(hex1.origin()).to.contain({ x: -1, y: 3})
                 expect(hex2.origin()).to.contain({ x: -1, y: 3})
             })
@@ -270,10 +312,10 @@ describe('Hex prototype', () => {
     })
 
     describe('toPoint', () => {
-        beforeEach(() => Hex.prototype.origin(Hex.prototype.center()))
+        beforeEach(() => Hex.origin(Hex.center()))
 
         describe('when orientation is pointy', () => {
-            before(() => Hex.prototype.orientation('pointy'))
+            before(() => Hex.orientation('pointy'))
 
             it('returns the point', () => {
                 expect(Hex(2, 3).toPoint()).to.have.property('x').that.is.closeTo(51.9, 0.5)
@@ -282,7 +324,7 @@ describe('Hex prototype', () => {
         })
 
         describe('when orientation is flat', () => {
-            before(() => Hex.prototype.orientation('flat'))
+            before(() => Hex.orientation('flat'))
 
             it('returns the point', () => {
                 expect(Hex(2, 3).toPoint()).to.have.property('x').that.is.closeTo(20, 0.5)

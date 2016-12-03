@@ -3,13 +3,11 @@ import Point from '../point'
 import Hex from '../hex'
 
 export default function Grid({ hex }) {
-    Hex.prototype.size(hex.size)
-    Hex.prototype.orientation(hex.orientation)
-    Hex.prototype.origin(hex.origin)
+    Hex.size(hex.size)
+    Hex.orientation(hex.orientation)
+    Hex.origin(hex.origin)
 
     return {
-        hex: Hex.prototype,
-        // Methods
         pointToHex,
         hexToPoint,
         colSize,
@@ -23,13 +21,13 @@ export default function Grid({ hex }) {
 
 // http://www.redblobgames.com/grids/hexagons/#pixel-to-hex
 function pointToHex(point) {
-    const size = this.hex.size()
+    const size = Hex.size()
     let x, y
 
     // guarantee point is an actual Point instance
     point = Point(point)
 
-    if (this.hex.isPointy()) {
+    if (Hex.isPointy()) {
         x = (point.x * Math.sqrt(3)/3 - point.y / 3) / size
         y = point.y * 2/3 / size
     } else {
@@ -48,17 +46,17 @@ function hexToPoint(hex) {
 // width of a hex column
 // http://www.redblobgames.com/grids/hexagons/#basics
 function colSize() {
-    return this.hex.isPointy() ?
-        this.hex.width() :
-        this.hex.width() * 3/4
+    return Hex.isPointy() ?
+        Hex.width() :
+        Hex.width() * 3/4
 }
 
 // width of a hex row
 // http://www.redblobgames.com/grids/hexagons/#basics
 function rowSize() {
-    return this.hex.isPointy() ?
-        this.hex.height() * 3/4 :
-        this.hex.height()
+    return Hex.isPointy() ?
+        Hex.height() * 3/4 :
+        Hex.height()
 }
 
 // http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline12
@@ -171,7 +169,7 @@ function rectangle(
     height,
     start = Hex(),
     // rotate 60° counterclockwise for flat hexes
-    direction = this.hex.isPointy() ? 'E' : 'SE'
+    direction = Hex.isPointy() ? 'E' : 'SE'
 ) {
     // TODO: validate direction
     const DIRECTIONS = {
@@ -183,14 +181,14 @@ function rectangle(
         'W': ['z', 'y']
     }
     if (is.objectLiteral(widthOrOptions)) {
-        ({ width, height, start = Hex(), direction = this.hex.isPointy() ? 'E' : 'SE' } = widthOrOptions)
+        ({ width, height, start = Hex(), direction = Hex.isPointy() ? 'E' : 'SE' } = widthOrOptions)
         return this.rectangle(width, height, start, direction)
     }
 
     let width = widthOrOptions
     const [ firstCoordinate, secondCoordinate ] = DIRECTIONS[direction]
-    const firstStop = this.hex.isPointy() ? width : height
-    const secondStop = this.hex.isPointy() ? height : width
+    const firstStop = Hex.isPointy() ? width : height
+    const secondStop = Hex.isPointy() ? height : width
     const hexes = []
 
     for (let second = 0; second < secondStop; second++) {

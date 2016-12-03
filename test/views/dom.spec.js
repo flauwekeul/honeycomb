@@ -10,8 +10,8 @@ let grid, container, dom
 
 describe('creation', () => {
     jsdom()
-    before(() => sinon.spy(Hex.prototype, 'element'))
-    after(() => Hex.prototype.element.restore())
+    before(() => sinon.spy(Hex, 'element'))
+    after(() => Hex.element.restore())
 
     describe('with valid options', () => {
         const hexElement = '<div></div>'
@@ -28,8 +28,8 @@ describe('creation', () => {
             expect(view).to.have.property('hex').that.eqls({ element: hexElement })
         })
 
-        it('sets Hex.prototype.element', () => {
-            expect(Hex.prototype.element).to.have.been.calledWith(hexElement)
+        it('sets Hex.element', () => {
+            expect(Hex.element).to.have.been.calledWith(hexElement)
         })
     })
 
@@ -90,8 +90,8 @@ describe('rendering', () => {
             const renderedHex2 = container.childNodes[1]
             const expected = {
                 position: 'absolute',
-                width: `${Hex.prototype.width()}px`,
-                height: `${Hex.prototype.height()}px`
+                width: `${Hex.width()}px`,
+                height: `${Hex.height()}px`
             }
 
             expect(renderedHex1.style).to.contain(expected)
@@ -107,9 +107,9 @@ describe('rendering', () => {
             const renderedHex2Style = container.childNodes[1].style
 
             expect(renderedHex1Style).to.have.property('top').that.equals('0px')
-            expect(renderedHex1Style).to.have.property('left').that.equals(`${Hex.prototype.width()}px`)
+            expect(renderedHex1Style).to.have.property('left').that.equals(`${Hex.width()}px`)
             expect(renderedHex2Style).to.have.property('top').that.equals(`${grid.rowSize()}px`)
-            expect(renderedHex2Style).to.have.property('left').that.equals(`${Hex.prototype.width() / 2}px`)
+            expect(renderedHex2Style).to.have.property('left').that.equals(`${Hex.width() / 2}px`)
         })
     })
 

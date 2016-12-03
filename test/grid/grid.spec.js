@@ -9,34 +9,29 @@ let grid
 describe('creation', () => {
     describe('with an object containing hex options', () => {
         before(() => {
-            sinon.spy(Hex.prototype, 'size')
-            sinon.spy(Hex.prototype, 'orientation')
-            sinon.spy(Hex.prototype, 'origin')
+            sinon.spy(Hex, 'size')
+            sinon.spy(Hex, 'orientation')
+            sinon.spy(Hex, 'origin')
         })
         after(() => {
-            Hex.prototype.size.restore()
-            Hex.prototype.orientation.restore()
-            Hex.prototype.origin.restore()
+            Hex.size.restore()
+            Hex.orientation.restore()
+            Hex.origin.restore()
         })
 
-        it('returns a grid with a hex property that references Hex.prototype', () => {
-            const grid = Grid({ hex: { size: 10, orientation: 'flat', origin: [-2, 7] } })
-            expect(grid).to.have.property('hex').that.eqls(Hex.prototype)
-        })
-
-        it('sets Hex.prototype.size', () => {
+        it('sets Hex.size', () => {
             Grid({ hex: { size: 5 } })
-            expect(Hex.prototype.size).to.have.been.calledWith(5)
+            expect(Hex.size).to.have.been.calledWith(5)
         })
 
-        it('sets Hex.prototype.orientation', () => {
+        it('sets Hex.orientation', () => {
             Grid({ hex: { orientation: 'pointy' } })
-            expect(Hex.prototype.orientation).to.have.been.calledWith('pointy')
+            expect(Hex.orientation).to.have.been.calledWith('pointy')
         })
 
-        it('sets Hex.prototype.origin', () => {
+        it('sets Hex.origin', () => {
             Grid({ hex: { origin: [-1, 0] } })
-            expect(Hex.prototype.origin).to.have.been.calledWith([-1, 0])
+            expect(Hex.origin).to.have.been.calledWith([-1, 0])
         })
     })
 })

@@ -8,7 +8,7 @@ export default function DOM({ container, hex, origin = Point(0, 0) }) {
         return false
     }
 
-    Hex.prototype.element(hex.element)
+    Hex.element(hex.element)
 
     return {
         origin: Point(origin),
@@ -23,8 +23,8 @@ export default function DOM({ container, hex, origin = Point(0, 0) }) {
 function renderHexes(hexes) {
     const style = {
         position: 'absolute',
-        width: `${Hex.prototype.width()}px`,
-        height: `${Hex.prototype.height()}px`
+        width: `${Hex.width()}px`,
+        height: `${Hex.height()}px`
     }
 
     const hexNodes = hexes.reduce((fragment, hex) => {
