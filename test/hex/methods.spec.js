@@ -5,7 +5,7 @@ import { ORIENTATIONS } from '../../src/hex/constants'
 import Hex from '../../src/hex'
 import Point from '../../src/point'
 
-describe('ProtoHex', () => {
+describe('Hex methods', () => {
     describe('thirdCoordinate', () => {
         it('returns a third coordinate using the given two coordinates', () => {
             const result = Hex.thirdCoordinate(3, -1)

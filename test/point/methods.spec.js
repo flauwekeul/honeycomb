@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import Point from '../../src/point'
 
-describe('Point prototype', () => {
+describe('Point methods', () => {
     describe('add', () => {
         it('adds the coordinates of the given point to itself', () => {
             const result = Point(1, -3).add(Point(2, 4))

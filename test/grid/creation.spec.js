@@ -7,7 +7,7 @@ import Grid from '../../src/grid'
 
 let grid
 
-describe('creation', () => {
+describe('Grid Creation', () => {
     describe('with an object containing hex options', () => {
         before(() => {
             sinon.spy(Hex, 'size')

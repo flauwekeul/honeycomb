@@ -8,7 +8,7 @@ import DOM from '../../src/views/dom'
 
 let grid, container, dom
 
-describe('creation', () => {
+describe('DOM View creation', () => {
     jsdom()
     before(() => sinon.spy(Hex, 'element'))
     after(() => Hex.element.restore())
@@ -48,7 +48,7 @@ describe('creation', () => {
     })
 })
 
-describe('rendering', () => {
+describe('DOM View rendering', () => {
     jsdom()
 
     beforeEach(() => {
