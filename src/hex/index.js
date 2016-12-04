@@ -46,31 +46,6 @@ export default function Hex(...coordinates) {
 
     return Object.assign(
         Object.create(ProtoHex),
-        { x, y, z, orientation, size, origin }
+        { x, y, z }
     )
-}
-
-// overrides Hex.orientation
-function orientation(ignoredOrientation) {
-    if (arguments.length > 0) {
-        console.warn(`Can't set orientation of single hex. Use Hex.orientation('${ignoredOrientation}') to set orientation for all hexes.`)
-    }
-    return Hex.orientation()
-}
-
-// overrides Hex.size
-function size(ignoredSize) {
-    if (arguments.length > 0) {
-        console.warn(`Can't set size of single hex. Use Hex.size(${ignoredSize}) to set size for all hexes.`)
-    }
-    return Hex.size()
-}
-
-// overrides Hex.origin
-function origin(ignoredOrigin) {
-    if (arguments.length > 0) {
-        const formattedIgnoredOrigin = `[${ignoredOrigin[0]}, ${ignoredOrigin[1]}]`
-        console.warn(`Can't set origin of single hex. Use Hex.origin(${formattedIgnoredOrigin}) to set origin for all hexes.`)
-    }
-    return Hex.origin()
 }
