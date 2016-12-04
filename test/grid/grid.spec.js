@@ -2,6 +2,7 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 
 import Hex from '../../src/hex'
+import Point from '../../src/point'
 import Grid from '../../src/grid'
 
 let grid
@@ -37,16 +38,16 @@ describe('creation', () => {
 })
 
 describe('pointToHex', () => {
-    it('converts a point to a hex', () => {
-        const grid1 = Grid({ hex: { size: 20, orientation: 'pointy' } })
-        expect(grid1.pointToHex([0, 0])).to.contain({ x: 0, y: 0 })
-        expect(grid1.pointToHex([20, 20])).to.contain({ x: 0, y: 1 })
-        expect(grid1.pointToHex([40, 40])).to.contain({ x: 1, y: 1 })
+    it('converts a point to a hex by passing the passed point to Hex.fromPoint()', () => {
+        const point = Point()
+        const grid = Grid({ hex: {} })
 
-        const grid2 = Grid({ hex: { size: 20, orientation: 'flat' } })
-        expect(grid2.pointToHex([0, 0])).to.contain({ x: 0, y: 0 })
-        expect(grid2.pointToHex([20, 20])).to.contain({ x: 1, y: 0 })
-        expect(grid2.pointToHex([40, 40])).to.contain({ x: 1, y: 1 })
+        sinon.spy(Hex, 'fromPoint')
+
+        grid.pointToHex(point)
+        expect(Hex.fromPoint).to.have.been.calledWith(point)
+
+        Hex.fromPoint.restore()
     })
 })
 

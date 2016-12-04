@@ -3,6 +3,7 @@ import sinon from 'sinon'
 
 import { ORIENTATIONS } from '../../src/hex/constants'
 import Hex from '../../src/hex'
+import Point from '../../src/point'
 
 describe('ProtoHex', () => {
     describe('thirdCoordinate', () => {
@@ -26,8 +27,8 @@ describe('ProtoHex', () => {
     })
 
     describe('hexesBetween', () => {
-        it('returns the hexes in a straight line between the two given hexes, inclusive', () => {
-            const coordinates = Hex.hexesBetween(Hex(0, 0, 0), Hex(1, -5, 4)).map(hex => hex.coordinates())
+        it('returns the hexes in a straight line between itself and the passed hex, inclusive', () => {
+            const coordinates = Hex().hexesBetween(Hex(1, -5, 4)).map(hex => hex.coordinates())
             expect(coordinates).to.eql([
                 { x: 0, y: 0, z: 0 },
                 { x: 0, y: -1, z: 1 },
@@ -39,7 +40,7 @@ describe('ProtoHex', () => {
         })
 
         it('returns early if the given hex is its neighbor', () => {
-            const coordinates = Hex.hexesBetween(Hex(0, 0, 0), Hex(1, -1, 0)).map(hex => hex.coordinates())
+            const coordinates = Hex().hexesBetween(Hex(1, -1, 0)).map(hex => hex.coordinates())
             expect(coordinates).to.eql([
                 { x: 0, y: 0, z: 0 },
                 { x: 1, y: -1, z: 0 }
@@ -329,6 +330,30 @@ describe('ProtoHex', () => {
             it('returns the point', () => {
                 expect(Hex(2, 3).toPoint()).to.have.property('x').that.is.closeTo(20, 0.5)
                 expect(Hex(2, 3).toPoint()).to.have.property('y').that.is.closeTo(60.6, 0.5)
+            })
+        })
+    })
+
+    describe('fromPoint', () => {
+        before(() => Hex.size(20))
+
+        describe('when orientation is pointy', () => {
+            before(() => Hex.orientation('pointy'))
+
+            it('returns the hex', () => {
+                expect(Hex.fromPoint(Point(0, 0))).to.contain({ x: 0, y: 0 })
+                expect(Hex.fromPoint(Point(20, 20))).to.contain({ x: 0, y: 1 })
+                expect(Hex.fromPoint(Point(40, 40))).to.contain({ x: 1, y: 1 })
+            })
+        })
+
+        describe('when orientation is flat', () => {
+            before(() => Hex.orientation('flat'))
+
+            it('returns the hex', () => {
+                expect(Hex.fromPoint(Point(0, 0))).to.contain({ x: 0, y: 0 })
+                expect(Hex.fromPoint(Point(20, 20))).to.contain({ x: 1, y: 0 })
+                expect(Hex.fromPoint(Point(40, 40))).to.contain({ x: 1, y: 1 })
             })
         })
     })

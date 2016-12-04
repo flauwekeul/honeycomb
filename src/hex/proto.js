@@ -15,6 +15,14 @@ let _elementInterpolator
 let _origin
 
 export default {
+    coordinates() {
+        return {
+            x: this.x,
+            y: this.y,
+            z: this.z
+        }
+    },
+
     thirdCoordinate(firstCoordinate, secondCoordinate) {
         return unsignNegativeZero(-firstCoordinate - secondCoordinate)
     },
@@ -25,31 +33,23 @@ export default {
 
     // returns the hexes in a straight line between itself and the given hex, inclusive
     // http://www.redblobgames.com/grids/hexagons/#line-drawing
-    hexesBetween(hex, otherHex) {
-        const distance = hex.distance(otherHex)
+    hexesBetween(hex) {
+        const distance = this.distance(hex)
 
         if (distance === 1) {
-            return [hex, otherHex]
+            return [this, hex]
         }
 
-        const nudgedHex = hex.nudge()
-        const nudgedOtherHex = otherHex.nudge()
+        const nudgedSelf = this.nudge()
+        const nudgedOtherHex = hex.nudge()
         const step = 1.0 / Math.max(distance, 1)
         let hexes = []
 
         for (let i = 0; i <= distance; i++) {
-            hexes.push(nudgedHex.lerp(nudgedOtherHex, step * i).round())
+            hexes.push(nudgedSelf.lerp(nudgedOtherHex, step * i).round())
         }
 
         return hexes
-    },
-
-    coordinates() {
-        return {
-            x: this.x,
-            y: this.y,
-            z: this.z
-        }
     },
 
     // setter when called with newOrientation
@@ -213,5 +213,24 @@ export default {
         }
 
         return Point(x, y).subtract(this.origin())
+    },
+
+    // http://www.redblobgames.com/grids/hexagons/#pixel-to-hex
+    fromPoint(point) {
+        const size = this.size()
+        let x, y
+
+        // guarantee point is an actual Point instance
+        point = Point(point)
+
+        if (this.isPointy()) {
+            x = (point.x * Math.sqrt(3)/3 - point.y / 3) / size
+            y = point.y * 2/3 / size
+        } else {
+            x = point.x * 2/3 / size
+            y = (-point.x / 3 + Math.sqrt(3)/3 * point.y) / size
+        }
+
+        return Hex(x, y).round()
     }
 }
