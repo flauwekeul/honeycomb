@@ -1,6 +1,6 @@
 {
   "name": "honeycomb-grid",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Hex grid without views for usage in node or with optional multiple views for usage in the browser. Written in javascript.",
   "main": "lib/honeycomb.min.js",
   "scripts": {
