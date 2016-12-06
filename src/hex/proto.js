@@ -36,6 +36,13 @@ export default {
         return unsignNegativeZero(-firstCoordinate - secondCoordinate)
     },
 
+    /**
+     * Determines if the passed size is valid. Should be a positive `Number`.
+     *
+     * @param   {Number} size   The size to validate.
+     *
+     * @returns {Boolean}       Wheter the size is valid.
+     */
     isValidSize(size) {
         return size >= 0 && size !== null
     },

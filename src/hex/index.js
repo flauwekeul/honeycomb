@@ -15,20 +15,31 @@ Object.assign(Hex, ProtoHex)
  * * When one coordinate is passed, the second coordinate is set to the first and the third coordinate is set to the result of {@link Hex.thirdCoordinate|Hex.thirdCoordinate(firstCoordinate, secondCoordinate)}.
  * * When nothing or a falsy value is passed, all coordinates are set to `0`.
  *
- * @module Hex
+ * @function Hex
  *
- * @param {?Number} [x] The x coordinate.
- * @param {?Number} [y] The y coordinate.
- * @param {?Number} [z] The z coordinate.
+ * @param {Number} [x=0] The x coordinate.
+ * @param {Number} [y=0] The y coordinate.
+ * @param {Number} [z=0] The z coordinate.
  *
  * Or:
  *
  * @param {Object} [coordinates] Object containing any of the x, y and z coordinates.
- * @param {?Number} [coordinates.x] The x coordinate.
- * @param {?Number} [coordinates.y] The y coordinate.
- * @param {?Number} [coordinates.z] The z coordinate.
+ * @param {Number} [coordinates.x=0] The x coordinate.
+ * @param {Number} [coordinates.y=0] The y coordinate.
+ * @param {Number} [coordinates.z=0] The z coordinate.
  *
  * @returns {Hex} A hex object. It always contains all three coordinates (`x`, `y` and `z`).
+ *
+ * @example
+ * Hex()            // returns hex( x: 0, y: 0, z: 0 )
+ * Hex(1)           // returns hex( x: 1, y: 1, z: -2 )
+ * Hex(1, 2)        // returns hex( x: 1, y: 2, z: -3 )
+ * Hex(1, 2, -3)    // returns hex( x: 1, y: 2, z: -3 )
+ * Hex(1, 2, 5)     // coordinates don't sum up to 0; throws an error
+ *
+ * Hex({ x: 3 })    // returns hex( x: 3, y: 3, z: -3 )
+ * Hex({ y: 3 })    // returns hex( x: 3, y: 3, z: -6 )
+ * Hex({ z: 3 })    // returns hex( x: 3, y: -6, z: 3 )
  */
 export default function Hex(...coordinates) {
     // if an object is passed, extract coordinates and call self
