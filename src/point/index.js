@@ -1,6 +1,24 @@
 import { is } from '../utils'
 import prototype from './proto'
 
+/**
+ * Factory function for creating 2-dimensional points.
+
+ * @function Point
+ *
+ * @param {Number} [x=0]                The x coordinate.
+ * @param {Number} [y=0]                The y coordinate.
+ *
+ * Or:
+ *
+ * @param {Number[]} [coordinatesOrX]   Array containing any of the x and y coordinates.
+ *
+ * Or:
+ *
+ * @param {Object} [coordinatesOrX]     Object containing any of the x and y coordinates.
+ * @param {Number} [coordinatesOrX.x=0] The x coordinate.
+ * @param {Number} [coordinatesOrX.y=0] The y coordinate.
+ */
 export default function Point(coordinatesOrX, y) {
     let x
 

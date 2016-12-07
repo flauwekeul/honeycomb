@@ -4,9 +4,6 @@ import ProtoHex from './proto'
 
 Object.assign(Hex, ProtoHex)
 
-// accepts an object containing coordinates (x, y or z)
-// or accepts numbers: 0, 1 or 2 axial coordinates or 3 cube coordinates
-// http://www.redblobgames.com/grids/hexagons/#coordinates
 /**
  * Factory function for creating hexes.
  *
@@ -14,6 +11,7 @@ Object.assign(Hex, ProtoHex)
  * * When two coordinates are passed, the third coordinate is set to the result of {@link Hex.thirdCoordinate|Hex.thirdCoordinate(firstCoordinate, secondCoordinate)}.
  * * When one coordinate is passed, the second coordinate is set to the first and the third coordinate is set to the result of {@link Hex.thirdCoordinate|Hex.thirdCoordinate(firstCoordinate, secondCoordinate)}.
  * * When nothing or a falsy value is passed, all coordinates are set to `0`.
+ * Inspired by [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#coordinates).
  *
  * @function Hex
  *
