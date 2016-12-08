@@ -1,5 +1,5 @@
 import { is } from '../utils'
-import prototype from './prototype'
+import prototype from './proto'
 
 export default function Point(coordinatesOrX, y) {
     let x
