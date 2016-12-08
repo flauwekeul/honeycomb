@@ -24,8 +24,10 @@ export default {
     },
 
     /**
+     * @method Hex.thirdCoordinate
+     *
+     * @description
      * Calculates the third coordinate from the other two.
-     * @static
      *
      * @param   {Number} firstCoordinate  The first other coordinate.
      * @param   {Number} secondCoordinate The second other coordinate.
@@ -37,6 +39,9 @@ export default {
     },
 
     /**
+     * @method Hex.isValidSize
+     *
+     * @description
      * Determines if the passed size is valid. Should be a positive `Number`.
      *
      * @param   {Number} size   The size to validate.
@@ -48,6 +53,9 @@ export default {
     },
 
     /**
+     * @method Hex#hexesBetween
+     *
+     * @description
      * Returns the hexes in a straight line between itself and the given hex, inclusive.
      * Inspired by [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#line-drawing).
      *
@@ -75,6 +83,9 @@ export default {
     },
 
     /**
+     * @method Hex#orientation
+     *
+     * @description
      * When passed no (or falsy) parameters, it returns the current hex's orientation.
      * When passed an orientation, it sets the orientation of all hexes to that value.
      *
@@ -91,6 +102,7 @@ export default {
     },
 
     /**
+     * @method Hex#isPointy
      * @returns {Boolean} Whether hexes have a pointy orientation.
      */
     isPointy() {
@@ -98,6 +110,7 @@ export default {
     },
 
     /**
+     * @method Hex#isFlat
      * @returns {Boolean} Whether hexes have a flat orientation.
      */
     isFlat() {
@@ -105,6 +118,9 @@ export default {
     },
 
     /**
+     * @method Hex#size
+     *
+     * @description
      * When passed no (or falsy) parameters, it returns the current hex's size.
      * When passed a size, it sets the size of all hexes to that value.
      * Logs a warning when the size is invalid.
@@ -124,6 +140,7 @@ export default {
     },
 
     /**
+     * @method Hex#oppositeCornerDistance
      * @returns {Number}    The distance between opposite corners of a hex.
      */
     oppositeCornerDistance() {
@@ -131,6 +148,7 @@ export default {
     },
 
     /**
+     * @method Hex#oppositeSideDistance
      * @returns {Number}    The distance between opposite sides of a hex.
      */
     oppositeSideDistance() {
@@ -138,6 +156,9 @@ export default {
     },
 
     /**
+     * @method Hex#element
+     *
+     * @description
      * When passed no (or falsy) parameters, it returns the result of the element interpolator called with the current hex.
      * When passed a template string, it sets the element interpolator to a function that returns this string.
      * When passed an element interpolator, it sets the element interpolator to this value.
@@ -159,6 +180,7 @@ export default {
     },
 
     /**
+     * @method Hex#width
      * @returns {Number}    The (horizontal) width of any hex.
      */
     width() {
@@ -168,6 +190,7 @@ export default {
     },
 
     /**
+     * @method Hex#height
      * @returns {Number}    The (vertical) height of any hex.
      */
     height() {
@@ -177,15 +200,17 @@ export default {
     },
 
     /**
+     * @method Hex#center
      * @returns {Point} The relative center of any hex.
      */
     center() {
         return Point(this.width() / 2, this.height() / 2)
     },
 
-    // setter when called with origin
-    // getter when called without params; returns result of the elementInterpolator called with this
     /**
+     * @method Hex#origin
+     *
+     * @description
      * When passed no (or falsy) parameters, it returns the current hex's origin.
      * When passed an origin, it sets the origin of all hexes to that value.
      *
@@ -202,7 +227,8 @@ export default {
     },
 
     /**
-     * @param {Hex} hex The hex to add to the current hex's.
+     * @method Hex#add
+     * @param {Hex} hex The hex to add to the current hex.
      *
      * @returns {Hex}   The sum of the passed hex's coordinates to the current hex's.
      */
@@ -211,15 +237,19 @@ export default {
     },
 
     /**
-     * @param   {Hex} hex The hex to subtract from the current hex's.
+     * @method Hex#subtract
+     * @param   {Hex} hex   The hex to subtract from the current hex.
      *
-     * @returns {Hex}   The difference between the passed hex's coordinates and the current hex's.
+     * @returns {Hex}       The difference between the passed hex's coordinates and the current hex's.
      */
     subtract(hex) {
         return Hex(this.x - hex.x, this.y - hex.y, this.z - hex.z)
     },
 
     /**
+     * @method Hex#neighbor
+     *
+     * @description
      * Returns the neighboring hex in the given direction.
      * Inspired by [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#neighbors).
      *
@@ -238,6 +268,9 @@ export default {
     },
 
     /**
+     * @method Hex#distance
+     *
+     * @description
      * Returns the amount of hexes between the current and the given hex.
      * Inspired by [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#distances).
      *
@@ -255,6 +288,9 @@ export default {
     },
 
     /**
+     * @method Hex#round
+     *
+     * @description
      * Rounds floating point hex coordinates to their nearest integer hex coordinates.
      * Inspired by [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#rounding).
      *
@@ -280,6 +316,9 @@ export default {
     },
 
     /**
+     * @method Hex#lerp
+     *
+     * @description
      * Returns an interpolation between the current hex and the passed hex for a `t` between 0 and 1.
      * More info on [wikipedia](https://en.wikipedia.org/wiki/Linear_interpolation).
      *
@@ -297,6 +336,9 @@ export default {
     },
 
     /**
+     * @method Hex#nudge
+     *
+     * @description
      * Returns a hex with a tiny offset to the current hex. Useful for interpolating in a consistent direction.
      * Inspired by [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#line-drawing).
      *
@@ -307,6 +349,9 @@ export default {
     },
 
     /**
+     * @method Hex#toPoint
+     *
+     * @description
      * Converts the current hex to an (absolute) 2-dimensional {@link Point|point}. Uses the hex's origin.
      *
      * @returns {Point} The 2D point the hex corresponds to.
@@ -325,9 +370,12 @@ export default {
         return Point(x, y).subtract(this.origin())
     },
 
-    // http://www.redblobgames.com/grids/hexagons/#pixel-to-hex
     /**
+     * @method Hex#fromPoint
+     *
+     * @description
      * Converts the passed 2-dimensional {@link Point|point} to a hex.
+     * Inspired by [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#pixel-to-hex).
      *
      * @param   {Point} point   The point to convert from.
      *
