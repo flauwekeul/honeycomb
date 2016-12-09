@@ -8,10 +8,10 @@ import Hex from '../hex'
  * @description
  * Factory function for creating a DOM view object. This object can be used to render an array of hexes it's passed or a grid instance. If a grid instance is passed, its {@link Grid#colSize|colSize} and {@link Grid#rowSize|rowSize} is used to calculate how many hexes are to be shown in a rectangular shape.
  *
- * @param {Object} $0           An options object <small>(it's called `$0` because JSDoc can't handle object destructuring).</small>
- * @param {Node} $0.container   A DOM node to render hexes in.
- * @param {Object} $0.hex       An options object containing a `hex` property with an `element` property that get's passed to {@link Hex#element}.
- * @param {Point} $0.origin     A point where the first hex (i.e. `Hex(0, 0, 0)`) can be rendered.
+ * @param {Object} options           An options object.
+ * @param {Node} options.container   A DOM node to render hexes in.
+ * @param {Object} options.hex       An options object containing a `hex` property with an `element` property that get's passed to {@link Hex#element}.
+ * @param {Point} options.origin     A point where the first hex (i.e. `Hex(0, 0, 0)`) can be rendered.
  *
  * @returns {Object}            An object with helper methods like to render a view for a hex grid using the DOM.
  */

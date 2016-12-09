@@ -7,9 +7,10 @@
     "build": "NODE_ENV=production webpack",
     "coverage": "babel-node $(npm bin)/isparta cover --include-all-sources --report html $(npm bin)/_mocha -- --recursive > /dev/null",
     "dev": "webpack --progress --colors --watch",
-    "docs": "documentation serve ./src -w",
+    "docs": "documentation readme ./src --section Documentation",
+    "docs:serve": "documentation serve ./src --watch",
     "lint": "eslint src test --fix; exit 0",
-    "prepublish": "npm run build",
+    "prepublish": "npm test && npm run docs && npm run build",
     "start": "npm run build && node lib/honeycomb.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/config.js --recursive",
     "test:watch": "npm test -- --watch"

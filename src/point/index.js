@@ -7,18 +7,10 @@ import prototype from './proto'
  * @description
  * Factory function for creating 2-dimensional points.
  *
- * @param {Number} [x=0]                The x coordinate.
- * @param {Number} [y=0]                The y coordinate.
- *
- * Or:
- *
- * @param {Number[]} [coordinatesOrX]   Array containing any of the x and y coordinates.
- *
- * Or:
- *
- * @param {Object} [coordinatesOrX]     Object containing any of the x and y coordinates.
+ * @param {(Number|Number[]|Object)} [coordinatesOrX=0] The x coordinate or an array or object of x and/or y coordinates.
  * @param {Number} [coordinatesOrX.x=0] The x coordinate.
  * @param {Number} [coordinatesOrX.y=0] The y coordinate.
+ * @param {Number} [y=0]                                The y coordinate.
  *
  * @returns {Point}                     A point object.
  */

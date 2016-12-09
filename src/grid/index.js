@@ -9,15 +9,14 @@ import Hex from '../hex'
  *
  * A grid is *viewless*, i.e.: it's an abstract grid with undefined dimensions. If you want to render a tangible grid, use a View factory (e.g. the {@link Views.DOM|DOM view}) by passing it a grid instance.
  *
- * @param {Object} $0       An object containing a `hex` property
- * <small>(it's called `$0` because JSDoc can't handle object destructuring).</small>
- * @param {Object} $0.hex   An object that can contain a size, orientation and origin.
- * This will be refactored soon 😬
+ * @param {Object} options       An object containing a `hex` property
+ * @param {Object} options.hex   An object that can contain a size, orientation and origin.
+ * This will be refactored 😬
  *
  * @returns {Object} An object with helper methods like: translating 2-dimensional points to hex coordinates and generating arrays of hexes in a certain shape.
  *
  * @example
- * import { Grid, Point } from 'honeycomb'
+ * import { Grid, Point } from 'Honeycomb'
  *
  * Grid({
  *     hex: {

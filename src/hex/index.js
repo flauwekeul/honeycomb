@@ -17,16 +17,12 @@ Object.assign(Hex, ProtoHex)
  *
  * @see {@link redblobgames.com|http://www.redblobgames.com/grids/hexagons/#coordinates}
  *
- * @param {Number} [x=0] The x coordinate.
- * @param {Number} [y=0] The y coordinate.
- * @param {Number} [z=0] The z coordinate.
- *
- * Or:
- *
- * @param {Object} [coordinates] Object containing any of the x, y and z coordinates.
+ * @param {(Number|Object)} [coordinates=0] The x coordinate or an object containing any of the x, y and z coordinates.
  * @param {Number} [coordinates.x=0] The x coordinate.
  * @param {Number} [coordinates.y=0] The y coordinate.
  * @param {Number} [coordinates.z=0] The z coordinate.
+ * @param {Number} [y=0] The y coordinate.
+ * @param {Number} [z=0] The z coordinate.
  *
  * @returns {Hex} A hex object. It always contains all three coordinates (`x`, `y` and `z`).
  *
