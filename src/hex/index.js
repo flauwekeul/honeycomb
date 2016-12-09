@@ -5,15 +5,17 @@ import ProtoHex from './proto'
 Object.assign(Hex, ProtoHex)
 
 /**
+ * @function Hex
+ *
+ * @description
  * Factory function for creating hexes.
  *
  * Coordinates not passed to the factory are inferred using the other coordinates:
  * * When two coordinates are passed, the third coordinate is set to the result of {@link Hex.thirdCoordinate|Hex.thirdCoordinate(firstCoordinate, secondCoordinate)}.
  * * When one coordinate is passed, the second coordinate is set to the first and the third coordinate is set to the result of {@link Hex.thirdCoordinate|Hex.thirdCoordinate(firstCoordinate, secondCoordinate)}.
  * * When nothing or a falsy value is passed, all coordinates are set to `0`.
- * Inspired by [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#coordinates).
  *
- * @function Hex
+ * @see {@link redblobgames.com|http://www.redblobgames.com/grids/hexagons/#coordinates}
  *
  * @param {Number} [x=0] The x coordinate.
  * @param {Number} [y=0] The y coordinate.

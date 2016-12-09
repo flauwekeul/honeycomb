@@ -27,7 +27,7 @@ export default {
      * @method Hex.thirdCoordinate
      *
      * @description
-     * Calculates the third coordinate from the other two.
+     * Calculates the third coordinate from the other two. The sum of all three coordinates should always be 0.
      *
      * @param   {Number} firstCoordinate  The first other coordinate.
      * @param   {Number} secondCoordinate The second other coordinate.
@@ -57,7 +57,8 @@ export default {
      *
      * @description
      * Returns the hexes in a straight line between itself and the given hex, inclusive.
-     * Inspired by [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#line-drawing).
+     *
+     * @see {@link http://www.redblobgames.com/grids/hexagons/#line-drawing|redblobgames.com}
      *
      * @param   {Hex} hex   The hex to return the hexes in between to.
      *
@@ -164,6 +165,7 @@ export default {
      * When passed an element interpolator, it sets the element interpolator to this value.
      *
      * @todo Add validations (show warning if elementInterpolator isn't set).
+     * @todo Add examples.
      *
      * @param   {(String|Function)=} stringOrInterpolator   Sets the element interpolator to this value.
      *
@@ -251,7 +253,10 @@ export default {
      *
      * @description
      * Returns the neighboring hex in the given direction.
-     * Inspired by [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#neighbors).
+     *
+     * @todo Add examples.
+     *
+     * @see {@link http://www.redblobgames.com/grids/hexagons/#neighbors|redblobgames.com}
      *
      * @param   {(0|1|2|3|4|5)}  [direction=0]  Any of the 6 directions. `0` is the Eastern direction (East-southeast when the hex is flat), `1` is 60° clockwise, and so forth.
      * @param   {Boolean} [diagonal=false]      Whether to look for a neighbor perpendicular to the hex's corner instead of its side.
@@ -272,7 +277,8 @@ export default {
      *
      * @description
      * Returns the amount of hexes between the current and the given hex.
-     * Inspired by [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#distances).
+     *
+     * @see {@link http://www.redblobgames.com/grids/hexagons/#distances|redblobgames.com}
      *
      * @param   {Hex} hex   The hex to return the distance to.
      *
@@ -292,7 +298,8 @@ export default {
      *
      * @description
      * Rounds floating point hex coordinates to their nearest integer hex coordinates.
-     * Inspired by [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#rounding).
+     *
+     * @see {@link http://www.redblobgames.com/grids/hexagons/#rounding|redblobgames.com}
      *
      * @returns {Hex}   A new hex with rounded coordinates.
      */
@@ -340,7 +347,8 @@ export default {
      *
      * @description
      * Returns a hex with a tiny offset to the current hex. Useful for interpolating in a consistent direction.
-     * Inspired by [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#line-drawing).
+     *
+     * @see {@link http://www.redblobgames.com/grids/hexagons/#line-drawing|redblobgames.com}
      *
      * @returns {Hex}   A new hex with a minute offset.
      */
@@ -375,7 +383,8 @@ export default {
      *
      * @description
      * Converts the passed 2-dimensional {@link Point|point} to a hex.
-     * Inspired by [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#pixel-to-hex).
+     *
+     * @see {@link http://www.redblobgames.com/grids/hexagons/#pixel-to-hex|redblobgames.com}
      *
      * @param   {Point} point   The point to convert from.
      *

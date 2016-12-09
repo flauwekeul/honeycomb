@@ -2,6 +2,9 @@ import isDom from 'is-dom'
 import Point from '../point'
 import Hex from '../hex'
 
+/**
+ * @function Views.DOM
+ */
 export default function DOM({ container, hex, origin = Point(0, 0) }) {
     if (!isDom(container)) {
         console.warn(`Container is not a valid dom node: ${container}.`)

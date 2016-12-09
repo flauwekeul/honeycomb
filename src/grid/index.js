@@ -1,192 +1,309 @@
 import { is } from '../utils'
 import Hex from '../hex'
 
+/**
+ * @function Grid
+ *
+ * @description
+ * Factory function for creating a grid (singular). It currently only supports a single grid, because it sets size, orientation and origin for **all** hexes. Several "shape" methods are exposed that return an array of hexes in a certain shape.
+ *
+ * A grid is *viewless*, i.e.: it's an abstract grid with undefined dimensions. If you want to render a tangible grid, use a View factory (e.g. the {@link Views.DOM|DOM view}) by passing it a grid instance.
+ *
+ * @param {Object} $0       An object containing a `hex` property
+ * <small>(it's called `$0` because JSDoc can't handle object destructuring).</small>
+ * @param {Object} $0.hex   An object that can contain a size, orientation and origin.
+ * This will be refactored soon 😬
+ *
+ * @returns {Object} An object with helper methods like: translating 2-dimensional points to hex coordinates and generating arrays of hexes in a certain shape.
+ *
+ * @example
+ * import { Grid, Point } from 'honeycomb'
+ *
+ * Grid({
+ *     hex: {
+ *         size: 10,                // passed to Hex#size
+ *         orientation: 'pointy',   // passed to Hex#orientation
+ *         origin: Point(0, 0)      // passed to Hex#origin
+ *     }
+ * })
+ */
 export default function Grid({ hex }) {
     Hex.size(hex.size)
     Hex.orientation(hex.orientation)
     Hex.origin(hex.origin)
 
     return {
-        pointToHex,
-        hexToPoint,
-        colSize,
-        rowSize,
-        parallelogram,
-        triangle,
-        hexagon,
-        rectangle
-    }
-}
-
-// http://www.redblobgames.com/grids/hexagons/#pixel-to-hex
-function pointToHex(point) {
-    return Hex.fromPoint(point)
-}
-
-function hexToPoint(hex) {
-    return hex.toPoint()
-}
-
-// width of a hex column
-// http://www.redblobgames.com/grids/hexagons/#basics
-function colSize() {
-    return Hex.isPointy() ?
-        Hex.width() :
-        Hex.width() * 3/4
-}
-
-// width of a hex row
-// http://www.redblobgames.com/grids/hexagons/#basics
-function rowSize() {
-    return Hex.isPointy() ?
-        Hex.height() * 3/4 :
-        Hex.height()
-}
-
-// http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline12
-// TODO: should also (only?) accept an object
-function parallelogram(
-    widthOrOptions,
-    height,
-    start = Hex(),
-    direction = 'SE'
-) {
-    // TODO: validate direction
-    const DIRECTIONS = {
-        'SE': ['x', 'y'],
-        'SW': ['y', 'z'],
-        'N': ['z', 'x']
-    }
-
-    if (is.objectLiteral(widthOrOptions)) {
-        ({ width, height, start = Hex(), direction = 'SE' } = widthOrOptions)
-        return this.parallelogram(width, height, start, direction)
-    }
-
-    let width = widthOrOptions
-    const [ firstCoordinate, secondCoordinate ] = DIRECTIONS[direction]
-    const hexes = []
-
-    for (let first = 0; first < width; first++) {
-        for (let second = 0; second < height; second++) {
-            hexes.push(
-                Hex({
-                    [firstCoordinate]: first,
-                    [secondCoordinate]: second
-                }).add(Hex(start))
-            )
-        }
-    }
-
-    return hexes
-}
-
-// http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline13
-// TODO: should also (only?) accept an object
-function triangle(
-    sideOrOptions,
-    start = Hex(),
-    direction = 'down'
-) {
-    // TODO: validate direction
-    const DIRECTIONS = {
-        'down': {
-            yStart: () => 0,
-            yEnd: x => side - x
+        /**
+         * @method Grid#pointToHex
+         *
+         * @description
+         * Translates a point to a hex coordinate.
+         *
+         * @see {@link http://www.redblobgames.com/grids/hexagons/#pixel-to-hex|redblobgames.com}
+         *
+         * @borrows Hex#fromPoint as Grid#pointToHex
+         *
+         * @param   {Point} point   The point to translate from.
+         *
+         * @returns {Hex}           The hex to translate to.
+         */
+        pointToHex(point) {
+            return Hex.fromPoint(point)
         },
-        'up': {
-            yStart: x => side - x,
-            yEnd: () => side + 1
+
+        /**
+         * @method Grid#hexToPoint
+         *
+         * @description
+         * Translates a hex coordinate to a point.
+         *
+         * @see {@link http://www.redblobgames.com/grids/hexagons/#hex-to-pixel|redblobgames.com}
+         *
+         * @borrows Hex#toPoint as Grid#hexToPoint
+         *
+         * @param   {Hex} hex   The hex to translate from.
+         *
+         * @returns {Point}     The point to translate to.
+         */
+        hexToPoint(hex) {
+            return hex.toPoint()
+        },
+
+        /**
+         * @method Grid#colSize
+         *
+         * @see {@link http://www.redblobgames.com/grids/hexagons/#basics|redblobgames.com}
+         *
+         * @returns {Number} The width of a (vertical) column of hexes in the grid.
+         */
+        colSize() {
+            return Hex.isPointy() ?
+                Hex.width() :
+                Hex.width() * 3/4
+        },
+
+        /**
+         * @method Grid#rowSize
+         *
+         * @see {@link http://www.redblobgames.com/grids/hexagons/#basics|redblobgames.com}
+         *
+         * @returns {Number} The height of a (horizontal) row of hexes in the grid.
+         */
+        rowSize() {
+            return Hex.isPointy() ?
+                Hex.height() * 3/4 :
+                Hex.height()
+        },
+
+        /**
+         * @method Grid#parallelogram
+         *
+         * @description
+         * Creates a grid in the shape of a [parallelogram](https://en.wikipedia.org/wiki/Parallelogram).
+         *
+         * @todo Validate the direction param
+         * @todo Either use numeric directions (like Hex#neighbor), or "compass" directions, not both.
+         * @todo Add examples.
+         *
+         * @see {@link http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
+         *
+         * @param   {(Number|Object)} widthOrOptions    The width (in hexes) or an options object.
+         * @param   {Number=} height                    The height (in hexes).
+         * @param   {Hex=} start                        The origin hex.
+         * @param   {('SE'|'SW'|'N')} [direction=SE]    The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes.
+         *
+         * @returns {Hex[]}                             Array of hexes that - when rendered - form a parallelogram shape.
+         */
+        parallelogram(
+            widthOrOptions,
+            height,
+            start = Hex(),
+            direction = 'SE'
+        ) {
+            // TODO: validate direction
+            const DIRECTIONS = {
+                'SE': ['x', 'y'],
+                'SW': ['y', 'z'],
+                'N': ['z', 'x']
+            }
+
+            if (is.objectLiteral(widthOrOptions)) {
+                ({ width, height, start = Hex(), direction = 'SE' } = widthOrOptions)
+                return this.parallelogram(width, height, start, direction)
+            }
+
+            let width = widthOrOptions
+            const [ firstCoordinate, secondCoordinate ] = DIRECTIONS[direction]
+            const hexes = []
+
+            for (let first = 0; first < width; first++) {
+                for (let second = 0; second < height; second++) {
+                    hexes.push(
+                        Hex({
+                            [firstCoordinate]: first,
+                            [secondCoordinate]: second
+                        }).add(Hex(start))
+                    )
+                }
+            }
+
+            return hexes
+        },
+
+        /**
+         * @method Grid#triangle
+         *
+         * @description
+         * Creates a grid in the shape of a [(equilateral) triangle](https://en.wikipedia.org/wiki/Equilateral_triangle).
+         *
+         * @todo Validate the direction param
+         * @todo Either use numeric directions (like Hex#neighbor), or "compass" directions, not both.
+         * @todo Add examples.
+         *
+         * @see {@link http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
+         *
+         * @param   {(Number|Object)} sideOrOptions     The side length (in hexes) or an options object.
+         * @param   {Hex=} start                        The origin hex.
+         * @param   {('down'|'up')} [direction=down]    The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. In this case a triangle pointing up/down (with pointy hexes) or right/left (with flat hexes).
+         *
+         * @returns {Hex[]}                             Array of hexes that - when rendered - form a triangle shape.
+         */
+        triangle(
+            sideOrOptions,
+            start = Hex(),
+            direction = 'down'
+        ) {
+            // TODO: validate direction
+            const DIRECTIONS = {
+                'down': {
+                    yStart: () => 0,
+                    yEnd: x => side - x
+                },
+                'up': {
+                    yStart: x => side - x,
+                    yEnd: () => side + 1
+                }
+            }
+
+            if (is.objectLiteral(sideOrOptions)) {
+                ({ side, start = Hex(), direction = 'down' } = sideOrOptions)
+                return this.triangle(side, start, direction)
+            }
+
+            let side = sideOrOptions
+            const { yStart, yEnd } = DIRECTIONS[direction]
+            const hexes = []
+
+            for (let x = 0; x < side; x++) {
+                for (let y = yStart(x); y < yEnd(x); y++) {
+                    hexes.push(Hex(x, y).add(Hex(start)))
+                }
+            }
+
+            return hexes
+        },
+
+        /**
+         * @method Grid#hexagon
+         *
+         * @description
+         * Creates a grid in the shape of a [hexagon](https://en.wikipedia.org/wiki/Hexagon).
+         *
+         * @todo Add examples.
+         *
+         * @see {@link http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
+         *
+         * @param   {(Number|Object)} radiusOrOptions   The radius (in hexes) or an options object.
+         * @param   {Hex=} center                       The center hex.
+         *
+         * @returns {Hex[]}                             Array of hexes that - when rendered - form a hexagon shape (very meta 😎).
+         */
+        hexagon(
+            radiusOrOptions,
+            center = Hex()
+        ) {
+            if (is.objectLiteral(radiusOrOptions)) {
+                ({ radius, center = Hex() } = radiusOrOptions)
+                return this.hexagon(radius, center)
+            }
+
+            let radius = radiusOrOptions
+            const hexes = []
+            // radius includes the center hex
+            radius -= 1
+
+            for (let x = -radius; x <= radius; x++) {
+                const startY = Math.max(-radius, -x - radius)
+                const endY = Math.min(radius, -x + radius)
+
+                for (let y = startY; y <= endY; y++) {
+                    hexes.push(Hex(x, y).add(Hex(center)))
+                }
+            }
+
+            return hexes
+        },
+
+        /**
+         * @method Grid#rectangle
+         *
+         * @description
+         * Creates a grid in the shape of a [rectangle](https://en.wikipedia.org/wiki/Rectangle).
+         *
+         * @todo Validate the direction param
+         * @todo Either use numeric directions (like Hex#neighbor), or "compass" directions, not both.
+         * @todo Add examples.
+         *
+         * @see {@link http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
+         *
+         * @param   {(Number|Object)} widthOrOptions    The width (in hexes) or an options object.
+         * @param   {Number=} height                    The height (in hexes).
+         * @param   {Hex=} start                        The origin hex.
+         * @param   {('E'|'NW'|'SW'|'SE'|'NE'|'W')} [direction=E/SE]
+         * The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. The default direction for pointy hexes is 'E' and 'SE' for flat hexes.
+         *
+         * @returns {Hex[]}                             Array of hexes that - when rendered - form a rectengular shape.
+         */
+        rectangle(
+            widthOrOptions,
+            height,
+            start = Hex(),
+            // rotate 60° counterclockwise for flat hexes
+            direction = Hex.isPointy() ? 'E' : 'SE'
+        ) {
+            const DIRECTIONS = {
+                'E': ['x', 'y'],
+                'NW': ['z', 'x'],
+                'SW': ['y', 'z'],
+                'SE': ['y', 'x'],
+                'NE': ['x', 'z'],
+                'W': ['z', 'y']
+            }
+            if (is.objectLiteral(widthOrOptions)) {
+                ({ width, height, start = Hex(), direction = Hex.isPointy() ? 'E' : 'SE' } = widthOrOptions)
+                return this.rectangle(width, height, start, direction)
+            }
+
+            let width = widthOrOptions
+            const [ firstCoordinate, secondCoordinate ] = DIRECTIONS[direction]
+            const firstStop = Hex.isPointy() ? width : height
+            const secondStop = Hex.isPointy() ? height : width
+            const hexes = []
+
+            for (let second = 0; second < secondStop; second++) {
+                const secondOffset = Math.floor(second / 2)
+
+                for (let first = -secondOffset; first < firstStop - secondOffset; first++) {
+                    hexes.push(
+                        Hex({
+                            [firstCoordinate]: first,
+                            [secondCoordinate]: second
+                        }).add(Hex(start))
+                    )
+                }
+            }
+
+            return hexes
         }
     }
-
-    if (is.objectLiteral(sideOrOptions)) {
-        ({ side, start = Hex(), direction = 'down' } = sideOrOptions)
-        return this.triangle(side, start, direction)
-    }
-
-    let side = sideOrOptions
-    const { yStart, yEnd } = DIRECTIONS[direction]
-    const hexes = []
-
-    for (let x = 0; x < side; x++) {
-        for (let y = yStart(x); y < yEnd(x); y++) {
-            hexes.push(Hex(x, y).add(Hex(start)))
-        }
-    }
-
-    return hexes
-}
-
-// http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline14
-// TODO: should also (only?) accept an object
-function hexagon(
-    radiusOrOptions,
-    center = Hex()
-) {
-    if (is.objectLiteral(radiusOrOptions)) {
-        ({ radius, center = Hex() } = radiusOrOptions)
-        return this.hexagon(radius, center)
-    }
-
-    let radius = radiusOrOptions
-    const hexes = []
-    // radius includes the center hex
-    radius -= 1
-
-    for (let x = -radius; x <= radius; x++) {
-        const startY = Math.max(-radius, -x - radius)
-        const endY = Math.min(radius, -x + radius)
-
-        for (let y = startY; y <= endY; y++) {
-            hexes.push(Hex(x, y).add(Hex(center)))
-        }
-    }
-
-    return hexes
-}
-
-// http://www.redblobgames.com/grids/hexagons/implementation.html#orgheadline15
-// TODO: should also (only?) accept an object
-function rectangle(
-    widthOrOptions,
-    height,
-    start = Hex(),
-    // rotate 60° counterclockwise for flat hexes
-    direction = Hex.isPointy() ? 'E' : 'SE'
-) {
-    // TODO: validate direction
-    const DIRECTIONS = {
-        'E': ['x', 'y'],
-        'NW': ['z', 'x'],
-        'SW': ['y', 'z'],
-        'SE': ['y', 'x'],
-        'NE': ['x', 'z'],
-        'W': ['z', 'y']
-    }
-    if (is.objectLiteral(widthOrOptions)) {
-        ({ width, height, start = Hex(), direction = Hex.isPointy() ? 'E' : 'SE' } = widthOrOptions)
-        return this.rectangle(width, height, start, direction)
-    }
-
-    let width = widthOrOptions
-    const [ firstCoordinate, secondCoordinate ] = DIRECTIONS[direction]
-    const firstStop = Hex.isPointy() ? width : height
-    const secondStop = Hex.isPointy() ? height : width
-    const hexes = []
-
-    for (let second = 0; second < secondStop; second++) {
-        const secondOffset = Math.floor(second / 2)
-
-        for (let first = -secondOffset; first < firstStop - secondOffset; first++) {
-            hexes.push(
-                Hex({
-                    [firstCoordinate]: first,
-                    [secondCoordinate]: second
-                }).add(Hex(start))
-            )
-        }
-    }
-
-    return hexes
 }

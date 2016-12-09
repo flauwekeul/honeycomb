@@ -2,9 +2,10 @@ import { is } from '../utils'
 import prototype from './proto'
 
 /**
- * Factory function for creating 2-dimensional points.
-
  * @function Point
+ *
+ * @description
+ * Factory function for creating 2-dimensional points.
  *
  * @param {Number} [x=0]                The x coordinate.
  * @param {Number} [y=0]                The y coordinate.
@@ -18,6 +19,8 @@ import prototype from './proto'
  * @param {Object} [coordinatesOrX]     Object containing any of the x and y coordinates.
  * @param {Number} [coordinatesOrX.x=0] The x coordinate.
  * @param {Number} [coordinatesOrX.y=0] The y coordinate.
+ *
+ * @returns {Point}                     A point object.
  */
 export default function Point(coordinatesOrX, y) {
     let x
