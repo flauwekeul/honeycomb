@@ -25,8 +25,8 @@ A grid is _viewless_, i.e.: it's an abstract grid with undefined dimensions. If 
 -   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object containing a `hex` property
     -   `options.hex` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object that can contain a size, orientation and origin.
         This will be refactored 😬
--   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-    -   `$0.hex`  
+-   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+    -   `$0.hex`
 
 **Examples**
 
@@ -397,9 +397,9 @@ Factory function for creating a DOM view object. This object can be used to rend
     -   `options.container` **[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node/nextSibling)** A DOM node to render hexes in.
     -   `options.hex` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object containing a `hex` property with an `element` property that get's passed to [Hex#element](#hexelement).
     -   `options.origin` **[Point](#point)** A point where the first hex (i.e. `Hex(0, 0, 0)`) can be rendered.
--   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-    -   `$0.container`  
-    -   `$0.hex`  
+-   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+    -   `$0.container`
+    -   `$0.hex`
     -   `$0.origin`   (optional, default `Point(0, 0)`)
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object with helper methods like to render a view for a hex grid using the DOM.
@@ -441,11 +441,11 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 10. Maybe add instance methods for `Grid` and `Views.DOM` to get/set options. Then it's optional to pass the options to the `Grid` and `Views.DOM` factories and makes it possible to get/set those options later.
 11. Make it an option to filter overlapping hexes when multiple shapes are rendered.
 12. Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped.
-13. Documentation.
 14. Shiny github.io pages 😎
 
 ### Refactorings
 
+1.  Moar examples!
+1.  Think some more about the best way to generate hexes and grids. It should be possible to have multiple grids, each with different hex sizes/origins/orientations.
 1.  Put tests in same directory as the code they're testing.
-2.  Replace `Hex.prototype` by a regular object (could be `Grid`?). [`prototype` should only be used when creating objects using the `new` keyword](https://youtu.be/DqGwxR_0d1M?t=10m6s), which [I don't want](https://medium.com/javascript-scene/javascript-factory-functions-vs-constructor-functions-vs-classes-2f22ceddf33e#.hkixbbhbk) 🤓.
 3.  Maybe create a 'base hex' prototype/factory which can be mixed in a 'pointy hex' and 'flat hex' factory. A lot of calculations differ based on the hex orientation.
