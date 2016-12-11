@@ -23,7 +23,7 @@
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.9.0",
     "chai": "^3.5.0",
-    "documentation": "4.0.0-beta13",
+    "documentation": "4.0.0-beta16",
     "eslint": "^3.1.1",
     "isparta": "^4.0.0",
     "jsdom": "^9.3.0",

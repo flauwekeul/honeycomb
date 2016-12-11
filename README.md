@@ -25,8 +25,8 @@ A grid is _viewless_, i.e.: it's an abstract grid with undefined dimensions. If 
 -   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object containing a `hex` property
     -   `options.hex` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object that can contain a size, orientation and origin.
         This will be refactored 😬
--   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
-    -   `$0.hex`
+-   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+    -   `$0.hex`  
 
 **Examples**
 
@@ -79,9 +79,9 @@ Creates a grid in the shape of a [parallelogram](https://en.wikipedia.org/wiki/P
 **Parameters**
 
 -   `widthOrOptions` **([Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** The width (in hexes) or an options object.
--   `height` **\[[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)]** The height (in hexes).
--   `start` **\[[Hex](#hex)]** The origin hex.
--   `direction` **\[(`"SE"` \| `"SW"` \| `"N"`)]** The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. (optional, default `SE`)
+-   `height` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The height (in hexes).
+-   `start` **[Hex](#hex)?** The origin hex.
+-   `direction` **(`"SE"` \| `"SW"` \| `"N"`)?** The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. (optional, default `SE`)
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** Array of hexes that - when rendered - form a parallelogram shape.
 
@@ -92,8 +92,8 @@ Creates a grid in the shape of a [(equilateral) triangle](https://en.wikipedia.o
 **Parameters**
 
 -   `sideOrOptions` **([Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** The side length (in hexes) or an options object.
--   `start` **\[[Hex](#hex)]** The origin hex.
--   `direction` **\[(`"down"` \| `"up"`)]** The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. In this case a triangle pointing up/down (with pointy hexes) or right/left (with flat hexes). (optional, default `down`)
+-   `start` **[Hex](#hex)?** The origin hex.
+-   `direction` **(`"down"` \| `"up"`)?** The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. In this case a triangle pointing up/down (with pointy hexes) or right/left (with flat hexes). (optional, default `down`)
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** Array of hexes that - when rendered - form a triangle shape.
 
@@ -104,7 +104,7 @@ Creates a grid in the shape of a [hexagon](https://en.wikipedia.org/wiki/Hexagon
 **Parameters**
 
 -   `radiusOrOptions` **([Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** The radius (in hexes) or an options object.
--   `center` **\[[Hex](#hex)]** The center hex.
+-   `center` **[Hex](#hex)?** The center hex.
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** Array of hexes that - when rendered - form a hexagon shape (very meta 😎).
 
@@ -115,9 +115,9 @@ Creates a grid in the shape of a [rectangle](https://en.wikipedia.org/wiki/Recta
 **Parameters**
 
 -   `widthOrOptions` **([Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** The width (in hexes) or an options object.
--   `height` **\[[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)]** The height (in hexes).
--   `start` **\[[Hex](#hex)]** The origin hex.
--   `direction` **\[(`"E"` \| `"NW"` \| `"SW"` \| `"SE"` \| `"NE"` \| `"W"`)]** The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. The default direction for pointy hexes is 'E' and 'SE' for flat hexes. (optional, default `E/SE`)
+-   `height` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The height (in hexes).
+-   `start` **[Hex](#hex)?** The origin hex.
+-   `direction` **(`"E"` \| `"NW"` \| `"SW"` \| `"SE"` \| `"NE"` \| `"W"`)?** The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. The default direction for pointy hexes is 'E' and 'SE' for flat hexes. (optional, default `E/SE`)
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** Array of hexes that - when rendered - form a rectengular shape.
 
@@ -133,12 +133,12 @@ Coordinates not passed to the factory are inferred using the other coordinates:
 
 **Parameters**
 
--   `coordinates` **\[([Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))]** The x coordinate or an object containing any of the x, y and z coordinates. (optional, default `0`)
-    -   `coordinates.x` **\[[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)]** The x coordinate. (optional, default `0`)
-    -   `coordinates.y` **\[[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)]** The y coordinate. (optional, default `0`)
-    -   `coordinates.z` **\[[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)]** The z coordinate. (optional, default `0`)
--   `y` **\[[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)]** The y coordinate. (optional, default `0`)
--   `z` **\[[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)]** The z coordinate. (optional, default `0`)
+-   `coordinates` **([Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))?** The x coordinate or an object containing any of the x, y and z coordinates. (optional, default `0`)
+    -   `coordinates.x` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The x coordinate. (optional, default `0`)
+    -   `coordinates.y` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate. (optional, default `0`)
+    -   `coordinates.z` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The z coordinate. (optional, default `0`)
+-   `y` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate. (optional, default `0`)
+-   `z` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The z coordinate. (optional, default `0`)
 
 **Examples**
 
@@ -194,7 +194,7 @@ When passed an orientation, it sets the orientation of all hexes to that value.
 
 **Parameters**
 
--   `newOrientation` **\[(`"flat"` \| `"pointy"`)]** Sets the orientation to this value.
+-   `newOrientation` **(`"flat"` \| `"pointy"`)?** Sets the orientation to this value.
 
 Returns **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The (new) current orientation.
 
@@ -214,7 +214,7 @@ Logs a warning when the size is invalid.
 
 **Parameters**
 
--   `newSize` **\[[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)]** Sets the size to this value.
+-   `newSize` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** Sets the size to this value.
 
 Returns **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The (new) current size.
 
@@ -234,7 +234,7 @@ When passed an element interpolator, it sets the element interpolator to this va
 
 **Parameters**
 
--   `stringOrInterpolator` **\[([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function))]** Sets the element interpolator to this value.
+-   `stringOrInterpolator` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function))?** Sets the element interpolator to this value.
 
 Returns **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The interpolated element.
 
@@ -257,7 +257,7 @@ When passed an origin, it sets the origin of all hexes to that value.
 
 **Parameters**
 
--   `newOrigin` **\[[Point](#point)]** Sets the origin to this value.
+-   `newOrigin` **[Point](#point)?** Sets the origin to this value.
 
 Returns **[Point](#point)** The (new) current origin or the hex's center if not yet set.
 
@@ -283,8 +283,8 @@ Returns the neighboring hex in the given direction.
 
 **Parameters**
 
--   `direction` **\[(`0` \| `1` \| `2` \| `3` \| `4` \| `5`)]** Any of the 6 directions. `0` is the Eastern direction (East-southeast when the hex is flat), `1` is 60° clockwise, and so forth. (optional, default `0`)
--   `diagonal` **\[[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)]** Whether to look for a neighbor perpendicular to the hex's corner instead of its side. (optional, default `false`)
+-   `direction` **(`0` \| `1` \| `2` \| `3` \| `4` \| `5`)?** Any of the 6 directions. `0` is the Eastern direction (East-southeast when the hex is flat), `1` is 60° clockwise, and so forth. (optional, default `0`)
+-   `diagonal` **[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** Whether to look for a neighbor perpendicular to the hex's corner instead of its side. (optional, default `false`)
 
 Returns **[Hex](#hex)** The neighboring hex.
 
@@ -344,10 +344,10 @@ Factory function for creating 2-dimensional points.
 
 **Parameters**
 
--   `coordinatesOrX` **\[([Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)> | [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))]** The x coordinate or an array or object of x and/or y coordinates. (optional, default `0`)
-    -   `coordinatesOrX.x` **\[[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)]** The x coordinate. (optional, default `0`)
-    -   `coordinatesOrX.y` **\[[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)]** The y coordinate. (optional, default `0`)
--   `y` **\[[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)]** The y coordinate. (optional, default `0`)
+-   `coordinatesOrX` **([Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)> | [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))?** The x coordinate or an array or object of x and/or y coordinates. (optional, default `0`)
+    -   `coordinatesOrX.x` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The x coordinate. (optional, default `0`)
+    -   `coordinatesOrX.y` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate. (optional, default `0`)
+-   `y` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate. (optional, default `0`)
 
 Returns **[Point](#point)** A point object.
 
@@ -397,9 +397,9 @@ Factory function for creating a DOM view object. This object can be used to rend
     -   `options.container` **[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node/nextSibling)** A DOM node to render hexes in.
     -   `options.hex` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object containing a `hex` property with an `element` property that get's passed to [Hex#element](#hexelement).
     -   `options.origin` **[Point](#point)** A point where the first hex (i.e. `Hex(0, 0, 0)`) can be rendered.
--   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
-    -   `$0.container`
-    -   `$0.hex`
+-   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+    -   `$0.container`  
+    -   `$0.hex`  
     -   `$0.origin`   (optional, default `Point(0, 0)`)
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object with helper methods like to render a view for a hex grid using the DOM.
@@ -441,11 +441,11 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 10. Maybe add instance methods for `Grid` and `Views.DOM` to get/set options. Then it's optional to pass the options to the `Grid` and `Views.DOM` factories and makes it possible to get/set those options later.
 11. Make it an option to filter overlapping hexes when multiple shapes are rendered.
 12. Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped.
-14. Shiny github.io pages 😎
+13. Shiny github.io pages 😎
 
 ### Refactorings
 
 1.  Moar examples!
-1.  Think some more about the best way to generate hexes and grids. It should be possible to have multiple grids, each with different hex sizes/origins/orientations.
-1.  Put tests in same directory as the code they're testing.
-3.  Maybe create a 'base hex' prototype/factory which can be mixed in a 'pointy hex' and 'flat hex' factory. A lot of calculations differ based on the hex orientation.
+2.  Think some more about the best way to generate hexes and grids. It should be possible to have multiple grids, each with different hex sizes/origins/orientations.
+3.  Put tests in same directory as the code they're testing.
+4.  Maybe create a 'base hex' prototype/factory which can be mixed in a 'pointy hex' and 'flat hex' factory. A lot of calculations differ based on the hex orientation.
