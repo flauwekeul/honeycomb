@@ -115,10 +115,12 @@ describe('DOM View rendering', () => {
 
     describe('render', () => {
         it('renders a rectangle from the passed grid', () => {
-            // mock container offsetWidth and offsetHeight because jsdom can't calculate it
-            // https://github.com/tmpvar/jsdom/issues/135
-            container.offsetWidth = 30
-            container.offsetHeight = 30
+            // mock container offsetWidth and offsetHeight because there's no setter
+            // https://github.com/tmpvar/jsdom/issues/135#issuecomment-68191941
+            Object.defineProperties(container, {
+                offsetWidth: { value: 30 },
+                offsetHeight: { value: 30 }
+            })
 
             dom.render(grid)
 
