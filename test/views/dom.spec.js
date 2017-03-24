@@ -68,7 +68,7 @@ describe('DOM View rendering', () => {
         sinon.spy(grid, 'rectangle')
     })
 
-    after(() => {
+    afterEach(() => {
         dom.renderHexes.restore()
         grid.rectangle.restore()
     })
