@@ -23,7 +23,7 @@ if (PRODUCTION) {
 module.exports = {
     entry: './src/index',
     output: {
-        path: './lib',
+        path: path.resolve('./lib'),
         filename: filename,
         library: libraryName,
         libraryTarget: 'umd',
@@ -32,15 +32,9 @@ module.exports = {
     devtool: devtool,
     plugins: plugins,
     module: {
-        loaders: [
-            {
-                test: /\.js$/,
-                include: path.join(__dirname, 'src'),
-                loader: 'babel-loader',
-                query: {
-                    presets: [ 'es2015' ],
-                }
-            }
-        ]
+        rules: [{
+            test: /\.js$/,
+            use: { loader: 'babel-loader' }
+        }]
     }
 }
