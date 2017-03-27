@@ -5,13 +5,14 @@
   "main": "lib/honeycomb.min.js",
   "scripts": {
     "build": "webpack",
+    "coverage": "NODE_ENV=test nyc --reporter lcov --reporter text mocha --require ./test/config.js --recursive",
     "dev": "webpack --progress --colors --watch",
     "docs": "documentation readme ./src --section Documentation",
     "docs:serve": "documentation serve ./src --watch",
     "lint": "eslint src test --fix; exit 0",
     "prepublish": "NODE_ENV=production npm test && npm run docs && npm run build",
     "start": "npm run build && node lib/honeycomb.js",
-    "test": "NODE_ENV=test nyc --reporter lcov --reporter text mocha --require ./test/config.js --recursive"
+    "test": "NODE_ENV=test nyc mocha --require ./test/config.js --recursive --watch --bail"
   },
   "author": "Abbe Keultjes <flauwekeul@gmail.com>",
   "license": "MIT",
@@ -31,7 +32,7 @@
     "nyc": "^10.1.2",
     "sinon": "^2.1.0",
     "sinon-chai": "^2.9.0",
-    "webpack": "^2.3.1"
+    "webpack": "^2.3.2"
   },
   "directories": {
     "lib": "lib",
