@@ -25,8 +25,8 @@ A grid is _viewless_, i.e.: it's an abstract grid with undefined dimensions. If 
 -   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object containing a `hex` property
     -   `options.hex` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object that can contain a size, orientation and origin.
         This will be refactored 😬
--   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-    -   `$0.hex`  
+-   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+    -   `$0.hex`
 
 **Examples**
 
@@ -397,9 +397,9 @@ Factory function for creating a DOM view object. This object can be used to rend
     -   `options.container` **[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node/nextSibling)** A DOM node to render hexes in.
     -   `options.hex` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object containing a `hex` property with an `element` property that get's passed to [Hex#element](#hexelement).
     -   `options.origin` **[Point](#point)** A point where the first hex (i.e. `Hex(0, 0, 0)`) can be rendered.
--   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-    -   `$0.container`  
-    -   `$0.hex`  
+-   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+    -   `$0.container`
+    -   `$0.hex`
     -   `$0.origin`   (optional, default `Point(0, 0)`)
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object with helper methods like to render a view for a hex grid using the DOM.
@@ -446,6 +446,7 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 ### Refactorings
 
 1.  Moar examples!
+1.  Replace arrow functions with regular functions in [mocha tests](https://mochajs.org/#arrow-functions).
 2.  Think some more about the best way to generate hexes and grids. It should be possible to have multiple grids, each with different hex sizes/origins/orientations.
 3.  Put tests in same directory as the code they're testing.
 4.  Maybe create a 'base hex' prototype/factory which can be mixed in a 'pointy hex' and 'flat hex' factory. A lot of calculations differ based on the hex orientation.
