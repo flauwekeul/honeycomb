@@ -12,12 +12,12 @@
     "lint": "eslint src test --fix; exit 0",
     "prepublish": "NODE_ENV=production npm test && npm run docs && npm run build",
     "start": "npm run build && node lib/honeycomb.js",
-    "test": "NODE_ENV=test nyc mocha --require ./test/config.js --recursive --watch --bail"
+    "test": "NODE_ENV=test nyc mocha --require ./test/config.js --recursive",
+    "test:watch": "npm test -- --watch --bail"
   },
   "author": "Abbe Keultjes <flauwekeul@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "babel-cli": "^6.10.1",
     "babel-core": "^6.9.1",
     "babel-loader": "^6.2.4",
     "babel-plugin-istanbul": "^4.1.1",
