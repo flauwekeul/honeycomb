@@ -1,9 +1,14 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 
-import { unsignNegativeZero } from '../../src/utils'
-import Hex from '../../src/hex'
+import HexFactory from '../../src/hex'
+import {
+    DIRECTION_COORDINATES,
+    DIAGONAL_DIRECTION_COORDINATES
+} from '../../src/hex/constants'
 import * as statics from '../../src/hex/statics'
+
+const Hex = HexFactory()
 
 describe('Hex static methods', () => {
     describe('thirdCoordinate', () => {
@@ -31,15 +36,47 @@ describe('Hex static methods', () => {
     })
 
     describe('hexesBetween', () => {
-        it('returns the hexes in a straight line between the first and second hex, inclusive', () => {
-            expect(statics.hexesBetween(Hex(), Hex(1, -5, 4))).to.deep.include.members([
-                Hex(0, 0, 0),
-                Hex(0, -1, 1),
-                Hex(0, -2, 2),
-                Hex(1, -3, 2),
-                Hex(1, -4, 3),
-                Hex(1, -5, 4)
-            ])
+        let hexesBetween
+
+        before(() => {
+            sinon.stub(Hex, 'distance')
+            hexesBetween = statics.hexesBetweenFactory({ Hex })
+        })
+
+        after(() => Hex.distance.restore())
+
+        it('calls Hex.distance', () => {
+            hexesBetween()
+            expect(Hex.distance).to.have.been.called
+        })
+
+        describe('when the distance between the passed hexes is 1', () => {
+            before(() => Hex.distance.returns(1))
+
+            it('returns the first and second hex in an array', () => {
+                const firstHex = Hex()
+                const secondHex = Hex()
+                const result = hexesBetween(firstHex, secondHex)
+                expect(result).to.eql([ firstHex, secondHex ])
+            })
+        })
+
+        describe('when the distance between the passed hexes is > 1', () => {
+            before(() => Hex.distance.callThrough())
+
+            it('returns the hexes in a straight line between the first and second hex, inclusive', () => {
+                const firstHex = Hex()
+                const secondHex = Hex(1, -5, 4)
+                const result = hexesBetween(firstHex, secondHex)
+                expect(result).to.eql([
+                    firstHex,
+                    Hex(0, -1, 1),
+                    Hex(0, -2, 2),
+                    Hex(1, -3, 2),
+                    Hex(1, -4, 3),
+                    secondHex
+                ])
+            })
         })
     })
 
@@ -66,38 +103,69 @@ describe('Hex static methods', () => {
     })
 
     describe('neighbor', () => {
+        let neighbor
+        const hex = Hex()
+
+        before(() => {
+            sinon.spy(Hex, 'add')
+            neighbor = statics.neighborFactory({ Hex })
+        })
+
+        after(() => Hex.add.restore())
+
         describe('of a given hex', () => {
-            it('returns the neighboring hex in direction 0', () => {
-                const result = statics.neighbor(Hex(-5, -2, 7))
-                expect(result).to.contain({ x: -4, y: -3, z: 7 })
+            it('returns the result of calling Hex.add with the passed hex and DIRECTION_COORDINATES[0]', () => {
+                const result = neighbor(hex)
+                expect(Hex.add).to.have.been.calledWith(hex, DIRECTION_COORDINATES[0])
+                expect(result).to.contain(DIRECTION_COORDINATES[0])
             })
         })
 
-        describe('with a given direction between 0 and 6', () => {
+        describe('with a given direction between 0 and 5', () => {
             it('returns the neighboring hex in the given direction', () => {
-                const result = statics.neighbor(Hex(-5, -2, 7), 3)
-                expect(result).to.contain({ x: -6, y: -1, z: 7 })
+                expect(neighbor(hex, 0)).to.contain(DIRECTION_COORDINATES[0])
+                expect(neighbor(hex, 1)).to.contain(DIRECTION_COORDINATES[1])
+                expect(neighbor(hex, 2)).to.contain(DIRECTION_COORDINATES[2])
+                expect(neighbor(hex, 3)).to.contain(DIRECTION_COORDINATES[3])
+                expect(neighbor(hex, 4)).to.contain(DIRECTION_COORDINATES[4])
+                expect(neighbor(hex, 5)).to.contain(DIRECTION_COORDINATES[5])
             })
         })
 
-        describe('with a given direction > 5', () => {
+        describe('with a given direction < 0 or > 5', () => {
             it('returns the neighboring hex in the given direction after getting the direction\'s remainder', () => {
-                const result = statics.neighbor(Hex(-5, -2, 7), 38)
-                expect(result).to.contain({ x: -5, y: -1, z: 6 })
+                expect(neighbor(hex, 6)).to.contain(DIRECTION_COORDINATES[0])
+                expect(neighbor(hex, 92)).to.contain(DIRECTION_COORDINATES[2])
+                expect(neighbor(hex, -4)).to.contain(DIRECTION_COORDINATES[4])
             })
         })
 
         describe('with the diagonal flag enabled', () => {
             it('returns the diagonally neighboring hex in the given direction', () => {
-                const result = statics.neighbor(Hex(-5, -2, 7), 5, true)
-                expect(result).to.contain({ x: -4, y: -4, z: 8 })
+                expect(neighbor(hex, 3, true)).to.contain(DIAGONAL_DIRECTION_COORDINATES[3])
             })
         })
     })
 
     describe('distance', () => {
+        let distance
+
+        before(() => {
+            sinon.spy(Hex, 'subtract')
+            distance = statics.distanceFactory({ Hex })
+        })
+
+        after(() => Hex.subtract.restore())
+
+        it('calls Hex.subtract', () => {
+            const firstHex = Hex()
+            const secondHex = Hex()
+            distance(firstHex, secondHex)
+            expect(Hex.subtract).to.have.been.calledWith(firstHex, secondHex)
+        })
+
         it('returns the amount of hexes between the passed hexes', () => {
-            const result = statics.distance(Hex(0, -3, 3), Hex(2, 1, -3))
+            const result = distance(Hex(0, -3, 3), Hex(2, 1, -3))
             expect(result).to.equal(6)
         })
     })

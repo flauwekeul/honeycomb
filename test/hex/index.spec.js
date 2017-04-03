@@ -1,7 +1,40 @@
 import { expect } from 'chai'
-import Hex from '../../src/hex'
+import HexFactory from '../../src/hex'
+
+describe('HexFactory', () => {
+    it('returns a Hex factory function that has the Hex static methods', () => {
+        const prototype = {}
+        const Hex = HexFactory(prototype)
+        const staticMethodCount = Object.keys(Hex).length
+
+        expect(Hex).to.be.a('function')
+        expect(staticMethodCount).to.equal(10)
+        expect(Hex).to.have.property('thirdCoordinate')
+        expect(Hex).to.have.property('isValidSize')
+        expect(Hex).to.have.property('hexesBetween')
+        expect(Hex).to.have.property('add')
+        expect(Hex).to.have.property('subtract')
+        expect(Hex).to.have.property('neighbor')
+        expect(Hex).to.have.property('distance')
+        expect(Hex).to.have.property('round')
+        expect(Hex).to.have.property('lerp')
+        expect(Hex).to.have.property('nudge')
+    })
+
+    it('returns a Hex factory function that produces hexes with the passed prototype', () => {
+        const prototype = { some: 'property' }
+        const Hex = HexFactory(prototype)
+        const result = Object.getPrototypeOf(Hex())
+
+        expect(result).to.equal(prototype)
+    })
+})
 
 describe('Hex creation', () => {
+    let Hex
+
+    before(() => Hex = HexFactory({}))
+
     describe('with 3 numbers', () => {
         it('sets them as cube coordinates in the order x, y, z', () => {
             expect(Hex(3, -5, 2)).to.contain({ x: 3, y: -5, z: 2 })

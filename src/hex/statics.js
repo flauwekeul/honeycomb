@@ -1,30 +1,8 @@
-import { unsignNegativeZero } from '../utils'
 import {
     DIRECTION_COORDINATES,
     DIAGONAL_DIRECTION_COORDINATES,
     EPSILON
 } from './constants'
-import Hex from './index'
-
-const thirdCoordinate = thirdCoordinateFactory({ unsignNegativeZero })
-const add = addFactory({ Hex })
-const subtract = subtractFactory({ Hex })
-const round = roundFactory({ Hex })
-const lerp = lerpFactory({ Hex })
-const nudge = nudgeFactory({ Hex })
-
-export default ({
-    thirdCoordinate,
-    isValidSize,
-    hexesBetween,
-    add,
-    subtract,
-    neighbor,
-    distance,
-    round,
-    lerp,
-    nudge
-})
 
 export function thirdCoordinateFactory({ unsignNegativeZero }) {
     /**
@@ -57,33 +35,35 @@ export function isValidSize(size) {
     return size >= 0 && size !== null
 }
 
-/**
- * @method Hex#hexesBetween
- *
- * @description
- * Returns the hexes in a straight line between itself and the given hex, inclusive.
- *
- * @see {@link http://www.redblobgames.com/grids/hexagons/#line-drawing|redblobgames.com}
- *
- * @param   {Hex} hex   The hex to return the hexes in between to.
- *
- * @returns {Hex[]}     Hexes between the current and the passed hex.
- */
-export function hexesBetween(firstHex, secondHex) {
-    const _distance = distance(firstHex, secondHex)
+export function hexesBetweenFactory({ Hex }) {
+    /**
+     * @method Hex#hexesBetween
+     *
+     * @description
+     * Returns the hexes in a straight line between itself and the given hex, inclusive.
+     *
+     * @see {@link http://www.redblobgames.com/grids/hexagons/#line-drawing|redblobgames.com}
+     *
+     * @param   {Hex} hex   The hex to return the hexes in between to.
+     *
+     * @returns {Hex[]}     Hexes between the current and the passed hex.
+     */
+    return function hexesBetween(firstHex, secondHex) {
+        const _distance = Hex.distance(firstHex, secondHex)
 
-    if (_distance === 1) {
-        return [firstHex, secondHex]
+        if (_distance === 1) {
+            return [firstHex, secondHex]
+        }
+
+        const step = 1.0 / Math.max(_distance, 1)
+        let hexes = []
+
+        for (let i = 0; i <= _distance; i++) {
+            hexes.push(Hex.round(Hex.lerp(Hex.nudge(firstHex), Hex.nudge(secondHex), step * i)))
+        }
+
+        return hexes
     }
-
-    const step = 1.0 / Math.max(_distance, 1)
-    let hexes = []
-
-    for (let i = 0; i <= _distance; i++) {
-        hexes.push(round(lerp(nudge(firstHex), nudge(secondHex), step * i)))
-    }
-
-    return hexes
 }
 
 export function addFactory({ Hex }) {
@@ -118,49 +98,53 @@ export function subtractFactory({ Hex }) {
     }
 }
 
-/**
- * @method Hex#neighbor
- *
- * @description
- * Returns the neighboring hex in the given direction.
- *
- * @todo Add examples.
- *
- * @see {@link http://www.redblobgames.com/grids/hexagons/#neighbors|redblobgames.com}
- *
- * @param   {(0|1|2|3|4|5)}  [direction=0]  Any of the 6 directions. `0` is the Eastern direction (East-southeast when the hex is flat), `1` is 60° clockwise, and so forth.
- * @param   {Boolean} [diagonal=false]      Whether to look for a neighbor perpendicular to the hex's corner instead of its side.
- *
- * @returns {Hex}                           The neighboring hex.
- */
-export function neighbor(hex, direction = 0, diagonal = false) {
-    direction = direction % 6
-    const coordinates = diagonal ?
-        DIAGONAL_DIRECTION_COORDINATES[direction] :
-        DIRECTION_COORDINATES[direction]
+export function neighborFactory({ Hex }) {
+    /**
+     * @method Hex#neighbor
+     *
+     * @description
+     * Returns the neighboring hex in the given direction.
+     *
+     * @todo Add examples.
+     *
+     * @see {@link http://www.redblobgames.com/grids/hexagons/#neighbors|redblobgames.com}
+     *
+     * @param   {(0|1|2|3|4|5)}  [direction=0]  Any of the 6 directions. `0` is the Eastern direction (East-southeast when the hex is flat), `1` is 60° clockwise, and so forth.
+     * @param   {Boolean} [diagonal=false]      Whether to look for a neighbor perpendicular to the hex's corner instead of its side.
+     *
+     * @returns {Hex}                           The neighboring hex.
+     */
+    return function neighbor(hex, direction = 0, diagonal = false) {
+        direction = Math.abs(direction % 6)
+        const coordinates = diagonal ?
+            DIAGONAL_DIRECTION_COORDINATES[direction] :
+            DIRECTION_COORDINATES[direction]
 
-    return add(hex, coordinates)
+        return Hex.add(hex, coordinates)
+    }
 }
 
-/**
- * @method Hex#distance
- *
- * @description
- * Returns the amount of hexes between the current and the given hex.
- *
- * @see {@link http://www.redblobgames.com/grids/hexagons/#distances|redblobgames.com}
- *
- * @param   {Hex} hex   The hex to return the distance to.
- *
- * @returns {Number}    The amount of hexes between the current and the one passed.
- */
-export function distance(firstHex, secondHex) {
-    const relativeHex = subtract(firstHex, secondHex)
-    return Math.max(
-        Math.abs(relativeHex.x),
-        Math.abs(relativeHex.y),
-        Math.abs(relativeHex.z)
-    )
+export function distanceFactory({ Hex }) {
+    /**
+     * @method Hex#distance
+     *
+     * @description
+     * Returns the amount of hexes between the current and the given hex.
+     *
+     * @see {@link http://www.redblobgames.com/grids/hexagons/#distances|redblobgames.com}
+     *
+     * @param   {Hex} hex   The hex to return the distance to.
+     *
+     * @returns {Number}    The amount of hexes between the current and the one passed.
+     */
+    return function distance(firstHex, secondHex) {
+        const relativeHex = Hex.subtract(firstHex, secondHex)
+        return Math.max(
+            Math.abs(relativeHex.x),
+            Math.abs(relativeHex.y),
+            Math.abs(relativeHex.z)
+        )
+    }
 }
 
 export function roundFactory({ Hex }) {
@@ -183,11 +167,11 @@ export function roundFactory({ Hex }) {
         const diffZ = Math.abs(hex.z - roundedZ)
 
         if (diffX > diffY && diffX > diffZ) {
-            roundedX = thirdCoordinate(roundedY, roundedZ)
+            roundedX = Hex.thirdCoordinate(roundedY, roundedZ)
         } else if (diffY > diffZ) {
-            roundedY = thirdCoordinate(roundedX, roundedZ)
+            roundedY = Hex.thirdCoordinate(roundedX, roundedZ)
         } else {
-            roundedZ = thirdCoordinate(roundedX, roundedY)
+            roundedZ = Hex.thirdCoordinate(roundedX, roundedY)
         }
 
         return Hex(roundedX, roundedY, roundedZ)
@@ -228,6 +212,6 @@ export function nudgeFactory({ Hex }) {
      * @returns {Hex}   A new hex with a minute offset.
      */
     return function nudge(hex) {
-        return add(hex, Hex(EPSILON))
+        return Hex.add(hex, Hex(EPSILON))
     }
 }

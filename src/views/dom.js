@@ -1,6 +1,8 @@
 import isDom from 'is-dom'
 import Point from '../point'
-import Hex from '../hex'
+import HexFactory from '../hex'
+
+const Hex = HexFactory()
 
 /**
  * @function Views.DOM

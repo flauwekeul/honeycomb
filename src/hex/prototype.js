@@ -1,10 +1,14 @@
-import { is } from '../utils'
-
 import { ORIENTATIONS } from './constants'
-import Hex from '.'
 import Point from '../point'
 
 export default ({
+    // default settings:
+    orientation: ORIENTATIONS.FLAT,
+    size: 1,
+    origin: Point(),
+    template: hex => hex,
+
+    // methods:
     coordinates,
     isPointy,
     isFlat,
@@ -14,8 +18,7 @@ export default ({
     width,
     height,
     center: centerFactory({ Point }),
-    toPoint: toPointFactory({ Point }),
-    fromPoint: fromPointFactory({ Point, Hex })
+    toPoint: toPointFactory({ Point })
 })
 
 export function coordinates() {
@@ -115,17 +118,18 @@ export function toPointFactory({ Point }) {
         let x, y
 
         if (this.isPointy()) {
-            x = this.size() * Math.sqrt(3) * (this.x + this.y / 2)
-            y = this.size() * 3/2 * this.y
+            x = this.size * Math.sqrt(3) * (this.x + this.y / 2)
+            y = this.size * 3/2 * this.y
         } else {
-            x = this.size() * 3/2 * this.x
-            y = this.size() * Math.sqrt(3) * (this.y + this.x / 2)
+            x = this.size * 3/2 * this.x
+            y = this.size * Math.sqrt(3) * (this.y + this.x / 2)
         }
 
-        return Point(x, y).subtract(this.origin())
+        return Point(x, y).subtract(this.origin)
     }
 }
 
+// TODO: move this to the Grid (prototype) method
 export function fromPointFactory({ Point, Hex }) {
     /**
      * @method Hex#fromPoint
@@ -140,7 +144,7 @@ export function fromPointFactory({ Point, Hex }) {
      * @returns {Hex}           The hex (with rounded coordinates) the passed 2D point corresponds to.
      */
     return function fromPoint(point) {
-        const size = this.size()
+        const size = this.size
         let x, y
 
         // guarantee point is an actual Point instance
