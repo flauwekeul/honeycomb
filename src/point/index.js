@@ -1,5 +1,5 @@
 import { is } from '../utils'
-import prototype from './proto'
+import pointPrototype from './prototype'
 
 /**
  * @function Point
@@ -33,7 +33,7 @@ export default function Point(coordinatesOrX, y) {
     }
 
     return Object.assign(
-        Object.create(prototype),
+        Object.create(pointPrototype),
         { x, y }
     )
 }

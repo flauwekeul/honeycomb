@@ -1,6 +1,6 @@
 import Point from '.'
 
-export default {
+export default ({
     /**
      * @method Point#add
      * @param {Point} point The point to add to the current point.
@@ -48,4 +48,4 @@ export default {
     invert() {
         return this.multiply(Point(-1))
     }
-}
+})
