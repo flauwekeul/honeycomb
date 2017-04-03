@@ -1,8 +1,9 @@
 import { is, unsignNegativeZero } from '../utils'
 
-import methods from './methods'
+import statics from './statics'
+import hexPrototype from './prototype'
 
-Object.assign(Hex, methods)
+Object.assign(Hex, statics)
 
 /**
  * @function Hex
@@ -75,7 +76,7 @@ export default function Hex(...coordinates) {
     }
 
     return Object.assign(
-        Object.create(methods),
+        Object.create(hexPrototype),
         { x, y, z }
     )
 }

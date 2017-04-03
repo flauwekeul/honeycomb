@@ -20,3 +20,5 @@ export const ORIENTATIONS = {
     POINTY: 'POINTY',
     FLAT: 'FLAT'
 }
+
+export const EPSILON = { x: 1e-6, y: 1e-6, z: -2e-6 }
