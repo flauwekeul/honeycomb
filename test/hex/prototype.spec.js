@@ -41,8 +41,12 @@ describe('oppositeCornerDistance', () => {
 
 describe('oppositeSideDistance', () => {
     it('returns the distance between two opposite sides of a hex', () => {
-        const oppositeSideDistance = methods.oppositeSideDistance.bind({ size: 1 })
-        expect(oppositeSideDistance()).to.be.closeTo(0.4330, 0.0005)
+        const oppositeCornerDistance = sinon.stub().returns(1)
+        const oppositeSideDistance = methods.oppositeSideDistance.bind({ oppositeCornerDistance })
+        const result = oppositeSideDistance()
+
+        expect(oppositeCornerDistance).to.have.been.called
+        expect(result).to.be.closeTo(0.8660, 0.0005)
     })
 })
 

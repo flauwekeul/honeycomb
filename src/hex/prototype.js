@@ -37,7 +37,7 @@ export function oppositeCornerDistance() {
  * @returns {Number}    The distance between opposite sides of a hex.
  */
 export function oppositeSideDistance() {
-    return Math.sqrt(3) / 4 * this.size
+    return Math.sqrt(3) / 2 * this.oppositeCornerDistance()
 }
 
 /**
