@@ -11,16 +11,61 @@ const Hex = HexFactory()
 before(() => sinon.spy(is, 'objectLiteral'))
 after(() => is.objectLiteral.restore())
 
-describe.skip('pointToHex', () => {
-    it('converts a point to a hex by passing the passed point to Hex.fromPoint()', () => {
-        sinon.spy(Hex, 'fromPoint')
-        const pointToHex = methods.pointToHexFactory({ Hex })
-        const point = Point()
+describe('pointToHex', () => {
+    let Point, isPointy, hexResult, Hex, round, pointToHex, point
 
+    beforeEach(() => {
+        Point = sinon.stub().callsFake(point => point)
+        isPointy = sinon.stub()
+        hexResult = {
+            size: 1,
+            isPointy
+        }
+        Hex = sinon.stub().returns(hexResult)
+        round = sinon.stub().returns('round result')
+        Hex.round = round
+        pointToHex = methods.pointToHexFactory({ Point, Hex })
+        point = { x: 1, y: 1 }
+    })
+
+    it('calls Hex to access its size and isPointy', () => {
         pointToHex(point)
-        expect(Hex.fromPoint).to.have.been.calledWith(point)
+        expect(Hex).to.have.been.called
+    })
 
-        Hex.fromPoint.restore()
+    it('calls Point with the passed point to convert it to an actual point', () => {
+        pointToHex(point)
+        expect(Point).to.have.been.calledWith(point)
+    })
+
+    describe('when the hex has a pointy orientation', () => {
+        beforeEach(() => isPointy.returns(true))
+
+        it('creates a new hex', () => {
+            pointToHex(point)
+            expect(Hex.secondCall.args[0]).to.be.closeTo(0.2440, 0.0005)
+            expect(Hex.secondCall.args[1]).to.be.closeTo(0.6667, 0.0005)
+        })
+    })
+
+    describe('when the hex has a flat orientation', () => {
+        beforeEach(() => isPointy.returns(false))
+
+        it('creates a new hex', () => {
+            pointToHex(point)
+            expect(Hex.secondCall.args[0]).to.be.closeTo(0.6667, 0.0005)
+            expect(Hex.secondCall.args[1]).to.be.closeTo(0.2440, 0.0005)
+        })
+    })
+
+    it('rounds that hex', () => {
+        pointToHex(point)
+        expect(Hex.round).to.have.been.calledWith(hexResult)
+    })
+
+    it('returns the hex', () => {
+        const result = pointToHex(point)
+        expect(result).to.equal('round result')
     })
 })
 

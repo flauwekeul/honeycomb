@@ -1,4 +1,5 @@
 import { is } from '../utils'
+import Point from '../point'
 import * as methods from './methods'
 
 export default function GridFactory({ HexFactory }) {
@@ -32,7 +33,7 @@ export default function GridFactory({ HexFactory }) {
         const Hex = HexFactory(hexSettings)
 
         return {
-            pointToHex:     methods.pointToHexFactory({ Hex }),
+            pointToHex:     methods.pointToHexFactory({ Point, Hex }),
             hexToPoint:     methods.hexToPoint,
             colSize:        methods.colSizeFactory({ Hex }),
             rowSize:        methods.rowSizeFactory({ Hex }),

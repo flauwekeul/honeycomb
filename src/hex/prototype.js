@@ -107,36 +107,3 @@ export function toPointFactory({ Point }) {
         return Point(x, y).subtract(this.origin)
     }
 }
-
-// TODO: move this to the Grid (prototype) method
-export function fromPointFactory({ Point, Hex }) {
-    /**
-     * @method Hex#fromPoint
-     *
-     * @description
-     * Converts the passed 2-dimensional {@link Point|point} to a hex.
-     *
-     * @see {@link http://www.redblobgames.com/grids/hexagons/#pixel-to-hex|redblobgames.com}
-     *
-     * @param   {Point} point   The point to convert from.
-     *
-     * @returns {Hex}           The hex (with rounded coordinates) the passed 2D point corresponds to.
-     */
-    return function fromPoint(point) {
-        const size = this.size
-        let x, y
-
-        // guarantee point is an actual Point instance
-        point = Point(point)
-
-        if (this.isPointy()) {
-            x = (point.x * Math.sqrt(3)/3 - point.y / 3) / size
-            y = point.y * 2/3 / size
-        } else {
-            x = point.x * 2/3 / size
-            y = (-point.x / 3 + Math.sqrt(3)/3 * point.y) / size
-        }
-
-        return Hex.round(Hex(x, y))
-    }
-}
