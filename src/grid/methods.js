@@ -1,17 +1,3 @@
-import { is } from '../utils'
-import Hex from '../hex'
-
-export default ({
-    pointToHex: pointToHexFactory({ Hex }),
-    hexToPoint,
-    colSize: colSizeFactory({ Hex }),
-    rowSize: rowSizeFactory({ Hex }),
-    parallelogram: parallelogramFactory({ Hex, is }),
-    triangle: triangleFactory({ Hex, is }),
-    hexagon: hexagonFactory({ Hex, is }),
-    rectangle: rectangleFactory({ Hex, is })
-})
-
 export function pointToHexFactory({ Hex }) {
     /**
      * @method Grid#pointToHex
@@ -59,9 +45,10 @@ export function colSizeFactory({ Hex }) {
      * @returns {Number} The width of a (vertical) column of hexes in the grid.
      */
     return function colSize() {
-        return Hex.isPointy() ?
-            Hex.width() :
-            Hex.width() * 3/4
+        const hex = Hex()
+        return hex.isPointy() ?
+            hex.width() :
+            hex.width() * 3/4
     }
 }
 
@@ -74,9 +61,10 @@ export function rowSizeFactory({ Hex }) {
      * @returns {Number} The height of a (horizontal) row of hexes in the grid.
      */
     return function rowSize() {
-        return Hex.isPointy() ?
-            Hex.height() * 3/4 :
-            Hex.height()
+        const hex = Hex()
+        return hex.isPointy() ?
+            hex.height() * 3/4 :
+            hex.height()
     }
 }
 
@@ -125,10 +113,10 @@ export function parallelogramFactory({ Hex, is }) {
         for (let first = 0; first < width; first++) {
             for (let second = 0; second < height; second++) {
                 hexes.push(
-                    Hex({
-                        [firstCoordinate]: first,
-                        [secondCoordinate]: second
-                    }).add(Hex(start))
+                    Hex.add(
+                        Hex({ [firstCoordinate]: first, [secondCoordinate]: second }),
+                        Hex(start)
+                    )
                 )
             }
         }
@@ -184,7 +172,7 @@ export function triangleFactory({ Hex, is }) {
 
         for (let x = 0; x < side; x++) {
             for (let y = yStart(x); y < yEnd(x); y++) {
-                hexes.push(Hex(x, y).add(Hex(start)))
+                hexes.push(Hex.add(Hex(x, y), Hex(start)))
             }
         }
 
@@ -227,7 +215,7 @@ export function hexagonFactory({ Hex, is }) {
             const endY = Math.min(radius, -x + radius)
 
             for (let y = startY; y <= endY; y++) {
-                hexes.push(Hex(x, y).add(Hex(center)))
+                hexes.push(Hex.add(Hex(x, y), Hex(center)))
             }
         }
 
@@ -261,7 +249,7 @@ export function rectangleFactory({ Hex, is }) {
         height,
         start = Hex(),
         // rotate 60° counterclockwise for flat hexes
-        direction = Hex.isPointy() ? 'E' : 'SE'
+        direction = Hex().isPointy() ? 'E' : 'SE'
     ) {
         const DIRECTIONS = {
             'E': ['x', 'y'],
@@ -271,15 +259,17 @@ export function rectangleFactory({ Hex, is }) {
             'NE': ['x', 'z'],
             'W': ['z', 'y']
         }
+        const hex = Hex()
+
         if (is.objectLiteral(widthOrOptions)) {
-            const { width, height, start = Hex(), direction = Hex.isPointy() ? 'E' : 'SE' } = widthOrOptions
+            const { width, height, start = Hex(), direction = hex.isPointy() ? 'E' : 'SE' } = widthOrOptions
             return rectangle(width, height, start, direction)
         }
 
         let width = widthOrOptions
         const [ firstCoordinate, secondCoordinate ] = DIRECTIONS[direction]
-        const firstStop = Hex.isPointy() ? width : height
-        const secondStop = Hex.isPointy() ? height : width
+        const firstStop = hex.isPointy() ? width : height
+        const secondStop = hex.isPointy() ? height : width
         const hexes = []
 
         for (let second = 0; second < secondStop; second++) {
@@ -287,10 +277,10 @@ export function rectangleFactory({ Hex, is }) {
 
             for (let first = -secondOffset; first < firstStop - secondOffset; first++) {
                 hexes.push(
-                    Hex({
-                        [firstCoordinate]: first,
-                        [secondCoordinate]: second
-                    }).add(Hex(start))
+                    Hex.add(
+                        Hex({ [firstCoordinate]: first, [secondCoordinate]: second }),
+                        Hex(start)
+                    )
                 )
             }
         }

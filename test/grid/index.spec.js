@@ -1,35 +1,34 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 
-import Hex from '../../src/hex'
-import Grid from '../../src/grid'
+import HexFactory from '../../src/hex'
+import GridFactory from '../../src/grid'
 
-describe('Grid Creation', () => {
-    describe('with an object containing hex options', () => {
-        before(() => {
-            sinon.spy(Hex, 'size')
-            sinon.spy(Hex, 'orientation')
-            sinon.spy(Hex, 'origin')
-        })
-        after(() => {
-            Hex.size.restore()
-            Hex.orientation.restore()
-            Hex.origin.restore()
-        })
+describe('Grid', () => {
+    const HexFactorySpy = sinon.spy(HexFactory)
+    const Grid = GridFactory({ HexFactory: HexFactorySpy })
 
-        it('sets Hex.size', () => {
-            Grid({ hex: { size: 5 } })
-            expect(Hex.size).to.have.been.calledWith(5)
-        })
+    it('returns an object with the Grid methods', () => {
+        const result = Grid()
+        const methodCount = Object.keys(result).length
 
-        it('sets Hex.orientation', () => {
-            Grid({ hex: { orientation: 'pointy' } })
-            expect(Hex.orientation).to.have.been.calledWith('pointy')
-        })
+        expect(result).to.be.an('object')
+        expect(methodCount).to.equal(8)
+        expect(result).to.have.property('pointToHex')
+        expect(result).to.have.property('hexToPoint')
+        expect(result).to.have.property('colSize')
+        expect(result).to.have.property('rowSize')
+        expect(result).to.have.property('parallelogram')
+        expect(result).to.have.property('triangle')
+        expect(result).to.have.property('hexagon')
+        expect(result).to.have.property('rectangle')
+    })
 
-        it('sets Hex.origin', () => {
-            Grid({ hex: { origin: [-1, 0] } })
-            expect(Hex.origin).to.have.been.calledWith([-1, 0])
+    describe('when passed hex settings', () => {
+        it('passes the hex settings through to HexFactory', () => {
+            const hexSettings = { thisIs: 'a setting' }
+            Grid(hexSettings)
+            expect(HexFactorySpy).to.have.been.calledWith(hexSettings)
         })
     })
 })
