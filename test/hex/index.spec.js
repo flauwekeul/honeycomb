@@ -1,10 +1,10 @@
 import { expect } from 'chai'
 import HexFactory from '../../src/hex'
+import { ORIENTATIONS } from '../../src/hex/constants'
 
 describe('HexFactory', () => {
     it('returns a Hex factory function that has the Hex static methods', () => {
-        const prototype = {}
-        const Hex = HexFactory(prototype)
+        const Hex = HexFactory()
         const staticMethodCount = Object.keys(Hex).length
 
         expect(Hex).to.be.a('function')
@@ -21,12 +21,29 @@ describe('HexFactory', () => {
         expect(Hex).to.have.property('nudge')
     })
 
-    it('returns a Hex factory function that produces hexes with the passed prototype', () => {
-        const prototype = { some: 'property' }
-        const Hex = HexFactory(prototype)
+    it('returns a Hex factory with the default prototype', () => {
+        const Hex = HexFactory()
         const result = Object.getPrototypeOf(Hex())
 
-        expect(result).to.equal(prototype)
+        expect(result).to.have.property('orientation', ORIENTATIONS.FLAT)
+        expect(result).to.have.property('size', 1)
+        expect(result).to.have.property('origin').that.deep.contains({ x: 0, y: 0 })
+        expect(result).to.have.property('template').that.is.a('function')
+        expect(result.template('input')).to.equal('input')
+    })
+
+    describe('when passed hex settings', () => {
+        it('returns a Hex factory with the valid settings merged into the default prototype', () => {
+            const prototype = {
+                size: 100,
+                thisIsIgnored: 'value'
+            }
+            const Hex = HexFactory(prototype)
+            const result = Object.getPrototypeOf(Hex())
+
+            expect(result).to.not.have.property('thisIsIgnored')
+            expect(result).to.have.property('size', 100)
+        })
     })
 })
 

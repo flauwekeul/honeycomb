@@ -1,25 +1,4 @@
 import { ORIENTATIONS } from './constants'
-import Point from '../point'
-
-export default ({
-    // default settings:
-    orientation: ORIENTATIONS.FLAT,
-    size: 1,
-    origin: Point(),
-    template: hex => hex,
-
-    // methods:
-    coordinates,
-    isPointy,
-    isFlat,
-    oppositeCornerDistance,
-    oppositeSideDistance,
-    view,
-    width,
-    height,
-    center: centerFactory({ Point }),
-    toPoint: toPointFactory({ Point })
-})
 
 export function coordinates() {
     return {

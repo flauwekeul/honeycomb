@@ -1,9 +1,35 @@
 import { is, unsignNegativeZero } from '../utils'
-
+import { ORIENTATIONS } from './constants'
+import Point from '../point'
 import * as statics from './statics'
-import defaultPrototype from './prototype'
+import * as methods from './prototype'
 
-export default function HexFactory(prototype = defaultPrototype) {
+export default function HexFactory({
+    orientation = ORIENTATIONS.FLAT,
+    size = 1,
+    origin = Point(),
+    template = hex => hex,
+} = {}) {
+    const prototype = {
+        // settings:
+        orientation,
+        size,
+        origin,
+        template,
+
+        // methods:
+        coordinates:            methods.coordinates,
+        isPointy:               methods.isPointy,
+        isFlat:                 methods.isFlat,
+        oppositeCornerDistance: methods.oppositeCornerDistance,
+        oppositeSideDistance:   methods.oppositeSideDistance,
+        view:                   methods.view,
+        width:                  methods.width,
+        height:                 methods.height,
+        center:                 methods.centerFactory({ Point }),
+        toPoint:                methods.toPointFactory({ Point })
+    }
+
     /**
      * @function Hex
      *
@@ -74,6 +100,7 @@ export default function HexFactory(prototype = defaultPrototype) {
             throw new Error(`Coordinates don\'t sum to 0: { x: ${x}, y: ${y}, z: ${z} }.`)
         }
 
+        // return an object containing the coordinates that's prototype-linked to the prototype created in HexFactory
         return Object.assign(
             Object.create(prototype),
             { x, y, z }
