@@ -2,7 +2,7 @@ import { is } from '../utils'
 import Point from '../point'
 import * as methods from './methods'
 
-export default function GridFactory({ HexFactory }) {
+export default function GridFactory({ HexFactory } = {}) {
     /**
      * @function Grid
      *

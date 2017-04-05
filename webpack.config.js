@@ -21,7 +21,7 @@ if (PRODUCTION) {
 }
 
 module.exports = {
-    entry: './src/index',
+    entry: './src/honeycomb.js',
     output: {
         path: path.resolve('./lib'),
         filename: filename,
