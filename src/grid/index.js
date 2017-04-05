@@ -33,6 +33,7 @@ export default function GridFactory({ HexFactory }) {
         const Hex = HexFactory(hexSettings)
 
         return {
+            Hex,
             pointToHex:     methods.pointToHexFactory({ Point, Hex }),
             hexToPoint:     methods.hexToPoint,
             colSize:        methods.colSizeFactory({ Hex }),

@@ -10,10 +10,11 @@ describe('Grid', () => {
 
     it('returns an object with the Grid methods', () => {
         const result = Grid()
-        const methodCount = Object.keys(result).length
+        const properties = Object.keys(result).length
 
         expect(result).to.be.an('object')
-        expect(methodCount).to.equal(8)
+        expect(properties).to.equal(9)
+        expect(result).to.have.property('Hex').that.is.a('function')
         expect(result).to.have.property('pointToHex')
         expect(result).to.have.property('hexToPoint')
         expect(result).to.have.property('colSize')

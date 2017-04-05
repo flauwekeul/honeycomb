@@ -1,16 +1,13 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
-import jsdom from 'mocha-jsdom'
 
-import HexFactory from '../../src/hex'
-import Grid from '../../src/grid'
+import jsdom from 'mocha-jsdom'
 import DOMFactory from '../../src/views/dom'
 
 describe('DOM View creation', () => {
-    const Hex = sinon.stub()
     const Point = sinon.stub().callsFake(value => value)
     const isDom = sinon.stub().returns(true)
-    const DOM = DOMFactory({ Hex, Point, isDom })
+    const DOM = DOMFactory({ Point, isDom })
 
     it('calls isDom to check if the container is a valid DOM node', () => {
         const container = 'container'
@@ -47,11 +44,9 @@ describe('DOM View creation', () => {
 
 describe('DOM View rendering', () => {
     const subtract = sinon.stub().returns('subtract result')
-    const Hex = sinon.stub().returns('Hex result')
-    Hex.subtract = subtract
     const Point = sinon.stub().callsFake(value => value)
     const isDom = sinon.stub().returns(true)
-    const DOM = DOMFactory({ Hex, Point, isDom })
+    const DOM = DOMFactory({ Point, isDom })
 
     describe('render', () => {
         it('renders a rectangle from the passed grid', () => {
@@ -62,11 +57,13 @@ describe('DOM View rendering', () => {
             const invert = sinon.stub().returns('invert result')
             const origin = { invert }
             const dom = DOM()
+            const Hex = sinon.stub().returns('Hex result')
+            Hex.subtract = subtract
             const colSize = sinon.stub().returns(1)
             const rowSize = sinon.stub().returns(1)
             const pointToHex = sinon.stub().returns('pointToHex result')
             const rectangle = sinon.stub().returns('rectangle result')
-            const grid = { colSize, rowSize, pointToHex, rectangle }
+            const grid = { Hex, colSize, rowSize, pointToHex, rectangle }
             const renderHexes = sinon.stub().returns('renderHexes result')
             const result = dom.render.bind({ container, origin, renderHexes })(grid)
 

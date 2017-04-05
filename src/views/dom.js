@@ -1,4 +1,4 @@
-export default function DOMFactory({ Hex = HexFactory(), Point, isDom } = {}) {
+export default function DOMFactory({ Point, isDom } = {}) {
     /**
      * @function Views.DOM
      *
@@ -34,6 +34,7 @@ export default function DOMFactory({ Hex = HexFactory(), Point, isDom } = {}) {
              * @returns {Object}        The DOM View object, for chaining.
              */
             render(grid) {
+                const Hex = grid.Hex
                 // increase the size of the hex rectangle to guarantee it covers the container
                 const width = Math.round(this.container.offsetWidth / grid.colSize()) + 3
                 const height = Math.round(this.container.offsetHeight / grid.rowSize()) + 3

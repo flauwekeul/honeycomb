@@ -1,11 +1,18 @@
 import GridFactory from './grid'
 import HexFactory from './hex'
+import { ORIENTATIONS } from './hex/constants'
 import Point from './point'
-import DOM from './views/dom'
+import DOMFactory from './views/dom'
+import isDom from 'is-dom'
 
-export const API = {
-    Grid: GridFactory({ HexFactory }),
-    HexFactory,
+const Grid = GridFactory({ HexFactory })
+const Views = {
+    DOM: DOMFactory({ Point, isDom })
+}
+
+export {
+    ORIENTATIONS as HEX_ORIENTATIONS,
+    Grid,
     Point,
-    Views: { DOM }
+    Views
 }
