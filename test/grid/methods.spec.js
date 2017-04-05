@@ -176,55 +176,60 @@ describe('parallelogram', () => {
 
     describe('when called without start hex or direction', () => {
         it('returns the hexes in a parallelogram shape, starting at Hex(0)', () => {
-            expect(parallelogram(2, 2)).to.deep.include.members([
-                Hex(0, 0),
-                Hex(1, 0),
-                Hex(0, 1),
-                Hex(1, 1)
+            const coordinates = parallelogram(2, 2).map(hex => hex.coordinates())
+            expect(coordinates).to.deep.include.members([
+                { x: 0, y: 0, z: 0 },
+                { x: 1, y: 0, z: -1 },
+                { x: 0, y: 1, z: -1 },
+                { x: 1, y: 1, z: -2 }
             ])
         })
     })
 
     describe('when called with start hex', () => {
         it('returns the hexes in a parallelogram shape, starting at the given start hex', () => {
-            expect(parallelogram(2, 2, Hex(5, 4))).to.deep.include.members([
-                Hex(5, 4),
-                Hex(6, 4),
-                Hex(5, 5),
-                Hex(6, 5)
+            const coordinates = parallelogram(2, 2, Hex(5, 4)).map(hex => hex.coordinates())
+            expect(coordinates).to.deep.include.members([
+                { x: 5, y: 4, z: -9 },
+                { x: 6, y: 4, z: -10 },
+                { x: 5, y: 5, z: -10 },
+                { x: 6, y: 5, z: -11 }
             ])
         })
     })
 
     describe('when called with direction SE', () => {
         it('returns the hexes in a parallelogram shape, in a southeastern direction', () => {
-            expect(parallelogram(2, 2, null, 'SE')).to.deep.include.members([
-                Hex(0, 0),
-                Hex(1, 0),
-                Hex(0, 1),
-                Hex(1, 1)
+            const coordinates = parallelogram(2, 2, null, 'SE').map(hex => hex.coordinates())
+            expect(coordinates).to.deep.include.members([
+                { x: 0, y: 0, z: 0 },
+                { x: 1, y: 0, z: -1 },
+                { x: 0, y: 1, z: -1 },
+                { x: 1, y: 1, z: -2 }
             ])
         })
     })
 
     describe('when called with direction N', () => {
         it('returns the hexes in a parallelogram shape, in a northern direction', () => {
-            expect(parallelogram(2, 2, null, 'N')).to.deep.include.members([
-                Hex(0, 0),
-                Hex(1, -1),
-                Hex(0, -1),
-                Hex(1, -2)
+            const coordinates = parallelogram(2, 2, null, 'N').map(hex => hex.coordinates())
+            expect(coordinates).to.deep.include.members([
+                { x: 0, y: 0, z: 0 },
+                { x: 1, y: -1, z: 0 },
+                { x: 0, y: -1, z: 1 },
+                { x: 1, y: -2, z: 1 }
             ])
         })
     })
 
     describe('when called with direction SW', () => {
         it('returns the hexes in a parallelogram shape, in a southwestern direction', () => {
-            expect(parallelogram(2, 2, null, 'SW')).to.deep.include.members([
-                Hex(0, 0),
-                Hex(-1, 0),
-                Hex(-1, 1),
-                Hex(-2, 1)
+            const coordinates = parallelogram(2, 2, null, 'SW').map(hex => hex.coordinates())
+            expect(coordinates).to.deep.include.members([
+                { x: 0, y: 0, z: 0 },
+                { x: -1, y: 0, z: 1 },
+                { x: -1, y: 1, z: 0 },
+                { x: -2, y: 1, z: 1 }
             ])
         })
     })
@@ -239,7 +244,7 @@ describe('triangle', () => {
     it('returns an array with a length of the triangle number of the side', () => {
         const result = triangle(4)
         expect(result).to.be.an('array')
-        expect(result).to.have.a.lengthOf(10)
+        expect(result).to.have.a.lengthOf(4+3+2+1)
     })
 
     describe('when an options object is passed', () => {
@@ -252,40 +257,44 @@ describe('triangle', () => {
 
     describe('when called without start hex or direction', () => {
         it('returns the hexes in a triangle shape, starting at Hex(0)', () => {
-            expect(triangle(2)).to.deep.include.members([
-                Hex(0, 0),
-                Hex(0, 1),
-                Hex(1, 0)
+            const coordinates = triangle(2).map(hex => hex.coordinates())
+            expect(coordinates).to.deep.include.members([
+                { x: 0, y: 0, z: 0 },
+                { x: 0, y: 1, z: -1 },
+                { x: 1, y: 0, z: -1 }
             ])
         })
     })
 
     describe('when called with start hex', () => {
         it('returns the hexes in a triangle shape, starting at the given start hex', () => {
-            expect(triangle(2, Hex(3, 6))).to.deep.include.members([
-                Hex(3, 6),
-                Hex(3, 7),
-                Hex(4, 6)
+            const coordinates = triangle(2, Hex(3, 6)).map(hex => hex.coordinates())
+            expect(coordinates).to.deep.include.members([
+                { x: 3, y: 6, z: -9 },
+                { x: 3, y: 7, z: -10 },
+                { x: 4, y: 6, z: -10 }
             ])
         })
     })
 
     describe('when called with direction down', () => {
         it('returns the hexes in a triangle shape, pointing down', () => {
-            expect(triangle(2, null, 'down')).to.deep.include.members([
-                Hex(0, 0),
-                Hex(0, 1),
-                Hex(1, 0)
+            const coordinates = triangle(2, null, 'down').map(hex => hex.coordinates())
+            expect(coordinates).to.deep.include.members([
+                { x: 0, y: 0, z: 0 },
+                { x: 0, y: 1, z: -1 },
+                { x: 1, y: 0, z: -1 }
             ])
         })
     })
 
     describe('when called with direction up', () => {
         it('returns the hexes in a triangle shape, pointing up', () => {
-            expect(triangle(2, null, 'up')).to.deep.include.members([
-                Hex(0, 2),
-                Hex(1, 1),
-                Hex(1, 2)
+            const coordinates = triangle(2, null, 'up').map(hex => hex.coordinates())
+            expect(coordinates).to.deep.include.members([
+                { x: 0, y: 2, z: -2 },
+                { x: 1, y: 1, z: -2 },
+                { x: 1, y: 2, z: -3 }
             ])
         })
     })
@@ -312,28 +321,30 @@ describe('hexagon', () => {
 
     describe('when called without start hex', () => {
         it('returns the hexes in a hexagon shape, with its center at Hex(0)', () => {
-            expect(hexagon(2)).to.deep.include.members([
-                Hex(0, -1),
-                Hex(1, -1),
-                Hex(-1, 0),
-                Hex(0, 0),
-                Hex(1, 0),
-                Hex(-1, 1),
-                Hex(0, 1)
+            const coordinates = hexagon(2).map(hex => hex.coordinates())
+            expect(coordinates).to.deep.include.members([
+                { x: 0, y: -1, z: 1 },
+                { x: 1, y: -1, z: 0 },
+                { x: -1, y: 0, z: 1 },
+                { x: 0, y: 0, z: 0 },
+                { x: 1, y: 0, z: -1 },
+                { x: -1, y: 1, z: 0 },
+                { x: 0, y: 1, z: -1 }
             ])
         })
     })
 
     describe('when called with start hex', () => {
         it('returns the hexes in a hexagon shape, with its center at the given center hex', () => {
-            expect(hexagon(2, Hex(3, 1))).to.deep.include.members([
-                Hex(3, 0),
-                Hex(4, 0),
-                Hex(2, 1),
-                Hex(3, 1),
-                Hex(4, 1),
-                Hex(2, 2),
-                Hex(3, 2)
+            const coordinates = hexagon(2, Hex(3, 1)).map(hex => hex.coordinates())
+            expect(coordinates).to.deep.include.members([
+                { x: 3, y: 0, z: -3 },
+                { x: 4, y: 0, z: -4 },
+                { x: 2, y: 1, z: -3 },
+                { x: 3, y: 1, z: -4 },
+                { x: 4, y: 1, z: -5 },
+                { x: 2, y: 2, z: -4 },
+                { x: 3, y: 2, z: -5 }
             ])
         })
     })
@@ -366,92 +377,100 @@ describe('rectangle', () => {
 
         describe('when called without start hex or direction', () => {
             it('returns the hexes in a rectangle shape, starting at Hex(0)', () => {
-                expect(rectangle(2, 3)).to.deep.include.members([
-                    Hex(0, 0),
-                    Hex(1, 0),
-                    Hex(0, 1),
-                    Hex(1, 1),
-                    Hex(-1, 2),
-                    Hex(0, 2)
+                const coordinates = rectangle(2, 3).map(hex => hex.coordinates())
+                expect(coordinates).to.deep.include.members([
+                    { x: 0, y: 0, z: 0 },
+                    { x: 1, y: 0, z: -1 },
+                    { x: 0, y: 1, z: -1 },
+                    { x: 1, y: 1, z: -2 },
+                    { x: -1, y: 2, z: -1 },
+                    { x: 0, y: 2, z: -2 }
                 ])
             })
         })
 
         describe('when called with start hex', () => {
             it('returns the hexes in a rectangle shape, starting at the given start hex', () => {
-                expect(rectangle(2, 3, Hex(-4, -2))).to.deep.include.members([
-                    Hex(-4, -2),
-                    Hex(-3, -2),
-                    Hex(-4, -1),
-                    Hex(-3, -1),
-                    Hex(-5, 0),
-                    Hex(-4, 0)
+                const coordinates = rectangle(2, 3, Hex(-4, -2)).map(hex => hex.coordinates())
+                expect(coordinates).to.deep.include.members([
+                    { x: -4, y: -2, z: 6 },
+                    { x: -3, y: -2, z: 5 },
+                    { x: -4, y: -1, z: 5 },
+                    { x: -3, y: -1, z: 4 },
+                    { x: -5, y: 0, z: 5 },
+                    { x: -4, y: 0, z: 4 }
                 ])
             })
         })
 
         describe('when called with direction E', () => {
             it('returns the hexes in a rectangle shape, in an eastern direction', () => {
-                expect(rectangle(2, 2, null, 'E')).to.deep.include.members([
-                    Hex(0, 0),
-                    Hex(1, 0),
-                    Hex(0, 1),
-                    Hex(1, 1)
+                const coordinates = rectangle(2, 2, null, 'E').map(hex => hex.coordinates())
+                expect(coordinates).to.deep.include.members([
+                    { x: 0, y: 0, z: 0 },
+                    { x: 1, y: 0, z: -1 },
+                    { x: 0, y: 1, z: -1 },
+                    { x: 1, y: 1, z: -2 }
                 ])
             })
         })
 
         describe('when called with direction NW', () => {
             it('returns the hexes in a rectangle shape, in an eastern direction', () => {
-                expect(rectangle(2, 2, null, 'NW')).to.deep.include.members([
-                    Hex(0, 0),
-                    Hex(0, -1),
-                    Hex(1, -1),
-                    Hex(1, -2)
+                const coordinates = rectangle(2, 2, null, 'NW').map(hex => hex.coordinates())
+                expect(coordinates).to.deep.include.members([
+                    { x: 0, y: 0, z: 0 },
+                    { x: 0, y: -1, z: 1 },
+                    { x: 1, y: -1, z: 0 },
+                    { x: 1, y: -2, z: 1 }
                 ])
             })
         })
 
         describe('when called with direction SW', () => {
             it('returns the hexes in a rectangle shape, in an eastern direction', () => {
-                expect(rectangle(2, 2, null, 'SW')).to.deep.include.members([
-                    Hex(0, 0),
-                    Hex(-1, 1),
-                    Hex(-1, 0),
-                    Hex(-2, 1)
+                const coordinates = rectangle(2, 2, null, 'SW').map(hex => hex.coordinates())
+                expect(coordinates).to.deep.include.members([
+                    { x: 0, y: 0, z: 0 },
+                    { x: -1, y: 1, z: 0 },
+                    { x: -1, y: 0, z: 1 },
+                    { x: -2, y: 1, z: 1 }
                 ])
             })
         })
 
         describe('when called with direction SE', () => {
             it('returns the hexes in a rectangle shape, in an eastern direction', () => {
-                expect(rectangle(2, 2, null, 'SE')).to.deep.include.members([
-                    Hex(0, 0),
-                    Hex(0, 1),
-                    Hex(1, 0),
-                    Hex(1, 1)
+                const coordinates = rectangle(2, 2, null, 'SE').map(hex => hex.coordinates())
+                expect(coordinates).to.deep.include.members([
+                    { x: 0, y: 0, z: 0 },
+                    { x: 0, y: 1, z: -1 },
+                    { x: 1, y: 0, z: -1 },
+                    { x: 1, y: 1, z: -2 }
                 ])
             })
         })
 
         describe('when called with direction NE', () => {
             it('returns the hexes in a rectangle shape, in an eastern direction', () => {
-                expect(rectangle(2, 2, null, 'NE')).to.deep.include.members([
-                    Hex(0, 0),
-                    Hex(1, -1),
-                    Hex(0, -1),
-                    Hex(1, -2)
+                const coordinates = rectangle(2, 2, null, 'NE').map(hex => hex.coordinates())
+                expect(coordinates).to.deep.include.members([
+                    { x: 0, y: 0, z: 0 },
+                    { x: 1, y: -1, z: 0 },
+                    { x: 0, y: -1, z: 1 },
+                    { x: 1, y: -2, z: 1 }
                 ])
             })
         })
 
         describe('when called with direction W', () => {
             it('returns the hexes in a rectangle shape, in an eastern direction', () => {
-                expect(rectangle(2, 2, null, 'W')).to.deep.include.members([
-                    Hex(0, 0),
-                    Hex(-1, 0),
-                    Hex(-1, 1),
-                    Hex(-2, 1)
+                const coordinates = rectangle(2, 2, null, 'W').map(hex => hex.coordinates())
+                expect(coordinates).to.deep.include.members([
+                    { x: 0, y: 0, z: 0 },
+                    { x: -1, y: 0, z: 1 },
+                    { x: -1, y: 1, z: 0 },
+                    { x: -2, y: 1, z: 1 }
                 ])
             })
         })
@@ -465,92 +484,100 @@ describe('rectangle', () => {
 
         describe('when called without start hex or direction', () => {
             it('returns the hexes in a rectangle shape, starting at Hex(0)', () => {
-                expect(rectangle(2, 3)).to.deep.include.members([
-                    Hex(0, 0),
-                    Hex(0, 1),
-                    Hex(0, 2),
-                    Hex(1, 0),
-                    Hex(1, 1),
-                    Hex(1, 2)
+                const coordinates = rectangle(2, 3).map(hex => hex.coordinates())
+                expect(coordinates).to.deep.include.members([
+                    { x: 0, y: 0, z: 0 },
+                    { x: 0, y: 1, z: -1 },
+                    { x: 0, y: 2, z: -2 },
+                    { x: 1, y: 0, z: -1 },
+                    { x: 1, y: 1, z: -2 },
+                    { x: 1, y: 2, z: -3 }
                 ])
             })
         })
 
         describe('when called with start hex', () => {
             it('returns the hexes in a rectangle shape, starting at the given start hex', () => {
-                expect(rectangle(2, 3, Hex(-4, -2))).to.deep.include.members([
-                    Hex(-4, -2),
-                    Hex(-4, -1),
-                    Hex(-4, 0),
-                    Hex(-3, -2),
-                    Hex(-3, -1),
-                    Hex(-3, 0)
+                const coordinates = rectangle(2, 3, Hex(-4, -2)).map(hex => hex.coordinates())
+                expect(coordinates).to.deep.include.members([
+                    { x: -4, y: -2, z: 6 },
+                    { x: -4, y: -1, z: 5 },
+                    { x: -4, y: 0, z: 4 },
+                    { x: -3, y: -2, z: 5 },
+                    { x: -3, y: -1, z: 4 },
+                    { x: -3, y: 0, z: 3 }
                 ])
             })
         })
 
         describe('when called with direction E', () => {
             it('returns the hexes in a rectangle shape, in an eastern direction', () => {
-                expect(rectangle(2, 2, null, 'E')).to.deep.include.members([
-                    Hex(0, 0),
-                    Hex(1, 0),
-                    Hex(0, 1),
-                    Hex(1, 1)
+                const coordinates = rectangle(2, 2, null, 'E').map(hex => hex.coordinates())
+                expect(coordinates).to.deep.include.members([
+                    { x: 0, y: 0, z: 0 },
+                    { x: 1, y: 0, z: -1 },
+                    { x: 0, y: 1, z: -1 },
+                    { x: 1, y: 1, z: -2 }
                 ])
             })
         })
 
         describe('when called with direction NW', () => {
             it('returns the hexes in a rectangle shape, in an eastern direction', () => {
-                expect(rectangle(2, 2, null, 'NW')).to.deep.include.members([
-                    Hex(0, 0),
-                    Hex(0, -1),
-                    Hex(1, -1),
-                    Hex(1, -2)
+                const coordinates = rectangle(2, 2, null, 'NW').map(hex => hex.coordinates())
+                expect(coordinates).to.deep.include.members([
+                    { x: 0, y: 0, z: 0 },
+                    { x: 0, y: -1, z: 1 },
+                    { x: 1, y: -1, z: 0 },
+                    { x: 1, y: -2, z: 1 }
                 ])
             })
         })
 
         describe('when called with direction SW', () => {
             it('returns the hexes in a rectangle shape, in an eastern direction', () => {
-                expect(rectangle(2, 2, null, 'SW')).to.deep.include.members([
-                    Hex(0, 0),
-                    Hex(-1, 1),
-                    Hex(-1, 0),
-                    Hex(-2, 1)
+                const coordinates = rectangle(2, 2, null, 'SW').map(hex => hex.coordinates())
+                expect(coordinates).to.deep.include.members([
+                    { x: 0, y: 0, z: 0 },
+                    { x: -1, y: 1, z: 0 },
+                    { x: -1, y: 0, z: 1 },
+                    { x: -2, y: 1, z: 1 }
                 ])
             })
         })
 
         describe('when called with direction SE', () => {
             it('returns the hexes in a rectangle shape, in an eastern direction', () => {
-                expect(rectangle(2, 2, null, 'SE')).to.deep.include.members([
-                    Hex(0, 0),
-                    Hex(0, 1),
-                    Hex(1, 0),
-                    Hex(1, 1)
+                const coordinates = rectangle(2, 2, null, 'SE').map(hex => hex.coordinates())
+                expect(coordinates).to.deep.include.members([
+                    { x: 0, y: 0, z: 0 },
+                    { x: 0, y: 1, z: -1 },
+                    { x: 1, y: 0, z: -1 },
+                    { x: 1, y: 1, z: -2 }
                 ])
             })
         })
 
         describe('when called with direction NE', () => {
             it('returns the hexes in a rectangle shape, in an eastern direction', () => {
-                expect(rectangle(2, 2, null, 'NE')).to.deep.include.members([
-                    Hex(0, 0),
-                    Hex(1, -1),
-                    Hex(0, -1),
-                    Hex(1, -2)
+                const coordinates = rectangle(2, 2, null, 'NE').map(hex => hex.coordinates())
+                expect(coordinates).to.deep.include.members([
+                    { x: 0, y: 0, z: 0 },
+                    { x: 1, y: -1, z: 0 },
+                    { x: 0, y: -1, z: 1 },
+                    { x: 1, y: -2, z: 1 }
                 ])
             })
         })
 
         describe('when called with direction W', () => {
             it('returns the hexes in a rectangle shape, in an eastern direction', () => {
-                expect(rectangle(2, 2, null, 'W')).to.deep.include.members([
-                    Hex(0, 0),
-                    Hex(-1, 0),
-                    Hex(-1, 1),
-                    Hex(-2, 1)
+                const coordinates = rectangle(2, 2, null, 'W').map(hex => hex.coordinates())
+                expect(coordinates).to.deep.include.members([
+                    { x: 0, y: 0, z: 0 },
+                    { x: -1, y: 0, z: 1 },
+                    { x: -1, y: 1, z: 0 },
+                    { x: -2, y: 1, z: 1 }
                 ])
             })
         })
