@@ -55,7 +55,7 @@
   "bugs": {
     "url": "https://github.com/flauwekeul/honeycomb/issues"
   },
-  "homepage": "https://github.com/flauwekeul/honeycomb#readme",
+  "homepage": "http://abbekeultjes.nl/honeycomb",
   "nyc": {
     "require": [
       "babel-register"
