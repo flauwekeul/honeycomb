@@ -3,16 +3,15 @@ export default function DOMFactory({ Point, isDom } = {}) {
      * @function Views.DOM
      *
      * @description
-     * Factory function for creating a DOM view object. This object can be used to render an array of hexes it's passed or a grid instance. If a grid instance is passed, its {@link Grid#colSize|colSize} and {@link Grid#rowSize|rowSize} is used to calculate how many hexes are to be shown in a rectangular shape.
+     * Factory function for creating a DOM view object. This object can be used to render an array of hexes or a grid instance.
      *
-     * @param {Object} options           An options object.
-     * @param {Node} options.container   A DOM node to render hexes in.
-     * @param {Object} options.hex       An options object containing a `hex` property with an `element` property that get's passed to {@link Hex#element}.
-     * @param {Point} options.origin     A point where the first hex (i.e. `Hex(0, 0, 0)`) can be rendered.
+     * @param {Object} options                  An options object.
+     * @param {Node} options.container          A DOM node to render hexes in.
+     * @param {Point} [options.origin=Point()]  A point where the first hex (i.e. `Hex(0, 0, 0)`) can be rendered.
      *
-     * @returns {Object}            An object with helper methods like to render a view for a hex grid using the DOM.
+     * @returns {Object}                        A DOM View instance.
      */
-    return function DOM({ container, origin = 0 } = {}) {
+    return function DOM({ container, origin } = {}) {
         if (!isDom(container)) {
             throw new Error(`Container is not a valid dom node: ${container}.`)
         }
@@ -29,7 +28,7 @@ export default function DOMFactory({ Point, isDom } = {}) {
              *
              * @todo validate `grid`
              *
-             * @param   {Object} grid   A grid instance (from the {@link Grid} factory).
+             * @param   {Object} grid   A grid instance.
              *
              * @returns {Object}        The DOM View object, for chaining.
              */

@@ -50,7 +50,7 @@ describe('HexFactory', () => {
 describe('Hex creation', () => {
     let Hex
 
-    before(() => Hex = HexFactory({}))
+    before(() => Hex = HexFactory())
 
     describe('with 3 numbers', () => {
         it('sets them as cube coordinates in the order x, y, z', () => {

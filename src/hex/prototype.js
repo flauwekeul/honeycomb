@@ -1,5 +1,9 @@
 import { ORIENTATIONS } from './constants'
 
+/**
+ * @method Hex#coordinates
+ * @returns {Object} The hex's x, y and z coordinates.
+ */
 export function coordinates() {
     return {
         x: this.x,
@@ -10,7 +14,7 @@ export function coordinates() {
 
 /**
  * @method Hex#isPointy
- * @returns {Boolean} Whether hexes have a pointy orientation.
+ * @returns {Boolean} Whether hexes have a pointy ⬢ orientation.
  */
 export function isPointy() {
     return this.orientation === ORIENTATIONS.POINTY
@@ -18,7 +22,7 @@ export function isPointy() {
 
 /**
  * @method Hex#isFlat
- * @returns {Boolean} Whether hexes have a flat orientation.
+ * @returns {Boolean} Whether hexes have a flat ⬣ orientation.
  */
 export function isFlat() {
     return this.orientation === ORIENTATIONS.FLAT
@@ -48,7 +52,7 @@ export function oppositeSideDistance() {
  *
  * @todo Add examples.
  *
- * @returns {String}    The view representation of the hex.
+ * @returns {String}    The view representation of the hex (usually a string).
  */
 export function view() {
     return this.template(this)

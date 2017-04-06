@@ -16,8 +16,22 @@ export const DIAGONAL_DIRECTION_COORDINATES = [
     { x: 1, y: -2, z: 1 }
 ]
 
+/**
+ * The different orientations hexes can have.
+ *
+ * @constant
+ * @type {Object}
+ */
 export const ORIENTATIONS = {
+    /**
+     * @readOnly
+     * @enum {String} POINTY ⬢
+     */
     POINTY: 'POINTY',
+    /**
+     * @readOnly
+     * @enum {String} FLAT ⬣.
+     */
     FLAT: 'FLAT'
 }
 

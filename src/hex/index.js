@@ -4,6 +4,21 @@ import Point from '../point'
 import * as statics from './statics'
 import * as methods from './prototype'
 
+/**
+ * @function HexFactory
+ *
+ * @description
+ * Factory that produces a {@link Hex} function to create hexes with. It accepts optional hex settings that are used to create a "family" of hexes that can be used in a grid (or individually). This "family" of hexes all share the same `prototype`.
+ *
+ * @todo validate orientation, size, origin and template
+ *
+ * @param {(FLAT|POINTY)} [$0.orientation=FLAT] All hexes are either POINTY ⬢ or FLAT ⬣.
+ * @param {Number} [$0.size=1]                  Size of all hexes.
+ * @param {Point} [$0.origin=Point()]           Used to convert the hex position to a point. Defaults to the top left.
+ * @param {Function} [$0.template]              Template function that should return a (visual) representation of the hex. It gets passed the current hex when called. Could be an HTML string (e.g. `'<div class="hex"></div>'`) that can be parsed by a {@link Views.DOM} instance. A {@link Views|View} uses the hex's {@link Hex#view} method to call the template function and produce a view.
+ *
+ * @returns {Hex} A function to produce hexes, all with the same `prototype`.
+ */
 export default function HexFactory({
     orientation = ORIENTATIONS.FLAT,
     size = 1,

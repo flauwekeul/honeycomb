@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 
 import jsdom from 'mocha-jsdom'
-import DOMFactory from '../../src/views/dom'
+import DOMFactory from '../../../src/views/dom'
 
 describe('DOM View creation', () => {
     const Point = sinon.stub().callsFake(value => value)

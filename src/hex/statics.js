@@ -37,16 +37,14 @@ export function isValidSize(size) {
 
 export function hexesBetweenFactory({ Hex }) {
     /**
-     * @method Hex#hexesBetween
-     *
-     * @description
-     * Returns the hexes in a straight line between itself and the given hex, inclusive.
+     * @method Hex.hexesBetween
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/#line-drawing|redblobgames.com}
      *
-     * @param   {Hex} hex   The hex to return the hexes in between to.
+     * @param   {Hex} firstHex  The first hex.
+     * @param   {Hex} secondHex The second hex.
      *
-     * @returns {Hex[]}     Hexes between the current and the passed hex.
+     * @returns {Hex[]} Hexes between the passed first and second hex, inclusive.
      */
     return function hexesBetween(firstHex, secondHex) {
         const _distance = Hex.distance(firstHex, secondHex)
@@ -68,10 +66,13 @@ export function hexesBetweenFactory({ Hex }) {
 
 export function addFactory({ Hex }) {
     /**
-     * @method Hex#add
-     * @param {Hex} hex The hex to add to the current hex.
+     * @method Hex.add
+     * @param {Hex} firstHex    A hex.
+     * @param {Hex} secondHex   The hex that will be added to the first.
      *
-     * @returns {Hex}   The sum of the passed hex's coordinates to the current hex's.
+     * @todo Accept any number of hexes to add.
+     *
+     * @returns {Hex}   The sum of the passed hexes coordinates.
      */
     return function add(firstHex, secondHex) {
         return Hex(
@@ -84,10 +85,13 @@ export function addFactory({ Hex }) {
 
 export function subtractFactory({ Hex }) {
     /**
-     * @method Hex#subtract
-     * @param   {Hex} hex   The hex to subtract from the current hex.
+     * @method Hex.subtract
+     * @param {Hex} firstHex    A hex.
+     * @param {Hex} secondHex   The hex that will be subtracted from the first.
      *
-     * @returns {Hex}       The difference between the passed hex's coordinates and the current hex's.
+     * @todo Accept any number of hexes to add.
+     *
+     * @returns {Hex}   The difference between the passed hexes coordinates.
      */
     return function subtract(firstHex, secondHex) {
         return Hex(
@@ -100,7 +104,7 @@ export function subtractFactory({ Hex }) {
 
 export function neighborFactory({ Hex }) {
     /**
-     * @method Hex#neighbor
+     * @method Hex.neighbor
      *
      * @description
      * Returns the neighboring hex in the given direction.
@@ -109,8 +113,9 @@ export function neighborFactory({ Hex }) {
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/#neighbors|redblobgames.com}
      *
-     * @param   {(0|1|2|3|4|5)}  [direction=0]  Any of the 6 directions. `0` is the Eastern direction (East-southeast when the hex is flat), `1` is 60° clockwise, and so forth.
-     * @param   {Boolean} [diagonal=false]      Whether to look for a neighbor perpendicular to the hex's corner instead of its side.
+     * @param {Hex} hex                         The hex to get the neighboring hex from.
+     * @param {(0|1|2|3|4|5)}  [direction=0]    Any of the 6 directions. `0` is the Eastern direction (East-southeast when the hex is flat), `1` corresponds to 60° clockwise, `2` to 120° clockwise and so forth.
+     * @param {Boolean} [diagonal=false]        Whether to look for a neighbor perpendicular to the hex's corner instead of its side.
      *
      * @returns {Hex}                           The neighboring hex.
      */
@@ -126,19 +131,20 @@ export function neighborFactory({ Hex }) {
 
 export function distanceFactory({ Hex }) {
     /**
-     * @method Hex#distance
+     * @method Hex.distance
      *
      * @description
      * Returns the amount of hexes between the current and the given hex.
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/#distances|redblobgames.com}
      *
-     * @param   {Hex} hex   The hex to return the distance to.
+     * @param   {Hex} startHex  The start hex.
+     * @param   {Hex} endHex    The end hex.
      *
-     * @returns {Number}    The amount of hexes between the current and the one passed.
+     * @returns {Number}        The amount of hexes between the passed start and end.
      */
-    return function distance(firstHex, secondHex) {
-        const relativeHex = Hex.subtract(firstHex, secondHex)
+    return function distance(startHex, endHex) {
+        const relativeHex = Hex.subtract(startHex, endHex)
         return Math.max(
             Math.abs(relativeHex.x),
             Math.abs(relativeHex.y),
@@ -149,12 +155,14 @@ export function distanceFactory({ Hex }) {
 
 export function roundFactory({ Hex }) {
     /**
-     * @method Hex#round
+     * @method Hex.round
      *
      * @description
-     * Rounds floating point hex coordinates to their nearest integer hex coordinates.
+     * Rounds the passed floating point hex coordinates to their nearest integer hex coordinates.
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/#rounding|redblobgames.com}
+     *
+     * @param {Hex} hex The hex to be rounded.
      *
      * @returns {Hex}   A new hex with rounded coordinates.
      */
@@ -180,16 +188,17 @@ export function roundFactory({ Hex }) {
 
 export function lerpFactory({ Hex }) {
     /**
-     * @method Hex#lerp
+     * @method Hex.lerp
      *
      * @description
      * Returns an interpolation between the current hex and the passed hex for a `t` between 0 and 1.
      * More info on [wikipedia](https://en.wikipedia.org/wiki/Linear_interpolation).
      *
-     * @param   {Hex} hex   The other hex to calculate the interpolation with.
-     * @param   {Number} t  A "parameter" between 0 and 1.
+     * @param   {Hex} firstHex  The first hex.
+     * @param   {Hex} secondHex The second hex.
+     * @param   {Number} t      A "parameter" between 0 and 1.
      *
-     * @returns {Hex}       A new hex (with possibly fractional coordinates).
+     * @returns {Hex}           A new hex (with possibly fractional coordinates).
      */
     return function lerp(firstHex, secondHex, t) {
         return Hex(
@@ -202,12 +211,14 @@ export function lerpFactory({ Hex }) {
 
 export function nudgeFactory({ Hex }) {
     /**
-     * @method Hex#nudge
+     * @method Hex.nudge
      *
      * @description
-     * Returns a hex with a tiny offset to the current hex. Useful for interpolating in a consistent direction.
+     * Returns a new hex with a tiny offset from the passed hex. Useful for interpolating in a consistent direction.
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/#line-drawing|redblobgames.com}
+     *
+     * @param {Hex} hex The hex to nudge.
      *
      * @returns {Hex}   A new hex with a minute offset.
      */
