@@ -418,6 +418,8 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 ### Features
 
+1.  Change `Views.DOM` to use CSS to position hexes (use a style tag to limit inline styling).
+1.  Add `Views.SVG` that creates the SVG itself.
 2.  Add possibility to create individual hexes with different size/orientation/origin/template.
 3.  Expose `Hex` (and `ORIENTATIONS`) via Honeycomb API.
 4.  Add helper to easily fall back to a hex's prototype.
@@ -427,7 +429,6 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 8.  Add a `Views.react`.
 9.  Add a `Views.D3`?
 10. Grid shape methods should return Sets (or Maps?) instead of arrays
-11. ~~Optimize DOM node rendering: when more than ~200 hexes are rendered it takes way too long.~~ (probably exhausted possibilities).
 12. Maybe add instance methods for `Grid` and `Views.DOM` to get/set options. Then it's optional to pass the options to the `Grid` and `Views.DOM` factories and makes it possible to get/set those options later.
 13. Make it an option to filter overlapping hexes when multiple shapes are rendered.
 14. Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped.
