@@ -1,4 +1,4 @@
-export default function DOMFactory({ Point, isDom } = {}) {
+export default function DOMFactory({ Point, isDom, stringToDOMNodes } = {}) {
     /**
      * @function Views.DOM
      *
@@ -76,12 +76,4 @@ export default function DOMFactory({ Point, isDom } = {}) {
             }
         }
     }
-}
-
-// privates
-
-function stringToDOMNodes(string) {
-    const div = document.createElement('div')
-    div.innerHTML = string.trim()
-    return div
 }

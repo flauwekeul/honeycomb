@@ -2,12 +2,13 @@ import 'jsdom-global/register'
 import { expect } from 'chai'
 import sinon from 'sinon'
 
+import { stringToDOMNodes } from '../../../src/utils'
 import DOMFactory from '../../../src/views/dom'
 
 describe('DOM View creation', function() {
     const Point = sinon.stub().callsFake(value => value)
     const isDom = sinon.stub().returns(true)
-    const DOM = DOMFactory({ Point, isDom })
+    const DOM = DOMFactory({ Point, isDom, stringToDOMNodes })
 
     it('calls isDom to check if the container is a valid DOM node', function() {
         const container = 'container'
@@ -48,7 +49,8 @@ describe('DOM View rendering', function() {
     const subtract = sinon.stub().returns('subtract result')
     const Point = sinon.stub().callsFake(value => value)
     const isDom = sinon.stub().returns(true)
-    const DOM = DOMFactory({ Point, isDom })
+    const stringToDOMNodesSpy = sinon.spy(stringToDOMNodes)
+    const DOM = DOMFactory({ Point, isDom, stringToDOMNodes: stringToDOMNodesSpy })
 
     describe('render', function() {
         it('renders a rectangle from the passed grid', function() {
@@ -96,6 +98,7 @@ describe('DOM View rendering', function() {
             const result = dom.renderHexes.bind(context)(hexes)
 
             expect(view).to.have.been.called
+            expect(stringToDOMNodesSpy).to.have.been.calledWith('<div>hex view</div>')
             expect(toPoint).to.have.been.called
             expect(add).to.have.been.calledWith('toPoint result')
             expect(width).to.have.been.called
