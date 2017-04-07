@@ -420,23 +420,24 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 1.  Change `Views.DOM` to use CSS to position hexes (use a style tag to limit inline styling).
 1.  Add `Views.SVG` that creates the SVG itself.
+1.  Hex views should be hex-orientation-agnostic (always pointy?) and just use `transform` to toggle orientations.
 2.  Add possibility to create individual hexes with different size/orientation/origin/template.
 3.  Expose `Hex` (and `ORIENTATIONS`) via Honeycomb API.
 4.  Add helper to easily fall back to a hex's prototype.
 5.  Use either "compass" or numbered directions, not both.
 6.  Add a `Views.Canvas`.
-7.  Add a `Views.SVG`.
-8.  Add a `Views.react`.
-9.  Add a `Views.D3`?
 10. Grid shape methods should return Sets (or Maps?) instead of arrays
 12. Maybe add instance methods for `Grid` and `Views.DOM` to get/set options. Then it's optional to pass the options to the `Grid` and `Views.DOM` factories and makes it possible to get/set those options later.
 13. Make it an option to filter overlapping hexes when multiple shapes are rendered.
 14. Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped.
 15. Shiny github.io pages 😎
+8.  Add a `Views.React`?
+8.  Add a `Views.Vue`?
+9.  Add a `Views.D3`?
 
 ### Refactorings
 
 6.  Update code (and tests) of `Point` to be more consice with other modules.
 7.  Reduce coupling between tests and implementation by testing paths, instead of specific calls to methods?
 9.  Moar examples!
-10. Put tests in same directory as the code they're testing.
+10. Put tests in same directory as the code they're testing?
