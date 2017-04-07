@@ -438,6 +438,5 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 6.  Update code (and tests) of `Point` to be more consice with other modules.
 7.  Reduce coupling between tests and implementation by testing paths, instead of specific calls to methods?
-8.  Replace arrow functions with regular functions in [mocha tests](https://mochajs.org/#arrow-functions).
 9.  Moar examples!
 10. Put tests in same directory as the code they're testing.

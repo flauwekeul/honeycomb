@@ -4,11 +4,11 @@ import sinon from 'sinon'
 import HexFactory from '../../src/hex'
 import GridFactory from '../../src/grid'
 
-describe('Grid', () => {
+describe('Grid', function() {
     const HexFactorySpy = sinon.spy(HexFactory)
     const Grid = GridFactory({ HexFactory: HexFactorySpy })
 
-    it('returns an object with the Grid methods', () => {
+    it('returns an object with the Grid methods', function() {
         const result = Grid()
         const properties = Object.keys(result).length
 
@@ -25,8 +25,8 @@ describe('Grid', () => {
         expect(result).to.have.property('rectangle')
     })
 
-    describe('when passed hex settings', () => {
-        it('passes the hex settings through to HexFactory', () => {
+    describe('when passed hex settings', function() {
+        it('passes the hex settings through to HexFactory', function() {
             const hexSettings = { thisIs: 'a setting' }
             Grid(hexSettings)
             expect(HexFactorySpy).to.have.been.calledWith(hexSettings)

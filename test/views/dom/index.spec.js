@@ -4,34 +4,36 @@ import sinon from 'sinon'
 import jsdom from 'mocha-jsdom'
 import DOMFactory from '../../../src/views/dom'
 
-describe('DOM View creation', () => {
+describe('DOM View creation', function() {
     const Point = sinon.stub().callsFake(value => value)
     const isDom = sinon.stub().returns(true)
     const DOM = DOMFactory({ Point, isDom })
 
-    it('calls isDom to check if the container is a valid DOM node', () => {
+    it('calls isDom to check if the container is a valid DOM node', function() {
         const container = 'container'
         DOM({ container })
         expect(isDom).to.have.been.calledWith(container)
     })
 
-    it('throws an error if the container is not a valid DOM node', () => {
+    it('throws an error if the container is not a valid DOM node', function() {
         isDom.returns(false)
         expect(DOM).to.throw('Container is not a valid dom node: undefined.')
     })
 
-    describe('with valid options', () => {
+    describe('with valid options', function() {
         const container = 'valid container'
         const origin = [2, 3]
 
-        before(() => isDom.returns(true))
+        before(function() {
+            isDom.returns(true)
+        })
 
-        it('wraps the passed origin in a Point', () => {
+        it('wraps the passed origin in a Point', function() {
             DOM({ origin })
             expect(Point).to.have.been.calledWith(origin)
         })
 
-        it('returns a DOM View instance', () => {
+        it('returns a DOM View instance', function() {
             const result = DOM({ container, origin })
 
             expect(result).to.have.property('container').that.eqls(container)
@@ -42,14 +44,14 @@ describe('DOM View creation', () => {
     })
 })
 
-describe('DOM View rendering', () => {
+describe('DOM View rendering', function() {
     const subtract = sinon.stub().returns('subtract result')
     const Point = sinon.stub().callsFake(value => value)
     const isDom = sinon.stub().returns(true)
     const DOM = DOMFactory({ Point, isDom })
 
-    describe('render', () => {
-        it('renders a rectangle from the passed grid', () => {
+    describe('render', function() {
+        it('renders a rectangle from the passed grid', function() {
             const container = {
                 offsetWidth: 1,
                 offsetHeight: 1
@@ -79,10 +81,10 @@ describe('DOM View rendering', () => {
         })
     })
 
-    describe('renderHexes', () => {
+    describe('renderHexes', function() {
         jsdom()
 
-        it('renders a rectangle from the passed grid', () => {
+        it('renders a rectangle from the passed grid', function() {
             const container = document.createElement('div')
             const add = sinon.stub().returns({ x: 1, y: 2 })
             const origin = { add }
