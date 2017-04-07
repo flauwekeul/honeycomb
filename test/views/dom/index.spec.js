@@ -87,7 +87,7 @@ describe('DOM View rendering', function() {
             const add = sinon.stub().returns({ x: 1, y: 2 })
             const origin = { add }
             const dom = DOM()
-            const view = sinon.stub().returns('<div></div>')
+            const view = sinon.stub().returns('<div>hex view</div>')
             const toPoint = sinon.stub().returns('toPoint result')
             const width = sinon.stub().returns(3)
             const height = sinon.stub().returns(4)
@@ -110,6 +110,7 @@ describe('DOM View rendering', function() {
             expect(hexNode.style).to.have.property('top', '2px')
             expect(hexNode.style).to.have.property('width', '3px')
             expect(hexNode.style).to.have.property('height', '4px')
+            expect(hexNode.innerHTML).to.equal('<div>hex view</div>')
         })
     })
 })

@@ -54,7 +54,7 @@ export default function DOMFactory({ Point, isDom } = {}) {
              */
             renderHexes(hexes) {
                 const hexNodes = hexes.reduce((fragment, hex) => {
-                    const hexNode = stringToDOMNodes(hex.view())[0]
+                    const hexNode = stringToDOMNodes(hex.view())
                     const hexOffset = this.origin.add(hex.toPoint())
 
                     Object.assign(hexNode.style, {
@@ -83,5 +83,5 @@ export default function DOMFactory({ Point, isDom } = {}) {
 function stringToDOMNodes(string) {
     const div = document.createElement('div')
     div.innerHTML = string.trim()
-    return div.childNodes
+    return div
 }
