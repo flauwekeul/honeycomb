@@ -25,7 +25,7 @@ describe('HexFactory', function() {
         const Hex = HexFactory()
         const result = Object.getPrototypeOf(Hex())
 
-        expect(result).to.have.property('orientation', ORIENTATIONS.FLAT)
+        expect(result).to.have.property('orientation', ORIENTATIONS.POINTY)
         expect(result).to.have.property('size', 1)
         expect(result).to.have.property('origin').that.deep.contains({ x: 0, y: 0 })
         expect(result).to.have.property('template').that.is.a('function')
