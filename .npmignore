@@ -1,8 +1,9 @@
-src/
+.babelrc
+.eslintrc.js*
+.nyc_output/
 coverage/
 examples/
+src/
 test/
-
-.babelrc
-.eslintrc.js
 webpack.config.js
+yarn.lock
