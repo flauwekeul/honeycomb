@@ -446,22 +446,26 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 ### Features
 
-1.  Change `Views.DOM` to use CSS to position hexes (use a style tag to limit inline styling).
+#### Views
+1.  Move `template` from `Hex.prototype` to the View functions and remove `view()` from `Hex.prototype`.
+1.  Change `Views.DOM` to use CSS to position hexes (limit inline styling).
 2.  Add `Views.SVG` that creates the SVG itself.
 3.  Hex views should be hex-orientation-agnostic (always pointy?) and just use `transform` to toggle orientations.
+8.  Add a `Views.Canvas`.
+11. Make it an option to filter overlapping hexes when multiple shapes are rendered.
+
+#### Docs
+1.  Find a way to link modules together. Currently, methods of the factory functions doesn't seem to belong to their factory functions (in the context of jsdoc).
+13. Shiny github.io pages 😎
+
+#### Other
 4.  Add possibility to create individual hexes with different size/orientation/origin/template.
 5.  Expose `Hex` (and `ORIENTATIONS`) via Honeycomb API.
 6.  Add helper to easily fall back to a hex's prototype.
 7.  Use either "compass" or numbered directions, not both.
-8.  Add a `Views.Canvas`.
 9.  Grid shape methods should return Sets (or Maps?) instead of arrays
 10. Maybe add instance methods for `Grid` and `Views.DOM` to get/set options. Then it's optional to pass the options to the `Grid` and `Views.DOM` factories and makes it possible to get/set those options later.
-11. Make it an option to filter overlapping hexes when multiple shapes are rendered.
 12. Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped.
-13. Shiny github.io pages 😎
-14. Add a `Views.React`?
-15. Add a `Views.Vue`?
-16. Add a `Views.D3`?
 
 ### Refactorings
 
