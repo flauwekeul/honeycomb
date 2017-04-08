@@ -1,0 +1,28 @@
+.hex {
+    position: absolute;
+    width: 86.6025px; /* sqrt(3) / 2 * (size * 2) */
+    height: 50px; /* size */
+    background-color: #69c;
+    margin: 25px 0; /* size / 2 */
+}
+
+.hex:before,
+.hex:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    border-left: 43.3013px solid transparent; /* width / 2 */
+    border-right: 43.3013px solid transparent; /* width / 2 */
+}
+
+.hex:before {
+    bottom: 100%;
+    border-bottom: 25px solid #69c; /* size / 2 */
+}
+
+.hex:after {
+    top: 100%;
+    left: 0;
+    width: 0;
+    border-top: 25px solid #69c; /* size / 2 */
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Honeycomb SVG view</title>
+        <link rel="stylesheet" href="../common.css">
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <!-- TODO: move this into lib. Maybe generate an svg dynamically, because the `points` depend on the hex orientation -->
+        <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
+            <symbol id="pointy-hex" viewBox="0 0 86.60254039 100">
+                <title>Regular hexagon</title>
+                <desc>Hexagon with pointy orientation.</desc>
+                <polygon points="43.30127019 0 86.60254039 25 86.60254039 75 43.30127019 100 0 75 0 25"/>
+            </symbol>
+            <symbol id="flat-hex" viewBox="0 0 100 86.60254039">
+                <title>Regular hexagon</title>
+                <desc>Hexagon with flat orientation.</desc>
+                <polygon points="25 0 75 0 100 43.30127019 75 86.60254039 25 86.60254039 0 43.30127019"/>
+            </symbol>
+        </svg>
+
+        <div id="container"></div>
+
+        <script src="../../../lib/honeycomb.js"></script>
+        <script src="index.js"></script>
+    </body>
+</html>

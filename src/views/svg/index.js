@@ -1,17 +1,17 @@
-export default function DOMFactory({ Point, isDom, stringToDOMNodes } = {}) {
+export default function SVGFactory({ Point, isDom, stringToDOMNodes } = {}) {
     /**
-     * @function Views.DOM
+     * @function Views.SVG
      *
      * @description
-     * Factory function for creating a DOM view object. This object can be used to render an array of hexes or a grid instance.
+     * Factory function for creating a SVG view object. This object can be used to render an array of hexes or a grid instance.
      *
      * @param {Object} options                  An options object.
      * @param {Node} options.container          A DOM node to render hexes in.
      * @param {Point} [options.origin=Point()]  A point where the first hex (i.e. `Hex(0, 0, 0)`) can be rendered.
      *
-     * @returns {Object}                        A DOM View instance.
+     * @returns {Object}                        A SVG View instance.
      */
-    return function DOM({ container, origin } = {}) {
+    return function SVG({ container, origin } = {}) {
         if (!isDom(container)) {
             throw new Error(`Container is not a valid dom node: ${container}.`)
         }
@@ -21,7 +21,7 @@ export default function DOMFactory({ Point, isDom, stringToDOMNodes } = {}) {
             origin: Point(origin),
 
             /**
-             * @method Views.DOM#render
+             * @method Views.SVG#render
              *
              * @description
              * Renders the passed {@link Grid|grid} instance in the container. The container is completely covered with hexes.
@@ -30,7 +30,7 @@ export default function DOMFactory({ Point, isDom, stringToDOMNodes } = {}) {
              *
              * @param   {Object} grid   A grid instance.
              *
-             * @returns {Object}        The DOM View object, for chaining.
+             * @returns {Object}        The SVG View object, for chaining.
              */
             render(grid) {
                 const Hex = grid.Hex
@@ -43,24 +43,24 @@ export default function DOMFactory({ Point, isDom, stringToDOMNodes } = {}) {
             },
 
             /**
-             * @method Views.DOM#renderHexes
+             * @method Views.SVG#renderHexes
              *
              * @description
              * Renders the passed hexes in the container.
              *
              * @param   {Hex[]} hexes   An array of hexes to render.
              *
-             * @returns {Object}        The DOM View object, for chaining.
+             * @returns {Object}        The SVG View object, for chaining.
              */
             renderHexes(hexes) {
                 const hexNodes = hexes.reduce((fragment, hex) => {
                     const hexNode = stringToDOMNodes(hex.view())
                     const hexOffset = this.origin.add(hex.toPoint())
 
-                    // TODO: make this configurable
-                    hexNode.classList.add('hex')
-
                     Object.assign(hexNode.style, {
+                        position: 'absolute',
+                        width: `${hex.width()}px`,
+                        height: `${hex.height()}px`,
                         left: `${hexOffset.x}px`,
                         top: `${hexOffset.y}px`
                     })

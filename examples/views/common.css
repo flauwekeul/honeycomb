@@ -1,0 +1,21 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    color: #333;
+    font-family: sans-serif;
+    overflow: hidden;
+}
+
+#container {
+    position: relative;
+    width: 80%;
+    height: 100%;
+    margin: 0 auto;
+    background-color: #ccc;
+    overflow: hidden;
+}

@@ -448,10 +448,11 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 #### Views
 1.  Move `template` from `Hex.prototype` to the View functions and remove `view()` from `Hex.prototype`.
-1.  Change `Views.DOM` to use CSS to position hexes (limit inline styling).
-2.  Add `Views.SVG` that creates the SVG itself.
-3.  Hex views should be hex-orientation-agnostic (always pointy?) and just use `transform` to toggle orientations.
+1.  Separate Views into separate modules (in lib/views/<view name>.js)
+1.  Add SCSS files and compile them to CSS for `Views.DOM`.
+3.  Hex views should be hex-orientation-agnostic (always pointy) and just use `transform` to toggle orientations.
 8.  Add a `Views.Canvas`.
+1.  Fix duplication between de Views.
 11. Make it an option to filter overlapping hexes when multiple shapes are rendered.
 
 #### Docs
