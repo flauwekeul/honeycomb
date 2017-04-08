@@ -24,6 +24,7 @@ describe('DOM View creation', function() {
     describe('with valid options', function() {
         const container = 'valid container'
         const origin = [2, 3]
+        const template = sinon.spy()
 
         before(function() {
             isDom.returns(true)
@@ -35,10 +36,11 @@ describe('DOM View creation', function() {
         })
 
         it('returns a DOM View instance', function() {
-            const result = DOM({ container, origin })
+            const result = DOM({ container, origin, template })
 
             expect(result).to.have.property('container').that.eqls(container)
             expect(result).to.have.property('origin').that.eqls(origin)
+            expect(result).to.have.property('template').that.equals(template)
             expect(result).to.have.property('render').that.is.a('function')
             expect(result).to.have.property('renderHexes').that.is.a('function')
         })
@@ -89,31 +91,24 @@ describe('DOM View rendering', function() {
             const add = sinon.stub().returns({ x: 1, y: 2 })
             const origin = { add }
             const dom = DOM()
-            const view = sinon.stub().returns('<div>hex view</div>')
+            const template = sinon.stub().returns('<div>hex template</div>')
             const toPoint = sinon.stub().returns('toPoint result')
-            const width = sinon.stub().returns(3)
-            const height = sinon.stub().returns(4)
-            const hexes = [{ view, toPoint, width, height }]
-            const context = { container, origin }
+            const hexes = [{ toPoint }]
+            const context = { container, origin, template }
             const result = dom.renderHexes.bind(context)(hexes)
 
-            expect(view).to.have.been.called
-            expect(stringToDOMNodesSpy).to.have.been.calledWith('<div>hex view</div>')
+            expect(template).to.have.been.calledWith(hexes[0])
+            expect(stringToDOMNodesSpy).to.have.been.calledWith('<div>hex template</div>')
             expect(toPoint).to.have.been.called
             expect(add).to.have.been.calledWith('toPoint result')
-            expect(width).to.have.been.called
-            expect(height).to.have.been.called
             expect(result).to.eql(context)
 
             const hexNode = container.firstChild
 
             expect(hexNode.nodeName).to.equal('DIV')
-            expect(hexNode.style).to.have.property('position', 'absolute')
             expect(hexNode.style).to.have.property('left', '1px')
             expect(hexNode.style).to.have.property('top', '2px')
-            expect(hexNode.style).to.have.property('width', '3px')
-            expect(hexNode.style).to.have.property('height', '4px')
-            expect(hexNode.innerHTML).to.equal('<div>hex view</div>')
+            expect(hexNode.innerHTML).to.equal('hex template')
         })
     })
 })

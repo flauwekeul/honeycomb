@@ -8,10 +8,15 @@ export default function DOMFactory({ Point, isDom, stringToDOMNodes } = {}) {
      * @param {Object} options                  An options object.
      * @param {Node} options.container          A DOM node to render hexes in.
      * @param {Point} [options.origin=Point()]  A point where the first hex (i.e. `Hex(0, 0, 0)`) can be rendered.
+     * @param {Function} [options.template]     Template function that should return a (visual) representation of the hex. It gets passed the current hex when called.
      *
      * @returns {Object}                        A DOM View instance.
      */
-    return function DOM({ container, origin } = {}) {
+    return function DOM({
+        container,
+        origin,
+        template = hex => hex
+    } = {}) {
         if (!isDom(container)) {
             throw new Error(`Container is not a valid dom node: ${container}.`)
         }
@@ -19,6 +24,7 @@ export default function DOMFactory({ Point, isDom, stringToDOMNodes } = {}) {
         return {
             container,
             origin: Point(origin),
+            template,
 
             /**
              * @method Views.DOM#render
@@ -54,11 +60,8 @@ export default function DOMFactory({ Point, isDom, stringToDOMNodes } = {}) {
              */
             renderHexes(hexes) {
                 const hexNodes = hexes.reduce((fragment, hex) => {
-                    const hexNode = stringToDOMNodes(hex.view())
+                    const hexNode = stringToDOMNodes(this.template(hex))[0]
                     const hexOffset = this.origin.add(hex.toPoint())
-
-                    // TODO: make this configurable
-                    hexNode.classList.add('hex')
 
                     Object.assign(hexNode.style, {
                         left: `${hexOffset.x}px`,

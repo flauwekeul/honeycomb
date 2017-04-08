@@ -6,17 +6,7 @@ var Grid = Honeycomb.Grid,
 
 grid = Grid({
     size: 50,
-    orientation: Honeycomb.HEX_ORIENTATIONS.POINTY,
-    template: function(hex) {
-        var coordinates = hex.coordinates(),
-            x = coordinates.x,
-            y = coordinates.y,
-            z = coordinates.z
-        return `
-            <span class="coordinate">x: ${x}</span>
-            <span class="coordinate">y: ${y}</span>
-            <span class="coordinate">z: ${z}</span>`
-    }
+    orientation: Honeycomb.HEX_ORIENTATIONS.POINTY
 })
 
 view = DOMView({
@@ -24,6 +14,18 @@ view = DOMView({
     origin: {
         x: container.offsetWidth / 2,
         y: container.offsetHeight / 2
+    },
+    template: function(hex) {
+        var coordinates = hex.coordinates(),
+            x = coordinates.x,
+            y = coordinates.y,
+            z = coordinates.z
+        return `
+            <div class="hex">
+                <span class="coordinate">x: ${x}</span>
+                <span class="coordinate">y: ${y}</span>
+                <span class="coordinate">z: ${z}</span>
+            </div>`
     }
 })
     .render(grid)

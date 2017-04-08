@@ -28,8 +28,6 @@ describe('HexFactory', function() {
         expect(result).to.have.property('orientation', ORIENTATIONS.POINTY)
         expect(result).to.have.property('size', 1)
         expect(result).to.have.property('origin').that.deep.contains({ x: 0, y: 0 })
-        expect(result).to.have.property('template').that.is.a('function')
-        expect(result.template('input')).to.equal('input')
     })
 
     describe('when passed hex settings', function() {

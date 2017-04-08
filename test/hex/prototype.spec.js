@@ -50,18 +50,6 @@ describe('oppositeSideDistance', function() {
     })
 })
 
-describe('view', function() {
-    it('returns the view of the hex', function() {
-        const template = sinon.stub().returns('view')
-        const context = { template }
-        const view = methods.view.bind(context)
-        const result = view()
-
-        expect(template).to.have.been.calledWith(context)
-        expect(result).to.equal('view')
-    })
-})
-
 describe('width', function() {
     beforeEach(function() {
         sinon.stub(methods, 'isPointy')

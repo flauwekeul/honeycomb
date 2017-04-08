@@ -45,20 +45,6 @@ export function oppositeSideDistance() {
 }
 
 /**
- * @method Hex#view
- *
- * @description
- * It returns the result of calling the template function with the current hex.
- *
- * @todo Add examples.
- *
- * @returns {String}    The view representation of the hex (usually a string).
- */
-export function view() {
-    return this.template(this)
-}
-
-/**
  * @method Hex#width
  * @returns {Number}    The (horizontal) width of any hex.
  */

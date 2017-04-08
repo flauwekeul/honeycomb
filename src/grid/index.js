@@ -21,12 +21,7 @@ export default function GridFactory({ HexFactory } = {}) {
      *
      * const grid = Grid({
      *     size: 50,
-     *     orientation: HEX_ORIENTATIONS.POINTY,
-     *     template: hex => `<div class="hex">
-     *         x: ${hex.x}
-     *         y: ${hex.y}
-     *         z: ${hex.z}
-     *     </div>`
+     *     orientation: HEX_ORIENTATIONS.POINTY
      * })
      *
      * grid.triangle(3)

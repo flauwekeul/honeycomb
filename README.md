@@ -31,12 +31,7 @@ import { Grid, HEX_ORIENTATIONS } from 'Honeycomb'
 
 const grid = Grid({
     size: 50,
-    orientation: HEX_ORIENTATIONS.POINTY,
-    template: hex => `<div class="hex">
-        x: ${hex.x}
-        y: ${hex.y}
-        z: ${hex.z}
-    </div>`
+    orientation: HEX_ORIENTATIONS.POINTY
 })
 
 grid.triangle(3)
@@ -155,7 +150,7 @@ Factory that produces a [Hex](#hex) function to create hexes with. It accepts op
     -   `settings.orientation` **(FLAT | POINTY)** All hexes are either POINTY ⬢ or FLAT ⬣. (optional, default `POINTY`)
     -   `settings.size` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Size of all hexes. (optional, default `1`)
     -   `settings.origin` **[Point](#point)** Used to convert the hex position to a point. Defaults to the top left. (optional, default `Point()`)
-    -   `settings.template` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** Template function that should return a (visual) representation of the hex. It gets passed the current hex when called. Could be an HTML string (e.g. `'<div class="hex"></div>'`) that can be parsed by a [Views.DOM](#viewsdom) instance. A [View](#views) uses the hex's [Hex#view](#hexview) method to call the template function and produce a view. (optional, default `hex=>hex`)
+    -   `settings.template` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** Template function that should return a (visual) representation of the hex. It gets passed the current hex when called. Could be an HTML string (e.g. `'<div class="hex"></div>'`) that can be parsed by a [Views.DOM](#viewsdom) instance. A [View](#views) uses the hex's [Hex#view](Hex#view) method to call the template function and produce a view.
 
 Returns **[Hex](#hex)** A function to produce hexes, all with the same `prototype`.
 
@@ -215,12 +210,6 @@ Returns **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 ### Hex#oppositeSideDistance
 
 Returns **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The distance between opposite sides of a hex.
-
-### Hex#view
-
-It returns the result of calling the template function with the current hex.
-
-Returns **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The view representation of the hex (usually a string).
 
 ### Hex#width
 
@@ -412,6 +401,7 @@ Factory function for creating a DOM view object. This object can be used to rend
 -   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object.
     -   `options.container` **[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node/nextSibling)** A DOM node to render hexes in.
     -   `options.origin` **[Point](#point)** A point where the first hex (i.e. `Hex(0, 0, 0)`) can be rendered. (optional, default `Point()`)
+    -   `options.template` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** Template function that should return a (visual) representation of the hex. It gets passed the current hex when called.
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A DOM View instance.
 
@@ -437,6 +427,38 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 ### Views
 
+### Views.SVG
+
+Factory function for creating a SVG view object. This object can be used to render an array of hexes or a grid instance.
+
+**Parameters**
+
+-   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object.
+    -   `options.container` **[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node/nextSibling)** A DOM node to render hexes in.
+    -   `options.origin` **[Point](#point)** A point where the first hex (i.e. `Hex(0, 0, 0)`) can be rendered. (optional, default `Point()`)
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A SVG View instance.
+
+### Views.SVG#render
+
+Renders the passed [grid](#grid) instance in the container. The container is completely covered with hexes.
+
+**Parameters**
+
+-   `grid` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A grid instance.
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** The SVG View object, for chaining.
+
+### Views.SVG#renderHexes
+
+Renders the passed hexes in the container.
+
+**Parameters**
+
+-   `hexes` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** An array of hexes to render.
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** The SVG View object, for chaining.
+
 ## Backlog
 
 ### Bugs
@@ -447,26 +469,29 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 ### Features
 
 #### Views
-1.  Move `template` from `Hex.prototype` to the View functions and remove `view()` from `Hex.prototype`.
-1.  Separate Views into separate modules (in lib/views/<view name>.js)
+
 1.  Add SCSS files and compile them to CSS for `Views.DOM`.
-3.  Hex views should be hex-orientation-agnostic (always pointy) and just use `transform` to toggle orientations.
-8.  Add a `Views.Canvas`.
-1.  Fix duplication between de Views.
-11. Make it an option to filter overlapping hexes when multiple shapes are rendered.
+2.  Make the `div` that the hex template is wrapped in configurable.
+3.  Separate Views into separate modules (in lib/views/<view name>.js)
+4.  Hex views should be hex-orientation-agnostic (always pointy) and just use `transform` to toggle orientations.
+5.  Add a `Views.Canvas`.
+6.  Fix duplication between de Views.
+7.  Make it an option to filter overlapping hexes when multiple shapes are rendered.
 
 #### Docs
+
 1.  Find a way to link modules together. Currently, methods of the factory functions doesn't seem to belong to their factory functions (in the context of jsdoc).
-13. Shiny github.io pages 😎
+2.  Shiny github.io pages 😎
 
 #### Other
+
 4.  Add possibility to create individual hexes with different size/orientation/origin/template.
 5.  Expose `Hex` (and `ORIENTATIONS`) via Honeycomb API.
 6.  Add helper to easily fall back to a hex's prototype.
 7.  Use either "compass" or numbered directions, not both.
-9.  Grid shape methods should return Sets (or Maps?) instead of arrays
-10. Maybe add instance methods for `Grid` and `Views.DOM` to get/set options. Then it's optional to pass the options to the `Grid` and `Views.DOM` factories and makes it possible to get/set those options later.
-12. Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped.
+8.  Grid shape methods should return Sets (or Maps?) instead of arrays
+9.  Maybe add instance methods for `Grid` and `Views.DOM` to get/set options. Then it's optional to pass the options to the `Grid` and `Views.DOM` factories and makes it possible to get/set those options later.
+10. Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped.
 
 ### Refactorings
 
@@ -474,3 +499,4 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 7.  Reduce coupling between tests and implementation by testing paths, instead of specific calls to methods?
 8.  Moar examples!
 9.  Put tests in same directory as the code they're testing?
+10. Replace Webpack by Rollup, because it's supposed to be [more suitable for libraries](https://medium.com/webpack/webpack-and-rollup-the-same-but-different-a41ad427058c).

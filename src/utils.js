@@ -31,5 +31,5 @@ export function unsignNegativeZero(value) {
 export function stringToDOMNodes(string) {
     const div = document.createElement('div')
     div.innerHTML = string.trim()
-    return div
+    return div.children
 }

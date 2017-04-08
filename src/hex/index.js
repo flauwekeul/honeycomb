@@ -10,7 +10,7 @@ import * as methods from './prototype'
  * @description
  * Factory that produces a {@link Hex} function to create hexes with. It accepts optional hex settings that are used to create a "family" of hexes that can be used in a grid (or individually). This "family" of hexes all share the same `prototype`.
  *
- * @todo validate orientation, size, origin and template
+ * @todo validate orientation, size, origin
  *
  * @param {Object} [settings={}]                        Settings that apply to all hexes created with the returned {@link Hex} function.
  * @param {(FLAT|POINTY)} [settings.orientation=POINTY] All hexes are either POINTY ⬢ or FLAT ⬣.
@@ -23,15 +23,13 @@ import * as methods from './prototype'
 export default function HexFactory({
     orientation = ORIENTATIONS.POINTY,
     size = 1,
-    origin = Point(),
-    template = hex => hex,
+    origin = Point()
 } = {}) {
     const prototype = {
         // settings:
         orientation,
         size,
         origin,
-        template,
 
         // methods:
         coordinates:            methods.coordinates,
@@ -39,7 +37,6 @@ export default function HexFactory({
         isFlat:                 methods.isFlat,
         oppositeCornerDistance: methods.oppositeCornerDistance,
         oppositeSideDistance:   methods.oppositeSideDistance,
-        view:                   methods.view,
         width:                  methods.width,
         height:                 methods.height,
         center:                 methods.centerFactory({ Point }),
