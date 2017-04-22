@@ -16,7 +16,7 @@ export default function DOMFactory({ Point, isDom, Element } = {}) {
         grid,
         container,
         origin,
-        template = hex => hex
+        template = () => '<div></div>'
     } = {}) {
         if (!isDom(container)) {
             throw new Error(`Container is not a valid dom node: ${container}.`)
