@@ -1,4 +1,4 @@
-export default function DOMFactory({ Point, isDom, stringToDOMNodes } = {}) {
+export default function DOMFactory({ Point, isDom, Element } = {}) {
     /**
      * @function Views.DOM
      *
@@ -61,21 +61,14 @@ export default function DOMFactory({ Point, isDom, stringToDOMNodes } = {}) {
              * @returns {Object}        The DOM View object, for chaining.
              */
             renderHexes(hexes) {
-                const hexNodes = hexes.reduce((fragment, hex) => {
-                    const hexNode = stringToDOMNodes(this.template(hex))[0]
-                    const hexOffset = this.origin.add(hex.toPoint())
-
-                    Object.assign(hexNode.style, {
-                        left: `${hexOffset.x}px`,
-                        top: `${hexOffset.y}px`
-                    })
-
-                    fragment.appendChild(hexNode)
-
+                const elements = hexes.reduce((fragment, hex) => {
+                    Element(hex, this.template)
+                        .position(this.origin)
+                        .appendTo(fragment)
                     return fragment
                 }, document.createDocumentFragment())
 
-                this.container.appendChild(hexNodes)
+                this.container.appendChild(elements)
 
                 return this
             }

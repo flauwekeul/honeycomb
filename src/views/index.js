@@ -3,14 +3,17 @@ import isDom from 'is-dom'
 import { stringToDOMNodes } from '../utils'
 
 import DOMFactory from './dom'
-import SVGFactory from './svg'
+import DOMElementFactory from './dom/element'
+// import SVGFactory from './svg'
+
+const DOMElement = DOMElementFactory({ stringToDOMNodes })
 
 /**
  * @namespace
  */
 const Views = {
-    DOM: DOMFactory({ Point, isDom, stringToDOMNodes }),
-    SVG: SVGFactory({ Point, isDom, stringToDOMNodes })
+    DOM: DOMFactory({ Point, isDom, Element: DOMElement }),
+    // SVG: SVGFactory({ Point, isDom, stringToDOMNodes })
 }
 
 export default Views
