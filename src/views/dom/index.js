@@ -13,6 +13,7 @@ export default function DOMFactory({ Point, isDom, stringToDOMNodes } = {}) {
      * @returns {Object}                        A DOM View instance.
      */
     return function DOM({
+        grid,
         container,
         origin,
         template = hex => hex
@@ -22,6 +23,7 @@ export default function DOMFactory({ Point, isDom, stringToDOMNodes } = {}) {
         }
 
         return {
+            grid,
             container,
             origin: Point(origin),
             template,
@@ -38,7 +40,7 @@ export default function DOMFactory({ Point, isDom, stringToDOMNodes } = {}) {
              *
              * @returns {Object}        The DOM View object, for chaining.
              */
-            render(grid) {
+            renderGrid() {
                 const Hex = grid.Hex
                 // increase the size of the hex rectangle to guarantee it covers the container
                 const width = Math.round(this.container.offsetWidth / grid.colSize()) + 3

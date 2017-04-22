@@ -10,6 +10,7 @@ grid = Grid({
 })
 
 view = DOMView({
+    grid,
     container: container,
     origin: {
         x: container.offsetWidth / 2,
@@ -20,13 +21,9 @@ view = DOMView({
             x = coordinates.x,
             y = coordinates.y,
             z = coordinates.z
-        return `
-            <div class="hex">
-                <span class="coordinate">x: ${x}</span>
-                <span class="coordinate">y: ${y}</span>
-                <span class="coordinate">z: ${z}</span>
-            </div>`
+        return `<div class="hex"></div>`
     }
 })
-    .render(grid)
-    // .renderHexes(grid.rectangle(4, 4))
+
+view.renderGrid()
+// view.renderHexes(grid.rectangle(4, 4))
