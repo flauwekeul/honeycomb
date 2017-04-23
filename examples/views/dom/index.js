@@ -2,6 +2,7 @@ var Grid = Honeycomb.Grid,
     View = Honeycomb.View,
     DOMTemplate = Honeycomb.DOMTemplate,
     container = document.getElementById('container'),
+    rect = container.getBoundingClientRect(),
     grid,
     template,
     view
@@ -18,8 +19,8 @@ view = View({
     template: template,
     container: container,
     origin: {
-        x: container.offsetWidth / 2,
-        y: container.offsetHeight / 2
+        x: rect.width / 2,
+        y: rect.height / 2
     }
 })
 

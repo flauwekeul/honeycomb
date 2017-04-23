@@ -35,9 +35,11 @@ export default function ViewFactory({ Point, isDom } = {}) {
              */
             renderGrid() {
                 const Hex = grid.Hex
+                const rect = this.container.getBoundingClientRect()
+
                 // increase the size of the hex rectangle to guarantee it covers the container
-                const width = Math.round(this.container.offsetWidth / grid.colSize()) + 3
-                const height = Math.round(this.container.offsetHeight / grid.rowSize()) + 3
+                const width = Math.round(rect.width / grid.colSize()) + 3
+                const height = Math.round(rect.height / grid.rowSize()) + 3
                 const start = Hex.subtract(grid.pointToHex(this.origin.invert()), Hex(1))
 
                 return this.renderHexes(grid.rectangle(width, height, start))
