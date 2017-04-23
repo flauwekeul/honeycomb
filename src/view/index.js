@@ -1,22 +1,15 @@
-export default function DOMFactory({ Point, isDom, Element } = {}) {
+export default function ViewFactory({ Point, isDom } = {}) {
     /**
-     * @function Views.DOM
+     * @function View
      *
      * @description
-     * Factory function for creating a DOM view object. This object can be used to render an array of hexes or a grid instance.
-     *
-     * @param {Object} options                  An options object.
-     * @param {Node} options.container          A DOM node to render hexes in.
-     * @param {Point} [options.origin=Point()]  A point where the first hex (i.e. `Hex(0, 0, 0)`) can be rendered.
-     * @param {Function} [options.template]     Template function that should return a (visual) representation of the hex. It gets passed the current hex when called.
-     *
-     * @returns {Object}                        A DOM View instance.
+     * Factory function for creating views. A view instance can be used to render (a grid of) hexes.
      */
-    return function DOM({
+    return function View({
         grid,
+        template,
         container,
-        origin,
-        template = () => '<div></div>'
+        origin
     } = {}) {
         if (!isDom(container)) {
             throw new Error(`Container is not a valid dom node: ${container}.`)
@@ -24,9 +17,9 @@ export default function DOMFactory({ Point, isDom, Element } = {}) {
 
         return {
             grid,
+            template,
             container,
             origin: Point(origin),
-            template,
 
             /**
              * @method Views.DOM#render
@@ -62,7 +55,7 @@ export default function DOMFactory({ Point, isDom, Element } = {}) {
              */
             renderHexes(hexes) {
                 const elements = hexes.reduce((fragment, hex) => {
-                    Element(hex, this.template)
+                    this.template(hex)
                         .position(this.origin)
                         .appendTo(fragment)
                     return fragment

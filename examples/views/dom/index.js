@@ -1,7 +1,9 @@
 var Grid = Honeycomb.Grid,
-    DOMView = Honeycomb.Views.DOM,
+    View = Honeycomb.View,
+    DOMTemplate = Honeycomb.DOMTemplate,
     container = document.getElementById('container'),
     grid,
+    template,
     view
 
 grid = Grid({
@@ -9,19 +11,15 @@ grid = Grid({
     orientation: Honeycomb.HEX_ORIENTATIONS.POINTY
 })
 
-view = DOMView({
-    grid,
+template = DOMTemplate('<div class="hex"></div>')
+
+view = View({
+    grid: grid,
+    template: template,
     container: container,
     origin: {
         x: container.offsetWidth / 2,
         y: container.offsetHeight / 2
-    },
-    template: function(hex) {
-        var coordinates = hex.coordinates(),
-            x = coordinates.x,
-            y = coordinates.y,
-            z = coordinates.z
-        return `<div class="hex"></div>`
     }
 })
 
