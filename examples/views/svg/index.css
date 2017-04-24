@@ -1,15 +1,5 @@
 svg {
-    width: 100%;
-    height: 100%;
-}
-
-svg use {
     fill: #69c;
-}
-
-svg text {
-    font-size: 12px;
-    line-height: 1.4;
-    vertical-align: middle;
-    text-align: center;
+    stroke: #036;
+    stroke-width: 0.5;
 }

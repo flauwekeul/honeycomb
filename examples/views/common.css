@@ -12,6 +12,7 @@ body {
 }
 
 #container {
+    display: block;
     position: relative;
     width: 80%;
     height: 100%;
