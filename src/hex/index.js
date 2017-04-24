@@ -39,6 +39,7 @@ export default function HexFactory({
         oppositeSideDistance:   methods.oppositeSideDistance,
         width:                  methods.width,
         height:                 methods.height,
+        corners:                methods.cornersFactory({ Point }),
         center:                 methods.centerFactory({ Point }),
         toPoint:                methods.toPointFactory({ Point })
     }

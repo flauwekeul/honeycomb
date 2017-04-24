@@ -64,6 +64,37 @@ export function height() {
         this.oppositeSideDistance()
 }
 
+export function cornersFactory({ Point }) {
+    /**
+     * @method Hex#corners
+     * @returns {Point[]}   Array of corner points. Starting at the top right corner for pointy hexes and the right corner for flat hexes.
+     */
+    return function corners() {
+        const width = this.width()
+        const height = this.height()
+
+        if (this.isPointy()) {
+            return [
+                Point(width, height * 0.25),
+                Point(width, height * 0.75),
+                Point(width * 0.5, height),
+                Point(0, height * 0.75),
+                Point(0, height * 0.25),
+                Point(width * 0.5, 0)
+            ]
+        } else {
+            return [
+                Point(width, height * 0.5),
+                Point(width * 0.75, height),
+                Point(width * 0.25, height),
+                Point(0, height * 0.5),
+                Point(width * 0.25, 0),
+                Point(width * 0.75, 0)
+            ]
+        }
+    }
+}
+
 export function centerFactory({ Point }) {
     /**
      * @method Hex#center

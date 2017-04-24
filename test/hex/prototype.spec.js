@@ -116,6 +116,64 @@ describe('height', function() {
     })
 })
 
+describe.only('corners', function() {
+    let width, height, isPointy, Point, corners, context
+
+    beforeEach(function() {
+        width = sinon.stub().returns(1)
+        height = sinon.stub().returns(1)
+        isPointy = sinon.stub()
+        Point = sinon.stub().callsFake((...coordinates) => coordinates)
+        corners = methods.cornersFactory({ Point })
+        context = {
+            width,
+            height,
+            isPointy
+        }
+    })
+
+    it('calls the hex\'s witdh(), height() and isPointy() methods', function() {
+        corners.bind(context)()
+        expect(width).to.have.been.called
+        expect(height).to.have.been.called
+        expect(isPointy).to.have.been.called
+    })
+
+    describe('when the hex has a pointy orientation', function() {
+        beforeEach(function() {
+            isPointy.returns(true)
+        })
+
+        it('returns an array of 6 corners', function() {
+            expect(corners.bind(context)()).to.eql([
+                [ 1, 0.25 ],
+                [ 1, 0.75 ],
+                [ 0.5, 1 ],
+                [ 0, 0.75 ],
+                [ 0, 0.25 ],
+                [ 0.5, 0 ]
+            ])
+        })
+    })
+
+    describe('when the hex has a flat orientation', function() {
+        beforeEach(function() {
+            isPointy.returns(false)
+        })
+
+        it('returns an array of 6 corners', function() {
+            expect(corners.bind(context)()).to.eql([
+                [ 1, 0.5 ],
+                [ 0.75, 1 ],
+                [ 0.25, 1 ],
+                [ 0, 0.5 ],
+                [ 0.25, 0 ],
+                [ 0.75, 0 ],
+            ])
+        })
+    })
+})
+
 describe('center', function() {
     it('returns the relative center of the given hex', function() {
         const Point = sinon.stub().callsFake((...coordinates) => coordinates)
