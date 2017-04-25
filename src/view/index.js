@@ -7,7 +7,7 @@ export default function ViewFactory({ Point, isDom } = {}) {
      */
     return function View({
         grid,
-        template,
+        render,
         container,
         origin
     } = {}) {
@@ -17,7 +17,7 @@ export default function ViewFactory({ Point, isDom } = {}) {
 
         return {
             grid,
-            template,
+            render,
             container,
             origin: Point(origin),
             elements: [],
@@ -58,7 +58,7 @@ export default function ViewFactory({ Point, isDom } = {}) {
              */
             renderHexes(hexes) {
                 const fragment = hexes.reduce((fragment, hex) => {
-                    const element = this.template(hex)
+                    const element = this.render(hex)
                         .position(this.origin)
                         .appendTo(fragment)
 

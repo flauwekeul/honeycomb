@@ -1,10 +1,9 @@
 var Grid = Honeycomb.Grid,
     View = Honeycomb.View,
-    DOMTemplate = Honeycomb.DOMTemplate,
+    DOMCompiler = Honeycomb.DOMCompiler,
     container = document.getElementById('container'),
     rect = container.getBoundingClientRect(),
     grid,
-    template,
     view
 
 grid = Grid({
@@ -12,11 +11,9 @@ grid = Grid({
     orientation: Honeycomb.HEX_ORIENTATIONS.POINTY
 })
 
-template = DOMTemplate('<div class="hex"></div>')
-
 view = View({
     grid: grid,
-    template: template,
+    render: DOMCompiler('<div class="hex"></div>'),
     container: container,
     origin: {
         x: rect.width / 2,

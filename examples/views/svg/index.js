@@ -1,10 +1,9 @@
 var Grid = Honeycomb.Grid,
     View = Honeycomb.View,
-    SVGTemplate = Honeycomb.SVGTemplate,
+    SVGCompiler = Honeycomb.SVGCompiler,
     container = document.getElementById('container'),
     rect = container.getBoundingClientRect(),
     grid,
-    template,
     view
 
 grid = Grid({
@@ -12,11 +11,9 @@ grid = Grid({
     orientation: Honeycomb.HEX_ORIENTATIONS.POINTY
 })
 
-template = SVGTemplate()
-
 view = View({
     grid: grid,
-    template: template,
+    render: SVGCompiler(),
     container: container,
     origin: {
         x: rect.width / 2,

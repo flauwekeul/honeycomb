@@ -1,24 +1,20 @@
 import isDom from 'is-dom'
-import { stringToDOMNodes } from './utils'
 
 import { ORIENTATIONS } from './hex/constants'
 import GridFactory from './grid'
 import HexFactory from './hex'
 import Point from './point'
 import ViewFactory from './view'
-import DOMTemplateFactory from './dom-template'
-import SVGTemplateFactory from './svg-template'
+import { DOMCompiler, SVGCompiler } from './compilers'
 
 const Grid = GridFactory({ HexFactory })
 const View = ViewFactory({ Point, isDom })
-const DOMTemplate = DOMTemplateFactory({ stringToDOMNodes })
-const SVGTemplate = SVGTemplateFactory({ document })
 
 export {
     ORIENTATIONS as HEX_ORIENTATIONS,
     Grid,
     Point,
     View,
-    DOMTemplate,
-    SVGTemplate
+    DOMCompiler,
+    SVGCompiler
 }

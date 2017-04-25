@@ -1,7 +1,7 @@
-export default function DOMTemplateFactory({ stringToDOMNodes }) {
+export default function DOMCompilerFactory({ stringToDOMNodes }) {
     // TODO: template can be a string or a DOM node, maybe also an object?
     // e.g.: { tagName: 'div', cssClass: '', style: {}, *: * } ?
-    return function DOMTemplate(template) {
+    return function DOMCompiler(template) {
         const prototype = {
             position(origin) {
                 const position = origin.add(this.hex.toPoint())
@@ -18,7 +18,7 @@ export default function DOMTemplateFactory({ stringToDOMNodes }) {
             }
         }
 
-        return function compile(hex) {
+        return function render(hex) {
             const element = stringToDOMNodes(template)[0]
             return Object.assign(
                 Object.create(prototype),

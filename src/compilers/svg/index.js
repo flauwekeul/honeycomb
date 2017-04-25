@@ -1,7 +1,5 @@
-export default function SVGTemplateFactory({ document }) {
-    // TODO: template can be a string or an SVG node
-    // TODO: do something with template
-    return function SVGTemplate(template) {
+export default function SVGCompilerFactory({ document }) {
+    return function SVGCompiler() {
         const prototype = {
             position(origin) {
                 const position = origin.add(this.hex.toPoint())
@@ -15,7 +13,7 @@ export default function SVGTemplateFactory({ document }) {
             }
         }
 
-        return function compile(hex) {
+        return function render(hex) {
             const NS = 'http://www.w3.org/2000/svg'
             const g = document.createElementNS(NS, 'g')
             const polygon = document.createElementNS(NS, 'polygon')
