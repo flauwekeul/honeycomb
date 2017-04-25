@@ -20,6 +20,7 @@ export default function ViewFactory({ Point, isDom } = {}) {
             template,
             container,
             origin: Point(origin),
+            elements: [],
 
             /**
              * @method Views.DOM#render
@@ -56,14 +57,17 @@ export default function ViewFactory({ Point, isDom } = {}) {
              * @returns {Object}        The DOM View object, for chaining.
              */
             renderHexes(hexes) {
-                const elements = hexes.reduce((fragment, hex) => {
-                    this.template(hex)
+                const fragment = hexes.reduce((fragment, hex) => {
+                    const element = this.template(hex)
                         .position(this.origin)
                         .appendTo(fragment)
+
+                    this.elements.push(element)
+
                     return fragment
                 }, document.createDocumentFragment())
 
-                this.container.appendChild(elements)
+                this.container.appendChild(fragment)
 
                 return this
             }
