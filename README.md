@@ -474,7 +474,6 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 2.  Make the `div` that the hex template is wrapped in configurable.
 3.  Separate Views into separate modules (in lib/views/<view name>.js)
 4.  Hex views should be hex-orientation-agnostic (always pointy) and just use `transform` to toggle orientations.
-5.  Add a `Views.Canvas`.
 6.  Fix duplication between de Views.
 7.  Make it an option to filter overlapping hexes when multiple shapes are rendered.
 
