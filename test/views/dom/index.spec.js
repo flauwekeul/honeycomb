@@ -1,7 +1,7 @@
+import 'jsdom-global/register'
 import { expect } from 'chai'
 import sinon from 'sinon'
 
-import jsdom from 'mocha-jsdom'
 import DOMFactory from '../../../src/views/dom'
 
 describe('DOM View creation', function() {
@@ -82,8 +82,6 @@ describe('DOM View rendering', function() {
     })
 
     describe('renderHexes', function() {
-        jsdom()
-
         it('renders a rectangle from the passed grid', function() {
             const container = document.createElement('div')
             const add = sinon.stub().returns({ x: 1, y: 2 })
