@@ -116,7 +116,7 @@ describe('height', function() {
     })
 })
 
-describe.only('corners', function() {
+describe('corners', function() {
     let width, height, isPointy, Point, corners, context
 
     beforeEach(function() {
