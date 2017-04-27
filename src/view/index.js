@@ -35,15 +35,15 @@ export default function ViewFactory({ Point, isDom } = {}) {
              * @returns {Object}        The DOM View object, for chaining.
              */
             renderGrid() {
-                const Hex = grid.Hex
+                const Hex = this.grid.Hex
                 const rect = this.container.getBoundingClientRect()
 
                 // increase the size of the hex rectangle to guarantee it covers the container
-                const width = Math.round(rect.width / grid.colSize()) + 3
-                const height = Math.round(rect.height / grid.rowSize()) + 3
-                const start = Hex.subtract(grid.pointToHex(this.origin.invert()), Hex(1))
+                const width = Math.round(rect.width / this.grid.colSize()) + 3
+                const height = Math.round(rect.height / this.grid.rowSize()) + 3
+                const start = Hex.subtract(this.grid.pointToHex(this.origin.invert()), Hex(1))
 
-                return this.renderHexes(grid.rectangle(width, height, start))
+                return this.renderHexes(this.grid.rectangle(width, height, start))
             },
 
             /**

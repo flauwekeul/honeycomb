@@ -2,77 +2,78 @@ import 'jsdom-global/register'
 import { expect } from 'chai'
 import sinon from 'sinon'
 
-import { stringToDOMNodes } from '../../../src/utils'
-import DOMFactory from '../../../src/views/dom'
+import ViewFactory from '../../src/view'
 
-describe('DOM View creation', function() {
+describe('View creation', function() {
     const Point = sinon.stub().callsFake(value => value)
     const isDom = sinon.stub().returns(true)
-    const DOM = DOMFactory({ Point, isDom, stringToDOMNodes })
+    const View = ViewFactory({ Point, isDom })
 
     it('calls isDom to check if the container is a valid DOM node', function() {
         const container = 'container'
-        DOM({ container })
+        View({ container })
         expect(isDom).to.have.been.calledWith(container)
     })
 
     it('throws an error if the container is not a valid DOM node', function() {
         isDom.returns(false)
-        expect(DOM).to.throw('Container is not a valid dom node: undefined.')
+        expect(View).to.throw('Container is not a valid dom node: undefined.')
     })
 
     describe('with valid options', function() {
+        const grid = sinon.spy()
+        const render = sinon.spy()
         const container = 'valid container'
         const origin = [2, 3]
-        const template = sinon.spy()
 
         before(function() {
             isDom.returns(true)
         })
 
         it('wraps the passed origin in a Point', function() {
-            DOM({ origin })
+            View({ origin })
             expect(Point).to.have.been.calledWith(origin)
         })
 
-        it('returns a DOM View instance', function() {
-            const result = DOM({ container, origin, template })
+        it('returns a View instance', function() {
+            const result = View({ grid, render, container, origin })
 
+            expect(result).to.have.property('grid').that.eqls(grid)
+            expect(result).to.have.property('render').that.equals(render)
             expect(result).to.have.property('container').that.eqls(container)
             expect(result).to.have.property('origin').that.eqls(origin)
-            expect(result).to.have.property('template').that.equals(template)
-            expect(result).to.have.property('render').that.is.a('function')
-            expect(result).to.have.property('renderHexes').that.is.a('function')
+            expect(result).to.have.property('elements').that.is.an('array')
         })
     })
 })
 
-describe('DOM View rendering', function() {
+describe('View methods', function() {
     const subtract = sinon.stub().returns('subtract result')
     const Point = sinon.stub().callsFake(value => value)
     const isDom = sinon.stub().returns(true)
-    const stringToDOMNodesSpy = sinon.spy(stringToDOMNodes)
-    const DOM = DOMFactory({ Point, isDom, stringToDOMNodes: stringToDOMNodesSpy })
+    const View = ViewFactory({ Point, isDom })
 
-    describe('render', function() {
-        it('renders a rectangle from the passed grid', function() {
-            const container = {
-                offsetWidth: 1,
-                offsetHeight: 1
-            }
-            const invert = sinon.stub().returns('invert result')
-            const origin = { invert }
-            const dom = DOM()
+    describe('renderGrid', function() {
+        it('renders the grid', function() {
             const Hex = sinon.stub().returns('Hex result')
             Hex.subtract = subtract
+            const getBoundingClientRect = sinon.stub().returns({
+                width: 1,
+                height: 1
+            })
+            const container = { getBoundingClientRect }
+            const invert = sinon.stub().returns('invert result')
+            const origin = { invert }
             const colSize = sinon.stub().returns(1)
             const rowSize = sinon.stub().returns(1)
             const pointToHex = sinon.stub().returns('pointToHex result')
             const rectangle = sinon.stub().returns('rectangle result')
             const grid = { Hex, colSize, rowSize, pointToHex, rectangle }
             const renderHexes = sinon.stub().returns('renderHexes result')
-            const result = dom.render.bind({ container, origin, renderHexes })(grid)
+            const view = View()
+            const result = view.renderGrid.bind({ grid, container, origin, renderHexes })()
 
+            expect(getBoundingClientRect).to.have.been.called
             expect(colSize).to.have.been.called
             expect(rowSize).to.have.been.called
             expect(Hex).to.have.been.calledWith(1)
@@ -88,27 +89,26 @@ describe('DOM View rendering', function() {
     describe('renderHexes', function() {
         it('renders a rectangle from the passed grid', function() {
             const container = document.createElement('div')
-            const add = sinon.stub().returns({ x: 1, y: 2 })
-            const origin = { add }
-            const dom = DOM()
-            const template = sinon.stub().returns('<div>hex template</div>')
-            const toPoint = sinon.stub().returns('toPoint result')
-            const hexes = [{ toPoint }]
-            const context = { container, origin, template }
-            const result = dom.renderHexes.bind(context)(hexes)
+            sinon.spy(container, 'appendChild')
+            const origin = 'origin'
+            const appendTo = sinon.stub().returns('appendTo result')
+            const position = sinon.stub().returns({ appendTo })
+            const render = sinon.stub().returns({ position })
+            const view = View()
+            const hexes = [ 'a hex' ]
+            const elements = []
+            const context = { render, origin, elements, container }
+            const result = view.renderHexes.bind(context)(hexes)
 
-            expect(template).to.have.been.calledWith(hexes[0])
-            expect(stringToDOMNodesSpy).to.have.been.calledWith('<div>hex template</div>')
-            expect(toPoint).to.have.been.called
-            expect(add).to.have.been.calledWith('toPoint result')
+            expect(render).to.have.been.calledWith(hexes[0])
+            expect(position).to.have.been.calledWith(origin)
+            expect(appendTo).to.have.been.calledWith(document.createDocumentFragment())
+            expect(elements).to.contain('appendTo result')
             expect(result).to.eql(context)
+            expect(container.appendChild).to.have.been.calledWith(document.createDocumentFragment())
 
-            const hexNode = container.firstChild
-
-            expect(hexNode.nodeName).to.equal('DIV')
-            expect(hexNode.style).to.have.property('left', '1px')
-            expect(hexNode.style).to.have.property('top', '2px')
-            expect(hexNode.innerHTML).to.equal('hex template')
+            container.appendChild.restore()
         })
     })
 })
+
