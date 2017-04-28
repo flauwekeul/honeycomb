@@ -20,12 +20,4 @@ describe('API', function() {
     it('exposes View', function() {
         expect(API).to.have.property('View').that.is.a('function').with.property('name', 'View')
     })
-
-    it('exposes DOMCompiler', function() {
-        expect(API).to.have.property('DOMCompiler').that.is.a('function').with.property('name', 'DOMCompiler')
-    })
-
-    it('exposes SVGCompiler', function() {
-        expect(API).to.have.property('SVGCompiler').that.is.a('function').with.property('name', 'SVGCompiler')
-    })
 })

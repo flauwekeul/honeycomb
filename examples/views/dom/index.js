@@ -1,6 +1,5 @@
 var Grid = Honeycomb.Grid,
     View = Honeycomb.View,
-    DOMCompiler = Honeycomb.DOMCompiler,
     container = document.getElementById('container'),
     rect = container.getBoundingClientRect(),
     grid,
@@ -13,7 +12,16 @@ grid = Grid({
 
 view = View({
     grid: grid,
-    render: DOMCompiler('<div class="hex"></div>'),
+    template: function createTemplate(hex) {
+        var position = this.origin.add(hex.toPoint()),
+            div = document.createElement('div')
+
+        div.classList.add('hex')
+        div.style.left = position.x + 'px'
+        div.style.top = position.y + 'px'
+
+        return div
+    },
     container: container,
     origin: {
         x: rect.width / 2,

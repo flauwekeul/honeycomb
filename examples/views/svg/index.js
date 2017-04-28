@@ -1,6 +1,5 @@
 var Grid = Honeycomb.Grid,
     View = Honeycomb.View,
-    SVGCompiler = Honeycomb.SVGCompiler,
     container = document.getElementById('container'),
     rect = container.getBoundingClientRect(),
     grid,
@@ -13,7 +12,19 @@ grid = Grid({
 
 view = View({
     grid: grid,
-    render: SVGCompiler(),
+    template: function createTemplate(hex) {
+        var NS = 'http://www.w3.org/2000/svg',
+            position = this.origin.add(hex.toPoint()),
+            g = document.createElementNS(NS, 'g'),
+            polygon = document.createElementNS(NS, 'polygon'),
+            points = hex.corners().map(corner => corner.x + ',' + corner.y).join(' ')
+
+        polygon.setAttribute('points', points)
+        g.appendChild(polygon)
+        g.setAttribute('transform', 'translate(' + position.x + ',' + position.y + ')')
+
+        return g
+    },
     container: container,
     origin: {
         x: rect.width / 2,

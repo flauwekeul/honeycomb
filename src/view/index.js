@@ -7,7 +7,7 @@ export default function ViewFactory({ Point, isDom } = {}) {
      */
     return function View({
         grid,
-        render,
+        template,
         container,
         origin
     } = {}) {
@@ -17,13 +17,13 @@ export default function ViewFactory({ Point, isDom } = {}) {
 
         return {
             grid,
-            render,
+            template,
             container,
             origin: Point(origin),
-            elements: [],
+            hexes: [],
 
             /**
-             * @method Views.DOM#render
+             * @method Views.DOM#renderGrid
              *
              * @description
              * Renders the passed {@link Grid|grid} instance in the container. The container is completely covered with hexes.
@@ -58,15 +58,11 @@ export default function ViewFactory({ Point, isDom } = {}) {
              */
             renderHexes(hexes) {
                 const fragment = hexes.reduce((fragment, hex) => {
-                    const element = this.render(hex)
-                        .position(this.origin)
-                        .appendTo(fragment)
-
-                    this.elements.push(element)
-
+                    fragment.appendChild(this.template(hex))
                     return fragment
                 }, document.createDocumentFragment())
 
+                this.hexes = hexes
                 this.container.appendChild(fragment)
 
                 return this

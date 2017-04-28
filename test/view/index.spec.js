@@ -22,7 +22,7 @@ describe('View creation', function() {
 
     describe('with valid options', function() {
         const grid = sinon.spy()
-        const render = sinon.spy()
+        const template = sinon.spy()
         const container = 'valid container'
         const origin = [2, 3]
 
@@ -36,13 +36,13 @@ describe('View creation', function() {
         })
 
         it('returns a View instance', function() {
-            const result = View({ grid, render, container, origin })
+            const result = View({ grid, template, container, origin })
 
             expect(result).to.have.property('grid').that.eqls(grid)
-            expect(result).to.have.property('render').that.equals(render)
+            expect(result).to.have.property('template').that.equals(template)
             expect(result).to.have.property('container').that.eqls(container)
             expect(result).to.have.property('origin').that.eqls(origin)
-            expect(result).to.have.property('elements').that.is.an('array')
+            expect(result).to.have.property('hexes').that.is.an('array')
         })
     })
 })
@@ -88,24 +88,24 @@ describe('View methods', function() {
 
     describe('renderHexes', function() {
         it('renders a rectangle from the passed grid', function() {
+            const element = document.createElement('hex')
+            const template = sinon.stub().returns(element)
             const container = document.createElement('div')
             sinon.spy(container, 'appendChild')
             const origin = 'origin'
-            const appendTo = sinon.stub().returns('appendTo result')
-            const position = sinon.stub().returns({ appendTo })
-            const render = sinon.stub().returns({ position })
-            const view = View()
-            const hexes = [ 'a hex' ]
-            const elements = []
-            const context = { render, origin, elements, container }
-            const result = view.renderHexes.bind(context)(hexes)
+            const view = View({ template, container, origin })
+            const hexesToRender = [ 'a hex' ]
 
-            expect(render).to.have.been.calledWith(hexes[0])
-            expect(position).to.have.been.calledWith(origin)
-            expect(appendTo).to.have.been.calledWith(document.createDocumentFragment())
-            expect(elements).to.contain('appendTo result')
-            expect(result).to.eql(context)
+            const result = view.renderHexes(hexesToRender)
+
+            expect(template).to.have.been.calledWith(hexesToRender[0])
             expect(container.appendChild).to.have.been.calledWith(document.createDocumentFragment())
+            expect(container.firstChild).to.eql(element)
+
+            expect(result.template).to.eql(template)
+            expect(result.container).to.eql(container)
+            expect(result.origin).to.eql(origin)
+            expect(result.hexes).to.eql(hexesToRender)
 
             container.appendChild.restore()
         })
