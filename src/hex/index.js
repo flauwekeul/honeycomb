@@ -23,7 +23,7 @@ import * as methods from './prototype'
 export default function HexFactory({
     orientation = ORIENTATIONS.POINTY,
     size = 1,
-    origin = Point()
+    origin /* = hex.center() */
 } = {}) {
     const prototype = {
         // settings:
@@ -112,6 +112,10 @@ export default function HexFactory({
 
         if (Math.round(x + y + z) !== 0) {
             throw new Error(`Coordinates don\'t sum to 0: { x: ${x}, y: ${y}, z: ${z} }.`)
+        }
+
+        if (is.undefined(prototype.origin)) {
+            prototype.origin = prototype.center()
         }
 
         // return an object containing the coordinates that's prototype-linked to the prototype created in HexFactory

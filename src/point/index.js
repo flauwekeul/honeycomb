@@ -25,7 +25,7 @@ export default function Point(coordinatesOrX, y) {
         case is.array(coordinatesOrX):
             [ x, y ] = coordinatesOrX
             break
-        case is.object(coordinatesOrX):
+        case is.objectLiteral(coordinatesOrX):
             ({ x, y } = coordinatesOrX)
             break
         default:
