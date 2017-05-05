@@ -1,5 +1,10 @@
-svg {
+svg polygon {
     fill: #69c;
     stroke: #036;
     stroke-width: 0.5;
+}
+
+svg text {
+    fill: #036;
+    text-anchor: middle;
 }

@@ -1,3 +1,5 @@
+'use strict'
+
 var Grid = Honeycomb.Grid,
     View = Honeycomb.View,
     container = document.getElementById('container'),

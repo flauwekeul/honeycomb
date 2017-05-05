@@ -29,11 +29,4 @@ describe('Point methods', function() {
             expect(result).to.contain({ x: 0.5, y: -0.75 })
         })
     })
-
-    describe('invert', function() {
-        it('negates/inverts itself', function() {
-            const result = Point(1, -3).invert()
-            expect(result).to.contain({ x: -1, y: 3 })
-        })
-    })
 })
