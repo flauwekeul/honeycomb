@@ -12,10 +12,11 @@ import * as methods from './prototype'
  *
  * @todo validate orientation, size, origin and template
  *
- * @param {(FLAT|POINTY)} [$0.orientation=POINTY]   All hexes are either POINTY ⬢ or FLAT ⬣.
- * @param {Number} [$0.size=1]                      Size of all hexes.
- * @param {Point} [$0.origin=Point()]               Used to convert the hex position to a point. Defaults to the top left.
- * @param {Function} [$0.template]                  Template function that should return a (visual) representation of the hex. It gets passed the current hex when called. Could be an HTML string (e.g. `'<div class="hex"></div>'`) that can be parsed by a {@link Views.DOM} instance. A {@link Views|View} uses the hex's {@link Hex#view} method to call the template function and produce a view.
+ * @param {Object} [settings={}]                        Settings that apply to all hexes created with the returned {@link Hex} function.
+ * @param {(FLAT|POINTY)} [settings.orientation=POINTY] All hexes are either POINTY ⬢ or FLAT ⬣.
+ * @param {Number} [settings.size=1]                    Size of all hexes.
+ * @param {Point} [settings.origin=Point()]             Used to convert the hex position to a point. Defaults to the top left.
+ * @param {Function} [settings.template]                Template function that should return a (visual) representation of the hex. It gets passed the current hex when called. Could be an HTML string (e.g. `'<div class="hex"></div>'`) that can be parsed by a {@link Views.DOM} instance. A {@link Views|View} uses the hex's {@link Hex#view} method to call the template function and produce a view.
  *
  * @returns {Hex} A function to produce hexes, all with the same `prototype`.
  */
