@@ -9,7 +9,7 @@
     "dev": "webpack --progress --colors --watch",
     "docs": "documentation readme ./src --section Documentation",
     "docs:serve": "documentation serve ./src --watch",
-    "lint": "eslint src test --fix; exit 0",
+    "lint": "eslint src test --fix",
     "precommit": "npm run lint",
     "prepublish": "NODE_ENV=production npm run lint && npm test && npm run docs && npm run build",
     "start": "npm run build && node lib/honeycomb.js",
