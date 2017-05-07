@@ -1,3 +1,5 @@
+// Methods aren't imported from a separate file, because it makes things too complicated.
+
 export default function ViewFactory({ Point, isDom } = {}) {
     /**
      * @function View
@@ -39,7 +41,6 @@ export default function ViewFactory({ Point, isDom } = {}) {
             renderGrid(padding = 3) {
                 const Hex = this.grid.Hex
 
-                // increase the size of the hex rectangle to guarantee it covers the container
                 const width = this.width() + padding
                 const height = this.height() + padding
                 const start = Hex.subtract(this.pixelToHex(0), Hex(Math.floor(padding / 2)))
@@ -59,25 +60,23 @@ export default function ViewFactory({ Point, isDom } = {}) {
              * @returns {Object}        The DOM View object, for chaining.
              */
             renderHexes(hexes) {
-                this.hexes = hexes
-                this.container.appendChild(this.hexesToDocumentFragments(hexes))
-                return this
-            },
-
-            hexesToDocumentFragments(hexes) {
-                return hexes.reduce((fragment, hex) => {
+                const fragment = hexes.reduce((fragment, hex) => {
                     fragment.appendChild(this.template(hex))
                     return fragment
                 }, document.createDocumentFragment())
+
+                this.container.appendChild(fragment)
+                this.hexes = hexes
+
+                return this
             },
 
             hexToPixel(hex) {
                 return this.grid.hexToPoint(hex).add(this.origin)
             },
 
-            pixelToHex(point) {
-                point = Point(point)
-                return this.grid.pointToHex(point.subtract(this.origin))
+            pixelToHex(pixel) {
+                return this.grid.pointToHex(Point(pixel).subtract(this.origin))
             },
 
             // in hexes
