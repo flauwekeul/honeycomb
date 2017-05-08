@@ -24,6 +24,7 @@
     "babel-plugin-istanbul": "^4.1.1",
     "babel-preset-env": "^1.2.2",
     "chai": "^3.5.0",
+    "cz-conventional-changelog": "^2.0.0",
     "documentation": "^4.0.0-rc.1",
     "eslint": "^3.1.1",
     "husky": "^0.13.3",
@@ -64,5 +65,10 @@
     ],
     "sourceMap": false,
     "instrument": false
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }
