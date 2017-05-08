@@ -12,6 +12,7 @@
     "lint": "eslint src test --fix",
     "precommit": "npm run lint",
     "prepublish": "NODE_ENV=production npm run lint && npm test && npm run docs && npm run build",
+    "release": "standard-version",
     "start": "npm run build && node lib/honeycomb.js",
     "test": "NODE_ENV=test nyc mocha --require ./test/config.js --recursive",
     "test:watch": "npm test -- --watch --bail"
@@ -35,6 +36,7 @@
     "nyc": "^10.1.2",
     "sinon": "^2.1.0",
     "sinon-chai": "^2.9.0",
+    "standard-version": "^4.0.0",
     "webpack": "^2.3.2"
   },
   "directories": {
