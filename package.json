@@ -11,8 +11,8 @@
     "docs:serve": "documentation serve ./src --watch",
     "lint": "eslint src test --fix",
     "precommit": "npm run lint",
-    "prepublish": "NODE_ENV=production npm run lint && npm test && npm run docs && npm run build",
-    "release": "standard-version",
+    "prerelease": "NODE_ENV=production npm run lint && npm test && npm run docs && npm run build",
+    "release": "git add --patch && standard-version --commit-all",
     "start": "npm run build && node lib/honeycomb.js",
     "test": "NODE_ENV=test nyc mocha --require ./test/config.js --recursive",
     "test:watch": "npm test -- --watch --bail"
