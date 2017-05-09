@@ -15,15 +15,15 @@ describe('View creation', function() {
         grid = sinon.stub().returns({ Hex })
     })
 
-    it('calls isDom to check if the container is a valid DOM node', function() {
+    it('calls isDom to check if the container is a valid DOM element', function() {
         const container = document.createElement('div')
         View({ container, grid })
         expect(isDom).to.have.been.calledWith(container)
     })
 
-    it('throws an error if the container is not a valid DOM node', function() {
+    it('throws an error if the container is not a valid DOM element', function() {
         isDom.returns(false)
-        expect(View).to.throw('Container is not a valid dom node: undefined.')
+        expect(View).to.throw('Container is not a valid DOM element: undefined.')
     })
 
     describe('with valid options', function() {

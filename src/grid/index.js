@@ -10,11 +10,11 @@ export default function GridFactory({ HexFactory } = {}) {
      * @description
      * Factory function for creating grids. It accepts optional hex settings that are passed directly to {@link HexFactory}. Several "shape" methods are exposed that return an array of hexes in a certain shape.
      *
-     * A grid is *viewless*, i.e.: it's an abstract grid with undefined dimensions. If you want to render a tangible grid, use a View factory (e.g. the {@link Views.DOM|DOM view}).
+     * A grid is *viewless*, i.e.: it's an abstract grid with undefined dimensions. If you want to render a tangible grid, use {@link View).
      *
      * @param {Object} [hexSettings]    Optional settings that apply to *all* hexes in the grid. See {@link Hexfactory} for possible properties.
      *
-     * @returns {Object} An object with methods.
+     * @returns {Grid}                  A grid instance.
      *
      * @example
      * import { Grid, HEX_ORIENTATIONS } from 'Honeycomb'

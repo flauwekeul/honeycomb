@@ -15,7 +15,7 @@ grid = Grid({
 view = View({
     grid: grid,
     template: function createTemplate(hex) {
-        var position = this.origin.add(hex.toPoint()),
+        var position = this.hexToPixel(hex),
             div = document.createElement('div')
 
         div.classList.add('hex')

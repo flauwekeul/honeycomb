@@ -20,12 +20,3 @@ body {
     background-color: #ccc;
     overflow: hidden;
 }
-
-#center {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    border: 1px solid red;
-    border-radius: 100%;
-    margin: -3px 0 0 -3px;
-}

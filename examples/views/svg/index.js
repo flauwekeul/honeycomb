@@ -37,7 +37,6 @@ view = View({
         return g
     },
     container: container,
-    // TODO: add to docs that it's relative to the container
     origin: {
         x: rect.width / 2,
         y: rect.height / 2
@@ -47,6 +46,7 @@ view = View({
 view.renderGrid()
 // view.renderHexes(grid.rectangle(4, 4))
 
+// Honeycomb.View will have helpers for handling events in the future
 container.addEventListener('click', function handleClick(e) {
     // e.offsetX/Y isn't supported by firefox, so calculating it here:
     var rect = container.getBoundingClientRect(),
@@ -56,18 +56,3 @@ container.addEventListener('click', function handleClick(e) {
 
     console.log(`offset: ${[offsetX, offsetY]}, hex: ${[hex.x, hex.y, hex.z]}`)
 })
-
-// helper to add a red circle anywhere
-function positionCenter(point) {
-    var center = document.getElementById('center')
-
-    if (!center) {
-        center = document.createElement('div')
-        center.setAttribute('id', 'center')
-        document.body.appendChild(center)
-    }
-
-    var rect = container.getBoundingClientRect()
-    center.style.left = point.x + rect.left + 'px'
-    center.style.top = point.y + rect.top + 'px'
-}
