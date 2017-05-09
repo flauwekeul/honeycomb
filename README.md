@@ -18,7 +18,7 @@ npm i honeycomb-grid
 
 Factory function for creating grids. It accepts optional hex settings that are passed directly to [HexFactory](#hexfactory). Several "shape" methods are exposed that return an array of hexes in a certain shape.
 
-A grid is _viewless_, i.e.: it's an abstract grid with undefined dimensions. If you want to render a tangible grid, use a View factory (e.g. the [DOM view](#viewsdom)).
+A grid is _viewless_, i.e.: it's an abstract grid with undefined dimensions. If you want to render a tangible grid, use {@link View).
 
 **Parameters**
 
@@ -37,7 +37,7 @@ const grid = Grid({
 grid.triangle(3)
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object with methods.
+Returns **[Grid](#grid)** A grid instance.
 
 ### Grid#pointToHex
 
@@ -150,7 +150,6 @@ Factory that produces a [Hex](#hex) function to create hexes with. It accepts op
     -   `settings.orientation` **(FLAT | POINTY)** All hexes are either POINTY ⬢ or FLAT ⬣. (optional, default `POINTY`)
     -   `settings.size` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Size of all hexes. (optional, default `1`)
     -   `settings.origin` **[Point](#point)** Used to convert the hex position to a point. Defaults to the top left. (optional, default `Point()`)
-    -   `settings.template` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** Template function that should return a (visual) representation of the hex. It gets passed the current hex when called. Could be an HTML string (e.g. `'<div class="hex"></div>'`) that can be parsed by a [Views.DOM](#viewsdom) instance. A [View](#views) uses the hex's [Hex#view](Hex#view) method to call the template function and produce a view.
 
 Returns **[Hex](#hex)** A function to produce hexes, all with the same `prototype`.
 
@@ -218,6 +217,10 @@ Returns **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 ### Hex#height
 
 Returns **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The (vertical) height of any hex.
+
+### Hex#corners
+
+Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Point](#point)>** Array of corner points. Starting at the top right corner for pointy hexes and the right corner for flat hexes.
 
 ### Hex#center
 
@@ -388,76 +391,67 @@ Returns **[Point](#point)** The multiplication of the passed point's coordinates
 
 Returns **[Point](#point)** The division of the current point's coordinates and the passed point's.
 
-### Point#invert
+### View
 
-Returns **[Point](#point)** The inversion of the current point.
-
-### Views.DOM
-
-Factory function for creating a DOM view object. This object can be used to render an array of hexes or a grid instance.
+Factory function for creating views. A view instance can be used to render (a grid of) hexes. This function expects _raw_ DOM elements, i.e. it lacks helpers to convert strings to DOM elements. You can use other libraries (e.g. [jQuery](https://jquery.com/), [svg.js](http://svgjs.com/)) to help create these DOM elements.
 
 **Parameters**
 
--   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object.
-    -   `options.container` **[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node/nextSibling)** A DOM node to render hexes in.
-    -   `options.origin` **[Point](#point)** A point where the first hex (i.e. `Hex(0, 0, 0)`) can be rendered. (optional, default `Point()`)
-    -   `options.template` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** Template function that should return a (visual) representation of the hex. It gets passed the current hex when called.
+-   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options to instantiate the view with. (optional, default `{}`)
+    -   `options.grid` **[Grid](#grid)** A grid instance.
+    -   `options.template` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Template function that should return a DOM element. When hexes are rendered (e.g. by calling [View#renderGrid](#viewrendergrid) or [View#renderHexes](#viewrenderhexes)), the template function is passed each hex. In the template function `this` refers to the view instance, so any view method can be called.
+    -   `options.container` **[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node/nextSibling)** The container in which hexes are to be rendered. Should be an existing DOM element (e.g. a `<div>` or `<svg>`) in the `document`.
+    -   `options.origin` **[Point](#point)** Pixel origin where the start hex (`Hex(0, 0, 0)`) is placed. Defaults to `Point(0, 0)`, i.e.: the top left corner of the container. The origin is relative to the container (not to the `document`). (optional, default `Point(0,0)`)
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A DOM View instance.
+Returns **[View](#view)** A view instance to render hexes in.
 
-### Views.DOM#render
+### View#renderGrid
 
-Renders the passed [grid](#grid) instance in the container. The container is completely covered with hexes.
+Renders all hexes that fit in the container, plus the optional padding. This padding defaults to 3 (hexes), so that the container is completely covered in hexes.
 
 **Parameters**
 
--   `grid` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A grid instance.
+-   `padding` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Number of hexes to add to all 4 sides of the container. Can be used to guarantee the container is completely covered in hexes. (optional, default `3`)
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** The DOM View object, for chaining.
+Returns **[View](#view)** The view instance, for chaining.
 
-### Views.DOM#renderHexes
+### View#renderHexes
 
 Renders the passed hexes in the container.
 
 **Parameters**
 
--   `hexes` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** An array of hexes to render.
+-   `hexes` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** An array of hexes to render. [Grid](#grid)'s shape methods can be used to generate this array.
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** The DOM View object, for chaining.
+Returns **[View](#view)** The view instance, for chaining.
 
-### Views
+### View#hexToPixel
 
-### Views.SVG
-
-Factory function for creating a SVG view object. This object can be used to render an array of hexes or a grid instance.
+Converts the passed hex to a pixel position relative to the container.
 
 **Parameters**
 
--   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object.
-    -   `options.container` **[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node/nextSibling)** A DOM node to render hexes in.
-    -   `options.origin` **[Point](#point)** A point where the first hex (i.e. `Hex(0, 0, 0)`) can be rendered. (optional, default `Point()`)
+-   `hex` **[Hex](#hex)** The hex to convert to a pixel position.
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A SVG View instance.
+Returns **[Point](#point)** The pixel position.
 
-### Views.SVG#render
+### View#pixelToHex
 
-Renders the passed [grid](#grid) instance in the container. The container is completely covered with hexes.
+Converts the passed pixel position (relative to the container) to the corresponding hex.
 
 **Parameters**
 
--   `grid` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A grid instance.
+-   `pixel` **[Point](#point)** The pixel position to convert to a hex.
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** The SVG View object, for chaining.
+Returns **[Hex](#hex)** The corresponding (rounded) hex.
 
-### Views.SVG#renderHexes
+### View#width
 
-Renders the passed hexes in the container.
+Returns **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The rounded amount of hexes that fit in the container horizontally ↔.
 
-**Parameters**
+### View#height
 
--   `hexes` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** An array of hexes to render.
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** The SVG View object, for chaining.
+Returns **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The rounded amount of hexes that fit in the container vertically ↕.
 
 ## Backlog
 
@@ -474,8 +468,8 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 2.  Make the `div` that the hex template is wrapped in configurable.
 3.  Separate Views into separate modules (in lib/views/<view name>.js)
 4.  Hex views should be hex-orientation-agnostic (always pointy) and just use `transform` to toggle orientations.
-6.  Fix duplication between de Views.
-7.  Make it an option to filter overlapping hexes when multiple shapes are rendered.
+5.  Fix duplication between de Views.
+6.  Make it an option to filter overlapping hexes when multiple shapes are rendered.
 
 #### Docs
 
