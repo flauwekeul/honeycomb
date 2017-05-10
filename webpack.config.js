@@ -23,7 +23,7 @@ if (PRODUCTION) {
 module.exports = {
     entry: './src/honeycomb.js',
     output: {
-        path: path.resolve('./lib'),
+        path: path.resolve('./dist'),
         filename: filename,
         library: libraryName,
         libraryTarget: 'umd',

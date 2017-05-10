@@ -1,5 +1,6 @@
 .babelrc
 .eslintrc.js*
+.npmignore
 .nyc_output/
 coverage/
 examples/

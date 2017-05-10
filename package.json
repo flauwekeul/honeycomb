@@ -2,7 +2,7 @@
   "name": "honeycomb-grid",
   "version": "0.4.0",
   "description": "Hex grid for usage in Node.js with separate view for usage in the browser. Written in javascript.",
-  "main": "lib/honeycomb.min.js",
+  "main": "dist/honeycomb.min.js",
   "scripts": {
     "build": "webpack",
     "coverage": "NODE_ENV=test nyc --reporter lcov --reporter text mocha --require ./test/config.js --recursive",
@@ -13,7 +13,7 @@
     "precommit": "npm run lint",
     "prerelease": "NODE_ENV=production npm run lint && npm test && npm run docs && npm run build",
     "release": "git add --patch && standard-version --commit-all",
-    "start": "npm run build && node lib/honeycomb.js",
+    "start": "npm run build && node dist/honeycomb.js",
     "test": "NODE_ENV=test nyc mocha --require ./test/config.js --recursive",
     "test:watch": "npm test -- --watch --bail"
   },
@@ -40,7 +40,7 @@
     "webpack": "^2.3.2"
   },
   "directories": {
-    "lib": "lib",
+    "dist": "dist",
     "test": "test"
   },
   "dependencies": {
