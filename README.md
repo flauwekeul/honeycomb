@@ -458,23 +458,23 @@ Returns **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 ### Bugs
 
 1.  Get `babel-polyfill` (or `babel-runtime`?) to work with `babel-preset-env`, preferably without including a bazillion unused polyfills in the dist...
-1.  Docs: find a way to link modules together. Currently, methods of the factory functions doesn't seem to belong to their factory functions (in the context of jsdoc). This bug is nasty, tried lots of things already...
+2.  Docs: find a way to link modules together. Currently, methods of the factory functions doesn't seem to belong to their factory functions (in the context of jsdoc). This bug is nasty, tried lots of things already...
 
 ### Features
 
 1.  Use either "compass" or numbered directions, not both.
-1.  Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well.
-1.  Make it an option to filter overlapping hexes when multiple shapes are rendered.
-1.  More examples in docs. Preferably examples that show code *and* the results. Still looking for a tool that does this.
-1.  Shiny github.io pages 😎
-1.  View should be hex-orientation-agnostic (always pointy) and just use `transform` to toggle orientations.
-1.  Maybe add instance methods for `Grid` and `Views.DOM` to get/set options. Then it's optional to pass the options to the `Grid` and `Views.DOM` factories and makes it possible to get/set those options later.
-1.  Add possibility to create individual hexes with different size/orientation/origin/template.
-1.  Add helper to easily fall back to a hex's prototype.
+2.  Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well.
+3.  Make it an option to filter overlapping hexes when multiple shapes are rendered.
+4.  More examples in docs. Preferably examples that show code _and_ the results. Still looking for a tool that does this.
+5.  Shiny github.io pages 😎
+6.  View should be hex-orientation-agnostic (always pointy) and just use `transform` to toggle orientations.
+7.  Maybe add instance methods for `Grid` and `Views.DOM` to get/set options. Then it's optional to pass the options to the `Grid` and `Views.DOM` factories and makes it possible to get/set those options later.
+8.  Add possibility to create individual hexes with different size/orientation/origin/template.
+9.  Add helper to easily fall back to a hex's prototype.
 
 ### Refactorings
 
 1.  Replace Webpack by Rollup, because it's supposed to be [more suitable for libraries](https://medium.com/webpack/webpack-and-rollup-the-same-but-different-a41ad427058c).
-1.  Update code (and tests) of `Point` to be more consice with other modules.
-1.  Grid shape methods should return Sets instead of arrays.
-1.  Put tests in same directory as the code they're testing?
+2.  Update code (and tests) of `Point` to be more consice with other modules.
+3.  Grid shape methods should return Sets instead of arrays.
+4.  Put tests in same directory as the code they're testing?
