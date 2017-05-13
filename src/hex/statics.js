@@ -11,10 +11,10 @@ export function thirdCoordinateFactory({ unsignNegativeZero }) {
      * @description
      * Calculates the third coordinate from the other two. The sum of all three coordinates should always be 0.
      *
-     * @param   {Number} firstCoordinate  The first other coordinate.
-     * @param   {Number} secondCoordinate The second other coordinate.
+     * @param   {number} firstCoordinate  The first other coordinate.
+     * @param   {number} secondCoordinate The second other coordinate.
      *
-     * @returns {Number}                  The third coordinate.
+     * @returns {number}                  The third coordinate.
      */
     return function thirdCoordinate(firstCoordinate, secondCoordinate) {
         return unsignNegativeZero(-firstCoordinate - secondCoordinate)
@@ -27,9 +27,9 @@ export function thirdCoordinateFactory({ unsignNegativeZero }) {
  * @description
  * Determines if the passed size is valid. Should be a positive `Number`.
  *
- * @param   {Number} size   The size to validate.
+ * @param   {number} size   The size to validate.
  *
- * @returns {Boolean}       Wheter the size is valid.
+ * @returns {boolean}       Wheter the size is valid.
  */
 export function isValidSize(size) {
     return size >= 0 && size !== null
@@ -115,7 +115,7 @@ export function neighborFactory({ Hex }) {
      *
      * @param {Hex} hex                         The hex to get the neighboring hex from.
      * @param {(0|1|2|3|4|5)}  [direction=0]    Any of the 6 directions. `0` is the Eastern direction (East-southeast when the hex is flat), `1` corresponds to 60° clockwise, `2` to 120° clockwise and so forth.
-     * @param {Boolean} [diagonal=false]        Whether to look for a neighbor perpendicular to the hex's corner instead of its side.
+     * @param {boolean} [diagonal=false]        Whether to look for a neighbor perpendicular to the hex's corner instead of its side.
      *
      * @returns {Hex}                           The neighboring hex.
      */
@@ -141,7 +141,7 @@ export function distanceFactory({ Hex }) {
      * @param   {Hex} startHex  The start hex.
      * @param   {Hex} endHex    The end hex.
      *
-     * @returns {Number}        The amount of hexes between the passed start and end.
+     * @returns {number}        The amount of hexes between the passed start and end.
      */
     return function distance(startHex, endHex) {
         const relativeHex = Hex.subtract(startHex, endHex)
@@ -196,7 +196,7 @@ export function lerpFactory({ Hex }) {
      *
      * @param   {Hex} firstHex  The first hex.
      * @param   {Hex} secondHex The second hex.
-     * @param   {Number} t      A "parameter" between 0 and 1.
+     * @param   {number} t      A "parameter" between 0 and 1.
      *
      * @returns {Hex}           A new hex (with possibly fractional coordinates).
      */

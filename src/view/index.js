@@ -42,7 +42,7 @@ export default function ViewFactory({ Point, isDom } = {}) {
              *
              * @todo validate `grid`
              *
-             * @param {Number} [padding=3]  Number of hexes to add to all 4 sides of the container. Can be used to guarantee the container is completely covered in hexes.
+             * @param {number} [padding=3]  Number of hexes to add to all 4 sides of the container. Can be used to guarantee the container is completely covered in hexes.
              *
              * @returns {View}              The view instance, for chaining.
              */
@@ -109,7 +109,7 @@ export default function ViewFactory({ Point, isDom } = {}) {
             /**
              * @method View#width
              *
-             * @returns {Number} The rounded amount of hexes that fit in the container horizontally ↔.
+             * @returns {number} The rounded amount of hexes that fit in the container horizontally ↔.
              */
             width() {
                 return Math.round(containerRect.width / this.grid.colSize())
@@ -118,7 +118,7 @@ export default function ViewFactory({ Point, isDom } = {}) {
             /**
              * @method View#height
              *
-             * @returns {Number} The rounded amount of hexes that fit in the container vertically ↕.
+             * @returns {number} The rounded amount of hexes that fit in the container vertically ↕.
              */
             height() {
                 return Math.round(containerRect.height / this.grid.rowSize())

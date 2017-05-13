@@ -55,7 +55,7 @@ export function colSizeFactory({ Hex }) {
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/#basics|redblobgames.com}
      *
-     * @returns {Number} The width of a (vertical) column of hexes in the grid.
+     * @returns {number} The width of a (vertical) column of hexes in the grid.
      */
     return function colSize() {
         const hex = Hex()
@@ -71,7 +71,7 @@ export function rowSizeFactory({ Hex }) {
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/#basics|redblobgames.com}
      *
-     * @returns {Number} The height of a (horizontal) row of hexes in the grid.
+     * @returns {number} The height of a (horizontal) row of hexes in the grid.
      */
     return function rowSize() {
         const hex = Hex()
@@ -94,8 +94,8 @@ export function parallelogramFactory({ Hex, is }) {
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
      *
-     * @param   {(Number|Object)} widthOrOptions    The width (in hexes) or an options object.
-     * @param   {Number} [height]                   The height (in hexes).
+     * @param   {(number|Object)} widthOrOptions    The width (in hexes) or an options object.
+     * @param   {number} [height]                   The height (in hexes).
      * @param   {Hex} [start=Hex()]                 The origin hex.
      * @param   {(SE|SW|N)} [direction=SE]          The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes.
      *
@@ -151,7 +151,7 @@ export function triangleFactory({ Hex, is }) {
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
      *
-     * @param   {(Number|Object)} sideOrOptions The side length (in hexes) or an options object.
+     * @param   {(number|Object)} sideOrOptions The side length (in hexes) or an options object.
      * @param   {Hex} [start=Hex()]             The origin hex.
      * @param   {(down|up)} [direction=down]    The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. In this case a triangle pointing up/down (with pointy hexes) or right/left (with flat hexes).
      *
@@ -204,7 +204,7 @@ export function hexagonFactory({ Hex, is }) {
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
      *
-     * @param   {(Number|Object)} radiusOrOptions   The radius (in hexes) or an options object.
+     * @param   {(number|Object)} radiusOrOptions   The radius (in hexes) or an options object.
      * @param   {Hex} [center=Hex()]                The center hex.
      *
      * @returns {Hex[]}                             Array of hexes in a hexagon arrangement (very meta 😎).
@@ -249,8 +249,8 @@ export function rectangleFactory({ Hex, is }) {
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
      *
-     * @param   {(Number|Object)} widthOrOptions    The width (in hexes) or an options object.
-     * @param   {Number} [height]                   The height (in hexes).
+     * @param   {(number|Object)} widthOrOptions    The width (in hexes) or an options object.
+     * @param   {number} [height]                   The height (in hexes).
      * @param   {Hex} [start=Hex()]                 The origin hex.
      * @param   {(E|NW|SW|SE|NE|W)} [direction=E/SE]
      * The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. The default direction for pointy hexes is 'E' and 'SE' for flat hexes.

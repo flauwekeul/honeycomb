@@ -14,7 +14,7 @@ export function coordinates() {
 
 /**
  * @method Hex#isPointy
- * @returns {Boolean} Whether hexes have a pointy ⬢ orientation.
+ * @returns {boolean} Whether hexes have a pointy ⬢ orientation.
  */
 export function isPointy() {
     return this.orientation === ORIENTATIONS.POINTY
@@ -22,7 +22,7 @@ export function isPointy() {
 
 /**
  * @method Hex#isFlat
- * @returns {Boolean} Whether hexes have a flat ⬣ orientation.
+ * @returns {boolean} Whether hexes have a flat ⬣ orientation.
  */
 export function isFlat() {
     return this.orientation === ORIENTATIONS.FLAT
@@ -30,7 +30,7 @@ export function isFlat() {
 
 /**
  * @method Hex#oppositeCornerDistance
- * @returns {Number}    The distance between opposite corners of a hex.
+ * @returns {number}    The distance between opposite corners of a hex.
  */
 export function oppositeCornerDistance() {
     return this.size * 2
@@ -38,7 +38,7 @@ export function oppositeCornerDistance() {
 
 /**
  * @method Hex#oppositeSideDistance
- * @returns {Number}    The distance between opposite sides of a hex.
+ * @returns {number}    The distance between opposite sides of a hex.
  */
 export function oppositeSideDistance() {
     return Math.sqrt(3) / 2 * this.oppositeCornerDistance()
@@ -46,7 +46,7 @@ export function oppositeSideDistance() {
 
 /**
  * @method Hex#width
- * @returns {Number}    The (horizontal) width of any hex.
+ * @returns {number}    The (horizontal) width of any hex.
  */
 export function width() {
     return this.isPointy() ?
@@ -56,7 +56,7 @@ export function width() {
 
 /**
  * @method Hex#height
- * @returns {Number}    The (vertical) height of any hex.
+ * @returns {number}    The (vertical) height of any hex.
  */
 export function height() {
     return this.isPointy() ?

@@ -14,7 +14,7 @@ import * as methods from './prototype'
  *
  * @param {Object} [settings={}]                        Settings that apply to all hexes created with the returned {@link Hex} function.
  * @param {(FLAT|POINTY)} [settings.orientation=POINTY] All hexes are either POINTY ⬢ or FLAT ⬣.
- * @param {Number} [settings.size=1]                    Size of all hexes.
+ * @param {number} [settings.size=1]                    Size of all hexes.
  * @param {Point} [settings.origin=Point()]             Used to convert the hex position to a point. Defaults to the top left.
  *
  * @returns {Hex} A function to produce hexes, all with the same `prototype`.
@@ -56,12 +56,12 @@ export default function HexFactory({
      *
      * @see {@link redblobgames.com|http://www.redblobgames.com/grids/hexagons/#coordinates}
      *
-     * @param {(Number|Object)} [coordinates=0] The x coordinate or an object containing any of the x, y and z coordinates.
-     * @param {Number} [coordinates.x=0] The x coordinate.
-     * @param {Number} [coordinates.y=0] The y coordinate.
-     * @param {Number} [coordinates.z=0] The z coordinate.
-     * @param {Number} [y=0] The y coordinate.
-     * @param {Number} [z=0] The z coordinate.
+     * @param {(number|Object)} [coordinates=0] The x coordinate or an object containing any of the x, y and z coordinates.
+     * @param {number} [coordinates.x=0] The x coordinate.
+     * @param {number} [coordinates.y=0] The y coordinate.
+     * @param {number} [coordinates.z=0] The z coordinate.
+     * @param {number} [y=0] The y coordinate.
+     * @param {number} [z=0] The z coordinate.
      *
      * @returns {Hex} A hex object. It always contains all three coordinates (`x`, `y` and `z`).
      *

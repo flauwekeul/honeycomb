@@ -24,13 +24,11 @@ export const DIAGONAL_DIRECTION_COORDINATES = [
  */
 export const ORIENTATIONS = {
     /**
-     * @readOnly
-     * @enum {String} POINTY ⬢
+     * @enum {string} POINTY ⬢
      */
     POINTY: 'POINTY',
     /**
-     * @readOnly
-     * @enum {String} FLAT ⬣.
+     * @enum {string} FLAT ⬣.
      */
     FLAT: 'FLAT'
 }
