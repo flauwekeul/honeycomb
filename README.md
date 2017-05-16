@@ -86,7 +86,7 @@ Creates a grid in the shape of a [parallelogram](https://en.wikipedia.org/wiki/P
 -   `widthOrOptions` **([number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** The width (in hexes) or an options object.
 -   `height` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The height (in hexes).
 -   `start` **[Hex](#hex)** The origin hex. (optional, default `Hex()`)
--   `direction` **(SE | SW | N)** The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. (optional, default `SE`)
+-   `direction` **(`1` \| `3` \| `5`)** The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. (optional, default `1`)
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** Array of hexes in a parallelogram arrangement.
 
@@ -100,7 +100,7 @@ Creates a grid in the shape of a [(equilateral) triangle](https://en.wikipedia.o
 
 -   `sideOrOptions` **([number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** The side length (in hexes) or an options object.
 -   `start` **[Hex](#hex)** The origin hex. (optional, default `Hex()`)
--   `direction` **(down | up)** The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. In this case a triangle pointing up/down (with pointy hexes) or right/left (with flat hexes). (optional, default `down`)
+-   `direction` **(`1` \| `5`)** The direction in which to create the shape. Each direction corresponds to a different arrangement of hexes. In this case a triangle pointing up (`direction: 1`) or down (`direction: 5`) (with pointy hexes) or right (`direction: 1`) or left (`direction: 5`) (with flat hexes). (optional, default `1`)
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** Array of hexes in a triangular arrangement.
 
@@ -128,7 +128,7 @@ Creates a grid in the shape of a [rectangle](https://en.wikipedia.org/wiki/Recta
 -   `widthOrOptions` **([number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** The width (in hexes) or an options object.
 -   `height` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The height (in hexes).
 -   `start` **[Hex](#hex)** The origin hex. (optional, default `Hex()`)
--   `direction` **(E | NW | SW | SE | NE | W)** The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. The default direction for pointy hexes is 'E' and 'SE' for flat hexes. (optional, default `E/SE`)
+-   `direction` **(`0` \| `1` \| `2` \| `3` \| `4` \| `5`)** The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. (optional, default `0`)
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** Array of hexes in a rectengular arrangement.
 
@@ -462,19 +462,20 @@ Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 ### Features
 
-1.  Use either "compass" or numbered directions, not both.
 2.  Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well.
 3.  Make it an option to filter overlapping hexes when multiple shapes are rendered.
 4.  More examples in docs. Preferably examples that show code _and_ the results. Still looking for a tool that does this.
-5.  Shiny github.io pages 😎
-6.  View should be hex-orientation-agnostic (always pointy) and just use `transform` to toggle orientations.
-7.  Maybe add instance methods for `Grid` and `Views.DOM` to get/set options. Then it's optional to pass the options to the `Grid` and `Views.DOM` factories and makes it possible to get/set those options later.
-8.  Add possibility to create individual hexes with different size/orientation/origin/template.
-9.  Add helper to easily fall back to a hex's prototype.
+5.  Explain (hex) directions.
+6.  Shiny github.io pages 😎
+7.  View should be hex-orientation-agnostic (always pointy) and just use `transform` to toggle orientations.
+8.  Maybe add instance methods for `Grid` and `Views.DOM` to get/set options. Then it's optional to pass the options to the `Grid` and `Views.DOM` factories and makes it possible to get/set those options later.
+9.  Add possibility to create individual hexes with different size/orientation/origin/template.
+10. Add helper to easily fall back to a hex's prototype.
 
 ### Refactorings
 
-1.  Replace Webpack by Rollup, because it's supposed to be [more suitable for libraries](https://medium.com/webpack/webpack-and-rollup-the-same-but-different-a41ad427058c).
-2.  Update code (and tests) of `Point` to be more consice with other modules.
-3.  Grid shape methods should return Sets instead of arrays.
-4.  Put tests in same directory as the code they're testing?
+1.  Only use a single options object for a function argument and never multiple separate arguments?
+2.  Replace Webpack by Rollup, because it's supposed to be [more suitable for libraries](https://medium.com/webpack/webpack-and-rollup-the-same-but-different-a41ad427058c).
+3.  Update code (and tests) of `Point` to be more consice with other modules.
+4.  Grid shape methods should return Sets instead of arrays.
+5.  Put tests in same directory as the code they're testing?

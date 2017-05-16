@@ -97,7 +97,7 @@ export function parallelogramFactory({ Hex, is }) {
      * @param   {(number|Object)} widthOrOptions    The width (in hexes) or an options object.
      * @param   {number} [height]                   The height (in hexes).
      * @param   {Hex} [start=Hex()]                 The origin hex.
-     * @param   {(SE|SW|N)} [direction=SE]          The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes.
+     * @param   {(1|3|5)} [direction=1]             The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes.
      *
      * @returns {Hex[]}                             Array of hexes in a parallelogram arrangement.
      */
@@ -105,17 +105,17 @@ export function parallelogramFactory({ Hex, is }) {
         widthOrOptions,
         height,
         start = Hex(),
-        direction = 'SE'
+        direction = 1
     ) {
         // TODO: validate direction
         const DIRECTIONS = {
-            'SE': ['x', 'y'],
-            'SW': ['y', 'z'],
-            'N': ['z', 'x']
+            1: ['x', 'y'],
+            3: ['y', 'z'],
+            5: ['z', 'x']
         }
 
         if (is.objectLiteral(widthOrOptions)) {
-            const { width, height, start = Hex(), direction = 'SE' } = widthOrOptions
+            const { width, height, start = Hex(), direction = 1 } = widthOrOptions
             return parallelogram(width, height, start, direction)
         }
 
@@ -153,29 +153,29 @@ export function triangleFactory({ Hex, is }) {
      *
      * @param   {(number|Object)} sideOrOptions The side length (in hexes) or an options object.
      * @param   {Hex} [start=Hex()]             The origin hex.
-     * @param   {(down|up)} [direction=down]    The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. In this case a triangle pointing up/down (with pointy hexes) or right/left (with flat hexes).
+     * @param   {(1|5)} [direction=1]           The direction in which to create the shape. Each direction corresponds to a different arrangement of hexes. In this case a triangle pointing up (`direction: 1`) or down (`direction: 5`) (with pointy hexes) or right (`direction: 1`) or left (`direction: 5`) (with flat hexes).
      *
      * @returns {Hex[]}                         Array of hexes in a triangular arrangement.
      */
     return function triangle(
         sideOrOptions,
         start = Hex(),
-        direction = 'down'
+        direction = 1
     ) {
         // TODO: validate direction
         const DIRECTIONS = {
-            'down': {
+            1: {
                 yStart: () => 0,
                 yEnd: x => side - x
             },
-            'up': {
+            5: {
                 yStart: x => side - x,
                 yEnd: () => side + 1
             }
         }
 
         if (is.objectLiteral(sideOrOptions)) {
-            const { side, start = Hex(), direction = 'down' } = sideOrOptions
+            const { side, start = Hex(), direction = 1 } = sideOrOptions
             return triangle(side, start, direction)
         }
 
@@ -252,8 +252,7 @@ export function rectangleFactory({ Hex, is }) {
      * @param   {(number|Object)} widthOrOptions    The width (in hexes) or an options object.
      * @param   {number} [height]                   The height (in hexes).
      * @param   {Hex} [start=Hex()]                 The origin hex.
-     * @param   {(E|NW|SW|SE|NE|W)} [direction=E/SE]
-     * The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. The default direction for pointy hexes is 'E' and 'SE' for flat hexes.
+     * @param   {(0|1|2|3|4|5)} [direction=0]       The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes.
      *
      * @returns {Hex[]}                             Array of hexes in a rectengular arrangement.
      */
@@ -261,21 +260,20 @@ export function rectangleFactory({ Hex, is }) {
         widthOrOptions,
         height,
         start = Hex(),
-        // rotate 60° counterclockwise for flat hexes
-        direction = Hex().isPointy() ? 'E' : 'SE'
+        direction = 0
     ) {
         const DIRECTIONS = {
-            'E': ['x', 'y'],
-            'NW': ['z', 'x'],
-            'SW': ['y', 'z'],
-            'SE': ['y', 'x'],
-            'NE': ['x', 'z'],
-            'W': ['z', 'y']
+            0: ['x', 'y'],
+            1: ['y', 'x'],
+            2: ['y', 'z'],
+            3: ['z', 'y'],
+            4: ['z', 'x'],
+            5: ['x', 'z']
         }
         const hex = Hex()
 
         if (is.objectLiteral(widthOrOptions)) {
-            const { width, height, start = Hex(), direction = hex.isPointy() ? 'E' : 'SE' } = widthOrOptions
+            const { width, height, start = Hex(), direction = 0 } = widthOrOptions
             return rectangle(width, height, start, direction)
         }
 
