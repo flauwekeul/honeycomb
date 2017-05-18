@@ -129,6 +129,26 @@ export function neighborFactory({ Hex }) {
     }
 }
 
+export function neighborsFactory({ Hex }) {
+    /**
+     * @method Hex.neighbors
+     *
+     * @description
+     * Returns **all** neighboring hexes of the given hex.
+     *
+     * @todo Add examples.
+     *
+     * @see {@link http://www.redblobgames.com/grids/hexagons/#neighbors|redblobgames.com}
+     *
+     * @param {Hex} hex The hex to get all neighbors from.
+     *
+     * @returns {Hex[]} An array of the 6 neighboring hexes.
+     */
+    return function neighbors(hex) {
+        return DIRECTION_COORDINATES.map(coordinates => Hex.add(hex, coordinates))
+    }
+}
+
 export function distanceFactory({ Hex }) {
     /**
      * @method Hex.distance

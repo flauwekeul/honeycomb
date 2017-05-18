@@ -8,13 +8,14 @@ describe('HexFactory', function() {
         const staticMethodCount = Object.keys(Hex).length
 
         expect(Hex).to.be.a('function')
-        expect(staticMethodCount).to.equal(10)
+        expect(staticMethodCount).to.equal(11)
         expect(Hex).to.have.property('thirdCoordinate')
         expect(Hex).to.have.property('isValidSize')
         expect(Hex).to.have.property('hexesBetween')
         expect(Hex).to.have.property('add')
         expect(Hex).to.have.property('subtract')
         expect(Hex).to.have.property('neighbor')
+        expect(Hex).to.have.property('neighbors')
         expect(Hex).to.have.property('distance')
         expect(Hex).to.have.property('round')
         expect(Hex).to.have.property('lerp')

@@ -132,6 +132,7 @@ export default function HexFactory({
         add: statics.addFactory({ Hex }),
         subtract: statics.subtractFactory({ Hex }),
         neighbor: statics.neighborFactory({ Hex }),
+        neighbors: statics.neighborsFactory({ Hex }),
         distance: statics.distanceFactory({ Hex }),
         round: statics.roundFactory({ Hex }),
         lerp: statics.lerpFactory({ Hex }),

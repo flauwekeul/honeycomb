@@ -155,6 +155,27 @@ describe('Hex static methods', function() {
         })
     })
 
+    describe('neighbors', function() {
+        let neighbors
+        const hex = Hex(3, -1, -2)
+
+        before(function() {
+            neighbors = statics.neighborsFactory({ Hex })
+        })
+
+        it('returns all immediate hexes surrounding the given hex', function() {
+            const result = neighbors(hex)
+            expect(result).to.eql([
+                Hex(4, -2, -2),
+                Hex(4, -1, -3),
+                Hex(3, 0, -3),
+                Hex(2, 0, -2),
+                Hex(2, -1, -1),
+                Hex(3, -2, -1)
+            ])
+        })
+    })
+
     describe('distance', function() {
         let distance
 
