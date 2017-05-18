@@ -1,14 +1,17 @@
 import { expect } from 'chai'
+
 import HexFactory from '../../src/hex'
 import { ORIENTATIONS } from '../../src/hex/constants'
+import * as statics from '../../src/hex/statics'
 
 describe('HexFactory', function() {
     it('returns a Hex factory function that has the Hex static methods', function() {
         const Hex = HexFactory()
-        const staticMethodCount = Object.keys(Hex).length
+        const expectedStaticsCount = Object.keys(Hex).length
+        const actualStaticsCount = Object.keys(statics).length
 
         expect(Hex).to.be.a('function')
-        expect(staticMethodCount).to.equal(11)
+        expect(expectedStaticsCount).to.equal(actualStaticsCount)
         expect(Hex).to.have.property('thirdCoordinate')
         expect(Hex).to.have.property('isValidSize')
         expect(Hex).to.have.property('hexesBetween')
