@@ -6,6 +6,7 @@ import * as methods from './prototype'
 
 /**
  * @function HexFactory
+ * @private
  *
  * @description
  * Factory that produces a {@link Hex} function to create hexes with. It accepts optional hex settings that are used to create a "family" of hexes that can be used in a grid (or individually). This "family" of hexes all share the same `prototype`.
@@ -15,7 +16,7 @@ import * as methods from './prototype'
  * @param {Object} [settings={}]                        Settings that apply to all hexes created with the returned {@link Hex} function.
  * @param {(FLAT|POINTY)} [settings.orientation=POINTY] All hexes are either POINTY ⬢ or FLAT ⬣.
  * @param {number} [settings.size=1]                    Size of all hexes.
- * @param {Point} [settings.origin=Point()]             Used to convert the hex position to a point. Defaults to the top left.
+ * @param {Point} [settings.origin=Point()]             Used to convert the hex position to a point. Defaults to the hex's center.
  *
  * @returns {Hex} A function to produce hexes, all with the same `prototype`.
  */
