@@ -35,16 +35,16 @@ describe('HexFactory', function() {
     })
 
     describe('when passed hex settings', function() {
-        it('returns a Hex factory with the valid settings merged into the default prototype', function() {
+        it('returns a Hex factory with any properties merged into the default prototype', function() {
             const prototype = {
                 size: 100,
-                thisIsIgnored: 'value'
+                custom: 'property'
             }
             const Hex = HexFactory(prototype)
             const result = Object.getPrototypeOf(Hex())
 
-            expect(result).to.not.have.property('thisIsIgnored')
             expect(result).to.have.property('size', 100)
+            expect(result).to.have.property('custom')
         })
     })
 })

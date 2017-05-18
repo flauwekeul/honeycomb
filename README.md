@@ -462,7 +462,6 @@ Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 ### Features
 
-1.  Make it possible to add custom properties to the hex prototype when calling `Grid()`.
 2.  Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well.
 3.  Make it an option to filter overlapping hexes when multiple shapes are rendered.
 4.  More examples in docs. Preferably examples that show code _and_ the results. Still looking for a tool that does this.

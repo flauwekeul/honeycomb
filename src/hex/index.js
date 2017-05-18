@@ -12,24 +12,18 @@ import * as methods from './prototype'
  * Factory that produces a {@link Hex} function to create hexes with. It accepts optional hex settings that are used to create a "family" of hexes that can be used in a grid (or individually). This "family" of hexes all share the same `prototype`.
  *
  * @todo validate orientation, size, origin
+ * @todo warn when properties are overriden
  *
- * @param {Object} [settings={}]                        Settings that apply to all hexes created with the returned {@link Hex} function.
- * @param {(FLAT|POINTY)} [settings.orientation=POINTY] All hexes are either POINTY ⬢ or FLAT ⬣.
- * @param {number} [settings.size=1]                    Size of all hexes.
- * @param {Point} [settings.origin=Point()]             Used to convert the hex position to a point. Defaults to the hex's center.
+ * @param {Object} [customPrototype={}] An object that's used as the prototype for all hexes in the grid. **Warning:** properties with the same name as the default prototype will be overwritten. These properties are: `orientation`, `size`, `origin`, `coordinates`, `isPointy`, `isFlat`, `oppositeCornerDistance`, `oppositeSideDistance`, `width`, `height`, `corners`, `center` and `toPoint`.
  *
- * @returns {Hex} A function to produce hexes, all with the same `prototype`.
+ * @returns {Hex}                       A function to produce hexes, all sharing the same `prototype`.
  */
-export default function HexFactory({
-    orientation = ORIENTATIONS.POINTY,
-    size = 1,
-    origin /* = hex.center() */
-} = {}) {
-    const prototype = {
+export default function HexFactory(customPrototype = {}) {
+    const defaultPrototype = {
         // settings:
-        orientation,
-        size,
-        origin,
+        orientation: ORIENTATIONS.POINTY,
+        size: 1,
+        // origin is set later
 
         // methods:
         coordinates:            methods.coordinates,
@@ -43,6 +37,8 @@ export default function HexFactory({
         center:                 methods.centerFactory({ Point }),
         toPoint:                methods.toPointFactory({ Point })
     }
+    const prototype = Object.assign(defaultPrototype, customPrototype)
+    prototype.origin = prototype.center() // is set here, because `center()` can be called
 
     /**
      * @function Hex
@@ -112,10 +108,6 @@ export default function HexFactory({
 
         if (Math.round(x + y + z) !== 0) {
             throw new Error(`Coordinates don\'t sum to 0: { x: ${x}, y: ${y}, z: ${z} }.`)
-        }
-
-        if (is.undefined(prototype.origin)) {
-            prototype.origin = prototype.center()
         }
 
         // return an object containing the coordinates that's prototype-linked to the prototype created in HexFactory
