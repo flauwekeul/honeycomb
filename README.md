@@ -16,13 +16,16 @@ npm i honeycomb-grid
 
 ### Grid
 
-Factory function for creating grids. It accepts optional hex settings that are passed directly to [HexFactory](#hexfactory). Several "shape" methods are exposed that return an array of hexes in a certain shape.
+Factory function for creating grids. It accepts optional hex settings that apply to all hexes in the grid. Several "shape" methods are exposed that return an array of hexes in a certain shape.
 
-A grid is _viewless_, i.e.: it's an abstract grid with undefined dimensions. If you want to render a tangible grid, use {@link View).
+A grid is _viewless_, i.e.: it's a virtual grid with undefined dimensions. If you want to render a tangible grid, use [View](#view).
 
 **Parameters**
 
--   `hexSettings` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** Optional settings that apply to _all_ hexes in the grid. See [Hexfactory](Hexfactory) for possible properties.
+-   `hexSettings` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** Optional settings that apply to _all_ hexes in the grid.
+    -   `hexSettings.size` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Size of all hexes. (optional, default `1`)
+    -   `hexSettings.orientation` **(FLAT | POINTY)** All hexes are either POINTY ⬢ or FLAT ⬣. (optional, default `POINTY`)
+    -   `hexSettings.origin` **[Point](#point)** Used to convert the hex position to a point. Defaults to the hex's center. (optional, default `Point()`)
 
 **Examples**
 
@@ -31,13 +34,15 @@ import { Grid, HEX_ORIENTATIONS } from 'Honeycomb'
 
 const grid = Grid({
     size: 50,
-    orientation: HEX_ORIENTATIONS.POINTY
+    orientation: HEX_ORIENTATIONS.FLAT,
+    origin: [0, 0]
 })
 
-grid.triangle(3)
+grid.Hex(5, -1, -4)  // returns a hex with coordinates { x: 5, y: -1, z: -4 }
+grid.triangle(3)     // returns an array of hexes in a triangle shape
 ```
 
-Returns **[Grid](#grid)** A grid instance.
+Returns **[Grid](#grid)** A grid instance containing a [Hex](#hex) factory and several methods. Use the [Hex](#hex) factory for creating individual hexes or using any of the [Hex](#hex)'s methods.
 
 ### Grid#pointToHex
 
@@ -139,19 +144,6 @@ The different orientations hexes can have.
 #### POINTY
 
 #### FLAT
-
-### HexFactory
-
-Factory that produces a [Hex](#hex) function to create hexes with. It accepts optional hex settings that are used to create a "family" of hexes that can be used in a grid (or individually). This "family" of hexes all share the same `prototype`.
-
-**Parameters**
-
--   `settings` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Settings that apply to all hexes created with the returned [Hex](#hex) function. (optional, default `{}`)
-    -   `settings.orientation` **(FLAT | POINTY)** All hexes are either POINTY ⬢ or FLAT ⬣. (optional, default `POINTY`)
-    -   `settings.size` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Size of all hexes. (optional, default `1`)
-    -   `settings.origin` **[Point](#point)** Used to convert the hex position to a point. Defaults to the top left. (optional, default `Point()`)
-
-Returns **[Hex](#hex)** A function to produce hexes, all with the same `prototype`.
 
 ### Hex
 
@@ -295,6 +287,18 @@ Returns the neighboring hex in the given direction.
 -   `diagonal` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether to look for a neighbor perpendicular to the hex's corner instead of its side. (optional, default `false`)
 
 Returns **[Hex](#hex)** The neighboring hex.
+
+### Hex.neighbors
+
+-   **See: [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#neighbors)**
+
+Returns **all** neighboring hexes of the given hex.
+
+**Parameters**
+
+-   `hex` **[Hex](#hex)** The hex to get all neighbors from.
+
+Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** An array of the 6 neighboring hexes.
 
 ### Hex.distance
 
