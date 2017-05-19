@@ -40,7 +40,7 @@
     "webpack": "^2.5.1"
   },
   "directories": {
-    "dist": "dist",
+    "example": "examples",
     "test": "test"
   },
   "dependencies": {
