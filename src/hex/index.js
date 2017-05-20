@@ -14,7 +14,7 @@ import * as methods from './prototype'
  * @todo validate orientation, size, origin
  * @todo warn when properties are overriden
  *
- * @param {Object} [customPrototype={}] An object that's used as the prototype for all hexes in the grid. **Warning:** properties with the same name as the default prototype will be overwritten. These properties are: `orientation`, `size`, `origin`, `coordinates`, `isPointy`, `isFlat`, `oppositeCornerDistance`, `oppositeSideDistance`, `width`, `height`, `corners`, `center` and `toPoint`.
+ * @param {Object} [customPrototype={}] An object that's used as the prototype for all hexes in the grid. **Warning:** properties with the same name as the default prototype will be overwritten. These properties are: `orientation`, `size`, `origin`, `coordinates`, `isPointy`, `isFlat`, `oppositeCornerDistance`, `oppositeSideDistance`, `width`, `height`, `corners`, `topLeft` and `toPoint`.
  *
  * @returns {Hex}                       A function to produce hexes, all sharing the same `prototype`.
  */
@@ -23,7 +23,7 @@ export default function HexFactory(customPrototype = {}) {
         // settings:
         orientation: ORIENTATIONS.POINTY,
         size: 1,
-        // origin is set later
+        origin: 0,
 
         // methods:
         coordinates:            methods.coordinates,
@@ -34,11 +34,12 @@ export default function HexFactory(customPrototype = {}) {
         width:                  methods.width,
         height:                 methods.height,
         corners:                methods.cornersFactory({ Point }),
-        center:                 methods.centerFactory({ Point }),
+        topLeft:                methods.topLeftFactory({ Point }),
         toPoint:                methods.toPointFactory({ Point })
     }
     const prototype = Object.assign(defaultPrototype, customPrototype)
-    prototype.origin = prototype.center() // is set here, because `center()` can be called
+    // ensure origin is a point
+    prototype.origin = Point(prototype.origin)
 
     /**
      * @function Hex

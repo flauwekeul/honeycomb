@@ -17,7 +17,7 @@ view = View({
     template: function createTemplate(hex) {
         var NS = 'http://www.w3.org/2000/svg',
             position = this.hexToPixel(hex),
-            hexCenter = hex.center(),
+            hexCenter = hex.topLeft().multiply(-1),
             g = document.createElementNS(NS, 'g'),
             polygon = document.createElementNS(NS, 'polygon'),
             text = document.createElementNS(NS, 'text'),

@@ -174,18 +174,18 @@ describe('corners', function() {
     })
 })
 
-describe('center', function() {
-    it('returns the relative center of the given hex', function() {
+describe('topLeft', function() {
+    it('returns the point relative to the center of the given hex', function() {
         const Point = sinon.stub().callsFake((...coordinates) => coordinates)
         const width = sinon.stub().returns(2)
         const height = sinon.stub().returns(2)
-        const center = methods.centerFactory({ Point }).bind({ width, height })
-        const result = center()
+        const topLeft = methods.topLeftFactory({ Point }).bind({ width, height })
+        const result = topLeft()
 
-        expect(Point).to.have.been.calledWith(1, 1)
         expect(width).to.have.been.called
         expect(height).to.have.been.called
-        expect(result).to.eql([1, 1])
+        expect(Point).to.have.been.calledWith(-1, -1)
+        expect(result).to.eql([-1, -1])
     })
 })
 

@@ -87,10 +87,15 @@ export default function ViewFactory({ Point, isDom } = {}) {
              * Converts the passed hex to a pixel position relative to the container.
              *
              * @param  {Hex} hex    The hex to convert to a pixel position.
-             * @returns {Point}      The pixel position.
+             * @returns {Point}     The pixel position.
              */
             hexToPixel(hex) {
-                return this.grid.hexToPoint(hex).add(this.origin)
+                // Grid#hexToPoint returns the hex's origin relative to the start Hex (Hex(0))
+                return this.grid.hexToPoint(hex)
+                    // translate the hex's center-originating point to a top-left-originating point
+                    .add(hex.topLeft())
+                    // add the view's origin
+                    .add(this.origin)
             },
 
             /**

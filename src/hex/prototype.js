@@ -95,13 +95,17 @@ export function cornersFactory({ Point }) {
     }
 }
 
-export function centerFactory({ Point }) {
+export function topLeftFactory({ Point }) {
     /**
-     * @method Hex#center
-     * @returns {Point} The relative center of any hex.
+     * @method Hex#topLeft
+     *
+     * @description
+     * A hex's origin is relative to its center point, but a browser positions a DOM node relative to its top left point. This method can be used to translate the center-originating hex to a top-left-originating hex.
+     *
+     * @returns {Point} The vector relative to the hex's center.
      */
-    return function center() {
-        return Point(this.width() / 2, this.height() / 2)
+    return function topLeft() {
+        return Point(-this.width() / 2, -this.height() / 2)
     }
 }
 
@@ -125,6 +129,8 @@ export function toPointFactory({ Point }) {
             y = this.size * Math.sqrt(3) * (this.y + this.x / 2)
         }
 
+        // The default origin is Point(0, 0), which is de center point.
+        // If a different origin is set, it needs to be subtracted from Point(x, y) because it's always the center point
         return Point(x, y).subtract(this.origin)
     }
 }

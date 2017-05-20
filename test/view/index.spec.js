@@ -163,26 +163,33 @@ describe('View methods', function() {
     })
 
     describe('hexToPixel', function() {
-        let add, hexToPoint, origin, view, result
+        let secondAdd, firstAdd, hexToPoint, topLeft, hex, origin, view, result
 
         before(function() {
-            add = sinon.stub().returns('add result')
-            hexToPoint = sinon.stub().returns({ add })
+            secondAdd = sinon.stub().returns('secondAdd result')
+            firstAdd = sinon.stub().returns({ add: secondAdd })
+            hexToPoint = sinon.stub().returns({ add: firstAdd })
+            topLeft = sinon.stub().returns('topLeft result')
+            hex = { topLeft }
             origin = 'origin'
             view = View({ grid: { hexToPoint }, origin, container: document.createElement('div') })
-            result = view.hexToPixel('some hex')
+            result = view.hexToPixel(hex)
         })
 
         it('gets the grid\'s point for the passed hex', function() {
-            expect(hexToPoint).to.have.been.calledWith('some hex')
+            expect(hexToPoint).to.have.been.calledWith(hex)
+        })
+
+        it('adds the hex\'s top left offset to that point', function() {
+            expect(firstAdd).to.have.been.calledWith('topLeft result')
         })
 
         it('adds the view\'s origin to that point', function() {
-            expect(add).to.have.been.calledWith(origin)
+            expect(secondAdd).to.have.been.calledWith(origin)
         })
 
         it('returns the result', function() {
-            expect(result).to.equal('add result')
+            expect(result).to.equal('secondAdd result')
         })
     })
 
