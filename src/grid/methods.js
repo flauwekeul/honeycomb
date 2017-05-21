@@ -7,9 +7,17 @@ export function pointToHexFactory({ Point, Hex }) {
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/#pixel-to-hex|redblobgames.com}
      *
-     * @param   {Point} point   The point to convert from.
+     * @param   {Point} point   The point to convert from. Does not have to be created by {@link Point}.
      *
      * @returns {Hex}           The hex (with rounded coordinates) the passed 2D point corresponds to.
+     *
+     * @example
+     * import { Grid, Point } from 'Honeycomb'
+     *
+     * const grid = Grid({ size: 50 })
+     * grid.pointToHex({ x: 120, y: 300 })  // { x: -1, y: 4, z: -3 }
+     * grid.pointToHex([ 120, 300 ])        // { x: -1, y: 4, z: -3 }
+     * grid.pointToHex(Point(120, 300))     // { x: -1, y: 4, z: -3 }
      */
     return function pointToHex(point) {
         const hex = Hex()
@@ -44,6 +52,13 @@ export function pointToHexFactory({ Point, Hex }) {
  * @param   {Hex} hex   The hex to translate from.
  *
  * @returns {Point}     The point to translate to.
+ *
+ * @example
+ * import { Grid } from 'Honeycomb'
+ *
+ * const grid = Grid({ size: 50 })
+ * const hex = grid.Hex(-1, 4, -3)
+ * grid.hexToPoint(hex) // { x: 86.60254037844386, y: 300 }
  */
 export function hexToPoint(hex) {
     return hex.toPoint()

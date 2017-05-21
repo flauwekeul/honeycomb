@@ -49,8 +49,7 @@ view.renderGrid()
 // Honeycomb.View will have helpers for handling events in the future
 container.addEventListener('click', function handleClick(e) {
     // e.offsetX/Y isn't supported by firefox, so calculating it here:
-    var rect = container.getBoundingClientRect(),
-        offsetX = e.clientX - rect.left,
+    var offsetX = e.clientX - rect.left,
         offsetY = e.clientY - rect.top,
         hex = view.pixelToHex([offsetX, offsetY])
 

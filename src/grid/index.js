@@ -15,7 +15,7 @@ export default function GridFactory({ HexFactory } = {}) {
      * @param {Object} [hexSettings]                            Optional settings that apply to *all* hexes in the grid.
      * @param {number} [hexSettings.size=1]                     Size of all hexes.
      * @param {(FLAT|POINTY)} [hexSettings.orientation=POINTY]  All hexes are either POINTY ⬢ or FLAT ⬣.
-     * @param {Point} [hexSettings.origin=Point()]              Used to convert the hex position to a point. Defaults to the hex's center.
+     * @param {Point} [hexSettings.origin=Point(0,0)]           Used to convert a hex to a point. Defaults to the hex's center at `Point(0, 0)`.
      *
      * @returns {Grid}                                          A grid instance containing a {@link Hex} factory and several methods. Use the {@link Hex} factory for creating individual hexes or using any of the {@link Hex}'s methods.
      *
