@@ -120,7 +120,6 @@ export default function HexFactory(customPrototype = {}) {
 
     Object.assign(Hex, {
         thirdCoordinate: statics.thirdCoordinateFactory({ unsignNegativeZero }),
-        isValidSize: statics.isValidSize,
         hexesBetween: statics.hexesBetweenFactory({ Hex }),
         add: statics.addFactory({ Hex }),
         subtract: statics.subtractFactory({ Hex }),

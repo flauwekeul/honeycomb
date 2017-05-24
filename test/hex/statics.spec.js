@@ -22,19 +22,6 @@ describe('Hex static methods', function() {
         })
     })
 
-    describe('isValidSize', function() {
-        it('returns true if passed size is valid', function() {
-            expect(statics.isValidSize(0)).to.be.true
-            expect(statics.isValidSize(4)).to.be.true
-        })
-
-        it('returns false if passed size is invalid', function() {
-            expect(statics.isValidSize(-2)).to.be.false
-            expect(statics.isValidSize(undefined)).to.be.false
-            expect(statics.isValidSize(null)).to.be.false
-        })
-    })
-
     describe('hexesBetween', function() {
         let hexesBetween
 

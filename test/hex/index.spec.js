@@ -13,7 +13,6 @@ describe('HexFactory', function() {
         expect(Hex).to.be.a('function')
         expect(expectedStaticsCount).to.equal(actualStaticsCount)
         expect(Hex).to.have.property('thirdCoordinate')
-        expect(Hex).to.have.property('isValidSize')
         expect(Hex).to.have.property('hexesBetween')
         expect(Hex).to.have.property('add')
         expect(Hex).to.have.property('subtract')

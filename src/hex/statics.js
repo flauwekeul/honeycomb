@@ -21,20 +21,6 @@ export function thirdCoordinateFactory({ unsignNegativeZero }) {
     }
 }
 
-/**
- * @method Hex.isValidSize
- *
- * @description
- * Determines if the passed size is valid. Should be a positive `Number`.
- *
- * @param   {number} size   The size to validate.
- *
- * @returns {boolean}       Wheter the size is valid.
- */
-export function isValidSize(size) {
-    return size >= 0 && size !== null
-}
-
 export function hexesBetweenFactory({ Hex }) {
     /**
      * @method Hex.hexesBetween
