@@ -25,7 +25,7 @@ A view's origin is its container's top left corner by default (with a value of `
 Mapping points to hexes and vice versa can be confusing (I thought it was confusing making this library 😕). This table might clear things up:
 
 | Method                                | Input   | Output                                                                                         |
-|---------------------------------------|---------|------------------------------------------------------------------------------------------------|
+| ------------------------------------- | ------- | ---------------------------------------------------------------------------------------------- |
 | [`Hex#toPoint`](/#hextopoint)         | N/A     | the hex's origin point relative to the start hex (`Hex(0, 0, 0)`)                              |
 | [`Grid#hexToPoint`](/#gridhextopoint) | a hex   | same as [`Hex#toPoint`](/#hextopoint)                                                          |
 | [`Grid#pointToHex`](/#gridpointtohex) | a point | the hex that contains the point                                                                |
@@ -75,34 +75,31 @@ grid.triangle(3)             // [ { x: 0, y: 0, z: 0 },
 
 Returns **[Grid](#grid)** A grid instance containing a [Hex](#hex) factory and several methods. Use the [Hex](#hex) factory for creating individual hexes or using any of the [Hex](#hex)'s methods.
 
-### Grid#pointToHex
+### Grid#colSize
 
--   **See: [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#pixel-to-hex)**
+-   **See: [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#size-and-spacing)**
 
-Converts the passed 2-dimensional [point](#point) to a hex.
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The width of a (vertical) column of hexes in the grid.
+
+### Grid#hexagon
+
+-   **See: [redblobgames.com](http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes)**
+
+Creates a grid in the shape of a [hexagon](https://en.wikipedia.org/wiki/Hexagon).
 
 **Parameters**
 
--   `point` **[Point](#point)** The point to convert from. Does not have to be created by [Point](#point).
+-   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object.
+    -   `options.radius` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The radius (in hexes).
+    -   `options.center` **[Hex](#hex)** The center hex. (optional, default `Hex(0,0,0)`)
 
-**Examples**
-
-```javascript
-import { Grid, Point } from 'Honeycomb'
-
-const grid = Grid({ size: 50 })
-grid.pointToHex({ x: 120, y: 300 })  // { x: -1, y: 4, z: -3 }
-grid.pointToHex([ 120, 300 ])        // { x: -1, y: 4, z: -3 }
-grid.pointToHex(Point(120, 300))     // { x: -1, y: 4, z: -3 }
-```
-
-Returns **[Hex](#hex)** The hex (with rounded coordinates) the passed 2D point corresponds to.
+Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** Array of hexes in a hexagon arrangement (very meta 😎).
 
 ### Grid#hexToPoint
 
 -   **See: [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#hex-to-pixel)**
 
-Translates a hex coordinate to a point.
+Translates a hex to a point.
 
 **Parameters**
 
@@ -116,21 +113,15 @@ import { Grid } from 'Honeycomb'
 const grid = Grid({ size: 50 })
 const hex = grid.Hex(-1, 4, -3)
 grid.hexToPoint(hex) // { x: 86.60254037844386, y: 300 }
+
+// a different origin...
+const grid = Grid({ size: 50, origin: [50, 50] })
+const hex = grid.Hex(-1, 4, -3)
+// ...corresponds to a different point:
+grid.hexToPoint(hex) // { x: 36.60254037844386, y: 250 }
 ```
 
 Returns **[Point](#point)** The point to translate to.
-
-### Grid#colSize
-
--   **See: [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#basics)**
-
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The width of a (vertical) column of hexes in the grid.
-
-### Grid#rowSize
-
--   **See: [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#basics)**
-
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The height of a (horizontal) row of hexes in the grid.
 
 ### Grid#parallelogram
 
@@ -140,39 +131,38 @@ Creates a grid in the shape of a [parallelogram](https://en.wikipedia.org/wiki/P
 
 **Parameters**
 
--   `widthOrOptions` **([number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** The width (in hexes) or an options object.
--   `height` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The height (in hexes).
--   `start` **[Hex](#hex)** The origin hex. (optional, default `Hex()`)
--   `direction` **(`1` \| `3` \| `5`)** The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. (optional, default `1`)
+-   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object.
+    -   `options.width` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The width (in hexes).
+    -   `options.height` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The height (in hexes).
+    -   `options.start` **[Hex](#hex)** The start hex. (optional, default `Hex(0,0,0)`)
+    -   `options.direction` **(`1` \| `3` \| `5`)** The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. (optional, default `1`)
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** Array of hexes in a parallelogram arrangement.
 
-### Grid#triangle
+### Grid#pointToHex
 
--   **See: [redblobgames.com](http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes)**
+-   **See: [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#pixel-to-hex)**
 
-Creates a grid in the shape of a [(equilateral) triangle](https://en.wikipedia.org/wiki/Equilateral_triangle).
-
-**Parameters**
-
--   `sideOrOptions` **([number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** The side length (in hexes) or an options object.
--   `start` **[Hex](#hex)** The origin hex. (optional, default `Hex()`)
--   `direction` **(`1` \| `5`)** The direction in which to create the shape. Each direction corresponds to a different arrangement of hexes. In this case a triangle pointing up (`direction: 1`) or down (`direction: 5`) (with pointy hexes) or right (`direction: 1`) or left (`direction: 5`) (with flat hexes). (optional, default `1`)
-
-Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** Array of hexes in a triangular arrangement.
-
-### Grid#hexagon
-
--   **See: [redblobgames.com](http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes)**
-
-Creates a grid in the shape of a [hexagon](https://en.wikipedia.org/wiki/Hexagon).
+Converts the passed 2-dimensional [point](#point) to a hex.
 
 **Parameters**
 
--   `radiusOrOptions` **([number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** The radius (in hexes) or an options object.
--   `center` **[Hex](#hex)** The center hex. (optional, default `Hex()`)
+-   `point` **[Point](#point)** The [point-like](#point) to convert from.
 
-Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** Array of hexes in a hexagon arrangement (very meta 😎).
+**Examples**
+
+```javascript
+import { Grid, Point } from 'Honeycomb'
+
+const grid = Grid({ size: 50 })
+
+grid.pointToHex(Point(120, 300))     // { x: -1, y: 4, z: -3 }
+// also accepts a point-like:
+grid.pointToHex({ x: 120, y: 300 })  // { x: -1, y: 4, z: -3 }
+grid.pointToHex([ 120, 300 ])        // { x: -1, y: 4, z: -3 }
+```
+
+Returns **[Hex](#hex)** The hex (with rounded coordinates) that contains the passed point.
 
 ### Grid#rectangle
 
@@ -182,26 +172,40 @@ Creates a grid in the shape of a [rectangle](https://en.wikipedia.org/wiki/Recta
 
 **Parameters**
 
--   `widthOrOptions` **([number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** The width (in hexes) or an options object.
--   `height` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The height (in hexes).
--   `start` **[Hex](#hex)** The origin hex. (optional, default `Hex()`)
--   `direction` **(`0` \| `1` \| `2` \| `3` \| `4` \| `5`)** The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. (optional, default `0`)
+-   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object.
+    -   `options.width` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The width (in hexes).
+    -   `options.height` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The height (in hexes).
+    -   `options.start` **[Hex](#hex)** The start hex. (optional, default `Hex(0,0,0)`)
+    -   `options.direction` **(`0` \| `1` \| `2` \| `3` \| `4` \| `5`)** The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes. (optional, default `0`)
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** Array of hexes in a rectengular arrangement.
 
-### ORIENTATIONS
+### Grid#rowSize
 
-The different orientations hexes can have.
+-   **See: [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#size-and-spacing)**
 
-#### POINTY
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The height of a (horizontal) row of hexes in the grid.
 
-#### FLAT
+### Grid#triangle
+
+-   **See: [redblobgames.com](http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes)**
+
+Creates a grid in the shape of a [(equilateral) triangle](https://en.wikipedia.org/wiki/Equilateral_triangle).
+
+**Parameters**
+
+-   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object.
+    -   `options.size` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The side length (in hexes).
+    -   `options.start` **[Hex](#hex)** The start hex. **Note**: it's not the first hex, but rather a hex relative to the triangle. (optional, default `Hex(0,0,0)`)
+    -   `options.direction` **(`1` \| `5`)** The direction in which to create the shape. Each direction corresponds to a different arrangement of hexes. In this case a triangle pointing up (`direction: 1`) or down (`direction: 5`) (with pointy hexes) or right (`direction: 1`) or left (`direction: 5`) (with flat hexes). (optional, default `1`)
+
+Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** Array of hexes in a triangular arrangement.
 
 ### Hex
 
 -   **See: [http://www.redblobgames.com/grids/hexagons/#coordinates](redblobgames.com)**
 
-Factory function for creating hexes.
+Factory function for creating hexes. It can only be accessed by creating a [Grid](#grid) (see the example).
 
 Coordinates not passed to the factory are inferred using the other coordinates:
 
@@ -221,6 +225,10 @@ Coordinates not passed to the factory are inferred using the other coordinates:
 **Examples**
 
 ```javascript
+import { Grid } from 'Honeycomb'
+// `Hex()` is not exposed on `Honeycomb`, but on a grid instance instead:
+const Hex = Grid().Hex
+
 Hex()            // returns hex( x: 0, y: 0, z: 0 )
 Hex(1)           // returns hex( x: 1, y: 1, z: -2 )
 Hex(1, 2)        // returns hex( x: 1, y: 2, z: -3 )
@@ -232,83 +240,7 @@ Hex({ y: 3 })    // returns hex( x: 3, y: 3, z: -6 )
 Hex({ z: 3 })    // returns hex( x: 3, y: -6, z: 3 )
 ```
 
-Returns **[Hex](#hex)** A hex object. It always contains all three coordinates (`x`, `y` and `z`).
-
-### Hex#coordinates
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** The hex's x, y and z coordinates.
-
-### Hex#isPointy
-
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether hexes have a pointy ⬢ orientation.
-
-### Hex#isFlat
-
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether hexes have a flat ⬣ orientation.
-
-### Hex#oppositeCornerDistance
-
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The distance between opposite corners of a hex.
-
-### Hex#oppositeSideDistance
-
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The distance between opposite sides of a hex.
-
-### Hex#width
-
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The (horizontal) width of any hex.
-
-### Hex#height
-
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The (vertical) height of any hex.
-
-### Hex#corners
-
-Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Point](#point)>** Array of corner points. Starting at the top right corner for pointy hexes and the right corner for flat hexes.
-
-### Hex#topLeft
-
-A hex's origin is relative to its center point, but a browser positions a DOM node relative to its top left point. This method can be used to translate the center-originating hex to a top-left-originating hex.
-
-Returns **[Point](#point)** The vector relative to the hex's center.
-
-### Hex#toPoint
-
-Converts the current hex to an (absolute) 2-dimensional [point](#point). Uses the hex's origin.
-
-Returns **[Point](#point)** The 2D point the hex corresponds to.
-
-### Hex.thirdCoordinate
-
-Calculates the third coordinate from the other two. The sum of all three coordinates should always be 0.
-
-**Parameters**
-
--   `firstCoordinate` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The first other coordinate.
--   `secondCoordinate` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The second other coordinate.
-
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The third coordinate.
-
-### Hex.isValidSize
-
-Determines if the passed size is valid. Should be a positive `Number`.
-
-**Parameters**
-
--   `size` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The size to validate.
-
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Wheter the size is valid.
-
-### Hex.hexesBetween
-
--   **See: [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#line-drawing)**
-
-**Parameters**
-
--   `firstHex` **[Hex](#hex)** The first hex.
--   `secondHex` **[Hex](#hex)** The second hex.
-
-Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** Hexes between the passed first and second hex, inclusive.
+Returns **[Hex](#hex)** A hex object. It has all three coordinates (`x`, `y` and `z`) as its own properties and various methods in its prototype.
 
 ### Hex.add
 
@@ -319,14 +251,52 @@ Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refere
 
 Returns **[Hex](#hex)** The sum of the passed hexes coordinates.
 
-### Hex.subtract
+### Hex.distance
+
+-   **See: [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#distances)**
+
+Returns the amount of hexes between the current and the given hex.
 
 **Parameters**
 
--   `firstHex` **[Hex](#hex)** A hex.
--   `secondHex` **[Hex](#hex)** The hex that will be subtracted from the first.
+-   `startHex` **[Hex](#hex)** The start hex.
+-   `endHex` **[Hex](#hex)** The end hex.
 
-Returns **[Hex](#hex)** The difference between the passed hexes coordinates.
+**Examples**
+
+```javascript
+import { Grid } from 'Honeycomb'
+const Hex = Grid().Hex
+
+Hex.distance(Hex(0, 0, 0), Hex(1, 0, -1))    // 1
+Hex.distance(Hex(-3, -3, 6), Hex(-1, 4, -3)) // 9
+```
+
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The amount of hexes between the passed `startHex` and `endHex`.
+
+### Hex.hexesBetween
+
+-   **See: [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#line-drawing)**
+
+**Parameters**
+
+-   `startHex` **[Hex](#hex)** The first hex.
+-   `endHex` **[Hex](#hex)** The second hex.
+
+Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** Array of hexes starting at the passed `startHex` and ending with the passed `endHex`.
+
+### Hex.lerp
+
+Returns an interpolation between the current hex and the passed hex for a `t` between 0 and 1.
+More info on [wikipedia](https://en.wikipedia.org/wiki/Linear_interpolation).
+
+**Parameters**
+
+-   `firstHex` **[Hex](#hex)** The first hex.
+-   `secondHex` **[Hex](#hex)** The second hex.
+-   `t` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** A "parameter" between 0 and 1.
+
+Returns **[Hex](#hex)** A new hex (with possibly fractional coordinates).
 
 ### Hex.neighbor
 
@@ -338,7 +308,19 @@ Returns the neighboring hex in the given direction.
 
 -   `hex` **[Hex](#hex)** The hex to get the neighboring hex from.
 -   `direction` **(`0` \| `1` \| `2` \| `3` \| `4` \| `5`)** Any of the 6 directions. `0` is the Eastern direction (East-southeast when the hex is flat), `1` corresponds to 60° clockwise, `2` to 120° clockwise and so forth. (optional, default `0`)
--   `diagonal` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether to look for a neighbor perpendicular to the hex's corner instead of its side. (optional, default `false`)
+-   `diagonal` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether to look for a neighbor opposite the hex's corner instead of its side. A direction of `0` means the top corner of the hex's right side when the hex is pointy and the right corner when the hex is flat. (optional, default `false`)
+
+**Examples**
+
+```javascript
+import { Grid } from 'Honeycomb'
+const Hex = Grid().Hex
+
+const targetHex = Hex()
+Hex.neighbor(targetHex)          // { x: 1, y: -1, z: 0 }, the hex across the 0th (right) side of targetHex
+Hex.neighbor(targetHex, 2)       // { x: 0, y: 1, z: -1 }, the hex across the 3rd (South West) side of targetHex
+Hex.neighbor(targetHex, 3, true) // { x: -2, y: 1, z: 1 }, the hex opposite the 4th corner of targetHex
+```
 
 Returns **[Hex](#hex)** The neighboring hex.
 
@@ -354,18 +336,17 @@ Returns **all** neighboring hexes of the given hex.
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** An array of the 6 neighboring hexes.
 
-### Hex.distance
+### Hex.nudge
 
--   **See: [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#distances)**
+-   **See: [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#line-drawing)**
 
-Returns the amount of hexes between the current and the given hex.
+Returns a new hex with a tiny offset from the passed hex. Useful for interpolating in a consistent direction.
 
 **Parameters**
 
--   `startHex` **[Hex](#hex)** The start hex.
--   `endHex` **[Hex](#hex)** The end hex.
+-   `hex` **[Hex](#hex)** The hex to nudge.
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The amount of hexes between the passed start and end.
+Returns **[Hex](#hex)** A new hex with a minute offset.
 
 ### Hex.round
 
@@ -379,41 +360,105 @@ Rounds the passed floating point hex coordinates to their nearest integer hex co
 
 Returns **[Hex](#hex)** A new hex with rounded coordinates.
 
-### Hex.lerp
-
-Returns an interpolation between the current hex and the passed hex for a `t` between 0 and 1.
-More info on [wikipedia](https://en.wikipedia.org/wiki/Linear_interpolation).
+### Hex.subtract
 
 **Parameters**
 
--   `firstHex` **[Hex](#hex)** The first hex.
--   `secondHex` **[Hex](#hex)** The second hex.
--   `t` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** A "parameter" between 0 and 1.
+-   `firstHex` **[Hex](#hex)** A hex.
+-   `secondHex` **[Hex](#hex)** The hex that will be subtracted from the first.
 
-Returns **[Hex](#hex)** A new hex (with possibly fractional coordinates).
+Returns **[Hex](#hex)** The difference between the passed hexes coordinates.
 
-### Hex.nudge
+### Hex.thirdCoordinate
 
--   **See: [redblobgames.com](http://www.redblobgames.com/grids/hexagons/#line-drawing)**
-
-Returns a new hex with a tiny offset from the passed hex. Useful for interpolating in a consistent direction.
+Calculates the third coordinate from the other two. The sum of all three coordinates must be 0.
 
 **Parameters**
 
--   `hex` **[Hex](#hex)** The hex to nudge.
+-   `firstCoordinate` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The first other coordinate.
+-   `secondCoordinate` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The second other coordinate.
 
-Returns **[Hex](#hex)** A new hex with a minute offset.
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The third coordinate.
+
+### Hex#coordinates
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** The hex's x, y and z coordinates.
+
+### Hex#corners
+
+Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Point](#point)>** Array of corner points. Starting at the top right corner for pointy hexes and the right corner for flat hexes.
+
+### Hex#height
+
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The (vertical) height of any hex.
+
+### Hex#isFlat
+
+Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether hexes have a flat ⬣ orientation.
+
+### Hex#isPointy
+
+Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether hexes have a pointy ⬢ orientation.
+
+### Hex#oppositeCornerDistance
+
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The distance between opposite corners of a hex.
+
+### Hex#oppositeSideDistance
+
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The distance between opposite sides of a hex.
+
+### Hex#topLeft
+
+A hex's origin is relative to its center point, but a browser positions a DOM node relative to its top left point. This method can be used to translate the center-originating hex to a top-left-originating hex.
+
+Returns **[Point](#point)** The vector relative to the hex's center.
+
+### Hex#toPoint
+
+Converts the current hex to its origin [point](#point) relative to the start hex.
+
+Returns **[Point](#point)** The 2D point the hex corresponds to.
+
+### Hex#width
+
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The (horizontal) width of any hex.
+
+### ORIENTATIONS
+
+The different orientations hexes can have.
+
+#### POINTY
+
+#### FLAT
 
 ### Point
 
-Factory function for creating 2-dimensional points.
+Factory function for creating 2-dimensional points. Accepts a **point-like** and returns a point instance. A point-like can be an object with an `x` and `y` property (e.g. `{ x: 0, y: 0 }`) or an array with 2 items (e.g. `[0, 0]`) that correspond to `x` and `y` respectively.
 
 **Parameters**
 
--   `coordinatesOrX` **([number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)> | [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** The x coordinate or an array or object of x and/or y coordinates. (optional, default `0`)
+-   `coordinatesOrX` **([number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)> | [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** The x coordinate or a point-like. (optional, default `0`)
     -   `coordinatesOrX.x` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The x coordinate. (optional, default `0`)
     -   `coordinatesOrX.y` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The y coordinate. (optional, default `0`)
 -   `y` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The y coordinate. (optional, default `0`)
+
+**Examples**
+
+```javascript
+import { Point } from 'Honeycomb'
+
+Point()                  // { x: 0, y: 0 }
+Point(1)                 // { x: 1, y: 1 }
+Point(1, 2)              // { x: 1, y: 2 }
+
+Point([1, 2])            // { x: 1, y: 2 }
+Point([1])               // { x: 1, y: 1 }
+
+Point({ x: 1, y: 2 })    // { x: 1, y: 2 }
+Point({ x: 1 })          // { x: 1, y: 1 }
+Point({ y: 2 })          // { x: 2, y: 2 }
+```
 
 Returns **[Point](#point)** A point object.
 
@@ -425,13 +470,13 @@ Returns **[Point](#point)** A point object.
 
 Returns **[Point](#point)** The sum of the passed point's coordinates to the current point's.
 
-### Point#subtract
+### Point#divide
 
 **Parameters**
 
--   `point` **[Point](#point)** The point to subtract from the current point.
+-   `point` **[Point](#point)** The point where the current point is divided by.
 
-Returns **[Point](#point)** The difference between the passed point's coordinates and the current point's.
+Returns **[Point](#point)** The division of the current point's coordinates and the passed point's.
 
 ### Point#multiply
 
@@ -441,13 +486,13 @@ Returns **[Point](#point)** The difference between the passed point's coordinate
 
 Returns **[Point](#point)** The multiplication of the passed point's coordinates and the current point's.
 
-### Point#divide
+### Point#subtract
 
 **Parameters**
 
--   `point` **[Point](#point)** The point where the current point is divided by.
+-   `point` **[Point](#point)** The point to subtract from the current point.
 
-Returns **[Point](#point)** The division of the current point's coordinates and the passed point's.
+Returns **[Point](#point)** The difference between the passed point's coordinates and the current point's.
 
 ### View
 
@@ -457,31 +502,50 @@ Factory function for creating views. A view instance can be used to render (a gr
 
 -   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options to instantiate the view with. (optional, default `{}`)
     -   `options.grid` **[Grid](#grid)** A grid instance.
-    -   `options.template` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Template function that should return a DOM element. When hexes are rendered (e.g. by calling [View#renderGrid](#viewrendergrid) or [View#renderHexes](#viewrenderhexes)), the template function is passed each hex. In the template function `this` refers to the view instance, so any view method can be called.
+    -   `options.template` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Template function that should return a DOM element. When hexes are rendered (e.g. by calling [View#renderGrid](#viewrendergrid) or [View#renderHexes](#viewrenderhexes)), the template function is called with each hex. In the template function `this` refers to the view instance, so any view method can be called.
     -   `options.container` **[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node/nextSibling)** The container in which hexes are to be rendered. Should be an existing DOM element (e.g. a `<div>` or `<svg>`) in the `document`.
     -   `options.origin` **[Point](#point)** Pixel origin where the start hex (`Hex(0, 0, 0)`) is placed. Defaults to `Point(0, 0)`, i.e.: the top left corner of the container. The origin is relative to the container (not to the document). (optional, default `Point(0,0)`)
 
+**Examples**
+
+```javascript
+const { Grid, View } from 'Honeycomb'
+
+const container = document.getElementById('my-container')
+const rect = container.getBoundingClientRect()
+
+const view = View({
+    grid: Grid({ size: 20 }),
+    template: hex => {
+        // `this` refers to the view instance
+        const position = this.hexToPixel(hex)
+        const div = document.createElement('div')
+
+        div.classList.add('hex')
+        div.style.left = position.x + 'px'
+        div.style.top = position.y + 'px'
+
+        return div
+    },
+    container,
+    // set the view's origin to the container's center
+    origin: {
+        x: rect.width / 2,
+        y: rect.height / 2
+    }
+})
+
+// The view instance can now be used to render hexes as divs with dimensions that
+// would fit pointy hexes with a radius of 20px. Each div having the class 'hex'
+// and a `style` attribute with a `left` and `top` property. The start hex
+// (`Hex(0, 0, 0)`) would be placed in the center of the container.
+```
+
 Returns **[View](#view)** A view instance to render hexes in.
 
-### View#renderGrid
+### View#height
 
-Renders all hexes that fit in the container, plus the optional padding. This padding defaults to 3 (hexes), so that the container is completely covered in hexes.
-
-**Parameters**
-
--   `padding` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Number of hexes to add to all 4 sides of the container. Can be used to guarantee the container is completely covered in hexes. (optional, default `3`)
-
-Returns **[View](#view)** The view instance, for chaining.
-
-### View#renderHexes
-
-Renders the passed hexes in the container.
-
-**Parameters**
-
--   `hexes` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** An array of hexes to render. [Grid](#grid)'s shape methods can be used to generate this array.
-
-Returns **[View](#view)** The view instance, for chaining.
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The rounded amount of hexes that fit in the container vertically ↕.
 
 ### View#hexToPixel
 
@@ -503,13 +567,52 @@ Converts the passed pixel position (relative to the container) to the correspond
 
 Returns **[Hex](#hex)** The corresponding (rounded) hex.
 
+### View#renderGrid
+
+Renders all hexes that fit in the container, plus the optional padding. This padding defaults to 3 (hexes), so that the container is completely covered in hexes.
+
+**Parameters**
+
+-   `padding` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Number of hexes to add to all 4 sides of the container. Can be used to guarantee the container is completely covered in hexes. (optional, default `3`)
+
+**Examples**
+
+```javascript
+const { View } from 'Honeycomb'
+const view = View() // view creation truncated for brevity
+
+// This renders all hexes that fit in the container, plus an extra layer of 3 hexes:
+view.renderGrid()
+```
+
+Returns **[View](#view)** The view instance, for chaining.
+
+### View#renderHexes
+
+Renders the passed array of hexes in the container.
+
+**Parameters**
+
+-   `hexes` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Hex](#hex)>** An array of hexes to render. [Grid](#grid)'s shape methods ([Grid#parallelogram](#gridparallelogram), [Grid#triangle](#gridtriangle), [Grid#hexagon](#gridhexagon) and [Grid#rectangle](#gridrectangle)) can be used to generate this array.
+
+**Examples**
+
+```javascript
+const { Grid, View } from 'Honeycomb'
+
+const grid = Grid({ size: 20 })
+const view = View() // view creation truncated for brevity
+
+// This renders hexes in the shape of a hexagon with a radius of 3 hexes
+// and the start hex (`Hex(0, 0, 0)`) as its center:
+view.renderHexes(grid.hexagon(3))
+```
+
+Returns **[View](#view)** The view instance, for chaining.
+
 ### View#width
 
 Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The rounded amount of hexes that fit in the container horizontally ↔.
-
-### View#height
-
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The rounded amount of hexes that fit in the container vertically ↕.
 
 ## Backlog
 
@@ -528,7 +631,7 @@ Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 6.  Shiny github.io pages 😎
 7.  View should be hex-orientation-agnostic (always pointy) and just use `transform` to toggle orientations.
 8.  Maybe add instance methods for `Grid` and `Views.DOM` to get/set options. Then it's optional to pass the options to the `Grid` and `Views.DOM` factories and makes it possible to get/set those options later.
-10. Add helper to easily fall back to a hex's prototype?
+9.  Add helper to easily fall back to a hex's prototype?
 
 ### Refactorings
 
