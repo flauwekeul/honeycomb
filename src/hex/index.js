@@ -46,7 +46,7 @@ export default function HexFactory(customPrototype = {}) {
      * @function Hex
      *
      * @description
-     * Factory function for creating hexes.
+     * Factory function for creating hexes. It can only be accessed by creating a {@link Grid} (see the example).
      *
      * Coordinates not passed to the factory are inferred using the other coordinates:
      * * When two coordinates are passed, the third coordinate is set to the result of {@link Hex.thirdCoordinate|Hex.thirdCoordinate(firstCoordinate, secondCoordinate)}.
@@ -56,15 +56,19 @@ export default function HexFactory(customPrototype = {}) {
      * @see {@link redblobgames.com|http://www.redblobgames.com/grids/hexagons/#coordinates}
      *
      * @param {(number|Object)} [coordinates=0] The x coordinate or an object containing any of the x, y and z coordinates.
-     * @param {number} [coordinates.x=0] The x coordinate.
-     * @param {number} [coordinates.y=0] The y coordinate.
-     * @param {number} [coordinates.z=0] The z coordinate.
-     * @param {number} [y=0] The y coordinate.
-     * @param {number} [z=0] The z coordinate.
+     * @param {number} [coordinates.x=0]        The x coordinate.
+     * @param {number} [coordinates.y=0]        The y coordinate.
+     * @param {number} [coordinates.z=0]        The z coordinate.
+     * @param {number} [y=0]                    The y coordinate.
+     * @param {number} [z=0]                    The z coordinate.
      *
-     * @returns {Hex} A hex object. It always contains all three coordinates (`x`, `y` and `z`).
+     * @returns {Hex}                           A hex object. It has all three coordinates (`x`, `y` and `z`) as its own properties and various methods in its prototype.
      *
      * @example
+     * import { Grid } from 'Honeycomb'
+     * // `Hex()` is not exposed on `Honeycomb`, but on a grid instance instead:
+     * const Hex = Grid().Hex
+     *
      * Hex()            // returns hex( x: 0, y: 0, z: 0 )
      * Hex(1)           // returns hex( x: 1, y: 1, z: -2 )
      * Hex(1, 2)        // returns hex( x: 1, y: 2, z: -3 )

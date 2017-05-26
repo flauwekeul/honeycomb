@@ -25,11 +25,20 @@ export default function GridFactory({ HexFactory } = {}) {
      * const grid = Grid({
      *     size: 50,
      *     orientation: HEX_ORIENTATIONS.FLAT,
-     *     origin: [0, 0]
+     *     customProperty: `I'm custom 😃`
      * })
      *
-     * grid.Hex(5, -1, -4)  // returns a hex with coordinates { x: 5, y: -1, z: -4 }
-     * grid.triangle(3)     // returns an array of hexes in a triangle shape
+     * const singleHex = grid.Hex(5, -1, -4)
+     * singleHex.coordinates()      // { x: 5, y: -1, z: -4 }
+     * singleHex.size               // 50
+     * singleHex.customProperty     // I'm custom 😃
+     *
+     * grid.triangle(3)             // [ { x: 0, y: 0, z: 0 },
+     *                              //   { x: 0, y: 1, z: -1 },
+     *                              //   { x: 0, y: 2, z: -2 },
+     *                              //   { x: 1, y: 0, z: -1 },
+     *                              //   { x: 1, y: 1, z: -2 },
+     *                              //   { x: 2, y: 0, z: -2 } ]
      */
     return function Grid(hexSettings) {
         // TODO: validate hexSettings

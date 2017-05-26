@@ -25,9 +25,9 @@ A view's origin is its container's top left corner by default (with a value of `
 Mapping points to hexes and vice versa can be confusing (I thought it was confusing making this library 😕). This table might clear things up:
 
 | Method                                | Input   | Output                                                                                         |
-| ------------------------------------- | ------- | ---------------------------------------------------------------------------------------------- |
-| [`Hex#toPoint`](/#hextopoint)         | N/A     | the hex's origin point                                                                         |
-| [`Grid#hexToPoint`](/#gridhextopoint) | a hex   | the hex's origin point                                                                         |
+|---------------------------------------|---------|------------------------------------------------------------------------------------------------|
+| [`Hex#toPoint`](/#hextopoint)         | N/A     | the hex's origin point relative to the start hex (`Hex(0, 0, 0)`)                              |
+| [`Grid#hexToPoint`](/#gridhextopoint) | a hex   | same as [`Hex#toPoint`](/#hextopoint)                                                          |
 | [`Grid#pointToHex`](/#gridpointtohex) | a point | the hex that contains the point                                                                |
 | [`View#hexToPixel`](/#viewhextopixel) | a hex   | the hex's [top left point](/#hextopleft) relative to its origin, relative to the view's origin |
 | [`View#pixelToHex`](/#viewpixeltohex) | a point | the hex that contains the point relative to the view's origin                                  |
@@ -57,11 +57,20 @@ import { Grid, HEX_ORIENTATIONS } from 'Honeycomb'
 const grid = Grid({
     size: 50,
     orientation: HEX_ORIENTATIONS.FLAT,
-    origin: [0, 0]
+    customProperty: `I'm custom 😃`
 })
 
-grid.Hex(5, -1, -4)  // returns a hex with coordinates { x: 5, y: -1, z: -4 }
-grid.triangle(3)     // returns an array of hexes in a triangle shape
+const singleHex = grid.Hex(5, -1, -4)
+singleHex.coordinates()      // { x: 5, y: -1, z: -4 }
+singleHex.size               // 50
+singleHex.customProperty     // I'm custom 😃
+
+grid.triangle(3)             // [ { x: 0, y: 0, z: 0 },
+                             //   { x: 0, y: 1, z: -1 },
+                             //   { x: 0, y: 2, z: -2 },
+                             //   { x: 1, y: 0, z: -1 },
+                             //   { x: 1, y: 1, z: -2 },
+                             //   { x: 2, y: 0, z: -2 } ]
 ```
 
 Returns **[Grid](#grid)** A grid instance containing a [Hex](#hex) factory and several methods. Use the [Hex](#hex) factory for creating individual hexes or using any of the [Hex](#hex)'s methods.
@@ -511,20 +520,20 @@ Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 ### Features
 
+1.  Expose `Hex` on `Honeycomb`, adding the possibility to create (individual) hexes and use `Hex`'s static methods without having to create a grid first.
 2.  Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well.
-3.  Make it an option to filter overlapping hexes when multiple shapes are rendered.
-4.  More examples in docs. Preferably examples that show code _and_ the results. Still looking for a tool that does this.
+3.  Make it possible to filter overlapping hexes when multiple shapes are rendered.
+4.  Use JSFiddle for better examples.
 5.  Explain (hex) directions.
 6.  Shiny github.io pages 😎
 7.  View should be hex-orientation-agnostic (always pointy) and just use `transform` to toggle orientations.
 8.  Maybe add instance methods for `Grid` and `Views.DOM` to get/set options. Then it's optional to pass the options to the `Grid` and `Views.DOM` factories and makes it possible to get/set those options later.
-9.  Add possibility to create individual hexes with different size/orientation/origin/template.
-10. Add helper to easily fall back to a hex's prototype.
+10. Add helper to easily fall back to a hex's prototype?
 
 ### Refactorings
 
-1.  Only use a single options object for a function argument and never multiple separate arguments?
+1.  Don't transpile to ES5. Who needs IE anyway?
+1.  Only use a single `options` object for a function argument and never multiple separate arguments?
 2.  Replace Webpack by Rollup, because it's supposed to be [more suitable for libraries](https://medium.com/webpack/webpack-and-rollup-the-same-but-different-a41ad427058c).
 3.  Update code (and tests) of `Point` to be more consice with other modules.
-4.  Grid shape methods should return Sets instead of arrays.
-5.  Put tests in same directory as the code they're testing?
+4.  Grid shape methods should return Sets instead of arrays?

@@ -9,7 +9,7 @@ export function thirdCoordinateFactory({ unsignNegativeZero }) {
      * @method Hex.thirdCoordinate
      *
      * @description
-     * Calculates the third coordinate from the other two. The sum of all three coordinates should always be 0.
+     * Calculates the third coordinate from the other two. The sum of all three coordinates must be 0.
      *
      * @param   {number} firstCoordinate  The first other coordinate.
      * @param   {number} secondCoordinate The second other coordinate.
@@ -27,23 +27,23 @@ export function hexesBetweenFactory({ Hex }) {
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/#line-drawing|redblobgames.com}
      *
-     * @param   {Hex} firstHex  The first hex.
-     * @param   {Hex} secondHex The second hex.
+     * @param {Hex} startHex    The first hex.
+     * @param {Hex} endHex      The second hex.
      *
-     * @returns {Hex[]} Hexes between the passed first and second hex, inclusive.
+     * @returns {Hex[]}         Array of hexes starting at the passed `startHex` and ending with the passed `endHex`.
      */
-    return function hexesBetween(firstHex, secondHex) {
-        const _distance = Hex.distance(firstHex, secondHex)
+    return function hexesBetween(startHex, endHex) {
+        const _distance = Hex.distance(startHex, endHex)
 
         if (_distance === 1) {
-            return [firstHex, secondHex]
+            return [startHex, endHex]
         }
 
         const step = 1.0 / Math.max(_distance, 1)
         let hexes = []
 
         for (let i = 0; i <= _distance; i++) {
-            hexes.push(Hex.round(Hex.lerp(Hex.nudge(firstHex), Hex.nudge(secondHex), step * i)))
+            hexes.push(Hex.round(Hex.lerp(Hex.nudge(startHex), Hex.nudge(endHex), step * i)))
         }
 
         return hexes
@@ -75,7 +75,7 @@ export function subtractFactory({ Hex }) {
      * @param {Hex} firstHex    A hex.
      * @param {Hex} secondHex   The hex that will be subtracted from the first.
      *
-     * @todo Accept any number of hexes to add.
+     * @todo Accept any number of hexes to subtract.
      *
      * @returns {Hex}   The difference between the passed hexes coordinates.
      */
@@ -95,15 +95,22 @@ export function neighborFactory({ Hex }) {
      * @description
      * Returns the neighboring hex in the given direction.
      *
-     * @todo Add examples.
-     *
      * @see {@link http://www.redblobgames.com/grids/hexagons/#neighbors|redblobgames.com}
      *
      * @param {Hex} hex                         The hex to get the neighboring hex from.
      * @param {(0|1|2|3|4|5)}  [direction=0]    Any of the 6 directions. `0` is the Eastern direction (East-southeast when the hex is flat), `1` corresponds to 60° clockwise, `2` to 120° clockwise and so forth.
-     * @param {boolean} [diagonal=false]        Whether to look for a neighbor perpendicular to the hex's corner instead of its side.
+     * @param {boolean} [diagonal=false]        Whether to look for a neighbor opposite the hex's corner instead of its side. A direction of `0` means the top corner of the hex's right side when the hex is pointy and the right corner when the hex is flat.
      *
      * @returns {Hex}                           The neighboring hex.
+     *
+     * @example
+     * import { Grid } from 'Honeycomb'
+     * const Hex = Grid().Hex
+     *
+     * const targetHex = Hex()
+     * Hex.neighbor(targetHex)          // { x: 1, y: -1, z: 0 }, the hex across the 0th (right) side of targetHex
+     * Hex.neighbor(targetHex, 2)       // { x: 0, y: 1, z: -1 }, the hex across the 3rd (South West) side of targetHex
+     * Hex.neighbor(targetHex, 3, true) // { x: -2, y: 1, z: 1 }, the hex opposite the 4th corner of targetHex
      */
     return function neighbor(hex, direction = 0, diagonal = false) {
         direction = Math.abs(direction % 6)
@@ -121,8 +128,6 @@ export function neighborsFactory({ Hex }) {
      *
      * @description
      * Returns **all** neighboring hexes of the given hex.
-     *
-     * @todo Add examples.
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/#neighbors|redblobgames.com}
      *
@@ -147,7 +152,14 @@ export function distanceFactory({ Hex }) {
      * @param   {Hex} startHex  The start hex.
      * @param   {Hex} endHex    The end hex.
      *
-     * @returns {number}        The amount of hexes between the passed start and end.
+     * @returns {number}        The amount of hexes between the passed `startHex` and `endHex`.
+     *
+     * @example
+     * import { Grid } from 'Honeycomb'
+     * const Hex = Grid().Hex
+     *
+     * Hex.distance(Hex(0, 0, 0), Hex(1, 0, -1))    // 1
+     * Hex.distance(Hex(-3, -3, 6), Hex(-1, 4, -3)) // 9
      */
     return function distance(startHex, endHex) {
         const relativeHex = Hex.subtract(startHex, endHex)

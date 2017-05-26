@@ -2,7 +2,7 @@ import { ORIENTATIONS } from './constants'
 
 /**
  * @method Hex#coordinates
- * @returns {Object} The hex's x, y and z coordinates.
+ * @returns {Object}    The hex's x, y and z coordinates.
  */
 export function coordinates() {
     return {
@@ -14,7 +14,7 @@ export function coordinates() {
 
 /**
  * @method Hex#isPointy
- * @returns {boolean} Whether hexes have a pointy ⬢ orientation.
+ * @returns {boolean}   Whether hexes have a pointy ⬢ orientation.
  */
 export function isPointy() {
     return this.orientation === ORIENTATIONS.POINTY
@@ -22,7 +22,7 @@ export function isPointy() {
 
 /**
  * @method Hex#isFlat
- * @returns {boolean} Whether hexes have a flat ⬣ orientation.
+ * @returns {boolean}   Whether hexes have a flat ⬣ orientation.
  */
 export function isFlat() {
     return this.orientation === ORIENTATIONS.FLAT
@@ -114,7 +114,7 @@ export function toPointFactory({ Point }) {
      * @method Hex#toPoint
      *
      * @description
-     * Converts the current hex to an (absolute) 2-dimensional {@link Point|point}. Uses the hex's origin.
+     * Converts the current hex to its origin {@link Point|point} relative to the start hex.
      *
      * @returns {Point} The 2D point the hex corresponds to.
      */
@@ -129,8 +129,7 @@ export function toPointFactory({ Point }) {
             y = this.size * Math.sqrt(3) * (this.y + this.x / 2)
         }
 
-        // The default origin is Point(0, 0), which is de center point.
-        // If a different origin is set, it needs to be subtracted from Point(x, y) because it's always the center point
+        // `x` and `y` are always the hex's center, so the origin needs to be subtracted
         return Point(x, y).subtract(this.origin)
     }
 }

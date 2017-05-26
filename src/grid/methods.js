@@ -7,17 +7,19 @@ export function pointToHexFactory({ Point, Hex }) {
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/#pixel-to-hex|redblobgames.com}
      *
-     * @param   {Point} point   The point to convert from. Does not have to be created by {@link Point}.
+     * @param   {Point} point   The {@link Point|point-like} to convert from.
      *
-     * @returns {Hex}           The hex (with rounded coordinates) the passed 2D point corresponds to.
+     * @returns {Hex}           The hex (with rounded coordinates) that contains the passed point.
      *
      * @example
      * import { Grid, Point } from 'Honeycomb'
      *
      * const grid = Grid({ size: 50 })
+     *
+     * grid.pointToHex(Point(120, 300))     // { x: -1, y: 4, z: -3 }
+     * // also accepts a point-like:
      * grid.pointToHex({ x: 120, y: 300 })  // { x: -1, y: 4, z: -3 }
      * grid.pointToHex([ 120, 300 ])        // { x: -1, y: 4, z: -3 }
-     * grid.pointToHex(Point(120, 300))     // { x: -1, y: 4, z: -3 }
      */
     return function pointToHex(point) {
         const hex = Hex()
@@ -43,7 +45,7 @@ export function pointToHexFactory({ Point, Hex }) {
  * @method Grid#hexToPoint
  *
  * @description
- * Translates a hex coordinate to a point.
+ * Translates a hex to a point.
  *
  * @see {@link http://www.redblobgames.com/grids/hexagons/#hex-to-pixel|redblobgames.com}
  *
@@ -59,6 +61,12 @@ export function pointToHexFactory({ Point, Hex }) {
  * const grid = Grid({ size: 50 })
  * const hex = grid.Hex(-1, 4, -3)
  * grid.hexToPoint(hex) // { x: 86.60254037844386, y: 300 }
+ *
+ * // a different origin...
+ * const grid = Grid({ size: 50, origin: [50, 50] })
+ * const hex = grid.Hex(-1, 4, -3)
+ * // ...corresponds to a different point:
+ * grid.hexToPoint(hex) // { x: 36.60254037844386, y: 250 }
  */
 export function hexToPoint(hex) {
     return hex.toPoint()
@@ -68,7 +76,7 @@ export function colSizeFactory({ Hex }) {
     /**
      * @method Grid#colSize
      *
-     * @see {@link http://www.redblobgames.com/grids/hexagons/#basics|redblobgames.com}
+     * @see {@link http://www.redblobgames.com/grids/hexagons/#size-and-spacing|redblobgames.com}
      *
      * @returns {number} The width of a (vertical) column of hexes in the grid.
      */
@@ -84,7 +92,7 @@ export function rowSizeFactory({ Hex }) {
     /**
      * @method Grid#rowSize
      *
-     * @see {@link http://www.redblobgames.com/grids/hexagons/#basics|redblobgames.com}
+     * @see {@link http://www.redblobgames.com/grids/hexagons/#size-and-spacing|redblobgames.com}
      *
      * @returns {number} The height of a (horizontal) row of hexes in the grid.
      */
@@ -104,7 +112,6 @@ export function parallelogramFactory({ Hex, isObject }) {
      * Creates a grid in the shape of a [parallelogram](https://en.wikipedia.org/wiki/Parallelogram).
      *
      * @todo Validate the direction param
-     * @todo Either use numeric directions (like Hex#neighbor), or "compass" directions, not both.
      * @todo Add examples.
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
@@ -161,7 +168,6 @@ export function triangleFactory({ Hex, isObject }) {
      * Creates a grid in the shape of a [(equilateral) triangle](https://en.wikipedia.org/wiki/Equilateral_triangle).
      *
      * @todo Validate the direction param
-     * @todo Either use numeric directions (like Hex#neighbor), or "compass" directions, not both.
      * @todo Add examples.
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
@@ -259,7 +265,6 @@ export function rectangleFactory({ Hex, isObject }) {
      * Creates a grid in the shape of a [rectangle](https://en.wikipedia.org/wiki/Rectangle).
      *
      * @todo Validate the direction param
-     * @todo Either use numeric directions (like Hex#neighbor), or "compass" directions, not both.
      * @todo Add examples.
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
