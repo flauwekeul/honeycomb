@@ -30,7 +30,7 @@
     "eslint": "3.19.0",
     "husky": "0.13.3",
     "istanbul": "0.4.5",
-    "jsdom": "10.1.0",
+    "jsdom": "11.0.0",
     "jsdom-global": "3.0.2",
     "mocha": "3.4.2",
     "nyc": "10.3.2",
