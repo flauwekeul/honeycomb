@@ -520,7 +520,7 @@ Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 ### Features
 
-1.  Expose `Hex` on `Honeycomb`, adding the possibility to create (individual) hexes and use `Hex`'s static methods without having to create a grid first.
+1.  Expose `Hex` on `Honeycomb`, adding the possibility to create (individual) hexes and use `Hex`'s static methods without having to create a grid first?
 2.  Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well.
 3.  Make it possible to filter overlapping hexes when multiple shapes are rendered.
 4.  Use JSFiddle for better examples.
@@ -533,7 +533,6 @@ Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 ### Refactorings
 
 1.  Don't transpile to ES5. Who needs IE anyway?
-1.  Only use a single `options` object for a function argument and never multiple separate arguments?
 2.  Replace Webpack by Rollup, because it's supposed to be [more suitable for libraries](https://medium.com/webpack/webpack-and-rollup-the-same-but-different-a41ad427058c).
 3.  Update code (and tests) of `Point` to be more consice with other modules.
 4.  Grid shape methods should return Sets instead of arrays?

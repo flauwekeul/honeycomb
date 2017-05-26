@@ -1,4 +1,3 @@
-import { isObject } from 'axis.js'
 import Point from '../point'
 import * as methods from './methods'
 
@@ -50,10 +49,10 @@ export default function GridFactory({ HexFactory } = {}) {
             hexToPoint:     methods.hexToPoint,
             colSize:        methods.colSizeFactory({ Hex }),
             rowSize:        methods.rowSizeFactory({ Hex }),
-            parallelogram:  methods.parallelogramFactory({ Hex, isObject }),
-            triangle:       methods.triangleFactory({ Hex, isObject }),
-            hexagon:        methods.hexagonFactory({ Hex, isObject }),
-            rectangle:      methods.rectangleFactory({ Hex, isObject })
+            parallelogram:  methods.parallelogramFactory({ Hex }),
+            triangle:       methods.triangleFactory({ Hex }),
+            hexagon:        methods.hexagonFactory({ Hex }),
+            rectangle:      methods.rectangleFactory({ Hex })
         }
     }
 }
