@@ -1,17 +1,15 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
+import { isObject } from 'axis.js'
 
-import { is } from '../../src/utils'
 import HexFactory from '../../src/hex'
 import * as methods from '../../src/grid/methods'
 
 const Hex = HexFactory()
+let isObjectSpy
 
 before(function() {
-    sinon.spy(is, 'objectLiteral')
-})
-after(function() {
-    is.objectLiteral.restore()
+    isObjectSpy = sinon.spy(isObject)
 })
 
 describe('pointToHex', function() {
@@ -175,7 +173,7 @@ describe('parallelogram', function() {
     let parallelogram
 
     before(function() {
-        parallelogram = methods.parallelogramFactory({ Hex, is })
+        parallelogram = methods.parallelogramFactory({ Hex, isObject: isObjectSpy })
     })
 
     it('returns an array with a length of (width ⨉ height) hexes', function() {
@@ -185,10 +183,10 @@ describe('parallelogram', function() {
     })
 
     describe('when an options object is passed', function() {
-        it('calls is.objectLiteral', function() {
+        it('calls isObject', function() {
             const options = { some: 'options' }
             parallelogram(options)
-            expect(is.objectLiteral).to.have.been.calledWith(options)
+            expect(isObjectSpy).to.have.been.calledWith(options)
         })
     })
 
@@ -257,7 +255,7 @@ describe('triangle', function() {
     let triangle
 
     before(function() {
-        triangle = methods.triangleFactory({ Hex, is })
+        triangle = methods.triangleFactory({ Hex, isObject: isObjectSpy })
     })
 
     // https://en.wikipedia.org/wiki/Triangular_number
@@ -268,10 +266,10 @@ describe('triangle', function() {
     })
 
     describe('when an options object is passed', function() {
-        it('calls is.objectLiteral', function() {
+        it('calls isObject', function() {
             const options = { some: 'options' }
             triangle(options)
-            expect(is.objectLiteral).to.have.been.calledWith(options)
+            expect(isObjectSpy).to.have.been.calledWith(options)
         })
     })
 
@@ -324,7 +322,7 @@ describe('hexagon', function() {
     let hexagon
 
     before(function() {
-        hexagon = methods.hexagonFactory({ Hex, is })
+        hexagon = methods.hexagonFactory({ Hex, isObject: isObjectSpy })
     })
 
     it('returns an array with a hard to determine amount of hexes 😬', function() {
@@ -334,10 +332,10 @@ describe('hexagon', function() {
     })
 
     describe('when an options object is passed', function() {
-        it('calls is.objectLiteral', function() {
+        it('calls isObject', function() {
             const options = { some: 'options' }
             hexagon(options)
-            expect(is.objectLiteral).to.have.been.calledWith(options)
+            expect(isObjectSpy).to.have.been.calledWith(options)
         })
     })
 
@@ -376,7 +374,7 @@ describe('rectangle', function() {
     let rectangle, Hex
 
     before(function() {
-        rectangle = methods.rectangleFactory({ Hex: HexFactory(), is })
+        rectangle = methods.rectangleFactory({ Hex: HexFactory(), isObject: isObjectSpy })
     })
 
     it('returns an array with a length of (width ⨉ height) hexes', function() {
@@ -386,17 +384,17 @@ describe('rectangle', function() {
     })
 
     describe('when an options object is passed', function() {
-        it('calls is.objectLiteral', function() {
+        it('calls isObject', function() {
             const options = { some: 'options' }
             rectangle(options)
-            expect(is.objectLiteral).to.have.been.calledWith(options)
+            expect(isObjectSpy).to.have.been.calledWith(options)
         })
     })
 
     describe('when hexes have a pointy orientation', function() {
         before(function() {
             Hex = HexFactory({ orientation: 'POINTY' })
-            rectangle = methods.rectangleFactory({ Hex , is })
+            rectangle = methods.rectangleFactory({ Hex , isObject: isObjectSpy })
         })
 
         describe('when called without start hex or direction', function() {
@@ -503,7 +501,7 @@ describe('rectangle', function() {
     describe('when hexes have a flat orientation', function() {
         before(function() {
             Hex = HexFactory({ orientation: 'FLAT' })
-            rectangle = methods.rectangleFactory({ Hex , is })
+            rectangle = methods.rectangleFactory({ Hex, isObject: isObjectSpy })
         })
 
         describe('when called without start hex or direction', function() {

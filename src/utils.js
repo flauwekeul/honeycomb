@@ -1,21 +1,5 @@
-export const is = {
-    number(value) {
-        return !isNaN(parseFloat(value)) && isFinite(value)
-    },
-
-    objectLiteral(value) {
-        return Object.prototype.toString.call(value) === '[object Object]'
-    },
-
-    array(value) {
-        return Array.isArray(value)
-    },
-
-    undefined(value) {
-        return value === void 0
-    }
-}
+import { isNumber } from 'axis.js'
 
 export function unsignNegativeZero(value) {
-    return is.number(value) ? (value || 0) : value
+    return isNumber(value) ? (value || 0) : value
 }

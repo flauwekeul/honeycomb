@@ -44,6 +44,7 @@
     "test": "test"
   },
   "dependencies": {
+    "axis.js": "^1.2.1",
     "is-dom": "^1.0.5"
   },
   "repository": {

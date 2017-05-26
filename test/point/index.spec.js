@@ -22,9 +22,22 @@ describe('Point creation', function() {
         })
     })
 
-    describe('with an array containing 2 items', function() {
+    describe('with an object containing only x or y', function() {
+        it('sets the missing coordinate to the passed coordinate', function() {
+            expect(Point({ x: 3 })).to.contain({ x: 3, y: 3 })
+            expect(Point({ y: 2 })).to.contain({ x: 2, y: 2 })
+        })
+    })
+
+    describe('with an array containing 2 numbers', function() {
         it('sets the coordinates', function() {
             expect(Point([ 3, 2 ])).to.contain({ x: 3, y: 2 })
+        })
+    })
+
+    describe('with an array containing 1 number', function() {
+        it('assumes the number is the x coordinate and sets y to the same value', function() {
+            expect(Point([ 3 ])).to.contain({ x: 3, y: 3 })
         })
     })
 

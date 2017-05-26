@@ -96,7 +96,7 @@ export function rowSizeFactory({ Hex }) {
     }
 }
 
-export function parallelogramFactory({ Hex, is }) {
+export function parallelogramFactory({ Hex, isObject }) {
     /**
      * @method Grid#parallelogram
      *
@@ -129,7 +129,7 @@ export function parallelogramFactory({ Hex, is }) {
             5: ['z', 'x']
         }
 
-        if (is.objectLiteral(widthOrOptions)) {
+        if (isObject(widthOrOptions)) {
             const { width, height, start = Hex(), direction = 1 } = widthOrOptions
             return parallelogram(width, height, start, direction)
         }
@@ -153,7 +153,7 @@ export function parallelogramFactory({ Hex, is }) {
     }
 }
 
-export function triangleFactory({ Hex, is }) {
+export function triangleFactory({ Hex, isObject }) {
     /**
      * @method Grid#triangle
      *
@@ -189,7 +189,7 @@ export function triangleFactory({ Hex, is }) {
             }
         }
 
-        if (is.objectLiteral(sideOrOptions)) {
+        if (isObject(sideOrOptions)) {
             const { side, start = Hex(), direction = 1 } = sideOrOptions
             return triangle(side, start, direction)
         }
@@ -208,7 +208,7 @@ export function triangleFactory({ Hex, is }) {
     }
 }
 
-export function hexagonFactory({ Hex, is }) {
+export function hexagonFactory({ Hex, isObject }) {
     /**
      * @method Grid#hexagon
      *
@@ -228,7 +228,7 @@ export function hexagonFactory({ Hex, is }) {
         radiusOrOptions,
         center = Hex()
     ) {
-        if (is.objectLiteral(radiusOrOptions)) {
+        if (isObject(radiusOrOptions)) {
             const { radius, center = Hex() } = radiusOrOptions
             return hexagon(radius, center)
         }
@@ -251,7 +251,7 @@ export function hexagonFactory({ Hex, is }) {
     }
 }
 
-export function rectangleFactory({ Hex, is }) {
+export function rectangleFactory({ Hex, isObject }) {
     /**
      * @method Grid#rectangle
      *
@@ -287,7 +287,7 @@ export function rectangleFactory({ Hex, is }) {
         }
         const hex = Hex()
 
-        if (is.objectLiteral(widthOrOptions)) {
+        if (isObject(widthOrOptions)) {
             const { width, height, start = Hex(), direction = 0 } = widthOrOptions
             return rectangle(width, height, start, direction)
         }

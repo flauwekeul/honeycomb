@@ -1,4 +1,5 @@
-import { is, unsignNegativeZero } from '../utils'
+import { isObject, isNumber } from 'axis.js'
+import { unsignNegativeZero } from '../utils'
 import { ORIENTATIONS } from './constants'
 import Point from '../point'
 import * as statics from './statics'
@@ -76,26 +77,26 @@ export default function HexFactory(customPrototype = {}) {
      */
     function Hex(...coordinates) {
         // if an object is passed, extract coordinates and call self
-        if (is.objectLiteral(coordinates[0])) {
+        if (isObject(coordinates[0])) {
             let { x, y, z } = coordinates[0]
             return Hex(x, y, z)
         }
 
         let [ x, y, z ] = coordinates.map(unsignNegativeZero)
 
-        switch (coordinates.filter(is.number).length) {
+        switch (coordinates.filter(isNumber).length) {
             case 3:
                 break
             case 2:
-                x = is.number(x) ? x : Hex.thirdCoordinate(y, z)
-                y = is.number(y) ? y : Hex.thirdCoordinate(x, z)
-                z = is.number(z) ? z : Hex.thirdCoordinate(x, y)
+                x = isNumber(x) ? x : Hex.thirdCoordinate(y, z)
+                y = isNumber(y) ? y : Hex.thirdCoordinate(x, z)
+                z = isNumber(z) ? z : Hex.thirdCoordinate(x, y)
                 break
             case 1:
-                if (is.number(x)) {
+                if (isNumber(x)) {
                     y = x
                     z = Hex.thirdCoordinate(x, y)
-                } else if (is.number(y)) {
+                } else if (isNumber(y)) {
                     x = y
                     z = Hex.thirdCoordinate(x, y)
                 } else {
