@@ -9,7 +9,7 @@ export default function ViewFactory({ Point, isDom } = {}) {
      *
      * @param {Object} [options={}]                 Options to instantiate the view with.
      * @param {Grid} options.grid                   A grid instance.
-     * @param {Function} options.template           Template function that should return a DOM element. When hexes are rendered (e.g. by calling {@link View#renderGrid} or {@link View#renderHexes}), the template function is called with each hex. In the template function `this` refers to the view instance, so any view method can be called.
+     * @param {Function} options.template           Template function that should return a DOM element. When hexes are rendered (e.g. by calling {@link View#renderGrid} or {@link View#renderHexes}), the template function is called with each hex. In the template function `this` refers to the view instance (as long as a regular `function` is used instead of an arrow function), so any view method can be called.
      * @param {Node} options.container              The container in which hexes are to be rendered. Should be an existing DOM element (e.g. a `<div>` or `<svg>`) in the `document`.
      * @param {Point} [options.origin=Point(0,0)]   Pixel origin where the start hex (`Hex(0, 0, 0)`) is placed. Defaults to `Point(0, 0)`, i.e.: the top left corner of the container. The origin is relative to the container (not to the document).
      *
@@ -23,7 +23,7 @@ export default function ViewFactory({ Point, isDom } = {}) {
      *
      * const view = View({
      *     grid: Grid({ size: 20 }),
-     *     template: hex => {
+     *     template: function(hex) {
      *         // `this` refers to the view instance
      *         const position = this.hexToPixel(hex)
      *         const div = document.createElement('div')
