@@ -1,6 +1,6 @@
 {
   "name": "honeycomb-grid",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Hex grid for usage in Node.js with separate view for usage in the browser. Written in javascript.",
   "main": "dist/honeycomb.min.js",
   "scripts": {
