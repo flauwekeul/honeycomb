@@ -28,9 +28,9 @@ describe('HexFactory', function() {
         const Hex = HexFactory()
         const result = Object.getPrototypeOf(Hex())
 
-        expect(result).to.have.ownProperty('orientation', ORIENTATIONS.POINTY)
-        expect(result).to.have.ownProperty('size', 1)
-        expect(result).to.have.ownProperty('origin', { x: 0, y: 0 })
+        expect(result).to.have.own.property('orientation', ORIENTATIONS.POINTY)
+        expect(result).to.have.own.property('size', 1)
+        expect(result).to.have.own.property('origin').that.includes({ x: 0, y: 0 })
     })
 
     describe('when passed hex settings', function() {
@@ -42,8 +42,8 @@ describe('HexFactory', function() {
             const Hex = HexFactory(prototype)
             const result = Object.getPrototypeOf(Hex())
 
-            expect(result).to.have.ownProperty('size', 100)
-            expect(result).to.have.ownProperty('custom')
+            expect(result).to.have.own.property('size', 100)
+            expect(result).to.have.own.property('custom')
         })
     })
 })
