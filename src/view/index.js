@@ -89,12 +89,13 @@ export default function ViewFactory({ Point, isDom } = {}) {
              */
             renderGrid(padding = 3) {
                 const Hex = this.grid.Hex
+                const hexes = this.grid.rectangle({
+                    width: this.width() + padding,
+                    height: this.height() + padding,
+                    start: Hex.subtract(this.pixelToHex(0), Hex(Math.floor(padding / 2)))
+                })
 
-                const width = this.width() + padding
-                const height = this.height() + padding
-                const start = Hex.subtract(this.pixelToHex(0), Hex(Math.floor(padding / 2)))
-
-                this.renderHexes(this.grid.rectangle(width, height, start))
+                this.renderHexes(hexes)
 
                 return this
             },

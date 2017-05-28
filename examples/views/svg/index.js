@@ -7,10 +7,7 @@ var Grid = Honeycomb.Grid,
     grid,
     view
 
-grid = Grid({
-    size: 50,
-    orientation: Honeycomb.HEX_ORIENTATIONS.POINTY
-})
+grid = Grid({ size: 50 })
 
 view = View({
     grid: grid,
@@ -44,7 +41,7 @@ view = View({
 })
 
 view.renderGrid()
-// view.renderHexes(grid.rectangle(4, 4))
+// view.renderHexes(grid.rectangle({ width: 4, height: 4 }))
 
 // Honeycomb.View will have helpers for handling events in the future
 container.addEventListener('click', function handleClick(e) {

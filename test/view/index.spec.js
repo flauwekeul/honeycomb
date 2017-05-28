@@ -95,7 +95,11 @@ describe('View methods', function() {
             })
 
             it('creates a rectangle of hexes that\'s 3 hexes greater than can fit in the view', function() {
-                expect(rectangle).to.have.been.calledWith(4, 4, 'subtract result')
+                expect(rectangle).to.have.been.calledWith({
+                    width: 4,
+                    height: 4,
+                    start: 'subtract result'
+                })
             })
         })
 
@@ -109,9 +113,17 @@ describe('View methods', function() {
 
             it('creates a rectangle of hexes that\'s padding hexes greater than can fit in the view', function() {
                 result = view.renderGrid(0)
-                expect(rectangle).to.have.been.calledWith(1, 1, 'subtract result')
+                expect(rectangle).to.have.been.calledWith({
+                    width: 1,
+                    height: 1,
+                    start: 'subtract result'
+                })
                 result = view.renderGrid(5)
-                expect(rectangle).to.have.been.calledWith(6, 6, 'subtract result')
+                expect(rectangle).to.have.been.calledWith({
+                    width: 6,
+                    height: 6,
+                    start: 'subtract result'
+                })
             })
         })
 
