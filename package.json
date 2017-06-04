@@ -1,7 +1,7 @@
 {
   "name": "honeycomb-grid",
   "version": "0.6.1",
-  "description": "Hex grid for usage in Node.js with separate view for usage in the browser. Written in javascript.",
+  "description": "Create hexagon grids easily. Written in javascript.",
   "main": "dist/honeycomb.min.js",
   "scripts": {
     "build": "webpack",
@@ -30,8 +30,6 @@
     "eslint": "3.19.0",
     "husky": "0.13.3",
     "istanbul": "0.4.5",
-    "jsdom": "11.0.0",
-    "jsdom-global": "3.0.2",
     "mocha": "3.4.2",
     "nyc": "10.3.2",
     "sinon": "2.3.2",
@@ -40,23 +38,22 @@
     "webpack": "2.6.1"
   },
   "directories": {
-    "example": "examples",
     "test": "test"
   },
   "dependencies": {
-    "axis.js": "1.2.1",
-    "is-dom": "1.0.9"
+    "axis.js": "1.2.1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/flauwekeul/honeycomb.git"
   },
   "keywords": [
+    "es2015",
+    "grid",
     "hex",
-    "hexagon",
     "hex-grid",
-    "node",
-    "es2015"
+    "hexagon",
+    "node"
   ],
   "bugs": {
     "url": "https://github.com/flauwekeul/honeycomb/issues"

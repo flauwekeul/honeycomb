@@ -95,20 +95,6 @@ export function cornersFactory({ Point }) {
     }
 }
 
-export function topLeftFactory({ Point }) {
-    /**
-     * @method Hex#topLeft
-     *
-     * @description
-     * A hex's origin is relative to its center point, but a browser positions a DOM node relative to its top left point. This method can be used to translate the center-originating hex to a top-left-originating hex.
-     *
-     * @returns {Point} The vector relative to the hex's center.
-     */
-    return function topLeft() {
-        return Point(-this.width() / 2, -this.height() / 2)
-    }
-}
-
 export function toPointFactory({ Point }) {
     /**
      * @method Hex#toPoint

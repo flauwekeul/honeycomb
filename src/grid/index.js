@@ -9,8 +9,6 @@ export default function GridFactory({ HexFactory } = {}) {
      * @description
      * Factory function for creating grids. It accepts optional hex settings that apply to all hexes in the grid. Several "shape" methods are exposed that return an array of hexes in a certain shape.
      *
-     * A grid is *viewless*, i.e.: it's a virtual grid with undefined dimensions. If you want to render a tangible grid, use {@link View}.
-     *
      * @param {Object} [hexSettings]                            Optional settings that apply to *all* hexes in the grid.
      * @param {number} [hexSettings.size=1]                     Size of all hexes.
      * @param {(FLAT|POINTY)} [hexSettings.orientation=POINTY]  All hexes are either POINTY ⬢ or FLAT ⬣.

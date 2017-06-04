@@ -4,7 +4,6 @@
 .npmignore
 .nyc_output/
 coverage/
-examples/
 src/
 test/
 webpack.config.js

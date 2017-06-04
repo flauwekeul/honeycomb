@@ -1,4 +1,3 @@
-import 'jsdom-global/register'
 import { expect } from 'chai'
 
 import { ORIENTATIONS } from '../src/hex/constants'
@@ -15,9 +14,5 @@ describe('API', function() {
 
     it('exposes Point', function() {
         expect(API).to.have.property('Point').that.is.a('function').with.property('name', 'Point')
-    })
-
-    it('exposes View', function() {
-        expect(API).to.have.property('View').that.is.a('function').with.property('name', 'View')
     })
 })
