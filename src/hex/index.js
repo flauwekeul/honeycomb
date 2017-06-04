@@ -15,7 +15,7 @@ import * as methods from './prototype'
  * @todo validate orientation, size, origin
  * @todo warn when properties are overriden
  *
- * @param {Object} [customPrototype={}] An object that's used as the prototype for all hexes in the grid. **Warning:** properties with the same name as the default prototype will be overwritten. These properties are: `orientation`, `size`, `origin`, `coordinates`, `isPointy`, `isFlat`, `oppositeCornerDistance`, `oppositeSideDistance`, `width`, `height`, `corners`, `topLeft` and `toPoint`.
+ * @param {Object} [customPrototype={}] An object that's used as the prototype for all hexes in the grid. **Warning:** properties with the same name as the default prototype will be overwritten. These properties are: `orientation`, `size`, `origin`, `coordinates`, `isPointy`, `isFlat`, `oppositeCornerDistance`, `oppositeSideDistance`, `width`, `height`, `corners` and `toPoint`.
  *
  * @returns {Hex}                       A function to produce hexes, all sharing the same `prototype`.
  */
@@ -35,7 +35,6 @@ export default function HexFactory(customPrototype = {}) {
         width:                  methods.width,
         height:                 methods.height,
         corners:                methods.cornersFactory({ Point }),
-        topLeft:                methods.topLeftFactory({ Point }),
         toPoint:                methods.toPointFactory({ Point })
     }
     const prototype = Object.assign(defaultPrototype, customPrototype)
