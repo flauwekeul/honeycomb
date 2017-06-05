@@ -468,6 +468,8 @@ Returns **[Point](#point)** The difference between the passed point's coordinate
 
 ### Bugs
 
+1.  `Hex#corners` are relative to the hex's top left, they should be relative to the hex's center (right?).
+1.  Honeycomb is [very slow](https://github.com/flauwekeul/honeycomb/issues/3) when used with canvas rendering (like pixi.js).
 1.  Get `babel-polyfill` (or `babel-runtime`?) to work with `babel-preset-env`, preferably without including a bazillion unused polyfills in the dist...
 2.  Docs: find a way to link modules together. Currently, methods of the factory functions doesn't seem to belong to their factory functions (in the context of jsdoc). This bug is nasty, tried lots of things already...
 
