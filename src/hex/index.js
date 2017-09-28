@@ -112,7 +112,7 @@ export default function HexFactory(customPrototype = {}) {
         }
 
         if (Math.round(x + y + z) !== 0) {
-            throw new Error(`Coordinates don\'t sum to 0: { x: ${x}, y: ${y}, z: ${z} }.`)
+            throw new Error(`Coordinates don't sum to 0: { x: ${x}, y: ${y}, z: ${z} }.`)
         }
 
         // return an object containing the coordinates that's prototype-linked to the prototype created in HexFactory
