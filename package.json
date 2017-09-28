@@ -1,6 +1,6 @@
 {
   "name": "honeycomb-grid",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "Create hexagon grids easily. Written in javascript.",
   "main": "dist/honeycomb.min.js",
   "scripts": {
