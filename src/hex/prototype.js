@@ -221,12 +221,13 @@ export function neighbor(direction = 0, diagonal = false) {
  *
  * @see {@link http://www.redblobgames.com/grids/hexagons/#neighbors|redblobgames.com}
  *
- * @todo Add diagonal option
+ * @param {boolean} [diagonal=false]    Whether to return the diagonally neighboring hexes.
  *
- * @returns {Hex[]} An array of the 6 neighboring hexes.
+ * @returns {Hex[]}                     An array of the 6 neighboring hexes.
  */
-export function neighbors() {
-    return DIRECTION_COORDINATES.map(coordinates => this.add(coordinates))
+export function neighbors(diagonal = false) {
+    return (diagonal ? DIAGONAL_DIRECTION_COORDINATES : DIRECTION_COORDINATES)
+        .map(coordinates => this.add(coordinates))
 }
 
 /**

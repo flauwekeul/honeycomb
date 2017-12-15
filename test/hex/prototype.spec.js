@@ -340,7 +340,7 @@ describe('neighbor', function () {
 describe('neighbors', function () {
     let neighbors, add
 
-    before(function () {
+    beforeEach(function () {
         add = sinon.stub().returns('add result')
         neighbors = methods.neighbors.bind({ add })
     })
@@ -361,6 +361,26 @@ describe('neighbors', function () {
             'add result',
             'add result'
         ])
+    })
+
+    describe('when called with a truthy value', () => {
+        it('calls add() with each diagonal direction and returns the results', function () {
+            const result = neighbors(true)
+            expect(add.getCall(0).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[0])
+            expect(add.getCall(1).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[1])
+            expect(add.getCall(2).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[2])
+            expect(add.getCall(3).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[3])
+            expect(add.getCall(4).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[4])
+            expect(add.getCall(5).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[5])
+            expect(result).to.eql([
+                'add result',
+                'add result',
+                'add result',
+                'add result',
+                'add result',
+                'add result'
+            ])
+        })
     })
 })
 
