@@ -13,15 +13,6 @@ describe('HexFactory', function() {
         expect(Hex).to.be.a('function')
         expect(expectedStaticsCount).to.equal(actualStaticsCount)
         expect(Hex).to.have.property('thirdCoordinate')
-        expect(Hex).to.have.property('hexesBetween')
-        expect(Hex).to.have.property('add')
-        expect(Hex).to.have.property('subtract')
-        expect(Hex).to.have.property('neighbor')
-        expect(Hex).to.have.property('neighbors')
-        expect(Hex).to.have.property('distance')
-        expect(Hex).to.have.property('round')
-        expect(Hex).to.have.property('lerp')
-        expect(Hex).to.have.property('nudge')
     })
 
     it('returns a Hex factory with the default prototype', function() {

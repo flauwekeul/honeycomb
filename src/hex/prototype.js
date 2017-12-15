@@ -1,4 +1,9 @@
-import { ORIENTATIONS } from './constants'
+import {
+    ORIENTATIONS,
+    DIRECTION_COORDINATES,
+    DIAGONAL_DIRECTION_COORDINATES,
+    EPSILON
+} from './constants'
 
 /**
  * @method Hex#coordinates
@@ -117,5 +122,203 @@ export function toPointFactory({ Point }) {
 
         // `x` and `y` are always the hex's center, so the origin needs to be subtracted
         return Point(x, y).subtract(this.origin)
+    }
+}
+
+/**
+ * @method Hex#hexesBetween
+ *
+ * @see {@link http://www.redblobgames.com/grids/hexagons/#line-drawing|redblobgames.com}
+ *
+ * @param {Hex} otherHex    The other hex.
+ *
+ * @returns {Hex[]}         Array of hexes from the current hex and up to the passed `otherHex`.
+ */
+export function hexesBetween(otherHex) {
+    const _distance = this.distance(otherHex)
+    const step = 1.0 / Math.max(_distance, 1)
+    let hexes = []
+
+    for (let i = 0; i <= _distance; i++) {
+        hexes.push(this.nudge().lerp(otherHex.nudge(), step * i).round())
+    }
+
+    return hexes
+}
+
+export function addFactory({ Hex }) {
+    /**
+     * @method Hex#add
+     * @param {Hex} otherHex   The hex that will be added to the current.
+     *
+     * @todo Accept any number of hexes to add.
+     *
+     * @returns {Hex}   The sum of the current hexes coordinates and the passed hexes coordinates.
+     */
+    return function add(otherHex) {
+        return Hex(
+            this.x + otherHex.x,
+            this.y + otherHex.y,
+            this.z + otherHex.z
+        )
+    }
+}
+
+export function subtractFactory({ Hex }) {
+    /**
+     * @method Hex#subtract
+     * @param {Hex} otherHex   The hex that will be subtracted from the current.
+     *
+     * @todo Accept any number of hexes to subtract.
+     *
+     * @returns {Hex}   The difference between the current hexes coordinates and the passed hexes coordinates.
+     */
+    return function subtract(otherHex) {
+        return Hex(
+            this.x - otherHex.x,
+            this.y - otherHex.y,
+            this.z - otherHex.z
+        )
+    }
+}
+
+/**
+ * @method Hex#neighbor
+ *
+ * @description
+ * Returns the neighboring hex in the given direction.
+ *
+ * @see {@link http://www.redblobgames.com/grids/hexagons/#neighbors|redblobgames.com}
+ *
+ * @param {(0|1|2|3|4|5)}  [direction=0]    Any of the 6 directions. `0` is the Eastern direction (East-southeast when the hex is flat), `1` corresponds to 60° clockwise, `2` to 120° clockwise and so forth.
+ * @param {boolean} [diagonal=false]        Whether to look for a neighbor opposite the hex's corner instead of its side. A direction of `0` means the top corner of the hex's right side when the hex is pointy and the right corner when the hex is flat.
+ *
+ * @returns {Hex}                           The neighboring hex.
+ *
+ * @example
+ * import { Grid } from 'Honeycomb'
+ * const Hex = Grid().Hex
+ *
+ * const hex = Hex()
+ * hex.neighbor()           // { x: 1, y: -1, z: 0 }, the hex across the 0th (right) side
+ * hex.neighbor(2)          // { x: 0, y: 1, z: -1 }, the hex across the 3rd (South West) side
+ * hex.neighbor(3, true)    // { x: -2, y: 1, z: 1 }, the hex opposite the 4th corner
+ */
+export function neighbor(direction = 0, diagonal = false) {
+    direction = Math.abs(direction % 6)
+    const coordinates = diagonal ?
+        DIAGONAL_DIRECTION_COORDINATES[direction] :
+        DIRECTION_COORDINATES[direction]
+
+    return this.add(coordinates)
+}
+
+/**
+ * @method Hex#neighbors
+ *
+ * @description
+ * Returns **all** neighboring hexes of the current hex.
+ *
+ * @see {@link http://www.redblobgames.com/grids/hexagons/#neighbors|redblobgames.com}
+ *
+ * @todo Add diagonal option
+ *
+ * @returns {Hex[]} An array of the 6 neighboring hexes.
+ */
+export function neighbors() {
+    return DIRECTION_COORDINATES.map(coordinates => this.add(coordinates))
+}
+
+/**
+ * @method Hex#distance
+ *
+ * @see {@link http://www.redblobgames.com/grids/hexagons/#distances|redblobgames.com}
+ *
+ * @param   {Hex} otherHex  The end hex.
+ *
+ * @returns {number}        The amount of hexes between the current and the given hex.
+ *
+ * @example
+ * import { Grid } from 'Honeycomb'
+ * const Hex = Grid().Hex
+ *
+ * Hex(0, 0, 0).distance(Hex(1, 0, -1))    // 1
+ * Hex(-3, -3, 6).distance(Hex(-1, 4, -3)) // 9
+ */
+export function distance(otherHex) {
+    const relativeHex = this.subtract(otherHex)
+    return Math.max(
+        Math.abs(relativeHex.x),
+        Math.abs(relativeHex.y),
+        Math.abs(relativeHex.z)
+    )
+}
+
+export function roundFactory({ Hex }) {
+    /**
+     * @method Hex#round
+     *
+     * @description
+     * Rounds the current floating point hex coordinates to their nearest integer hex coordinates.
+     *
+     * @see {@link http://www.redblobgames.com/grids/hexagons/#rounding|redblobgames.com}
+     *
+     * @returns {Hex}   A new hex with rounded coordinates.
+     */
+    return function round() {
+        let roundedX = Math.round(this.x)
+        let roundedY = Math.round(this.y)
+        let roundedZ = Math.round(this.z)
+        const diffX = Math.abs(this.x - roundedX)
+        const diffY = Math.abs(this.y - roundedY)
+        const diffZ = Math.abs(this.z - roundedZ)
+
+        if (diffX > diffY && diffX > diffZ) {
+            roundedX = Hex.thirdCoordinate(roundedY, roundedZ)
+        } else if (diffY > diffZ) {
+            roundedY = Hex.thirdCoordinate(roundedX, roundedZ)
+        } else {
+            roundedZ = Hex.thirdCoordinate(roundedX, roundedY)
+        }
+
+        return Hex(roundedX, roundedY, roundedZ)
+    }
+}
+
+export function lerpFactory({ Hex }) {
+    /**
+     * @method Hex#lerp
+     *
+     * @description
+     * Returns an interpolation between the current hex and the passed hex for a `t` between 0 and 1.
+     * More info on [wikipedia](https://en.wikipedia.org/wiki/Linear_interpolation).
+     *
+     * @param   {Hex} otherHex  The other hex.
+     * @param   {number} t      A "parameter" between 0 and 1.
+     *
+     * @returns {Hex}           A new hex (with possibly fractional coordinates).
+     */
+    return function lerp(otherHex, t) {
+        return Hex(
+            this.x * (1 - t) + otherHex.x * t,
+            this.y * (1 - t) + otherHex.y * t,
+            this.z * (1 - t) + otherHex.z * t
+        )
+    }
+}
+
+export function nudgeFactory({ Hex }) {
+    /**
+     * @method Hex#nudge
+     *
+     * @description
+     * Returns a new hex with a tiny offset from the current hex. Useful for interpolating in a consistent direction.
+     *
+     * @see {@link http://www.redblobgames.com/grids/hexagons/#line-drawing|redblobgames.com}
+     *
+     * @returns {Hex}   A new hex with a minute offset.
+     */
+    return function nudge() {
+        return this.add(Hex(EPSILON))
     }
 }

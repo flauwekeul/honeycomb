@@ -37,7 +37,7 @@ export function pointToHexFactory({ Point, Hex }) {
             y = (-point.x / 3 + Math.sqrt(3)/3 * point.y) / size
         }
 
-        return Hex.round(Hex(x, y))
+        return Hex(x, y).round()
     }
 }
 
@@ -141,12 +141,7 @@ export function parallelogramFactory({ Hex }) {
 
         for (let first = 0; first < width; first++) {
             for (let second = 0; second < height; second++) {
-                hexes.push(
-                    Hex.add(
-                        Hex({ [firstCoordinate]: first, [secondCoordinate]: second }),
-                        Hex(start)
-                    )
-                )
+                hexes.push(Hex({ [firstCoordinate]: first, [secondCoordinate]: second }).add(Hex(start)))
             }
         }
 
@@ -194,7 +189,7 @@ export function triangleFactory({ Hex }) {
 
         for (let x = 0; x < size; x++) {
             for (let y = yStart(x); y < yEnd(x); y++) {
-                hexes.push(Hex.add(Hex(x, y), Hex(start)))
+                hexes.push(Hex(x, y).add(Hex(start)))
             }
         }
 
@@ -230,7 +225,7 @@ export function hexagonFactory({ Hex }) {
             const endY = Math.min(radius, -x + radius)
 
             for (let y = startY; y <= endY; y++) {
-                hexes.push(Hex.add(Hex(x, y), Hex(center)))
+                hexes.push(Hex(x, y).add(Hex(center)))
             }
         }
 
@@ -281,12 +276,7 @@ export function rectangleFactory({ Hex }) {
             const secondOffset = Math.floor(second / 2)
 
             for (let first = -secondOffset; first < firstStop - secondOffset; first++) {
-                hexes.push(
-                    Hex.add(
-                        Hex({ [firstCoordinate]: first, [secondCoordinate]: second }),
-                        Hex(start)
-                    )
-                )
+                hexes.push(Hex({ [firstCoordinate]: first, [secondCoordinate]: second }).add(Hex(start)))
             }
         }
 

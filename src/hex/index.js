@@ -35,7 +35,16 @@ export default function HexFactory(customPrototype = {}) {
         width:                  methods.width,
         height:                 methods.height,
         corners:                methods.cornersFactory({ Point }),
-        toPoint:                methods.toPointFactory({ Point })
+        toPoint:                methods.toPointFactory({ Point }),
+        hexesBetween:           methods.hexesBetween,
+        add:                    methods.addFactory({ Hex }),
+        subtract:               methods.subtractFactory({ Hex }),
+        neighbor:               methods.neighbor,
+        neighbors:              methods.neighbors,
+        distance:               methods.distance,
+        round:                  methods.roundFactory({ Hex }),
+        lerp:                   methods.lerpFactory({ Hex }),
+        nudge:                  methods.nudgeFactory({ Hex })
     }
     const prototype = Object.assign(defaultPrototype, customPrototype)
     // ensure origin is a point
@@ -123,16 +132,7 @@ export default function HexFactory(customPrototype = {}) {
     }
 
     Object.assign(Hex, {
-        thirdCoordinate: statics.thirdCoordinateFactory({ unsignNegativeZero }),
-        hexesBetween: statics.hexesBetweenFactory({ Hex }),
-        add: statics.addFactory({ Hex }),
-        subtract: statics.subtractFactory({ Hex }),
-        neighbor: statics.neighborFactory({ Hex }),
-        neighbors: statics.neighborsFactory({ Hex }),
-        distance: statics.distanceFactory({ Hex }),
-        round: statics.roundFactory({ Hex }),
-        lerp: statics.lerpFactory({ Hex }),
-        nudge: statics.nudgeFactory({ Hex })
+        thirdCoordinate: statics.thirdCoordinateFactory({ unsignNegativeZero })
     })
 
     return Hex

@@ -18,13 +18,13 @@ describe('pointToHex', function() {
     beforeEach(function() {
         Point = sinon.stub().callsFake(point => point)
         isPointy = sinon.stub()
+        round = sinon.stub().returns('round result')
         hexResult = {
             size: 1,
-            isPointy
+            isPointy,
+            round
         }
         Hex = sinon.stub().returns(hexResult)
-        round = sinon.stub().returns('round result')
-        Hex.round = round
         pointToHex = methods.pointToHexFactory({ Point, Hex })
         point = { x: 1, y: 1 }
     })
@@ -65,7 +65,7 @@ describe('pointToHex', function() {
 
     it('rounds that hex', function() {
         pointToHex(point)
-        expect(Hex.round).to.have.been.calledWith(hexResult)
+        expect(round).to.have.been.called
     })
 
     it('returns the hex', function() {
