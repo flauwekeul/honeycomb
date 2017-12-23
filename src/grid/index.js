@@ -32,7 +32,7 @@ import * as methods from './methods'
  */
 export default function Grid(Hex) {
     if (!isFunction(Hex)) {
-        throw new Error(`Hex is not a function: ${Hex}`)
+        throw new Error(`Hex is not a function: ${Hex}.`)
     }
 
     return {
