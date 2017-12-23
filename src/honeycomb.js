@@ -8,5 +8,6 @@ const Grid = GridFactory({ HexFactory })
 export {
     ORIENTATIONS as HEX_ORIENTATIONS,
     Grid,
+    HexFactory,
     Point
 }

@@ -7,19 +7,39 @@ import * as methods from './prototype'
 
 /**
  * @function HexFactory
- * @private
  *
  * @description
- * Factory that produces a {@link Hex} function to create hexes with. It accepts optional hex settings that are used to create a "family" of hexes that can be used in a grid (or individually). This "family" of hexes all share the same `prototype`.
+ * Factory that produces a {@link Hex} function to create hexes with.
+ * It accepts an optional prototype that's used to extend the Hex's default prototype with.
+ * This can way a custom Hex factory can be created.
  *
  * @todo validate orientation, size, origin
  * @todo warn when properties are overriden
  *
- * @param {Object} [customPrototype={}] An object that's used as the prototype for all hexes in the grid. **Warning:** properties with the same name as the default prototype will be overwritten. These properties are: `orientation`, `size`, `origin`, `coordinates`, `isPointy`, `isFlat`, `oppositeCornerDistance`, `oppositeSideDistance`, `width`, `height`, `corners` and `toPoint`.
+ * @param {Object} [prototype={}]   An object that's used as the prototype for all hexes in a grid.
+ *                                  **Warning:** methods present in the default prototype will be overwritten.
  *
- * @returns {Hex}                       A function to produce hexes, all sharing the same `prototype`.
+ * @returns {Hex}                   A function to produce hexes that all share the same prototype.
+ *
+ * @example
+ * import { HexFactory, HEX_ORIENTATIONS } from 'Honeycomb'
+ *
+ * const Hex = HexFactory({
+ *     size: 50,
+ *     orientation: HEX_ORIENTATIONS.FLAT,
+ *     customProperty: `I'm custom 😃`,
+ *     customMethod() {
+ *         return `${this.customProperty} and called from a custom method 😎`
+ *     }
+ * })
+ *
+ * const hex = Hex(5, -1, -4)
+ * hex.coordinates()    // { x: 5, y: -1, z: -4 }
+ * hex.size             // 50
+ * hex.customProperty   // I'm custom 😃
+ * hex.customMethod()   // I'm custom 😃 and called from a custom method 😎
  */
-export default function HexFactory(customPrototype = {}) {
+export default function HexFactory(prototype = {}) {
     const defaultPrototype = {
         // settings:
         orientation: ORIENTATIONS.POINTY,
@@ -46,15 +66,16 @@ export default function HexFactory(customPrototype = {}) {
         lerp:                   methods.lerpFactory({ Hex }),
         nudge:                  methods.nudgeFactory({ Hex })
     }
-    const prototype = Object.assign(defaultPrototype, customPrototype)
+    const finalPrototype = Object.assign(defaultPrototype, prototype)
     // ensure origin is a point
-    prototype.origin = Point(prototype.origin)
+    finalPrototype.origin = Point(finalPrototype.origin)
+    const instance = Object.create(finalPrototype)
 
     /**
      * @function Hex
      *
      * @description
-     * Factory function for creating hexes. It can only be accessed by creating a {@link Grid} (see the example).
+     * Factory function for creating hexes. It can only be used by calling {@link HexFactory} (see the example).
      *
      * Coordinates not passed to the factory are inferred using the other coordinates:
      * * When two coordinates are passed, the third coordinate is set to the result of {@link Hex.thirdCoordinate|Hex.thirdCoordinate(firstCoordinate, secondCoordinate)}.
@@ -73,9 +94,9 @@ export default function HexFactory(customPrototype = {}) {
      * @returns {Hex}                           A hex object. It has all three coordinates (`x`, `y` and `z`) as its own properties and various methods in its prototype.
      *
      * @example
-     * import { Grid } from 'Honeycomb'
-     * // `Hex()` is not exposed on `Honeycomb`, but on a grid instance instead:
-     * const Hex = Grid().Hex
+     * import { HexFactory } from 'Honeycomb'
+     *
+     * const Hex = HexFactory()
      *
      * Hex()            // returns hex( x: 0, y: 0, z: 0 )
      * Hex(1)           // returns hex( x: 1, y: 1, z: -2 )
@@ -124,9 +145,8 @@ export default function HexFactory(customPrototype = {}) {
             throw new Error(`Coordinates don't sum to 0: { x: ${x}, y: ${y}, z: ${z} }.`)
         }
 
-        // return an object containing the coordinates that's prototype-linked to the prototype created in HexFactory
         return Object.assign(
-            Object.create(prototype),
+            instance,
             { x, y, z }
         )
     }

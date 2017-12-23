@@ -1,56 +1,49 @@
+import { isFunction } from 'axis.js'
+
 import Point from '../point'
 import * as methods from './methods'
 
-export default function GridFactory({ HexFactory } = {}) {
-    /**
-     * @module src/grid
-     * @function Grid
-     *
-     * @description
-     * Factory function for creating grids. It accepts optional hex settings that apply to all hexes in the grid. Several "shape" methods are exposed that return an array of hexes in a certain shape.
-     *
-     * @param {Object} [hexSettings]                            Optional settings that apply to *all* hexes in the grid.
-     * @param {number} [hexSettings.size=1]                     Size of all hexes.
-     * @param {(FLAT|POINTY)} [hexSettings.orientation=POINTY]  All hexes are either POINTY ⬢ or FLAT ⬣.
-     * @param {Point} [hexSettings.origin=Point(0,0)]           Used to convert a hex to a point. Defaults to the hex's center at `Point(0, 0)`.
-     *
-     * @returns {Grid}                                          A grid instance containing a {@link Hex} factory and several methods. Use the {@link Hex} factory for creating individual hexes or using any of the {@link Hex}'s methods.
-     *
-     * @example
-     * import { Grid, HEX_ORIENTATIONS } from 'Honeycomb'
-     *
-     * const grid = Grid({
-     *     size: 50,
-     *     orientation: HEX_ORIENTATIONS.FLAT,
-     *     customProperty: `I'm custom 😃`
-     * })
-     *
-     * const singleHex = grid.Hex(5, -1, -4)
-     * singleHex.coordinates()      // { x: 5, y: -1, z: -4 }
-     * singleHex.size               // 50
-     * singleHex.customProperty     // I'm custom 😃
-     *
-     * grid.triangle(3)             // [ { x: 0, y: 0, z: 0 },
-     *                              //   { x: 0, y: 1, z: -1 },
-     *                              //   { x: 0, y: 2, z: -2 },
-     *                              //   { x: 1, y: 0, z: -1 },
-     *                              //   { x: 1, y: 1, z: -2 },
-     *                              //   { x: 2, y: 0, z: -2 } ]
-     */
-    return function Grid(hexSettings) {
-        // TODO: validate hexSettings
-        const Hex = HexFactory(hexSettings)
+/**
+ * @module src/grid
+ * @function Grid
+ *
+ * @description
+ * Factory function for creating grids. It requires a Hex factory function.
+ * Calling Honeycomb.Grid() returns a grid instance with several "shape" methods that return an array of hexes in a certain shape.
+ * The grid instance also has methods for translating points (e.g. pixels) to hexes and vice versa.
+ *
+ * @param {Function} [Hex]  Hex factory function. Use {@link HexFactory} to create one.
+ *
+ * @returns {Grid}          A grid instance containing the passed {@link Hex} factory among other methods.
+ *                          Use the {@link Hex} factory for creating individual hexes.
+ *
+ * @example
+ * import { Grid, HexFactory } from 'Honeycomb'
+ *
+ * const Hex = HexFactory()
+ * const grid = Grid(Hex)
+ *
+ * grid.triangle(3) // [ { x: 0, y: 0, z: 0 },
+ *                  //   { x: 0, y: 1, z: -1 },
+ *                  //   { x: 0, y: 2, z: -2 },
+ *                  //   { x: 1, y: 0, z: -1 },
+ *                  //   { x: 1, y: 1, z: -2 },
+ *                  //   { x: 2, y: 0, z: -2 } ]
+ */
+export default function Grid(Hex) {
+    if (!isFunction(Hex)) {
+        throw new Error(`Hex is not a function: ${Hex}`)
+    }
 
-        return {
-            Hex,
-            pointToHex:     methods.pointToHexFactory({ Point, Hex }),
-            hexToPoint:     methods.hexToPoint,
-            colSize:        methods.colSizeFactory({ Hex }),
-            rowSize:        methods.rowSizeFactory({ Hex }),
-            parallelogram:  methods.parallelogramFactory({ Hex }),
-            triangle:       methods.triangleFactory({ Hex }),
-            hexagon:        methods.hexagonFactory({ Hex }),
-            rectangle:      methods.rectangleFactory({ Hex })
-        }
+    return {
+        Hex,
+        pointToHex:     methods.pointToHexFactory({ Point, Hex }),
+        hexToPoint:     methods.hexToPoint,
+        colSize:        methods.colSizeFactory({ Hex }),
+        rowSize:        methods.rowSizeFactory({ Hex }),
+        parallelogram:  methods.parallelogramFactory({ Hex }),
+        triangle:       methods.triangleFactory({ Hex }),
+        hexagon:        methods.hexagonFactory({ Hex }),
+        rectangle:      methods.rectangleFactory({ Hex })
     }
 }
