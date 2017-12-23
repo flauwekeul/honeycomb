@@ -12,15 +12,15 @@ import * as methods from './methods'
  * Calling Honeycomb.Grid() returns a grid instance with several "shape" methods that return an array of hexes in a certain shape.
  * The grid instance also has methods for translating points (e.g. pixels) to hexes and vice versa.
  *
- * @param {Function} [Hex]  Hex factory function. Use {@link HexFactory} to create one.
+ * @param {Function} [Hex]  Hex factory function. Use {@link extendHex} to create one.
  *
  * @returns {Grid}          A grid instance containing the passed {@link Hex} factory among other methods.
  *                          Use the {@link Hex} factory for creating individual hexes.
  *
  * @example
- * import { Grid, HexFactory } from 'Honeycomb'
+ * import { Grid, extendHex } from 'Honeycomb'
  *
- * const Hex = HexFactory()
+ * const Hex = extendHex()
  * const grid = Grid(Hex)
  *
  * grid.triangle(3) // [ { x: 0, y: 0, z: 0 },

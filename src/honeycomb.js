@@ -1,13 +1,11 @@
 import { ORIENTATIONS } from './hex/constants'
-import GridFactory from './grid'
-import HexFactory from './hex'
+import extendHex from './hex'
+import Grid from './grid'
 import Point from './point'
-
-const Grid = GridFactory({ HexFactory })
 
 export {
     ORIENTATIONS as HEX_ORIENTATIONS,
+    extendHex,
     Grid,
-    HexFactory,
     Point
 }

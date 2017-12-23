@@ -1,12 +1,12 @@
 import { expect } from 'chai'
 
-import HexFactory from '../../src/hex'
+import extendHex from '../../src/hex'
 import { ORIENTATIONS } from '../../src/hex/constants'
 import * as statics from '../../src/hex/statics'
 
-describe('HexFactory', function() {
+describe('extendHex', function() {
     it('returns a Hex factory function that has the Hex static methods', function() {
-        const Hex = HexFactory()
+        const Hex = extendHex()
         const expectedStaticsCount = Object.keys(Hex).length
         const actualStaticsCount = Object.keys(statics).length
 
@@ -16,7 +16,7 @@ describe('HexFactory', function() {
     })
 
     it('returns a Hex factory with the default prototype', function() {
-        const Hex = HexFactory()
+        const Hex = extendHex()
         const result = Object.getPrototypeOf(Hex())
 
         expect(result).to.have.own.property('orientation', ORIENTATIONS.POINTY)
@@ -30,7 +30,7 @@ describe('HexFactory', function() {
                 size: 100,
                 custom: 'property'
             }
-            const Hex = HexFactory(prototype)
+            const Hex = extendHex(prototype)
             const result = Object.getPrototypeOf(Hex())
 
             expect(result).to.have.own.property('size', 100)
@@ -43,7 +43,7 @@ describe('Hex creation', function() {
     let Hex
 
     before(function() {
-        Hex = HexFactory()
+        Hex = extendHex()
     })
 
     describe('with 3 numbers', function() {

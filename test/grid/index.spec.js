@@ -1,12 +1,12 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 
-import HexFactory from '../../src/hex'
+import extendHex from '../../src/hex'
 import GridFactory from '../../src/grid'
 
 describe('Grid', function() {
-    const HexFactorySpy = sinon.spy(HexFactory)
-    const Grid = GridFactory({ HexFactory: HexFactorySpy })
+    const extendHexSpy = sinon.spy(extendHex)
+    const Grid = GridFactory({ extendHex: extendHexSpy })
 
     it('returns an object with the Grid methods', function() {
         const result = Grid()
@@ -26,10 +26,10 @@ describe('Grid', function() {
     })
 
     describe('when passed hex settings', function() {
-        it('passes the hex settings through to HexFactory', function() {
+        it('passes the hex settings through to extendHex', function() {
             const hexSettings = { thisIs: 'a setting' }
             Grid(hexSettings)
-            expect(HexFactorySpy).to.have.been.calledWith(hexSettings)
+            expect(extendHexSpy).to.have.been.calledWith(hexSettings)
         })
     })
 })

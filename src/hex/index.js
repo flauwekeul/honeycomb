@@ -6,7 +6,7 @@ import * as statics from './statics'
 import * as methods from './prototype'
 
 /**
- * @function HexFactory
+ * @function extendHex
  *
  * @description
  * Factory that produces a {@link Hex} function to create hexes with.
@@ -22,9 +22,9 @@ import * as methods from './prototype'
  * @returns {Hex}                   A function to produce hexes that all share the same prototype.
  *
  * @example
- * import { HexFactory, HEX_ORIENTATIONS } from 'Honeycomb'
+ * import { extendHex, HEX_ORIENTATIONS } from 'Honeycomb'
  *
- * const Hex = HexFactory({
+ * const Hex = extendHex({
  *     size: 50,
  *     orientation: HEX_ORIENTATIONS.FLAT,
  *     customProperty: `I'm custom 😃`,
@@ -39,7 +39,7 @@ import * as methods from './prototype'
  * hex.customProperty   // I'm custom 😃
  * hex.customMethod()   // I'm custom 😃 and called from a custom method 😎
  */
-export default function HexFactory(prototype = {}) {
+export default function extendHex(prototype = {}) {
     const defaultPrototype = {
         // settings:
         orientation: ORIENTATIONS.POINTY,
@@ -75,7 +75,8 @@ export default function HexFactory(prototype = {}) {
      * @function Hex
      *
      * @description
-     * Factory function for creating hexes. It can only be used by calling {@link HexFactory} (see the example).
+     * Factory function for creating hexes.
+     * Create a Hex factory by calling {@link extendHex}, optionally passing a Hex prototype.
      *
      * Coordinates not passed to the factory are inferred using the other coordinates:
      * * When two coordinates are passed, the third coordinate is set to the result of {@link Hex.thirdCoordinate|Hex.thirdCoordinate(firstCoordinate, secondCoordinate)}.
@@ -94,9 +95,9 @@ export default function HexFactory(prototype = {}) {
      * @returns {Hex}                           A hex object. It has all three coordinates (`x`, `y` and `z`) as its own properties and various methods in its prototype.
      *
      * @example
-     * import { HexFactory } from 'Honeycomb'
+     * import { extendHex } from 'Honeycomb'
      *
-     * const Hex = HexFactory()
+     * const Hex = extendHex()
      *
      * Hex()            // returns hex( x: 0, y: 0, z: 0 )
      * Hex(1)           // returns hex( x: 1, y: 1, z: -2 )
