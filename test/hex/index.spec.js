@@ -92,14 +92,20 @@ describe('Hex creation', function() {
         })
     })
 
+    describe('with an object containing no coordinate (from x, y and z)', function() {
+        it('sets all coordinates to 0', function() {
+            expect(Hex({})).to.contain({ x: 0, y: 0, z: 0 })
+        })
+    })
+
     describe('without parameters', function() {
-        it('sets all cube coordinates to 0', function() {
+        it('sets all coordinates to 0', function() {
             expect(Hex()).to.contain({ x: 0, y: 0, z: 0 })
         })
     })
 
     describe('with a falsy value', function() {
-        it('sets all cube coordinates to 0', function() {
+        it('sets all coordinates to 0', function() {
             expect(Hex(null)).to.contain({ x: 0, y: 0, z: 0 })
             expect(Hex(undefined)).to.contain({ x: 0, y: 0, z: 0 })
             expect(Hex('')).to.contain({ x: 0, y: 0, z: 0 })

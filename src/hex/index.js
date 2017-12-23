@@ -96,14 +96,14 @@ export default function extendHex(prototype = {}) {
  *
  * @see {@link redblobgames.com|http://www.redblobgames.com/grids/hexagons/#coordinates}
  *
- * @param {(number|Object)} [coordinates=0] The x coordinate or an object containing any of the x, y and z coordinates.
- * @param {number} [coordinates.x=0]        The x coordinate.
- * @param {number} [coordinates.y=0]        The y coordinate.
- * @param {number} [coordinates.z=0]        The z coordinate.
- * @param {number} [y=0]                    The y coordinate.
- * @param {number} [z=0]                    The z coordinate.
+ * @param {(number|Object)} [xOrCoordinates=0]  The x coordinate or an object containing any of the x, y and z coordinates.
+ * @param {number} [xOrCoordinates.x=0]         The x coordinate.
+ * @param {number} [xOrCoordinates.y=0]         The y coordinate.
+ * @param {number} [xOrCoordinates.z=0]         The z coordinate.
+ * @param {number} [y=0]                        The y coordinate.
+ * @param {number} [z=0]                        The z coordinate.
  *
- * @returns {Hex}                           A hex object. It has all three coordinates (`x`, `y` and `z`) as its own properties and various methods in its prototype.
+ * @returns {Hex}                               A hex object. It has all three coordinates (`x`, `y` and `z`) as its own properties and various methods in its prototype.
  *
  * @example
  * import { extendHex } from 'Honeycomb'
@@ -121,15 +121,17 @@ export default function extendHex(prototype = {}) {
  * Hex({ z: 3 })    // returns hex( x: 3, y: -6, z: 3 )
  */
 function Hex(...coordinates) {
+    let x, y, z
+
     // if an object is passed, extract coordinates and call self
     if (isObject(coordinates[0])) {
-        let { x, y, z } = coordinates[0]
+        ({ x, y, z } = coordinates[0])
         return Hex(x, y, z)
     }
 
-    let [x, y, z] = coordinates.map(unsignNegativeZero)
+    [x, y, z] = coordinates
 
-    switch (coordinates.filter(isNumber).length) {
+    switch ([x, y, z].filter(isNumber).length) {
         case 3:
             break
         case 2:
