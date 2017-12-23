@@ -1,27 +1,23 @@
 import { expect } from 'chai'
 
-import extendHex from '../../src/hex'
-import { ORIENTATIONS } from '../../src/hex/constants'
-import * as statics from '../../src/hex/statics'
+import extendHex, { defaultPrototype, staticMethods } from '../../src/hex'
 
 describe('extendHex', function() {
-    it('returns a Hex factory function that has the Hex static methods', function() {
+    it('is a function', () => {
         const Hex = extendHex()
-        const expectedStaticsCount = Object.keys(Hex).length
-        const actualStaticsCount = Object.keys(statics).length
-
         expect(Hex).to.be.a('function')
-        expect(expectedStaticsCount).to.equal(actualStaticsCount)
-        expect(Hex).to.have.property('thirdCoordinate')
     })
 
-    it('returns a Hex factory with the default prototype', function() {
+    it('returns a function that has the Hex static methods', function() {
         const Hex = extendHex()
-        const result = Object.getPrototypeOf(Hex())
+        expect(Object.entries(Hex)).to.eql(Object.entries(staticMethods))
+    })
 
-        expect(result).to.have.own.property('orientation', ORIENTATIONS.POINTY)
-        expect(result).to.have.own.property('size', 1)
-        expect(result).to.have.own.property('origin').that.includes({ x: 0, y: 0 })
+    it('returns a function with the default prototype', function() {
+        const Hex = extendHex()
+        const prototype = Object.getPrototypeOf(Hex())
+
+        expect(prototype).to.eql(defaultPrototype)
     })
 
     describe('when passed hex settings', function() {
@@ -31,10 +27,10 @@ describe('extendHex', function() {
                 custom: 'property'
             }
             const Hex = extendHex(prototype)
-            const result = Object.getPrototypeOf(Hex())
+            const finalPrototype = Object.getPrototypeOf(Hex())
 
-            expect(result).to.have.own.property('size', 100)
-            expect(result).to.have.own.property('custom')
+            expect(finalPrototype).to.have.own.property('size', 100)
+            expect(finalPrototype).to.have.own.property('custom')
         })
     })
 })
