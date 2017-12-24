@@ -257,6 +257,19 @@ describe('parallelogram', function() {
             ])
         })
     })
+
+    describe('when called with an onCreate callback', () => {
+        it('calls the callback for each created hex', () => {
+            const callback = sinon.spy()
+            parallelogram({
+                width: 2,
+                height: 2,
+                onCreate: callback
+            })
+            expect(callback.callCount).to.eql(4)
+            expect(callback).to.always.have.been.calledWith(sinon.match.has('hexesBetween'))
+        })
+    })
 })
 
 describe('triangle', function() {
@@ -325,6 +338,18 @@ describe('triangle', function() {
             ])
         })
     })
+
+    describe('when called with an onCreate callback', () => {
+        it('calls the callback for each created hex', () => {
+            const callback = sinon.spy()
+            triangle({
+                size: 2,
+                onCreate: callback
+            })
+            expect(callback.callCount).to.eql(3)
+            expect(callback).to.always.have.been.calledWith(sinon.match.has('hexesBetween'))
+        })
+    })
 })
 
 describe('hexagon', function() {
@@ -370,6 +395,18 @@ describe('hexagon', function() {
                 { x: 2, y: 2, z: -4 },
                 { x: 3, y: 2, z: -5 }
             ])
+        })
+    })
+
+    describe('when called with an onCreate callback', () => {
+        it('calls the callback for each created hex', () => {
+            const callback = sinon.spy()
+            hexagon({
+                radius: 2,
+                onCreate: callback
+            })
+            expect(callback.callCount).to.eql(7)
+            expect(callback).to.always.have.been.calledWith(sinon.match.has('hexesBetween'))
         })
     })
 })
@@ -654,6 +691,19 @@ describe('rectangle', function() {
                     { x: 1, y: -2, z: 1 }
                 ])
             })
+        })
+    })
+
+    describe('when called with an onCreate callback', () => {
+        it('calls the callback for each created hex', () => {
+            const callback = sinon.spy()
+            rectangle({
+                width: 2,
+                height: 2,
+                onCreate: callback
+            })
+            expect(callback.callCount).to.eql(4)
+            expect(callback).to.always.have.been.calledWith(sinon.match.has('hexesBetween'))
         })
     })
 })

@@ -7,9 +7,9 @@ export function pointToHexFactory({ Point, Hex }) {
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/#pixel-to-hex|redblobgames.com}
      *
-     * @param   {Point} point   The {@link Point|point-like} to convert from.
+     * @param {Point} point The {@link Point|point-like} to convert from.
      *
-     * @returns {Hex}           The hex (with rounded coordinates) that contains the passed point.
+     * @returns {Hex}       The hex (with rounded coordinates) that contains the passed point.
      *
      * @example
      * import { Grid, Point } from 'Honeycomb'
@@ -51,9 +51,9 @@ export function pointToHexFactory({ Point, Hex }) {
  *
  * @borrows Hex#toPoint as Grid#hexToPoint
  *
- * @param   {Hex} hex   The hex to translate from.
+ * @param {Hex} hex The hex to translate from.
  *
- * @returns {Point}     The point to translate to.
+ * @returns {Point} The point to translate to.
  *
  * @example
  * import { Grid } from 'Honeycomb'
@@ -115,11 +115,12 @@ export function parallelogramFactory({ Hex }) {
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
      *
-     * @param   {Object} options                    An options object.
-     * @param   {number} options.width              The width (in hexes).
-     * @param   {number} options.height             The height (in hexes).
-     * @param   {Hex} [options.start=Hex(0,0,0)]    The start hex.
-     * @param   {(1|3|5)} [options.direction=1]     The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes.
+     * @param {Object} options                      An options object.
+     * @param {number} options.width                The width (in hexes).
+     * @param {number} options.height               The height (in hexes).
+     * @param {Hex} [options.start=Hex(0,0,0)]      The start hex.
+     * @param {(1|3|5)} [options.direction=1]       The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes.
+     * @param {Function} [options.onCreate=noop]    Callback that's called for each created hex, passing the created hex.
      *
      * @returns {Hex[]}                             Array of hexes in a parallelogram arrangement.
      */
@@ -127,7 +128,8 @@ export function parallelogramFactory({ Hex }) {
         width,
         height,
         start = Hex(),
-        direction = 1
+        direction = 1,
+        onCreate = () => {}
     }) {
         // TODO: validate direction
         const DIRECTIONS = {
@@ -141,7 +143,9 @@ export function parallelogramFactory({ Hex }) {
 
         for (let first = 0; first < width; first++) {
             for (let second = 0; second < height; second++) {
-                hexes.push(Hex({ [firstCoordinate]: first, [secondCoordinate]: second }).add(Hex(start)))
+                const hex = Hex({ [firstCoordinate]: first, [secondCoordinate]: second }).add(Hex(start))
+                onCreate(hex)
+                hexes.push(hex)
             }
         }
 
@@ -160,17 +164,19 @@ export function triangleFactory({ Hex }) {
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
      *
-     * @param   {Object} options                    An options object.
-     * @param   {number} options.size               The side length (in hexes).
-     * @param   {Hex} [options.start=Hex(0,0,0)]    The start hex. **Note**: it's not the first hex, but rather a hex relative to the triangle.
-     * @param   {(1|5)} [options.direction=1]       The direction in which to create the shape. Each direction corresponds to a different arrangement of hexes. In this case a triangle pointing up (`direction: 1`) or down (`direction: 5`) (with pointy hexes) or right (`direction: 1`) or left (`direction: 5`) (with flat hexes).
+     * @param {Object} options                      An options object.
+     * @param {number} options.size                 The side length (in hexes).
+     * @param {Hex} [options.start=Hex(0,0,0)]      The start hex. **Note**: it's not the first hex, but rather a hex relative to the triangle.
+     * @param {(1|5)} [options.direction=1]         The direction in which to create the shape. Each direction corresponds to a different arrangement of hexes. In this case a triangle pointing up (`direction: 1`) or down (`direction: 5`) (with pointy hexes) or right (`direction: 1`) or left (`direction: 5`) (with flat hexes).
+     * @param {Function} [options.onCreate=noop]    Callback that's called for each created hex, passing the created hex.
      *
      * @returns {Hex[]}                             Array of hexes in a triangular arrangement.
      */
     return function triangle({
         size,
         start = Hex(),
-        direction = 1
+        direction = 1,
+        onCreate = () => {}
     }) {
         // TODO: validate direction
         const DIRECTIONS = {
@@ -189,7 +195,9 @@ export function triangleFactory({ Hex }) {
 
         for (let x = 0; x < size; x++) {
             for (let y = yStart(x); y < yEnd(x); y++) {
-                hexes.push(Hex(x, y).add(Hex(start)))
+                const hex = Hex(x, y).add(Hex(start))
+                onCreate(hex)
+                hexes.push(hex)
             }
         }
 
@@ -206,15 +214,17 @@ export function hexagonFactory({ Hex }) {
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
      *
-     * @param   {Object} options                    An options object.
-     * @param   {number} options.radius             The radius (in hexes).
-     * @param   {Hex} [options.center=Hex(0,0,0)]   The center hex.
+     * @param {Object} options                      An options object.
+     * @param {number} options.radius               The radius (in hexes).
+     * @param {Hex} [options.center=Hex(0,0,0)]     The center hex.
+     * @param {Function} [options.onCreate=noop]    Callback that's called for each created hex, passing the created hex.
      *
      * @returns {Hex[]}                             Array of hexes in a hexagon arrangement (very meta 😎).
      */
     return function hexagon({
         radius,
-        center = Hex()
+        center = Hex(),
+        onCreate = () => {}
     }) {
         const hexes = []
         // radius includes the center hex
@@ -225,7 +235,9 @@ export function hexagonFactory({ Hex }) {
             const endY = Math.min(radius, -x + radius)
 
             for (let y = startY; y <= endY; y++) {
-                hexes.push(Hex(x, y).add(Hex(center)))
+                const hex = Hex(x, y).add(Hex(center))
+                onCreate(hex)
+                hexes.push(hex)
             }
         }
 
@@ -244,19 +256,21 @@ export function rectangleFactory({ Hex }) {
      *
      * @see {@link http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
      *
-     * @param   {Object} options                        An options object.
-     * @param   {number} options.width                  The width (in hexes).
-     * @param   {number} options.height                 The height (in hexes).
-     * @param   {Hex} [options.start=Hex(0,0,0)]        The start hex.
-     * @param   {(0|1|2|3|4|5)} [options.direction=0]   The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes.
+     * @param {Object} options                      An options object.
+     * @param {number} options.width                The width (in hexes).
+     * @param {number} options.height               The height (in hexes).
+     * @param {Hex} [options.start=Hex(0,0,0)]      The start hex.
+     * @param {(0|1|2|3|4|5)} [options.direction=0] The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes.
+     * @param {Function} [options.onCreate=noop]    Callback that's called for each created hex, passing the created hex.
      *
-     * @returns {Hex[]}                                 Array of hexes in a rectengular arrangement.
+     * @returns {Hex[]}                             Array of hexes in a rectengular arrangement.
      */
     return function rectangle({
         width,
         height,
         start = Hex(),
-        direction = 0
+        direction = 0,
+        onCreate = () => {}
     }) {
         const DIRECTIONS = {
             0: ['x', 'y'],
@@ -276,7 +290,9 @@ export function rectangleFactory({ Hex }) {
             const secondOffset = Math.floor(second / 2)
 
             for (let first = -secondOffset; first < firstStop - secondOffset; first++) {
-                hexes.push(Hex({ [firstCoordinate]: first, [secondCoordinate]: second }).add(Hex(start)))
+                const hex = Hex({ [firstCoordinate]: first, [secondCoordinate]: second }).add(Hex(start))
+                onCreate(hex)
+                hexes.push(hex)
             }
         }
 
