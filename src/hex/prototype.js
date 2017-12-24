@@ -149,11 +149,11 @@ export function hexesBetween(otherHex) {
 export function addFactory({ Hex }) {
     /**
      * @method Hex#add
-     * @param {Hex} otherHex   The hex that will be added to the current.
+     * @param {Hex} otherHex    The hex that will be added to the current.
      *
      * @todo Accept any number of hexes to add.
      *
-     * @returns {Hex}   The sum of the current hexes coordinates and the passed hexes coordinates.
+     * @returns {Hex}           The sum of the current hexes coordinates and the passed hexes coordinates.
      */
     return function add(otherHex) {
         return Hex(
@@ -167,11 +167,11 @@ export function addFactory({ Hex }) {
 export function subtractFactory({ Hex }) {
     /**
      * @method Hex#subtract
-     * @param {Hex} otherHex   The hex that will be subtracted from the current.
+     * @param {Hex} otherHex    The hex that will be subtracted from the current.
      *
      * @todo Accept any number of hexes to subtract.
      *
-     * @returns {Hex}   The difference between the current hexes coordinates and the passed hexes coordinates.
+     * @returns {Hex}           The difference between the current hexes coordinates and the passed hexes coordinates.
      */
     return function subtract(otherHex) {
         return Hex(
@@ -180,6 +180,17 @@ export function subtractFactory({ Hex }) {
             this.z - otherHex.z
         )
     }
+}
+
+/**
+ * @method Hex#equals
+ * @param {Hex} otherHex    The hex of which the coordinates will be compared against the current hex.
+ *
+ * @returns {boolean}       Whether the coordinates of the current and the passed hex are equal.
+ */
+export function equals(otherHex) {
+    const { x: otherX, y: otherY, z: otherZ } = otherHex
+    return this.x === otherX && this.y === otherY && this.z === otherZ
 }
 
 /**

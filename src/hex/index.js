@@ -24,6 +24,7 @@ export const defaultPrototype = {
     hexesBetween: methods.hexesBetween,
     add: methods.addFactory({ Hex }),
     subtract: methods.subtractFactory({ Hex }),
+    equals: methods.equals,
     neighbor: methods.neighbor,
     neighbors: methods.neighbors,
     distance: methods.distance,

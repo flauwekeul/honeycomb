@@ -285,6 +285,13 @@ describe('subtract', function () {
     })
 })
 
+describe('equals', function () {
+    it('returns whether the coordinates of the current and the passed hex are equal', () => {
+        expect(Hex().equals(Hex())).to.be.true
+        expect(Hex(5, -3).equals(Hex(-1, 2))).to.be.false
+    })
+})
+
 describe('neighbor', function () {
     let neighbor, add
 
