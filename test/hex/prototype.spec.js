@@ -506,3 +506,9 @@ describe('nudge', function () {
         expect(result).to.eql('add result')
     })
 })
+
+describe('toString', function() {
+    it('returns a string containing the coordinates of the hex', function() {
+        expect(Hex(1, 2, -3).toString()).to.eql('{ x: 1, y: 2, z: -3 }')
+    })
+})

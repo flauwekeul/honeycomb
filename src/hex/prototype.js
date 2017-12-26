@@ -339,3 +339,12 @@ export function lerpFactory({ Hex }) {
 export function nudge() {
     return this.add(EPSILON)
 }
+
+/**
+ * @method Hex#toString
+ *
+ * @returns {string}    String containing the coordinates of the hex.
+ */
+export function toString() {
+    return `{ x: ${this.x}, y: ${this.y}, z: ${this.z} }`
+}
