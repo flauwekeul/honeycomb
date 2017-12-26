@@ -264,24 +264,56 @@ describe('hexesBetween', function () {
 })
 
 describe('add', function () {
+    let HexSpy
+
+    before(function () {
+        HexSpy = sinon.spy(Hex)
+    })
+
     it('returns a new hex where the coordinates are the sum of the current and passed hex', function () {
-        const HexSpy = sinon.spy(Hex)
         const add = methods.addFactory({ Hex: HexSpy }).bind({ x: 1, y: -3, z: 2 })
         const result = add(Hex(2, 0, -2))
 
         expect(HexSpy).to.have.been.calledWith(3, -3, 0)
         expect(result).to.contain({ x: 3, y: -3, z: 0 })
     })
+
+    it('transfers any custom properties the current hex might have', function() {
+        const add = methods.addFactory({ Hex: HexSpy }).bind({
+            x: 0,
+            y: 0,
+            z: 0,
+            custom: 'for add()'
+        })
+        const result = add(Hex())
+        expect(result).to.contain({ custom: 'for add()' })
+    })
 })
 
 describe('subtract', function () {
+    let HexSpy
+
+    before(function() {
+        HexSpy = sinon.spy(Hex)
+    })
+
     it('returns a new hex where the coordinates are the difference between the current and the passed hex', function () {
-        const HexSpy = sinon.spy(Hex)
         const subtract = methods.subtractFactory({ Hex: HexSpy }).bind({ x: 1, y: -3, z: 2 })
         const result = subtract(Hex(2, 0, -2))
 
         expect(HexSpy).to.have.been.calledWith(-1, -3, 4)
         expect(result).to.contain({ x: -1, y: -3, z: 4 })
+    })
+
+    it('transfers any custom properties the current hex might have', function() {
+        const subtract = methods.subtractFactory({ Hex: HexSpy }).bind({
+            x: 0,
+            y: 0,
+            z: 0,
+            custom: 'for subtract()'
+        })
+        const result = subtract(Hex())
+        expect(result).to.contain({ custom: 'for subtract()' })
     })
 })
 
@@ -410,24 +442,58 @@ describe('distance', function () {
 })
 
 describe('round', function () {
+    let HexSpy
+
+    before(function () {
+        HexSpy = sinon.spy(Hex)
+    })
+
     it('rounds floating point coordinates to their nearest integer coordinates', function () {
-        const HexSpy = sinon.spy(Hex)
         const round = methods.roundFactory({ Hex: HexSpy }).bind({ x: 2.9, y: 2.2, z: -4.7 })
         const result = round()
 
         expect(HexSpy).to.have.been.calledWith(3, 2, -5)
         expect(result).to.contain({ x: 3, y: 2, z: -5 })
     })
+
+    it('transfers any custom properties the current hex might have', function() {
+        const round = methods.roundFactory({ Hex: HexSpy }).bind({
+            x: 0,
+            y: 0,
+            z: 0,
+            custom: 'for round()'
+        })
+        const result = round()
+
+        expect(result).to.contain({ custom: 'for round()' })
+    })
 })
 
 describe('lerp', function () {
+    let HexSpy
+
+    before(function() {
+        HexSpy = sinon.spy(Hex)
+    })
+
     it('returns an interpolation between the current and passed hex for a `t` between 0..1', function () {
-        const HexSpy = sinon.spy(Hex)
         const lerp = methods.lerpFactory({ Hex: HexSpy }).bind({ x: 0, y: 0, z: 0 })
         const result = lerp(Hex(4, -5, 1), 0.5)
 
         expect(HexSpy).to.have.been.calledWith(2, -2.5, 0.5)
         expect(result).to.contain({ x: 2, y: -2.5, z: 0.5 })
+    })
+
+    it('transfers any custom properties the current hex might have', function() {
+        const lerp = methods.lerpFactory({ Hex: HexSpy }).bind({
+            x: 0,
+            y: 0,
+            z: 0,
+            custom: 'for lerp()'
+        })
+        const result = lerp(Hex(), 0)
+
+        expect(result).to.contain({ custom: 'for lerp()' })
     })
 })
 

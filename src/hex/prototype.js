@@ -156,7 +156,9 @@ export function addFactory({ Hex }) {
      * @returns {Hex}           The sum of the current hexes coordinates and the passed hexes coordinates.
      */
     return function add(otherHex) {
-        return Hex(
+        // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
+        return Hex.call(
+            this,
             this.x + otherHex.x,
             this.y + otherHex.y,
             this.z + otherHex.z
@@ -174,7 +176,9 @@ export function subtractFactory({ Hex }) {
      * @returns {Hex}           The difference between the current hexes coordinates and the passed hexes coordinates.
      */
     return function subtract(otherHex) {
-        return Hex(
+        // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
+        return Hex.call(
+            this,
             this.x - otherHex.x,
             this.y - otherHex.y,
             this.z - otherHex.z
@@ -293,7 +297,8 @@ export function roundFactory({ Hex }) {
             roundedZ = Hex.thirdCoordinate(roundedX, roundedY)
         }
 
-        return Hex(roundedX, roundedY, roundedZ)
+        // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
+        return Hex.call(this, roundedX, roundedY, roundedZ)
     }
 }
 
@@ -311,7 +316,9 @@ export function lerpFactory({ Hex }) {
      * @returns {Hex}           A new hex (with possibly fractional coordinates).
      */
     return function lerp(otherHex, t) {
-        return Hex(
+        // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
+        return Hex.call(
+            this,
             this.x * (1 - t) + otherHex.x * t,
             this.y * (1 - t) + otherHex.y * t,
             this.z * (1 - t) + otherHex.z * t
