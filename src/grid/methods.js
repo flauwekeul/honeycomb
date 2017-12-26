@@ -263,7 +263,7 @@ export function rectangleFactory({ Hex }) {
      * @param {(0|1|2|3|4|5)} [options.direction=0] The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes.
      * @param {Function} [options.onCreate=noop]    Callback that's called for each created hex, passing the created hex.
      *
-     * @returns {Hex[]}                             Array of hexes in a rectengular arrangement.
+     * @returns {Hex[]}                             Array of hexes in a rectangular arrangement.
      */
     return function rectangle({
         width,
