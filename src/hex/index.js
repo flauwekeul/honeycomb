@@ -1,4 +1,4 @@
-import { isObject, isNumber } from 'axis.js'
+import { isObject, isNumber, isArray } from 'axis.js'
 import { unsignNegativeZero } from '../utils'
 import { ORIENTATIONS } from './constants'
 import Point from '../point'
@@ -88,38 +88,48 @@ export default function extendHex(prototype = {}) {
  *
  * @description
  * Factory function for creating hexes.
- * Create a Hex factory by calling {@link extendHex}, optionally passing a Hex prototype.
+ * Create a Hex factory with {@link extendHex}.
  *
- * Coordinates not passed to the factory are inferred using the other coordinates:
- * * When two coordinates are passed, the third coordinate is set to the result of {@link Hex.thirdCoordinate|Hex.thirdCoordinate(firstCoordinate, secondCoordinate)}.
- * * When one coordinate is passed, the second coordinate is set to the first and the third coordinate is set to the result of {@link Hex.thirdCoordinate|Hex.thirdCoordinate(firstCoordinate, secondCoordinate)}.
- * * When nothing or a falsy value is passed, all coordinates are set to `0`.
+ * Any missing coordinates are inferred from the available coordinates like so:
+ * * When 2 coordinates are available, the third coordinate is set to the result of {@link Hex.thirdCoordinate|Hex.thirdCoordinate(firstCoordinate, secondCoordinate)}.
+ * * When 1 coordinate is available, the second coordinate is set to the first and the third coordinate is set to the result of {@link Hex.thirdCoordinate|Hex.thirdCoordinate(firstCoordinate, secondCoordinate)}.
+ * * When 0 coordinates or a falsy value is passed, all coordinates are set to `0`.
+ *
+ * See the [tests](https://github.com/flauwekeul/honeycomb/blob/master/test/hex/index.spec.js#L42) for all corner cases.
  *
  * @see {@link redblobgames.com|http://www.redblobgames.com/grids/hexagons/#coordinates}
  *
- * @param {(number|Object)} [xOrCoordinates=0]  The x coordinate or an object containing any of the x, y and z coordinates.
- * @param {number} [xOrCoordinates.x=0]         The x coordinate.
- * @param {number} [xOrCoordinates.y=0]         The y coordinate.
- * @param {number} [xOrCoordinates.z=0]         The z coordinate.
- * @param {number} [y=0]                        The y coordinate.
- * @param {number} [z=0]                        The z coordinate.
+ * @param {(number|Object|number[])} [xOrCoordinates=]  The x coordinate or an object containing any of the x, y and z coordinates or an array containing 0 or more coordinates.
+ * @param {number} [xOrCoordinates.x=]                  The x coordinate.
+ * @param {number} [xOrCoordinates.y=]                  The y coordinate.
+ * @param {number} [xOrCoordinates.z=]                  The z coordinate.
+ * @param {number} [y=]                                 The y coordinate.
+ * @param {number} [z=]                                 The z coordinate.
  *
- * @returns {Hex}                               A hex object. It has all three coordinates (`x`, `y` and `z`) as its own properties and various methods in its prototype.
+ * @returns {Hex}                                       A hex object. It always contains all three coordinates (`x`, `y` and `z`) and any properties bound to `Hex`.
  *
  * @example
  * import { extendHex } from 'Honeycomb'
  *
  * const Hex = extendHex()
  *
- * Hex()            // returns hex( x: 0, y: 0, z: 0 )
- * Hex(1)           // returns hex( x: 1, y: 1, z: -2 )
- * Hex(1, 2)        // returns hex( x: 1, y: 2, z: -3 )
- * Hex(1, 2, -3)    // returns hex( x: 1, y: 2, z: -3 )
+ * Hex(1, 2, -3)    // { x: 1, y: 2, z: -3 }
+ * Hex(1, 2)        // { x: 1, y: 2, z: -3 }
+ * Hex(1)           // { x: 1, y: 1, z: -2 }
+ * Hex()            // { x: 0, y: 0, z: 0 }
  * Hex(1, 2, 5)     // coordinates don't sum up to 0; throws an error
  *
- * Hex({ x: 3 })    // returns hex( x: 3, y: 3, z: -3 )
- * Hex({ y: 3 })    // returns hex( x: 3, y: 3, z: -6 )
- * Hex({ z: 3 })    // returns hex( x: 3, y: -6, z: 3 )
+ * Hex({ x: 3 })    // { x: 3, y: 3, z: -3 }
+ * Hex({ y: 3 })    // { x: 3, y: 3, z: -6 }
+ * Hex({ z: 3 })    // { x: 3, y: -6, z: 3 }
+ *
+ * Hex([1, 2, -3])  // { x: 1, y: 2, z: -3 }
+ * Hex([1, 2])      // { x: 1, y: 2, z: -3 }
+ *
+ * // clone a hex by simply passing it to Hex()
+ * const someHex = Hex(4, -2)   // { x: 4, y: -2, z: -2 }
+ * const clone = Hex(someHex)   // { x: 4, y: -2, z: -2 }
+ * someHex === clone            // false
  */
 function Hex(xOrCoordinates, y, z) {
     let x
@@ -128,9 +138,11 @@ function Hex(xOrCoordinates, y, z) {
     if (isObject(xOrCoordinates)) {
         ({ x, y, z } = xOrCoordinates)
         return Hex(x, y, z)
+    } else if (isArray(xOrCoordinates)) {
+        [x, y, z] = xOrCoordinates
+    } else {
+        x = xOrCoordinates
     }
-
-    x = xOrCoordinates
 
     switch ([x, y, z].filter(isNumber).length) {
         case 3:

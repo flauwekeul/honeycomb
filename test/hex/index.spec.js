@@ -76,7 +76,7 @@ describe('Hex creation', function() {
         })
     })
 
-    describe('with an object containing 2 coordinates (from x, y and z)', function() {
+    describe('with an object containing 2 coordinates', function() {
         it('calculates the third coordinate and sets all 3', function() {
             expect(Hex({ x: 3, y: 0 })).to.contain({ x: 3, y: 0, z: -3 })
             expect(Hex({ x: 3, z: 0 })).to.contain({ x: 3, y: -3, z: 0 })
@@ -84,15 +84,15 @@ describe('Hex creation', function() {
         })
     })
 
-    describe('with an object containing 1 coordinate (from x, y and z)', function() {
-        it('sets the missing coordinates', function() {
+    describe('with an object containing 1 coordinate', function() {
+        it('calculates the missing coordinates and sets all 3', function() {
             expect(Hex({ x: 3 })).to.contain({ x: 3, y: 3, z: -6 })
             expect(Hex({ y: 3 })).to.contain({ x: 3, y: 3, z: -6 })
             expect(Hex({ z: 3 })).to.contain({ x: 3, y: -6, z: 3 })
         })
     })
 
-    describe('with an object containing no coordinate (from x, y and z)', function() {
+    describe('with an object containing no coordinate', function() {
         it('sets all coordinates to 0', function() {
             expect(Hex({})).to.contain({ x: 0, y: 0, z: 0 })
         })
@@ -104,11 +104,49 @@ describe('Hex creation', function() {
         })
     })
 
+    describe('with an array containing 3 numbers', function() {
+        it('sets the coordinates in the order x, y, z', function() {
+            expect(Hex([3, 2, -5])).to.contain({ x: 3, y: 2, z: -5 })
+        })
+    })
+
+    describe('with an array containing 2 numbers', function() {
+        it('calculates the third coordinate and sets all 3', function() {
+            expect(Hex([3, 0])).to.contain({ x: 3, y: 0, z: -3 })
+            expect(Hex([3, undefined, 0])).to.contain({ x: 3, y: -3, z: 0 })
+            expect(Hex([undefined, 3, 0])).to.contain({ x: -3, y: 3, z: 0 })
+        })
+    })
+
+    describe('with an array containing 1 number', function() {
+        it('calculates the first missing coordinate (in the order x, y, z) and sets all 3', function() {
+            expect(Hex([3])).to.contain({ x: 3, y: 3, z: -6 })
+            expect(Hex([undefined, 3])).to.contain({ x: 3, y: 3, z: -6 })
+            expect(Hex([undefined, undefined, 3])).to.contain({ x: 3, y: -6, z: 3 })
+        })
+    })
+
+    describe('with an empty array', function() {
+        it('sets all coordinates to 0', function() {
+            expect(Hex([])).to.contain({ x: 0, y: 0, z: 0 })
+        })
+    })
+
     describe('with a falsy value', function() {
         it('sets all coordinates to 0', function() {
-            expect(Hex(null)).to.contain({ x: 0, y: 0, z: 0 })
-            expect(Hex(undefined)).to.contain({ x: 0, y: 0, z: 0 })
-            expect(Hex('')).to.contain({ x: 0, y: 0, z: 0 })
+            const allZeroCoordinates = { x: 0, y: 0, z: 0 }
+            expect(Hex(undefined)).to.contain(allZeroCoordinates)
+            expect(Hex(null)).to.contain(allZeroCoordinates)
+            expect(Hex('')).to.contain(allZeroCoordinates)
+            expect(Hex(false)).to.contain(allZeroCoordinates)
+        })
+    })
+
+    describe('with a hex', function() {
+        it('clones the hex', function() {
+            const someHex = Hex()
+            const clonedHex = Hex(someHex)
+            expect(clonedHex).not.to.equal(someHex)
         })
     })
 })
