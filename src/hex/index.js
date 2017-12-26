@@ -72,6 +72,10 @@ let finalPrototype
  * hex.size             // 50
  * hex.customProperty   // I'm custom 😃
  * hex.customMethod()   // I'm custom 😃 and called from a custom method 😎
+ *
+ * // methods that return a new hex, retain any custom properties:
+ * const addedHex = hex.add(Hex(3, -1))
+ * addedHex.customProperty  // I'm custom 😃
  */
 export default function extendHex(prototype = {}) {
     finalPrototype = Object.assign(defaultPrototype, prototype)
