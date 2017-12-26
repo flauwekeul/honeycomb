@@ -121,16 +121,16 @@ export default function extendHex(prototype = {}) {
  * Hex({ y: 3 })    // returns hex( x: 3, y: 3, z: -6 )
  * Hex({ z: 3 })    // returns hex( x: 3, y: -6, z: 3 )
  */
-function Hex(...coordinates) {
-    let x, y, z
+function Hex(xOrCoordinates, y, z) {
+    let x
 
     // if an object is passed, extract coordinates and call self
-    if (isObject(coordinates[0])) {
-        ({ x, y, z } = coordinates[0])
+    if (isObject(xOrCoordinates)) {
+        ({ x, y, z } = xOrCoordinates)
         return Hex(x, y, z)
     }
 
-    [x, y, z] = coordinates
+    x = xOrCoordinates
 
     switch ([x, y, z].filter(isNumber).length) {
         case 3:
