@@ -499,16 +499,11 @@ Returns **[Point](#point)** The difference between the passed point's coordinate
 
 ### Features
 
-1.  While dogfooding I learned that it makes way more sense to have instance methods for functionality that's currently defined as static methods. Most of `Hex`'s statics should be instance methods 🙄
-2.  Expose `Hex` on `Honeycomb`, adding the possibility to create (individual) hexes and use `Hex`'s static methods without having to create a grid first?
 3.  Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well.
 4.  Make it possible to filter overlapping hexes when multiple shapes are rendered.
 5.  Use JSFiddle for better examples.
 6.  Explain (hex) directions.
 7.  Shiny github.io pages 😎
-8.  View should be hex-orientation-agnostic (always pointy) and just use `transform` to toggle orientations.
-9.  Maybe add instance methods for `Grid` and `Views.DOM` to get/set options. Then it's optional to pass the options to the `Grid` and `Views.DOM` factories and makes it possible to get/set those options later.
-10. Add helper to easily fall back to a hex's prototype?
 
 ### Refactorings
 
