@@ -434,7 +434,7 @@ describe('lerp', function () {
 describe('nudge', function () {
     it('returns the current hex with a tiny offset', function () {
         const add = sinon.stub().returns('add result')
-        const nudge = methods.nudgeFactory({ Hex }).bind({ add })
+        const nudge = methods.nudge.bind({ add })
         const result = nudge()
         expect(add).to.have.been.calledWith(EPSILON)
         expect(result).to.eql('add result')

@@ -319,18 +319,16 @@ export function lerpFactory({ Hex }) {
     }
 }
 
-export function nudgeFactory({ Hex }) {
-    /**
-     * @method Hex#nudge
-     *
-     * @description
-     * Returns a new hex with a tiny offset from the current hex. Useful for interpolating in a consistent direction.
-     *
-     * @see {@link http://www.redblobgames.com/grids/hexagons/#line-drawing|redblobgames.com}
-     *
-     * @returns {Hex}   A new hex with a minute offset.
-     */
-    return function nudge() {
-        return this.add(Hex(EPSILON))
-    }
+/**
+ * @method Hex#nudge
+ *
+ * @description
+ * Returns a new hex with a tiny offset from the current hex. Useful for interpolating in a consistent direction.
+ *
+ * @see {@link http://www.redblobgames.com/grids/hexagons/#line-drawing|redblobgames.com}
+ *
+ * @returns {Hex}   A new hex with a minute offset.
+ */
+export function nudge() {
+    return this.add(EPSILON)
 }

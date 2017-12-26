@@ -30,7 +30,7 @@ export const defaultPrototype = {
     distance: methods.distance,
     round: methods.roundFactory({ Hex }),
     lerp: methods.lerpFactory({ Hex }),
-    nudge: methods.nudgeFactory({ Hex })
+    nudge: methods.nudge
 }
 
 export const staticMethods = {
