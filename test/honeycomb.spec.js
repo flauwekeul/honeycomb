@@ -8,6 +8,10 @@ describe('API', function() {
         expect(API).to.have.property('HEX_ORIENTATIONS').that.eqls(ORIENTATIONS)
     })
 
+    it('exposes extendHex', function() {
+        expect(API).to.have.property('extendHex').that.is.a('function').with.property('name', 'extendHex')
+    })
+
     it('exposes Grid', function() {
         expect(API).to.have.property('Grid').that.is.a('function').with.property('name', 'Grid')
     })
