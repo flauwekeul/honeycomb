@@ -258,8 +258,8 @@ describe('parallelogram', function() {
         })
     })
 
-    describe('when called with an onCreate callback', () => {
-        it('calls the callback for each created hex', () => {
+    describe('when called with an onCreate callback', function() {
+        it('calls the callback for each created hex', function() {
             const callback = sinon.spy()
             parallelogram({
                 width: 2,
@@ -339,8 +339,8 @@ describe('triangle', function() {
         })
     })
 
-    describe('when called with an onCreate callback', () => {
-        it('calls the callback for each created hex', () => {
+    describe('when called with an onCreate callback', function() {
+        it('calls the callback for each created hex', function() {
             const callback = sinon.spy()
             triangle({
                 size: 2,
@@ -398,8 +398,8 @@ describe('hexagon', function() {
         })
     })
 
-    describe('when called with an onCreate callback', () => {
-        it('calls the callback for each created hex', () => {
+    describe('when called with an onCreate callback', function() {
+        it('calls the callback for each created hex', function() {
             const callback = sinon.spy()
             hexagon({
                 radius: 2,
@@ -694,8 +694,8 @@ describe('rectangle', function() {
         })
     })
 
-    describe('when called with an onCreate callback', () => {
-        it('calls the callback for each created hex', () => {
+    describe('when called with an onCreate callback', function() {
+        it('calls the callback for each created hex', function() {
             const callback = sinon.spy()
             rectangle({
                 width: 2,

@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import extendHex, { defaultPrototype, staticMethods } from '../../src/hex'
 
 describe('extendHex', function() {
-    it('is a function', () => {
+    it('is a function', function() {
         const Hex = extendHex()
         expect(Hex).to.be.a('function')
     })

@@ -286,7 +286,7 @@ describe('subtract', function () {
 })
 
 describe('equals', function () {
-    it('returns whether the coordinates of the current and the passed hex are equal', () => {
+    it('returns whether the coordinates of the current and the passed hex are equal', function() {
         expect(Hex().equals(Hex())).to.be.true
         expect(Hex(5, -3).equals(Hex(-1, 2))).to.be.false
     })
@@ -370,7 +370,7 @@ describe('neighbors', function () {
         ])
     })
 
-    describe('when called with a truthy value', () => {
+    describe('when called with a truthy value', function() {
         it('calls add() with each diagonal direction and returns the results', function () {
             const result = neighbors(true)
             expect(add.getCall(0).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[0])
