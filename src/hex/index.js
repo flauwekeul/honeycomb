@@ -144,6 +144,8 @@ export default function extendHex(prototype = {}) {
             x = xOrCoordinates
         }
 
+        [x, y, z] = [x, y, z].map(unsignNegativeZero)
+
         switch ([x, y, z].filter(isNumber).length) {
             case 3:
                 break

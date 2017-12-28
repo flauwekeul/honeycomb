@@ -181,4 +181,8 @@ describe('Hex creation', function() {
             expect(clonedHex).not.to.equal(someHex)
         })
     })
+
+    it('converts negative zeroes to "regular" zeroes', function() {
+        expect(Hex(-0, -0, -0)).to.deep.contain({ x: 0, y: 0, z: 0 })
+    })
 })
