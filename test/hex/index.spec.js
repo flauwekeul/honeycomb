@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 
-import extendHex, { defaultPrototype, staticMethods } from '../../src/hex'
+import extendHex, { staticMethods } from '../../src/hex'
+import { ORIENTATIONS } from '../../src/hex/constants'
 
 describe('extendHex', function() {
     it('is a function', function() {
@@ -16,8 +17,32 @@ describe('extendHex', function() {
     it('returns a function with the default prototype', function() {
         const Hex = extendHex()
         const prototype = Object.getPrototypeOf(Hex())
+        const prototypeProps = Object.keys(prototype)
 
-        expect(prototype).to.eql(defaultPrototype)
+        expect(prototypeProps).to.have.length(23)
+        expect(prototype).to.have.property('orientation', ORIENTATIONS.POINTY)
+        expect(prototype).to.have.property('size', 1)
+        expect(prototype).to.have.property('origin').that.contains({ x: 0, y: 0 })
+        expect(prototype).to.have.property('coordinates').that.is.a('function')
+        expect(prototype).to.have.property('isPointy').that.is.a('function')
+        expect(prototype).to.have.property('isFlat').that.is.a('function')
+        expect(prototype).to.have.property('oppositeCornerDistance').that.is.a('function')
+        expect(prototype).to.have.property('oppositeSideDistance').that.is.a('function')
+        expect(prototype).to.have.property('width').that.is.a('function')
+        expect(prototype).to.have.property('height').that.is.a('function')
+        expect(prototype).to.have.property('corners').that.is.a('function')
+        expect(prototype).to.have.property('toPoint').that.is.a('function')
+        expect(prototype).to.have.property('hexesBetween').that.is.a('function')
+        expect(prototype).to.have.property('add').that.is.a('function')
+        expect(prototype).to.have.property('subtract').that.is.a('function')
+        expect(prototype).to.have.property('equals').that.is.a('function')
+        expect(prototype).to.have.property('neighbor').that.is.a('function')
+        expect(prototype).to.have.property('neighbors').that.is.a('function')
+        expect(prototype).to.have.property('distance').that.is.a('function')
+        expect(prototype).to.have.property('round').that.is.a('function')
+        expect(prototype).to.have.property('lerp').that.is.a('function')
+        expect(prototype).to.have.property('nudge').that.is.a('function')
+        expect(prototype).to.have.property('toString').that.is.a('function')
     })
 
     describe('when passed hex settings', function() {
@@ -31,6 +56,13 @@ describe('extendHex', function() {
 
             expect(finalPrototype).to.have.own.property('size', 100)
             expect(finalPrototype).to.have.own.property('custom')
+        })
+
+        it(`creates a different Hex factory each time it's called`, function() {
+            const Hex1 = extendHex({ size: 10 })
+            const Hex2 = extendHex({ size: 20 })
+
+            expect(Hex1().size).not.to.equal(Hex2().size)
         })
     })
 })
