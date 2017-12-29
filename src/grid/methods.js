@@ -127,23 +127,27 @@ export function parallelogramFactory({ Hex }) {
     return function parallelogram({
         width,
         height,
-        start = Hex(),
+        start,
         direction = 1,
         onCreate = () => {}
     }) {
+        start = Hex(start)
         // TODO: validate direction
         const DIRECTIONS = {
             1: ['x', 'y'],
             3: ['y', 'z'],
             5: ['z', 'x']
         }
-
         const [ firstCoordinate, secondCoordinate ] = DIRECTIONS[direction]
         const hexes = []
 
         for (let first = 0; first < width; first++) {
             for (let second = 0; second < height; second++) {
-                const hex = Hex({ [firstCoordinate]: first, [secondCoordinate]: second }).add(Hex(start))
+                // add the hex manually (instead of using Hex#add) for better performance
+                const hex = Hex({
+                    [firstCoordinate]: first + start.x,
+                    [secondCoordinate]: second + start.y
+                })
                 onCreate(hex)
                 hexes.push(hex)
             }
@@ -174,10 +178,11 @@ export function triangleFactory({ Hex }) {
      */
     return function triangle({
         size,
-        start = Hex(),
+        start,
         direction = 1,
         onCreate = () => {}
     }) {
+        start = Hex(start)
         // TODO: validate direction
         const DIRECTIONS = {
             1: {
@@ -189,13 +194,13 @@ export function triangleFactory({ Hex }) {
                 yEnd: () => size + 1
             }
         }
-
         const { yStart, yEnd } = DIRECTIONS[direction]
         const hexes = []
 
         for (let x = 0; x < size; x++) {
             for (let y = yStart(x); y < yEnd(x); y++) {
-                const hex = Hex(x, y).add(Hex(start))
+                // add the hex manually (instead of using Hex#add) for better performance
+                const hex = Hex(x + start.x, y + start.y)
                 onCreate(hex)
                 hexes.push(hex)
             }
@@ -223,19 +228,21 @@ export function hexagonFactory({ Hex }) {
      */
     return function hexagon({
         radius,
-        center = Hex(),
+        center,
         onCreate = () => {}
     }) {
         const hexes = []
         // radius includes the center hex
         radius -= 1
+        center = Hex(center)
 
         for (let x = -radius; x <= radius; x++) {
             const startY = Math.max(-radius, -x - radius)
             const endY = Math.min(radius, -x + radius)
 
             for (let y = startY; y <= endY; y++) {
-                const hex = Hex(x, y).add(Hex(center))
+                // add the hex manually (instead of using Hex#add) for better performance
+                const hex = Hex(x + center.x, y + center.y)
                 onCreate(hex)
                 hexes.push(hex)
             }
@@ -268,10 +275,12 @@ export function rectangleFactory({ Hex }) {
     return function rectangle({
         width,
         height,
-        start = Hex(),
+        start,
         direction = 0,
         onCreate = () => {}
     }) {
+        start = Hex(start)
+
         const DIRECTIONS = {
             0: ['x', 'y'],
             1: ['y', 'x'],
@@ -280,17 +289,20 @@ export function rectangleFactory({ Hex }) {
             4: ['z', 'x'],
             5: ['x', 'z']
         }
-        const hex = Hex()
         const [ firstCoordinate, secondCoordinate ] = DIRECTIONS[direction]
-        const firstStop = hex.isPointy() ? width : height
-        const secondStop = hex.isPointy() ? height : width
+        const firstStop = start.isPointy() ? width : height
+        const secondStop = start.isPointy() ? height : width
         const hexes = []
 
         for (let second = 0; second < secondStop; second++) {
             const secondOffset = Math.floor(second / 2)
 
             for (let first = -secondOffset; first < firstStop - secondOffset; first++) {
-                const hex = Hex({ [firstCoordinate]: first, [secondCoordinate]: second }).add(Hex(start))
+                // add the hex manually (instead of using Hex#add) for better performance
+                const hex = Hex({
+                    [firstCoordinate]: first + start.x,
+                    [secondCoordinate]: second + start.y
+                })
                 onCreate(hex)
                 hexes.push(hex)
             }
