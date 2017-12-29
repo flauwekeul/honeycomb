@@ -3,6 +3,23 @@ import * as methods from './methods'
 
 export default function createGridFactoryFactory({ createHexFactory }) {
     return function createFactory(Hex = createHexFactory()) {
+        class Grid extends Array { }
+
+        Object.assign(
+            Grid.prototype,
+            {
+                Hex,
+                pointToHex: methods.pointToHexFactory({ Point, Hex }),
+                hexToPoint: methods.hexToPoint,
+                colSize: methods.colSizeFactory({ Hex }),
+                rowSize: methods.rowSizeFactory({ Hex }),
+                parallelogram: methods.parallelogramFactory({ Hex }),
+                triangle: methods.triangleFactory({ Hex }),
+                hexagon: methods.hexagonFactory({ Hex }),
+                rectangle: methods.rectangleFactory({ Hex })
+            }
+        )
+
         /**
          * @module src/grid
          * @function Grid
@@ -40,18 +57,8 @@ export default function createGridFactoryFactory({ createHexFactory }) {
          * grid.pointToHex([ 20, 40 ])  // { x: -1, y: 27, z: -25 }
          * grid2.pointToHex([ 20, 40 ]) // { x: 0, y: 1, z: -1 }
          */
-        return function Grid() {
-            return {
-                Hex,
-                pointToHex:     methods.pointToHexFactory({ Point, Hex }),
-                hexToPoint:     methods.hexToPoint,
-                colSize:        methods.colSizeFactory({ Hex }),
-                rowSize:        methods.rowSizeFactory({ Hex }),
-                parallelogram:  methods.parallelogramFactory({ Hex }),
-                triangle:       methods.triangleFactory({ Hex }),
-                hexagon:        methods.hexagonFactory({ Hex }),
-                rectangle:      methods.rectangleFactory({ Hex })
-            }
+        return function GridFactory() {
+            return new Grid()
         }
     }
 }

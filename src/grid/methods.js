@@ -153,7 +153,7 @@ export function parallelogramFactory({ Hex }) {
             }
         }
 
-        return hexes
+        return new this.constructor(...hexes)
     }
 }
 
@@ -206,7 +206,7 @@ export function triangleFactory({ Hex }) {
             }
         }
 
-        return hexes
+        return new this.constructor(...hexes)
     }
 }
 
@@ -231,10 +231,11 @@ export function hexagonFactory({ Hex }) {
         center,
         onCreate = () => {}
     }) {
-        const hexes = []
         // radius includes the center hex
         radius -= 1
         center = Hex(center)
+
+        const hexes = []
 
         for (let x = -radius; x <= radius; x++) {
             const startY = Math.max(-radius, -x - radius)
@@ -248,7 +249,7 @@ export function hexagonFactory({ Hex }) {
             }
         }
 
-        return hexes
+        return new this.constructor(...hexes)
     }
 }
 
@@ -308,6 +309,6 @@ export function rectangleFactory({ Hex }) {
             }
         }
 
-        return hexes
+        return new this.constructor(...hexes)
     }
 }

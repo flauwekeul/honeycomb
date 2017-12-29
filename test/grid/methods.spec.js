@@ -2,8 +2,11 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 
 import createHexFactory from '../../src/hex'
+import createGridFactoryFactory from '../../src/grid'
 import * as methods from '../../src/grid/methods'
 
+const Grid = createGridFactoryFactory({ createHexFactory })()
+const gridInstance = Grid()
 const Hex = createHexFactory()
 
 describe('pointToHex', function() {
@@ -167,7 +170,7 @@ describe('parallelogram', function() {
     let parallelogram
 
     before(function() {
-        parallelogram = methods.parallelogramFactory({ Hex })
+        parallelogram = methods.parallelogramFactory({ Hex }).bind(gridInstance)
     })
 
     it('returns an array with a length of (width ⨉ height) hexes', function() {
@@ -270,7 +273,7 @@ describe('triangle', function() {
     let triangle
 
     before(function() {
-        triangle = methods.triangleFactory({ Hex })
+        triangle = methods.triangleFactory({ Hex }).bind(gridInstance)
     })
 
     // https://en.wikipedia.org/wiki/Triangular_number
@@ -350,7 +353,7 @@ describe('hexagon', function() {
     let hexagon
 
     before(function() {
-        hexagon = methods.hexagonFactory({ Hex })
+        hexagon = methods.hexagonFactory({ Hex }).bind(gridInstance)
     })
 
     it('returns an array with a hard to determine amount of hexes 😬', function() {
@@ -409,19 +412,18 @@ describe('rectangle', function() {
     let rectangle, Hex
 
     before(function() {
-        rectangle = methods.rectangleFactory({ Hex: createHexFactory() })
+        rectangle = methods.rectangleFactory({ Hex: createHexFactory() }).bind(gridInstance)
     })
 
     it('returns an array with a length of (width ⨉ height) hexes', function() {
         const result = rectangle({ width: 4, height: 5 })
-        expect(result).to.be.an('array')
         expect(result).to.have.a.lengthOf(20)
     })
 
     describe('when hexes have a pointy orientation', function() {
         before(function() {
             Hex = createHexFactory({ orientation: 'POINTY' })
-            rectangle = methods.rectangleFactory({ Hex })
+            rectangle = methods.rectangleFactory({ Hex }).bind(gridInstance)
         })
 
         describe('when called without start hex or direction', function() {
@@ -556,7 +558,7 @@ describe('rectangle', function() {
     describe('when hexes have a flat orientation', function() {
         before(function() {
             Hex = createHexFactory({ orientation: 'FLAT' })
-            rectangle = methods.rectangleFactory({ Hex })
+            rectangle = methods.rectangleFactory({ Hex }).bind(gridInstance)
         })
 
         describe('when called without start hex or direction', function() {
