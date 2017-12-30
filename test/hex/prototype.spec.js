@@ -141,7 +141,7 @@ describe('corners', function() {
     })
 
     it('calls the hex\'s witdh(), height() and isPointy() methods', function() {
-        corners.bind(context)()
+        corners.call(context)
         expect(width).to.have.been.called
         expect(height).to.have.been.called
         expect(isPointy).to.have.been.called
@@ -153,7 +153,7 @@ describe('corners', function() {
         })
 
         it('returns an array of 6 corners', function() {
-            expect(corners.bind(context)()).to.eql([
+            expect(corners.call(context)).to.eql([
                 [ 1, 0.25 ],
                 [ 1, 0.75 ],
                 [ 0.5, 1 ],
@@ -170,7 +170,7 @@ describe('corners', function() {
         })
 
         it('returns an array of 6 corners', function() {
-            expect(corners.bind(context)()).to.eql([
+            expect(corners.call(context)).to.eql([
                 [ 1, 0.5 ],
                 [ 0.75, 1 ],
                 [ 0.25, 1 ],
@@ -203,7 +203,7 @@ describe('toPoint', function() {
         })
 
         it('creates a new point', function() {
-            toPoint.bind(context)()
+            toPoint.call(context)
             expect(Point.firstCall.args[0]).to.be.closeTo(2.5980, 0.0005)
             expect(Point.firstCall.args[1]).to.equal(1.5)
         })
@@ -215,7 +215,7 @@ describe('toPoint', function() {
         })
 
         it('creates a new point', function() {
-            toPoint.bind(context)()
+            toPoint.call(context)
             expect(Point.firstCall.args[0]).to.equal(1.5)
             expect(Point.firstCall.args[1]).to.be.closeTo(2.5980, 0.0005)
         })
@@ -224,13 +224,13 @@ describe('toPoint', function() {
     it('subtracts the hex\'s origin from that point', function() {
         context.origin.x = 10
         context.origin.y = 10
-        toPoint.bind(context)()
+        toPoint.call(context)
         expect(Point.firstCall.args[0]).to.equal(1.5 - 10)
         expect(Point.firstCall.args[1]).to.be.closeTo(2.5980 - 10, 0.0005)
     })
 
     it('returns the point', function() {
-        const result = toPoint.bind(context)()
+        const result = toPoint.call(context)
         expect(result).to.eql('point result')
     })
 })
@@ -263,6 +263,12 @@ describe('hexesBetween', function () {
             otherHex
         ])
     })
+
+    it('transfers any custom properties the current hex might have', function() {
+        const otherHex = Hex(1, -5, 4)
+        const result = Hex.call({ custom: 'hexesBetween()' }).hexesBetween(otherHex)
+        result.forEach(hex => expect(hex).to.have.property('custom', 'hexesBetween()'))
+    })
 })
 
 describe('add', function () {
@@ -281,14 +287,13 @@ describe('add', function () {
     })
 
     it('transfers any custom properties the current hex might have', function() {
-        const add = methods.addFactory({ Hex: HexSpy }).bind({
+        const result = Hex.call({
             x: 0,
             y: 0,
             z: 0,
-            custom: 'for add()'
-        })
-        const result = add(Hex())
-        expect(result).to.contain({ custom: 'for add()' })
+            custom: 'add()'
+        }).add(Hex())
+        expect(result).to.contain({ custom: 'add()' })
     })
 })
 
@@ -312,10 +317,10 @@ describe('subtract', function () {
             x: 0,
             y: 0,
             z: 0,
-            custom: 'for subtract()'
+            custom: 'subtract()'
         })
         const result = subtract(Hex())
-        expect(result).to.contain({ custom: 'for subtract()' })
+        expect(result).to.contain({ custom: 'subtract()' })
     })
 })
 
@@ -323,6 +328,13 @@ describe('equals', function () {
     it('returns whether the coordinates of the current and the passed hex are equal', function() {
         expect(Hex().equals(Hex())).to.be.true
         expect(Hex(5, -3).equals(Hex(-1, 2))).to.be.false
+    })
+
+    it('ignores any custom properties', function() {
+        const hex1 = Hex.call({ custom: 1 }, 4, 4)
+        const hex2 = Hex.call({ custom: 2 }, 4, 4)
+
+        expect(hex1.equals(hex2)).to.be.true
     })
 })
 
@@ -376,6 +388,11 @@ describe('neighbor', function () {
             expect(add).to.have.been.calledWith(DIAGONAL_DIRECTION_COORDINATES[3])
         })
     })
+
+    it('transfers any custom properties the current hex might have', function() {
+        const result = Hex.call({ custom: 'neighbor()' }).neighbor()
+        expect(result).to.have.property('custom', 'neighbor()')
+    })
 })
 
 describe('neighbors', function () {
@@ -423,6 +440,11 @@ describe('neighbors', function () {
             ])
         })
     })
+
+    it('transfers any custom properties the current hex might have', function() {
+        const result = Hex.call({ custom: 'neighbors()' }).neighbors()
+        result.forEach(hex => expect(hex).to.have.property('custom', 'neighbors()'))
+    })
 })
 
 describe('distance', function () {
@@ -448,15 +470,8 @@ describe('round', function () {
     })
 
     it('transfers any custom properties the current hex might have', function() {
-        const round = methods.roundFactory({ Hex: HexSpy }).bind({
-            x: 0,
-            y: 0,
-            z: 0,
-            custom: 'for round()'
-        })
-        const result = round()
-
-        expect(result).to.contain({ custom: 'for round()' })
+        const result = Hex.call({ custom: 'round()' }).round()
+        expect(result).to.have.property('custom', 'round()')
     })
 })
 
@@ -476,15 +491,13 @@ describe('lerp', function () {
     })
 
     it('transfers any custom properties the current hex might have', function() {
-        const lerp = methods.lerpFactory({ Hex: HexSpy }).bind({
+        const result = Hex.call({
             x: 0,
             y: 0,
             z: 0,
-            custom: 'for lerp()'
-        })
-        const result = lerp(Hex(), 0)
-
-        expect(result).to.contain({ custom: 'for lerp()' })
+            custom: 'lerp()'
+        }).lerp({})
+        expect(result).to.have.property('custom', 'lerp()')
     })
 })
 
@@ -495,6 +508,11 @@ describe('nudge', function () {
         const result = nudge()
         expect(add).to.have.been.calledWith(EPSILON)
         expect(result).to.eql('add result')
+    })
+
+    it('transfers any custom properties the current hex might have', function() {
+        const result = Hex.call({ custom: 'nudge()' }).nudge()
+        expect(result).to.have.property('custom', 'nudge()')
     })
 })
 
