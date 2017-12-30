@@ -1,23 +1,36 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 
-import GridFactory from '../../src/grid'
+import createGridFactoryFactory from '../../src/grid'
 import extendHex from '../../src/hex'
 
-describe('Grid', function() {
+describe('Grid.createFactory', function() {
     describe('when not passed a function', function() {
         it('calls extendHex() to create a default Hex factory', function() {
             const extendHexSpy = sinon.spy(extendHex)
-            const Grid = GridFactory({ extendHex: extendHexSpy })
-            Grid()
+            const createFactory = createGridFactoryFactory({ extendHex: extendHexSpy })
+            createFactory()
             expect(extendHexSpy).to.have.been.called
         })
     })
 
+    it('returns a Grid factory', function() {
+        const createFactory = createGridFactoryFactory({ extendHex })
+        const Grid = createFactory()
+        expect(Grid).to.be.a('function')
+    })
+})
+
+describe('Grid', function() {
+    let Grid, Hex
+
+    beforeEach(function() {
+        Hex = extendHex()
+        Grid = createGridFactoryFactory({ extendHex })(Hex)
+    })
+
     it('returns an object with the Grid methods', function() {
-        const Grid = GridFactory({ extendHex })
-        const Hex = extendHex()
-        const result = Grid(Hex)
+        const result = Grid()
         const properties = Object.keys(result).length
 
         expect(result).to.be.an('object')

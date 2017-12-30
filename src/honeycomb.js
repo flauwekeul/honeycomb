@@ -1,13 +1,18 @@
 import { ORIENTATIONS } from './hex/constants'
 import extendHex from './hex'
-import GridFactory from './grid'
+import createGridFactoryFactory from './grid'
 import Point from './point'
 
-const Grid = GridFactory({ extendHex })
+const Hex = {
+    ORIENTATIONS,
+    createFactory: extendHex
+}
+const Grid = {
+    createFactory: createGridFactoryFactory({ extendHex })
+}
 
 export {
-    ORIENTATIONS as HEX_ORIENTATIONS,
-    extendHex,
+    Hex,
     Grid,
     Point
 }

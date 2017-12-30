@@ -1,22 +1,24 @@
 import { expect } from 'chai'
 
-import { ORIENTATIONS } from '../src/hex/constants'
 import * as API from '../src/honeycomb'
+import { ORIENTATIONS } from '../src/hex/constants'
+import extendHex from '../src/hex'
+import Point from '../src/point'
 
 describe('API', function() {
-    it('exposes HEX_ORIENTATIONS', function() {
-        expect(API).to.have.property('HEX_ORIENTATIONS').that.eqls(ORIENTATIONS)
+    it('exposes a Hex namespace', function() {
+        expect(API).to.have.property('Hex').that.eqls({ ORIENTATIONS, createFactory: extendHex })
     })
 
-    it('exposes extendHex', function() {
-        expect(API).to.have.property('extendHex').that.is.a('function').with.property('name', 'extendHex')
+    it('exposes a Grid namespace', function() {
+        expect(API).to.have.property('Grid')
+            .that.is.an('object')
+            .with.property('createFactory')
+            .that.is.a('function')
+            .with.property('name', 'createFactory')
     })
 
-    it('exposes Grid', function() {
-        expect(API).to.have.property('Grid').that.is.a('function').with.property('name', 'Grid')
-    })
-
-    it('exposes Point', function() {
-        expect(API).to.have.property('Point').that.is.a('function').with.property('name', 'Point')
+    it('exposes the Point factory', function() {
+        expect(API).to.have.property('Point').that.eqls(Point)
     })
 })
