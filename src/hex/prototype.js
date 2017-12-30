@@ -121,7 +121,7 @@ export function toPointFactory({ Point }) {
         }
 
         // `x` and `y` are always the hex's center, so the origin needs to be subtracted
-        return Point(x, y).subtract(this.origin)
+        return Point(x - this.origin.x, y - this.origin.y)
     }
 }
 
@@ -193,8 +193,7 @@ export function subtractFactory({ Hex }) {
  * @returns {boolean}       Whether the coordinates of the current and the passed hex are equal.
  */
 export function equals(otherHex) {
-    const { x: otherX, y: otherY, z: otherZ } = otherHex
-    return this.x === otherX && this.y === otherY && this.z === otherZ
+    return this.x === otherHex.x && this.y === otherHex.y && this.z === otherHex.z
 }
 
 /**
@@ -262,11 +261,10 @@ export function neighbors(diagonal = false) {
  * Hex(-3, -3, 6).distance(Hex(-1, 4, -3)) // 9
  */
 export function distance(otherHex) {
-    const relativeHex = this.subtract(otherHex)
     return Math.max(
-        Math.abs(relativeHex.x),
-        Math.abs(relativeHex.y),
-        Math.abs(relativeHex.z)
+        Math.abs(this.x - otherHex.x),
+        Math.abs(this.y - otherHex.y),
+        Math.abs(this.z - otherHex.z)
     )
 }
 

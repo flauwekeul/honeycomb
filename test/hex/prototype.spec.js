@@ -183,17 +183,16 @@ describe('corners', function() {
 })
 
 describe('toPoint', function() {
-    let subtract, Point, toPoint, context
+    let Point, toPoint, context
 
     beforeEach(function() {
-        subtract = sinon.stub().returns('subtract result')
-        Point = sinon.stub().returns({ subtract })
+        Point = sinon.stub().returns('point result')
         toPoint = methods.toPointFactory({ Point })
         context = {
             x: 1,
             y: 1,
             size: 1,
-            origin: 'origin result',
+            origin: { x: 0, y: 0 },
             isPointy: () => null
         }
     })
@@ -223,13 +222,16 @@ describe('toPoint', function() {
     })
 
     it('subtracts the hex\'s origin from that point', function() {
+        context.origin.x = 10
+        context.origin.y = 10
         toPoint.bind(context)()
-        expect(subtract).to.have.been.calledWith('origin result')
+        expect(Point.firstCall.args[0]).to.equal(1.5 - 10)
+        expect(Point.firstCall.args[1]).to.be.closeTo(2.5980 - 10, 0.0005)
     })
 
     it('returns the point', function() {
         const result = toPoint.bind(context)()
-        expect(result).to.eql('subtract result')
+        expect(result).to.eql('point result')
     })
 })
 
@@ -424,20 +426,9 @@ describe('neighbors', function () {
 })
 
 describe('distance', function () {
-    let distance, subtract
-
-    before(function () {
-        subtract = sinon.stub().returns({ x: -5, y: -3, z: 8 })
-        distance = methods.distance.bind({ subtract })
-    })
-
-    it('calls subtract() with the given hex', function () {
-        distance('other hex')
-        expect(subtract).to.have.been.calledWith('other hex')
-    })
-
     it('returns the highest absolute coordinate of the other hex coordinates subtracted from the current', function () {
-        expect(distance()).to.equal(8)
+        const distance = methods.distance.bind({ x: 1, y: 2, z: 3 })
+        expect(distance({ x: 1, y: 1, z: 1 })).to.equal(2)
     })
 })
 
