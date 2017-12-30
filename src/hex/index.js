@@ -47,7 +47,7 @@ export const staticMethods = {
  * const addedHex = hex.add(Hex(3, -1))
  * addedHex.customProperty  // I'm custom 😃
  */
-export default function extendHex(prototype = {}) {
+export default function createFactory(prototype = {}) {
     const defaultPrototype = {
         // settings:
         orientation: ORIENTATIONS.POINTY,

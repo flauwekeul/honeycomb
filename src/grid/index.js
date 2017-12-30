@@ -1,8 +1,8 @@
 import Point from '../point'
 import * as methods from './methods'
 
-export default function createGridFactoryFactory({ extendHex }) {
-    return function createFactory(Hex = extendHex()) {
+export default function createGridFactoryFactory({ createHexFactory }) {
+    return function createFactory(Hex = createHexFactory()) {
         /**
          * @module src/grid
          * @function Grid

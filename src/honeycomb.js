@@ -1,14 +1,14 @@
 import { ORIENTATIONS } from './hex/constants'
-import extendHex from './hex'
+import createHexFactory from './hex'
 import createGridFactoryFactory from './grid'
 import Point from './point'
 
 const Hex = {
     ORIENTATIONS,
-    createFactory: extendHex
+    createFactory: createHexFactory
 }
 const Grid = {
-    createFactory: createGridFactoryFactory({ extendHex })
+    createFactory: createGridFactoryFactory({ createHexFactory })
 }
 
 export {

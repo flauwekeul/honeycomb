@@ -2,10 +2,10 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import { isObject } from 'axis.js'
 
-import extendHex from '../../src/hex'
+import createHexFactory from '../../src/hex'
 import * as methods from '../../src/grid/methods'
 
-const Hex = extendHex()
+const Hex = createHexFactory()
 let isObjectSpy
 
 before(function() {
@@ -415,7 +415,7 @@ describe('rectangle', function() {
     let rectangle, Hex
 
     before(function() {
-        rectangle = methods.rectangleFactory({ Hex: extendHex(), isObject: isObjectSpy })
+        rectangle = methods.rectangleFactory({ Hex: createHexFactory(), isObject: isObjectSpy })
     })
 
     it('returns an array with a length of (width ⨉ height) hexes', function() {
@@ -426,7 +426,7 @@ describe('rectangle', function() {
 
     describe('when hexes have a pointy orientation', function() {
         before(function() {
-            Hex = extendHex({ orientation: 'POINTY' })
+            Hex = createHexFactory({ orientation: 'POINTY' })
             rectangle = methods.rectangleFactory({ Hex , isObject: isObjectSpy })
         })
 
@@ -561,7 +561,7 @@ describe('rectangle', function() {
 
     describe('when hexes have a flat orientation', function() {
         before(function() {
-            Hex = extendHex({ orientation: 'FLAT' })
+            Hex = createHexFactory({ orientation: 'FLAT' })
             rectangle = methods.rectangleFactory({ Hex, isObject: isObjectSpy })
         })
 

@@ -6,10 +6,10 @@ import {
     DIAGONAL_DIRECTION_COORDINATES,
     EPSILON
 } from '../../src/hex/constants'
-import extendHex from '../../src/hex'
+import createHexFactory from '../../src/hex'
 import * as methods from '../../src/hex/prototype'
 
-const Hex = extendHex()
+const Hex = createHexFactory()
 
 describe('coordinates', function() {
     it('returns the hex\'s x, y and z coordinates', function() {

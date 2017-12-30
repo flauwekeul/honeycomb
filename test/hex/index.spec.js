@@ -1,21 +1,21 @@
 import { expect } from 'chai'
 
-import extendHex, { staticMethods } from '../../src/hex'
+import createHexFactory, { staticMethods } from '../../src/hex'
 import { ORIENTATIONS } from '../../src/hex/constants'
 
 describe('Hex.createFactory', function() {
     it('is a function', function() {
-        const Hex = extendHex()
+        const Hex = createHexFactory()
         expect(Hex).to.be.a('function')
     })
 
     it('returns a function that has the Hex static methods', function() {
-        const Hex = extendHex()
+        const Hex = createHexFactory()
         expect(Object.entries(Hex)).to.eql(Object.entries(staticMethods))
     })
 
     it('returns a function with the default prototype', function() {
-        const Hex = extendHex()
+        const Hex = createHexFactory()
         const prototype = Object.getPrototypeOf(Hex())
         const prototypeProps = Object.keys(prototype)
 
@@ -51,7 +51,7 @@ describe('Hex.createFactory', function() {
                 size: 100,
                 custom: 'property'
             }
-            const Hex = extendHex(prototype)
+            const Hex = createHexFactory(prototype)
             const finalPrototype = Object.getPrototypeOf(Hex())
 
             expect(finalPrototype).to.have.own.property('size', 100)
@@ -59,8 +59,8 @@ describe('Hex.createFactory', function() {
         })
 
         it(`creates a different Hex factory each time it's called`, function() {
-            const Hex1 = extendHex({ size: 10 })
-            const Hex2 = extendHex({ size: 20 })
+            const Hex1 = createHexFactory({ size: 10 })
+            const Hex2 = createHexFactory({ size: 20 })
 
             expect(Hex1().size).not.to.equal(Hex2().size)
         })
@@ -71,7 +71,7 @@ describe('Hex creation', function() {
     let Hex
 
     before(function() {
-        Hex = extendHex()
+        Hex = createHexFactory()
     })
 
     describe('with 3 numbers', function() {
