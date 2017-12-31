@@ -2,11 +2,9 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 
 import createHexFactory from '../../src/hex'
-import createGridFactoryFactory from '../../src/grid'
+import { Grid } from '../../src/grid'
 import * as methods from '../../src/grid/methods'
 
-const Grid = createGridFactoryFactory({ createHexFactory })()
-const gridInstance = Grid()
 const Hex = createHexFactory()
 
 describe('pointToHex', function() {
@@ -170,13 +168,17 @@ describe('parallelogram', function() {
     let parallelogram
 
     before(function() {
-        parallelogram = methods.parallelogramFactory({ Hex }).bind(gridInstance)
+        parallelogram = methods.parallelogramFactory({ Grid, Hex })
     })
 
-    it('returns an array with a length of (width ⨉ height) hexes', function() {
+    it('returns a grid instance with a length of (width ⨉ height) hexes', function() {
+        const gridInstance = sinon.createStubInstance(Grid)
+        const GridSpy = sinon.spy(() => gridInstance)
+        const parallelogram = methods.parallelogramFactory({ Grid: GridSpy, Hex })
         const result = parallelogram({ width: 2, height: 3 })
-        expect(result).to.be.an('array')
-        expect(result).to.have.a.lengthOf(6)
+
+        expect(result).to.equal(gridInstance)
+        expect(gridInstance.push.callCount).to.equal(6)
     })
 
     describe('when called without start hex or direction', function() {
@@ -273,14 +275,18 @@ describe('triangle', function() {
     let triangle
 
     before(function() {
-        triangle = methods.triangleFactory({ Hex }).bind(gridInstance)
+        triangle = methods.triangleFactory({ Grid, Hex })
     })
 
     // https://en.wikipedia.org/wiki/Triangular_number
-    it('returns an array with a length of the triangular number of the size', function() {
+    it('returns a grid instance with a length of the triangular number of the size', function() {
+        const gridInstance = sinon.createStubInstance(Grid)
+        const GridSpy = sinon.spy(() => gridInstance)
+        const triangle = methods.triangleFactory({ Grid: GridSpy, Hex })
         const result = triangle({ size: 4 })
-        expect(result).to.be.an('array')
-        expect(result).to.have.a.lengthOf(4+3+2+1)
+
+        expect(result).to.equal(gridInstance)
+        expect(gridInstance.push.callCount).to.equal(4 + 3 + 2 + 1)
     })
 
     describe('when called without start hex or direction', function() {
@@ -353,13 +359,17 @@ describe('hexagon', function() {
     let hexagon
 
     before(function() {
-        hexagon = methods.hexagonFactory({ Hex }).bind(gridInstance)
+        hexagon = methods.hexagonFactory({ Grid, Hex })
     })
 
-    it('returns an array with a hard to determine amount of hexes 😬', function() {
+    it('returns a grid instance with a hard to determine amount of hexes 😬', function() {
+        const gridInstance = sinon.createStubInstance(Grid)
+        const GridSpy = sinon.spy(() => gridInstance)
+        const hexagon = methods.hexagonFactory({ Grid: GridSpy, Hex })
         const result = hexagon({ radius: 4 })
-        expect(result).to.be.an('array')
-        expect(result).to.have.a.lengthOf(37)
+
+        expect(result).to.equal(gridInstance)
+        expect(gridInstance.push.callCount).to.equal(37)
     })
 
     describe('when called without center hex', function() {
@@ -412,18 +422,24 @@ describe('rectangle', function() {
     let rectangle, Hex
 
     before(function() {
-        rectangle = methods.rectangleFactory({ Hex: createHexFactory() }).bind(gridInstance)
+        Hex = createHexFactory()
+        rectangle = methods.rectangleFactory({ Grid, Hex })
     })
 
-    it('returns an array with a length of (width ⨉ height) hexes', function() {
+    it('returns a grid instance with a length of (width ⨉ height) hexes', function() {
+        const gridInstance = sinon.createStubInstance(Grid)
+        const GridSpy = sinon.spy(() => gridInstance)
+        const rectangle = methods.rectangleFactory({ Grid: GridSpy, Hex })
         const result = rectangle({ width: 4, height: 5 })
-        expect(result).to.have.a.lengthOf(20)
+
+        expect(result).to.equal(gridInstance)
+        expect(gridInstance.push.callCount).to.equal(20)
     })
 
     describe('when hexes have a pointy orientation', function() {
         before(function() {
             Hex = createHexFactory({ orientation: 'POINTY' })
-            rectangle = methods.rectangleFactory({ Hex }).bind(gridInstance)
+            rectangle = methods.rectangleFactory({ Grid, Hex })
         })
 
         describe('when called without start hex or direction', function() {
@@ -558,7 +574,7 @@ describe('rectangle', function() {
     describe('when hexes have a flat orientation', function() {
         before(function() {
             Hex = createHexFactory({ orientation: 'FLAT' })
-            rectangle = methods.rectangleFactory({ Hex }).bind(gridInstance)
+            rectangle = methods.rectangleFactory({ Grid, Hex })
         })
 
         describe('when called without start hex or direction', function() {

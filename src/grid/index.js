@@ -1,10 +1,10 @@
 import Point from '../point'
 import * as methods from './methods'
 
+export class Grid extends Array { }
+
 export default function createGridFactoryFactory({ createHexFactory }) {
     return function createFactory(Hex = createHexFactory()) {
-        class Grid extends Array { }
-
         Object.assign(
             Grid.prototype,
             {
@@ -13,10 +13,10 @@ export default function createGridFactoryFactory({ createHexFactory }) {
                 hexToPoint: methods.hexToPoint,
                 colSize: methods.colSizeFactory({ Hex }),
                 rowSize: methods.rowSizeFactory({ Hex }),
-                parallelogram: methods.parallelogramFactory({ Hex }),
-                triangle: methods.triangleFactory({ Hex }),
-                hexagon: methods.hexagonFactory({ Hex }),
-                rectangle: methods.rectangleFactory({ Hex })
+                parallelogram: methods.parallelogramFactory({ Grid, Hex }),
+                triangle: methods.triangleFactory({ Grid, Hex }),
+                hexagon: methods.hexagonFactory({ Grid, Hex }),
+                rectangle: methods.rectangleFactory({ Grid, Hex }),
             }
         )
 
