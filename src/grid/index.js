@@ -1,5 +1,5 @@
 import Point from '../point'
-import * as methods from './methods'
+import * as methods from './prototype'
 
 export class Grid extends Array { }
 

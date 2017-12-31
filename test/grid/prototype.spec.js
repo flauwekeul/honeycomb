@@ -3,7 +3,7 @@ import sinon from 'sinon'
 
 import createHexFactory from '../../src/hex'
 import { Grid } from '../../src/grid'
-import * as methods from '../../src/grid/methods'
+import * as methods from '../../src/grid/prototype'
 
 const Hex = createHexFactory()
 
