@@ -8,7 +8,8 @@ export default function createGridFactoryFactory({ createHexFactory }) {
         Object.assign(
             Grid.prototype,
             {
-                Hex,
+                // if Hex isn't unbound, it's `this` will reference the grid instance, code smell?
+                Hex: Hex.bind(),
                 pointToHex: methods.pointToHexFactory({ Point, Hex }),
                 hexToPoint: methods.hexToPoint,
                 colSize: methods.colSizeFactory({ Hex }),
@@ -57,8 +58,9 @@ export default function createGridFactoryFactory({ createHexFactory }) {
          * grid.pointToHex([ 20, 40 ])  // { x: -1, y: 27, z: -25 }
          * grid2.pointToHex([ 20, 40 ]) // { x: 0, y: 1, z: -1 }
          */
-        return function GridFactory() {
-            return new Grid()
+        return function GridFactory(...hexes) {
+            hexes = hexes.filter(hex => (hex || {}).__isHoneycombHex)
+            return new Grid(...hexes)
         }
     }
 }
