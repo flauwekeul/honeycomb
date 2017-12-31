@@ -49,7 +49,10 @@ export const staticMethods = {
  */
 export default function createFactory(prototype = {}) {
     const defaultPrototype = {
-        // settings:
+        // used internally for type checking
+        __isHoneycombHex: true,
+
+        // properties:
         orientation: ORIENTATIONS.POINTY,
         size: 1,
         origin: 0,

@@ -19,30 +19,36 @@ describe('Hex.createFactory', function() {
         const prototype = Object.getPrototypeOf(Hex())
         const prototypeProps = Object.keys(prototype)
 
-        expect(prototypeProps).to.have.length(23)
+        expect(prototypeProps).to.eql([
+            '__isHoneycombHex',
+            'orientation',
+            'size',
+            'origin',
+            'coordinates',
+            'isPointy',
+            'isFlat',
+            'oppositeCornerDistance',
+            'oppositeSideDistance',
+            'width',
+            'height',
+            'corners',
+            'toPoint',
+            'hexesBetween',
+            'add',
+            'subtract',
+            'equals',
+            'neighbor',
+            'neighbors',
+            'distance',
+            'round',
+            'lerp',
+            'nudge',
+            'toString'
+        ])
+        expect(prototype).to.have.property('__isHoneycombHex', true)
         expect(prototype).to.have.property('orientation', ORIENTATIONS.POINTY)
         expect(prototype).to.have.property('size', 1)
         expect(prototype).to.have.property('origin').that.contains({ x: 0, y: 0 })
-        expect(prototype).to.have.property('coordinates').that.is.a('function')
-        expect(prototype).to.have.property('isPointy').that.is.a('function')
-        expect(prototype).to.have.property('isFlat').that.is.a('function')
-        expect(prototype).to.have.property('oppositeCornerDistance').that.is.a('function')
-        expect(prototype).to.have.property('oppositeSideDistance').that.is.a('function')
-        expect(prototype).to.have.property('width').that.is.a('function')
-        expect(prototype).to.have.property('height').that.is.a('function')
-        expect(prototype).to.have.property('corners').that.is.a('function')
-        expect(prototype).to.have.property('toPoint').that.is.a('function')
-        expect(prototype).to.have.property('hexesBetween').that.is.a('function')
-        expect(prototype).to.have.property('add').that.is.a('function')
-        expect(prototype).to.have.property('subtract').that.is.a('function')
-        expect(prototype).to.have.property('equals').that.is.a('function')
-        expect(prototype).to.have.property('neighbor').that.is.a('function')
-        expect(prototype).to.have.property('neighbors').that.is.a('function')
-        expect(prototype).to.have.property('distance').that.is.a('function')
-        expect(prototype).to.have.property('round').that.is.a('function')
-        expect(prototype).to.have.property('lerp').that.is.a('function')
-        expect(prototype).to.have.property('nudge').that.is.a('function')
-        expect(prototype).to.have.property('toString').that.is.a('function')
     })
 
     describe('when passed hex settings', function() {
