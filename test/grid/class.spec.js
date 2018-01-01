@@ -132,4 +132,28 @@ describe('Grid class', () => {
             instance.indexOf.restore()
         })
     })
+
+    describe('Grid#push', () => {
+        afterEach(() => {
+            Grid.isValidHex.restore()
+        })
+
+        it('calls Grid.isValidHex', () => {
+            sinon.spy(Grid, 'isValidHex')
+            instance.push('value')
+
+            expect(Grid.isValidHex).to.have.been.calledWith('value')
+        })
+
+        it('pushes only elements that are valid hexes', () => {
+            instance = new Grid()
+            const isValidHex = sinon.stub(Grid, 'isValidHex')
+
+            isValidHex.withArgs('valid').returns(true)
+            isValidHex.withArgs('invalid').returns(false)
+            instance.push('valid', 'invalid')
+
+            expect(instance).to.eql(['valid'])
+        })
+    })
 })

@@ -40,4 +40,8 @@ export default class Grid extends Array {
     lastIndexOf(searchHex, fromIndex) {
         return this.indexOf(searchHex, fromIndex)
     }
+
+    push(...elements) {
+        return super.push(...elements.filter(Grid.isValidHex))
+    }
 }
