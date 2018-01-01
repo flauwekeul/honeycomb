@@ -121,4 +121,15 @@ describe('Grid class', () => {
             })
         })
     })
+
+    describe('Grid#lastIndexOf', () => {
+        it('calls Grid#indexOf', () => {
+            sinon.spy(instance, 'indexOf')
+
+            instance.lastIndexOf('searchHex', 'fromIndex')
+            expect(instance.indexOf).to.have.been.calledWith('searchHex', 'fromIndex')
+
+            instance.indexOf.restore()
+        })
+    })
 })

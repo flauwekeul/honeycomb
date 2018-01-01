@@ -34,4 +34,10 @@ export default class Grid extends Array {
 
         return -1
     }
+
+    // a grid has no duplicate hexes, so there's no reason to start searching from the end of the grid
+    // except maybe for performance reasons, but Grid#indexOf seems fast enough
+    lastIndexOf(searchHex, fromIndex) {
+        return this.indexOf(searchHex, fromIndex)
+    }
 }
