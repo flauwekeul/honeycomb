@@ -20,4 +20,18 @@ export default class Grid extends Array {
 
         return false
     }
+
+    indexOf(searchHex, fromIndex = 0) {
+        if (!Grid.isValidHex(searchHex)) {
+            return -1
+        }
+
+        for (let i = fromIndex; i < this.length; i++) {
+            if (this[i].equals(searchHex)) {
+                return i
+            }
+        }
+
+        return -1
+    }
 }

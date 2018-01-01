@@ -79,4 +79,46 @@ describe('Grid class', () => {
             })
         })
     })
+
+    describe('Grid#indexOf', () => {
+        beforeEach(() => {
+            sinon.stub(Grid, 'isValidHex').returns(true)
+        })
+
+        afterEach(() => {
+            Grid.isValidHex.restore()
+        })
+
+        it('calls Grid.isValidHex', () => {
+            instance.indexOf('value')
+            expect(Grid.isValidHex).to.have.been.calledWith('value')
+        })
+
+        describe('when Grid.isValidHex returns false', () => {
+            it('returns -1', () => {
+                Grid.isValidHex.returns(false)
+                expect(instance.indexOf()).to.equal(-1)
+            })
+        })
+
+        describe(`when called with a hex that's present in the grid`, () => {
+            it('returns its index', () => {
+                expect(instance.indexOf(Hex(0))).to.equal(0)
+            })
+        })
+
+        describe(`when called with a hex that's not present in the grid`, () => {
+            it('returns -1', () => {
+                expect(instance.indexOf(Hex(1))).to.equal(-1)
+            })
+        })
+
+        describe('when called with start index', () => {
+            it('starts searching from that index', () => {
+                instance = new Grid(Hex(0), Hex(1))
+                expect(instance.indexOf(Hex(0), 1)).to.equal(-1)
+                expect(instance.indexOf(Hex(1), 1)).to.equal(1)
+            })
+        })
+    })
 })
