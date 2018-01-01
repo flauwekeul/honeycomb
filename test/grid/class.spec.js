@@ -156,4 +156,30 @@ describe('Grid class', () => {
             expect(instance).to.eql(['valid'])
         })
     })
+
+    describe('Grid#splice', () => {
+        afterEach(() => {
+            Grid.isValidHex.restore()
+        })
+
+        it('calls Grid.isValidHex', () => {
+            sinon.spy(Grid, 'isValidHex')
+            instance.splice(0, 0, 'value')
+
+            expect(Grid.isValidHex).to.have.been.calledWith('value')
+        })
+
+        it('only adds elements that are valid hexes', () => {
+            instance = new Grid(Hex(0), Hex(1), Hex(2))
+            const isValidHex = sinon.stub(Grid, 'isValidHex')
+
+            isValidHex.withArgs('valid').returns(true)
+            isValidHex.withArgs('invalid').returns(false)
+            const result = instance.splice(1, 2, 'valid', 'invalid')
+
+            expect(instance).to.eql([Hex(0), 'valid'])
+            expect(result[0]).to.eql(Hex(1))
+            expect(result[1]).to.eql(Hex(2))
+        })
+    })
 })

@@ -44,4 +44,8 @@ export default class Grid extends Array {
     push(...elements) {
         return super.push(...elements.filter(Grid.isValidHex))
     }
+
+    splice(start, deleteCount, ...elements) {
+        return super.splice(start, deleteCount, ...elements.filter(Grid.isValidHex))
+    }
 }
