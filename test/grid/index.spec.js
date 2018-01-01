@@ -36,6 +36,7 @@ describe('GridFactory', function() {
         const prototypeProps = Object.keys(prototype)
 
         expect(prototypeProps).to.eql([
+            '__isHoneycombGrid',
             'Hex',
             'pointToHex',
             'hexToPoint',
@@ -91,6 +92,16 @@ describe('Grid creation', function() {
             expect(result).to.have.lengthOf(2)
             expect(result[0]).to.equal(hex1)
             expect(result[1]).to.equal(hex2)
+        })
+    })
+
+    describe('when called with a valid grid', function() {
+        it('returns a copy of the grid', function() {
+            const grid = Grid(Hex(), Hex())
+            const result = Grid(grid)
+
+            expect(result).to.eql(grid)
+            expect(result).to.not.equal(grid)
         })
     })
 

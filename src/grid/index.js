@@ -10,8 +10,14 @@ export default function createGridFactoryFactory({ createHexFactory }) {
         Object.assign(
             Grid.prototype,
             {
+                // used internally for type checking
+                __isHoneycombGrid: true,
+
+                // properties:
                 // if Hex isn't unbound, it's `this` will reference the grid instance, code smell?
                 Hex: Hex.bind(),
+
+                // methods
                 pointToHex: methods.pointToHexFactory({ Point, Hex }),
                 hexToPoint: methods.hexToPoint,
                 colSize: methods.colSizeFactory({ Hex }),
@@ -65,6 +71,10 @@ export default function createGridFactoryFactory({ createHexFactory }) {
                 hexes = gridLikeOrHex
             } else {
                 hexes.unshift(gridLikeOrHex)
+            }
+
+            if (hexes.__isHoneycombGrid) {
+                return hexes.slice(0)
             }
 
             return new Grid(...hexes.filter(hex => (hex || {}).__isHoneycombHex))
