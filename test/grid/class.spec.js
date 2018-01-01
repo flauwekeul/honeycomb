@@ -31,4 +31,52 @@ describe('Grid class', () => {
             expect(Grid.isValidHex(true)).to.be.false
         })
     })
+
+    describe('Grid#fill', () => {
+        it('throws an error', () => {
+            expect(() => instance.fill()).to.throw(TypeError, 'Grid.prototype.fill is not implemented')
+        })
+    })
+
+    describe('Grid#includes', () => {
+        beforeEach(() => {
+            sinon.stub(Grid, 'isValidHex').returns(true)
+        })
+
+        afterEach(() => {
+            Grid.isValidHex.restore()
+        })
+
+        it('calls Grid.isValidHex', () => {
+            instance.includes('value')
+            expect(Grid.isValidHex).to.have.been.calledWith('value')
+        })
+
+        describe('when Grid.isValidHex returns false', () => {
+            it('returns false', () => {
+                Grid.isValidHex.returns(false)
+                expect(instance.includes()).to.be.false
+            })
+        })
+
+        describe(`when called with a hex that's present in the grid`, () => {
+            it('returns true', () => {
+                expect(instance.includes(Hex(0))).to.be.true
+            })
+        })
+
+        describe(`when called with a hex that's not present in the grid`, () => {
+            it('returns false', () => {
+                expect(instance.includes(Hex(1))).to.be.false
+            })
+        })
+
+        describe('when called with start index', () => {
+            it('starts searching from that index', () => {
+                instance = new Grid(Hex(0), Hex(1))
+                expect(instance.includes(Hex(0), 1)).to.be.false
+                expect(instance.includes(Hex(1), 1)).to.be.true
+            })
+        })
+    })
 })
