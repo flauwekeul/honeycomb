@@ -7,6 +7,19 @@ import * as methods from '../../src/grid/statics'
 
 const Hex = createHexFactory()
 
+describe('isValidHex', () => {
+    it('calls Grid.isValidHex', () => {
+        sinon.spy(Grid, 'isValidHex')
+
+        const isValidHex = methods.isValidHexFactory({ Grid })
+        isValidHex('value')
+
+        expect(Grid.isValidHex).to.have.been.calledWith('value')
+
+        Grid.isValidHex.restore()
+    })
+})
+
 describe('pointToHex', function() {
     let Point, isPointy, hexResult, Hex, round, pointToHex, point
 

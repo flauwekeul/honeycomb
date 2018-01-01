@@ -1,3 +1,9 @@
+export function isValidHexFactory({ Grid }) {
+    return function isValidHex(value) {
+        return Grid.isValidHex(value)
+    }
+}
+
 export function pointToHexFactory({ Point, Hex }) {
     /**
      * @method Grid#pointToHex

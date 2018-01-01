@@ -25,6 +25,7 @@ describe('Grid.createFactory', function() {
 
         expect(staticProps).to.eql([
             'Hex',
+            'isValidHex',
             'pointToHex',
             'hexToPoint',
             'colSize',

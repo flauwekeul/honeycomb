@@ -14,6 +14,7 @@ export default function createGridFactoryFactory({ createHexFactory }) {
             Hex: Hex.bind(),
 
             // methods
+            isValidHex: statics.isValidHexFactory({ Grid }),
             pointToHex: statics.pointToHexFactory({ Point, Hex }),
             hexToPoint: statics.hexToPoint,
             colSize: statics.colSizeFactory({ Hex }),
