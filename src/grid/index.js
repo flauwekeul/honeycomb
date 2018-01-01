@@ -1,31 +1,37 @@
 import { isArray } from 'axis.js'
 
 import Point from '../point'
-import * as methods from './prototype'
+import * as statics from './statics'
+// import * as methods from './prototype'
 
 export class Grid extends Array { }
 
 export default function createGridFactoryFactory({ createHexFactory }) {
     return function createFactory(Hex = createHexFactory()) {
+        // static methods
+        Object.assign(GridFactory, {
+            // properties:
+            // if Hex isn't unbound, it's `this` will reference Gridfactory, code smell?
+            Hex: Hex.bind(),
+
+            // methods
+            pointToHex: statics.pointToHexFactory({ Point, Hex }),
+            hexToPoint: statics.hexToPoint,
+            colSize: statics.colSizeFactory({ Hex }),
+            rowSize: statics.rowSizeFactory({ Hex }),
+            parallelogram: statics.parallelogramFactory({ Grid, Hex }),
+            triangle: statics.triangleFactory({ Grid, Hex }),
+            hexagon: statics.hexagonFactory({ Grid, Hex }),
+            rectangle: statics.rectangleFactory({ Grid, Hex })
+        })
+
+        // instance methods
         Object.assign(
             Grid.prototype,
             {
-                // used internally for type checking
-                __isHoneycombGrid: true,
-
                 // properties:
-                // if Hex isn't unbound, it's `this` will reference the grid instance, code smell?
-                Hex: Hex.bind(),
-
-                // methods
-                pointToHex: methods.pointToHexFactory({ Point, Hex }),
-                hexToPoint: methods.hexToPoint,
-                colSize: methods.colSizeFactory({ Hex }),
-                rowSize: methods.rowSizeFactory({ Hex }),
-                parallelogram: methods.parallelogramFactory({ Grid, Hex }),
-                triangle: methods.triangleFactory({ Grid, Hex }),
-                hexagon: methods.hexagonFactory({ Grid, Hex }),
-                rectangle: methods.rectangleFactory({ Grid, Hex }),
+                // used internally for type checking
+                __isHoneycombGrid: true
             }
         )
 

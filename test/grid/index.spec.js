@@ -17,9 +17,35 @@ describe('Grid.createFactory', function() {
         })
     })
 
-    it('returns a GridFactory', function() {
+    it('returns a GridFactory with static methods', function() {
         const Grid = createGridFactory()
         expect(Grid).to.be.a('function')
+        const staticProps = Object.keys(Grid)
+
+        expect(staticProps).to.eql([
+            'Hex',
+            'pointToHex',
+            'hexToPoint',
+            'colSize',
+            'rowSize',
+            'parallelogram',
+            'triangle',
+            'hexagon',
+            'rectangle'
+        ])
+    })
+
+    it('unbinds the Hex property (binds to undefined)', function() {
+        const boundHex = sinon.spy()
+        const bindSpy = sinon.stub().returns(boundHex)
+        const Hex = { bind: bindSpy }
+        const Grid = createGridFactory(Hex)
+
+        expect(bindSpy).to.have.been.calledWith(/* undefined */) // passing undefined doesn't work...
+        expect(Grid.Hex).to.equal(boundHex)
+
+        Grid.Hex()
+        expect(boundHex).to.have.been.called
     })
 })
 
@@ -36,31 +62,8 @@ describe('GridFactory', function() {
         const prototypeProps = Object.keys(prototype)
 
         expect(prototypeProps).to.eql([
-            '__isHoneycombGrid',
-            'Hex',
-            'pointToHex',
-            'hexToPoint',
-            'colSize',
-            'rowSize',
-            'parallelogram',
-            'triangle',
-            'hexagon',
-            'rectangle'
+            '__isHoneycombGrid'
         ])
-    })
-
-    it('binds any passed Hex function to undefined', function() {
-        const boundHex = sinon.spy()
-        const bindSpy = sinon.stub().returns(boundHex)
-        const Hex = { bind: bindSpy }
-        const Grid = createGridFactory(Hex)
-        const prototype = Object.getPrototypeOf(Grid())
-
-        expect(bindSpy).to.have.been.calledWith()
-        expect(prototype).to.have.property('Hex').that.equals(boundHex)
-
-        Grid().Hex()
-        expect(boundHex).to.have.been.called
     })
 })
 
