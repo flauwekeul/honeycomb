@@ -1,10 +1,9 @@
 import { isArray } from 'axis.js'
 
 import Point from '../point'
+import Grid from './class'
 import * as statics from './statics'
 // import * as methods from './prototype'
-
-export class Grid extends Array { }
 
 export default function createGridFactoryFactory({ createHexFactory }) {
     return function createFactory(Hex = createHexFactory()) {
@@ -83,7 +82,7 @@ export default function createGridFactoryFactory({ createHexFactory }) {
                 return hexes.slice(0)
             }
 
-            return new Grid(...hexes.filter(hex => (hex || {}).__isHoneycombHex))
+            return new Grid(...hexes.filter(Grid.isValidHex))
         }
 
         return GridFactory

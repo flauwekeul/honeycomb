@@ -2,6 +2,7 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 
 import createGridFactoryFactory from '../../src/grid'
+import Grid from '../../src/grid/class'
 import createHexFactory from '../../src/hex'
 
 const createGridFactory = createGridFactoryFactory({ createHexFactory })
@@ -18,9 +19,9 @@ describe('Grid.createFactory', function() {
     })
 
     it('returns a GridFactory with static methods', function() {
-        const Grid = createGridFactory()
-        expect(Grid).to.be.a('function')
-        const staticProps = Object.keys(Grid)
+        const GridFactory = createGridFactory()
+        expect(GridFactory).to.be.a('function')
+        const staticProps = Object.keys(GridFactory)
 
         expect(staticProps).to.eql([
             'Hex',
@@ -39,12 +40,12 @@ describe('Grid.createFactory', function() {
         const boundHex = sinon.spy()
         const bindSpy = sinon.stub().returns(boundHex)
         const Hex = { bind: bindSpy }
-        const Grid = createGridFactory(Hex)
+        const GridFactory = createGridFactory(Hex)
 
         expect(bindSpy).to.have.been.calledWith(/* undefined */) // passing undefined doesn't work...
-        expect(Grid.Hex).to.equal(boundHex)
+        expect(GridFactory.Hex).to.equal(boundHex)
 
-        Grid.Hex()
+        GridFactory.Hex()
         expect(boundHex).to.have.been.called
     })
 })
@@ -57,8 +58,8 @@ describe('GridFactory', function() {
     })
 
     it('returns a function with the Grid prototype', function() {
-        const Grid = createGridFactory()
-        const prototype = Object.getPrototypeOf(Grid())
+        const GridFactory = createGridFactory()
+        const prototype = Object.getPrototypeOf(GridFactory())
         const prototypeProps = Object.keys(prototype)
 
         expect(prototypeProps).to.eql([
@@ -68,96 +69,94 @@ describe('GridFactory', function() {
 })
 
 describe('Grid creation', function() {
-    let Grid
+    let GridFactory
 
     beforeEach(function() {
-        Grid = createGridFactory(Hex)
+        GridFactory = createGridFactory(Hex)
+        sinon.spy(Grid, 'isValidHex')
     })
 
-    describe('when called with any number of valid hexes', function() {
-        it('returns a grid instance containing those hexes', function() {
+    afterEach(() => {
+        Grid.isValidHex.restore()
+    })
+
+    describe(`when called with one or more parameters that aren't arrays`, () => {
+        it('calls Grid.isValidHex for each hex', () => {
             const hex1 = Hex()
             const hex2 = Hex(2, -4)
-            const result = Grid(hex1, hex2)
+            GridFactory(hex1, hex2)
 
-            expect(result).to.have.lengthOf(2)
-            expect(result[0]).to.equal(hex1)
-            expect(result[1]).to.equal(hex2)
+            expect(Grid.isValidHex).to.have.been.calledWith(hex1)
+            expect(Grid.isValidHex).to.have.been.calledWith(hex2)
+        })
+
+        describe(`when they're valid hexes`, function() {
+            it('returns a grid instance containing those hexes', function() {
+                const hex1 = Hex()
+                const hex2 = Hex(2, -4)
+                const result = GridFactory(hex1, hex2)
+
+                expect(result).to.have.lengthOf(2)
+                expect(result[0]).to.equal(hex1)
+                expect(result[1]).to.equal(hex2)
+            })
+        })
+
+        describe(`when they're valid hexes and other types`, function() {
+            it('returns a grid instance with only the valid hexes', function() {
+                const hex1 = Hex()
+                const hex2 = Hex(2, -4)
+                const result = GridFactory(null, 'string', hex1, {}, hex2, 1)
+
+                expect(result).to.have.lengthOf(2)
+                expect(result[0]).to.equal(hex1)
+                expect(result[1]).to.equal(hex2)
+            })
         })
     })
 
-    describe('when called with an array containing any number of valid hexes', function() {
-        it('returns a grid instance containing those hexes', function() {
+    describe(`when called with an array`, () => {
+        it('calls Grid.isValidHex for each hex in the array', () => {
             const hex1 = Hex()
             const hex2 = Hex(2, -4)
-            const result = Grid([hex1, hex2])
+            GridFactory([hex1, hex2])
 
-            expect(result).to.have.lengthOf(2)
-            expect(result[0]).to.equal(hex1)
-            expect(result[1]).to.equal(hex2)
+            expect(Grid.isValidHex).to.have.been.calledWith(hex1)
+            expect(Grid.isValidHex).to.have.been.calledWith(hex2)
         })
-    })
 
-    describe('when called with a valid grid', function() {
-        it('returns a copy of the grid', function() {
-            const grid = Grid(Hex(), Hex())
-            const result = Grid(grid)
+        describe('that is a valid grid', function() {
+            it('returns a copy of the grid', function() {
+                const grid = GridFactory(Hex(), Hex())
+                const result = GridFactory(grid)
 
-            expect(result).to.eql(grid)
-            expect(result).to.not.equal(grid)
+                expect(result).to.eql(grid)
+                expect(result).to.not.equal(grid)
+            })
         })
-    })
 
-    describe('when called with anything but valid hexes', function() {
-        it('returns an empty grid instance', function() {
-            expect(Grid()).to.be.empty
-            expect(Grid(undefined)).to.be.empty
-            expect(Grid(null)).to.be.empty
-            expect(Grid('')).to.be.empty
-            expect(Grid(false)).to.be.empty
-            expect(Grid('string')).to.be.empty
-            expect(Grid(42)).to.be.empty
-            expect(Grid([])).to.be.empty
-            expect(Grid({})).to.be.empty
-            expect(Grid(function(){})).to.be.empty
+        describe('containing valid hexes', function() {
+            it('returns a grid instance containing those hexes', function() {
+                const hex1 = Hex()
+                const hex2 = Hex(2, -4)
+                const result = GridFactory([hex1, hex2])
+
+                expect(result).to.have.lengthOf(2)
+                expect(result[0]).to.equal(hex1)
+                expect(result[1]).to.equal(hex2)
+            })
         })
-    })
 
-    describe('when called with an array containing anything but valid hexes', function() {
-        it('returns an empty grid instance', function() {
-            expect(Grid([undefined])).to.be.empty
-            expect(Grid([null])).to.be.empty
-            expect(Grid([''])).to.be.empty
-            expect(Grid([false])).to.be.empty
-            expect(Grid(['string'])).to.be.empty
-            expect(Grid([42])).to.be.empty
-            expect(Grid([[]])).to.be.empty
-            expect(Grid([{}])).to.be.empty
-            expect(Grid([function() { }])).to.be.empty
-        })
-    })
+        describe('containing valid hexes and other types', function() {
+            it('returns a grid instance with only the valid hexes', function() {
+                const hex1 = Hex()
+                const hex2 = Hex(2, -4)
+                const result = GridFactory([null, 'string', hex1, {}, hex2, 1])
 
-    describe('when called with valid hexes and other types', function() {
-        it('returns a grid instance with only the valid hexes', function() {
-            const hex1 = Hex()
-            const hex2 = Hex(2, -4)
-            const result = Grid(null, 'string', hex1, {}, hex2, 1)
-
-            expect(result).to.have.lengthOf(2)
-            expect(result[0]).to.equal(hex1)
-            expect(result[1]).to.equal(hex2)
-        })
-    })
-
-    describe('when called with an array containing valid hexes and other types', function() {
-        it('returns a grid instance with only the valid hexes', function() {
-            const hex1 = Hex()
-            const hex2 = Hex(2, -4)
-            const result = Grid([null, 'string', hex1, {}, hex2, 1])
-
-            expect(result).to.have.lengthOf(2)
-            expect(result[0]).to.equal(hex1)
-            expect(result[1]).to.equal(hex2)
+                expect(result).to.have.lengthOf(2)
+                expect(result[0]).to.equal(hex1)
+                expect(result[1]).to.equal(hex2)
+            })
         })
     })
 })

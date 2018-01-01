@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 
 import createHexFactory from '../../src/hex'
-import { Grid } from '../../src/grid'
+import Grid from '../../src/grid/class'
 import * as methods from '../../src/grid/statics'
 
 const Hex = createHexFactory()
