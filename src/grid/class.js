@@ -1,3 +1,15 @@
+/**
+ * @private
+ *
+ * The only way to prevent setting invalid items in a grid (`grid[0] = 'not a hex'`) is by using proxies.
+ * A proxy can have a `set` trap that can prevent the setting of invalid hexes.
+ *
+ * Some approaches include:
+ * 1. Wrapping the grid instance returned from GridFactory in a proxy.
+ * 2. Putting a proxy in the prototype chain of Grid (this "shields" the Array prototype methods).
+ * 3. Using a proxy to forward certain calls to the Array prototype (and not extending Array at all).
+ */
+
 export default class Grid extends Array {
     static isValidHex(value) {
         return (value || {}).__isHoneycombHex === true
@@ -47,5 +59,9 @@ export default class Grid extends Array {
 
     splice(start, deleteCount, ...elements) {
         return super.splice(start, deleteCount, ...elements.filter(Grid.isValidHex))
+    }
+
+    unshift(...elements) {
+        return super.unshift(...elements.filter(Grid.isValidHex))
     }
 }

@@ -182,4 +182,28 @@ describe('Grid class', () => {
             expect(result[1]).to.eql(Hex(2))
         })
     })
+
+    describe('Grid#unshift', () => {
+        afterEach(() => {
+            Grid.isValidHex.restore()
+        })
+
+        it('calls Grid.isValidHex', () => {
+            sinon.spy(Grid, 'isValidHex')
+            instance.unshift('value')
+
+            expect(Grid.isValidHex).to.have.been.calledWith('value')
+        })
+
+        it('adds only elements to the end of the grid that are valid hexes', () => {
+            instance = new Grid()
+            const isValidHex = sinon.stub(Grid, 'isValidHex')
+
+            isValidHex.withArgs('valid').returns(true)
+            isValidHex.withArgs('invalid').returns(false)
+            instance.unshift('valid', 'invalid')
+
+            expect(instance).to.eql(['valid'])
+        })
+    })
 })
