@@ -1,3 +1,5 @@
+import { isArray } from 'axis.js'
+
 import Point from '../point'
 import * as methods from './prototype'
 
@@ -58,9 +60,16 @@ export default function createGridFactoryFactory({ createHexFactory }) {
          * grid.pointToHex([ 20, 40 ])  // { x: -1, y: 27, z: -25 }
          * grid2.pointToHex([ 20, 40 ]) // { x: 0, y: 1, z: -1 }
          */
-        return function GridFactory(...hexes) {
-            hexes = hexes.filter(hex => (hex || {}).__isHoneycombHex)
-            return new Grid(...hexes)
+        function GridFactory(gridLikeOrHex, ...hexes) {
+            if (isArray(gridLikeOrHex)) {
+                hexes = gridLikeOrHex
+            } else {
+                hexes.unshift(gridLikeOrHex)
+            }
+
+            return new Grid(...hexes.filter(hex => (hex || {}).__isHoneycombHex))
         }
+
+        return GridFactory
     }
 }

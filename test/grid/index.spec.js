@@ -70,15 +70,7 @@ describe('Grid creation', function() {
         Grid = createGridFactory(Hex)
     })
 
-    describe('without parameters', function() {
-        it('returns an empty grid instance', function() {
-            const result = Grid()
-            expect(result).to.have.lengthOf(0)
-            expect(result).to.be.empty
-        })
-    })
-
-    describe('with any number of valid hexes', function() {
+    describe('when called with any number of valid hexes', function() {
         it('returns a grid instance containing those hexes', function() {
             const hex1 = Hex()
             const hex2 = Hex(2, -4)
@@ -90,8 +82,21 @@ describe('Grid creation', function() {
         })
     })
 
-    describe('with anything but valid hexes', function() {
+    describe('when called with an array containing any number of valid hexes', function() {
+        it('returns a grid instance containing those hexes', function() {
+            const hex1 = Hex()
+            const hex2 = Hex(2, -4)
+            const result = Grid([hex1, hex2])
+
+            expect(result).to.have.lengthOf(2)
+            expect(result[0]).to.equal(hex1)
+            expect(result[1]).to.equal(hex2)
+        })
+    })
+
+    describe('when called with anything but valid hexes', function() {
         it('returns an empty grid instance', function() {
+            expect(Grid()).to.be.empty
             expect(Grid(undefined)).to.be.empty
             expect(Grid(null)).to.be.empty
             expect(Grid('')).to.be.empty
@@ -104,11 +109,37 @@ describe('Grid creation', function() {
         })
     })
 
-    describe('with valid hexes and other types', function() {
+    describe('when called with an array containing anything but valid hexes', function() {
+        it('returns an empty grid instance', function() {
+            expect(Grid([undefined])).to.be.empty
+            expect(Grid([null])).to.be.empty
+            expect(Grid([''])).to.be.empty
+            expect(Grid([false])).to.be.empty
+            expect(Grid(['string'])).to.be.empty
+            expect(Grid([42])).to.be.empty
+            expect(Grid([[]])).to.be.empty
+            expect(Grid([{}])).to.be.empty
+            expect(Grid([function() { }])).to.be.empty
+        })
+    })
+
+    describe('when called with valid hexes and other types', function() {
         it('returns a grid instance with only the valid hexes', function() {
             const hex1 = Hex()
             const hex2 = Hex(2, -4)
-            const result = Grid(undefined, hex1, {}, hex2, 1)
+            const result = Grid(null, 'string', hex1, {}, hex2, 1)
+
+            expect(result).to.have.lengthOf(2)
+            expect(result[0]).to.equal(hex1)
+            expect(result[1]).to.equal(hex2)
+        })
+    })
+
+    describe('when called with an array containing valid hexes and other types', function() {
+        it('returns a grid instance with only the valid hexes', function() {
+            const hex1 = Hex()
+            const hex2 = Hex(2, -4)
+            const result = Grid([null, 'string', hex1, {}, hex2, 1])
 
             expect(result).to.have.lengthOf(2)
             expect(result[0]).to.equal(hex1)
