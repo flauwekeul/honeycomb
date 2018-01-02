@@ -3,7 +3,7 @@ import sinon from 'sinon'
 
 import createHexFactory from '../../src/hex'
 import Grid from '../../src/grid/class'
-import * as methods from '../../src/grid/statics'
+import * as statics from '../../src/grid/statics'
 
 const Hex = createHexFactory()
 
@@ -11,7 +11,7 @@ describe('isValidHex', () => {
     it('calls Grid.isValidHex', () => {
         sinon.spy(Grid, 'isValidHex')
 
-        const isValidHex = methods.isValidHexFactory({ Grid })
+        const isValidHex = statics.isValidHexFactory({ Grid })
         isValidHex('value')
 
         expect(Grid.isValidHex).to.have.been.calledWith('value')
@@ -33,7 +33,7 @@ describe('pointToHex', function() {
             round
         }
         Hex = sinon.stub().returns(hexResult)
-        pointToHex = methods.pointToHexFactory({ Point, Hex })
+        pointToHex = statics.pointToHexFactory({ Point, Hex })
         point = { x: 1, y: 1 }
     })
 
@@ -88,7 +88,7 @@ describe('hexToPoint', function() {
 
         sinon.spy(hex, 'toPoint')
 
-        methods.hexToPoint(hex)
+        statics.hexToPoint(hex)
         expect(hex.toPoint).to.have.been.called
 
         hex.toPoint.restore()
@@ -99,7 +99,7 @@ describe('colSize', function() {
     const isPointy = sinon.stub()
     const width = sinon.stub().returns(1)
     const Hex = sinon.stub().returns({ isPointy, width })
-    const colSize = methods.colSizeFactory({ Hex })
+    const colSize = statics.colSizeFactory({ Hex })
 
     it('creates a hex', function() {
         colSize()
@@ -140,7 +140,7 @@ describe('rowSize', function() {
     const isPointy = sinon.stub()
     const height = sinon.stub().returns(1)
     const Hex = sinon.stub().returns({ isPointy, height })
-    const rowSize = methods.rowSizeFactory({ Hex })
+    const rowSize = statics.rowSizeFactory({ Hex })
 
     it('creates a hex', function() {
         rowSize()
@@ -181,13 +181,13 @@ describe('parallelogram', function() {
     let parallelogram
 
     before(function() {
-        parallelogram = methods.parallelogramFactory({ Grid, Hex })
+        parallelogram = statics.parallelogramFactory({ Grid, Hex })
     })
 
     it('returns a grid instance with a length of (width ⨉ height) hexes', function() {
         const gridInstance = sinon.createStubInstance(Grid)
         const GridSpy = sinon.spy(() => gridInstance)
-        const parallelogram = methods.parallelogramFactory({ Grid: GridSpy, Hex })
+        const parallelogram = statics.parallelogramFactory({ Grid: GridSpy, Hex })
         const result = parallelogram({ width: 2, height: 3 })
 
         expect(result).to.equal(gridInstance)
@@ -288,14 +288,14 @@ describe('triangle', function() {
     let triangle
 
     before(function() {
-        triangle = methods.triangleFactory({ Grid, Hex })
+        triangle = statics.triangleFactory({ Grid, Hex })
     })
 
     // https://en.wikipedia.org/wiki/Triangular_number
     it('returns a grid instance with a length of the triangular number of the size', function() {
         const gridInstance = sinon.createStubInstance(Grid)
         const GridSpy = sinon.spy(() => gridInstance)
-        const triangle = methods.triangleFactory({ Grid: GridSpy, Hex })
+        const triangle = statics.triangleFactory({ Grid: GridSpy, Hex })
         const result = triangle({ size: 4 })
 
         expect(result).to.equal(gridInstance)
@@ -372,13 +372,13 @@ describe('hexagon', function() {
     let hexagon
 
     before(function() {
-        hexagon = methods.hexagonFactory({ Grid, Hex })
+        hexagon = statics.hexagonFactory({ Grid, Hex })
     })
 
     it('returns a grid instance with a hard to determine amount of hexes 😬', function() {
         const gridInstance = sinon.createStubInstance(Grid)
         const GridSpy = sinon.spy(() => gridInstance)
-        const hexagon = methods.hexagonFactory({ Grid: GridSpy, Hex })
+        const hexagon = statics.hexagonFactory({ Grid: GridSpy, Hex })
         const result = hexagon({ radius: 4 })
 
         expect(result).to.equal(gridInstance)
@@ -436,13 +436,13 @@ describe('rectangle', function() {
 
     before(function() {
         Hex = createHexFactory()
-        rectangle = methods.rectangleFactory({ Grid, Hex })
+        rectangle = statics.rectangleFactory({ Grid, Hex })
     })
 
     it('returns a grid instance with a length of (width ⨉ height) hexes', function() {
         const gridInstance = sinon.createStubInstance(Grid)
         const GridSpy = sinon.spy(() => gridInstance)
-        const rectangle = methods.rectangleFactory({ Grid: GridSpy, Hex })
+        const rectangle = statics.rectangleFactory({ Grid: GridSpy, Hex })
         const result = rectangle({ width: 4, height: 5 })
 
         expect(result).to.equal(gridInstance)
@@ -452,7 +452,7 @@ describe('rectangle', function() {
     describe('when hexes have a pointy orientation', function() {
         before(function() {
             Hex = createHexFactory({ orientation: 'POINTY' })
-            rectangle = methods.rectangleFactory({ Grid, Hex })
+            rectangle = statics.rectangleFactory({ Grid, Hex })
         })
 
         describe('when called without start hex or direction', function() {
@@ -587,7 +587,7 @@ describe('rectangle', function() {
     describe('when hexes have a flat orientation', function() {
         before(function() {
             Hex = createHexFactory({ orientation: 'FLAT' })
-            rectangle = methods.rectangleFactory({ Grid, Hex })
+            rectangle = statics.rectangleFactory({ Grid, Hex })
         })
 
         describe('when called without start hex or direction', function() {
