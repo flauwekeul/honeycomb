@@ -125,27 +125,6 @@ export function toPointFactory({ Point }) {
     }
 }
 
-/**
- * @method Hex#hexesBetween
- *
- * @see {@link http://www.redblobgames.com/grids/hexagons/#line-drawing|redblobgames.com}
- *
- * @param {Hex} otherHex    The other hex.
- *
- * @returns {Hex[]}         Array of hexes from the current hex and up to the passed `otherHex`.
- */
-export function hexesBetween(otherHex) {
-    const _distance = this.distance(otherHex)
-    const step = 1.0 / Math.max(_distance, 1)
-    let hexes = []
-
-    for (let i = 0; i <= _distance; i++) {
-        hexes.push(this.nudge().lerp(otherHex.nudge(), step * i).round())
-    }
-
-    return hexes
-}
-
 export function addFactory({ Hex }) {
     /**
      * @method Hex#add

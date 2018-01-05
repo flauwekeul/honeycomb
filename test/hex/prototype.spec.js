@@ -235,42 +235,6 @@ describe('toPoint', function() {
     })
 })
 
-describe('hexesBetween', function () {
-    let hexesBetween, distance, round, lerp, nudge
-
-    before(function () {
-        distance = sinon.stub()
-        round = sinon.stub()
-        lerp = sinon.stub().returns({ round })
-        nudge = sinon.stub().returns({ lerp })
-        hexesBetween = methods.hexesBetween.bind({ distance, nudge })
-    })
-
-    it('calls Hex.distance', function () {
-        hexesBetween()
-        expect(distance).to.have.been.called
-    })
-
-    it('returns the hexes in a straight line between the current and passed hex, inclusive', function () {
-        const otherHex = Hex(1, -5, 4)
-        const result = Hex().hexesBetween(otherHex)
-        expect(result).to.eql([
-            Hex(),
-            Hex(0, -1, 1),
-            Hex(0, -2, 2),
-            Hex(1, -3, 2),
-            Hex(1, -4, 3),
-            otherHex
-        ])
-    })
-
-    it('transfers any custom properties the current hex might have', function() {
-        const otherHex = Hex(1, -5, 4)
-        const result = Hex.call({ custom: 'hexesBetween()' }).hexesBetween(otherHex)
-        result.forEach(hex => expect(hex).to.have.property('custom', 'hexesBetween()'))
-    })
-})
-
 describe('add', function () {
     let HexSpy
 

@@ -3,11 +3,11 @@ import { isArray } from 'axis.js'
 import Point from '../point'
 import Grid from './class'
 import * as statics from './statics'
-// import * as methods from './prototype'
+import * as methods from './prototype'
 
 export default function createGridFactoryFactory({ createHexFactory }) {
     return function createFactory(Hex = createHexFactory()) {
-        // static methods
+        // static properties
         Object.assign(GridFactory, {
             // properties:
             // if Hex isn't unbound, it's `this` will reference Gridfactory, code smell?
@@ -23,15 +23,20 @@ export default function createGridFactoryFactory({ createHexFactory }) {
             triangle: statics.triangleFactory({ Grid, Hex }),
             hexagon: statics.hexagonFactory({ Grid, Hex }),
             rectangle: statics.rectangleFactory({ Grid, Hex })
+            // range: to fill the grid with hexes from passed start coordinates to passed end coordinates
         })
 
-        // instance methods
+        // prototype properties
         Object.assign(
             Grid.prototype,
             {
                 // properties:
                 // used internally for type checking
-                __isHoneycombGrid: true
+                __isHoneycombGrid: true,
+
+                // methods
+                get: methods.get,
+                hexesBetween: methods.hexesBetween
             }
         )
 

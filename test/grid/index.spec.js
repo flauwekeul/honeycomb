@@ -64,7 +64,9 @@ describe('GridFactory', function() {
         const prototypeProps = Object.keys(prototype)
 
         expect(prototypeProps).to.eql([
-            '__isHoneycombGrid'
+            '__isHoneycombGrid',
+            'get',
+            'hexesBetween'
         ])
     })
 })
