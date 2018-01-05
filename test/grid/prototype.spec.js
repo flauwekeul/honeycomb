@@ -101,18 +101,23 @@ describe('hexesBetween', () => {
 })
 
 describe('neighborOf', () => {
-    let neighborOf, add, hex
+    let neighborOf, add, hex, get
 
     beforeEach(() => {
         add = sinon.stub().returns('add result')
         hex = { add }
-        neighborOf = methods.neighborOf
+        get = sinon.spy()
+        neighborOf = methods.neighborOf.bind({ get })
     })
 
-    it('returns the result of the passed hex coordinates added to DIRECTION_COORDINATES[0]', () => {
-        const result = neighborOf(hex)
+    it('calls grid.get() with the result of hex.add()', () => {
+        neighborOf(hex)
+        expect(get).to.have.been.calledWith('add result')
+    })
+
+    it('calls the passed hex.add() with DIRECTION_COORDINATES[0]', () => {
+        neighborOf(hex)
         expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[0])
-        expect(result).to.eql('add result')
     })
 
     describe('with a given direction between 0 and 5', () => {
@@ -149,52 +154,68 @@ describe('neighborOf', () => {
             expect(add).to.have.been.calledWith(DIAGONAL_DIRECTION_COORDINATES[3])
         })
     })
+
+    describe('when the neighbor is present in the grid', () => {
+        it('returns the neighbor', () => {
+            const grid = GridFactory.hexagon({ radius: 2 })
+            const hex = Hex()
+            const result = grid.neighborOf(hex)
+
+            expect(result).to.equal(grid[5])
+        })
+    })
 })
 
 describe('neighborsOf', () => {
-    let neighborsOf, add, hex
+    let neighborsOf, add, hex, get
 
     beforeEach(() => {
         add = sinon.stub().returns('add result')
         hex = { add }
-        neighborsOf = methods.neighborsOf
+        get = sinon.spy()
+        neighborsOf = methods.neighborsOf.bind({ get })
     })
 
-    it('calls the passed hex.add() with each direction and returns the results', () => {
-        const result = neighborsOf(hex)
+    it('calls grid.get() with the result of hex.add()', () => {
+        neighborsOf(hex)
+        expect(get).to.have.been.calledWith('add result')
+    })
+
+    it('calls the passed hex.add() with each direction', () => {
+        neighborsOf(hex)
         expect(add.getCall(0).args[0]).to.eql(DIRECTION_COORDINATES[0])
         expect(add.getCall(1).args[0]).to.eql(DIRECTION_COORDINATES[1])
         expect(add.getCall(2).args[0]).to.eql(DIRECTION_COORDINATES[2])
         expect(add.getCall(3).args[0]).to.eql(DIRECTION_COORDINATES[3])
         expect(add.getCall(4).args[0]).to.eql(DIRECTION_COORDINATES[4])
         expect(add.getCall(5).args[0]).to.eql(DIRECTION_COORDINATES[5])
-        expect(result).to.eql([
-            'add result',
-            'add result',
-            'add result',
-            'add result',
-            'add result',
-            'add result'
-        ])
     })
 
     describe('when called with a truthy value', () => {
-        it('calls add() with each diagonal direction and returns the results', () => {
-            const result = neighborsOf(hex, { diagonal: true })
+        it('calls add() with each diagonal direction', () => {
+            neighborsOf(hex, { diagonal: true })
             expect(add.getCall(0).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[0])
             expect(add.getCall(1).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[1])
             expect(add.getCall(2).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[2])
             expect(add.getCall(3).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[3])
             expect(add.getCall(4).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[4])
             expect(add.getCall(5).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[5])
-            expect(result).to.eql([
-                'add result',
-                'add result',
-                'add result',
-                'add result',
-                'add result',
-                'add result'
-            ])
+        })
+    })
+
+    describe('when the neighbors are present in the grid', () => {
+        it('returns the neighbors', () => {
+            const grid = GridFactory.hexagon({ radius: 2 })
+            const hex = Hex()
+            const result = grid.neighborsOf(hex)
+
+            expect(result).to.be.an('array').that.has.a.lengthOf(6)
+            expect(result[0]).to.equal(grid[5])
+            expect(result[1]).to.equal(grid[6])
+            expect(result[2]).to.equal(grid[4])
+            expect(result[3]).to.equal(grid[1])
+            expect(result[4]).to.equal(grid[0])
+            expect(result[5]).to.equal(grid[2])
         })
     })
 })

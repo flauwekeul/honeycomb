@@ -57,7 +57,7 @@ export function neighborOf(hex, { direction = 0, diagonal = false } = {}) {
         DIAGONAL_DIRECTION_COORDINATES[direction] :
         DIRECTION_COORDINATES[direction]
 
-    return hex.add(coordinates)
+    return this.get(hex.add(coordinates))
 }
 
 /**
@@ -74,5 +74,5 @@ export function neighborOf(hex, { direction = 0, diagonal = false } = {}) {
  */
 export function neighborsOf(hex, { diagonal = false } = {}) {
     return (diagonal ? DIAGONAL_DIRECTION_COORDINATES : DIRECTION_COORDINATES)
-        .map(coordinates => hex.add(coordinates))
+        .map(coordinates => this.get(hex.add(coordinates)))
 }
