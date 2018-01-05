@@ -35,7 +35,7 @@ describe('get', () => {
 })
 
 describe('hexesBetween', () => {
-    it(`calls the passed firstHex.distance()`, () => {
+    it('calls the passed firstHex.distance()', () => {
         const distance = sinon.stub()
         const firstHex = { distance }
         const lastHex = 'last hex'
@@ -68,34 +68,33 @@ describe('hexesBetween', () => {
 
     describe('when all hexes between firstHex and lastHex are present in the grid', () => {
         it('returns the hexes in a straight line, inclusive', () => {
-            const grid = GridFactory.hexagon({ radius: 6 })
+            const grid = GridFactory.rectangle({ width: 4, height: 2 })
             const firstHex = Hex()
-            const lastHex = Hex(1, -5, 4)
+            const lastHex = Hex(3, 1)
             const result = grid.hexesBetween(firstHex, lastHex)
-            expect(result).to.eql([
-                firstHex,
-                Hex(0, -1, 1),
-                Hex(0, -2, 2),
-                Hex(1, -3, 2),
-                Hex(1, -4, 3),
-                lastHex
-            ])
+
+            expect(result).to.be.an('array').that.has.a.lengthOf(5)
+            expect(result[0]).to.equal(grid[0])
+            expect(result[1]).to.equal(grid[1])
+            expect(result[2]).to.equal(grid[2])
+            expect(result[3]).to.equal(grid[6])
+            expect(result[4]).to.equal(grid[7])
         })
     })
 
     describe('when some hexes between firstHex and lastHex are missing in the grid', () => {
         it('returns any present hexes in a straight line, inclusive', () => {
-            const grid = GridFactory.hexagon({ radius: 4 })
-            const firstHex = Hex(0, -1)
-            const lastHex = Hex(1, -5, 4)
+            const grid = GridFactory.rectangle({ width: 3, height: 2 })
+            const firstHex = Hex()
+            const lastHex = Hex(3, 1)
             const result = grid.hexesBetween(firstHex, lastHex)
-            expect(result).to.eql([
-                firstHex,
-                Hex(0, -2, 2),
-                Hex(1, -3, 2),
-                undefined,
-                undefined
-            ])
+
+            expect(result).to.be.an('array').that.has.a.lengthOf(5)
+            expect(result[0]).to.equal(grid[0])
+            expect(result[1]).to.equal(grid[1])
+            expect(result[2]).to.equal(grid[2])
+            expect(result[3]).to.equal(grid[5])
+            expect(result[4]).to.be.undefined
         })
     })
 })
