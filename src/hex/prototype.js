@@ -1,7 +1,5 @@
 import {
     ORIENTATIONS,
-    DIRECTION_COORDINATES,
-    DIAGONAL_DIRECTION_COORDINATES,
     EPSILON
 } from './constants'
 
@@ -173,54 +171,6 @@ export function subtractFactory({ Hex }) {
  */
 export function equals(otherHex) {
     return this.x === otherHex.x && this.y === otherHex.y && this.z === otherHex.z
-}
-
-/**
- * @method Hex#neighbor
- *
- * @description
- * Returns the neighboring hex in the given direction.
- *
- * @see {@link http://www.redblobgames.com/grids/hexagons/#neighbors|redblobgames.com}
- *
- * @param {(0|1|2|3|4|5)}  [direction=0]    Any of the 6 directions. `0` is the Eastern direction (East-southeast when the hex is flat), `1` corresponds to 60° clockwise, `2` to 120° clockwise and so forth.
- * @param {boolean} [diagonal=false]        Whether to look for a neighbor opposite the hex's corner instead of its side. A direction of `0` means the top corner of the hex's right side when the hex is pointy and the right corner when the hex is flat.
- *
- * @returns {Hex}                           The neighboring hex.
- *
- * @example
- * import { Grid } from 'Honeycomb'
- * const Hex = Grid().Hex
- *
- * const hex = Hex()
- * hex.neighbor()           // { x: 1, y: -1, z: 0 }, the hex across the 0th (right) side
- * hex.neighbor(2)          // { x: 0, y: 1, z: -1 }, the hex across the 3rd (South West) side
- * hex.neighbor(3, true)    // { x: -2, y: 1, z: 1 }, the hex opposite the 4th corner
- */
-export function neighbor(direction = 0, diagonal = false) {
-    direction = Math.abs(direction % 6)
-    const coordinates = diagonal ?
-        DIAGONAL_DIRECTION_COORDINATES[direction] :
-        DIRECTION_COORDINATES[direction]
-
-    return this.add(coordinates)
-}
-
-/**
- * @method Hex#neighbors
- *
- * @description
- * Returns **all** neighboring hexes of the current hex.
- *
- * @see {@link http://www.redblobgames.com/grids/hexagons/#neighbors|redblobgames.com}
- *
- * @param {boolean} [diagonal=false]    Whether to return the diagonally neighboring hexes.
- *
- * @returns {Hex[]}                     An array of the 6 neighboring hexes.
- */
-export function neighbors(diagonal = false) {
-    return (diagonal ? DIAGONAL_DIRECTION_COORDINATES : DIRECTION_COORDINATES)
-        .map(coordinates => this.add(coordinates))
 }
 
 /**

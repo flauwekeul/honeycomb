@@ -66,7 +66,9 @@ describe('GridFactory', function() {
         expect(prototypeProps).to.eql([
             '__isHoneycombGrid',
             'get',
-            'hexesBetween'
+            'hexesBetween',
+            'neighborOf',
+            'neighborsOf'
         ])
     })
 })

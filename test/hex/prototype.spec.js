@@ -1,11 +1,7 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 
-import {
-    DIRECTION_COORDINATES,
-    DIAGONAL_DIRECTION_COORDINATES,
-    EPSILON
-} from '../../src/hex/constants'
+import { EPSILON } from '../../src/hex/constants'
 import createHexFactory from '../../src/hex'
 import * as methods from '../../src/hex/prototype'
 
@@ -299,115 +295,6 @@ describe('equals', function () {
         const hex2 = Hex.call({ custom: 2 }, 4, 4)
 
         expect(hex1.equals(hex2)).to.be.true
-    })
-})
-
-describe('neighbor', function () {
-    let neighbor, add
-
-    before(function () {
-        add = sinon.stub().returns('add result')
-        neighbor = methods.neighbor.bind({ add })
-    })
-
-    describe('of a given hex', function () {
-        it('returns the result of the current hex coordinates added to DIRECTION_COORDINATES[0]', function () {
-            const result = neighbor()
-            expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[0])
-            expect(result).to.eql('add result')
-        })
-    })
-
-    describe('with a given direction between 0 and 5', function () {
-        it('calls add() with the given direction coordinates', function () {
-            neighbor(0)
-            expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[0])
-            neighbor(1)
-            expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[1])
-            neighbor(2)
-            expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[2])
-            neighbor(3)
-            expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[3])
-            neighbor(4)
-            expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[4])
-            neighbor(5)
-            expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[5])
-        })
-    })
-
-    describe('with a given direction < 0 or > 5', function () {
-        it('calls add() with the remainder of the given direction', function () {
-            neighbor(6)
-            expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[0])
-            neighbor(92)
-            expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[2])
-            neighbor(-4)
-            expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[4])
-        })
-    })
-
-    describe('with the diagonal flag enabled', function () {
-        it('calls add() with the given diagonal direction', function () {
-            neighbor(3, true)
-            expect(add).to.have.been.calledWith(DIAGONAL_DIRECTION_COORDINATES[3])
-        })
-    })
-
-    it('transfers any custom properties the current hex might have', function() {
-        const result = Hex.call({ custom: 'neighbor()' }).neighbor()
-        expect(result).to.have.property('custom', 'neighbor()')
-    })
-})
-
-describe('neighbors', function () {
-    let neighbors, add
-
-    beforeEach(function () {
-        add = sinon.stub().returns('add result')
-        neighbors = methods.neighbors.bind({ add })
-    })
-
-    it('calls add() with each direction and returns the results', function () {
-        const result = neighbors()
-        expect(add.getCall(0).args[0]).to.eql(DIRECTION_COORDINATES[0])
-        expect(add.getCall(1).args[0]).to.eql(DIRECTION_COORDINATES[1])
-        expect(add.getCall(2).args[0]).to.eql(DIRECTION_COORDINATES[2])
-        expect(add.getCall(3).args[0]).to.eql(DIRECTION_COORDINATES[3])
-        expect(add.getCall(4).args[0]).to.eql(DIRECTION_COORDINATES[4])
-        expect(add.getCall(5).args[0]).to.eql(DIRECTION_COORDINATES[5])
-        expect(result).to.eql([
-            'add result',
-            'add result',
-            'add result',
-            'add result',
-            'add result',
-            'add result'
-        ])
-    })
-
-    describe('when called with a truthy value', function() {
-        it('calls add() with each diagonal direction and returns the results', function () {
-            const result = neighbors(true)
-            expect(add.getCall(0).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[0])
-            expect(add.getCall(1).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[1])
-            expect(add.getCall(2).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[2])
-            expect(add.getCall(3).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[3])
-            expect(add.getCall(4).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[4])
-            expect(add.getCall(5).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[5])
-            expect(result).to.eql([
-                'add result',
-                'add result',
-                'add result',
-                'add result',
-                'add result',
-                'add result'
-            ])
-        })
-    })
-
-    it('transfers any custom properties the current hex might have', function() {
-        const result = Hex.call({ custom: 'neighbors()' }).neighbors()
-        result.forEach(hex => expect(hex).to.have.property('custom', 'neighbors()'))
     })
 })
 

@@ -36,7 +36,9 @@ export default function createGridFactoryFactory({ createHexFactory }) {
 
                 // methods
                 get: methods.get,
-                hexesBetween: methods.hexesBetween
+                hexesBetween: methods.hexesBetween,
+                neighborOf: methods.neighborOf,
+                neighborsOf: methods.neighborsOf
             }
         )
 
