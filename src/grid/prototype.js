@@ -4,7 +4,7 @@ import {
 } from '../hex/constants'
 
 export function get(targetHex) {
-    return this.find(hex => hex.equals(targetHex))
+    return this[this.indexOf(targetHex)]
 }
 
 /**
