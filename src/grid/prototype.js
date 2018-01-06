@@ -75,4 +75,5 @@ export function neighborOf(hex, { direction = 0, diagonal = false } = {}) {
 export function neighborsOf(hex, { diagonal = false } = {}) {
     return (diagonal ? DIAGONAL_DIRECTION_COORDINATES : DIRECTION_COORDINATES)
         .map(coordinates => this.get(hex.add(coordinates)))
+        .filter(Boolean)
 }

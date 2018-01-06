@@ -163,6 +163,16 @@ describe('neighborOf', () => {
             expect(result).to.equal(grid[5])
         })
     })
+
+    describe('when the neighbor is not present in the grid', () => {
+        it('returns undefined', () => {
+            const grid = GridFactory.hexagon({ radius: 1 })
+            const hex = Hex()
+            const result = grid.neighborOf(hex)
+
+            expect(result).to.be.undefined
+        })
+    })
 })
 
 describe('neighborsOf', () => {
@@ -202,8 +212,8 @@ describe('neighborsOf', () => {
         })
     })
 
-    describe('when the neighbors are present in the grid', () => {
-        it('returns the neighbors', () => {
+    describe('when all neighbors are present in the grid', () => {
+        it('returns all neighbors', () => {
             const grid = GridFactory.hexagon({ radius: 2 })
             const hex = Hex()
             const result = grid.neighborsOf(hex)
@@ -215,6 +225,19 @@ describe('neighborsOf', () => {
             expect(result[3]).to.equal(grid[1])
             expect(result[4]).to.equal(grid[0])
             expect(result[5]).to.equal(grid[2])
+        })
+    })
+
+    describe('when some neighbors are not present in the grid', () => {
+        it('returns only the present neighbors', () => {
+            const grid = GridFactory.hexagon({ radius: 2 })
+            const hex = Hex(1, -1)
+            const result = grid.neighborsOf(hex)
+
+            expect(result).to.be.an('array').that.has.a.lengthOf(3)
+            expect(result[0]).to.equal(grid[6])
+            expect(result[1]).to.equal(grid[3])
+            expect(result[2]).to.equal(grid[2])
         })
     })
 })
