@@ -47,37 +47,6 @@ export function pointToHexFactory({ Point, Hex }) {
     }
 }
 
-/**
- * @method Grid#hexToPoint
- *
- * @description
- * Translates a hex to a point.
- *
- * @see {@link http://www.redblobgames.com/grids/hexagons/#hex-to-pixel|redblobgames.com}
- *
- * @borrows Hex#toPoint as Grid#hexToPoint
- *
- * @param {Hex} hex The hex to translate from.
- *
- * @returns {Point} The point to translate to.
- *
- * @example
- * import { Grid } from 'Honeycomb'
- *
- * const grid = Grid({ size: 50 })
- * const hex = grid.Hex(-1, 4, -3)
- * grid.hexToPoint(hex) // { x: 86.60254037844386, y: 300 }
- *
- * // a different origin...
- * const grid = Grid({ size: 50, origin: [50, 50] })
- * const hex = grid.Hex(-1, 4, -3)
- * // ...corresponds to a different point:
- * grid.hexToPoint(hex) // { x: 36.60254037844386, y: 250 }
- */
-export function hexToPoint(hex) {
-    return hex.toPoint()
-}
-
 export function colSizeFactory({ Hex }) {
     /**
      * @method Grid#colSize

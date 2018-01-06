@@ -82,19 +82,6 @@ describe('pointToHex', function() {
     })
 })
 
-describe('hexToPoint', function() {
-    it('converts a hex to a point by calling the passed hex toPoint() method', function() {
-        const hex = Hex()
-
-        sinon.spy(hex, 'toPoint')
-
-        statics.hexToPoint(hex)
-        expect(hex.toPoint).to.have.been.called
-
-        hex.toPoint.restore()
-    })
-})
-
 describe('colSize', function() {
     const isPointy = sinon.stub()
     const width = sinon.stub().returns(1)

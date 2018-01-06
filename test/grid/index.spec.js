@@ -27,7 +27,6 @@ describe('Grid.createFactory', function() {
             'Hex',
             'isValidHex',
             'pointToHex',
-            'hexToPoint',
             'colSize',
             'rowSize',
             'parallelogram',

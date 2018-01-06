@@ -16,14 +16,12 @@ export default function createGridFactoryFactory({ createHexFactory }) {
             // methods
             isValidHex: statics.isValidHexFactory({ Grid }),
             pointToHex: statics.pointToHexFactory({ Point, Hex }),
-            hexToPoint: statics.hexToPoint,
             colSize: statics.colSizeFactory({ Hex }),
             rowSize: statics.rowSizeFactory({ Hex }),
             parallelogram: statics.parallelogramFactory({ Grid, Hex }),
             triangle: statics.triangleFactory({ Grid, Hex }),
             hexagon: statics.hexagonFactory({ Grid, Hex }),
             rectangle: statics.rectangleFactory({ Grid, Hex })
-            // range: to fill the grid with hexes from passed start coordinates to passed end coordinates
         })
 
         // prototype properties
