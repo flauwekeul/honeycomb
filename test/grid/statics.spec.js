@@ -258,15 +258,18 @@ describe('parallelogram', function() {
     })
 
     describe('when called with an onCreate callback', function() {
-        it('calls the callback for each created hex passing the hex', function() {
+        it('calls the callback for each created hex passing the hex and the grid', function() {
             const callback = sinon.spy()
-            parallelogram({
+            const result = parallelogram({
                 width: 2,
                 height: 2,
                 onCreate: callback
             })
             expect(callback.callCount).to.eql(4)
-            expect(callback).to.always.have.been.calledWith(sinon.match.has('__isHoneycombHex', true))
+            expect(callback).to.always.have.been.calledWithExactly(
+                sinon.match.has('__isHoneycombHex', true),
+                sinon.match.same(result)
+            )
         })
     })
 })
@@ -343,14 +346,17 @@ describe('triangle', function() {
     })
 
     describe('when called with an onCreate callback', function() {
-        it('calls the callback for each created hex passing the hex', function() {
+        it('calls the callback for each created hex passing the hex and the grid', function() {
             const callback = sinon.spy()
-            triangle({
+            const result = triangle({
                 size: 2,
                 onCreate: callback
             })
             expect(callback.callCount).to.eql(3)
-            expect(callback).to.always.have.been.calledWith(sinon.match.has('__isHoneycombHex', true))
+            expect(callback).to.always.have.been.calledWithExactly(
+                sinon.match.has('__isHoneycombHex', true),
+                sinon.match.same(result)
+            )
         })
     })
 })
@@ -406,14 +412,17 @@ describe('hexagon', function() {
     })
 
     describe('when called with an onCreate callback', function() {
-        it('calls the callback for each created hex passing the hex', function() {
+        it('calls the callback for each created hex passing the hex and the grid', function() {
             const callback = sinon.spy()
-            hexagon({
+            const result = hexagon({
                 radius: 1,
                 onCreate: callback
             })
             expect(callback.callCount).to.eql(7)
-            expect(callback).to.always.have.been.calledWith(sinon.match.has('__isHoneycombHex', true))
+            expect(callback).to.always.have.been.calledWithExactly(
+                sinon.match.has('__isHoneycombHex', true),
+                sinon.match.same(result)
+            )
         })
     })
 })
@@ -707,15 +716,18 @@ describe('rectangle', function() {
     })
 
     describe('when called with an onCreate callback', function() {
-        it('calls the callback for each created hex passing the hex', function() {
+        it('calls the callback for each created hex passing the hex and the grid', function() {
             const callback = sinon.spy()
-            rectangle({
+            const result = rectangle({
                 width: 2,
                 height: 2,
                 onCreate: callback
             })
             expect(callback.callCount).to.eql(4)
-            expect(callback).to.always.have.been.calledWith(sinon.match.has('__isHoneycombHex', true))
+            expect(callback).to.always.have.been.calledWithExactly(
+                sinon.match.has('__isHoneycombHex', true),
+                sinon.match.same(result)
+            )
         })
     })
 })

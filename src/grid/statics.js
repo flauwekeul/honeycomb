@@ -123,7 +123,7 @@ export function parallelogramFactory({ Grid, Hex }) {
                     [firstCoordinate]: first + start.x,
                     [secondCoordinate]: second + start.y
                 })
-                onCreate(hex)
+                onCreate(hex, grid)
                 grid.push(hex)
             }
         }
@@ -176,7 +176,7 @@ export function triangleFactory({ Grid, Hex }) {
             for (let y = yStart(x); y < yEnd(x); y++) {
                 // add the hex manually (instead of using Hex#add) for better performance
                 const hex = Hex(x + start.x, y + start.y)
-                onCreate(hex)
+                onCreate(hex, grid)
                 grid.push(hex)
             }
         }
@@ -217,7 +217,7 @@ export function hexagonFactory({ Grid, Hex }) {
             for (let y = startY; y <= endY; y++) {
                 // add the hex manually (instead of using Hex#add) for better performance
                 const hex = Hex(x + center.x, y + center.y)
-                onCreate(hex)
+                onCreate(hex, grid)
                 grid.push(hex)
             }
         }
@@ -277,7 +277,7 @@ export function rectangleFactory({ Grid, Hex }) {
                     [firstCoordinate]: first + start.x,
                     [secondCoordinate]: second + start.y
                 })
-                onCreate(hex)
+                onCreate(hex, grid)
                 grid.push(hex)
             }
         }
