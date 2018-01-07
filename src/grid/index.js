@@ -28,10 +28,6 @@ export default function createGridFactoryFactory({ createHexFactory }) {
         Object.assign(
             Grid.prototype,
             {
-                // properties:
-                // used internally for type checking
-                __isHoneycombGrid: true,
-
                 // methods
                 get: methods.get,
                 hexesBetween: methods.hexesBetween,
@@ -82,10 +78,6 @@ export default function createGridFactoryFactory({ createHexFactory }) {
                 hexes = gridLikeOrHex
             } else {
                 hexes.unshift(gridLikeOrHex)
-            }
-
-            if (hexes.__isHoneycombGrid) {
-                return hexes.slice(0)
             }
 
             return new Grid(...hexes.filter(Grid.isValidHex))
