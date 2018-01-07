@@ -195,7 +195,7 @@ export function hexagonFactory({ Grid, Hex }) {
      * @see {@link http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
      *
      * @param {Object} options                      An options object.
-     * @param {number} options.radius               The radius (in hexes).
+     * @param {number} options.radius               The radius (in hexes) *excluding* the center hex.
      * @param {Hex} [options.center=Hex(0,0,0)]     The center hex.
      * @param {Function} [options.onCreate=noop]    Callback that's called for each created hex, passing the created hex.
      *
@@ -206,8 +206,6 @@ export function hexagonFactory({ Grid, Hex }) {
         center,
         onCreate = () => { }
     }) {
-        // radius includes the center hex
-        radius -= 1
         center = Hex(center)
 
         const grid = new Grid()

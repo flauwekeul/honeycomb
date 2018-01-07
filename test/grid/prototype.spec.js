@@ -156,7 +156,7 @@ describe('neighborOf', () => {
 
     describe('when the neighbor is present in the grid', () => {
         it('returns the neighbor', () => {
-            const grid = GridFactory.hexagon({ radius: 2 })
+            const grid = GridFactory.hexagon({ radius: 1 })
             const hex = Hex()
             const result = grid.neighborOf(hex)
 
@@ -166,7 +166,7 @@ describe('neighborOf', () => {
 
     describe('when the neighbor is not present in the grid', () => {
         it('returns undefined', () => {
-            const grid = GridFactory.hexagon({ radius: 1 })
+            const grid = GridFactory()
             const hex = Hex()
             const result = grid.neighborOf(hex)
 
@@ -214,7 +214,7 @@ describe('neighborsOf', () => {
 
     describe('when all neighbors are present in the grid', () => {
         it('returns all neighbors', () => {
-            const grid = GridFactory.hexagon({ radius: 2 })
+            const grid = GridFactory.hexagon({ radius: 1 })
             const hex = Hex()
             const result = grid.neighborsOf(hex)
 
@@ -230,7 +230,7 @@ describe('neighborsOf', () => {
 
     describe('when some neighbors are not present in the grid', () => {
         it('returns only the present neighbors', () => {
-            const grid = GridFactory.hexagon({ radius: 2 })
+            const grid = GridFactory.hexagon({ radius: 1 })
             const hex = Hex(1, -1)
             const result = grid.neighborsOf(hex)
 

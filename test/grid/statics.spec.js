@@ -366,7 +366,7 @@ describe('hexagon', function() {
         const gridInstance = sinon.createStubInstance(Grid)
         const GridSpy = sinon.spy(() => gridInstance)
         const hexagon = statics.hexagonFactory({ Grid: GridSpy, Hex })
-        const result = hexagon({ radius: 4 })
+        const result = hexagon({ radius: 3 })
 
         expect(result).to.equal(gridInstance)
         expect(gridInstance.push.callCount).to.equal(37)
@@ -374,7 +374,7 @@ describe('hexagon', function() {
 
     describe('when called without center hex', function() {
         it('returns the hexes in a hexagon shape, with its center at Hex(0)', function() {
-            const coordinates = hexagon({ radius: 2 }).map(hex => hex.coordinates())
+            const coordinates = hexagon({ radius: 1 }).map(hex => hex.coordinates())
             expect(coordinates).to.deep.include.members([
                 { x: 0, y: -1, z: 1 },
                 { x: 1, y: -1, z: 0 },
@@ -390,7 +390,7 @@ describe('hexagon', function() {
     describe('when called with center hex', function() {
         it('returns the hexes in a hexagon shape, with its center at the given center hex', function() {
             const coordinates = hexagon({
-                radius: 2,
+                radius: 1,
                 center: Hex(3, 1)
             }).map(hex => hex.coordinates())
             expect(coordinates).to.deep.include.members([
@@ -409,7 +409,7 @@ describe('hexagon', function() {
         it('calls the callback for each created hex passing the hex', function() {
             const callback = sinon.spy()
             hexagon({
-                radius: 2,
+                radius: 1,
                 onCreate: callback
             })
             expect(callback.callCount).to.eql(7)
