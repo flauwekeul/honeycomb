@@ -273,5 +273,5 @@ export function nudge() {
  * @returns {string}    String containing the coordinates of the hex.
  */
 export function toString() {
-    return `{ x: ${this.x}, y: ${this.y}, z: ${this.z} }`
+    return `${this.x},${this.y},${this.z}`
 }

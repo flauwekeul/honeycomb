@@ -369,6 +369,6 @@ describe('nudge', function () {
 
 describe('toString', function() {
     it('returns a string containing the coordinates of the hex', function() {
-        expect(Hex(1, 2, -3).toString()).to.eql('{ x: 1, y: 2, z: -3 }')
+        expect(Hex(1, 2, -3).toString()).to.eql('1,2,-3')
     })
 })
