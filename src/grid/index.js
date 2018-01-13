@@ -10,7 +10,7 @@ export default function createGridFactoryFactory({ createHexFactory }) {
         // static properties
         Object.assign(GridFactory, {
             // properties:
-            // if Hex isn't unbound, it's `this` will reference Gridfactory, code smell?
+            // if Hex isn't unbound, it's `this` will reference Gridfactory
             Hex: Hex.bind(),
 
             // methods

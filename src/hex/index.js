@@ -134,7 +134,7 @@ export default function createFactory(prototype = {}) {
     function Hex(xOrCoordinates, y, z) {
         let x
 
-        // if an object is passed, extract coordinates and call self
+        // if an object is passed, extract coordinates and recurse
         if (isObject(xOrCoordinates)) {
             ({ x, y, z } = xOrCoordinates)
             return Hex(x, y, z)

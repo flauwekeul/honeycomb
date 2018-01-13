@@ -492,18 +492,26 @@ Returns **[Point](#point)** The difference between the passed point's coordinate
 
 ### Bugs
 
-1.  `Hex#corners` are relative to the hex's top left, they should be relative to the hex's center (right?).
-2.  Honeycomb is [very slow](https://github.com/flauwekeul/honeycomb/issues/3) when used with canvas rendering (like pixi.js).
-3.  Get `babel-polyfill` (or `babel-runtime`?) to work with `babel-preset-env`, preferably without including a bazillion unused polyfills in the dist...
-4.  Docs: find a way to link modules together. Currently, methods of the factory functions doesn't seem to belong to their factory functions (in the context of jsdoc). This bug is nasty, tried lots of things already...
+1.  Remove check for valid hex in non-mutating grid methods (`Grid#includes` and `Grid#indexOf`).
+1.  Get coordinates system straight. Everything is currently done in either cube or axial coordinates (I don't even know 😓). It's [better](https://www.redblobgames.com/grids/hexagons/#coordinates) to use cube coordinates as the primary representation and offset coordinates for storing/displaying.
+1.  Honeycomb is [very slow](https://github.com/flauwekeul/honeycomb/issues/3) when used with canvas rendering (like pixi.js).
+2.  Docs: find a way to link modules together. Currently, methods of the factory functions doesn't seem to belong to their factory functions (in the context of jsdoc). This bug is nasty, tried lots of things already...
 
 ### Features
 
-3.  Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well.
-4.  Make it possible to filter overlapping hexes when multiple shapes are rendered.
+4.  Add possibility to pass custom properties when creating a hex. Also add a method to update any properties (coordinates or custom).
+4.  Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.
+5.  Change the `onCreate()` callback of the grid shape methods to a map function (similar to [Array.from()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from))?
+6.  Make `Grid#neighborOf` and `Grid#neighborsOf` (also) accept cardinal and ordinal directions (compass points, e.g. north, south, southwest). And maybe also arrows (e.g. ↑, ↘, ←).
+7.  Regarding grid shapes, directions are unclear. Also, it's expected their start hex differs per direction so that creating grids with different directions places them in more or less the same place.
+8.  Add logger that "renders" a grid using `console.log`.
+9.  Maybe `Honeycomb.Grid.createFactory` should accept a prototype (like `Honeycomb.Hex.createFactory` does) that requires a hex factory and enables creating a custom grid factory.
+10. Overwrite `Grid#sort` so it can sort by 1 or more dimensions, ascending/descending (and also accepts a custom comparator).
+11. Add `Grid.union`, `Grid.subtract`, `Grid.intersect` and `Grid.difference` (or maybe as prototype methods?). [More info](https://www.sketchapp.com/docs/shapes/boolean-operations/).
+12. Maybe make entities immutable?
 5.  Use JSFiddle for better examples.
-6.  Explain (hex) directions.
 7.  Shiny github.io pages 😎
+3.  Maybe add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well. Might be a problem that needs solvin' in the view (and not in Honeycomb).
 
 ### Refactorings
 
