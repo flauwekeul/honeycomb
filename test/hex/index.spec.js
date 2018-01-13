@@ -105,6 +105,16 @@ describe('Hex creation', function() {
         })
     })
 
+    describe('with a fourth argument that is an object', function() {
+        it('merges the object in the hex', function() {
+            expect(Hex(3, 2, -5, { custom: 'property' })).to.contain({ x: 3, y: 2, z: -5, custom: 'property' })
+        })
+
+        it('ignores any coordinates in the object', function() {
+            expect(Hex(3, 2, -5, { x: 0, y: 0, z: 0 })).to.contain({ x: 3, y: 2, z: -5 })
+        })
+    })
+
     describe('with an object containing x, y and z', function() {
         it('sets the coordinates', function() {
             expect(Hex({ x: 3, y: 2, z: -5 })).to.contain({ x: 3, y: 2, z: -5 })
@@ -130,6 +140,20 @@ describe('Hex creation', function() {
     describe('with an object containing no coordinate', function() {
         it('sets all coordinates to 0', function() {
             expect(Hex({})).to.contain({ x: 0, y: 0, z: 0 })
+        })
+    })
+
+    describe('with an object containing custom properties', function() {
+        it('sets the custom properties', function() {
+            expect(Hex({ custom: 'property' })).to.contain({ x: 0, y: 0, z: 0, custom: 'property' })
+        })
+    })
+
+    describe('with an object and more arguments', function() {
+        it('ignores all but the object', function() {
+            const result = Hex({ x: 1, y: -3, z: 2, custom: 'a' }, 5, 8, { x: 0, y: 0, z: 0, custom: 'b' })
+            expect(result).to.contain({ x: 1, y: -3, z: 2, custom: 'a' })
+            expect(result).not.to.contain({ custom: 'b' })
         })
     })
 
@@ -161,9 +185,25 @@ describe('Hex creation', function() {
         })
     })
 
+    describe('with an array containing more than 3 numbers', function() {
+        it('ignores all but the first 3 array elements', function() {
+            const result = Hex([3, 2, -5, { custom: 'a', x: 0 }, 8])
+            expect(result).to.contain({ x: 3, y: 2, z: -5 })
+            expect(result).not.to.contain({ custom: 'a' })
+        })
+    })
+
     describe('with an empty array', function() {
         it('sets all coordinates to 0', function() {
             expect(Hex([])).to.contain({ x: 0, y: 0, z: 0 })
+        })
+    })
+
+    describe('with an array and more arguments', function() {
+        it('ignores all but the array', function() {
+            const result = Hex([1, -3, 2], 5, 8, { x: 0, y: 0, z: 0, custom: 'a' })
+            expect(result).to.contain({ x: 1, y: -3, z: 2 })
+            expect(result).not.to.contain({ custom: 'a' })
         })
     })
 

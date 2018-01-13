@@ -499,7 +499,7 @@ Returns **[Point](#point)** The difference between the passed point's coordinate
 
 ### Features
 
-4.  Add possibility to pass custom properties when creating a hex. Also add a method to update any properties (coordinates or custom).
+4.  ~~Add possibility to pass custom properties when creating a hex.~~ Also add a method to update any properties (coordinates or custom).
 4.  Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.
 5.  Change the `onCreate()` callback of the grid shape methods to a map function (similar to [Array.from()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from))?
 6.  Make `Grid#neighborOf` and `Grid#neighborsOf` (also) accept cardinal and ordinal directions (compass points, e.g. north, south, southwest). And maybe also arrows (e.g. ↑, ↘, ←).

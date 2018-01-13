@@ -99,14 +99,17 @@ export default function createFactory(prototype = {}) {
      *
      * @see {@link redblobgames.com|http://www.redblobgames.com/grids/hexagons/#coordinates}
      *
-     * @param {(number|Object|number[])} [xOrCoordinates=]  The x coordinate or an object containing any of the x, y and z coordinates or an array containing 0 or more coordinates.
-     * @param {number} [xOrCoordinates.x=]                  The x coordinate.
-     * @param {number} [xOrCoordinates.y=]                  The y coordinate.
-     * @param {number} [xOrCoordinates.z=]                  The z coordinate.
-     * @param {number} [y=]                                 The y coordinate.
-     * @param {number} [z=]                                 The z coordinate.
+     * @param {(number|Object|number[])} [xOrProps=]    The x coordinate,
+     *                                                  **or** an object containing any of the x, y and z coordinates and any custom properties,
+     *                                                  **or** an array containing 0 or more coordinates.
+     * @param {number} [xOrProps.x=]                    The x coordinate.
+     * @param {number} [xOrProps.y=]                    The y coordinate.
+     * @param {number} [xOrProps.z=]                    The z coordinate.
+     * @param {number} [y=]                             The y coordinate.
+     * @param {number} [z=]                             The z coordinate.
+     * @param {object} [customProps={}]                 Any custom properties. The coordinates are merged into this object, ignoring any coordinates present in `customProps`.
      *
-     * @returns {Hex}                                       A hex object. It always contains all three coordinates (`x`, `y` and `z`) and any properties bound to `Hex`.
+     * @returns {Hex}                                   A hex object. It always contains all three coordinates (`x`, `y` and `z`) and any properties bound to `Hex`.
      *
      * @example
      * import { extendHex } from 'Honeycomb'
@@ -131,17 +134,20 @@ export default function createFactory(prototype = {}) {
      * const clone = Hex(someHex)   // { x: 4, y: -2, z: -2 }
      * someHex === clone            // false
      */
-    function Hex(xOrCoordinates, y, z) {
+    function Hex(xOrProps, y, z, customProps = {}) {
         let x
 
         // if an object is passed, extract coordinates and recurse
-        if (isObject(xOrCoordinates)) {
-            ({ x, y, z } = xOrCoordinates)
-            return Hex(x, y, z)
-        } else if (isArray(xOrCoordinates)) {
-            [x, y, z] = xOrCoordinates
+        if (isObject(xOrProps)) {
+            ({ x, y, z } = xOrProps)
+            // pass xOrProps because it might contain custom props
+            return Hex(x, y, z, xOrProps)
+        } else if (isArray(xOrProps)) {
+            [x, y, z] = xOrProps
+            // ignore all arguments except xOrProps
+            customProps = {}
         } else {
-            x = xOrCoordinates
+            x = xOrProps
         }
 
         [x, y, z] = [x, y, z].map(unsignNegativeZero)
@@ -179,7 +185,7 @@ export default function createFactory(prototype = {}) {
             Object.create(finalPrototype),
             // also merge any bound custom properties
             this,
-            { x, y, z }
+            Object.assign(customProps, { x, y, z })
         )
     }
 
