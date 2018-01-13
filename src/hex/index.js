@@ -54,27 +54,28 @@ export default function createFactory(prototype = {}) {
 
         // properties:
         orientation: ORIENTATIONS.POINTY,
-        size: 1,
         origin: 0,
+        size: 1,
 
         // methods:
-        coordinates: methods.coordinates,
-        isPointy: methods.isPointy,
-        isFlat: methods.isFlat,
-        oppositeCornerDistance: methods.oppositeCornerDistance,
-        oppositeSideDistance: methods.oppositeSideDistance,
-        width: methods.width,
-        height: methods.height,
-        corners: methods.cornersFactory({ Point }),
-        toPoint: methods.toPointFactory({ Point }),
         add: methods.addFactory({ Hex }),
-        subtract: methods.subtractFactory({ Hex }),
-        equals: methods.equals,
+        coordinates: methods.coordinates,
+        corners: methods.cornersFactory({ Point }),
         distance: methods.distance,
-        round: methods.roundFactory({ Hex }),
+        equals: methods.equals,
+        height: methods.height,
+        isFlat: methods.isFlat,
+        isPointy: methods.isPointy,
         lerp: methods.lerpFactory({ Hex }),
         nudge: methods.nudge,
-        toString: methods.toString
+        oppositeCornerDistance: methods.oppositeCornerDistance,
+        oppositeSideDistance: methods.oppositeSideDistance,
+        round: methods.roundFactory({ Hex }),
+        set: methods.setFactory({ Hex }),
+        subtract: methods.subtractFactory({ Hex }),
+        toPoint: methods.toPointFactory({ Point }),
+        toString: methods.toString,
+        width: methods.width
     }
     const finalPrototype = Object.assign(defaultPrototype, prototype)
 

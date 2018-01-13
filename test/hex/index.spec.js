@@ -21,26 +21,29 @@ describe('Hex.createFactory', function() {
 
         expect(prototypeProps).to.eql([
             '__isHoneycombHex',
+
             'orientation',
-            'size',
             'origin',
-            'coordinates',
-            'isPointy',
-            'isFlat',
-            'oppositeCornerDistance',
-            'oppositeSideDistance',
-            'width',
-            'height',
-            'corners',
-            'toPoint',
+            'size',
+
             'add',
-            'subtract',
-            'equals',
+            'coordinates',
+            'corners',
             'distance',
-            'round',
+            'equals',
+            'height',
+            'isFlat',
+            'isPointy',
             'lerp',
             'nudge',
-            'toString'
+            'oppositeCornerDistance',
+            'oppositeSideDistance',
+            'round',
+            'set',
+            'subtract',
+            'toPoint',
+            'toString',
+            'width'
         ])
         expect(prototype).to.have.property('__isHoneycombHex', true)
         expect(prototype).to.have.property('orientation', ORIENTATIONS.POINTY)

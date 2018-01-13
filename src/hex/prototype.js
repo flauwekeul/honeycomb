@@ -3,6 +3,20 @@ import {
     EPSILON
 } from './constants'
 
+export function setFactory({ Hex }) {
+    /**
+     * @method Hex#set
+     *
+     * @description
+     * Accepts the same arguments as the {@link Hex} factory and merges them into itself.
+     *
+     * @returns {this}  Itself.
+     */
+    return function set(...args) {
+        return Object.assign(this, Hex(...args))
+    }
+}
+
 /**
  * @method Hex#coordinates
  * @returns {Object}    The hex's x, y and z coordinates.

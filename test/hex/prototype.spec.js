@@ -7,6 +7,43 @@ import * as methods from '../../src/hex/prototype'
 
 const Hex = createHexFactory()
 
+describe('set', () => {
+    let HexSpy, set
+
+    beforeEach(function() {
+        HexSpy = sinon.spy(Hex)
+        set = methods.setFactory({ Hex: HexSpy })
+    })
+
+    it('passes any arguments to the Hex() factory', () => {
+        set.call({}, 1, 2, -3)
+        expect(HexSpy).to.have.been.calledWithExactly(1, 2, -3)
+
+        set.call({}, { x: 1, y: 2, z: -3 })
+        expect(HexSpy).to.have.been.calledWithExactly({ x: 1, y: 2, z: -3 })
+
+        set.call({}, 'invalid argument')
+        expect(HexSpy).to.have.been.calledWithExactly('invalid argument')
+    })
+
+    it('merges the return value of Hex() into itself', () => {
+        const self = { x: 1, y: 2, z: -3 }
+
+        set.call(self, { x: 5, y: -2, z: -3 })
+        expect(self).to.eql({ x: 5, y: -2, z: -3 })
+
+        set.call(self)
+        expect(self).to.eql({ x: 0, y: 0, z: 0 })
+    })
+
+    it('returns itself', () => {
+        const self = { x: 1, y: 2, z: -3 }
+        const result = set.call(self)
+
+        expect(result).to.equal(self)
+    })
+})
+
 describe('coordinates', function() {
     it('returns the hex\'s x, y and z coordinates', function() {
         const boundCoordinates = methods.coordinates.bind({ x: 8, y: -3, z: -5 })
