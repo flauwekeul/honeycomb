@@ -39,33 +39,13 @@ describe('Grid class', () => {
     })
 
     describe('Grid#includes', () => {
-        beforeEach(() => {
-            sinon.stub(Grid, 'isValidHex').returns(true)
-        })
-
-        afterEach(() => {
-            Grid.isValidHex.restore()
-        })
-
-        it('calls Grid.isValidHex', () => {
-            instance.includes('value')
-            expect(Grid.isValidHex).to.have.been.calledWith('value')
-        })
-
-        describe('when Grid.isValidHex returns false', () => {
-            it('returns false', () => {
-                Grid.isValidHex.returns(false)
-                expect(instance.includes()).to.be.false
-            })
-        })
-
-        describe(`when called with a hex that's present in the grid`, () => {
+        describe(`when called with a hex-like that's present in the grid`, () => {
             it('returns true', () => {
                 expect(instance.includes(Hex(0))).to.be.true
             })
         })
 
-        describe(`when called with a hex that's not present in the grid`, () => {
+        describe(`when called with a hex-like that's not present in the grid`, () => {
             it('returns false', () => {
                 expect(instance.includes(Hex(1))).to.be.false
             })
@@ -81,33 +61,13 @@ describe('Grid class', () => {
     })
 
     describe('Grid#indexOf', () => {
-        beforeEach(() => {
-            sinon.stub(Grid, 'isValidHex').returns(true)
-        })
-
-        afterEach(() => {
-            Grid.isValidHex.restore()
-        })
-
-        it('calls Grid.isValidHex', () => {
-            instance.indexOf('value')
-            expect(Grid.isValidHex).to.have.been.calledWith('value')
-        })
-
-        describe('when Grid.isValidHex returns false', () => {
-            it('returns -1', () => {
-                Grid.isValidHex.returns(false)
-                expect(instance.indexOf()).to.equal(-1)
-            })
-        })
-
-        describe(`when called with a hex that's present in the grid`, () => {
+        describe(`when called with a hex-like that's present in the grid`, () => {
             it('returns its index', () => {
                 expect(instance.indexOf(Hex(0))).to.equal(0)
             })
         })
 
-        describe(`when called with a hex that's not present in the grid`, () => {
+        describe(`when called with a hex-like that's not present in the grid`, () => {
             it('returns -1', () => {
                 expect(instance.indexOf(Hex(1))).to.equal(-1)
             })

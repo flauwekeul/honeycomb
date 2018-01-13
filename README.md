@@ -492,7 +492,6 @@ Returns **[Point](#point)** The difference between the passed point's coordinate
 
 ### Bugs
 
-1.  Remove check for valid hex in non-mutating grid methods (`Grid#includes` and `Grid#indexOf`).
 1.  Get coordinates system straight. Everything is currently done in either cube or axial coordinates (I don't even know 😓). It's [better](https://www.redblobgames.com/grids/hexagons/#coordinates) to use cube coordinates as the primary representation and offset coordinates for storing/displaying.
 1.  Honeycomb is [very slow](https://github.com/flauwekeul/honeycomb/issues/3) when used with canvas rendering (like pixi.js).
 2.  Docs: find a way to link modules together. Currently, methods of the factory functions doesn't seem to belong to their factory functions (in the context of jsdoc). This bug is nasty, tried lots of things already...
