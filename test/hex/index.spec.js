@@ -175,16 +175,16 @@ describe('Hex creation', function() {
     describe('with an array containing 2 numbers', function() {
         it('calculates the third coordinate and sets all 3', function() {
             expect(Hex([3, 0])).to.contain({ x: 3, y: 0, z: -3 })
-            expect(Hex([3, undefined, 0])).to.contain({ x: 3, y: -3, z: 0 })
-            expect(Hex([undefined, 3, 0])).to.contain({ x: -3, y: 3, z: 0 })
+            expect(Hex([3, null, 0])).to.contain({ x: 3, y: -3, z: 0 })
+            expect(Hex([null, 3, 0])).to.contain({ x: -3, y: 3, z: 0 })
         })
     })
 
     describe('with an array containing 1 number', function() {
         it('calculates the first missing coordinate (in the order x, y, z) and sets all 3', function() {
             expect(Hex([3])).to.contain({ x: 3, y: 3, z: -6 })
-            expect(Hex([undefined, 3])).to.contain({ x: 3, y: 3, z: -6 })
-            expect(Hex([undefined, undefined, 3])).to.contain({ x: 3, y: -6, z: 3 })
+            expect(Hex([null, 3])).to.contain({ x: 3, y: 3, z: -6 })
+            expect(Hex([null, null, 3])).to.contain({ x: 3, y: -6, z: 3 })
         })
     })
 
@@ -229,6 +229,6 @@ describe('Hex creation', function() {
     })
 
     it('converts negative zeroes to "regular" zeroes', function() {
-        expect(Hex(-0, -0, -0)).to.deep.contain({ x: 0, y: 0, z: 0 })
+        expect(Hex(-0, -0, -0)).to.contain({ x: 0, y: 0, z: 0 })
     })
 })
