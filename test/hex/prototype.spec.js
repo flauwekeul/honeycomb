@@ -56,7 +56,7 @@ describe('isPointy', function() {
         let isPointy = methods.isPointy.bind({ orientation: 'POINTY' })
         expect(isPointy()).to.be.true
         isPointy = methods.isPointy.bind({ orientation: 'pointy' })
-        expect(isPointy()).to.be.false
+        expect(isPointy()).to.be.true
         isPointy = methods.isPointy.bind({ orientation: 'FLAT' })
         expect(isPointy()).to.be.false
     })
@@ -67,7 +67,7 @@ describe('isFlat', function() {
         let isFlat = methods.isFlat.bind({ orientation: 'FLAT' })
         expect(isFlat()).to.be.true
         isFlat = methods.isFlat.bind({ orientation: 'flat' })
-        expect(isFlat()).to.be.false
+        expect(isFlat()).to.be.true
         isFlat = methods.isFlat.bind({ orientation: 'POINTY' })
         expect(isFlat()).to.be.false
     })

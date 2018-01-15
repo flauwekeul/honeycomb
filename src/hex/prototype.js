@@ -34,7 +34,7 @@ export function coordinates() {
  * @returns {boolean}   Whether hexes have a pointy ⬢ orientation.
  */
 export function isPointy() {
-    return this.orientation === ORIENTATIONS.POINTY
+    return this.orientation.toUpperCase() === ORIENTATIONS.POINTY
 }
 
 /**
@@ -42,7 +42,7 @@ export function isPointy() {
  * @returns {boolean}   Whether hexes have a flat ⬣ orientation.
  */
 export function isFlat() {
-    return this.orientation === ORIENTATIONS.FLAT
+    return this.orientation.toUpperCase() === ORIENTATIONS.FLAT
 }
 
 /**
