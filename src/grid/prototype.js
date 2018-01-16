@@ -47,9 +47,9 @@ export function hexesBetween(firstHex, lastHex) {
  * const Hex = Grid().Hex
  *
  * const hex = Hex()
- * hex.neighbor()           // { x: 1, y: -1, z: 0 }, the hex across the 0th (right) side
- * hex.neighbor(2)          // { x: 0, y: 1, z: -1 }, the hex across the 3rd (South West) side
- * hex.neighbor(3, true)    // { x: -2, y: 1, z: 1 }, the hex opposite the 4th corner
+ * hex.neighbor()           // { x: 1, y: -1 }, the hex across the 0th (right) side
+ * hex.neighbor(2)          // { x: 0, y: 1 }, the hex across the 3rd (South West) side
+ * hex.neighbor(3, true)    // { x: -2, y: 1 }, the hex opposite the 4th corner
  */
 export function neighborOf(hex, { direction = 0, diagonal = false } = {}) {
     direction = Math.abs(direction % 6)

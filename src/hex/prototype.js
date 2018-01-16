@@ -24,8 +24,7 @@ export function setFactory({ Hex }) {
 export function coordinates() {
     return {
         x: this.x,
-        y: this.y,
-        z: this.z
+        y: this.y
     }
 }
 
@@ -151,8 +150,7 @@ export function addFactory({ Hex }) {
         return Hex.call(
             this,
             this.x + otherHex.x,
-            this.y + otherHex.y,
-            this.z + otherHex.z
+            this.y + otherHex.y
         )
     }
 }
@@ -171,8 +169,7 @@ export function subtractFactory({ Hex }) {
         return Hex.call(
             this,
             this.x - otherHex.x,
-            this.y - otherHex.y,
-            this.z - otherHex.z
+            this.y - otherHex.y
         )
     }
 }
@@ -184,7 +181,7 @@ export function subtractFactory({ Hex }) {
  * @returns {boolean}       Whether the coordinates of the current and the passed hex are equal.
  */
 export function equals(otherHex) {
-    return this.x === otherHex.x && this.y === otherHex.y && this.z === otherHex.z
+    return this.x === otherHex.x && this.y === otherHex.y
 }
 
 /**

@@ -135,50 +135,33 @@ export default function createFactory(prototype = {}) {
      * const clone = Hex(someHex)   // { x: 4, y: -2, z: -2 }
      * someHex === clone            // false
      */
-    function Hex(xOrProps, y, z, customProps = {}) {
+    function Hex(xOrProps, y, customProps = {}) {
         let x
 
         // if an object is passed, extract coordinates and recurse
         if (isObject(xOrProps)) {
-            ({ x, y, z } = xOrProps)
+            ({ x, y } = xOrProps)
             // pass xOrProps because it might contain custom props
-            return Hex(x, y, z, xOrProps)
+            return Hex(x, y, xOrProps)
         } else if (isArray(xOrProps)) {
-            [x, y, z] = xOrProps
+            [x, y] = xOrProps
             // ignore all arguments except xOrProps
             customProps = {}
         } else {
             x = xOrProps
         }
 
-        [x, y, z] = [x, y, z].map(unsignNegativeZero)
+        [x, y] = [x, y].map(unsignNegativeZero)
 
-        switch ([x, y, z].filter(isNumber).length) {
-            case 3:
-                break
+        switch ([x, y].filter(isNumber).length) {
             case 2:
-                x = isNumber(x) ? x : Hex.thirdCoordinate(y, z)
-                y = isNumber(y) ? y : Hex.thirdCoordinate(x, z)
-                z = isNumber(z) ? z : Hex.thirdCoordinate(x, y)
                 break
             case 1:
-                if (isNumber(x)) {
-                    y = x
-                    z = Hex.thirdCoordinate(x, y)
-                } else if (isNumber(y)) {
-                    x = y
-                    z = Hex.thirdCoordinate(x, y)
-                } else {
-                    x = z
-                    y = Hex.thirdCoordinate(x, z)
-                }
+                x = isNumber(x) ? x : y
+                y = isNumber(y) ? y : x
                 break
             default:
-                x = y = z = 0
-        }
-
-        if (Math.round(x + y + z) !== 0) {
-            throw new Error(`Coordinates don't sum to 0: { x: ${x}, y: ${y}, z: ${z} }.`)
+                x = y = 0
         }
 
         return Object.assign(
@@ -186,7 +169,7 @@ export default function createFactory(prototype = {}) {
             Object.create(finalPrototype),
             // also merge any bound custom properties
             this,
-            Object.assign(customProps, { x, y, z })
+            Object.assign(customProps, { x, y })
         )
     }
 

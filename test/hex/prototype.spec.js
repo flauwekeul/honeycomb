@@ -16,28 +16,28 @@ describe('set', () => {
     })
 
     it('passes any arguments to the Hex() factory', () => {
-        set.call({}, 1, 2, -3)
-        expect(HexSpy).to.have.been.calledWithExactly(1, 2, -3)
+        set.call({}, 1, 2)
+        expect(HexSpy).to.have.been.calledWithExactly(1, 2)
 
-        set.call({}, { x: 1, y: 2, z: -3 })
-        expect(HexSpy).to.have.been.calledWithExactly({ x: 1, y: 2, z: -3 })
+        set.call({}, { x: 1, y: 2 })
+        expect(HexSpy).to.have.been.calledWithExactly({ x: 1, y: 2 })
 
         set.call({}, 'invalid argument')
         expect(HexSpy).to.have.been.calledWithExactly('invalid argument')
     })
 
     it('merges the return value of Hex() into itself', () => {
-        const self = { x: 1, y: 2, z: -3 }
+        const self = { x: 1, y: 2 }
 
-        set.call(self, { x: 5, y: -2, z: -3 })
-        expect(self).to.eql({ x: 5, y: -2, z: -3 })
+        set.call(self, { x: 5, y: -2 })
+        expect(self).to.eql({ x: 5, y: -2 })
 
         set.call(self)
-        expect(self).to.eql({ x: 0, y: 0, z: 0 })
+        expect(self).to.eql({ x: 0, y: 0 })
     })
 
     it('returns itself', () => {
-        const self = { x: 1, y: 2, z: -3 }
+        const self = { x: 1, y: 2 }
         const result = set.call(self)
 
         expect(result).to.equal(self)
@@ -45,9 +45,9 @@ describe('set', () => {
 })
 
 describe('coordinates', function() {
-    it('returns the hex\'s x, y and z coordinates', function() {
-        const boundCoordinates = methods.coordinates.bind({ x: 8, y: -3, z: -5 })
-        expect(boundCoordinates()).to.eql({ x: 8, y: -3, z: -5 })
+    it('returns the hex\'s x and y coordinates', function() {
+        const boundCoordinates = methods.coordinates.bind({ x: 8, y: -3 })
+        expect(boundCoordinates()).to.eql({ x: 8, y: -3 })
     })
 })
 
@@ -276,20 +276,15 @@ describe('add', function () {
     })
 
     it('returns a new hex where the coordinates are the sum of the current and passed hex', function () {
-        const add = methods.addFactory({ Hex: HexSpy }).bind({ x: 1, y: -3, z: 2 })
-        const result = add(Hex(2, 0, -2))
+        const add = methods.addFactory({ Hex: HexSpy }).bind({ x: 1, y: -3 })
+        const result = add(Hex(2, 0))
 
-        expect(HexSpy).to.have.been.calledWith(3, -3, 0)
-        expect(result).to.contain({ x: 3, y: -3, z: 0 })
+        expect(HexSpy).to.have.been.calledWith(3, -3)
+        expect(result).to.contain({ x: 3, y: -3 })
     })
 
     it('transfers any custom properties the current hex might have', function() {
-        const result = Hex.call({
-            x: 0,
-            y: 0,
-            z: 0,
-            custom: 'add()'
-        }).add(Hex())
+        const result = Hex.call({ x: 0, y: 0, custom: 'add()' }).add(Hex())
         expect(result).to.contain({ custom: 'add()' })
     })
 })
@@ -302,18 +297,17 @@ describe('subtract', function () {
     })
 
     it('returns a new hex where the coordinates are the difference between the current and the passed hex', function () {
-        const subtract = methods.subtractFactory({ Hex: HexSpy }).bind({ x: 1, y: -3, z: 2 })
-        const result = subtract(Hex(2, 0, -2))
+        const subtract = methods.subtractFactory({ Hex: HexSpy }).bind({ x: 1, y: -3 })
+        const result = subtract(Hex(2, 0))
 
-        expect(HexSpy).to.have.been.calledWith(-1, -3, 4)
-        expect(result).to.contain({ x: -1, y: -3, z: 4 })
+        expect(HexSpy).to.have.been.calledWith(-1, -3)
+        expect(result).to.contain({ x: -1, y: -3 })
     })
 
     it('transfers any custom properties the current hex might have', function() {
         const subtract = methods.subtractFactory({ Hex: HexSpy }).bind({
             x: 0,
             y: 0,
-            z: 0,
             custom: 'subtract()'
         })
         const result = subtract(Hex())
@@ -337,8 +331,8 @@ describe('equals', function () {
 
 describe('distance', function () {
     it('returns the highest absolute coordinate of the other hex coordinates subtracted from the current', function () {
-        const distance = methods.distance.bind({ x: 1, y: 2, z: 3 })
-        expect(distance({ x: 1, y: 1, z: 1 })).to.equal(2)
+        const distance = methods.distance.bind({ x: 1, y: 2 })
+        expect(distance({ x: 1, y: 1 })).to.equal(2)
     })
 })
 
@@ -350,11 +344,11 @@ describe('round', function () {
     })
 
     it('rounds floating point coordinates to their nearest integer coordinates', function () {
-        const round = methods.roundFactory({ Hex: HexSpy }).bind({ x: 2.9, y: 2.2, z: -4.7 })
+        const round = methods.roundFactory({ Hex: HexSpy }).bind({ x: 2.9, y: 2.2 })
         const result = round()
 
-        expect(HexSpy).to.have.been.calledWith(3, 2, -5)
-        expect(result).to.contain({ x: 3, y: 2, z: -5 })
+        expect(HexSpy).to.have.been.calledWith(3, 2)
+        expect(result).to.contain({ x: 3, y: 2 })
     })
 
     it('transfers any custom properties the current hex might have', function() {
@@ -371,20 +365,15 @@ describe('lerp', function () {
     })
 
     it('returns an interpolation between the current and passed hex for a `t` between 0..1', function () {
-        const lerp = methods.lerpFactory({ Hex: HexSpy }).bind({ x: 0, y: 0, z: 0 })
-        const result = lerp(Hex(4, -5, 1), 0.5)
+        const lerp = methods.lerpFactory({ Hex: HexSpy }).bind({ x: 0, y: 0 })
+        const result = lerp(Hex(4, -5), 0.5)
 
-        expect(HexSpy).to.have.been.calledWith(2, -2.5, 0.5)
-        expect(result).to.contain({ x: 2, y: -2.5, z: 0.5 })
+        expect(HexSpy).to.have.been.calledWith(2, -2.5)
+        expect(result).to.contain({ x: 2, y: -2.5 })
     })
 
     it('transfers any custom properties the current hex might have', function() {
-        const result = Hex.call({
-            x: 0,
-            y: 0,
-            z: 0,
-            custom: 'lerp()'
-        }).lerp({})
+        const result = Hex.call({ x: 0, y: 0, custom: 'lerp()' }).lerp({})
         expect(result).to.have.property('custom', 'lerp()')
     })
 })
@@ -406,6 +395,6 @@ describe('nudge', function () {
 
 describe('toString', function() {
     it('returns a string containing the coordinates of the hex', function() {
-        expect(Hex(1, 2, -3).toString()).to.eql('1,2,-3')
+        expect(Hex(1, 2).toString()).to.eql('1,2')
     })
 })

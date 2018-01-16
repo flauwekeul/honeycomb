@@ -80,143 +80,110 @@ describe('Hex creation', function() {
         Hex = createHexFactory()
     })
 
-    describe('with 3 numbers', function() {
-        it('sets them as cube coordinates in the order x, y, z', function() {
-            expect(Hex(3, -5, 2)).to.contain({ x: 3, y: -5, z: 2 })
-        })
-
-        describe('when x, y and z summed and rounded don\'t equal 0', function() {
-            it('throws an error', function() {
-                expect(() => Hex(3, -5, 8)).to.throw(Error, 'Coordinates don\'t sum to 0: { x: 3, y: -5, z: 8 }.')
-            })
-        })
-    })
-
     describe('with 2 numbers', function() {
-        it('sets the missing coordinate', function() {
-            expect(Hex(3, 2, null)).to.contain({ x: 3, y: 2, z: -5 })
-            expect(Hex(3, null, 2)).to.contain({ x: 3, y: -5, z: 2 })
-            expect(Hex(null, 3, 2)).to.contain({ x: -5, y: 3, z: 2 })
+        it('sets them as x and y coordinates', function() {
+            expect(Hex(3, -5)).to.contain({ x: 3, y: -5 })
         })
     })
 
     describe('with 1 number', function() {
-        it('sets the first missing coordinate (in the order x, y, z) to the provided coordinate', function() {
-            expect(Hex(3, null, null)).to.contain({ x: 3, y: 3, z: -6 })
-            expect(Hex(null, 3, null)).to.contain({ x: 3, y: 3, z: -6 })
-            expect(Hex(null, null, 3)).to.contain({ x: 3, y: -6, z: 3 })
+        it('sets the missing coordinate to the same value as the passed coordinate', function() {
+            expect(Hex(3, null)).to.contain({ x: 3, y: 3 })
+            expect(Hex(null, 2)).to.contain({ x: 2, y: 2 })
         })
     })
 
-    describe('with a fourth argument that is an object', function() {
+    describe('with a 3rd argument that is an object', function() {
         it('merges the object in the hex', function() {
-            expect(Hex(3, 2, -5, { custom: 'property' })).to.contain({ x: 3, y: 2, z: -5, custom: 'property' })
+            expect(Hex(3, 2, { custom: 'property' })).to.contain({ x: 3, y: 2, custom: 'property' })
         })
 
         it('ignores any coordinates in the object', function() {
-            expect(Hex(3, 2, -5, { x: 0, y: 0, z: 0 })).to.contain({ x: 3, y: 2, z: -5 })
+            expect(Hex(3, 2, { x: 0, y: 0 })).to.contain({ x: 3, y: 2 })
         })
     })
 
-    describe('with an object containing x, y and z', function() {
+    describe('with an object containing x and y properties', function() {
         it('sets the coordinates', function() {
-            expect(Hex({ x: 3, y: 2, z: -5 })).to.contain({ x: 3, y: 2, z: -5 })
-        })
-    })
-
-    describe('with an object containing 2 coordinates', function() {
-        it('calculates the third coordinate and sets all 3', function() {
-            expect(Hex({ x: 3, y: 0 })).to.contain({ x: 3, y: 0, z: -3 })
-            expect(Hex({ x: 3, z: 0 })).to.contain({ x: 3, y: -3, z: 0 })
-            expect(Hex({ y: 3, z: 0 })).to.contain({ x: -3, y: 3, z: 0 })
+            expect(Hex({ x: 3, y: 2 })).to.contain({ x: 3, y: 2 })
         })
     })
 
     describe('with an object containing 1 coordinate', function() {
-        it('calculates the missing coordinates and sets all 3', function() {
-            expect(Hex({ x: 3 })).to.contain({ x: 3, y: 3, z: -6 })
-            expect(Hex({ y: 3 })).to.contain({ x: 3, y: 3, z: -6 })
-            expect(Hex({ z: 3 })).to.contain({ x: 3, y: -6, z: 3 })
+        it('sets the missing coordinate to the same value as the passed coordinate', function() {
+            expect(Hex({ x: 3 })).to.contain({ x: 3, y: 3 })
+            expect(Hex({ y: 2 })).to.contain({ x: 2, y: 2 })
         })
     })
 
-    describe('with an object containing no coordinate', function() {
-        it('sets all coordinates to 0', function() {
-            expect(Hex({})).to.contain({ x: 0, y: 0, z: 0 })
+    describe('with an object containing no coordinates', function() {
+        it('sets both coordinates to 0', function() {
+            expect(Hex({})).to.contain({ x: 0, y: 0 })
         })
     })
 
     describe('with an object containing custom properties', function() {
         it('sets the custom properties', function() {
-            expect(Hex({ custom: 'property' })).to.contain({ x: 0, y: 0, z: 0, custom: 'property' })
+            expect(Hex({ custom: 'property' })).to.contain({ custom: 'property' })
         })
     })
 
     describe('with an object and more arguments', function() {
         it('ignores all but the object', function() {
-            const result = Hex({ x: 1, y: -3, z: 2, custom: 'a' }, 5, 8, { x: 0, y: 0, z: 0, custom: 'b' })
-            expect(result).to.contain({ x: 1, y: -3, z: 2, custom: 'a' })
+            const result = Hex({ x: 1, y: -3, custom: 'a' }, 8, { x: 0, y: 0, custom: 'b' })
+            expect(result).to.contain({ x: 1, y: -3, custom: 'a' })
             expect(result).not.to.contain({ custom: 'b' })
         })
     })
 
     describe('without parameters', function() {
-        it('sets all coordinates to 0', function() {
-            expect(Hex()).to.contain({ x: 0, y: 0, z: 0 })
-        })
-    })
-
-    describe('with an array containing 3 numbers', function() {
-        it('sets the coordinates in the order x, y, z', function() {
-            expect(Hex([3, 2, -5])).to.contain({ x: 3, y: 2, z: -5 })
+        it('sets both coordinates to 0', function() {
+            expect(Hex()).to.contain({ x: 0, y: 0 })
         })
     })
 
     describe('with an array containing 2 numbers', function() {
-        it('calculates the third coordinate and sets all 3', function() {
-            expect(Hex([3, 0])).to.contain({ x: 3, y: 0, z: -3 })
-            expect(Hex([3, null, 0])).to.contain({ x: 3, y: -3, z: 0 })
-            expect(Hex([null, 3, 0])).to.contain({ x: -3, y: 3, z: 0 })
+        it('sets them as x and y coordinates', function() {
+            expect(Hex([3, 0])).to.contain({ x: 3, y: 0 })
         })
     })
 
     describe('with an array containing 1 number', function() {
-        it('calculates the first missing coordinate (in the order x, y, z) and sets all 3', function() {
-            expect(Hex([3])).to.contain({ x: 3, y: 3, z: -6 })
-            expect(Hex([null, 3])).to.contain({ x: 3, y: 3, z: -6 })
-            expect(Hex([null, null, 3])).to.contain({ x: 3, y: -6, z: 3 })
+        it('sets the missing coordinate to the same value as the passed coordinate', function() {
+            expect(Hex([3])).to.contain({ x: 3, y: 3 })
+            expect(Hex([null, 2])).to.contain({ x: 2, y: 2 })
         })
     })
 
-    describe('with an array containing more than 3 numbers', function() {
-        it('ignores all but the first 3 array elements', function() {
-            const result = Hex([3, 2, -5, { custom: 'a', x: 0 }, 8])
-            expect(result).to.contain({ x: 3, y: 2, z: -5 })
+    describe('with an array containing more than 2 numbers', function() {
+        it('ignores all but the first 2 array elements', function() {
+            const result = Hex([3, 2, { custom: 'a', x: 0 }, 8])
+            expect(result).to.contain({ x: 3, y: 2 })
             expect(result).not.to.contain({ custom: 'a' })
         })
     })
 
     describe('with an empty array', function() {
-        it('sets all coordinates to 0', function() {
-            expect(Hex([])).to.contain({ x: 0, y: 0, z: 0 })
+        it('sets both coordinates to 0', function() {
+            expect(Hex([])).to.contain({ x: 0, y: 0 })
         })
     })
 
     describe('with an array and more arguments', function() {
         it('ignores all but the array', function() {
-            const result = Hex([1, -3, 2], 5, 8, { x: 0, y: 0, z: 0, custom: 'a' })
-            expect(result).to.contain({ x: 1, y: -3, z: 2 })
+            const result = Hex([1, -3], 8, { x: 0, y: 0, custom: 'a' })
+            expect(result).to.contain({ x: 1, y: -3 })
             expect(result).not.to.contain({ custom: 'a' })
         })
     })
 
     describe('with a falsy value', function() {
-        it('sets all coordinates to 0', function() {
-            const allZeroCoordinates = { x: 0, y: 0, z: 0 }
-            expect(Hex(undefined)).to.contain(allZeroCoordinates)
-            expect(Hex(null)).to.contain(allZeroCoordinates)
-            expect(Hex('')).to.contain(allZeroCoordinates)
-            expect(Hex(false)).to.contain(allZeroCoordinates)
+        it('sets both coordinates to 0', function() {
+            const bothZeroCoordinates = { x: 0, y: 0 }
+            expect(Hex(undefined)).to.contain(bothZeroCoordinates)
+            expect(Hex(null)).to.contain(bothZeroCoordinates)
+            expect(Hex('')).to.contain(bothZeroCoordinates)
+            expect(Hex(false)).to.contain(bothZeroCoordinates)
         })
     })
 
@@ -229,6 +196,6 @@ describe('Hex creation', function() {
     })
 
     it('converts negative zeroes to "regular" zeroes', function() {
-        expect(Hex(-0, -0, -0)).to.contain({ x: 0, y: 0, z: 0 })
+        expect(Hex(-0, -0)).to.contain({ x: 0, y: 0 })
     })
 })
