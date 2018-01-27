@@ -1,21 +1,25 @@
 import { expect } from 'chai'
+import sinon from 'sinon'
 
 import createHexFactory, { staticMethods } from '../../src/hex'
-import { ORIENTATIONS } from '../../src/hex/constants'
+import { ORIENTATIONS, OFFSETS } from '../../src/hex/constants'
 
 describe('Hex.createFactory', function() {
+    let Hex
+
+    beforeEach(() => {
+        Hex = createHexFactory()
+    })
+
     it('is a function', function() {
-        const Hex = createHexFactory()
         expect(Hex).to.be.a('function')
     })
 
     it('returns a function that has the Hex static methods', function() {
-        const Hex = createHexFactory()
         expect(Object.entries(Hex)).to.eql(Object.entries(staticMethods))
     })
 
     it('returns a function with the default prototype', function() {
-        const Hex = createHexFactory()
         const prototype = Object.getPrototypeOf(Hex())
         const prototypeProps = Object.keys(prototype)
 
@@ -25,10 +29,18 @@ describe('Hex.createFactory', function() {
             'orientation',
             'origin',
             'size',
+            'offset',
+            'q',
+            'r',
+            's',
 
             'add',
+            'cartesian',
+            'cartesianToCube',
             'coordinates',
             'corners',
+            'cube',
+            'cubeToCartesian',
             'distance',
             'equals',
             'height',
@@ -47,8 +59,21 @@ describe('Hex.createFactory', function() {
         ])
         expect(prototype).to.have.property('__isHoneycombHex', true)
         expect(prototype).to.have.property('orientation', ORIENTATIONS.POINTY)
-        expect(prototype).to.have.property('size', 1)
         expect(prototype).to.have.property('origin').that.contains({ x: 0, y: 0 })
+        expect(prototype).to.have.property('size', 1)
+        expect(prototype).to.have.property('offset', OFFSETS.ODD)
+    })
+
+    it('has getters for the q, r and s cube coordinates', () => {
+        const cartesianToCube = sinon.stub().returns({ q: 'q', r: 'r', s: 's' })
+        const hex = createHexFactory({ cartesianToCube })()
+
+        expect(hex.q).to.equal('q')
+        expect(hex.r).to.equal('r')
+        expect(hex.s).to.equal('s')
+        expect(() => hex.q = 1).to.throw
+        expect(() => hex.r = 1).to.throw
+        expect(() => hex.s = 1).to.throw
     })
 
     describe('when passed hex settings', function() {
@@ -109,10 +134,39 @@ describe('Hex creation', function() {
         })
     })
 
-    describe('with an object containing 1 coordinate', function() {
+    describe('with an object containing either an x or y coordinate', function() {
         it('sets the missing coordinate to the same value as the passed coordinate', function() {
             expect(Hex({ x: 3 })).to.contain({ x: 3, y: 3 })
             expect(Hex({ y: 2 })).to.contain({ x: 2, y: 2 })
+        })
+    })
+
+    describe('with an object containing all cube coordinates (q, r and s)', () => {
+        it('converts them to rectangular (x and y) coordinates', () => {
+            const cubeToCartesian = sinon.stub().returns({ x: 4, y: 5 })
+            const Hex = createHexFactory({ cubeToCartesian })
+            const result = Hex({ q: 1, r: 2, s: -3 })
+
+            expect(cubeToCartesian).to.have.been.calledWith({ q: 1, r: 2, s: -3 })
+            expect(result).to.contain({ x: 4, y: 5 })
+        })
+    })
+
+    describe('with an object containing some cube coordinates (q, r and s)', () => {
+        it('ignores them', () => {
+            const cubeToCartesian = sinon.stub().returns({ x: 4, y: 5 })
+            const Hex = createHexFactory({ cubeToCartesian })
+            const result1 = Hex({ q: 1, r: 2 })
+            const result2 = Hex({ q: 1, s: 2 })
+            const result3 = Hex({ r: 1, s: 2 })
+
+            expect(result1).to.contain({ x: 0, y: 0 })
+            expect(result2).to.contain({ x: 0, y: 0 })
+            expect(result3).to.contain({ x: 0, y: 0 })
+            expect(result1).not.to.contain({ q: 1, r: 2 })
+            expect(result2).not.to.contain({ q: 1, s: 2 })
+            expect(result3).not.to.contain({ r: 1, s: 2 })
+            expect(cubeToCartesian).not.to.have.been.called
         })
     })
 

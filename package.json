@@ -24,6 +24,7 @@
     "babel-core": "6.26.0",
     "babel-plugin-external-helpers": "6.22.0",
     "babel-plugin-istanbul": "4.1.5",
+    "babel-plugin-transform-object-rest-spread": "6.26.0",
     "babel-preset-env": "1.6.1",
     "chai": "4.1.2",
     "cz-conventional-changelog": "2.1.0",

@@ -1,6 +1,6 @@
 import { isObject, isNumber, isArray } from 'axis.js'
 import { unsignNegativeZero } from '../utils'
-import { ORIENTATIONS } from './constants'
+import { ORIENTATIONS, OFFSETS } from './constants'
 import Point from '../point'
 import * as statics from './statics'
 import * as methods from './prototype'
@@ -56,11 +56,23 @@ export default function createFactory(prototype = {}) {
         orientation: ORIENTATIONS.POINTY,
         origin: 0,
         size: 1,
+        offset: OFFSETS.ODD,
+        get q() { return _cubeProp(this, 'q') },
+        get r() { return _cubeProp(this, 'r') },
+        get s() { return _cubeProp(this, 's') },
 
         // methods:
         add: methods.addFactory({ Hex }),
+        /**
+         * Alias for {@link Hex#coordinates}.
+         * @name Hex#cartesian
+         */
+        cartesian: methods.coordinates,
+        cartesianToCube: methods.cartesianToCube,
         coordinates: methods.coordinates,
         corners: methods.cornersFactory({ Point }),
+        cube: methods.cube,
+        cubeToCartesian: methods.cubeToCartesian,
         distance: methods.distance,
         equals: methods.equals,
         height: methods.height,
@@ -138,11 +150,16 @@ export default function createFactory(prototype = {}) {
     function Hex(xOrProps, y, customProps = {}) {
         let x
 
-        // if an object is passed, extract coordinates and recurse
         if (isObject(xOrProps)) {
-            ({ x, y } = xOrProps)
-            // pass xOrProps because it might contain custom props
-            return Hex(x, y, xOrProps)
+            let { q, r, s, ...rest } = xOrProps
+
+            if ([q, r, s].filter(isNumber).length === 3) {
+                ({ x, y } = finalPrototype.cubeToCartesian({ q, r, s }))
+            } else {
+                ({ x, y } = xOrProps)
+            }
+
+            customProps = rest
         } else if (isArray(xOrProps)) {
             [x, y] = xOrProps
             // ignore all arguments except xOrProps
@@ -167,11 +184,15 @@ export default function createFactory(prototype = {}) {
         return Object.assign(
             // the prototype has to be attached here, else Grid's shape methods break 🙁
             Object.create(finalPrototype),
-            // also merge any bound custom properties
+            // also merge any custom properties already present
             this,
             Object.assign(customProps, { x, y })
         )
     }
 
     return Hex
+}
+
+function _cubeProp(context, prop) {
+    return context.cartesianToCube({ x: context.x, y: context.y })[prop]
 }

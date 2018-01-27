@@ -1,7 +1,4 @@
-import {
-    ORIENTATIONS,
-    EPSILON
-} from './constants'
+import { ORIENTATIONS, EPSILON } from './constants'
 
 export function setFactory({ Hex }) {
     /**
@@ -19,15 +16,47 @@ export function setFactory({ Hex }) {
 
 /**
  * @method Hex#coordinates
- * @returns {Object}    The hex's x, y and z coordinates.
+ * @returns {Object}    The hex's cartesian `x` and `y` coordinates.
  */
 export function coordinates() {
-    return {
-        x: this.x,
-        y: this.y
-    }
+    return { x: this.x, y: this.y }
 }
 
+/**
+ * @method Hex#cube
+ * @returns {Object}    The hex's cube `q`, `r` and `s` coordinates.
+ */
+export function cube() {
+    return { q: this.q, r: this.r, s: this.s }
+}
+
+export function cubeToCartesian({ q, r }) {
+    let x, y
+
+    if (this.isPointy()) {
+        x = q + _offsetDistanceInDirection(this.offset, r)
+        y = r
+    } else {
+        x = q
+        y = r + _offsetDistanceInDirection(this.offset, q)
+    }
+
+    return { x, y }
+}
+
+export function cartesianToCube({ x, y }) {
+    let q, r
+
+    if (this.isPointy()) {
+        q = x - _offsetDistanceInDirection(this.offset, y)
+        r = y
+    } else {
+        q = x
+        r = y - _offsetDistanceInDirection(this.offset, x)
+    }
+
+    return { q, r, s: -q - r }
+}
 /**
  * @method Hex#isPointy
  * @returns {boolean}   Whether hexes have a pointy ⬢ orientation.
@@ -284,5 +313,9 @@ export function nudge() {
  * @returns {string}    String containing the coordinates of the hex.
  */
 export function toString() {
-    return `${this.x},${this.y},${this.z}`
+    return `${this.x},${this.y}`
+}
+
+function _offsetDistanceInDirection(offset, dimension) {
+    return (dimension + offset * (dimension & 1)) >> 1
 }
