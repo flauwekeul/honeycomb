@@ -150,14 +150,15 @@ export function toPointFactory({ Point }) {
      * @returns {Point} The 2D point the hex corresponds to.
      */
     return function toPoint() {
+        const { q, r, size } = this
         let x, y
 
         if (this.isPointy()) {
-            x = this.size * Math.sqrt(3) * (this.x + this.y / 2)
-            y = this.size * 3/2 * this.y
+            x = size * Math.sqrt(3) * (q + r / 2)
+            y = size * 3/2 * r
         } else {
-            x = this.size * 3/2 * this.x
-            y = this.size * Math.sqrt(3) * (this.y + this.x / 2)
+            x = size * 3/2 * q
+            y = size * Math.sqrt(3) * (r + q / 2)
         }
 
         // `x` and `y` are always the hex's center, so the origin needs to be subtracted
@@ -231,9 +232,9 @@ export function equals(otherHex) {
  */
 export function distance(otherHex) {
     return Math.max(
-        Math.abs(this.x - otherHex.x),
-        Math.abs(this.y - otherHex.y),
-        Math.abs(this.z - otherHex.z)
+        Math.abs(this.q - otherHex.q),
+        Math.abs(this.r - otherHex.r),
+        Math.abs(this.s - otherHex.s)
     )
 }
 
@@ -249,23 +250,24 @@ export function roundFactory({ Hex }) {
      * @returns {Hex}   A new hex with rounded coordinates.
      */
     return function round() {
-        let roundedX = Math.round(this.x)
-        let roundedY = Math.round(this.y)
-        let roundedZ = Math.round(this.z)
-        const diffX = Math.abs(this.x - roundedX)
-        const diffY = Math.abs(this.y - roundedY)
-        const diffZ = Math.abs(this.z - roundedZ)
+        let { q, r, s } = this
+        let roundedQ = Math.round(q)
+        let roundedR = Math.round(r)
+        let roundedS = Math.round(s)
+        const diffQ = Math.abs(q - roundedQ)
+        const diffR = Math.abs(r - roundedR)
+        const diffS = Math.abs(s - roundedS)
 
-        if (diffX > diffY && diffX > diffZ) {
-            roundedX = Hex.thirdCoordinate(roundedY, roundedZ)
-        } else if (diffY > diffZ) {
-            roundedY = Hex.thirdCoordinate(roundedX, roundedZ)
+        if (diffQ > diffR && diffQ > diffS) {
+            roundedQ = -roundedR - roundedS
+        } else if (diffR > diffS) {
+            roundedR = -roundedQ - roundedS
         } else {
-            roundedZ = Hex.thirdCoordinate(roundedX, roundedY)
+            roundedS = -roundedQ - roundedR
         }
 
         // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
-        return Hex.call(this, roundedX, roundedY, roundedZ)
+        return Hex.call(this, { q: roundedQ, r: roundedR, s: roundedS })
     }
 }
 
@@ -283,13 +285,10 @@ export function lerpFactory({ Hex }) {
      * @returns {Hex}           A new hex (with possibly fractional coordinates).
      */
     return function lerp(otherHex, t) {
+        const q = this.q * (1 - t) + otherHex.q * t
+        const r = this.r * (1 - t) + otherHex.r * t
         // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
-        return Hex.call(
-            this,
-            this.x * (1 - t) + otherHex.x * t,
-            this.y * (1 - t) + otherHex.y * t,
-            this.z * (1 - t) + otherHex.z * t
-        )
+        return Hex.call(this, { q, r, s: -q - r })
     }
 }
 

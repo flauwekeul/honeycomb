@@ -17,11 +17,11 @@ export function get(targetHex) {
  * @returns {Hex[]}         Array of hexes from the current hex and up to the passed `otherHex`.
  */
 export function hexesBetween(firstHex, lastHex) {
-    const _distance = firstHex.distance(lastHex)
-    const step = 1.0 / Math.max(_distance, 1)
+    const distance = firstHex.distance(lastHex)
+    const step = 1.0 / Math.max(distance, 1)
     let hexes = []
 
-    for (let i = 0; i <= _distance; i++) {
+    for (let i = 0; i <= distance; i++) {
         const hex = firstHex.nudge().lerp(lastHex.nudge(), step * i).round()
         hexes.push(this.get(hex))
     }
@@ -52,12 +52,13 @@ export function hexesBetween(firstHex, lastHex) {
  * hex.neighbor(3, true)    // { x: -2, y: 1 }, the hex opposite the 4th corner
  */
 export function neighborOf(hex, { direction = 0, diagonal = false } = {}) {
-    direction = Math.abs(direction % 6)
-    const coordinates = diagonal ?
+    // convert direction to a number between 0 and 5, even when initially negative
+    direction = ((direction % 6) + 6) % 6
+    const { q, r } = diagonal ?
         DIAGONAL_DIRECTION_COORDINATES[direction] :
         DIRECTION_COORDINATES[direction]
 
-    return this.get(hex.add(coordinates))
+    return this.get(hex.cubeToCartesian({ q: hex.q + q, r: hex.r + r }))
 }
 
 /**
@@ -74,6 +75,6 @@ export function neighborOf(hex, { direction = 0, diagonal = false } = {}) {
  */
 export function neighborsOf(hex, { diagonal = false } = {}) {
     return (diagonal ? DIAGONAL_DIRECTION_COORDINATES : DIRECTION_COORDINATES)
-        .map(coordinates => this.get(hex.add(coordinates)))
+        .map(({ q, r }) => this.get(hex.cubeToCartesian({ q: hex.q + q, r: hex.r + r })))
         .filter(Boolean)
 }

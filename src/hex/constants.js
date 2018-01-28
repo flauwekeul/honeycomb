@@ -1,34 +1,16 @@
-export const DIRECTION_COORDINATES = [
-    { x: 1, y: -1 },
-    { x: 1, y: 0 },
-    { x: 0, y: 1 },
-    { x: -1, y: 1 },
-    { x: -1, y: 0 },
-    { x: 0, y: -1 }
-]
-
-export const DIAGONAL_DIRECTION_COORDINATES = [
-    { x: 2, y: -1 },
-    { x: 1, y: 1 },
-    { x: -1, y: 2 },
-    { x: -2, y: 1 },
-    { x: -1, y: -1 },
-    { x: 1, y: -2 }
-]
-
 /**
  * The different orientations hexes can have.
  *
- * @constant
- * @type {Object}
+ * @readonly
+ * @enum
  */
 export const ORIENTATIONS = {
     /**
-     * @enum {string} POINTY ⬢
+     * @property POINTY ⬢
      */
     POINTY: 'POINTY',
     /**
-     * @enum {string} FLAT ⬣.
+     * @property FLAT ⬣.
      */
     FLAT: 'FLAT'
 }
@@ -56,11 +38,29 @@ export const OFFSETS = {
     /**
      * @property EVEN (+1)
      */
-    EVEN: 'EVEN',
+    EVEN: 1,
     /**
      * @property ODD (-1)
      */
-    ODD: 'ODD'
+    ODD: -1
 }
+
+export const DIRECTION_COORDINATES = [
+    { q: 1, r: 0 },
+    { q: 0, r: 1 },
+    { q: -1, r: 1 },
+    { q: -1, r: 0 },
+    { q: 0, r: -1 },
+    { q: 1, r: -1 }
+]
+
+export const DIAGONAL_DIRECTION_COORDINATES = [
+    { q: 2, r: -1 },
+    { q: 1, r: 1 },
+    { q: -1, r: 2 },
+    { q: -2, r: 1 },
+    { q: -1, r: -1 },
+    { q: 1, r: -2 }
+]
 
 export const EPSILON = { x: 1e-6, y: 1e-6 }

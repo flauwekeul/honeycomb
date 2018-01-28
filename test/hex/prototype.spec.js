@@ -266,8 +266,8 @@ describe('toPoint', function() {
         Point = sinon.stub().returns('point result')
         toPoint = methods.toPointFactory({ Point })
         context = {
-            x: 1,
-            y: 1,
+            q: 1,
+            r: 1,
             size: 1,
             origin: { x: 0, y: 0 },
             isPointy: () => null
@@ -375,50 +375,44 @@ describe('equals', function () {
 
 describe('distance', function () {
     it('returns the highest absolute coordinate of the other hex coordinates subtracted from the current', function () {
-        const distance = methods.distance.bind({ x: 1, y: 2 })
-        expect(distance({ x: 1, y: 1 })).to.equal(2)
+        const distance = methods.distance.bind({ q: 1, r: 2, s: -3 })
+        expect(distance({ q: 1, r: 1, s: 1 })).to.equal(4)
     })
 })
 
 describe('round', function () {
-    let HexSpy
+    let HexStub, round
 
     before(function () {
-        HexSpy = sinon.spy(Hex)
+        HexStub = sinon.stub().returnsThis()
+        round = methods.roundFactory({ Hex: HexStub }).bind({ q: 2.9, r: 2.2, s: -5.1, custom: 'round()' })
     })
 
     it('rounds floating point coordinates to their nearest integer coordinates', function () {
-        const round = methods.roundFactory({ Hex: HexSpy }).bind({ x: 2.9, y: 2.2 })
-        const result = round()
-
-        expect(HexSpy).to.have.been.calledWith(3, 2)
-        expect(result).to.contain({ x: 3, y: 2 })
+        round()
+        expect(HexStub).to.have.been.calledWith({ q: 3, r: 2, s: -5 })
     })
 
     it('transfers any custom properties the current hex might have', function() {
-        const result = Hex.call({ custom: 'round()' }).round()
-        expect(result).to.have.property('custom', 'round()')
+        expect(round()).to.have.property('custom', 'round()')
     })
 })
 
 describe('lerp', function () {
-    let HexSpy
+    let HexStub, lerp
 
     before(function() {
-        HexSpy = sinon.spy(Hex)
+        HexStub = sinon.stub().returnsThis()
+        lerp = methods.lerpFactory({ Hex: HexStub }).bind({ q: 0, r: 0, s: 0, custom: 'lerp()' })
     })
 
     it('returns an interpolation between the current and passed hex for a `t` between 0..1', function () {
-        const lerp = methods.lerpFactory({ Hex: HexSpy }).bind({ x: 0, y: 0 })
-        const result = lerp(Hex(4, -5), 0.5)
-
-        expect(HexSpy).to.have.been.calledWith(2, -2.5)
-        expect(result).to.contain({ x: 2, y: -2.5 })
+        lerp({ q: 4, r: -5, s: 1 }, 0.5)
+        expect(HexStub).to.have.been.calledWith({ q: 2, r: -2.5, s: 0.5 })
     })
 
     it('transfers any custom properties the current hex might have', function() {
-        const result = Hex.call({ x: 0, y: 0, custom: 'lerp()' }).lerp({})
-        expect(result).to.have.property('custom', 'lerp()')
+        expect(lerp({})).to.have.property('custom', 'lerp()')
     })
 })
 

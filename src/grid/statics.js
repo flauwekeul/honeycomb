@@ -22,10 +22,10 @@ export function pointToHexFactory({ Point, Hex }) {
      *
      * const grid = Grid({ size: 50 })
      *
-     * grid.pointToHex(Point(120, 300))     // { x: -1, y: 4, z: -3 }
+     * grid.pointToHex(Point(120, 300))     // { x: -1, y: 4 }
      * // also accepts a point-like:
-     * grid.pointToHex({ x: 120, y: 300 })  // { x: -1, y: 4, z: -3 }
-     * grid.pointToHex([ 120, 300 ])        // { x: -1, y: 4, z: -3 }
+     * grid.pointToHex({ x: 120, y: 300 })  // { x: -1, y: 4 }
+     * grid.pointToHex([ 120, 300 ])        // { x: -1, y: 4 }
      */
     return function pointToHex(point) {
         const hex = Hex()
@@ -109,20 +109,20 @@ export function parallelogramFactory({ Grid, Hex }) {
         start = Hex(start)
         // TODO: validate direction
         const DIRECTIONS = {
-            1: ['x', 'y'],
-            3: ['y', 'z'],
-            5: ['z', 'x']
+            1: ['q', 'r', 's'],
+            3: ['r', 's', 'q'],
+            5: ['s', 'q', 'r']
         }
-        const [firstCoordinate, secondCoordinate] = DIRECTIONS[direction]
+        const [firstCoordinate, secondCoordinate, thirdCoordinate] = DIRECTIONS[direction]
         const grid = new Grid()
 
         for (let first = 0; first < width; first++) {
             for (let second = 0; second < height; second++) {
-                // add the hex manually (instead of using Hex#add) for better performance
-                const hex = Hex({
-                    [firstCoordinate]: first + start.x,
-                    [secondCoordinate]: second + start.y
-                })
+                const hex = Hex(start.cubeToCartesian({
+                    [firstCoordinate]: first + start[firstCoordinate],
+                    [secondCoordinate]: second + start[secondCoordinate],
+                    [thirdCoordinate]: -first - second + start[thirdCoordinate]
+                }))
                 onCreate(hex, grid)
                 grid.push(hex)
             }
@@ -161,21 +161,24 @@ export function triangleFactory({ Grid, Hex }) {
         // TODO: validate direction
         const DIRECTIONS = {
             1: {
-                yStart: () => 0,
-                yEnd: x => size - x
+                rStart: () => 0,
+                rEnd: q => size - q
             },
             5: {
-                yStart: x => size - x,
-                yEnd: () => size + 1
+                rStart: q => size - q,
+                rEnd: () => size + 1
             }
         }
-        const { yStart, yEnd } = DIRECTIONS[direction]
+        const { rStart, rEnd } = DIRECTIONS[direction]
         const grid = new Grid()
 
-        for (let x = 0; x < size; x++) {
-            for (let y = yStart(x); y < yEnd(x); y++) {
-                // add the hex manually (instead of using Hex#add) for better performance
-                const hex = Hex(x + start.x, y + start.y)
+        for (let q = 0; q < size; q++) {
+            for (let r = rStart(q); r < rEnd(q); r++) {
+                const hex = Hex(start.cubeToCartesian({
+                    q: q + start.q,
+                    r: r + start.r,
+                    s: -q - r + start.s
+                }))
                 onCreate(hex, grid)
                 grid.push(hex)
             }
@@ -210,13 +213,16 @@ export function hexagonFactory({ Grid, Hex }) {
 
         const grid = new Grid()
 
-        for (let x = -radius; x <= radius; x++) {
-            const startY = Math.max(-radius, -x - radius)
-            const endY = Math.min(radius, -x + radius)
+        for (let q = -radius; q <= radius; q++) {
+            const startR = Math.max(-radius, -q - radius)
+            const endR = Math.min(radius, -q + radius)
 
-            for (let y = startY; y <= endY; y++) {
-                // add the hex manually (instead of using Hex#add) for better performance
-                const hex = Hex(x + center.x, y + center.y)
+            for (let r = startR; r <= endR; r++) {
+                const hex = Hex(center.cubeToCartesian({
+                    q: q + center.q,
+                    r: r + center.r,
+                    s: -q - r + center.s
+                }))
                 onCreate(hex, grid)
                 grid.push(hex)
             }
@@ -257,27 +263,26 @@ export function rectangleFactory({ Grid, Hex }) {
         start = Hex(start)
 
         const DIRECTIONS = {
-            0: ['x', 'y'],
-            1: ['y', 'x'],
-            2: ['y', 'z'],
-            3: ['z', 'y'],
-            4: ['z', 'x'],
-            5: ['x', 'z']
+            0: ['q', 'r', 's'],
+            1: ['r', 'q', 's'],
+            2: ['r', 's', 'q'],
+            3: ['s', 'r', 'q'],
+            4: ['s', 'q', 'r'],
+            5: ['q', 's', 'r']
         }
-        const [firstCoordinate, secondCoordinate] = DIRECTIONS[direction]
-        const firstStop = start.isPointy() ? width : height
-        const secondStop = start.isPointy() ? height : width
+        const [firstCoordinate, secondCoordinate, thirdCoordinate] = DIRECTIONS[direction]
+        const [firstStop, secondStop] = start.isPointy() ? [width, height] : [height, width]
         const grid = new Grid()
 
         for (let second = 0; second < secondStop; second++) {
-            const secondOffset = Math.floor(second / 2)
+            const secondOffset = second >> 1 // same as: Math.floor(second / 2)
 
             for (let first = -secondOffset; first < firstStop - secondOffset; first++) {
-                // add the hex manually (instead of using Hex#add) for better performance
-                const hex = Hex({
-                    [firstCoordinate]: first + start.x,
-                    [secondCoordinate]: second + start.y
-                })
+                const hex = Hex(start.cubeToCartesian({
+                    [firstCoordinate]: first + start[firstCoordinate],
+                    [secondCoordinate]: second + start[secondCoordinate],
+                    [thirdCoordinate]: -first - second + start[thirdCoordinate]
+                }))
                 onCreate(hex, grid)
                 grid.push(hex)
             }

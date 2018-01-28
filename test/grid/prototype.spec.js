@@ -1,10 +1,6 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 
-import {
-    DIRECTION_COORDINATES,
-    DIAGONAL_DIRECTION_COORDINATES
-} from '../../src/hex/constants'
 import createHexFactory from '../../src/hex'
 import createGridFactoryFactory from '../../src/grid'
 import * as methods from '../../src/grid/prototype'
@@ -69,9 +65,7 @@ describe('hexesBetween', () => {
     describe('when all hexes between firstHex and lastHex are present in the grid', () => {
         it('returns the hexes in a straight line, inclusive', () => {
             const grid = GridFactory.rectangle({ width: 4, height: 2 })
-            const firstHex = Hex()
-            const lastHex = Hex(3, 1)
-            const result = grid.hexesBetween(firstHex, lastHex)
+            const result = grid.hexesBetween(Hex(), Hex(3, 1))
 
             expect(result).to.be.an('array').that.has.a.lengthOf(5)
             expect(result[0]).to.equal(grid[0])
@@ -100,57 +94,62 @@ describe('hexesBetween', () => {
 })
 
 describe('neighborOf', () => {
-    let neighborOf, add, hex, get
+    let neighborOf, cubeToCartesian, hex, get
 
     beforeEach(() => {
-        add = sinon.stub().returns('add result')
-        hex = { add }
+        cubeToCartesian = sinon.stub().returns('cubeToCartesian result')
+        hex = { cubeToCartesian, q: 1, r: 1 }
         get = sinon.spy()
         neighborOf = methods.neighborOf.bind({ get })
     })
 
-    it('calls grid.get() with the result of hex.add()', () => {
+    it('calls grid.get() with the result of hex.cubeToCartesian()', () => {
         neighborOf(hex)
-        expect(get).to.have.been.calledWith('add result')
-    })
-
-    it('calls the passed hex.add() with DIRECTION_COORDINATES[0]', () => {
-        neighborOf(hex)
-        expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[0])
+        expect(get).to.have.been.calledWith('cubeToCartesian result')
     })
 
     describe('with a given direction between 0 and 5', () => {
-        it('calls the passed hex.add() with the given direction coordinates', () => {
+        it(`calls the passed hex.cubeToCartesian() with the hex's cube coordinates and the passed direction coordinates`, () => {
             neighborOf(hex, { direction: 0 })
-            expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[0])
+            expect(cubeToCartesian).to.have.been.calledWith({ q: 2, r: 1 })
             neighborOf(hex, { direction: 1 })
-            expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[1])
+            expect(cubeToCartesian).to.have.been.calledWith({ q: 1, r: 2 })
             neighborOf(hex, { direction: 2 })
-            expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[2])
+            expect(cubeToCartesian).to.have.been.calledWith({ q: 0, r: 2 })
             neighborOf(hex, { direction: 3 })
-            expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[3])
+            expect(cubeToCartesian).to.have.been.calledWith({ q: 0, r: 1 })
             neighborOf(hex, { direction: 4 })
-            expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[4])
+            expect(cubeToCartesian).to.have.been.calledWith({ q: 1, r: 0 })
             neighborOf(hex, { direction: 5 })
-            expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[5])
+            expect(cubeToCartesian).to.have.been.calledWith({ q: 2, r: 0 })
         })
     })
 
     describe('with a given direction < 0 or > 5', () => {
-        it('calls the passed hex.add() with the remainder of the given direction', () => {
+        it(`calls the passed hex.cubeToCartesian() with the hex's cube coordinates and the remainder of the passed direction coordinates`, () => {
             neighborOf(hex, { direction: 6 })
-            expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[0])
+            expect(cubeToCartesian).to.have.been.calledWith({ q: 2, r: 1 })
             neighborOf(hex, { direction: 92 })
-            expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[2])
+            expect(cubeToCartesian).to.have.been.calledWith({ q: 0, r: 2 })
             neighborOf(hex, { direction: -4 })
-            expect(add).to.have.been.calledWith(DIRECTION_COORDINATES[4])
+            expect(cubeToCartesian).to.have.been.calledWith({ q: 0, r: 2 })
         })
     })
 
     describe('with the diagonal flag enabled', () => {
-        it('calls the passed hex.add() with the given diagonal direction', () => {
+        it(`calls the passed hex.cubeToCartesian() with the hex's cube coordinates and the passed diagonal direction coordinates`, () => {
+            neighborOf(hex, { direction: 0, diagonal: true })
+            expect(cubeToCartesian).to.have.been.calledWith({ q: 3, r: 0 })
+            neighborOf(hex, { direction: 1, diagonal: true })
+            expect(cubeToCartesian).to.have.been.calledWith({ q: 2, r: 2 })
+            neighborOf(hex, { direction: 2, diagonal: true })
+            expect(cubeToCartesian).to.have.been.calledWith({ q: 0, r: 3 })
             neighborOf(hex, { direction: 3, diagonal: true })
-            expect(add).to.have.been.calledWith(DIAGONAL_DIRECTION_COORDINATES[3])
+            expect(cubeToCartesian).to.have.been.calledWith({ q: -1, r: 2 })
+            neighborOf(hex, { direction: 4, diagonal: true })
+            expect(cubeToCartesian).to.have.been.calledWith({ q: 0, r: 0 })
+            neighborOf(hex, { direction: 5, diagonal: true })
+            expect(cubeToCartesian).to.have.been.calledWith({ q: 2, r: -1 })
         })
     })
 
@@ -160,7 +159,7 @@ describe('neighborOf', () => {
             const hex = Hex()
             const result = grid.neighborOf(hex)
 
-            expect(result).to.equal(grid[5])
+            expect(result).to.equal(grid[6])
         })
     })
 
@@ -176,68 +175,68 @@ describe('neighborOf', () => {
 })
 
 describe('neighborsOf', () => {
-    let neighborsOf, add, hex, get
+    let neighborsOf, cubeToCartesian, hex, get
 
     beforeEach(() => {
-        add = sinon.stub().returns('add result')
-        hex = { add }
+        cubeToCartesian = sinon.stub().returns('cubeToCartesian result')
+        hex = { cubeToCartesian, q: 1, r: 1 }
         get = sinon.spy()
         neighborsOf = methods.neighborsOf.bind({ get })
     })
 
-    it('calls grid.get() with the result of hex.add()', () => {
+    it('calls grid.get() with the result of hex.cubeToCartesian() for each direction', () => {
         neighborsOf(hex)
-        expect(get).to.have.been.calledWith('add result')
+        expect(get.callCount).to.equal(6)
+        expect(get).to.always.have.been.calledWith('cubeToCartesian result')
     })
 
-    it('calls the passed hex.add() with each direction', () => {
+    it(`calls the passed hex.cubeToCartesian() with the sum of the passed hex's cube coordinates and each direction coordinates`, () => {
         neighborsOf(hex)
-        expect(add.getCall(0).args[0]).to.eql(DIRECTION_COORDINATES[0])
-        expect(add.getCall(1).args[0]).to.eql(DIRECTION_COORDINATES[1])
-        expect(add.getCall(2).args[0]).to.eql(DIRECTION_COORDINATES[2])
-        expect(add.getCall(3).args[0]).to.eql(DIRECTION_COORDINATES[3])
-        expect(add.getCall(4).args[0]).to.eql(DIRECTION_COORDINATES[4])
-        expect(add.getCall(5).args[0]).to.eql(DIRECTION_COORDINATES[5])
+        expect(cubeToCartesian.getCall(0).args[0]).to.eql({ q: 2, r: 1 })
+        expect(cubeToCartesian.getCall(1).args[0]).to.eql({ q: 1, r: 2 })
+        expect(cubeToCartesian.getCall(2).args[0]).to.eql({ q: 0, r: 2 })
+        expect(cubeToCartesian.getCall(3).args[0]).to.eql({ q: 0, r: 1 })
+        expect(cubeToCartesian.getCall(4).args[0]).to.eql({ q: 1, r: 0 })
+        expect(cubeToCartesian.getCall(5).args[0]).to.eql({ q: 2, r: 0 })
     })
 
-    describe('when called with a truthy value', () => {
-        it('calls add() with each diagonal direction', () => {
+    describe('with the diagonal flag enabled', () => {
+        it(`calls the passed hex.cubeToCartesian() with the sum of the passed hex's cube coordinates and each direction coordinates`, () => {
             neighborsOf(hex, { diagonal: true })
-            expect(add.getCall(0).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[0])
-            expect(add.getCall(1).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[1])
-            expect(add.getCall(2).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[2])
-            expect(add.getCall(3).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[3])
-            expect(add.getCall(4).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[4])
-            expect(add.getCall(5).args[0]).to.eql(DIAGONAL_DIRECTION_COORDINATES[5])
+            expect(cubeToCartesian.getCall(0).args[0]).to.eql({ q: 3, r: 0 })
+            expect(cubeToCartesian.getCall(1).args[0]).to.eql({ q: 2, r: 2 })
+            expect(cubeToCartesian.getCall(2).args[0]).to.eql({ q: 0, r: 3 })
+            expect(cubeToCartesian.getCall(3).args[0]).to.eql({ q: -1, r: 2 })
+            expect(cubeToCartesian.getCall(4).args[0]).to.eql({ q: 0, r: 0 })
+            expect(cubeToCartesian.getCall(5).args[0]).to.eql({ q: 2, r: -1 })
         })
     })
 
     describe('when all neighbors are present in the grid', () => {
         it('returns all neighbors', () => {
             const grid = GridFactory.hexagon({ radius: 1 })
-            const hex = Hex()
-            const result = grid.neighborsOf(hex)
+            const result = grid.neighborsOf(Hex())
 
             expect(result).to.be.an('array').that.has.a.lengthOf(6)
-            expect(result[0]).to.equal(grid[5])
-            expect(result[1]).to.equal(grid[6])
-            expect(result[2]).to.equal(grid[4])
-            expect(result[3]).to.equal(grid[1])
-            expect(result[4]).to.equal(grid[0])
-            expect(result[5]).to.equal(grid[2])
+            expect(result[0]).to.equal(grid[6])
+            expect(result[1]).to.equal(grid[4])
+            expect(result[2]).to.equal(grid[1])
+            expect(result[3]).to.equal(grid[0])
+            expect(result[4]).to.equal(grid[2])
+            expect(result[5]).to.equal(grid[5])
         })
     })
 
     describe('when some neighbors are not present in the grid', () => {
         it('returns only the present neighbors', () => {
             const grid = GridFactory.hexagon({ radius: 1 })
-            const hex = Hex(1, -1)
+            const hex = Hex(1, 0)
             const result = grid.neighborsOf(hex)
 
             expect(result).to.be.an('array').that.has.a.lengthOf(3)
-            expect(result[0]).to.equal(grid[6])
+            expect(result[0]).to.equal(grid[4])
             expect(result[1]).to.equal(grid[3])
-            expect(result[2]).to.equal(grid[2])
+            expect(result[2]).to.equal(grid[5])
         })
     })
 })

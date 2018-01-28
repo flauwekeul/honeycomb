@@ -58,20 +58,20 @@ export default function createGridFactoryFactory({ createHexFactory }) {
          *
          * const grid = Grid()
          *
-         * grid.triangle(3) // [ { x: 0, y: 0, z: 0 },
-         *                  //   { x: 0, y: 1, z: -1 },
-         *                  //   { x: 0, y: 2, z: -2 },
-         *                  //   { x: 1, y: 0, z: -1 },
-         *                  //   { x: 1, y: 1, z: -2 },
-         *                  //   { x: 2, y: 0, z: -2 } ]
+         * grid.triangle(3) // [ { x: 0, y: 0 },
+         *                  //   { x: 0, y: 1 },
+         *                  //   { x: 0, y: 2 },
+         *                  //   { x: 1, y: 0 },
+         *                  //   { x: 1, y: 1 },
+         *                  //   { x: 2, y: 0 } ]
          *
          * // use extendHex() to create a custom Hex factory
          * const customHex = extendHex({ size: 30 })
          * // create a new grid with this custom Hex factory
          * const grid2 = Grid(customHex)
          *
-         * grid.pointToHex([ 20, 40 ])  // { x: -1, y: 27, z: -25 }
-         * grid2.pointToHex([ 20, 40 ]) // { x: 0, y: 1, z: -1 }
+         * grid.pointToHex([ 20, 40 ])  // { x: -1, y: 27 }
+         * grid2.pointToHex([ 20, 40 ]) // { x: 0, y: 1 }
          */
         function GridFactory(gridLikeOrHex, ...hexes) {
             if (isArray(gridLikeOrHex)) {

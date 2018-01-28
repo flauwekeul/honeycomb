@@ -83,8 +83,8 @@ describe('Grid creation', function() {
         Grid.isValidHex.restore()
     })
 
-    describe(`when called with one or more parameters that aren't arrays`, () => {
-        it('calls Grid.isValidHex for each hex', () => {
+    describe(`when called with one or more arguments that aren't arrays`, () => {
+        it('calls Grid.isValidHex for each argument', () => {
             const hex1 = Hex()
             const hex2 = Hex(2, -4)
             GridFactory(hex1, hex2)
@@ -119,7 +119,7 @@ describe('Grid creation', function() {
     })
 
     describe(`when called with an array`, () => {
-        it('calls Grid.isValidHex for each hex in the array', () => {
+        it('calls Grid.isValidHex for each element in the array', () => {
             const hex1 = Hex()
             const hex2 = Hex(2, -4)
             GridFactory([hex1, hex2])
