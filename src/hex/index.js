@@ -1,12 +1,11 @@
 import { isObject, isNumber, isArray } from 'axis.js'
-import { unsignNegativeZero } from '../utils'
 import { ORIENTATIONS, OFFSETS } from './constants'
 import Point from '../point'
 import * as statics from './statics'
 import * as methods from './prototype'
 
 export const staticMethods = {
-    thirdCoordinate: statics.thirdCoordinateFactory({ unsignNegativeZero })
+    thirdCoordinate: statics.thirdCoordinate
 }
 
 /**
@@ -153,7 +152,7 @@ export default function createFactory(prototype = {}) {
         if (isObject(xOrProps)) {
             let { q, r, s, ...rest } = xOrProps
 
-            if ([q, r, s].filter(isNumber).length === 3) {
+            if (isNumber(q) && isNumber(r) && isNumber(s)) {
                 if (q + r + s !== 0) {
                     throw new Error(`Cube coordinates must have a sum of 0. q: ${q}, r: ${r}, s: ${s}, sum: ${q + r + s}.`)
                 }
@@ -172,17 +171,12 @@ export default function createFactory(prototype = {}) {
             x = xOrProps
         }
 
-        [x, y] = [x, y].map(unsignNegativeZero)
-
-        switch ([x, y].filter(isNumber).length) {
-            case 2:
-                break
-            case 1:
-                x = isNumber(x) ? x : y
-                y = isNumber(y) ? y : x
-                break
-            default:
-                x = y = 0
+        if (!isNumber(x) && !isNumber(y)) {
+            x = y = 0
+        } else if (!isNumber(x)) {
+            x = y
+        } else if (!isNumber(y)) {
+            y = x
         }
 
         return Object.assign(
