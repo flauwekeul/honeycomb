@@ -152,6 +152,12 @@ describe('Hex creation', function() {
         })
     })
 
+    describe(`with an object containing all cube coordinates (q, r and s) that don't sum to 0`, () => {
+        it('throws an error', () => {
+            expect(() => Hex({ q: 1, r: 2, s: 3 })).to.throw(`Cube coordinates must have a sum of 0. q: 1, r: 2, s: 3, sum: 6.`)
+        })
+    })
+
     describe('with an object containing some cube coordinates (q, r and s)', () => {
         it('ignores them', () => {
             const cubeToCartesian = sinon.stub().returns({ x: 4, y: 5 })

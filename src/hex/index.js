@@ -154,6 +154,10 @@ export default function createFactory(prototype = {}) {
             let { q, r, s, ...rest } = xOrProps
 
             if ([q, r, s].filter(isNumber).length === 3) {
+                if (q + r + s !== 0) {
+                    throw new Error(`Cube coordinates must have a sum of 0. q: ${q}, r: ${r}, s: ${s}, sum: ${q + r + s}.`)
+                }
+
                 ({ x, y } = finalPrototype.cubeToCartesian({ q, r, s }))
             } else {
                 ({ x, y } = xOrProps)
