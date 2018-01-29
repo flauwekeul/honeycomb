@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 
+import { _signedModulo, _toNumberDirection } from '../../src/utils'
 import createHexFactory from '../../src/hex'
 import createGridFactoryFactory from '../../src/grid'
 import * as methods from '../../src/grid/prototype'
@@ -94,13 +95,18 @@ describe('hexesBetween', () => {
 })
 
 describe('neighborsOf', () => {
-    let neighborsOf, cubeToCartesian, hex, get
+    let neighborsOf, _signedModuloSpy, _toNumberDirectionSpy, cubeToCartesian, hex, get
 
     beforeEach(() => {
+        _signedModuloSpy = sinon.spy(_signedModulo)
+        _toNumberDirectionSpy = sinon.spy(_toNumberDirection)
         cubeToCartesian = sinon.stub().returns('cubeToCartesian result')
         hex = { cubeToCartesian, q: 1, r: 1 }
         get = sinon.spy()
-        neighborsOf = methods.neighborsOf.bind({ get })
+        neighborsOf = methods.neighborsOfFactory({
+            _signedModulo: _signedModuloSpy,
+            _toNumberDirection: _toNumberDirectionSpy
+        }).bind({ get })
     })
 
     afterEach(() => {
@@ -111,16 +117,28 @@ describe('neighborsOf', () => {
         expect(() => neighborsOf()).to.throw(`Cannot find neighbors of hex: undefined.`)
     })
 
-    it('accepts 3 parameters or an options object', () => {
+    it('accepts 3 parameters', () => {
         neighborsOf(hex, [2, 4], true)
         expect(cubeToCartesian.getCall(0)).to.have.been.calledWith({ q: 0, r: 3 })
         expect(cubeToCartesian.getCall(1)).to.have.been.calledWith({ q: 0, r: 0 })
+    })
 
-        cubeToCartesian.reset()
+    describe('when passed an options object', () => {
+        it('accepts multiple directions', () => {
+            neighborsOf({ hex, directions: [2, 4], diagonal: true })
+            expect(cubeToCartesian.getCall(0)).to.have.been.calledWith({ q: 0, r: 3 })
+            expect(cubeToCartesian.getCall(1)).to.have.been.calledWith({ q: 0, r: 0 })
+        })
 
-        neighborsOf({ hex, directions: [2, 4], diagonal: true })
-        expect(cubeToCartesian.getCall(0)).to.have.been.calledWith({ q: 0, r: 3 })
-        expect(cubeToCartesian.getCall(1)).to.have.been.calledWith({ q: 0, r: 0 })
+        it('accepts a single direction', () => {
+            neighborsOf({ hex, direction: 2, diagonal: true })
+            expect(cubeToCartesian.getCall(0)).to.have.been.calledWith({ q: 0, r: 3 })
+        })
+
+        it('ignores the single direction when multiple directions are also given', () => {
+            neighborsOf({ hex, directions: [1, 3], direction: 2, diagonal: true })
+            expect(cubeToCartesian.callCount).to.equal(2)
+        })
     })
 
     it('calls grid.get() with the result of hex.cubeToCartesian() for each direction', () => {
@@ -151,24 +169,19 @@ describe('neighborsOf', () => {
         })
     })
 
-    describe('when called with an array of directions, each within 0..5', () => {
-        it(`calls the passed hex.cubeToCartesian() with the sum of the passed hex's cube coordinates and all passed direction coordinates`, () => {
-            neighborsOf(hex, [1, 2])
-            expect(cubeToCartesian.getCall(0).args[0]).to.eql({ q: 1, r: 2 })
-            expect(cubeToCartesian.getCall(1).args[0]).to.eql({ q: 0, r: 2 })
+    describe('when called with directions outside 0..5', () => {
+        it(`passed them to _signedModulo`, () => {
+            neighborsOf(hex, -1)
+            expect(_signedModuloSpy).to.have.been.calledWith(-1, 6)
+
+            _signedModuloSpy.reset()
+
+            neighborsOf(hex, 3)
+            expect(_signedModuloSpy).not.to.have.been.called
         })
     })
 
-    describe('when called with an array of directions, each outside 0..5', () => {
-        it(`converts the directions to a number within 0..5`, () => {
-            neighborsOf(hex, [6, 92, -3])
-            expect(cubeToCartesian.getCall(0).args[0]).to.eql({ q: 2, r: 1 })
-            expect(cubeToCartesian.getCall(1).args[0]).to.eql({ q: 0, r: 2 })
-            expect(cubeToCartesian.getCall(2).args[0]).to.eql({ q: 0, r: 1 })
-        })
-    })
-
-    describe('when called with a singular number direction', () => {
+    describe('when called with a single number direction', () => {
         it(`calls the passed hex.cubeToCartesian() with the sum of the passed hex's cube coordinates and the passed direction coordinate`, () => {
             neighborsOf(hex, 2)
             expect(cubeToCartesian.callCount).to.equal(1)
@@ -179,6 +192,15 @@ describe('neighborsOf', () => {
             neighborsOf({ hex, direction: 2 })
             expect(cubeToCartesian.callCount).to.equal(1)
             expect(cubeToCartesian.getCall(0).args[0]).to.eql({ q: 0, r: 2 })
+        })
+    })
+
+    describe('when called with compass direction(s)', () => {
+        it('calls _toNumberDirection', () => {
+            hex.orientation = 'pointy'
+            neighborsOf(hex, 'NW')
+
+            expect(_toNumberDirectionSpy).to.have.been.calledWith('NW', 'pointy')
         })
     })
 

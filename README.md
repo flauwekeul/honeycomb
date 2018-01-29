@@ -497,7 +497,6 @@ Returns **[Point](#point)** The difference between the passed point's coordinate
 
 ### Features
 
-6.  Make `Grid#neighborOf` and `Grid#neighborsOf` (also) accept cardinal and ordinal directions (compass points, e.g. north, south, southwest). And maybe also arrows (e.g. ↑, ↘, ←).
 7.  Regarding grid shapes, directions are unclear. Also, it's expected their start hex differs per direction so that creating grids with different directions places them in more or less the same place.
 9.  Maybe `Honeycomb.Grid.createFactory` should accept a prototype (like `Honeycomb.Hex.createFactory` does) that requires a hex factory and enables creating a custom grid factory.
 4.  Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.

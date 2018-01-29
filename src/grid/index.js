@@ -1,5 +1,6 @@
 import { isArray } from 'axis.js'
 
+import { _signedModulo, _toNumberDirection } from '../utils'
 import Point from '../point'
 import Grid from './class'
 import * as statics from './statics'
@@ -31,7 +32,7 @@ export default function createGridFactoryFactory({ createHexFactory }) {
                 // methods
                 get: methods.get,
                 hexesBetween: methods.hexesBetween,
-                neighborsOf: methods.neighborsOf
+                neighborsOf: methods.neighborsOfFactory({ _signedModulo, _toNumberDirection })
             }
         )
 

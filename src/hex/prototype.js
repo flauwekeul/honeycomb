@@ -1,4 +1,5 @@
 import { ORIENTATIONS, EPSILON } from './constants'
+import { _offsetFromZero } from '../utils'
 
 export function setFactory({ Hex }) {
     /**
@@ -34,11 +35,11 @@ export function cubeToCartesian({ q, r }) {
     let x, y
 
     if (this.isPointy()) {
-        x = q + _offsetDistanceInDirection(this.offset, r)
+        x = q + _offsetFromZero(this.offset, r)
         y = r
     } else {
         x = q
-        y = r + _offsetDistanceInDirection(this.offset, q)
+        y = r + _offsetFromZero(this.offset, q)
     }
 
     return { x, y }
@@ -48,11 +49,11 @@ export function cartesianToCube({ x, y }) {
     let q, r
 
     if (this.isPointy()) {
-        q = x - _offsetDistanceInDirection(this.offset, y)
+        q = x - _offsetFromZero(this.offset, y)
         r = y
     } else {
         q = x
-        r = y - _offsetDistanceInDirection(this.offset, x)
+        r = y - _offsetFromZero(this.offset, x)
     }
 
     return { q, r, s: -q - r }
@@ -313,8 +314,4 @@ export function nudge() {
  */
 export function toString() {
     return `${this.x},${this.y}`
-}
-
-function _offsetDistanceInDirection(offset, dimension) {
-    return (dimension + offset * (dimension & 1)) >> 1
 }
