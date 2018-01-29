@@ -1,4 +1,4 @@
-import { isObject } from 'axis.js'
+import { isNumber, isObject } from 'axis.js'
 
 import { DIRECTION_COORDINATES, DIAGONAL_DIRECTION_COORDINATES } from '../hex/constants'
 
@@ -40,23 +40,28 @@ export function hexesBetween(firstHex, lastHex) {
  *
  * @returns {Hex[]}                     An array of the 6 neighboring hexes.
  */
-export function neighborsOf(hexOrOptions, directions = '*', diagonal = false) {
+export function neighborsOf(hexOrOptions, directions = 'all', diagonal = false) {
     if (!isObject(hexOrOptions)) {
         throw new Error(`Cannot find neighbors of hex: ${hexOrOptions}.`)
     }
 
-    let hex
+    let hex, direction
 
     // get arguments from hexOrOptions if it contains a hex property
     if (isObject(hexOrOptions.hex)) {
-        ({ hex, directions = '*', diagonal = false } = hexOrOptions)
+        ({ hex, direction, directions = 'all', diagonal = false } = hexOrOptions)
+        directions = isNumber(direction) ? direction : directions
     } else {
         hex = hexOrOptions
     }
 
-    if (directions === '*') {
+    if (directions === 'all') {
         directions = [0, 1, 2, 3, 4, 5]
     } else {
+        if (isNumber(directions)) {
+            directions = [directions]
+        }
+
         // convert each direction to a number between 0 and 5, also when initially negative
         directions = directions.map(direction => ((direction % 6) + 6) % 6)
     }

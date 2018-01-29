@@ -129,7 +129,7 @@ describe('neighborsOf', () => {
         expect(get).to.always.have.been.calledWith('cubeToCartesian result')
     })
 
-    describe('when called with no direction or an * direction', () => {
+    describe(`when called with no direction or 'all' directions`, () => {
         it(`calls the passed hex.cubeToCartesian() with the sum of the passed hex's cube coordinates and all direction coordinates`, () => {
             neighborsOf(hex)
             expect(cubeToCartesian.getCall(0).args[0]).to.eql({ q: 2, r: 1 })
@@ -141,7 +141,7 @@ describe('neighborsOf', () => {
 
             cubeToCartesian.reset()
 
-            neighborsOf(hex, '*')
+            neighborsOf(hex, 'all')
             expect(cubeToCartesian.getCall(0).args[0]).to.eql({ q: 2, r: 1 })
             expect(cubeToCartesian.getCall(1).args[0]).to.eql({ q: 1, r: 2 })
             expect(cubeToCartesian.getCall(2).args[0]).to.eql({ q: 0, r: 2 })
@@ -168,9 +168,23 @@ describe('neighborsOf', () => {
         })
     })
 
+    describe('when called with a singular number direction', () => {
+        it(`calls the passed hex.cubeToCartesian() with the sum of the passed hex's cube coordinates and the passed direction coordinate`, () => {
+            neighborsOf(hex, 2)
+            expect(cubeToCartesian.callCount).to.equal(1)
+            expect(cubeToCartesian.getCall(0).args[0]).to.eql({ q: 0, r: 2 })
+
+            cubeToCartesian.reset()
+
+            neighborsOf({ hex, direction: 2 })
+            expect(cubeToCartesian.callCount).to.equal(1)
+            expect(cubeToCartesian.getCall(0).args[0]).to.eql({ q: 0, r: 2 })
+        })
+    })
+
     describe('with the diagonal flag enabled', () => {
         it(`calls the passed hex.cubeToCartesian() with the sum of the passed hex's cube coordinates and all direction coordinates`, () => {
-            neighborsOf(hex, '*', true)
+            neighborsOf(hex, 'all', true)
             expect(cubeToCartesian.getCall(0).args[0]).to.eql({ q: 3, r: 0 })
             expect(cubeToCartesian.getCall(1).args[0]).to.eql({ q: 2, r: 2 })
             expect(cubeToCartesian.getCall(2).args[0]).to.eql({ q: 0, r: 3 })
