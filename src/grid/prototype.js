@@ -1,7 +1,6 @@
-import {
-    DIRECTION_COORDINATES,
-    DIAGONAL_DIRECTION_COORDINATES
-} from '../hex/constants'
+import { isObject } from 'axis.js'
+
+import { DIRECTION_COORDINATES, DIAGONAL_DIRECTION_COORDINATES } from '../hex/constants'
 
 export function get(targetHex) {
     return this[this.indexOf(targetHex)]
@@ -51,7 +50,19 @@ export function hexesBetween(firstHex, lastHex) {
  * hex.neighbor(2)          // { x: 0, y: 1 }, the hex across the 3rd (South West) side
  * hex.neighbor(3, true)    // { x: -2, y: 1 }, the hex opposite the 4th corner
  */
-export function neighborOf(hex, { direction = 0, diagonal = false } = {}) {
+export function neighborOf(hexOrOptions, direction = 0, diagonal = false) {
+    if (!isObject(hexOrOptions)) {
+        throw new Error(`Cannot find neighbor of hex: ${hexOrOptions}.`)
+    }
+
+    let hex
+
+    if (isObject(hexOrOptions.hex)) {
+        ({ hex, direction = 0, diagonal = false } = hexOrOptions)
+    } else {
+        hex = hexOrOptions
+    }
+
     // convert direction to a number between 0 and 5, even when initially negative
     direction = ((direction % 6) + 6) % 6
     const { q, r } = diagonal ?
@@ -73,7 +84,19 @@ export function neighborOf(hex, { direction = 0, diagonal = false } = {}) {
  *
  * @returns {Hex[]}                     An array of the 6 neighboring hexes.
  */
-export function neighborsOf(hex, { diagonal = false } = {}) {
+export function neighborsOf(hexOrOptions, diagonal = false) {
+    if (!isObject(hexOrOptions)) {
+        throw new Error(`Cannot find neighbors of hex: ${hexOrOptions}.`)
+    }
+
+    let hex
+
+    if (isObject(hexOrOptions.hex)) {
+        ({ hex, diagonal = false } = hexOrOptions)
+    } else {
+        hex = hexOrOptions
+    }
+
     return (diagonal ? DIAGONAL_DIRECTION_COORDINATES : DIRECTION_COORDINATES)
         .map(({ q, r }) => this.get(hex.cubeToCartesian({ q: hex.q + q, r: hex.r + r })))
         .filter(Boolean)

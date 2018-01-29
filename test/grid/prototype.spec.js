@@ -103,6 +103,18 @@ describe('neighborOf', () => {
         neighborOf = methods.neighborOf.bind({ get })
     })
 
+    it('throws when no hex is passed', () => {
+        expect(() => neighborOf()).to.throw(`Cannot find neighbor of hex: undefined.`)
+    })
+
+    it('accepts 3 parameters or an options object', () => {
+        neighborOf(hex, 2, true)
+        expect(cubeToCartesian).to.have.been.calledWith({ q: 0, r: 3 })
+
+        neighborOf({ hex, direction: 2, diagonal: true })
+        expect(cubeToCartesian).to.have.been.calledWith({ q: 0, r: 3 })
+    })
+
     it('calls grid.get() with the result of hex.cubeToCartesian()', () => {
         neighborOf(hex)
         expect(get).to.have.been.calledWith('cubeToCartesian result')
@@ -110,45 +122,45 @@ describe('neighborOf', () => {
 
     describe('with a given direction between 0 and 5', () => {
         it(`calls the passed hex.cubeToCartesian() with the hex's cube coordinates and the passed direction coordinates`, () => {
-            neighborOf(hex, { direction: 0 })
+            neighborOf(hex, 0)
             expect(cubeToCartesian).to.have.been.calledWith({ q: 2, r: 1 })
-            neighborOf(hex, { direction: 1 })
+            neighborOf(hex, 1)
             expect(cubeToCartesian).to.have.been.calledWith({ q: 1, r: 2 })
-            neighborOf(hex, { direction: 2 })
+            neighborOf(hex, 2)
             expect(cubeToCartesian).to.have.been.calledWith({ q: 0, r: 2 })
-            neighborOf(hex, { direction: 3 })
+            neighborOf(hex, 3)
             expect(cubeToCartesian).to.have.been.calledWith({ q: 0, r: 1 })
-            neighborOf(hex, { direction: 4 })
+            neighborOf(hex, 4)
             expect(cubeToCartesian).to.have.been.calledWith({ q: 1, r: 0 })
-            neighborOf(hex, { direction: 5 })
+            neighborOf(hex, 5)
             expect(cubeToCartesian).to.have.been.calledWith({ q: 2, r: 0 })
         })
     })
 
     describe('with a given direction < 0 or > 5', () => {
         it(`calls the passed hex.cubeToCartesian() with the hex's cube coordinates and the remainder of the passed direction coordinates`, () => {
-            neighborOf(hex, { direction: 6 })
+            neighborOf(hex, 6)
             expect(cubeToCartesian).to.have.been.calledWith({ q: 2, r: 1 })
-            neighborOf(hex, { direction: 92 })
+            neighborOf(hex, 92)
             expect(cubeToCartesian).to.have.been.calledWith({ q: 0, r: 2 })
-            neighborOf(hex, { direction: -4 })
+            neighborOf(hex, -4)
             expect(cubeToCartesian).to.have.been.calledWith({ q: 0, r: 2 })
         })
     })
 
     describe('with the diagonal flag enabled', () => {
         it(`calls the passed hex.cubeToCartesian() with the hex's cube coordinates and the passed diagonal direction coordinates`, () => {
-            neighborOf(hex, { direction: 0, diagonal: true })
+            neighborOf(hex, 0, true)
             expect(cubeToCartesian).to.have.been.calledWith({ q: 3, r: 0 })
-            neighborOf(hex, { direction: 1, diagonal: true })
+            neighborOf(hex, 1, true)
             expect(cubeToCartesian).to.have.been.calledWith({ q: 2, r: 2 })
-            neighborOf(hex, { direction: 2, diagonal: true })
+            neighborOf(hex, 2, true)
             expect(cubeToCartesian).to.have.been.calledWith({ q: 0, r: 3 })
-            neighborOf(hex, { direction: 3, diagonal: true })
+            neighborOf(hex, 3, true)
             expect(cubeToCartesian).to.have.been.calledWith({ q: -1, r: 2 })
-            neighborOf(hex, { direction: 4, diagonal: true })
+            neighborOf(hex, 4, true)
             expect(cubeToCartesian).to.have.been.calledWith({ q: 0, r: 0 })
-            neighborOf(hex, { direction: 5, diagonal: true })
+            neighborOf(hex, 5, true)
             expect(cubeToCartesian).to.have.been.calledWith({ q: 2, r: -1 })
         })
     })
@@ -184,6 +196,20 @@ describe('neighborsOf', () => {
         neighborsOf = methods.neighborsOf.bind({ get })
     })
 
+    it('throws when no hex is passed', () => {
+        expect(() => neighborsOf()).to.throw(`Cannot find neighbors of hex: undefined.`)
+    })
+
+    it('accepts 2 parameters or an options object', () => {
+        neighborsOf(hex, true)
+        expect(cubeToCartesian).to.have.callCount(6)
+
+        cubeToCartesian.reset()
+
+        neighborsOf({ hex, diagonal: true })
+        expect(cubeToCartesian).to.have.callCount(6)
+    })
+
     it('calls grid.get() with the result of hex.cubeToCartesian() for each direction', () => {
         neighborsOf(hex)
         expect(get.callCount).to.equal(6)
@@ -202,7 +228,7 @@ describe('neighborsOf', () => {
 
     describe('with the diagonal flag enabled', () => {
         it(`calls the passed hex.cubeToCartesian() with the sum of the passed hex's cube coordinates and each direction coordinates`, () => {
-            neighborsOf(hex, { diagonal: true })
+            neighborsOf(hex, true)
             expect(cubeToCartesian.getCall(0).args[0]).to.eql({ q: 3, r: 0 })
             expect(cubeToCartesian.getCall(1).args[0]).to.eql({ q: 2, r: 2 })
             expect(cubeToCartesian.getCall(2).args[0]).to.eql({ q: 0, r: 3 })
