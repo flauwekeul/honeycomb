@@ -14,6 +14,14 @@ describe('_signedModulo', () => {
 describe('_toNumberDirection', () => {
     let orientation
 
+    describe('when called with an invalid compass direction', () => {
+        it('throws', () => {
+            expect(() => _toNumberDirection('invalid')).to.throw(
+                'Invalid compass direction: invalid. Choose from E, SE, S, SW, W, NW, N or NE.'
+            )
+        })
+    })
+
     describe('when called with a pointy orientation', () => {
         before(() => {
             orientation = 'pointy'

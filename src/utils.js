@@ -31,6 +31,10 @@ export function _signedModulo(dividend, divisor) {
  * @returns {(0|1|2|3|4|5)}             The number direction in the range 0..5.
  */
 export function _toNumberDirection(value, orientation) {
+    if (!/^(N|S)?(E|W)?$/i.test(value)) {
+        throw new Error(`Invalid compass direction: ${value}. Choose from E, SE, S, SW, W, NW, N or NE.`)
+    }
+
     return {
         POINTY: {
             E: 0,
