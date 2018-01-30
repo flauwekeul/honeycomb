@@ -1,3 +1,7 @@
+import { isString } from 'axis.js'
+
+import { _offsetFromZero } from '../utils'
+
 export function isValidHexFactory({ Grid }) {
     return function isValidHex(value) {
         return Grid.isValidHex(value)
@@ -232,7 +236,7 @@ export function hexagonFactory({ Grid, Hex }) {
     }
 }
 
-export function rectangleFactory({ Grid, Hex }) {
+export function rectangleFactory({ Grid, Hex, _toNumberDirection, _signedModulo }) {
     /**
      * @method Grid#rectangle
      *
@@ -257,25 +261,33 @@ export function rectangleFactory({ Grid, Hex }) {
         width,
         height,
         start,
-        direction = 0,
+        direction = Hex().isPointy() ? 0 : 1,
         onCreate = () => { }
     }) {
         start = Hex(start)
 
-        const DIRECTIONS = {
-            0: ['q', 'r', 's'],
-            1: ['r', 'q', 's'],
-            2: ['r', 's', 'q'],
-            3: ['s', 'r', 'q'],
-            4: ['s', 'q', 'r'],
-            5: ['q', 's', 'r']
+        if (isString(direction)) {
+            direction = _toNumberDirection(direction, start.orientation)
         }
+
+        if (direction < 0 || direction > 5) {
+            direction = _signedModulo(direction, 6)
+        }
+
+        const DIRECTIONS = [
+            ['q', 'r', 's'],
+            ['r', 'q', 's'],
+            ['r', 's', 'q'],
+            ['s', 'r', 'q'],
+            ['s', 'q', 'r'],
+            ['q', 's', 'r']
+        ]
         const [firstCoordinate, secondCoordinate, thirdCoordinate] = DIRECTIONS[direction]
         const [firstStop, secondStop] = start.isPointy() ? [width, height] : [height, width]
         const grid = new Grid()
 
         for (let second = 0; second < secondStop; second++) {
-            const secondOffset = second >> 1 // same as: Math.floor(second / 2)
+            const secondOffset = _offsetFromZero(start.offset, second)
 
             for (let first = -secondOffset; first < firstStop - secondOffset; first++) {
                 const hex = Hex(start.cubeToCartesian({

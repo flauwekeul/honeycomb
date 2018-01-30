@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 
+import { _toNumberDirection, _signedModulo } from '../../src/utils'
 import createHexFactory from '../../src/hex'
 import Grid from '../../src/grid/class'
 import * as statics from '../../src/grid/statics'
@@ -417,11 +418,18 @@ describe('hexagon', function() {
 })
 
 describe('rectangle', function() {
-    let rectangle, Hex
+    let _toNumberDirectionSpy, _signedModuloSpy, Hex, rectangle
 
     before(function() {
+        _toNumberDirectionSpy = sinon.spy(_toNumberDirection)
+        _signedModuloSpy = sinon.spy(_signedModulo)
         Hex = createHexFactory()
-        rectangle = statics.rectangleFactory({ Grid, Hex })
+        rectangle = statics.rectangleFactory({
+            Grid,
+            Hex,
+            _toNumberDirection: _toNumberDirectionSpy,
+            _signedModulo: _signedModuloSpy
+        })
     })
 
     it('returns a grid instance with a length of (width ⨉ height) hexes', function() {
@@ -434,6 +442,25 @@ describe('rectangle', function() {
         expect(gridInstance.push.callCount).to.equal(20)
     })
 
+    describe('when called with a compass direction', () => {
+        it('calls _toNumberDirection', () => {
+            rectangle({ direction: 'E' })
+            expect(_toNumberDirectionSpy).to.have.been.calledWith('E', 'POINTY')
+        })
+    })
+
+    describe('when called with directions outside 0..5', () => {
+        it(`passes them to _signedModulo`, () => {
+            rectangle({ direction: -1 })
+            expect(_signedModuloSpy).to.have.been.calledWith(-1, 6)
+
+            _signedModuloSpy.reset()
+
+            rectangle({ direction: 3 })
+            expect(_signedModuloSpy).not.to.have.been.called
+        })
+    })
+
     describe('when hexes have a pointy orientation', function() {
         before(function() {
             Hex = createHexFactory({ orientation: 'POINTY' })
@@ -441,7 +468,7 @@ describe('rectangle', function() {
         })
 
         describe('when called without start hex or direction', function() {
-            it('returns the hexes in a rectangle shape, starting at Hex(0)', function() {
+            it('returns the hexes in a rectangle shape in direction 0, starting at Hex(0)', function() {
                 expect(rectangle({ width: 2, height: 3 })).to.contain.hexes([
                     { x: 0, y: 0 },
                     { x: 1, y: 0 },
@@ -486,7 +513,7 @@ describe('rectangle', function() {
         })
 
         describe('when called with direction 1', function() {
-            it('returns the hexes in a rectangle shape, in an eastern direction', function() {
+            it('returns the hexes in a rectangle shape, in a southeastern direction', function() {
                 expect(rectangle({
                     width: 2,
                     height: 2,
@@ -501,7 +528,7 @@ describe('rectangle', function() {
         })
 
         describe('when called with direction 2', function() {
-            it('returns the hexes in a rectangle shape, in an eastern direction', function() {
+            it('returns the hexes in a rectangle shape, in a southwestern direction', function() {
                 expect(rectangle({
                     width: 2,
                     height: 2,
@@ -516,7 +543,7 @@ describe('rectangle', function() {
         })
 
         describe('when called with direction 3', function() {
-            it('returns the hexes in a rectangle shape, in an eastern direction', function() {
+            it('returns the hexes in a rectangle shape, in a western direction', function() {
                 expect(rectangle({
                     width: 2,
                     height: 2,
@@ -531,7 +558,7 @@ describe('rectangle', function() {
         })
 
         describe('when called with direction 4', function() {
-            it('returns the hexes in a rectangle shape, in an eastern direction', function() {
+            it('returns the hexes in a rectangle shape, in a northwestern direction', function() {
                 expect(rectangle({
                     width: 2,
                     height: 2,
@@ -546,7 +573,7 @@ describe('rectangle', function() {
         })
 
         describe('when called with direction 5', function() {
-            it('returns the hexes in a rectangle shape, in an eastern direction', function() {
+            it('returns the hexes in a rectangle shape, in a northeastern direction', function() {
                 expect(rectangle({
                     width: 2,
                     height: 2,
@@ -568,14 +595,14 @@ describe('rectangle', function() {
         })
 
         describe('when called without start hex or direction', function() {
-            it('returns the hexes in a rectangle shape, starting at Hex(0)', function() {
+            it('returns the hexes in a rectangle shape in direction 1, starting at Hex(0)', function() {
                 expect(rectangle({ width: 2, height: 3 })).to.contain.hexes([
                     { x: 0, y: 0 },
                     { x: 1, y: 0 },
-                    { x: 2, y: 1 },
                     { x: 0, y: 1 },
                     { x: 1, y: 1 },
-                    { x: 2, y: 2 }
+                    { x: 0, y: 2 },
+                    { x: 1, y: 2 }
                 ])
             })
         })
@@ -589,16 +616,16 @@ describe('rectangle', function() {
                 })).to.contain.hexes([
                     { x: -4, y: -2 },
                     { x: -3, y: -2 },
-                    { x: -2, y: -1 },
                     { x: -4, y: -1 },
                     { x: -3, y: -1 },
-                    { x: -2, y: 0 }
+                    { x: -4, y: 0 },
+                    { x: -3, y: 0 }
                 ])
             })
         })
 
         describe('when called with direction 0', function() {
-            it('returns the hexes in a rectangle shape, in an eastern direction', function() {
+            it('returns the hexes in a rectangle shape, in a southeastern direction', function() {
                 expect(rectangle({
                     width: 2,
                     height: 2,
@@ -613,7 +640,7 @@ describe('rectangle', function() {
         })
 
         describe('when called with direction 1', function() {
-            it('returns the hexes in a rectangle shape, in an eastern direction', function() {
+            it('returns the hexes in a rectangle shape, in a southern direction', function() {
                 expect(rectangle({
                     width: 2,
                     height: 2,
@@ -628,7 +655,7 @@ describe('rectangle', function() {
         })
 
         describe('when called with direction 2', function() {
-            it('returns the hexes in a rectangle shape, in an eastern direction', function() {
+            it('returns the hexes in a rectangle shape, in a southwestern direction', function() {
                 expect(rectangle({
                     width: 2,
                     height: 2,
@@ -643,7 +670,7 @@ describe('rectangle', function() {
         })
 
         describe('when called with direction 3', function() {
-            it('returns the hexes in a rectangle shape, in an eastern direction', function() {
+            it('returns the hexes in a rectangle shape, in a northwestern direction', function() {
                 expect(rectangle({
                     width: 2,
                     height: 2,
@@ -658,7 +685,7 @@ describe('rectangle', function() {
         })
 
         describe('when called with direction 4', function() {
-            it('returns the hexes in a rectangle shape, in an eastern direction', function() {
+            it('returns the hexes in a rectangle shape, in a northern direction', function() {
                 expect(rectangle({
                     width: 2,
                     height: 2,
@@ -673,7 +700,7 @@ describe('rectangle', function() {
         })
 
         describe('when called with direction 5', function() {
-            it('returns the hexes in a rectangle shape, in an eastern direction', function() {
+            it('returns the hexes in a rectangle shape, in a northeastern direction', function() {
                 expect(rectangle({
                     width: 2,
                     height: 2,

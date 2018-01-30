@@ -22,7 +22,7 @@ export default function createGridFactoryFactory({ createHexFactory }) {
             parallelogram: statics.parallelogramFactory({ Grid, Hex }),
             triangle: statics.triangleFactory({ Grid, Hex }),
             hexagon: statics.hexagonFactory({ Grid, Hex }),
-            rectangle: statics.rectangleFactory({ Grid, Hex })
+            rectangle: statics.rectangleFactory({ Grid, Hex, _toNumberDirection, _signedModulo })
         })
 
         // prototype properties
