@@ -22,6 +22,23 @@ describe('_toNumberDirection', () => {
         })
     })
 
+    describe('when called with an ambiguous compass direction', () => {
+        it('throws', () => {
+            expect(() => _toNumberDirection('N', 'pointy')).to.throw(
+                `Direction N is ambiguous for pointy hexes. Did you mean NE or NW?`
+            )
+            expect(() => _toNumberDirection('S', 'pointy')).to.throw(
+                `Direction S is ambiguous for pointy hexes. Did you mean SE or SW?`
+            )
+            expect(() => _toNumberDirection('E', 'flat')).to.throw(
+                `Direction E is ambiguous for flat hexes. Did you mean NE or SE?`
+            )
+            expect(() => _toNumberDirection('W', 'flat')).to.throw(
+                `Direction W is ambiguous for flat hexes. Did you mean NW or SW?`
+            )
+        })
+    })
+
     describe('when called with a pointy orientation', () => {
         before(() => {
             orientation = 'pointy'
@@ -34,13 +51,6 @@ describe('_toNumberDirection', () => {
             expect(_toNumberDirection('W', orientation)).to.equal(3)
             expect(_toNumberDirection('NW', orientation)).to.equal(4)
             expect(_toNumberDirection('NE', orientation)).to.equal(5)
-        })
-
-        describe('when called with an N or S direction', () => {
-            it('returns null', () => {
-                expect(_toNumberDirection('N', orientation)).to.be.null
-                expect(_toNumberDirection('S', orientation)).to.be.null
-            })
         })
     })
 
@@ -56,13 +66,6 @@ describe('_toNumberDirection', () => {
             expect(_toNumberDirection('NW', orientation)).to.equal(3)
             expect(_toNumberDirection('N', orientation)).to.equal(4)
             expect(_toNumberDirection('NE', orientation)).to.equal(5)
-        })
-
-        describe('when called with an E or W direction', () => {
-            it('returns null', () => {
-                expect(_toNumberDirection('E', orientation)).to.be.null
-                expect(_toNumberDirection('W', orientation)).to.be.null
-            })
         })
     })
 })
