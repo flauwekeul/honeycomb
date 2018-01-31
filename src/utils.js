@@ -6,7 +6,7 @@
  *
  * @returns {number}            The amount to offset in the dimension opposite of the passed `distance`.
  */
-export function _offsetFromZero(offset, distance) {
+export function offsetFromZero(offset, distance) {
     return (distance + offset * (distance & 1)) >> 1
 }
 
@@ -18,7 +18,7 @@ export function _offsetFromZero(offset, distance) {
  *
  * @returns {number}            `dividend % divisor`, except negative dividends "count back from 0".
  */
-export function _signedModulo(dividend, divisor) {
+export function signedModulo(dividend, divisor) {
     return ((dividend % divisor) + divisor) % divisor
 }
 
@@ -30,7 +30,7 @@ export function _signedModulo(dividend, divisor) {
  *
  * @returns {(0|1|2|3|4|5)}             The number direction in the range 0..5.
  */
-export function _toNumberDirection(value, orientation) {
+export function compassToNumberDirection(value, orientation) {
     if (!/^(N|S)?(E|W)?$/i.test(value)) {
         throw new Error(`Invalid compass direction: ${value}. Choose from E, SE, S, SW, W, NW, N or NE.`)
     }

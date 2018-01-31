@@ -1,5 +1,5 @@
 import { ORIENTATIONS, EPSILON } from './constants'
-import { _offsetFromZero } from '../utils'
+import { offsetFromZero } from '../utils'
 
 export function setFactory({ Hex }) {
     /**
@@ -35,11 +35,11 @@ export function cubeToCartesian({ q, r }) {
     let x, y
 
     if (this.isPointy()) {
-        x = q + _offsetFromZero(this.offset, r)
+        x = q + offsetFromZero(this.offset, r)
         y = r
     } else {
         x = q
-        y = r + _offsetFromZero(this.offset, q)
+        y = r + offsetFromZero(this.offset, q)
     }
 
     return { x, y }
@@ -49,11 +49,11 @@ export function cartesianToCube({ x, y }) {
     let q, r
 
     if (this.isPointy()) {
-        q = x - _offsetFromZero(this.offset, y)
+        q = x - offsetFromZero(this.offset, y)
         r = y
     } else {
         q = x
-        r = y - _offsetFromZero(this.offset, x)
+        r = y - offsetFromZero(this.offset, x)
     }
 
     return { q, r, s: -q - r }

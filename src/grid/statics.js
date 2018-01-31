@@ -1,6 +1,6 @@
 import { isString } from 'axis.js'
 
-import { _offsetFromZero } from '../utils'
+import { offsetFromZero } from '../utils'
 
 export function isValidHexFactory({ Grid }) {
     return function isValidHex(value) {
@@ -236,7 +236,7 @@ export function hexagonFactory({ Grid, Hex }) {
     }
 }
 
-export function rectangleFactory({ Grid, Hex, _toNumberDirection, _signedModulo }) {
+export function rectangleFactory({ Grid, Hex, compassToNumberDirection, signedModulo }) {
     /**
      * @method Grid#rectangle
      *
@@ -267,11 +267,11 @@ export function rectangleFactory({ Grid, Hex, _toNumberDirection, _signedModulo 
         start = Hex(start)
 
         if (isString(direction)) {
-            direction = _toNumberDirection(direction, start.orientation)
+            direction = compassToNumberDirection(direction, start.orientation)
         }
 
         if (direction < 0 || direction > 5) {
-            direction = _signedModulo(direction, 6)
+            direction = signedModulo(direction, 6)
         }
 
         const DIRECTIONS = [
@@ -287,7 +287,7 @@ export function rectangleFactory({ Grid, Hex, _toNumberDirection, _signedModulo 
         const grid = new Grid()
 
         for (let second = 0; second < secondStop; second++) {
-            const secondOffset = _offsetFromZero(start.offset, second)
+            const secondOffset = offsetFromZero(start.offset, second)
 
             for (let first = -secondOffset; first < firstStop - secondOffset; first++) {
                 const hex = Hex(start.cubeToCartesian({

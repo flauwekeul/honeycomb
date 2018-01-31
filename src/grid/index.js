@@ -1,6 +1,6 @@
 import { isArray } from 'axis.js'
 
-import { _signedModulo, _toNumberDirection } from '../utils'
+import { signedModulo, compassToNumberDirection } from '../utils'
 import Point from '../point'
 import Grid from './class'
 import * as statics from './statics'
@@ -22,7 +22,7 @@ export default function createGridFactoryFactory({ createHexFactory }) {
             parallelogram: statics.parallelogramFactory({ Grid, Hex }),
             triangle: statics.triangleFactory({ Grid, Hex }),
             hexagon: statics.hexagonFactory({ Grid, Hex }),
-            rectangle: statics.rectangleFactory({ Grid, Hex, _toNumberDirection, _signedModulo })
+            rectangle: statics.rectangleFactory({ Grid, Hex, compassToNumberDirection, signedModulo })
         })
 
         // prototype properties
@@ -32,7 +32,7 @@ export default function createGridFactoryFactory({ createHexFactory }) {
                 // methods
                 get: methods.get,
                 hexesBetween: methods.hexesBetween,
-                neighborsOf: methods.neighborsOfFactory({ _signedModulo, _toNumberDirection })
+                neighborsOf: methods.neighborsOfFactory({ signedModulo, compassToNumberDirection })
             }
         )
 

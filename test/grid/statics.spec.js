@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 
-import { _toNumberDirection, _signedModulo } from '../../src/utils'
+import { compassToNumberDirection, signedModulo } from '../../src/utils'
 import createHexFactory from '../../src/hex'
 import Grid from '../../src/grid/class'
 import * as statics from '../../src/grid/statics'
@@ -418,17 +418,17 @@ describe('hexagon', function() {
 })
 
 describe('rectangle', function() {
-    let _toNumberDirectionSpy, _signedModuloSpy, Hex, rectangle
+    let compassToNumberDirectionSpy, signedModuloSpy, Hex, rectangle
 
     before(function() {
-        _toNumberDirectionSpy = sinon.spy(_toNumberDirection)
-        _signedModuloSpy = sinon.spy(_signedModulo)
+        compassToNumberDirectionSpy = sinon.spy(compassToNumberDirection)
+        signedModuloSpy = sinon.spy(signedModulo)
         Hex = createHexFactory()
         rectangle = statics.rectangleFactory({
             Grid,
             Hex,
-            _toNumberDirection: _toNumberDirectionSpy,
-            _signedModulo: _signedModuloSpy
+            compassToNumberDirection: compassToNumberDirectionSpy,
+            signedModulo: signedModuloSpy
         })
     })
 
@@ -443,21 +443,21 @@ describe('rectangle', function() {
     })
 
     describe('when called with a compass direction', () => {
-        it('calls _toNumberDirection', () => {
+        it('calls compassToNumberDirection', () => {
             rectangle({ direction: 'E' })
-            expect(_toNumberDirectionSpy).to.have.been.calledWith('E', 'POINTY')
+            expect(compassToNumberDirectionSpy).to.have.been.calledWith('E', 'POINTY')
         })
     })
 
     describe('when called with directions outside 0..5', () => {
-        it(`passes them to _signedModulo`, () => {
+        it(`passes them to signedModulo`, () => {
             rectangle({ direction: -1 })
-            expect(_signedModuloSpy).to.have.been.calledWith(-1, 6)
+            expect(signedModuloSpy).to.have.been.calledWith(-1, 6)
 
-            _signedModuloSpy.reset()
+            signedModuloSpy.reset()
 
             rectangle({ direction: 3 })
-            expect(_signedModuloSpy).not.to.have.been.called
+            expect(signedModuloSpy).not.to.have.been.called
         })
     })
 

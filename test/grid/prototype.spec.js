@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 
-import { _signedModulo, _toNumberDirection } from '../../src/utils'
+import { signedModulo, compassToNumberDirection } from '../../src/utils'
 import createHexFactory from '../../src/hex'
 import createGridFactoryFactory from '../../src/grid'
 import * as methods from '../../src/grid/prototype'
@@ -95,17 +95,17 @@ describe('hexesBetween', () => {
 })
 
 describe('neighborsOf', () => {
-    let neighborsOf, _signedModuloSpy, _toNumberDirectionSpy, cubeToCartesian, hex, get
+    let neighborsOf, signedModuloSpy, compassToNumberDirectionSpy, cubeToCartesian, hex, get
 
     beforeEach(() => {
-        _signedModuloSpy = sinon.spy(_signedModulo)
-        _toNumberDirectionSpy = sinon.spy(_toNumberDirection)
+        signedModuloSpy = sinon.spy(signedModulo)
+        compassToNumberDirectionSpy = sinon.spy(compassToNumberDirection)
         cubeToCartesian = sinon.stub().returns('cubeToCartesian result')
         hex = { cubeToCartesian, q: 1, r: 1 }
         get = sinon.spy()
         neighborsOf = methods.neighborsOfFactory({
-            _signedModulo: _signedModuloSpy,
-            _toNumberDirection: _toNumberDirectionSpy
+            signedModulo: signedModuloSpy,
+            compassToNumberDirection: compassToNumberDirectionSpy
         }).bind({ get })
     })
 
@@ -170,14 +170,14 @@ describe('neighborsOf', () => {
     })
 
     describe('when called with directions outside 0..5', () => {
-        it(`passed them to _signedModulo`, () => {
+        it(`passed them to signedModulo`, () => {
             neighborsOf(hex, -1)
-            expect(_signedModuloSpy).to.have.been.calledWith(-1, 6)
+            expect(signedModuloSpy).to.have.been.calledWith(-1, 6)
 
-            _signedModuloSpy.reset()
+            signedModuloSpy.reset()
 
             neighborsOf(hex, 3)
-            expect(_signedModuloSpy).not.to.have.been.called
+            expect(signedModuloSpy).not.to.have.been.called
         })
     })
 
@@ -196,11 +196,11 @@ describe('neighborsOf', () => {
     })
 
     describe('when called with compass direction(s)', () => {
-        it('calls _toNumberDirection', () => {
+        it('calls compassToNumberDirection', () => {
             hex.orientation = 'pointy'
             neighborsOf(hex, 'NW')
 
-            expect(_toNumberDirectionSpy).to.have.been.calledWith('NW', 'pointy')
+            expect(compassToNumberDirectionSpy).to.have.been.calledWith('NW', 'pointy')
         })
     })
 

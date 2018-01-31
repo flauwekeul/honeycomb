@@ -28,7 +28,7 @@ export function hexesBetween(firstHex, lastHex) {
     return hexes
 }
 
-export function neighborsOfFactory({ _signedModulo, _toNumberDirection }) {
+export function neighborsOfFactory({ signedModulo, compassToNumberDirection }) {
     /**
      * @method Hex#neighbors
      *
@@ -67,11 +67,11 @@ export function neighborsOfFactory({ _signedModulo, _toNumberDirection }) {
 
             directions = directions.map(direction => {
                 if (isString(direction)) {
-                    direction = _toNumberDirection(direction, hex.orientation)
+                    direction = compassToNumberDirection(direction, hex.orientation)
                 }
 
                 if (direction < 0 || direction > 5) {
-                    direction = _signedModulo(direction, 6)
+                    direction = signedModulo(direction, 6)
                 }
 
                 return direction
