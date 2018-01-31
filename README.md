@@ -497,12 +497,6 @@ Returns **[Point](#point)** The difference between the passed point's coordinate
 
 ### Features
 
-7.  Regarding grid shapes, directions are unclear. Also, it's expected their start hex differs per direction so that creating grids with different directions places them in more or less the same place.
-9.  Maybe `Honeycomb.Grid.createFactory` should accept a prototype (like `Honeycomb.Hex.createFactory` does) that requires a hex factory and enables creating a custom grid factory.
-4.  Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.
-8.  Add logger that "renders" a grid using `console.log`.
-10. Overwrite `Grid#sort` so it can sort by 1 or more dimensions, ascending/descending (and also accepts a custom comparator)?
-11. Add `Grid.union`, `Grid.subtract`, `Grid.intersect` and `Grid.difference` (or maybe as prototype methods?). [More info](https://www.sketchapp.com/docs/shapes/boolean-operations/).
 12. Maybe make entities immutable?
 13. Make some Hex instance methods also Hex static methods. The instance methods can be partially applied, e.g.:
 
@@ -517,9 +511,14 @@ Returns **[Point](#point)** The difference between the passed point's coordinate
         return this.orientation.toUpperCase() === ORIENTATIONS.POINTY
     }
     ```
+8.  Add logger that "renders" a grid using `console.log`.
+10. Overwrite `Grid#sort` so it can sort by 1 or more dimensions, ascending/descending (and also accepts a custom comparator)?
+11. Add `Grid.union`, `Grid.subtract`, `Grid.intersect` and `Grid.difference` (or maybe as prototype methods?). [More info](https://www.sketchapp.com/docs/shapes/boolean-operations/).
 5.  Use JSFiddle for better examples.
 7.  Shiny github.io pages 😎
 3.  Maybe add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well. Might be a problem that needs solvin' in the view (and not in Honeycomb).
+9.  Maybe `Honeycomb.Grid.createFactory` should accept a prototype (like `Honeycomb.Hex.createFactory` does) that requires a hex factory and enables creating a custom grid factory.
+4.  Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.
 
 ### Refactorings
 
