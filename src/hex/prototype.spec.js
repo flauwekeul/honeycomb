@@ -1,9 +1,11 @@
+/* eslint-env mocha */
+
 import { expect } from 'chai'
 import sinon from 'sinon'
 
-import { EPSILON } from '../../src/hex/constants'
-import createHexFactory from '../../src/hex'
-import * as methods from '../../src/hex/prototype'
+import { EPSILON } from './constants'
+import createHexFactory from './'
+import * as methods from './prototype'
 
 const Hex = createHexFactory()
 

@@ -1,8 +1,10 @@
+/* eslint-env mocha */
+
 import { expect } from 'chai'
 import sinon from 'sinon'
 
 import createHexFactory, { staticMethods } from '../../src/hex'
-import { ORIENTATIONS, OFFSETS } from '../../src/hex/constants'
+import { ORIENTATIONS, OFFSETS } from './constants'
 
 describe('Hex.createFactory', function() {
     let Hex

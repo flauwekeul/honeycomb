@@ -1,10 +1,12 @@
+/* eslint-env mocha */
+
 import { expect } from 'chai'
 import sinon from 'sinon'
 
-import { signedModulo, compassToNumberDirection } from '../../src/utils'
-import createHexFactory from '../../src/hex'
-import createGridFactoryFactory from '../../src/grid'
-import * as methods from '../../src/grid/prototype'
+import { signedModulo, compassToNumberDirection } from '../utils'
+import createHexFactory from '../hex'
+import createGridFactoryFactory from './'
+import * as methods from './prototype'
 
 const Hex = createHexFactory()
 const GridFactory = createGridFactoryFactory({ createHexFactory })(Hex)

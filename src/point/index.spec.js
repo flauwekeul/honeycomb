@@ -1,5 +1,7 @@
+/* eslint-env mocha */
+
 import { expect } from 'chai'
-import Point from '../../src/point'
+import Point from './'
 
 describe('Point creation', function() {
     describe('with 2 numbers', function() {

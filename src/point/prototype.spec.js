@@ -1,5 +1,7 @@
+/* eslint-env mocha */
+
 import { expect } from 'chai'
-import Point from '../../src/point'
+import Point from './'
 
 describe('Point methods', function() {
     describe('add', function() {

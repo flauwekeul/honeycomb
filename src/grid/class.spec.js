@@ -1,8 +1,10 @@
+/* eslint-env mocha */
+
 import { expect } from 'chai'
 import sinon from 'sinon'
 
-import Grid from '../../src/grid/class'
-import createHexFactory from '../../src/hex'
+import Grid from './class'
+import createHexFactory from '../hex'
 
 const Hex = createHexFactory()
 

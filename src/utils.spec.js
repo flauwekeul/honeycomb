@@ -1,6 +1,8 @@
+/* eslint-env mocha */
+
 import { expect } from 'chai'
 
-import { compassToNumberDirection, signedModulo } from '../src/utils'
+import { compassToNumberDirection, signedModulo } from './utils'
 
 describe('signedModulo', () => {
     describe('when called with a negative dividend', () => {

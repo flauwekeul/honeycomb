@@ -1,9 +1,11 @@
+/* eslint-env mocha */
+
 import { expect } from 'chai'
 
-import * as API from '../src/honeycomb'
-import { OFFSETS, ORIENTATIONS } from '../src/hex/constants'
-import createHexFactory from '../src/hex'
-import Point from '../src/point'
+import * as API from './honeycomb'
+import { OFFSETS, ORIENTATIONS } from './hex/constants'
+import createHexFactory from './hex'
+import Point from './point'
 
 describe('API', function() {
     it('exposes a Hex namespace', function() {

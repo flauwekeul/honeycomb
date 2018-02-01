@@ -1,6 +1,8 @@
+/* eslint-env mocha */
+
 import { expect } from 'chai'
 
-import * as statics from '../../src/hex/statics'
+import * as statics from './statics'
 
 describe('Hex static methods', function() {
     describe('thirdCoordinate', function() {
