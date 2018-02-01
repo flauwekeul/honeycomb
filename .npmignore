@@ -6,5 +6,5 @@
 coverage/
 src/
 test/
-webpack.config.js
+rollup.config.js
 yarn.lock

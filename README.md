@@ -513,6 +513,4 @@ Returns **[Point](#point)** The difference between the passed point's coordinate
 ### Refactorings
 
 1.  Don't transpile to ES5. Who needs IE anyway?
-2.  Replace Webpack by Rollup, because it's supposed to be [more suitable for libraries](https://medium.com/webpack/webpack-and-rollup-the-same-but-different-a41ad427058c).
 3.  Update code (and tests) of `Point` to be more consice with other modules.
-4.  Grid shape methods should return Sets instead of arrays?

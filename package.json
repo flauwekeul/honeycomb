@@ -2,11 +2,12 @@
   "name": "honeycomb-grid",
   "version": "0.7.0",
   "description": "Create hexagon grids easily. Written in javascript.",
+  "source": "src/honeycomb.js",
   "main": "dist/honeycomb.min.js",
   "scripts": {
-    "build": "webpack",
-    "coverage": "NODE_ENV=test nyc --reporter lcov --reporter text mocha --require ./test/config.js --recursive",
-    "dev": "webpack --progress --colors --watch",
+    "build": "rollup --config rollup.config.js",
+    "coverage": "NODE_ENV=test nyc --reporter html mocha --require babel-register --require ./test/config.js --recursive",
+    "dev": "npm run build -- --watch",
     "docs": "documentation readme ./src --sort-order alpha --section API",
     "docs:serve": "documentation serve ./src --sort-order alpha --watch",
     "lint": "eslint src test --fix",
@@ -14,14 +15,14 @@
     "prerelease": "npm run lint; npm test; npm run docs; NODE_ENV=production npm run build",
     "release": "git add --patch; standard-version --commit-all",
     "start": "npm run build; node --require ./dist/honeycomb.js",
-    "test": "NODE_ENV=test nyc mocha --require ./test/config.js --recursive",
+    "test": "NODE_ENV=test mocha --require babel-register --require ./test/config.js --recursive",
     "test:watch": "npm test -- --watch --bail"
   },
   "author": "Abbe Keultjes <flauwekeul@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "babel-core": "6.26.0",
-    "babel-loader": "7.1.2",
+    "babel-plugin-external-helpers": "6.22.0",
     "babel-plugin-istanbul": "4.1.5",
     "babel-preset-env": "1.6.1",
     "chai": "4.1.2",
@@ -32,10 +33,14 @@
     "istanbul": "0.4.5",
     "mocha": "5.0.0",
     "nyc": "11.4.1",
+    "rollup": "0.55.1",
+    "rollup-plugin-babel": "3.0.3",
+    "rollup-plugin-commonjs": "8.3.0",
+    "rollup-plugin-node-resolve": "3.0.2",
+    "rollup-plugin-uglify": "3.0.0",
     "sinon": "4.2.2",
     "sinon-chai": "2.14.0",
-    "standard-version": "4.3.0",
-    "webpack": "3.10.0"
+    "standard-version": "4.3.0"
   },
   "directories": {
     "test": "test"
