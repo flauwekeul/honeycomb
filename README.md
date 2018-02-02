@@ -1,4 +1,4 @@
-# Honeycomb
+# Honeycomb [![npm version](https://badge.fury.io/js/honeycomb-grid.svg)](https://badge.fury.io/js/honeycomb-grid)
 
 Another hex grid library made in JavaScript, heavily inspired by [Red Blob Games'](http://www.redblobgames.com/grids/hexagons/) code samples.
 
