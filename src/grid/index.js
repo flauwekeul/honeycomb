@@ -6,8 +6,8 @@ import Grid from './class'
 import * as statics from './statics'
 import * as methods from './prototype'
 
-export default function createGridFactoryFactory({ createHexFactory }) {
-    return function createFactory(Hex = createHexFactory()) {
+export default function defineGridFactory({ extendHex }) {
+    return function defineGrid(Hex = extendHex()) {
         // static properties
         Object.assign(GridFactory, {
             // properties:

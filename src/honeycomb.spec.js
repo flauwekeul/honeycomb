@@ -3,25 +3,16 @@
 import { expect } from 'chai'
 
 import * as API from './honeycomb'
-import { OFFSETS, ORIENTATIONS } from './hex/constants'
-import createHexFactory from './hex'
+import extendHex from './hex'
 import Point from './point'
 
 describe('API', function() {
-    it('exposes a Hex namespace', function() {
-        expect(API).to.have.property('Hex').that.eqls({
-            OFFSETS,
-            ORIENTATIONS,
-            createFactory: createHexFactory
-        })
+    it('has a extendHex function', function() {
+        expect(API).to.have.property('extendHex').that.eqls(extendHex)
     })
 
-    it('exposes a Grid namespace', function() {
-        expect(API).to.have.property('Grid')
-            .that.is.an('object')
-            .with.property('createFactory')
-            .that.is.a('function')
-            .with.property('name', 'createFactory')
+    it('has a defineGrid function', function() {
+        expect(API).to.have.property('defineGrid').that.is.a('function').with.property('name', 'defineGrid')
     })
 
     it('exposes the Point factory', function() {

@@ -1,19 +1,11 @@
-import { OFFSETS, ORIENTATIONS } from './hex/constants'
-import createHexFactory from './hex'
-import createGridFactoryFactory from './grid'
+import extendHex from './hex'
+import defineGridFactory from './grid'
 import Point from './point'
 
-const Hex = {
-    OFFSETS,
-    ORIENTATIONS,
-    createFactory: createHexFactory
-}
-const Grid = {
-    createFactory: createGridFactoryFactory({ createHexFactory })
-}
+const defineGrid = defineGridFactory({ extendHex })
 
 export {
-    Hex,
-    Grid,
+    extendHex,
+    defineGrid,
     Point
 }

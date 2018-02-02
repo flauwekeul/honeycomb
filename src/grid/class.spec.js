@@ -4,9 +4,9 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 
 import Grid from './class'
-import createHexFactory from '../hex'
+import extendHex from '../hex'
 
-const Hex = createHexFactory()
+const Hex = extendHex()
 
 describe('Grid class', () => {
     let instance

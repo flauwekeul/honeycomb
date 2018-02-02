@@ -3,25 +3,25 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 
-import createGridFactoryFactory from './'
+import defineGridFactory from './'
 import Grid from './class'
-import createHexFactory from '../hex'
+import extendHex from '../hex'
 
-const createGridFactory = createGridFactoryFactory({ createHexFactory })
-const Hex = createHexFactory()
+const defineGrid = defineGridFactory({ extendHex })
+const Hex = extendHex()
 
-describe('Grid.createFactory', function() {
+describe('defineGrid', function() {
     describe('when not passed a function', function() {
-        it(`calls Honeycomb.Hex.createFactory() to create a default Hex factory`, function() {
-            const createHexFactorySpy = sinon.spy(createHexFactory)
-            const createGridFactory = createGridFactoryFactory({ createHexFactory: createHexFactorySpy })
-            createGridFactory()
-            expect(createHexFactorySpy).to.have.been.called
+        it(`calls Honeycomb.extendHex() to create a default Hex factory`, function() {
+            const extendHexSpy = sinon.spy(extendHex)
+            const defineGrid = defineGridFactory({ extendHex: extendHexSpy })
+            defineGrid()
+            expect(extendHexSpy).to.have.been.called
         })
     })
 
     it('returns a GridFactory with static methods', function() {
-        const GridFactory = createGridFactory()
+        const GridFactory = defineGrid()
         expect(GridFactory).to.be.a('function')
         const staticProps = Object.keys(GridFactory)
 
@@ -42,7 +42,7 @@ describe('Grid.createFactory', function() {
         const boundHex = sinon.spy()
         const bindSpy = sinon.stub().returns(boundHex)
         const Hex = { bind: bindSpy }
-        const GridFactory = createGridFactory(Hex)
+        const GridFactory = defineGrid(Hex)
 
         expect(bindSpy).to.have.been.calledWith(/* undefined */) // passing undefined doesn't work...
         expect(GridFactory.Hex).to.equal(boundHex)
@@ -54,13 +54,13 @@ describe('Grid.createFactory', function() {
 
 describe('GridFactory', function() {
     it('returns a function with the Array prototype in its prototype chain', function() {
-        const instance = createGridFactory()()
+        const instance = defineGrid()()
         expect(Array.prototype.isPrototypeOf(instance)).to.be.true
         expect(instance).to.have.property('map').that.equals(Array.prototype.map) // ducktype
     })
 
     it('returns a function with the Grid prototype', function() {
-        const GridFactory = createGridFactory()
+        const GridFactory = defineGrid()
         const prototype = Object.getPrototypeOf(GridFactory())
         const prototypeProps = Object.keys(prototype)
 
@@ -76,7 +76,7 @@ describe('Grid creation', function() {
     let GridFactory
 
     beforeEach(function() {
-        GridFactory = createGridFactory(Hex)
+        GridFactory = defineGrid(Hex)
         sinon.spy(Grid, 'isValidHex')
     })
 

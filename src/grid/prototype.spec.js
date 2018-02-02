@@ -4,12 +4,12 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 
 import { signedModulo, compassToNumberDirection } from '../utils'
-import createHexFactory from '../hex'
-import createGridFactoryFactory from './'
+import extendHex from '../hex'
+import defineGridFactory from './'
 import * as methods from './prototype'
 
-const Hex = createHexFactory()
-const GridFactory = createGridFactoryFactory({ createHexFactory })(Hex)
+const Hex = extendHex()
+const GridFactory = defineGridFactory({ extendHex })(Hex)
 
 describe('get', () => {
     describe('when present in the grid', () => {

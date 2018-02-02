@@ -4,10 +4,10 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 
 import { EPSILON } from './constants'
-import createHexFactory from './'
+import extendHex from './'
 import * as methods from './prototype'
 
-const Hex = createHexFactory()
+const Hex = extendHex()
 
 describe('set', () => {
     let HexSpy, set

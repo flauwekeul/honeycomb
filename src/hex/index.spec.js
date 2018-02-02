@@ -3,17 +3,17 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 
-import createHexFactory, { staticMethods } from '../../src/hex'
+import extendHex, { staticMethods } from '../../src/hex'
 import { ORIENTATIONS, OFFSETS } from './constants'
 
-describe('Hex.createFactory', function() {
+describe('extendHex', function() {
     let Hex
 
     beforeEach(() => {
-        Hex = createHexFactory()
+        Hex = extendHex()
     })
 
-    it('is a function', function() {
+    it('returns a function', function() {
         expect(Hex).to.be.a('function')
     })
 
@@ -68,7 +68,7 @@ describe('Hex.createFactory', function() {
 
     it('has getters for the q, r and s cube coordinates', () => {
         const cartesianToCube = sinon.stub().returns({ q: 'q', r: 'r', s: 's' })
-        const hex = createHexFactory({ cartesianToCube })()
+        const hex = extendHex({ cartesianToCube })()
 
         expect(hex.q).to.equal('q')
         expect(hex.r).to.equal('r')
@@ -78,13 +78,13 @@ describe('Hex.createFactory', function() {
         expect(() => hex.s = 1).to.throw
     })
 
-    describe('when passed hex settings', function() {
-        it('returns a Hex factory with any properties merged into the default prototype', function() {
+    describe('when passed an object', function() {
+        it(`returns a Hex factory with the object's properties merged into the default prototype`, function() {
             const prototype = {
                 size: 100,
                 custom: 'property'
             }
-            const Hex = createHexFactory(prototype)
+            const Hex = extendHex(prototype)
             const finalPrototype = Object.getPrototypeOf(Hex())
 
             expect(finalPrototype).to.have.own.property('size', 100)
@@ -92,8 +92,8 @@ describe('Hex.createFactory', function() {
         })
 
         it(`creates a different Hex factory each time it's called`, function() {
-            const Hex1 = createHexFactory({ size: 10 })
-            const Hex2 = createHexFactory({ size: 20 })
+            const Hex1 = extendHex({ size: 10 })
+            const Hex2 = extendHex({ size: 20 })
 
             expect(Hex1().size).not.to.equal(Hex2().size)
         })
@@ -104,7 +104,7 @@ describe('Hex creation', function() {
     let Hex
 
     before(function() {
-        Hex = createHexFactory()
+        Hex = extendHex()
     })
 
     describe('with 2 numbers', function() {
@@ -146,7 +146,7 @@ describe('Hex creation', function() {
     describe('with an object containing all cube coordinates (q, r and s)', () => {
         it('converts them to rectangular (x and y) coordinates', () => {
             const cubeToCartesian = sinon.stub().returns({ x: 4, y: 5 })
-            const Hex = createHexFactory({ cubeToCartesian })
+            const Hex = extendHex({ cubeToCartesian })
             const result = Hex({ q: 1, r: 2, s: -3 })
 
             expect(cubeToCartesian).to.have.been.calledWith({ q: 1, r: 2, s: -3 })
@@ -163,7 +163,7 @@ describe('Hex creation', function() {
     describe('with an object containing some cube coordinates (q, r and s)', () => {
         it('ignores them', () => {
             const cubeToCartesian = sinon.stub().returns({ x: 4, y: 5 })
-            const Hex = createHexFactory({ cubeToCartesian })
+            const Hex = extendHex({ cubeToCartesian })
             const result1 = Hex({ q: 1, r: 2 })
             const result2 = Hex({ q: 1, s: 2 })
             const result3 = Hex({ r: 1, s: 2 })

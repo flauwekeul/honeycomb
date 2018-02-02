@@ -46,7 +46,7 @@ export const staticMethods = {
  * const addedHex = hex.add(Hex(3, -1))
  * addedHex.customProperty  // I'm custom 😃
  */
-export default function createFactory(prototype = {}) {
+export default function extendHex(prototype = {}) {
     const defaultPrototype = {
         // used internally for type checking
         __isHoneycombHex: true,

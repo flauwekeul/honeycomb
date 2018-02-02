@@ -4,11 +4,11 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 
 import { compassToNumberDirection, signedModulo } from '../utils'
-import createHexFactory from '../hex'
+import extendHex from '../hex'
 import Grid from './class'
 import * as statics from './statics'
 
-const Hex = createHexFactory()
+const Hex = extendHex()
 
 describe('isValidHex', () => {
     it('calls Grid.isValidHex', () => {
@@ -425,7 +425,7 @@ describe('rectangle', function() {
     before(function() {
         compassToNumberDirectionSpy = sinon.spy(compassToNumberDirection)
         signedModuloSpy = sinon.spy(signedModulo)
-        Hex = createHexFactory()
+        Hex = extendHex()
         rectangle = statics.rectangleFactory({
             Grid,
             Hex,
@@ -465,7 +465,7 @@ describe('rectangle', function() {
 
     describe('when hexes have a pointy orientation', function() {
         before(function() {
-            Hex = createHexFactory({ orientation: 'POINTY' })
+            Hex = extendHex({ orientation: 'POINTY' })
             rectangle = statics.rectangleFactory({ Grid, Hex })
         })
 
@@ -592,7 +592,7 @@ describe('rectangle', function() {
 
     describe('when hexes have a flat orientation', function() {
         before(function() {
-            Hex = createHexFactory({ orientation: 'FLAT' })
+            Hex = extendHex({ orientation: 'FLAT' })
             rectangle = statics.rectangleFactory({ Grid, Hex })
         })
 
