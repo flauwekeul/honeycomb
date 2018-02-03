@@ -152,7 +152,7 @@ export default function extendHex(prototype = {}) {
         if (isObject(xOrProps)) {
             let { q, r, s, ...rest } = xOrProps
 
-            if (isNumber(q) && isNumber(r) && isNumber(s)) {
+            if (isNumber(q) || isNumber(r) || isNumber(s)) {
                 if (q + r + s !== 0) {
                     throw new Error(`Cube coordinates must have a sum of 0. q: ${q}, r: ${r}, s: ${s}, sum: ${q + r + s}.`)
                 }
