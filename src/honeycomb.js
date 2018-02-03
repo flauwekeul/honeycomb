@@ -4,6 +4,9 @@ import Point from './point'
 
 const defineGrid = defineGridFactory({ extendHex })
 
+/**
+ * @namespace {Object} Honeycomb
+ */
 export {
     extendHex,
     defineGrid,

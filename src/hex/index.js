@@ -11,60 +11,123 @@ export const staticMethods = {
 /**
  * @function extendHex
  *
+ * @memberof Honeycomb
+ * @static
+ *
  * @description
- * Factory that produces a {@link Hex} function to create hexes with.
- * It accepts an optional prototype that's used to extend the Hex's default prototype with.
- * This can way a custom Hex factory can be created.
+ * This function can be used to create custom hexes by extending the default hex prototype.
+ *
+ * All properties of the object passed to `extendHex()` will be added to the prototype of the resulting {@link Hex} factory.
+ * To add properties to individual hexes (instances), pass them to the {@link Hex} factory.
  *
  * @todo validate orientation, size, origin
  * @todo warn when properties are overriden
  *
  * @param {Object} [prototype={}]   An object that's used as the prototype for all hexes in a grid.
- *                                  **Warning:** methods present in the default prototype will be overwritten.
+ *                                  **Warning:** properties in this object will overwrite properties with the same name in the default prototype.
  *
  * @returns {Hex}                   A function to produce hexes that all share the same prototype.
  *
  * @example
- * import { extendHex, HEX_ORIENTATIONS } from 'Honeycomb'
- *
- * const Hex = extendHex({
+ * const Hex = Honeycomb.extendHex({
  *     size: 50,
- *     orientation: HEX_ORIENTATIONS.FLAT,
+ *     orientation: 'flat',
  *     customProperty: `I'm custom 😃`,
  *     customMethod() {
  *         return `${this.customProperty} and called from a custom method 😎`
  *     }
  * })
+ * const hex = Hex(5, -1)
  *
- * const hex = Hex(5, -1, -4)
- * hex.coordinates()    // { x: 5, y: -1, z: -4 }
+ * hex.coordinates()    // { x: 5, y: -1 }
  * hex.size             // 50
  * hex.customProperty   // I'm custom 😃
  * hex.customMethod()   // I'm custom 😃 and called from a custom method 😎
  *
- * // methods that return a new hex, retain any custom properties:
- * const addedHex = hex.add(Hex(3, -1))
- * addedHex.customProperty  // I'm custom 😃
+ * // every hex created with Hex() shares these properties:
+ * const hex2 = Hex(3, 0)
+ * hex2.size            // 50
+ * hex2.customProperty  // I'm custom 😃
+ *
+ * // to set properties on individual hexes, pass them to Hex():
+ * const hex3 = Hex(-2, -1, { instanceProperty: `I'm a unique snowflake 😌` })
+ * hex3.instanceProperty    // I'm a unique snowflake 😌
  */
 export default function extendHex(prototype = {}) {
     const defaultPrototype = {
-        // used internally for type checking
+        /**
+         * Used internally for type checking
+         *
+         * @memberof Hex#
+         * @private
+         */
         __isHoneycombHex: true,
-
-        // properties:
+        /**
+         * Either pointy or flat. Defaults to `pointy`.
+         *
+         * @memberof Hex#
+         * @type {string}
+         * @default ORIENTATION.pointy
+         */
         orientation: ORIENTATION.pointy,
+        /**
+         * Distance from a hex's center. Defaults to `Point(0)`.
+         * Can be anything the {@link Point} factory accepts.
+         * Used to {@link Hex#toPoint|convert a hex to a point}.
+         *
+         * @memberof Hex#
+         * @type {Point}
+         * @default 0
+         */
         origin: 0,
+        /**
+         * A hex's radius or the length of any of its sides. Defaults to `1`.
+         *
+         * @memberof Hex#
+         * @type {number}
+         * @default 1
+         */
         size: 1,
+        /**
+         * Used to calculate the coordinates of rows for pointy hexes and columns for flat hexes.
+         * Defaults to `-1` (odd offset).
+         * See {@link OFFSET} for details.
+         * See {@link https://www.redblobgames.com/grids/hexagons/#coordinates-offset|redblobgames.com} why this is needed.
+         *
+         * @memberof Hex#
+         * @type {number}
+         * @default -1
+         * @see OFFSET
+         */
         offset: OFFSET.odd,
+        /**
+         * Getter for `q` cube coordinate. Calls {@link Hex#cartesianToCube} internally.
+         *
+         * @memberof Hex#
+         * @type {number}
+         */
         get q() { return _cubeProp(this, 'q') },
+        /**
+         * Getter for `r` cube coordinate. Calls {@link Hex#cartesianToCube} internally.
+         *
+         * @memberof Hex#
+         * @type {number}
+         */
         get r() { return _cubeProp(this, 'r') },
+        /**
+         * Getter for `s` cube coordinate. Calls {@link Hex#cartesianToCube} internally.
+         *
+         * @memberof Hex#
+         * @type {number}
+         */
         get s() { return _cubeProp(this, 's') },
 
         // methods:
         add: methods.addFactory({ Hex }),
         /**
          * Alias for {@link Hex#coordinates}.
-         * @name Hex#cartesian
+         * @memberof Hex#
+         * @method
          */
         cartesian: methods.coordinates,
         cartesianToCube: methods.cartesianToCube,
@@ -99,51 +162,51 @@ export default function extendHex(prototype = {}) {
      * @function Hex
      *
      * @description
-     * Factory function for creating hexes.
-     * Create a Hex factory with {@link extendHex}.
-     *
-     * Any missing coordinates are inferred from the available coordinates like so:
-     * * When 2 coordinates are available, the third coordinate is set to the result of {@link Hex.thirdCoordinate|Hex.thirdCoordinate(firstCoordinate, secondCoordinate)}.
-     * * When 1 coordinate is available, the second coordinate is set to the first and the third coordinate is set to the result of {@link Hex.thirdCoordinate|Hex.thirdCoordinate(firstCoordinate, secondCoordinate)}.
-     * * When 0 coordinates or a falsy value is passed, all coordinates are set to `0`.
-     *
-     * See the [tests](https://github.com/flauwekeul/honeycomb/blob/master/test/hex/index.spec.js#L42) for all corner cases.
+     * Factory function to create hexes. Use {@link Honeycomb.extendHex} to create a Hex factory.
      *
      * @see {@link redblobgames.com|http://www.redblobgames.com/grids/hexagons/#coordinates}
      *
      * @param {(number|Object|number[])} [xOrProps=]    The x coordinate,
-     *                                                  **or** an object containing any of the x, y and z coordinates and any custom properties,
-     *                                                  **or** an array containing 0 or more coordinates.
+     *                                                  **or** an object containing *any* of the cartesian (`x` and `y`) coordinates and optional custom properties,
+     *                                                  **or** an object containing *all* of the cube (`q`, `r`, and `s`) coordinates and optional custom properties,
+     *                                                  **or** an array containing *any* of the cartesian (x and y) coordinates.
      * @param {number} [xOrProps.x=]                    The x coordinate.
      * @param {number} [xOrProps.y=]                    The y coordinate.
-     * @param {number} [xOrProps.z=]                    The z coordinate.
      * @param {number} [y=]                             The y coordinate.
-     * @param {number} [z=]                             The z coordinate.
      * @param {object} [customProps={}]                 Any custom properties. The coordinates are merged into this object, ignoring any coordinates present in `customProps`.
      *
-     * @returns {Hex}                                   A hex object. It always contains all three coordinates (`x`, `y` and `z`) and any properties bound to `Hex`.
+     * @returns {hex}                                   A hex. It *always* contains *only* the cartesian (x and y) coordinates and any custom properties.
      *
      * @example
-     * import { extendHex } from 'Honeycomb'
+     * const Hex = Honeycomb.extendHex()
      *
-     * const Hex = extendHex()
+     * // passing numbers:
+     * Hex()                        // { x: 0, y: 0 }
+     * Hex(1)                       // { x: 1, y: 1 }
+     * Hex(1, 2)                    // { x: 1, y: 2 }
      *
-     * Hex(1, 2, -3)    // { x: 1, y: 2, z: -3 }
-     * Hex(1, 2)        // { x: 1, y: 2, z: -3 }
-     * Hex(1)           // { x: 1, y: 1, z: -2 }
-     * Hex()            // { x: 0, y: 0, z: 0 }
-     * Hex(1, 2, 5)     // coordinates don't sum up to 0; throws an error
+     * // passing an object with cartesian coordinates:
+     * Hex({})                      // { x: 0, y: 0 }
+     * Hex({ x: 1 })                // { x: 1, y: 1 }
+     * Hex({ y: 2 })                // { x: 2, y: 2 }
+     * Hex({ x: 1, y: 2 })          // { x: 1, y: 2 }
      *
-     * Hex({ x: 3 })    // { x: 3, y: 3, z: -3 }
-     * Hex({ y: 3 })    // { x: 3, y: 3, z: -6 }
-     * Hex({ z: 3 })    // { x: 3, y: -6, z: 3 }
+     * // passing an object with cube coordinates:
+     * Hex({ q: 1, r: 2, s: -3 })   // { x: 2, y: 2 }
+     * Hex({ q: 1 })                // throws an error because of missing cube coordinates
      *
-     * Hex([1, 2, -3])  // { x: 1, y: 2, z: -3 }
-     * Hex([1, 2])      // { x: 1, y: 2, z: -3 }
+     * // passing an array:
+     * Hex([])                      // { x: 0, y: 0 }
+     * Hex([1])                     // { x: 1, y: 1 }
+     * Hex([1, 2])                  // { x: 1, y: 2 }
      *
-     * // clone a hex by simply passing it to Hex()
-     * const someHex = Hex(4, -2)   // { x: 4, y: -2, z: -2 }
-     * const clone = Hex(someHex)   // { x: 4, y: -2, z: -2 }
+     * // custom properties:
+     * Hex(1, 2, { a: 3 })          // { a: 3, x: 1, y: 2 }
+     * Hex({ x: 1, y: 2, a: 3 })    // { a: 3, x: 1, y: 2 }
+     *
+     * // cloning a hex:
+     * const someHex = Hex(4, -2)   // { x: 4, y: -2 }
+     * const clone = Hex(someHex)   // { x: 4, y: -2 }
      * someHex === clone            // false
      */
     function Hex(xOrProps, y, customProps = {}) {
@@ -179,6 +242,11 @@ export default function extendHex(prototype = {}) {
             y = x
         }
 
+        /**
+         * @typedef {Object} hex
+         * @property {number} x cartesian x coordinate
+         * @property {number} y cartesian y coordinate
+         */
         return Object.assign(
             // the prototype has to be attached here, else Grid's shape methods break 🙁
             Object.create(finalPrototype),

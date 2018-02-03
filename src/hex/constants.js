@@ -2,23 +2,17 @@
  * The different orientations hexes can have.
  *
  * @readonly
- * @enum
+ * @enum {string}
+ *
+ * @property {string} pointy    ⬢
+ * @property {string} flat      ⬣
  */
 export const ORIENTATION = {
-    /**
-     * @property pointy ⬢
-     */
     pointy: 'pointy',
-    /**
-     * @property flat ⬣.
-     */
     flat: 'flat'
 }
 
-/*
- * @name OFFSET
- *
- * @description
+/**
  * How rows/columns of hexes are placed relative to each other.
  *
  * An even offset:
@@ -29,19 +23,18 @@ export const ORIENTATION = {
  * * places **odd rows** of **pointy hexes** half a hex right of the even rows;
  * * places **odd columns** of **flat hexes** half a hex down of the even rows;
  *
+ * @name OFFSET
+ *
  * @see {@link https://www.redblobgames.com/grids/hexagons/#coordinates-offset|redblobgames.com}
  *
  * @readonly
- * @enum
+ * @enum {number}
+ *
+ * @property {number} even  +1
+ * @property {number} odd   -1
  */
 export const OFFSET = {
-    /*
-     * @property even (+1)
-     */
     even: 1,
-    /*
-     * @property odd (-1)
-     */
     odd: -1
 }
 

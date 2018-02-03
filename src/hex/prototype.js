@@ -3,12 +3,18 @@ import { offsetFromZero } from '../utils'
 
 export function setFactory({ Hex }) {
     /**
-     * @method Hex#set
+     * @memberof Hex#
+     * @method
      *
-     * @description
-     * Accepts the same arguments as the {@link Hex} factory and merges them into itself.
+     * @param {*} coordinates   Same parameters as the {@link Hex} factory.
+     * @returns {hex}           Itself with the passed parameters merged into it.
      *
-     * @returns {this}  Itself.
+     * @example
+     * const Hex = Honeycomb.extendHex()
+     *
+     * const hex = Hex({ x: 1, y: 2, a: 3, b: 4 })          // { a: 3, b: 4, x: 1, y: 2 }
+     * const updatedHex = hex.set({ x: 0, y: -1, b: 5 })    // { a: 3, b: 5, x: 0, y: -1 }
+     * hex === updatedHex                                   // true: hex is updated in-place
      */
     return function set(...args) {
         return Object.assign(this, Hex(...args))
@@ -16,21 +22,52 @@ export function setFactory({ Hex }) {
 }
 
 /**
- * @method Hex#coordinates
+ * @memberof Hex#
  * @returns {Object}    The hex's cartesian `x` and `y` coordinates.
+ *
+ * @example
+ * const Hex = Honeycomb.extendHex()
+ *
+ * Hex().coordinates()      // { x: 0, y: 0 }
+ * Hex(1, 2).coordinates()  // { x: 1, y: 2 }
  */
 export function coordinates() {
     return { x: this.x, y: this.y }
 }
 
 /**
- * @method Hex#cube
+ * @memberof Hex#
  * @returns {Object}    The hex's cube `q`, `r` and `s` coordinates.
+ *
+ * @example
+ * const Hex = Honeycomb.extendHex()
+ *
+ * Hex().cube()     // { q: 0, r: 0, s: 0 }
+ * Hex(1, 2).cube() // { q: 0, r: 2, s: -2 }
  */
 export function cube() {
     return { q: this.q, r: this.r, s: this.s }
 }
 
+/**
+ * @memberof Hex#
+ *
+ * @todo make this a static (and instance?) method
+ *
+ * @param {Object} cubeCoordinates      At least the `q` and `r` cube coordinates.
+ * @param {number} cubeCoordinates.q    The `q` cube coordinate.
+ * @param {number} cubeCoordinates.r    The `r` cube coordinate.
+ * @param {number} [cubeCoordinates.s]  The optional `s` cube coordinate.
+ *
+ * @returns {Object}                    The hex's cartesian `x` and `y` coordinates.
+ *
+ * @example
+ * const Hex = Honeycomb.extendHex()
+ *
+ * Hex().cubeToCartesian({ q: 1, r: 2, s: -3 }) // { x: 2, y: 2 }
+ * // the `s` coordinate isn't required:
+ * Hex().cubeToCartesian({ q: -3, r: 5 })       // { x: -1, y: 5 }
+ */
 export function cubeToCartesian({ q, r }) {
     let x, y
 
@@ -45,6 +82,22 @@ export function cubeToCartesian({ q, r }) {
     return { x, y }
 }
 
+/**
+ * @memberof Hex#
+ *
+ * @todo make this a static (and instance?) method
+ *
+ * @param {Object} cartesianCoordinates     The `x` and `y` cartesian coordinate.
+ * @param {number} cartesianCoordinates.x   The `x` cartesian coordinate.
+ * @param {number} cartesianCoordinates.y   The `y` cartesian coordinate.
+ *
+ * @returns {Object}                        The hex's cube `q`, `r` and `s` coordinates.
+ *
+ * @example
+ * const Hex = Honeycomb.extendHex()
+ *
+ * Hex().cartesianToCube({ x: 4, y: -2 }) // { q: 5, r: -2, s: -3 }
+ */
 export function cartesianToCube({ x, y }) {
     let q, r
 
@@ -59,7 +112,7 @@ export function cartesianToCube({ x, y }) {
     return { q, r, s: -q - r }
 }
 /**
- * @method Hex#isPointy
+ * @memberof Hex#
  * @returns {boolean}   Whether hexes have a pointy ⬢ orientation.
  */
 export function isPointy() {
@@ -67,7 +120,7 @@ export function isPointy() {
 }
 
 /**
- * @method Hex#isFlat
+ * @memberof Hex#
  * @returns {boolean}   Whether hexes have a flat ⬣ orientation.
  */
 export function isFlat() {
@@ -75,7 +128,7 @@ export function isFlat() {
 }
 
 /**
- * @method Hex#oppositeCornerDistance
+ * @memberof Hex#
  * @returns {number}    The distance between opposite corners of a hex.
  */
 export function oppositeCornerDistance() {
@@ -83,7 +136,7 @@ export function oppositeCornerDistance() {
 }
 
 /**
- * @method Hex#oppositeSideDistance
+ * @memberof Hex#
  * @returns {number}    The distance between opposite sides of a hex.
  */
 export function oppositeSideDistance() {
@@ -91,8 +144,8 @@ export function oppositeSideDistance() {
 }
 
 /**
- * @method Hex#width
- * @returns {number}    The (horizontal) width of any hex.
+ * @memberof Hex#
+ * @returns {number}    The (horizontal) width of a hex.
  */
 export function width() {
     return this.isPointy() ?
@@ -101,8 +154,8 @@ export function width() {
 }
 
 /**
- * @method Hex#height
- * @returns {number}    The (vertical) height of any hex.
+ * @memberof Hex#
+ * @returns {number}    The (vertical) height of a hex.
  */
 export function height() {
     return this.isPointy() ?
@@ -112,8 +165,20 @@ export function height() {
 
 export function cornersFactory({ Point }) {
     /**
-     * @method Hex#corners
+     * @memberof Hex#
+     * @method
      * @returns {Point[]}   Array of corner points. Starting at the top right corner for pointy hexes and the right corner for flat hexes.
+     *
+     * @example
+     * const Hex = Honeycomb.extendHex()
+     * Hex.corners()    // [
+     *                  //    { x: 51.96152422706631, y: 15 },
+     *                  //    { x: 51.96152422706631, y: 45 },
+     *                  //    { x: 25.980762113533157, y: 60 },
+     *                  //    { x: 0, y: 45 },
+     *                  //    { x: 0, y: 15 },
+     *                  //    { x: 25.980762113533157, y: 0 }
+     *                  // ]
      */
     return function corners() {
         const width = this.width()
@@ -143,12 +208,20 @@ export function cornersFactory({ Point }) {
 
 export function toPointFactory({ Point }) {
     /**
-     * @method Hex#toPoint
+     * @memberof Hex#
+     * @method
+     * @returns {Point} Vector from Hex(0), relative to the hex's origin.
      *
-     * @description
-     * Converts the current hex to its origin {@link Point|point} relative to the start hex.
+     * @example
+     * // the default origin is 0, corresponding to the center of the hex
+     * const Hex1 = Honeycomb.extendHex({ size: 30 })
+     * Hex1().toPoint()          // {x: 0, y: 0}
+     * Hex1(-2, -5).toPoint()    // {x: -77.94228634059947, y: -225}
      *
-     * @returns {Point} The 2D point the hex corresponds to.
+     * // set the origin to the upper left of the hex
+     * const Hex2 = Honeycomb.extendHex({ size: 30, origin: [-30, -30] })
+     * Hex2().toPoint()          // {x: 30, y: 30}
+     * Hex2(-2, -5).toPoint()    // {x: -47.94228634059947, y: -195}
      */
     return function toPoint() {
         const { q, r, size } = this
@@ -169,12 +242,14 @@ export function toPointFactory({ Point }) {
 
 export function addFactory({ Hex }) {
     /**
-     * @method Hex#add
-     * @param {Hex} otherHex    The hex that will be added to the current.
+     * @memberof Hex#
+     * @method
      *
      * @todo Accept any number of hexes to add.
      *
-     * @returns {Hex}           The sum of the current hexes coordinates and the passed hexes coordinates.
+     * @param {hex} otherHex    The hex that will be added to the current.
+     * @returns {hex}           A *new* hex where the passed hex's coordinates are added to the current.
+     *                          Any custom properties are copied.
      */
     return function add(otherHex) {
         // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
@@ -188,12 +263,14 @@ export function addFactory({ Hex }) {
 
 export function subtractFactory({ Hex }) {
     /**
-     * @method Hex#subtract
-     * @param {Hex} otherHex    The hex that will be subtracted from the current.
+     * @memberof Hex#
+     * @method
      *
      * @todo Accept any number of hexes to subtract.
      *
-     * @returns {Hex}           The difference between the current hexes coordinates and the passed hexes coordinates.
+     * @param {hex} otherHex    The hex that will be subtracted from the current.
+     * @returns {hex}           A *new* hex where the passed hex's coordinates are subtracted from the current.
+     *                          Any custom properties are copied.
      */
     return function subtract(otherHex) {
         // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
@@ -206,9 +283,9 @@ export function subtractFactory({ Hex }) {
 }
 
 /**
- * @method Hex#equals
- * @param {Hex} otherHex    The hex of which the coordinates will be compared against the current hex.
+ * @memberof Hex#
  *
+ * @param {hex} otherHex    The hex whose coordinates will be compared against the current hex.
  * @returns {boolean}       Whether the coordinates of the current and the passed hex are equal.
  */
 export function equals(otherHex) {
@@ -216,20 +293,18 @@ export function equals(otherHex) {
 }
 
 /**
- * @method Hex#distance
+ * @memberof Hex#
  *
  * @see {@link http://www.redblobgames.com/grids/hexagons/#distances|redblobgames.com}
  *
- * @param   {Hex} otherHex  The end hex.
- *
- * @returns {number}        The amount of hexes between the current and the given hex.
+ * @param   {Hex} otherHex  The last hex.
+ * @returns {number}        The amount of hexes from the current to (and excluding) the last hex.
  *
  * @example
- * import { Grid } from 'Honeycomb'
- * const Hex = Grid().Hex
+ * const Hex = Honeycomb.extendHex()
  *
- * Hex(0, 0, 0).distance(Hex(1, 0, -1))    // 1
- * Hex(-3, -3, 6).distance(Hex(-1, 4, -3)) // 9
+ * Hex().distance(Hex(1, 0))        // 1
+ * Hex(-2, -2).distance(Hex(4, 1))  // 8
  */
 export function distance(otherHex) {
     return Math.max(
@@ -241,14 +316,17 @@ export function distance(otherHex) {
 
 export function roundFactory({ Hex }) {
     /**
-     * @method Hex#round
-     *
-     * @description
      * Rounds the current floating point hex coordinates to their nearest integer hex coordinates.
      *
+     * @memberof Hex#
      * @see {@link http://www.redblobgames.com/grids/hexagons/#rounding|redblobgames.com}
      *
-     * @returns {Hex}   A new hex with rounded coordinates.
+     * @returns {hex}   A *new* hex with rounded coordinates.
+     *                  Any custom properties are copied.
+     *
+     * @example
+     * const Hex = Honeycomb.extendHex()
+     * Hex(3.1415, 0.5).round() // { x: 3, y: 1 }
      */
     return function round() {
         let { q, r, s } = this
@@ -274,16 +352,16 @@ export function roundFactory({ Hex }) {
 
 export function lerpFactory({ Hex }) {
     /**
-     * @method Hex#lerp
-     *
-     * @description
      * Returns an interpolation between the current hex and the passed hex for a `t` between 0 and 1.
      * More info on [wikipedia](https://en.wikipedia.org/wiki/Linear_interpolation).
+     *
+     * @memberof Hex#
      *
      * @param   {Hex} otherHex  The other hex.
      * @param   {number} t      A "parameter" between 0 and 1.
      *
-     * @returns {Hex}           A new hex (with possibly fractional coordinates).
+     * @returns {hex}           A new hex (likely with floating point coordinates).
+     *                          Any custom properties are copied.
      */
     return function lerp(otherHex, t) {
         const q = this.q * (1 - t) + otherHex.q * t
@@ -294,23 +372,19 @@ export function lerpFactory({ Hex }) {
 }
 
 /**
- * @method Hex#nudge
- *
- * @description
- * Returns a new hex with a tiny offset from the current hex. Useful for interpolating in a consistent direction.
- *
+ * @memberof Hex#
  * @see {@link http://www.redblobgames.com/grids/hexagons/#line-drawing|redblobgames.com}
  *
- * @returns {Hex}   A new hex with a minute offset.
+ * @returns {hex}   A *new* hex with a tiny offset from the current hex.
+ *                  Useful for interpolating in a consistent direction.
  */
 export function nudge() {
     return this.add(EPSILON)
 }
 
 /**
- * @method Hex#toString
- *
- * @returns {string}    String containing the coordinates of the hex.
+ * @memberof Hex#
+ * @returns {string}    A string representation of the hex.
  */
 export function toString() {
     return `${this.x},${this.y}`
