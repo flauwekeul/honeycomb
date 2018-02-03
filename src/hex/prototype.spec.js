@@ -99,22 +99,22 @@ describe('cartesianToCube', () => {
 
 describe('isPointy', function() {
     it('returns whether the hex has a pointy orientation', function() {
-        let isPointy = methods.isPointy.bind({ orientation: 'POINTY' })
+        let isPointy = methods.isPointy.bind({ orientation: 'pointy' })
         expect(isPointy()).to.be.true
         isPointy = methods.isPointy.bind({ orientation: 'pointy' })
         expect(isPointy()).to.be.true
-        isPointy = methods.isPointy.bind({ orientation: 'FLAT' })
+        isPointy = methods.isPointy.bind({ orientation: 'flat' })
         expect(isPointy()).to.be.false
     })
 })
 
 describe('isFlat', function() {
     it('returns whether the hex has a flat orientation', function() {
-        let isFlat = methods.isFlat.bind({ orientation: 'FLAT' })
+        let isFlat = methods.isFlat.bind({ orientation: 'flat' })
         expect(isFlat()).to.be.true
         isFlat = methods.isFlat.bind({ orientation: 'flat' })
         expect(isFlat()).to.be.true
-        isFlat = methods.isFlat.bind({ orientation: 'POINTY' })
+        isFlat = methods.isFlat.bind({ orientation: 'pointy' })
         expect(isFlat()).to.be.false
     })
 })

@@ -447,7 +447,7 @@ describe('rectangle', function() {
     describe('when called with a compass direction', () => {
         it('calls compassToNumberDirection', () => {
             rectangle({ direction: 'E' })
-            expect(compassToNumberDirectionSpy).to.have.been.calledWith('E', 'POINTY')
+            expect(compassToNumberDirectionSpy).to.have.been.calledWith('E', 'pointy')
         })
     })
 
@@ -465,7 +465,7 @@ describe('rectangle', function() {
 
     describe('when hexes have a pointy orientation', function() {
         before(function() {
-            Hex = extendHex({ orientation: 'POINTY' })
+            Hex = extendHex({ orientation: 'pointy' })
             rectangle = statics.rectangleFactory({ Grid, Hex })
         })
 
@@ -592,7 +592,7 @@ describe('rectangle', function() {
 
     describe('when hexes have a flat orientation', function() {
         before(function() {
-            Hex = extendHex({ orientation: 'FLAT' })
+            Hex = extendHex({ orientation: 'flat' })
             rectangle = statics.rectangleFactory({ Grid, Hex })
         })
 

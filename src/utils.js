@@ -35,18 +35,18 @@ export function compassToNumberDirection(value, orientation) {
         throw new Error(`Invalid compass direction: ${value}. Choose from E, SE, S, SW, W, NW, N or NE.`)
     }
 
-    orientation = orientation.toUpperCase()
+    orientation = orientation.toLowerCase()
     value = value.toUpperCase()
 
-    if (orientation === 'POINTY' && ['N', 'S'].includes(value)) {
+    if (orientation === 'pointy' && ['N', 'S'].includes(value)) {
         throw new Error(`Direction ${value} is ambiguous for pointy hexes. Did you mean ${value}E or ${value}W?`)
     }
-    if (orientation === 'FLAT' && ['E', 'W'].includes(value)) {
+    if (orientation === 'flat' && ['E', 'W'].includes(value)) {
         throw new Error(`Direction ${value} is ambiguous for flat hexes. Did you mean N${value} or S${value}?`)
     }
 
     return {
-        POINTY: { E: 0, SE: 1, SW: 2, W: 3, NW: 4, NE: 5 },
-        FLAT: { SE: 0, S: 1, SW: 2, NW: 3, N: 4, NE: 5 }
+        pointy: { E: 0, SE: 1, SW: 2, W: 3, NW: 4, NE: 5 },
+        flat: { SE: 0, S: 1, SW: 2, NW: 3, N: 4, NE: 5 }
     }[orientation][value]
 }

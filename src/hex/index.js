@@ -1,5 +1,5 @@
 import { isObject, isNumber, isArray } from 'axis.js'
-import { ORIENTATIONS, OFFSETS } from './constants'
+import { ORIENTATION, OFFSET } from './constants'
 import Point from '../point'
 import * as statics from './statics'
 import * as methods from './prototype'
@@ -52,10 +52,10 @@ export default function extendHex(prototype = {}) {
         __isHoneycombHex: true,
 
         // properties:
-        orientation: ORIENTATIONS.POINTY,
+        orientation: ORIENTATION.pointy,
         origin: 0,
         size: 1,
-        offset: OFFSETS.ODD,
+        offset: OFFSET.odd,
         get q() { return _cubeProp(this, 'q') },
         get r() { return _cubeProp(this, 'r') },
         get s() { return _cubeProp(this, 's') },

@@ -4,7 +4,7 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 
 import extendHex, { staticMethods } from '../../src/hex'
-import { ORIENTATIONS, OFFSETS } from './constants'
+import { ORIENTATION, OFFSET } from './constants'
 
 describe('extendHex', function() {
     let Hex
@@ -60,10 +60,10 @@ describe('extendHex', function() {
             'width'
         ])
         expect(prototype).to.have.property('__isHoneycombHex', true)
-        expect(prototype).to.have.property('orientation', ORIENTATIONS.POINTY)
+        expect(prototype).to.have.property('orientation', ORIENTATION.pointy)
         expect(prototype).to.have.property('origin').that.contains({ x: 0, y: 0 })
         expect(prototype).to.have.property('size', 1)
-        expect(prototype).to.have.property('offset', OFFSETS.ODD)
+        expect(prototype).to.have.property('offset', OFFSET.odd)
     })
 
     it('has getters for the q, r and s cube coordinates', () => {

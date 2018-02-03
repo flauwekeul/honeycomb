@@ -4,19 +4,19 @@
  * @readonly
  * @enum
  */
-export const ORIENTATIONS = {
+export const ORIENTATION = {
     /**
-     * @property POINTY ⬢
+     * @property pointy ⬢
      */
-    POINTY: 'POINTY',
+    pointy: 'pointy',
     /**
-     * @property FLAT ⬣.
+     * @property flat ⬣.
      */
-    FLAT: 'FLAT'
+    flat: 'flat'
 }
 
-/**
- * @name OFFSETS
+/*
+ * @name OFFSET
  *
  * @description
  * How rows/columns of hexes are placed relative to each other.
@@ -34,15 +34,15 @@ export const ORIENTATIONS = {
  * @readonly
  * @enum
  */
-export const OFFSETS = {
-    /**
-     * @property EVEN (+1)
+export const OFFSET = {
+    /*
+     * @property even (+1)
      */
-    EVEN: 1,
-    /**
-     * @property ODD (-1)
+    even: 1,
+    /*
+     * @property odd (-1)
      */
-    ODD: -1
+    odd: -1
 }
 
 export const DIRECTION_COORDINATES = [

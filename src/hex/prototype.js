@@ -1,4 +1,4 @@
-import { ORIENTATIONS, EPSILON } from './constants'
+import { ORIENTATION, EPSILON } from './constants'
 import { offsetFromZero } from '../utils'
 
 export function setFactory({ Hex }) {
@@ -63,7 +63,7 @@ export function cartesianToCube({ x, y }) {
  * @returns {boolean}   Whether hexes have a pointy ⬢ orientation.
  */
 export function isPointy() {
-    return this.orientation.toUpperCase() === ORIENTATIONS.POINTY
+    return this.orientation.toLowerCase() === ORIENTATION.pointy
 }
 
 /**
@@ -71,7 +71,7 @@ export function isPointy() {
  * @returns {boolean}   Whether hexes have a flat ⬣ orientation.
  */
 export function isFlat() {
-    return this.orientation.toUpperCase() === ORIENTATIONS.FLAT
+    return this.orientation.toLowerCase() === ORIENTATION.flat
 }
 
 /**
