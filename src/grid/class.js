@@ -24,7 +24,12 @@ export default class Grid extends Array {
     }
 
     indexOf(searchHex, fromIndex = 0) {
-        for (let i = fromIndex; i < this.length; i++) {
+        const { length } = this
+        let i = Number(fromIndex)
+
+        i = Math.max(i >= 0 ? i : length + i, 0)
+
+        for (i; i < length; i++) {
             if (this[i].equals(searchHex)) {
                 return i
             }
@@ -35,8 +40,19 @@ export default class Grid extends Array {
 
     // a grid has no duplicate hexes, so there's no reason to start searching from the end of the grid
     // except maybe for performance reasons, but Grid#indexOf seems fast enough
-    lastIndexOf(searchHex, fromIndex) {
-        return this.indexOf(searchHex, fromIndex)
+    lastIndexOf(searchHex, fromIndex = this.length - 1) {
+        const { length } = this
+        let i = Number(fromIndex)
+
+        i = i >= 0 ? Math.min(i, length - 1) : length + i
+
+        for (i; i >= 0; i--) {
+            if (this[i].equals(searchHex)) {
+                return i
+            }
+        }
+
+        return -1
     }
 
     push(...elements) {

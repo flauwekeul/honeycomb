@@ -64,34 +64,65 @@ describe('Grid class', () => {
 
     describe('Grid#indexOf', () => {
         describe(`when called with a hex-like that's present in the grid`, () => {
-            it('returns its index', () => {
-                expect(instance.indexOf(Hex(0))).to.equal(0)
+            it('returns its index (from the left)', () => {
+                instance = new Grid(Hex(0), Hex(1), Hex(0))
+                expect(instance.indexOf({ x: 0, y: 0 })).to.equal(0)
+                expect(instance.indexOf({ x: 1, y: 1 })).to.equal(1)
             })
         })
 
         describe(`when called with a hex-like that's not present in the grid`, () => {
             it('returns -1', () => {
-                expect(instance.indexOf(Hex(1))).to.equal(-1)
+                expect(instance.indexOf({ x: 1, y: 1 })).to.equal(-1)
             })
         })
 
         describe('when called with start index', () => {
             it('starts searching from that index', () => {
-                instance = new Grid(Hex(0), Hex(1))
-                expect(instance.indexOf(Hex(0), 1)).to.equal(-1)
+                instance = new Grid(Hex(0), Hex(1), Hex(0))
+                expect(instance.indexOf(Hex(0), 1)).to.equal(2)
+                expect(instance.indexOf(Hex(0), 2)).to.equal(2)
+                expect(instance.indexOf(Hex(0), -1)).to.equal(2)
+                expect(instance.indexOf(Hex(0), -2)).to.equal(2)
+                expect(instance.indexOf(Hex(0), -3)).to.equal(0)
                 expect(instance.indexOf(Hex(1), 1)).to.equal(1)
+                expect(instance.indexOf(Hex(1), 2)).to.equal(-1)
+                expect(instance.indexOf(Hex(1), -1)).to.equal(-1)
+                expect(instance.indexOf(Hex(1), -2)).to.equal(1)
+                expect(instance.indexOf(Hex(1), -3)).to.equal(1)
             })
         })
     })
 
     describe('Grid#lastIndexOf', () => {
-        it('calls Grid#indexOf', () => {
-            sinon.spy(instance, 'indexOf')
+        describe(`when called with a hex-like that's present in the grid`, () => {
+            it('returns its index (from the right)', () => {
+                instance = new Grid(Hex(0), Hex(1), Hex(0))
+                expect(instance.lastIndexOf({ x: 0, y: 0 })).to.equal(2)
+                expect(instance.lastIndexOf({ x: 1, y: 1 })).to.equal(1)
+            })
+        })
 
-            instance.lastIndexOf('searchHex', 'fromIndex')
-            expect(instance.indexOf).to.have.been.calledWith('searchHex', 'fromIndex')
+        describe(`when called with a hex-like that's not present in the grid`, () => {
+            it('returns -1', () => {
+                expect(instance.lastIndexOf(Hex(1))).to.equal(-1)
+            })
+        })
 
-            instance.indexOf.restore()
+        describe('when called with start index', () => {
+            it('starts searching back from that index', () => {
+                instance = new Grid(Hex(0), Hex(1), Hex(0))
+                expect(instance.lastIndexOf(Hex(0), 1)).to.equal(0)
+                expect(instance.lastIndexOf(Hex(0), 2)).to.equal(2)
+                expect(instance.lastIndexOf(Hex(0), -1)).to.equal(2)
+                expect(instance.lastIndexOf(Hex(0), -2)).to.equal(0)
+                expect(instance.lastIndexOf(Hex(0), -3)).to.equal(0)
+                expect(instance.lastIndexOf(Hex(1), 1)).to.equal(1)
+                expect(instance.lastIndexOf(Hex(1), 2)).to.equal(1)
+                expect(instance.lastIndexOf(Hex(1), -1)).to.equal(1)
+                expect(instance.lastIndexOf(Hex(1), -2)).to.equal(1)
+                expect(instance.lastIndexOf(Hex(1), -3)).to.equal(-1)
+            })
         })
     })
 
