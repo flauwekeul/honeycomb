@@ -243,9 +243,19 @@ export default function extendHex(prototype = {}) {
         }
 
         /**
+         * An object with just x and y properties.
+         *
+         * @typedef {Object} hex-like
+         * @property {number} x Cartesian x coordinate
+         * @property {number} y Cartesian y coordinate
+         */
+
+        /**
+         * An object with x and y properties and several methods in its prototype, created by a {@link Hex} factory.
+         *
          * @typedef {Object} hex
-         * @property {number} x cartesian x coordinate
-         * @property {number} y cartesian y coordinate
+         * @property {number} x Cartesian x coordinate
+         * @property {number} y Cartesian y coordinate
          */
         return Object.assign(
             // the prototype has to be attached here, else Grid's shape methods break 🙁

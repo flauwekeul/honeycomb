@@ -247,9 +247,9 @@ export function addFactory({ Hex }) {
      *
      * @todo Accept any number of hexes to add.
      *
-     * @param {hex} otherHex    The hex that will be added to the current.
-     * @returns {hex}           A *new* hex where the passed hex's coordinates are added to the current.
-     *                          Any custom properties are copied.
+     * @param {hex-like} otherHex   The hex-like that will be added to the current.
+     * @returns {hex}               A *new* hex where the passed hex's coordinates are added to the current.
+     *                              Any custom properties are copied.
      */
     return function add(otherHex) {
         // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
@@ -268,9 +268,9 @@ export function subtractFactory({ Hex }) {
      *
      * @todo Accept any number of hexes to subtract.
      *
-     * @param {hex} otherHex    The hex that will be subtracted from the current.
-     * @returns {hex}           A *new* hex where the passed hex's coordinates are subtracted from the current.
-     *                          Any custom properties are copied.
+     * @param {hex-like} otherHex   The hex-like that will be subtracted from the current.
+     * @returns {hex}               A *new* hex where the passed hex's coordinates are subtracted from the current.
+     *                              Any custom properties are copied.
      */
     return function subtract(otherHex) {
         // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
@@ -285,8 +285,8 @@ export function subtractFactory({ Hex }) {
 /**
  * @memberof Hex#
  *
- * @param {hex} otherHex    The hex whose coordinates will be compared against the current hex.
- * @returns {boolean}       Whether the coordinates of the current and the passed hex are equal.
+ * @param {hex-like} otherHex   The hex-like whose coordinates will be compared against the current hex.
+ * @returns {boolean}           Whether the coordinates of the current and the passed hex are equal.
  */
 export function equals(otherHex) {
     return this.x === otherHex.x && this.y === otherHex.y
@@ -297,7 +297,7 @@ export function equals(otherHex) {
  *
  * @see {@link http://www.redblobgames.com/grids/hexagons/#distances|redblobgames.com}
  *
- * @param   {Hex} otherHex  The last hex.
+ * @param   {hex} otherHex  The last hex (cannot be a {@link hex-like}).
  * @returns {number}        The amount of hexes from the current to (and excluding) the last hex.
  *
  * @example
@@ -357,7 +357,7 @@ export function lerpFactory({ Hex }) {
      *
      * @memberof Hex#
      *
-     * @param   {Hex} otherHex  The other hex.
+     * @param   {hex} otherHex  The other hex (cannot be a {@link hex-like}).
      * @param   {number} t      A "parameter" between 0 and 1.
      *
      * @returns {hex}           A new hex (likely with floating point coordinates).
