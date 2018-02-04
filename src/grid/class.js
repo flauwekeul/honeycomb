@@ -55,15 +55,22 @@ export default class Grid extends Array {
         return -1
     }
 
-    push(...elements) {
-        return super.push(...elements.filter(Grid.isValidHex))
+    push(...hexes) {
+        return super.push(...hexes.filter(Grid.isValidHex))
     }
 
-    splice(start, deleteCount, ...elements) {
-        return super.splice(start, deleteCount, ...elements.filter(Grid.isValidHex))
+    splice(start, deleteCount, ...hexes) {
+        // when deleteCount is undefined/null, it's casted to 0, deleting 0 hexes
+        // this is not according to spec: it should delete all hexes (starting from `start`)
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
+        if (deleteCount == null) {
+            return super.splice(start)
+        }
+
+        return super.splice(start, deleteCount, ...hexes.filter(Grid.isValidHex))
     }
 
-    unshift(...elements) {
-        return super.unshift(...elements.filter(Grid.isValidHex))
+    unshift(...hexes) {
+        return super.unshift(...hexes.filter(Grid.isValidHex))
     }
 }

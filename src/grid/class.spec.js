@@ -151,28 +151,40 @@ describe('Grid class', () => {
     })
 
     describe('Grid#splice', () => {
-        afterEach(() => {
-            Grid.isValidHex.restore()
-        })
-
         it('calls Grid.isValidHex', () => {
             sinon.spy(Grid, 'isValidHex')
             instance.splice(0, 0, 'value')
 
             expect(Grid.isValidHex).to.have.been.calledWith('value')
+
+            Grid.isValidHex.restore()
         })
 
-        it('only adds elements that are valid hexes', () => {
-            instance = new Grid(Hex(0), Hex(1), Hex(2))
-            const isValidHex = sinon.stub(Grid, 'isValidHex')
+        describe('when called with only a start', () => {
+            it('deletes hexes beginning at start and returns the deleted hexes', () => {
+                instance = new Grid(Hex(0), Hex(1), Hex(2))
+                const result = instance.splice(1)
 
-            isValidHex.withArgs('valid').returns(true)
-            isValidHex.withArgs('invalid').returns(false)
-            const result = instance.splice(1, 2, 'valid', 'invalid')
+                expect(instance).to.eql([Hex(0)])
+                expect(result).to.eql([Hex(1), Hex(2)])
+            })
+        })
 
-            expect(instance).to.eql([Hex(0), 'valid'])
-            expect(result[0]).to.eql(Hex(1))
-            expect(result[1]).to.eql(Hex(2))
+        describe('when called with any elements to add', () => {
+            it('only adds those that are valid hexes', () => {
+                instance = new Grid(Hex(0), Hex(1), Hex(2))
+                const isValidHex = sinon.stub(Grid, 'isValidHex')
+
+                isValidHex.withArgs('valid').returns(true)
+                isValidHex.withArgs('invalid').returns(false)
+                const result = instance.splice(1, 2, 'valid', 'invalid')
+
+                expect(instance).to.eql([Hex(0), 'valid'])
+                expect(result[0]).to.eql(Hex(1))
+                expect(result[1]).to.eql(Hex(2))
+
+                Grid.isValidHex.restore()
+            })
         })
     })
 
