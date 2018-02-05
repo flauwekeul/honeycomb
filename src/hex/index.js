@@ -15,7 +15,7 @@ export const staticMethods = {
  * @static
  *
  * @description
- * This function can be used to create custom hexes by extending the default hex prototype.
+ * This function can be used to create custom hexes by extending the default Hex prototype.
  *
  * All properties of the object passed to `extendHex()` will be added to the prototype of the resulting {@link Hex} factory.
  * To add properties to individual hexes (instances), pass them to the {@link Hex} factory.
@@ -26,7 +26,7 @@ export const staticMethods = {
  * @param {Object} [prototype={}]   An object that's used as the prototype for all hexes in a grid.
  *                                  **Warning:** properties in this object will overwrite properties with the same name in the default prototype.
  *
- * @returns {Hex}                   A function to produce hexes that all share the same prototype.
+ * @returns {Hex}                   A function to produce hexes that are all linked to the same prototype.
  *
  * @example
  * const Hex = Honeycomb.extendHex({
@@ -164,7 +164,7 @@ export default function extendHex(prototype = {}) {
      * @description
      * Factory function to create hexes. Use {@link Honeycomb.extendHex} to create a Hex factory.
      *
-     * @see {@link redblobgames.com|http://www.redblobgames.com/grids/hexagons/#coordinates}
+     * @see {@link redblobgames.com|https://www.redblobgames.com/grids/hexagons/#coordinates}
      *
      * @param {(number|Object|number[])} [xOrProps=]    The x coordinate,
      *                                                  **or** an object containing *any* of the cartesian (`x` and `y`) coordinates and optional custom properties,
@@ -243,19 +243,11 @@ export default function extendHex(prototype = {}) {
         }
 
         /**
-         * An object with just x and y properties.
-         *
-         * @typedef {Object} hex-like
-         * @property {number} x Cartesian x coordinate
-         * @property {number} y Cartesian y coordinate
-         */
-
-        /**
-         * An object with x and y properties and several methods in its prototype, created by a {@link Hex} factory.
+         * An object with x and y properties and several methods in its prototype chain, created by a {@link Hex} factory.
          *
          * @typedef {Object} hex
-         * @property {number} x Cartesian x coordinate
-         * @property {number} y Cartesian y coordinate
+         * @property {number} x Cartesian x coordinate.
+         * @property {number} y Cartesian y coordinate.
          */
         return Object.assign(
             // the prototype has to be attached here, else Grid's shape methods break 🙁

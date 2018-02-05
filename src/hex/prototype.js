@@ -247,16 +247,16 @@ export function addFactory({ Hex }) {
      *
      * @todo Accept any number of hexes to add.
      *
-     * @param {hex-like} otherHex   The hex-like that will be added to the current.
-     * @returns {hex}               A *new* hex where the passed hex's coordinates are added to the current.
-     *                              Any custom properties are copied.
+     * @param {point} hex   The hex (or point) that will be added to the current.
+     * @returns {hex}       A *new* hex where the passed hex's coordinates are added to the current.
+     *                      Any custom properties are copied.
      */
-    return function add(otherHex) {
+    return function add(hex) {
         // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
         return Hex.call(
             this,
-            this.x + otherHex.x,
-            this.y + otherHex.y
+            this.x + hex.x,
+            this.y + hex.y
         )
     }
 }
@@ -268,16 +268,16 @@ export function subtractFactory({ Hex }) {
      *
      * @todo Accept any number of hexes to subtract.
      *
-     * @param {hex-like} otherHex   The hex-like that will be subtracted from the current.
-     * @returns {hex}               A *new* hex where the passed hex's coordinates are subtracted from the current.
-     *                              Any custom properties are copied.
+     * @param {point} hex   The hex (or point) that will be subtracted from the current.
+     * @returns {hex}       A *new* hex where the passed hex's coordinates are subtracted from the current.
+     *                      Any custom properties are copied.
      */
-    return function subtract(otherHex) {
+    return function subtract(hex) {
         // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
         return Hex.call(
             this,
-            this.x - otherHex.x,
-            this.y - otherHex.y
+            this.x - hex.x,
+            this.y - hex.y
         )
     }
 }
@@ -285,20 +285,20 @@ export function subtractFactory({ Hex }) {
 /**
  * @memberof Hex#
  *
- * @param {hex-like} otherHex   The hex-like whose coordinates will be compared against the current hex.
- * @returns {boolean}           Whether the coordinates of the current and the passed hex are equal.
+ * @param {point} hex   The hex (or point) whose coordinates will be compared against the current hex.
+ * @returns {boolean}   Whether the coordinates of the current and the passed hex are equal.
  */
-export function equals(otherHex) {
-    return this.x === otherHex.x && this.y === otherHex.y
+export function equals(hex) {
+    return this.x === hex.x && this.y === hex.y
 }
 
 /**
  * @memberof Hex#
  *
- * @see {@link http://www.redblobgames.com/grids/hexagons/#distances|redblobgames.com}
+ * @see {@link https://www.redblobgames.com/grids/hexagons/#distances|redblobgames.com}
  *
- * @param   {hex} otherHex  The last hex (cannot be a {@link hex-like}).
- * @returns {number}        The amount of hexes from the current to (and excluding) the last hex.
+ * @param   {hex} hex   The last hex (cannot be a {@link point}).
+ * @returns {number}    The amount of hexes from the current to (and excluding) the last hex.
  *
  * @example
  * const Hex = Honeycomb.extendHex()
@@ -306,11 +306,11 @@ export function equals(otherHex) {
  * Hex().distance(Hex(1, 0))        // 1
  * Hex(-2, -2).distance(Hex(4, 1))  // 8
  */
-export function distance(otherHex) {
+export function distance(hex) {
     return Math.max(
-        Math.abs(this.q - otherHex.q),
-        Math.abs(this.r - otherHex.r),
-        Math.abs(this.s - otherHex.s)
+        Math.abs(this.q - hex.q),
+        Math.abs(this.r - hex.r),
+        Math.abs(this.s - hex.s)
     )
 }
 
@@ -319,7 +319,7 @@ export function roundFactory({ Hex }) {
      * Rounds the current floating point hex coordinates to their nearest integer hex coordinates.
      *
      * @memberof Hex#
-     * @see {@link http://www.redblobgames.com/grids/hexagons/#rounding|redblobgames.com}
+     * @see {@link https://www.redblobgames.com/grids/hexagons/#rounding|redblobgames.com}
      *
      * @returns {hex}   A *new* hex with rounded coordinates.
      *                  Any custom properties are copied.
@@ -357,15 +357,15 @@ export function lerpFactory({ Hex }) {
      *
      * @memberof Hex#
      *
-     * @param   {hex} otherHex  The other hex (cannot be a {@link hex-like}).
-     * @param   {number} t      A "parameter" between 0 and 1.
+     * @param   {hex} hex   The other hex (cannot be a {@link point}).
+     * @param   {number} t  A "parameter" between 0 and 1.
      *
-     * @returns {hex}           A new hex (likely with floating point coordinates).
-     *                          Any custom properties are copied.
+     * @returns {hex}       A new hex (likely with floating point coordinates).
+     *                      Any custom properties are copied.
      */
-    return function lerp(otherHex, t) {
-        const q = this.q * (1 - t) + otherHex.q * t
-        const r = this.r * (1 - t) + otherHex.r * t
+    return function lerp(hex, t) {
+        const q = this.q * (1 - t) + hex.q * t
+        const r = this.r * (1 - t) + hex.r * t
         // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
         return Hex.call(this, { q, r, s: -q - r })
     }
@@ -373,7 +373,7 @@ export function lerpFactory({ Hex }) {
 
 /**
  * @memberof Hex#
- * @see {@link http://www.redblobgames.com/grids/hexagons/#line-drawing|redblobgames.com}
+ * @see {@link https://www.redblobgames.com/grids/hexagons/#line-drawing|redblobgames.com}
  *
  * @returns {hex}   A *new* hex with a tiny offset from the current hex.
  *                  Useful for interpolating in a consistent direction.
