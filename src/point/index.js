@@ -1,5 +1,4 @@
 import { isNumber, isArray, isObject } from 'axis.js'
-import * as methods from './prototype'
 
 /**
  * @function Point
@@ -29,27 +28,21 @@ import * as methods from './prototype'
  * Point({ y: 2 })          // { x: 2, y: 2 }
  */
 export default function Point(coordinatesOrX, y) {
-    let coordinates
-
     if (isNumber(coordinatesOrX)) {
-        coordinates = _setMissingCoordinate(coordinatesOrX, y)
+        return _setMissingCoordinate(coordinatesOrX, y)
     } else if (isArray(coordinatesOrX)) {
-        coordinates = _setMissingCoordinate(...coordinatesOrX)
+        return _setMissingCoordinate(...coordinatesOrX)
     } else if (isObject(coordinatesOrX)) {
-        coordinates = _setMissingCoordinate(coordinatesOrX.x, coordinatesOrX.y)
+        const { x, y } = coordinatesOrX
+        return _setMissingCoordinate(x, y)
     } else {
-        coordinates = _setMissingCoordinate(0)
+        return _setMissingCoordinate(0)
     }
+}
 
-    function _setMissingCoordinate(x, y) {
-        return {
-            x: isNumber(x) ? x : y,
-            y: isNumber(y) ? y : x
-        }
+function _setMissingCoordinate(x, y) {
+    return {
+        x: isNumber(x) ? x : y,
+        y: isNumber(y) ? y : x
     }
-
-    return Object.assign(
-        Object.create(methods),
-        coordinates
-    )
 }
