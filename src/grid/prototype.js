@@ -1,4 +1,4 @@
-import { isArray, isObject, isString } from 'axis.js'
+import { isString } from 'axis.js'
 
 import { DIRECTION_COORDINATES, DIAGONAL_DIRECTION_COORDINATES } from '../hex/constants'
 
@@ -28,7 +28,7 @@ export function hexesBetween(firstHex, lastHex) {
     return hexes
 }
 
-export function neighborsOfFactory({ signedModulo, compassToNumberDirection }) {
+export function neighborsOfFactory({ Grid, signedModulo, compassToNumberDirection }) {
     /**
      * @method Hex#neighbors
      *
@@ -41,31 +41,22 @@ export function neighborsOfFactory({ signedModulo, compassToNumberDirection }) {
      *
      * @returns {Hex[]}                     An array of the 6 neighboring hexes.
      */
-    return function neighborsOf(hexOrOptions, directions = 'all', diagonal = false) {
-        if (!isObject(hexOrOptions)) {
-            throw new Error(`Cannot find neighbors of hex: ${hexOrOptions}.`)
+    return function neighborsOf(hex, directions = 'all', diagonal = false) {
+        if (!Grid.isValidHex(hex)) {
+            throw new Error(`Invalid hex: ${hex}.`)
         }
 
-        let hex, direction
-
-        // get arguments from hexOrOptions if it contains a hex property
-        if (isObject(hexOrOptions.hex)) {
-            ({ hex, direction, directions, diagonal } = hexOrOptions)
-            // bind `this` so that the function doesn't lose its context to the grid instance
-            return neighborsOf.call(this, hex, directions || direction, diagonal)
-        } else {
-            hex = hexOrOptions
-        }
+        const coordinates = diagonal ? DIAGONAL_DIRECTION_COORDINATES : DIRECTION_COORDINATES
 
         if (directions === 'all') {
             directions = [0, 1, 2, 3, 4, 5]
-        } else {
-            // if singular direction is passed, convert it to an array, so that the following code can always use an array
-            if (!isArray(directions)) {
-                directions = [directions]
-            }
+        }
 
-            directions = directions.map(direction => {
+        return directions = []
+            // ensure directions is an array
+            .concat(directions)
+            .map(direction => {
+                // todo: move this to a util, also grid/statics.js#277
                 if (isString(direction)) {
                     direction = compassToNumberDirection(direction, hex.orientation)
                 }
@@ -74,14 +65,6 @@ export function neighborsOfFactory({ signedModulo, compassToNumberDirection }) {
                     direction = signedModulo(direction, 6)
                 }
 
-                return direction
-            })
-        }
-
-        const coordinates = diagonal ? DIAGONAL_DIRECTION_COORDINATES : DIRECTION_COORDINATES
-
-        return directions
-            .map(direction => {
                 const { q, r } = coordinates[direction]
                 return this.get(hex.cubeToCartesian({ q: hex.q + q, r: hex.r + r }))
             })
