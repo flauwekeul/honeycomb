@@ -7,11 +7,44 @@ import * as statics from './statics'
 import * as methods from './prototype'
 
 export default function defineGridFactory({ extendHex }) {
+    /**
+     * @function defineGrid
+     *
+     * @memberof Honeycomb
+     * @static
+     *
+     * @description
+     * This function can be used to create {@link Grid} factories by passing it a {@link Hex} factory.
+     *
+     * @param {Hex} [Hex=Honeycomb.extendHex()] A {@link Hex} factory.
+     *                                          If nothing is passed, the default Hex factory is used by calling `Honeycomb.extendHex()` internally.
+     *
+     * @returns {Grid}                          A Grid factory.
+     *
+     * @example
+     * // create a Grid factory that uses the default Hex Factory:
+     * const Grid = Honeycomb.defineGrid()
+     * const hex = Grid.Hex()
+     * hex.size     // 1
+     *
+     * // create your own Hex factory
+     * const CustomHex = Honeycomb.extendHex({ size: 10, custom: '🤓' })
+     * // …and pass it to defineGrid() to create a Grid factory that produces your custom hexes
+     * const CustomGrid = Honeycomb.defineGrid(CustomHex)
+     * const customHex = CustomGrid.Hex()
+     * hex.size     // 10
+     * hex.custom   // 🤓
+     */
     return function defineGrid(Hex = extendHex()) {
         // static properties
         Object.assign(GridFactory, {
-            // properties:
-            // if Hex isn't unbound, it's `this` will reference Gridfactory
+            /**
+             * The {@link Hex} factory the Grid factory was created with.
+             * @memberof Grid
+             * @static
+             * @function
+             */
+            // if Hex isn't unbound, it's `this` will reference GridFactory
             Hex: Hex.bind(),
 
             // methods
@@ -32,54 +65,56 @@ export default function defineGridFactory({ extendHex }) {
                 // methods
                 get: methods.get,
                 hexesBetween: methods.hexesBetween,
-                neighborsOf: methods.neighborsOfFactory({ signedModulo, compassToNumberDirection })
+                neighborsOf: methods.neighborsOfFactory({ Grid, signedModulo, compassToNumberDirection })
             }
         )
 
         /**
-         * @module src/grid
          * @function Grid
          *
          * @description
-         * A function to create and manage hex grids.
+         * A function to create hex {@link grid}s and perform various operations on them.
          *
-         * Grid() returns an object with methods to convert points and hexes and create arrays of hexes with different "shapes".
+         * A Grid factory has several static methods that return {@link grid}s of hexes in a certain shape.
+         * It can also be called with 1 or more hexes or an array of hexes to construct/clone a {@link grid} containing those hexes.
          *
-         * Grid accepts an optional Hex factory, which can be created with {@link extendHex|Honeycomb.extendHex}.
-         * When Grid() is called without a Hex factory, the default Hex factory is used.
-         * This default Hex factory produces hexes with a size of 1. When creating hexes in the browser, you probably want to set a different size.
+         * A {@link grid} inherits from `Array`, with some methods overwritten and some new methods added.
          *
-         * @param {Function} [Hex=] Hex factory function. {@link extendHex} can be used to create your own.
+         * @param {(hex[]|hex)} [arrayOrHex]    An array or a hex. Any invalid hexes are filtered out.
+         * @param {...hex} [hexes]              More hexes. Any invalid hexes are filtered out.
          *
-         * @returns {Object}        An object containing the final Hex factory and several methods for creating arrays of hexes.
+         * @returns {grid}                      A grid instance containing only valid hexes.
          *
          * @example
-         * import { Grid, extendHex } from 'Honeycomb'
+         * const Grid = Honeycomb.defineGrid()
+         * // the Hex factory used by the Grid to produce hexes is available as a property
+         * const Hex = Grid.Hex
          *
-         * const grid = Grid()
+         * Grid(Hex(3, -1), Hex(2, 0))      // [{ x: 3, y: -1 }, { x: 2, y: 0 }]
+         * Grid([Hex(3, -1), Hex(2, 0)])    // [{ x: 3, y: -1 }, { x: 2, y: 0 }]
          *
-         * grid.triangle(3) // [ { x: 0, y: 0 },
-         *                  //   { x: 0, y: 1 },
-         *                  //   { x: 0, y: 2 },
-         *                  //   { x: 1, y: 0 },
-         *                  //   { x: 1, y: 1 },
-         *                  //   { x: 2, y: 0 } ]
+         * // invalid hexes are filtered out:
+         * Grid('no hex', { x: 3, y: -1 })  // []
+         * Grid(['no hex', Hex(1, -1)])     // [{ x: 1, y: -1 }]
          *
-         * // use extendHex() to create a custom Hex factory
-         * const customHex = extendHex({ size: 30 })
-         * // create a new grid with this custom Hex factory
-         * const grid2 = Grid(customHex)
-         *
-         * grid.pointToHex([ 20, 40 ])  // { x: -1, y: 27 }
-         * grid2.pointToHex([ 20, 40 ]) // { x: 0, y: 1 }
+         * // clone a grid:
+         * const grid = Grid(Hex(), Hex(1), Hex(2))
+         * const clonedGrid = Grid(grid)    // [{ x: 0, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 2 }]
+         * grid === clonedGrid              // false
          */
-        function GridFactory(gridLikeOrHex, ...hexes) {
-            if (isArray(gridLikeOrHex)) {
-                hexes = gridLikeOrHex
+        function GridFactory(arrayOrHex, ...hexes) {
+            if (isArray(arrayOrHex)) {
+                hexes = arrayOrHex
             } else {
-                hexes.unshift(gridLikeOrHex)
+                hexes.unshift(arrayOrHex)
             }
 
+            /**
+             * @typedef {Object} grid
+             * @extends Array
+             *
+             * @property {number} length    Amount of hexes in the grid.
+             */
             return new Grid(...hexes.filter(Grid.isValidHex))
         }
 

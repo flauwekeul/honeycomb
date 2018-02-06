@@ -1,8 +1,15 @@
 import { isString } from 'axis.js'
-
 import { offsetFromZero } from '../utils'
 
 export function isValidHexFactory({ Grid }) {
+    /**
+     * @memberof Grid
+     * @static
+     * @method
+     *
+     * @param {*} value     Any value.
+     * @returns {boolean}   Whether the passed value is a valid hex.
+     */
     return function isValidHex(value) {
         return Grid.isValidHex(value)
     }
@@ -10,26 +17,25 @@ export function isValidHexFactory({ Grid }) {
 
 export function pointToHexFactory({ Point, Hex }) {
     /**
-     * @method Grid#pointToHex
+     * Converts the passed {@link point} to a hex.
      *
-     * @description
-     * Converts the passed 2-dimensional {@link Point|point} to a hex.
+     * @memberof Grid
+     * @static
+     * @method
+     * @see {@link https://www.redblobgames.com/grids/hexagons/#pixel-to-hex|redblobgames.com}
      *
-     * @see {@link http://www.redblobgames.com/grids/hexagons/#pixel-to-hex|redblobgames.com}
-     *
-     * @param {Point} point The {@link Point|point-like} to convert from.
-     *
-     * @returns {Hex}       The hex (with rounded coordinates) that contains the passed point.
+     * @param {point} point The point to convert from.
+     * @returns {hex}       A hex (with rounded coordinates) that contains the passed point.
      *
      * @example
-     * import { Grid, Point } from 'Honeycomb'
+     * const Hex = Honeycomb.extendHex({ size: 50 })
+     * const Grid = Honeycomb.defineGrid(Hex)
      *
-     * const grid = Grid({ size: 50 })
-     *
-     * grid.pointToHex(Point(120, 300))     // { x: -1, y: 4 }
-     * // also accepts a point-like:
      * grid.pointToHex({ x: 120, y: 300 })  // { x: -1, y: 4 }
      * grid.pointToHex([ 120, 300 ])        // { x: -1, y: 4 }
+     *
+     * const Point = Honeycomb.Point
+     * grid.pointToHex(Point(120, 300))     // { x: -1, y: 4 }
      */
     return function pointToHex(point) {
         const hex = Hex()
@@ -53,61 +59,70 @@ export function pointToHexFactory({ Point, Hex }) {
 
 export function colSizeFactory({ Hex }) {
     /**
-     * @method Grid#colSize
+     * @memberof Grid
+     * @static
+     * @method
+     * @see {@link https://www.redblobgames.com/grids/hexagons/#size-and-spacing|redblobgames.com}
      *
-     * @see {@link http://www.redblobgames.com/grids/hexagons/#size-and-spacing|redblobgames.com}
-     *
-     * @returns {number} The width of a (vertical) column of hexes in the grid.
+     * @returns {number}    The width of a column of hexes in the grid.
      */
     return function colSize() {
         const hex = Hex()
-        return hex.isPointy() ?
-            hex.width() :
-            hex.width() * 3 / 4
+        return hex.isPointy() ? hex.width() : hex.width() * 3 / 4
     }
 }
 
 export function rowSizeFactory({ Hex }) {
     /**
-     * @method Grid#rowSize
+     * @memberof Grid
+     * @static
+     * @method
+     * @see {@link https://www.redblobgames.com/grids/hexagons/#size-and-spacing|redblobgames.com}
      *
-     * @see {@link http://www.redblobgames.com/grids/hexagons/#size-and-spacing|redblobgames.com}
-     *
-     * @returns {number} The height of a (horizontal) row of hexes in the grid.
+     * @returns {number} The height of a row of hexes in the grid.
      */
     return function rowSize() {
         const hex = Hex()
-        return hex.isPointy() ?
-            hex.height() * 3 / 4 :
-            hex.height()
+        return hex.isPointy() ? hex.height() * 3 / 4 : hex.height()
     }
 }
 
 export function parallelogramFactory({ Grid, Hex }) {
     /**
-     * @method Grid#parallelogram
+     * Creates a grid in the shape of a [parallelogram](https://en.wikipedia.org/wiki/Parallelogram) ▱.
      *
-     * @description
-     * Creates a grid in the shape of a [parallelogram](https://en.wikipedia.org/wiki/Parallelogram).
+     * @memberof Grid
+     * @static
+     * @method
+     * @see {@link https://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
      *
-     * @todo Validate the direction param
-     *
-     * @see {@link http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
+     * @todo Validate params
+     * @todo Move duplicate code to util
      *
      * @param {Object} options                      An options object.
      * @param {number} options.width                The width (in hexes).
      * @param {number} options.height               The height (in hexes).
-     * @param {Hex} [options.start=Hex(0,0,0)]      The start hex.
-     * @param {(1|3|5)} [options.direction=1]       The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes.
-     * @param {Function} [options.onCreate=noop]    Callback that's called for each created hex, passing the created hex.
+     * @param {Hex} [options.start=Hex(0)]          The start hex.
+     * @param {(1|3|5)} [options.direction=1]       The direction (from the start hex) in which to create the shape.
+     *                                              Each direction corresponds to a different arrangement of hexes.
+     * @param {onCreate} [options.onCreate=no-op]   Callback that's called for each hex. Defaults to a {@link https://en.wikipedia.org/wiki/NOP|no-op}.
      *
-     * @returns {Hex[]}                             Array of hexes in a parallelogram arrangement.
+     * @returns {grid}                              Grid of hexes in a parallelogram arrangement.
      */
     return function parallelogram({
         width,
         height,
         start,
         direction = 1,
+        /**
+         * Callback of a {@link Grid} shape method.
+         * Gets called for each hex that's about to be added to the grid.
+         *
+         * @callback onCreate
+         * @param {hex} hex     The freshly created hex, just before it's added to the grid.
+         * @param {grid} grid   The grid (for as far as it's created).
+         * @returns {void}      Nothing.
+         */
         onCreate = () => { }
     }) {
         start = Hex(start)
@@ -138,22 +153,24 @@ export function parallelogramFactory({ Grid, Hex }) {
 
 export function triangleFactory({ Grid, Hex }) {
     /**
-     * @method Grid#triangle
+     * Creates a grid in the shape of a [(equilateral) triangle](https://en.wikipedia.org/wiki/Equilateral_triangle) △.
      *
-     * @description
-     * Creates a grid in the shape of a [(equilateral) triangle](https://en.wikipedia.org/wiki/Equilateral_triangle).
+     * @memberof Grid
+     * @static
+     * @method
+     * @see {@link https://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
      *
-     * @todo Validate the direction param
-     *
-     * @see {@link http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
+     * @todo Validate params
+     * @todo Move duplicate code to util
      *
      * @param {Object} options                      An options object.
      * @param {number} options.size                 The side length (in hexes).
-     * @param {Hex} [options.start=Hex(0,0,0)]      The start hex. **Note**: it's not the first hex, but rather a hex relative to the triangle.
+     * @param {Hex} [options.start=Hex(0)]          The start hex. **Note**: it's not the first hex, but rather a hex relative to the triangle.
      * @param {(1|5)} [options.direction=1]         The direction in which to create the shape. Each direction corresponds to a different arrangement of hexes. In this case a triangle pointing up (`direction: 1`) or down (`direction: 5`) (with pointy hexes) or right (`direction: 1`) or left (`direction: 5`) (with flat hexes).
-     * @param {Function} [options.onCreate=noop]    Callback that's called for each created hex, passing the created hex.
+     *                                              Each direction corresponds to a different arrangement of hexes.
+     * @param {onCreate} [options.onCreate=no-op]   Callback that's called for each hex. Defaults to a {@link https://en.wikipedia.org/wiki/NOP|no-op}.
      *
-     * @returns {Hex[]}                             Array of hexes in a triangular arrangement.
+     * @returns {grid}                              Grid of hexes in a triangle arrangement.
      */
     return function triangle({
         size,
@@ -194,19 +211,23 @@ export function triangleFactory({ Grid, Hex }) {
 
 export function hexagonFactory({ Grid, Hex }) {
     /**
-     * @method Grid#hexagon
+     * Creates a grid in the shape of a [hexagon](https://en.wikipedia.org/wiki/Hexagon) ⬡.
      *
-     * @description
-     * Creates a grid in the shape of a [hexagon](https://en.wikipedia.org/wiki/Hexagon).
+     * @memberof Grid
+     * @static
+     * @method
+     * @see {@link https://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
      *
-     * @see {@link http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
+     * @todo Validate params
+     * @todo Move duplicate code to util
      *
      * @param {Object} options                      An options object.
      * @param {number} options.radius               The radius (in hexes) *excluding* the center hex.
-     * @param {Hex} [options.center=Hex(0,0,0)]     The center hex.
-     * @param {Function} [options.onCreate=noop]    Callback that's called for each created hex, passing the created hex.
+     * @param {Hex} [options.center=Hex(0)]         The center hex.
+     *                                              Each direction corresponds to a different arrangement of hexes.
+     * @param {onCreate} [options.onCreate=no-op]   Callback that's called for each hex. Defaults to a {@link https://en.wikipedia.org/wiki/NOP|no-op}.
      *
-     * @returns {Hex[]}                             Array of hexes in a hexagon arrangement (very meta 😎).
+     * @returns {grid}                              Grid of hexes in a hexagon arrangement.
      */
     return function hexagon({
         radius,
@@ -238,30 +259,33 @@ export function hexagonFactory({ Grid, Hex }) {
 
 export function rectangleFactory({ Grid, Hex, compassToNumberDirection, signedModulo }) {
     /**
-     * @method Grid#rectangle
+     * Creates a grid in the shape of a [rectangle](https://en.wikipedia.org/wiki/Rectangle) ▭.
      *
-     * @description
-     * Creates a grid in the shape of a [rectangle](https://en.wikipedia.org/wiki/Rectangle).
+     * @memberof Grid
+     * @static
+     * @method
+     * @see {@link https://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
      *
-     * @todo Validate the direction param
+     * @todo Validate params
+     * @todo Move duplicate code to util
      *
-     * @see {@link http://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes|redblobgames.com}
+     * @param {Object} options                          An options object.
+     * @param {number} options.width                    The width (in hexes).
+     * @param {number} options.height                   The height (in hexes).
+     * @param {Hex} [options.start=Hex(0)]              The start hex.
+     * @param {(COMPASS_DIRECTION|number)} [options.direction=E|S]
+     * The direction (from the start hex) in which to create the shape.
+     * Defaults to `0` (`E`) for pointy hexes and `1` (`S`) for flat hexes.
+     * Each direction corresponds to a different arrangement of hexes.
+     * @param {onCreate} [options.onCreate=no-op]       Callback that's called for each hex. Defaults to a {@link https://en.wikipedia.org/wiki/NOP|no-op}.
      *
-     * @param {Object} options                      An options object.
-     * @param {number} options.width                The width (in hexes).
-     * @param {number} options.height               The height (in hexes).
-     * @param {Hex} [options.start=Hex(0,0,0)]      The start hex.
-     * @param {(0|1|2|3|4|5)} [options.direction=0] The direction (from the start hex) in which to create the shape. Each direction corresponds to a different arrangement of hexes.
-     *                                              Use **direction 4** to have x along the horizontal axis and y along the vertical axis.
-     * @param {Function} [options.onCreate=noop]    Callback that's called for each created hex, passing the created hex.
-     *
-     * @returns {Hex[]}                             Array of hexes in a rectangular arrangement.
+     * @returns {grid}                              Grid of hexes in a rectangular arrangement.
      */
     return function rectangle({
         width,
         height,
         start,
-        direction = Hex().isPointy() ? 0 : 1,
+        direction = Hex().isPointy() ? 0 : 1, // E or S
         onCreate = () => { }
     }) {
         start = Hex(start)

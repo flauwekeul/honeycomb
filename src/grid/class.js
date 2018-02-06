@@ -11,26 +11,83 @@
  */
 
 export default class Grid extends Array {
+    /**
+     * @private
+     * @param {*} value     Any value.
+     * @returns {boolean}   Whether the passed value is a valid hex.
+     */
     static isValidHex(value) {
         return (value || {}).__isHoneycombHex === true
     }
 
+    /**
+     * @memberof Grid#
+     * @override
+     * @throws {TypeError}  It makes no sense for a grid to fill it with arbitrary values, because it should only contain valid hexes.
+     *
+     * @returns {TypeError} An error.
+     */
     fill() {
         throw new TypeError('Grid.prototype.fill is not implemented')
     }
 
-    includes(searchHex, fromIndex = 0) {
-        return !!(this.indexOf(searchHex, fromIndex) + 1)
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes|Array#includes},
+     * but searches the passed hex (which can also be a {@link point}.
+     *
+     * @memberof Grid#
+     * @override
+     *
+     * @param {point} hex               An object with x and y properties.
+     * @param {number} [fromIndex=0]    Optional index to start searching.
+     *
+     * @returns {boolean}               Whether the hex is included in the grid.
+     *
+     * @example
+     * const Grid = Honeycomb.defineGrid()
+     * const Hex = Grid.Hex
+     * const grid = Grid.rectangle({ width: 2, height: 2 })
+     *
+     * grid.includes(Hex())         // true
+     * grid.includes(Hex(), 2)      // false
+     * grid.includes({ x: 0, y: 1}) // true
+     * grid.includes(Hex(5, 7))     // false
+     */
+    includes(hex, fromIndex = 0) {
+        return !!(this.indexOf(hex, fromIndex) + 1)
     }
 
-    indexOf(searchHex, fromIndex = 0) {
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf|Array#indexOf},
+     * but accepts a {@link point} and internally uses {@link Hex#equals} as a comparator.
+     *
+     * @memberof Grid#
+     * @override
+     *
+     * @param {point} hex               An object with x and y properties.
+     * @param {number} [fromIndex=0]    Optional index to start searching.
+     *                                  If negative, it is taken as the offset from the end of the grid.
+     *
+     * @returns {number}                The index of the found hex (first from the left) or -1 if the hex wasn't found.
+     *
+     * @example
+     * const Grid = Honeycomb.defineGrid()
+     * const Hex = Grid.Hex
+     * const grid = Grid.rectangle({ width: 2, height: 2 })
+     *
+     * grid.indexOf(Hex())          // 0
+     * grid.indexOf(Hex(), 2)       // -1
+     * grid.indexOf({ x: 0, y: 1})  // 2
+     * grid.indexOf(Hex(5, 7))      // -1
+     */
+    indexOf(hex, fromIndex = 0) {
         const { length } = this
         let i = Number(fromIndex)
 
         i = Math.max(i >= 0 ? i : length + i, 0)
 
         for (i; i < length; i++) {
-            if (this[i].equals(searchHex)) {
+            if (this[i].equals(hex)) {
                 return i
             }
         }
@@ -38,16 +95,41 @@ export default class Grid extends Array {
         return -1
     }
 
-    // a grid has no duplicate hexes, so there's no reason to start searching from the end of the grid
-    // except maybe for performance reasons, but Grid#indexOf seems fast enough
-    lastIndexOf(searchHex, fromIndex = this.length - 1) {
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/lastIndexOf|Array#lastIndexOf},
+     * but accepts a {@link point} and internally uses {@link Hex#equals} as a comparator.
+     *
+     * Because all hexes will have different coordinates in most grids, this method behaves the same as {@link Grid#indexOf}.
+     * This method might have a slightly better performance if you know the search hex is at the end of the grid.
+     *
+     * @memberof Grid#
+     * @override
+     *
+     * @param {point} hex                   An object with x and y properties.
+     * @param {number} [fromIndex=length-1] Optional index to start searching back from.
+     *                                      If negative, it is taken as the offset from the end of the grid.
+     *
+     * @returns {number}                    The last index of the found hex or -1 if the hex wasn't found.
+     *
+     * @example
+     * const Grid = Honeycomb.defineGrid()
+     * const Hex = Grid.Hex
+     * const grid = Grid.rectangle({ width: 2, height: 2 })
+     *
+     * // this returns the same as grid.indexOf() because all hexes have different coordinates:
+     * grid.lastIndexOf(Hex())          // 0
+     * grid.lastIndexOf(Hex(), 2)       // -1
+     * grid.lastIndexOf({ x: 0, y: 1})  // 2
+     * grid.lastIndexOf(Hex(5, 7))      // -1
+     */
+    lastIndexOf(hex, fromIndex = this.length - 1) {
         const { length } = this
         let i = Number(fromIndex)
 
         i = i >= 0 ? Math.min(i, length - 1) : length + i
 
         for (i; i >= 0; i--) {
-            if (this[i].equals(searchHex)) {
+            if (this[i].equals(hex)) {
                 return i
             }
         }
@@ -55,10 +137,61 @@ export default class Grid extends Array {
         return -1
     }
 
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push|Array#push},
+     * but filters out any passed invalid hexes.
+     *
+     * @memberof Grid#
+     * @override
+     *
+     * @param {...hex} [hexes]  Hexes to add to the end of the grid. Invalid hexes are ignored.
+     *
+     * @returns {number}        The new length of the grid.
+     *
+     * @example
+     * const Grid = Honeycomb.defineGrid()
+     * const Hex = Grid.Hex
+     *
+     * const grid = Grid(Hex()) // [{ x: 0, y: 0 }]
+     * grid.push(Hex(1))        // 2
+     * grid                     // [{ x: 0, y: 0 }, { x: 1, y: 1 }]
+     *
+     * grid.push('invalid')     // 2
+     * grid                     // [{ x: 0, y: 0 }, { x: 1, y: 1 }]
+     */
     push(...hexes) {
         return super.push(...hexes.filter(Grid.isValidHex))
     }
 
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice|Array#splice},
+     * but filters out any passed invalid hexes.
+     *
+     * @memberof Grid#
+     * @override
+     *
+     * @param {number} start                        Index at which to start changing the grid.
+     * @param {number} [deleteCount=length-start]   Amount of hexes to delete.
+     * @param {...hex} [hexes=[]]                   The hexes to add to the grid, beginning at the `start`.
+     *
+     * @returns {hex[]}                             A grid with the deleted hexes (if any).
+     *
+     * @example
+     * const Grid = Honeycomb.defineGrid()
+     * const Hex = Grid.Hex
+     * const grid = Grid.rectangle({ width: 2, height: 1 })
+     *
+     * grid                         // [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }]
+     *
+     * grid.splice(2)               // [{ x: 0, y: 1 }, { x: 1, y: 1 }] <- deleted hexes
+     * grid                         // [{ x: 0, y: 0 }, { x: 1, y: 0 }] <- leftover hexes
+     *
+     * grid.splice(2, 1)            // [{ x: 0, y: 1 }]
+     * grid                         // [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }]
+     *
+     * grid.splice(2, 1, Hex(2))    // [{ x: 0, y: 1 }]
+     * grid                         // [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 2 }, { x: 1, y: 1 }]
+     */
     splice(start, deleteCount, ...hexes) {
         // when deleteCount is undefined/null, it's casted to 0, deleting 0 hexes
         // this is not according to spec: it should delete all hexes (starting from `start`)
@@ -70,7 +203,155 @@ export default class Grid extends Array {
         return super.splice(start, deleteCount, ...hexes.filter(Grid.isValidHex))
     }
 
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift|Array#unshift},
+     * but filters out any passed invalid hexes.
+     *
+     * @memberof Grid#
+     * @override
+     *
+     * @param {...hex} [hexes]  Hexes to add to the start of the grid. Invalid hexes are ignored.
+     *
+     * @returns {number}        The new length of the grid.
+     *
+     * @example
+     * const Grid = Honeycomb.defineGrid()
+     * const Hex = Grid.Hex
+     *
+     * const grid = Grid(Hex()) // [{ x: 0, y: 0 }]
+     * grid.unshift(Hex(1))     // 2
+     * grid                     // [{ x: 1, y: 1 }, { x: 0, y: 0 }]
+     *
+     * grid.unshift('invalid')  // 2
+     * grid                     // [{ x: 1, y: 1 }, { x: 0, y: 0 }]
+     */
     unshift(...hexes) {
         return super.unshift(...hexes.filter(Grid.isValidHex))
     }
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat|Array#concat}.
+     * @memberof Grid#
+     * @method concat
+     */
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/copyWithin|Array#copyWithin}.
+     * @memberof Grid#
+     * @method copyWithin
+     */
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/entries|Array#entries}.
+     * @memberof Grid#
+     * @method entries
+     */
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every|Array#every}.
+     * @memberof Grid#
+     * @method every
+     */
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter|Array#filter}.
+     * @memberof Grid#
+     * @method filter
+     */
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find|Array#find}.
+     * @memberof Grid#
+     * @method find
+     */
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex|Array#findIndex}.
+     * @memberof Grid#
+     * @method findIndex
+     */
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach|Array#forEach}.
+     * @memberof Grid#
+     * @method forEach
+     */
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join|Array#join}.
+     * @memberof Grid#
+     * @method join
+     */
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/keys|Array#keys}.
+     * @memberof Grid#
+     * @method keys
+     */
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map|Array#map}.
+     * @memberof Grid#
+     * @method map
+     */
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop|Array#pop}.
+     * @memberof Grid#
+     * @method pop
+     */
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce|Array#reduce}.
+     * @memberof Grid#
+     * @method reduce
+     */
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduceRight|Array#reduceRight}.
+     * @memberof Grid#
+     * @method reduceRight
+     */
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse|Array#reverse}.
+     * @memberof Grid#
+     * @method reverse
+     */
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift|Array#shift}.
+     * @memberof Grid#
+     * @method shift
+     */
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some|Array#some}.
+     * @memberof Grid#
+     * @method some
+     */
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort|Array#sort}.
+     * @memberof Grid#
+     * @method sort
+     */
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toLocaleString|Array#toLocaleString}.
+     * @memberof Grid#
+     * @method toLocaleString
+     */
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toString|Array#toString}.
+     * @memberof Grid#
+     * @method toString
+     */
+
+    /**
+     * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/values|Array#values}.
+     * @memberof Grid#
+     * @method values
+     */
 }

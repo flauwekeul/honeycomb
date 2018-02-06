@@ -45,6 +45,28 @@ export function compassToNumberDirection(value, orientation) {
         throw new Error(`Direction ${value} is ambiguous for flat hexes. Did you mean N${value} or S${value}?`)
     }
 
+    /**
+     * There's an (approximate) compass direction for each side of a hex. The right side of a pointy hex has the east (`'E'`) compass direction.
+     * The bottom right side the southeast (`'SE'`) direction, etc. This also means that pointy hexes don't have a north and south compass direction
+     * and flat hexes don't have a west and east compass direction.
+     *
+     * Number directions map to a side of a hex. A pointy hex's right side is `0`, its bottom right side `1`, its bottom left side `2`, etc.
+     * Number directions of flat hexes start at their bottom right side (`0`), their bottom side is `1`, etc.
+     *
+     * @typedef {string} COMPASS_DIRECTION
+     *
+     * @readonly
+     * @enum {COMPASS_DIRECTION}
+     *
+     * @property {COMPASS_DIRECTION} E  → east
+     * @property {COMPASS_DIRECTION} SE ↘ southeast
+     * @property {COMPASS_DIRECTION} S  ↓ south
+     * @property {COMPASS_DIRECTION} SW ↙ southwest
+     * @property {COMPASS_DIRECTION} W  ← west
+     * @property {COMPASS_DIRECTION} NW ↖ northwest
+     * @property {COMPASS_DIRECTION} N  ↑ north
+     * @property {COMPASS_DIRECTION} NE ↗ northeast
+     */
     return {
         pointy: { E: 0, SE: 1, SW: 2, W: 3, NW: 4, NE: 5 },
         flat: { SE: 0, S: 1, SW: 2, NW: 3, N: 4, NE: 5 }
