@@ -1,8 +1,11 @@
-import extendHex from './hex'
+import { ensureXY } from './utils'
+import extendHexFactory from './hex'
 import defineGridFactory from './grid'
-import Point from './point'
+import PointFactory from './point'
 
+const extendHex = extendHexFactory({ ensureXY })
 const defineGrid = defineGridFactory({ extendHex })
+const Point = PointFactory({ ensureXY })
 
 /**
  * @namespace {Object} Honeycomb

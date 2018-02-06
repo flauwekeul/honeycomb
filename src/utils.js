@@ -1,3 +1,5 @@
+import { isNumber } from 'axis.js'
+
 /**
  * @private
  *
@@ -71,4 +73,16 @@ export function compassToNumberDirection(value, orientation) {
         pointy: { E: 0, SE: 1, SW: 2, W: 3, NW: 4, NE: 5 },
         flat: { SE: 0, S: 1, SW: 2, NW: 3, N: 4, NE: 5 }
     }[orientation][value]
+}
+
+export function ensureXY(x, y) {
+    if (!isNumber(x) && !isNumber(y)) {
+        x = y = 0
+    } else if (!isNumber(x)) {
+        x = y
+    } else if (!isNumber(y)) {
+        y = x
+    }
+
+    return { x, y }
 }

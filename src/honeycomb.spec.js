@@ -3,12 +3,10 @@
 import { expect } from 'chai'
 
 import * as API from './honeycomb'
-import extendHex from './hex'
-import Point from './point'
 
 describe('API', function() {
     it('has a extendHex function', function() {
-        expect(API).to.have.property('extendHex').that.eqls(extendHex)
+        expect(API).to.have.property('extendHex').that.is.a('function').with.property('name', 'extendHex')
     })
 
     it('has a defineGrid function', function() {
@@ -16,6 +14,6 @@ describe('API', function() {
     })
 
     it('exposes the Point factory', function() {
-        expect(API).to.have.property('Point').that.eqls(Point)
+        expect(API).to.have.property('Point').that.is.a('function').with.property('name', 'Point')
     })
 })

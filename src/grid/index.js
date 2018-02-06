@@ -1,10 +1,12 @@
 import { isArray } from 'axis.js'
 
-import { signedModulo, compassToNumberDirection } from '../utils'
-import Point from '../point'
+import { ensureXY, signedModulo, compassToNumberDirection } from '../utils'
+import PointFactory from '../point'
 import Grid from './class'
 import * as statics from './statics'
 import * as methods from './prototype'
+
+const Point = PointFactory({ ensureXY })
 
 export default function defineGridFactory({ extendHex }) {
     /**

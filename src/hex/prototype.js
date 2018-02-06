@@ -167,7 +167,7 @@ export function cornersFactory({ Point }) {
     /**
      * @memberof Hex#
      * @method
-     * @returns {Point[]}   Array of corner points. Starting at the top right corner for pointy hexes and the right corner for flat hexes.
+     * @returns {Honeycomb.Point[]} Array of corner points. Starting at the top right corner for pointy hexes and the right corner for flat hexes.
      *
      * @example
      * const Hex = Honeycomb.extendHex()
@@ -210,7 +210,7 @@ export function toPointFactory({ Point }) {
     /**
      * @memberof Hex#
      * @method
-     * @returns {Point} Vector from Hex(0), relative to the hex's origin.
+     * @returns {Honeycomb.Point} Vector from Hex(0), relative to the hex's origin.
      *
      * @example
      * // the default origin is 0, corresponding to the center of the hex

@@ -1,9 +1,20 @@
 /* eslint-env mocha */
 
 import { expect } from 'chai'
-import Point from './'
+import sinon from 'sinon'
+
+import { ensureXY } from '../utils'
+import PointFactory from './'
+
+const ensureXYSpy = sinon.spy(ensureXY)
+const Point = PointFactory({ ensureXY: ensureXYSpy })
 
 describe('Point creation', function() {
+    it('calls ensureXY', () => {
+        Point(1, 2)
+        expect(ensureXYSpy).to.have.been.calledWith(1, 2)
+    })
+
     describe('with 2 numbers', function() {
         it('sets the coordinates', function() {
             expect(Point(3, 2)).to.contain({ x: 3, y: 2 })
@@ -31,6 +42,12 @@ describe('Point creation', function() {
         })
     })
 
+    describe('with an empty empty', function() {
+        it('sets both coordinates to 0', function() {
+            expect(Point({})).to.contain({ x: 0, y: 0 })
+        })
+    })
+
     describe('with an array containing 2 numbers', function() {
         it('sets the coordinates', function() {
             expect(Point([ 3, 2 ])).to.contain({ x: 3, y: 2 })
@@ -43,8 +60,14 @@ describe('Point creation', function() {
         })
     })
 
+    describe('with an empty array', function() {
+        it('sets both coordinates to 0', function() {
+            expect(Point([])).to.contain({ x: 0, y: 0 })
+        })
+    })
+
     describe('without parameters', function() {
-        it('sets all coordinates to 0', function() {
+        it('sets both coordinates to 0', function() {
             expect(Point()).to.contain({ x: 0, y: 0 })
         })
     })

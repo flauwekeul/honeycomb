@@ -3,8 +3,12 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 
-import extendHex, { staticMethods } from '../../src/hex'
+import { ensureXY } from '../utils'
+import extendHexFactory, { staticMethods } from '../../src/hex'
 import { ORIENTATION, OFFSET } from './constants'
+
+const ensureXYSpy = sinon.spy(ensureXY)
+const extendHex = extendHexFactory({ ensureXY: ensureXYSpy })
 
 describe('extendHex', function() {
     let Hex
@@ -105,6 +109,11 @@ describe('Hex creation', function() {
 
     before(function() {
         Hex = extendHex()
+    })
+
+    it('calls ensureXY', () => {
+        Hex(1, 2)
+        expect(ensureXYSpy).to.have.been.calledWith(1, 2)
     })
 
     describe('with 2 numbers', function() {

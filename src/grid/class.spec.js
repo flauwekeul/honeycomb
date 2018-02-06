@@ -3,10 +3,11 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 
+import { ensureXY } from '../utils'
 import Grid from './class'
-import extendHex from '../hex'
+import extendHexFactory from '../hex'
 
-const Hex = extendHex()
+const Hex = extendHexFactory({ ensureXY })()
 
 describe('Grid class', () => {
     let instance

@@ -3,10 +3,12 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 
+import { ensureXY } from '../utils'
 import { EPSILON } from './constants'
-import extendHex from './'
+import extendHexFactory from './'
 import * as methods from './prototype'
 
+const extendHex = extendHexFactory({ ensureXY })
 const Hex = extendHex()
 
 describe('set', () => {

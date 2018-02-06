@@ -3,11 +3,12 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 
-import { signedModulo, compassToNumberDirection } from '../utils'
-import extendHex from '../hex'
+import { ensureXY, signedModulo, compassToNumberDirection } from '../utils'
+import extendHexFactory from '../hex'
 import defineGridFactory from './'
 import * as methods from './prototype'
 
+const extendHex = extendHexFactory({ ensureXY })
 const Hex = extendHex()
 const GridFactory = defineGridFactory({ extendHex })(Hex)
 
