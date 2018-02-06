@@ -6,8 +6,14 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 
 ## Installation
 
+### NPM
 ```bash
-npm i honeycomb-grid
+npm install --save honeycomb-grid
+```
+
+### Yarn
+```bash
+yarn add honeycomb-grid
 ```
 
 ## API
@@ -493,11 +499,14 @@ Returns **[Point](#point)** The difference between the passed point's coordinate
 ### Bugs
 
 1.  Honeycomb is [very slow](https://github.com/flauwekeul/honeycomb/issues/3) when used with canvas rendering (like pixi.js).
-2.  Docs: find a way to link modules together. Currently, methods of the factory functions doesn't seem to belong to their factory functions (in the context of jsdoc). This bug is nasty, tried lots of things already...
 
 ### Features
 
+10. Make `Honeycomb.defineGrid()` accept a Hex prototype directly?
+11. Add more aliases for methods (e.g. `coords`, `eqls`).
+11. Make more methods accept points (instead of hexes).
 12. Maybe make entities immutable?
+12. Make some Grid instance methods also Grid static methods and vice versa?
 13. Make some Hex instance methods also Hex static methods. The instance methods can be partially applied, e.g.:
 
     ```javascript
@@ -517,10 +526,12 @@ Returns **[Point](#point)** The difference between the passed point's coordinate
 5.  Use JSFiddle for better examples.
 7.  Shiny github.io pages 😎
 3.  Maybe add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well. Might be a problem that needs solvin' in the view (and not in Honeycomb).
-9.  Maybe `Honeycomb.Grid.createFactory` should accept a prototype (like `Honeycomb.Hex.createFactory` does) that requires a hex factory and enables creating a custom grid factory.
+9.  Maybe `Honeycomb.defineGrid` should accept a prototype (like `Honeycomb.extendHex` does) that requires a hex factory and enables creating a custom grid factory.
 4.  Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.
+11. Add type definition files? Potential tools: [dts-gen](https://github.com/Microsoft/dts-gen), [dtsmake](https://github.com/ConquestArrow/dtsmake).
 
 ### Refactorings
 
+1.  Only inject what's needed, instead of whole factories (see `Grid.colSize` for example).
+1.  Don't use `this` at all and just inject a context. Functional programming yo 🤓.
 1.  Don't transpile to ES5. Who needs IE anyway?
-3.  Update code (and tests) of `Point` to be more consice with other modules.
