@@ -1,12 +1,15 @@
 import { isNumber, isArray, isObject } from 'axis.js'
 
+/**
+ * See {@link Point}.
+ *
+ * @function Point
+ * @memberof Honeycomb
+ * @static
+ */
+
 export default function PointFactory({ ensureXY }) {
     /**
-     * @function Point
-     * @memberof Honeycomb
-     * @static
-     *
-     * @description
      * Factory function for creating two-dimensional points.
      *
      * @param {(number|number[]|point)} [pointOrX=] The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
