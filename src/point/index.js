@@ -1,55 +1,67 @@
 import { isNumber, isArray, isObject } from 'axis.js'
-import * as methods from './prototype'
 
 /**
+ * See {@link Point}.
+ *
  * @function Point
- *
- * @description
- * Factory function for creating 2-dimensional points. Accepts a **point-like** and returns a point instance. A point-like can be an object with an `x` and `y` property (e.g. `{ x: 0, y: 0 }`) or an array with 2 items (e.g. `[0, 0]`) that correspond to `x` and `y` respectively.
- *
- * @param {(number|number[]|Object)} [coordinatesOrX=0] The x coordinate or a point-like.
- * @param {number} [coordinatesOrX.x=0]                 The x coordinate.
- * @param {number} [coordinatesOrX.y=0]                 The y coordinate.
- * @param {number} [y=0]                                The y coordinate.
- *
- * @returns {Point}                                     A point object.
- *
- * @example
- * import { Point } from 'Honeycomb'
- *
- * Point()                  // { x: 0, y: 0 }
- * Point(1)                 // { x: 1, y: 1 }
- * Point(1, 2)              // { x: 1, y: 2 }
- *
- * Point([1, 2])            // { x: 1, y: 2 }
- * Point([1])               // { x: 1, y: 1 }
- *
- * Point({ x: 1, y: 2 })    // { x: 1, y: 2 }
- * Point({ x: 1 })          // { x: 1, y: 1 }
- * Point({ y: 2 })          // { x: 2, y: 2 }
+ * @memberof Honeycomb
+ * @static
  */
-export default function Point(coordinatesOrX, y) {
-    let coordinates
 
-    if (isNumber(coordinatesOrX)) {
-        coordinates = _setMissingCoordinate(coordinatesOrX, y)
-    } else if (isArray(coordinatesOrX)) {
-        coordinates = _setMissingCoordinate(...coordinatesOrX)
-    } else if (isObject(coordinatesOrX)) {
-        coordinates = _setMissingCoordinate(coordinatesOrX.x, coordinatesOrX.y)
-    } else {
-        coordinates = _setMissingCoordinate(0)
-    }
+export default function PointFactory({ ensureXY }) {
+    /**
+     * Factory function for creating two-dimensional points.
+     *
+     * @param {(number|number[]|point)} [pointOrX=] The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
+     * @param {number} [pointOrX.x=]                The x coordinate.
+     * @param {number} [pointOrX.y=]                The y coordinate.
+     * @param {number} [y=]                         The y coordinate.
+     *
+     * @returns {point}                             A point.
+     *
+     * @example
+     * const Point = Honeycomb.Point
+     *
+     * Point()                  // { x: 0, y: 0 }
+     * Point(1)                 // { x: 1, y: 1 }
+     * Point(1, 2)              // { x: 1, y: 2 }
+     *
+     * Point([])                // { x: 0, y: 0 }
+     * Point([1])               // { x: 1, y: 1 }
+     * Point([1, 2])            // { x: 1, y: 2 }
+     *
+     * Point({})                // { x: 0, y: 0 }
+     * Point({ x: 1 })          // { x: 1, y: 1 }
+     * Point({ y: 2 })          // { x: 2, y: 2 }
+     * Point({ x: 1, y: 2 })    // { x: 1, y: 2 }
+     */
+    return function Point(pointOrX, y) {
+        /**
+         * An object with just an `x` and a `y` property.
+         *
+         * Create your own:
+         * ```javascript
+         * const point = { x: 1, y: 2 }
+         * ```
+         *
+         * Or use the included {@link Point} factory:
+         * ```javascript
+         * const point = Honeycomb.Point(1, 2)
+         * ```
+         *
+         * @typedef {Object} point
+         * @property {number} x (horizontal) x coordinate
+         * @property {number} y (vertical) y coordinate
+         */
 
-    function _setMissingCoordinate(x, y) {
-        return {
-            x: isNumber(x) ? x : y,
-            y: isNumber(y) ? y : x
+        if (isNumber(pointOrX)) {
+            return ensureXY(pointOrX, y)
+        } else if (isArray(pointOrX)) {
+            return ensureXY(...pointOrX)
+        } else if (isObject(pointOrX)) {
+            return ensureXY(pointOrX.x, pointOrX.y)
+        } else {
+            return ensureXY(0)
         }
     }
-
-    return Object.assign(
-        Object.create(methods),
-        coordinates
-    )
 }

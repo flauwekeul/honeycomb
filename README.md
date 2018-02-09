@@ -6,8 +6,14 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 
 ## Installation
 
+### NPM
 ```bash
-npm i honeycomb-grid
+npm install --save honeycomb-grid
+```
+
+### Yarn
+```bash
+yarn add honeycomb-grid
 ```
 
 ## API
@@ -492,25 +498,38 @@ Returns **[Point](#point)** The difference between the passed point's coordinate
 
 ### Bugs
 
-1.  `Hex#corners` are relative to the hex's top left, they should be relative to the hex's center (right?).
-2.  Honeycomb is [very slow](https://github.com/flauwekeul/honeycomb/issues/3) when used with canvas rendering (like pixi.js).
-3.  Get `babel-polyfill` (or `babel-runtime`?) to work with `babel-preset-env`, preferably without including a bazillion unused polyfills in the dist...
-4.  Docs: find a way to link modules together. Currently, methods of the factory functions doesn't seem to belong to their factory functions (in the context of jsdoc). This bug is nasty, tried lots of things already...
+1.  Honeycomb is [very slow](https://github.com/flauwekeul/honeycomb/issues/3) when used with canvas rendering (like pixi.js).
 
 ### Features
 
-1.  While dogfooding I learned that it makes way more sense to have instance methods for functionality that's currently defined as static methods. Most of `Hex`'s statics should be instance methods 🙄
-2.  Expose `Hex` on `Honeycomb`, adding the possibility to create (individual) hexes and use `Hex`'s static methods without having to create a grid first?
-3.  Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well.
-4.  Make it possible to filter overlapping hexes when multiple shapes are rendered.
+11. Make more methods accept points (instead of hexes).
+12. Maybe make entities immutable?
+12. Make some Grid instance methods also Grid static methods and vice versa?
+13. Make some Hex instance methods also Hex static methods. The instance methods can be partially applied, e.g.:
+
+    ```javascript
+    // static method Hex.isPointy():
+    function isPointy(hex) {
+        return hex.isPointy()
+    }
+
+    // instance method Hex#isPointy():
+    function isPointy() {
+        return this.orientation.toUpperCase() === ORIENTATIONS.POINTY
+    }
+    ```
+8.  Add logger that "renders" a grid using `console.log`.
+10. Overwrite `Grid#sort` so it can sort by 1 or more dimensions, ascending/descending (and also accepts a custom comparator)?
+11. Add `Grid.union`, `Grid.subtract`, `Grid.intersect` and `Grid.difference` (or maybe as prototype methods?). [More info](https://www.sketchapp.com/docs/shapes/boolean-operations/).
 5.  Use JSFiddle for better examples.
-6.  Explain (hex) directions.
 7.  Shiny github.io pages 😎
-8.  View should be hex-orientation-agnostic (always pointy) and just use `transform` to toggle orientations.
-9.  Maybe add instance methods for `Grid` and `Views.DOM` to get/set options. Then it's optional to pass the options to the `Grid` and `Views.DOM` factories and makes it possible to get/set those options later.
-10. Add helper to easily fall back to a hex's prototype?
+3.  Maybe add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well. Might be a problem that needs solvin' in the view (and not in Honeycomb).
+9.  Maybe `Honeycomb.defineGrid` should accept a prototype too (as a second parameter).
+4.  Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.
+11. Add type definition files? Potential tools: [dts-gen](https://github.com/Microsoft/dts-gen), [dtsmake](https://github.com/ConquestArrow/dtsmake).
 
 ### Refactorings
 
+1.  Only inject what's needed, instead of whole factories (see `Grid.colSize` for example).
+1.  Don't use `this` at all and just inject a context. Functional programming yo 🤓.
 1.  Don't transpile to ES5. Who needs IE anyway?
-3.  Update code (and tests) of `Point` to be more consice with other modules.

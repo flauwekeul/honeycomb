@@ -5,12 +5,17 @@
     },
     "extends": "eslint:recommended",
     "parserOptions": {
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true
+        },
+        "ecmaVersion": 2017,
         "sourceType": "module"
     },
     "rules": {
         "quotes": [
             "error",
-            "single"
+            "single",
+            { "allowTemplateLiterals": true }
         ],
         "semi": [
             "error",

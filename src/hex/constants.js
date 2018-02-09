@@ -1,36 +1,59 @@
-export const DIRECTION_COORDINATES = [
-    { x: 1, y: -1, z: 0 },
-    { x: 1, y: 0, z: -1 },
-    { x: 0, y: 1, z: -1 },
-    { x: -1, y: 1, z: 0 },
-    { x: -1, y: 0, z: 1 },
-    { x: 0, y: -1, z: 1 }
-]
-
-export const DIAGONAL_DIRECTION_COORDINATES = [
-    { x: 2, y: -1, z: -1 },
-    { x: 1, y: 1, z: -2 },
-    { x: -1, y: 2, z: -1 },
-    { x: -2, y: 1, z: 1 },
-    { x: -1, y: -1, z: 2 },
-    { x: 1, y: -2, z: 1 }
-]
-
 /**
  * The different orientations hexes can have.
  *
- * @constant
- * @type {Object}
+ * @readonly
+ * @enum {string}
+ *
+ * @property {string} pointy    ⬢
+ * @property {string} flat      ⬣
  */
-export const ORIENTATIONS = {
-    /**
-     * @enum {string} POINTY ⬢
-     */
-    POINTY: 'POINTY',
-    /**
-     * @enum {string} FLAT ⬣.
-     */
-    FLAT: 'FLAT'
+export const ORIENTATION = {
+    pointy: 'pointy',
+    flat: 'flat'
 }
 
-export const EPSILON = { x: 1e-6, y: 1e-6, z: -2e-6 }
+/**
+ * How rows/columns of hexes are placed relative to each other.
+ *
+ * An even offset:
+ * * places **even rows** of **pointy hexes** half a hex right of the odd rows;
+ * * places **even columns** of **flat hexes** half a hex down of the odd rows;
+ *
+ * An odd offset:
+ * * places **odd rows** of **pointy hexes** half a hex right of the even rows;
+ * * places **odd columns** of **flat hexes** half a hex down of the even rows;
+ *
+ * @name OFFSET
+ *
+ * @see {@link https://www.redblobgames.com/grids/hexagons/#coordinates-offset|redblobgames.com}
+ *
+ * @readonly
+ * @enum {number}
+ *
+ * @property {number} even  +1
+ * @property {number} odd   -1
+ */
+export const OFFSET = {
+    even: 1,
+    odd: -1
+}
+
+export const DIRECTION_COORDINATES = [
+    { q: 1, r: 0 },
+    { q: 0, r: 1 },
+    { q: -1, r: 1 },
+    { q: -1, r: 0 },
+    { q: 0, r: -1 },
+    { q: 1, r: -1 }
+]
+
+export const DIAGONAL_DIRECTION_COORDINATES = [
+    { q: 2, r: -1 },
+    { q: 1, r: 1 },
+    { q: -1, r: 2 },
+    { q: -2, r: 1 },
+    { q: -1, r: -1 },
+    { q: 1, r: -2 }
+]
+
+export const EPSILON = { x: 1e-6, y: 1e-6 }

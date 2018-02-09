@@ -1,12 +1,17 @@
-import { ORIENTATIONS } from './hex/constants'
-import GridFactory from './grid'
-import HexFactory from './hex'
-import Point from './point'
+import { ensureXY } from './utils'
+import extendHexFactory from './hex'
+import defineGridFactory from './grid'
+import PointFactory from './point'
 
-const Grid = GridFactory({ HexFactory })
+const extendHex = extendHexFactory({ ensureXY })
+const defineGrid = defineGridFactory({ extendHex })
+const Point = PointFactory({ ensureXY })
 
+/**
+ * @namespace {Object} Honeycomb
+ */
 export {
-    ORIENTATIONS as HEX_ORIENTATIONS,
-    Grid,
+    extendHex,
+    defineGrid,
     Point
 }
