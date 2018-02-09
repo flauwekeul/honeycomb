@@ -31,8 +31,6 @@ describe('defineGrid', function() {
             'Hex',
             'isValidHex',
             'pointToHex',
-            'colSize',
-            'rowSize',
             'parallelogram',
             'triangle',
             'hexagon',

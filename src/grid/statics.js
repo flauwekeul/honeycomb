@@ -57,36 +57,6 @@ export function pointToHexFactory({ Point, Hex }) {
     }
 }
 
-export function colSizeFactory({ Hex }) {
-    /**
-     * @memberof Grid
-     * @static
-     * @method
-     * @see {@link https://www.redblobgames.com/grids/hexagons/#size-and-spacing|redblobgames.com}
-     *
-     * @returns {number}    The width of a column of hexes in the grid.
-     */
-    return function colSize() {
-        const hex = Hex()
-        return hex.isPointy() ? hex.width() : hex.width() * 3 / 4
-    }
-}
-
-export function rowSizeFactory({ Hex }) {
-    /**
-     * @memberof Grid
-     * @static
-     * @method
-     * @see {@link https://www.redblobgames.com/grids/hexagons/#size-and-spacing|redblobgames.com}
-     *
-     * @returns {number} The height of a row of hexes in the grid.
-     */
-    return function rowSize() {
-        const hex = Hex()
-        return hex.isPointy() ? hex.height() * 3 / 4 : hex.height()
-    }
-}
-
 export function parallelogramFactory({ Grid, Hex }) {
     /**
      * Creates a grid in the shape of a [parallelogram](https://en.wikipedia.org/wiki/Parallelogram) ▱.

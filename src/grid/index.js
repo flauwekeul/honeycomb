@@ -52,8 +52,6 @@ export default function defineGridFactory({ extendHex }) {
             // methods
             isValidHex: statics.isValidHexFactory({ Grid }),
             pointToHex: statics.pointToHexFactory({ Point, Hex }),
-            colSize: statics.colSizeFactory({ Hex }),
-            rowSize: statics.rowSizeFactory({ Hex }),
             parallelogram: statics.parallelogramFactory({ Grid, Hex }),
             triangle: statics.triangleFactory({ Grid, Hex }),
             hexagon: statics.hexagonFactory({ Grid, Hex }),
