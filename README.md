@@ -502,8 +502,6 @@ Returns **[Point](#point)** The difference between the passed point's coordinate
 
 ### Features
 
-10. Make `Honeycomb.defineGrid()` accept a Hex prototype directly?
-11. Add more aliases for methods (e.g. `coords`, `eqls`).
 11. Make more methods accept points (instead of hexes).
 12. Maybe make entities immutable?
 12. Make some Grid instance methods also Grid static methods and vice versa?
@@ -526,7 +524,7 @@ Returns **[Point](#point)** The difference between the passed point's coordinate
 5.  Use JSFiddle for better examples.
 7.  Shiny github.io pages 😎
 3.  Maybe add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well. Might be a problem that needs solvin' in the view (and not in Honeycomb).
-9.  Maybe `Honeycomb.defineGrid` should accept a prototype (like `Honeycomb.extendHex` does) that requires a hex factory and enables creating a custom grid factory.
+9.  Maybe `Honeycomb.defineGrid` should accept a prototype too (as a second parameter).
 4.  Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.
 11. Add type definition files? Potential tools: [dts-gen](https://github.com/Microsoft/dts-gen), [dtsmake](https://github.com/ConquestArrow/dtsmake).
 

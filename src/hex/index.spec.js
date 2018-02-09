@@ -59,6 +59,8 @@ describe('extendHex', function() {
             'round',
             'set',
             'subtract',
+            'toCartesian',
+            'toCube',
             'toPoint',
             'toString',
             'width'

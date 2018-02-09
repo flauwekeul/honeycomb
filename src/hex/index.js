@@ -152,6 +152,18 @@ export default function extendHexFactory({ ensureXY }) {
             round: methods.roundFactory({ Hex }),
             set: methods.setFactory({ Hex }),
             subtract: methods.subtractFactory({ Hex }),
+            /**
+             * Alias for {@link Hex#cubeToCartesian}.
+             * @memberof Hex#
+             * @method
+             */
+            toCartesian: methods.cubeToCartesian,
+            /**
+             * Alias for {@link Hex#cartesianToCube}.
+             * @memberof Hex#
+             * @method
+             */
+            toCube: methods.cartesianToCube,
             toPoint: methods.toPointFactory({ Point }),
             toString: methods.toString,
             width: methods.width
