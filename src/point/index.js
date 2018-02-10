@@ -1,4 +1,5 @@
 import { isNumber, isArray, isObject } from 'axis.js'
+import * as methods from './prototype'
 
 /**
  * See {@link Point}.
@@ -9,8 +10,17 @@ import { isNumber, isArray, isObject } from 'axis.js'
  */
 
 export default function PointFactory({ ensureXY }) {
+    const prototype = {
+        add: methods.addFactory({ Point }),
+        subtract: methods.subtractFactory({ Point }),
+        multiply: methods.multiplyFactory({ Point }),
+        divide: methods.divideFactory({ Point })
+    }
+
     /**
      * Factory function for creating two-dimensional points.
+     *
+     * @function Point
      *
      * @param {(number|number[]|point)} [pointOrX=] The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
      * @param {number} [pointOrX.x=]                The x coordinate.
@@ -35,7 +45,8 @@ export default function PointFactory({ ensureXY }) {
      * Point({ y: 2 })          // { x: 2, y: 2 }
      * Point({ x: 1, y: 2 })    // { x: 1, y: 2 }
      */
-    return function Point(pointOrX, y) {
+    function Point(pointOrX, y) {
+        let coordinates
         /**
          * An object with just an `x` and a `y` property.
          *
@@ -55,13 +66,20 @@ export default function PointFactory({ ensureXY }) {
          */
 
         if (isNumber(pointOrX)) {
-            return ensureXY(pointOrX, y)
+            coordinates = ensureXY(pointOrX, y)
         } else if (isArray(pointOrX)) {
-            return ensureXY(...pointOrX)
+            coordinates = ensureXY(...pointOrX)
         } else if (isObject(pointOrX)) {
-            return ensureXY(pointOrX.x, pointOrX.y)
+            coordinates = ensureXY(pointOrX.x, pointOrX.y)
         } else {
-            return ensureXY(0)
+            coordinates = ensureXY(0)
         }
+
+        return Object.assign(
+            Object.create(prototype),
+            coordinates
+        )
     }
+
+    return Point
 }
