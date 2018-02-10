@@ -58,8 +58,8 @@ describe('pointToHex', function() {
 
         it('creates a new hex', function() {
             pointToHex(point)
-            expect(Hex.secondCall.args[0]).to.be.closeTo(0.2440, 0.0005)
-            expect(Hex.secondCall.args[1]).to.be.closeTo(0.6667, 0.0005)
+            expect(Hex.secondCall.args[0].q).to.be.closeTo(0.2440, 0.0005)
+            expect(Hex.secondCall.args[0].r).to.be.closeTo(0.6667, 0.0005)
         })
     })
 
@@ -70,8 +70,8 @@ describe('pointToHex', function() {
 
         it('creates a new hex', function() {
             pointToHex(point)
-            expect(Hex.secondCall.args[0]).to.be.closeTo(0.6667, 0.0005)
-            expect(Hex.secondCall.args[1]).to.be.closeTo(0.2440, 0.0005)
+            expect(Hex.secondCall.args[0].q).to.be.closeTo(0.6667, 0.0005)
+            expect(Hex.secondCall.args[0].r).to.be.closeTo(0.2440, 0.0005)
         })
     })
 

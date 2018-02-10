@@ -31,29 +31,29 @@ export function pointToHexFactory({ Point, Hex }) {
      * const Hex = Honeycomb.extendHex({ size: 50 })
      * const Grid = Honeycomb.defineGrid(Hex)
      *
-     * grid.pointToHex({ x: 120, y: 300 })  // { x: -1, y: 4 }
-     * grid.pointToHex([ 120, 300 ])        // { x: -1, y: 4 }
+     * Grid.pointToHex({ x: 120, y: 280 })  // { x: 1, y: 4 }
+     * Grid.pointToHex([ 120, 280 ])        // { x: 1, y: 4 }
      *
      * const Point = Honeycomb.Point
-     * grid.pointToHex(Point(120, 300))     // { x: -1, y: 4 }
+     * Grid.pointToHex(Point(120, 280))     // { x: 1, y: 4 }
      */
     return function pointToHex(point) {
         const hex = Hex()
         const size = hex.size
-        let x, y
+        let q, r
 
         // guarantee point is an actual Point instance
-        point = Point(point)
+        const { x, y } = Point(point)
 
         if (hex.isPointy()) {
-            x = (point.x * Math.sqrt(3) / 3 - point.y / 3) / size
-            y = point.y * 2 / 3 / size
+            q = (x * Math.sqrt(3) / 3 - y / 3) / size
+            r = y * 2 / 3 / size
         } else {
-            x = point.x * 2 / 3 / size
-            y = (-point.x / 3 + Math.sqrt(3) / 3 * point.y) / size
+            q = x * 2 / 3 / size
+            r = (-x / 3 + Math.sqrt(3) / 3 * y) / size
         }
 
-        return Hex(x, y).round()
+        return Hex({q, r, s: -q - r }).round()
     }
 }
 
