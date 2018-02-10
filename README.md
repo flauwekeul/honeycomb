@@ -1,20 +1,63 @@
-# Honeycomb [![npm version](https://badge.fury.io/js/honeycomb-grid.svg)](https://badge.fury.io/js/honeycomb-grid)
+# Honeycomb
 
-Another hex grid library made in JavaScript, heavily inspired by [Red Blob Games'](http://www.redblobgames.com/grids/hexagons/) code samples.
+[![Gitter](https://img.shields.io/gitter/room/flauwekeul/honeycomb.svg)](https://gitter.im/honeycomb-grid)
+[![NPM version](https://badge.fury.io/js/honeycomb-grid.svg)](https://www.npmjs.com/package/honeycomb-grid)
+[![dependencies](https://david-dm.org/flauwekeul/honeycomb.svg)](https://david-dm.org/flauwekeul/honeycomb)
+[![devDependencies](https://david-dm.org/flauwekeul/honeycomb/dev-status.svg)](https://david-dm.org/flauwekeul/honeycomb?type=dev)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/flauwekeul/honeycomb/blob/master/LICENSE)
+
+Another hex grid library made in JavaScript, heavily inspired by [Red Blob Games'](http://www.redblobgames.com/grids/hexagons/) blog posts and code samples.
 
 All existing JS hex grid libraries I could find are coupled with some form of view. Most often a `<canvas>` element or the browser DOM. I want more separation of concerns...and a new hobby project to spend countless hours on.
+
+### Features
+
+-   🙌 Works in (modern) browsers and in Node.js.
+-   📐 Create hex grids in different shapes: ▭ rectangles, △ triangles, ⬡ hexagons and ▱ parallelograms.
+-   🌐 2 coordinate systems: cartesian (`x` and `y`) and cube (`q`, `r` and `s`).
+-   ✨ Create your own hexes by extending the built-in Hex.
+-   🗺 Convert points to hexes and vice versa.
+-   ⬢ Pointy and ⬣ flat hexes.
 
 ## Installation
 
 ### NPM
+
 ```bash
-npm install --save honeycomb-grid
+npm i --save honeycomb-grid
 ```
 
 ### Yarn
+
 ```bash
 yarn add honeycomb-grid
 ```
+
+## Getting started
+
+### Browser
+
+```html
+<script src="honeycomb.js"></script>
+
+<script>
+    const Grid = Honeycomb.defineGrid(Hex)
+    Grid.rectangle({ width: 4, height: 4 })
+</script>
+```
+
+### Node.js
+
+```javascript
+const Honeycomb = require('honeycomb-grid')
+
+const Grid = Honeycomb.defineGrid(Hex)
+Grid.rectangle({ width: 4, height: 4 })
+```
+
+## Examples
+
+Coming soon.
 
 ## API
 
