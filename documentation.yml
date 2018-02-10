@@ -1,16 +1,20 @@
 toc:
   - Honeycomb
   - name: Factories
-  - Grid
-  - Hex
-  - Point
+    children:
+      - Grid
+      - Hex
+      - Point
   - name: Instances
-  - grid
-  - hex
-  - point
+    children:
+      - grid
+      - hex
+      - point
   - name: Constants
-  - OFFSET
-  - ORIENTATION
-  - COMPASS_DIRECTION
+    children:
+      - OFFSET
+      - ORIENTATION
+      - COMPASS_DIRECTION
   - name: Other
-  - onCreate
+    children:
+      - onCreate
