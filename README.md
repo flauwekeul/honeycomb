@@ -143,6 +143,10 @@ Coming soon.
         -   [toString](#tostring-1)
         -   [thirdCoordinate](#thirdcoordinate)
     -   [Point](#point-1)
+        -   [add](#add-1)
+        -   [subtract](#subtract-1)
+        -   [multiply](#multiply)
+        -   [divide](#divide)
 -   [Instances](#instances)
     -   [grid](#grid-1)
     -   [hex](#hex-2)
@@ -677,7 +681,7 @@ Creates a grid in the shape of a [parallelogram](https://en.wikipedia.org/wiki/P
 -   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object.
     -   `options.width` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The width (in hexes).
     -   `options.height` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The height (in hexes).
-    -   `options.start` **[Hex](#hex)** The start hex. (optional, default `Hex(0)`)
+    -   `options.start` **[hex](#hex)** The start hex. (optional, default `Hex(0)`)
     -   `options.direction` **(`1` \| `3` \| `5`)** The direction (from the start hex) in which to create the shape.
                                                      Each direction corresponds to a different arrangement of hexes. (optional, default `1`)
     -   `options.onCreate` **[onCreate](#oncreate)** Callback that's called for each hex. Defaults to a [no-op](https://en.wikipedia.org/wiki/NOP). (optional, default `no-op`)
@@ -694,7 +698,7 @@ Creates a grid in the shape of a [(equilateral) triangle](https://en.wikipedia.o
 
 -   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object.
     -   `options.size` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The side length (in hexes).
-    -   `options.start` **[Hex](#hex)** The start hex. **Note**: it's not the first hex, but rather a hex relative to the triangle. (optional, default `Hex(0)`)
+    -   `options.start` **[hex](#hex)** The start hex. **Note**: it's not the first hex, but rather a hex relative to the triangle. (optional, default `Hex(0)`)
     -   `options.direction` **(`1` \| `5`)** The direction in which to create the shape. Each direction corresponds to a different arrangement of hexes. In this case a triangle pointing up (`direction: 1`) or down (`direction: 5`) (with pointy hexes) or right (`direction: 1`) or left (`direction: 5`) (with flat hexes).
                                                      Each direction corresponds to a different arrangement of hexes. (optional, default `1`)
     -   `options.onCreate` **[onCreate](#oncreate)** Callback that's called for each hex. Defaults to a [no-op](https://en.wikipedia.org/wiki/NOP). (optional, default `no-op`)
@@ -711,7 +715,7 @@ Creates a grid in the shape of a [hexagon](https://en.wikipedia.org/wiki/Hexagon
 
 -   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object.
     -   `options.radius` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The radius (in hexes) _excluding_ the center hex.
-    -   `options.center` **[Hex](#hex)** The center hex.
+    -   `options.center` **[hex](#hex)** The center hex.
                                                      Each direction corresponds to a different arrangement of hexes. (optional, default `Hex(0)`)
     -   `options.onCreate` **[onCreate](#oncreate)** Callback that's called for each hex. Defaults to a [no-op](https://en.wikipedia.org/wiki/NOP). (optional, default `no-op`)
 
@@ -728,7 +732,7 @@ Creates a grid in the shape of a [rectangle](https://en.wikipedia.org/wiki/Recta
 -   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object.
     -   `options.width` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The width (in hexes).
     -   `options.height` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The height (in hexes).
-    -   `options.start` **[Hex](#hex)** The start hex. (optional, default `Hex(0)`)
+    -   `options.start` **[hex](#hex)** The start hex. (optional, default `Hex(0)`)
     -   `options.direction` **([COMPASS_DIRECTION](#compass_direction) \| [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number))** The direction (from the start hex) in which to create the shape.
         Defaults to `0` (`E`) for pointy hexes and `1` (`S`) for flat hexes.
         Each direction corresponds to a different arrangement of hexes. (optional, default `E|S`)
@@ -1114,6 +1118,38 @@ Point({ x: 1, y: 2 })    // { x: 1, y: 2 }
 ```
 
 Returns **[point](#point)** A point.
+
+##### add
+
+**Parameters**
+
+-   `point` **[point](#point)** The point to add to the current point.
+
+Returns **[point](#point)** The sum of the passed point's coordinates to the current point's.
+
+##### subtract
+
+**Parameters**
+
+-   `point` **[point](#point)** The point to subtract from the current point.
+
+Returns **[point](#point)** The difference between the passed point's coordinates and the current point's.
+
+##### multiply
+
+**Parameters**
+
+-   `point` **[point](#point)** The point to multiply with the current point.
+
+Returns **[point](#point)** The multiplication of the passed point's coordinates and the current point's.
+
+##### divide
+
+**Parameters**
+
+-   `point` **[point](#point)** The point where the current point is divided by.
+
+Returns **[point](#point)** The division of the current point's coordinates and the passed point's.
 
 ### Instances
 
