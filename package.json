@@ -9,7 +9,7 @@
     "coverage": "NODE_ENV=test nyc --reporter html --exclude \"**/*.spec.js\" npm test",
     "dev": "npm run build -- --watch",
     "docs": "documentation readme ./src --config documentation.yml --section API",
-    "docs:serve": "documentation serve ./src --config documentation.yml --watch",
+    "docs:serve": "documentation serve ./src --config documentation.serve.yml --watch",
     "lint": "eslint src --fix",
     "precommit": "npm run lint",
     "prerelease": "npm run lint; npm test; npm run docs; NODE_ENV=production npm run build",
