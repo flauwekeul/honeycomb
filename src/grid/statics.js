@@ -72,7 +72,7 @@ export function parallelogramFactory({ Grid, Hex }) {
      * @param {Object} options                      An options object.
      * @param {number} options.width                The width (in hexes).
      * @param {number} options.height               The height (in hexes).
-     * @param {Hex} [options.start=Hex(0)]          The start hex.
+     * @param {hex} [options.start=Hex(0)]          The start hex.
      * @param {(1|3|5)} [options.direction=1]       The direction (from the start hex) in which to create the shape.
      *                                              Each direction corresponds to a different arrangement of hexes.
      * @param {onCreate} [options.onCreate=no-op]   Callback that's called for each hex. Defaults to a {@link https://en.wikipedia.org/wiki/NOP|no-op}.
@@ -135,7 +135,7 @@ export function triangleFactory({ Grid, Hex }) {
      *
      * @param {Object} options                      An options object.
      * @param {number} options.size                 The side length (in hexes).
-     * @param {Hex} [options.start=Hex(0)]          The start hex. **Note**: it's not the first hex, but rather a hex relative to the triangle.
+     * @param {hex} [options.start=Hex(0)]          The start hex. **Note**: it's not the first hex, but rather a hex relative to the triangle.
      * @param {(1|5)} [options.direction=1]         The direction in which to create the shape. Each direction corresponds to a different arrangement of hexes. In this case a triangle pointing up (`direction: 1`) or down (`direction: 5`) (with pointy hexes) or right (`direction: 1`) or left (`direction: 5`) (with flat hexes).
      *                                              Each direction corresponds to a different arrangement of hexes.
      * @param {onCreate} [options.onCreate=no-op]   Callback that's called for each hex. Defaults to a {@link https://en.wikipedia.org/wiki/NOP|no-op}.
@@ -193,7 +193,7 @@ export function hexagonFactory({ Grid, Hex }) {
      *
      * @param {Object} options                      An options object.
      * @param {number} options.radius               The radius (in hexes) *excluding* the center hex.
-     * @param {Hex} [options.center=Hex(0)]         The center hex.
+     * @param {hex} [options.center=Hex(0)]         The center hex.
      *                                              Each direction corresponds to a different arrangement of hexes.
      * @param {onCreate} [options.onCreate=no-op]   Callback that's called for each hex. Defaults to a {@link https://en.wikipedia.org/wiki/NOP|no-op}.
      *
@@ -242,7 +242,7 @@ export function rectangleFactory({ Grid, Hex, compassToNumberDirection, signedMo
      * @param {Object} options                          An options object.
      * @param {number} options.width                    The width (in hexes).
      * @param {number} options.height                   The height (in hexes).
-     * @param {Hex} [options.start=Hex(0)]              The start hex.
+     * @param {hex} [options.start=Hex(0)]              The start hex.
      * @param {(COMPASS_DIRECTION|number)} [options.direction=E|S]
      * The direction (from the start hex) in which to create the shape.
      * Defaults to `0` (`E`) for pointy hexes and `1` (`S`) for flat hexes.
