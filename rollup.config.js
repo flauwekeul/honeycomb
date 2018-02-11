@@ -8,7 +8,8 @@ import uglify from 'rollup-plugin-uglify'
 const config = {
     input: 'src/honeycomb.js',
     output: {
-        name: 'Honeycomb'
+        name: 'Honeycomb',
+        format: 'umd'
     },
     plugins: [
         babel({
@@ -26,14 +27,12 @@ const config = {
 
 if (process.env.NODE_ENV === 'production') {
     Object.assign(config.output, {
-        file: 'dist/honeycomb.min.js',
-        format: 'umd'
+        file: 'dist/honeycomb.min.js'
     })
     config.plugins.push(uglify())
 } else {
     Object.assign(config.output, {
         file: 'dist/honeycomb.js',
-        format: 'iife',
         sourcemap: true
     })
 }
