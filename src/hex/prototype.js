@@ -1,6 +1,8 @@
 import { ORIENTATION, EPSILON } from './constants'
 import { offsetFromZero } from '../utils'
 
+const sqrt3 = Math.sqrt(3)
+
 export function setFactory({ Hex }) {
     /**
      * @memberof Hex#
@@ -140,7 +142,7 @@ export function oppositeCornerDistance() {
  * @returns {number}    The distance between opposite sides of a hex.
  */
 export function oppositeSideDistance() {
-    return Math.sqrt(3) / 2 * this.oppositeCornerDistance()
+    return sqrt3 / 2 * this.oppositeCornerDistance()
 }
 
 /**
@@ -167,11 +169,14 @@ export function cornersFactory({ Point }) {
     /**
      * @memberof Hex#
      * @method
-     * @returns {Honeycomb.Point[]} Array of corner points. Starting at the top right corner for pointy hexes and the right corner for flat hexes.
+     * @returns {point[]}
+     * Array of corner points relative to the {@link Hex#origin|hex's origin}.
+     * Starting at the top right corner for pointy hexes and the right corner for flat hexes.
      *
      * @example
-     * const Hex = Honeycomb.extendHex()
-     * Hex.corners()    // [
+     * // a hex's origin defaults to its top left corner (as if it's a rectangle)
+     * const Hex1 = Honeycomb.extendHex({ size: 30 })
+     * Hex1().corners() // [
      *                  //    { x: 51.96152422706631, y: 15 },
      *                  //    { x: 51.96152422706631, y: 45 },
      *                  //    { x: 25.980762113533157, y: 60 },
@@ -179,28 +184,40 @@ export function cornersFactory({ Point }) {
      *                  //    { x: 0, y: 15 },
      *                  //    { x: 25.980762113533157, y: 0 }
      *                  // ]
+     *
+     * // set the origin to a hex's center
+     * const Hex2 = Honeycomb.extendHex({ size: 30, origin: [25.980762113533157, 30] })
+     * Hex2().corners() // [
+     *                  //    { x: 25.980762113533157, y: -15 },
+     *                  //    { x: 25.980762113533157, y: 15 },
+     *                  //    { x: 0, y: 30 },
+     *                  //    { x: -25.980762113533157, y: 15 },
+     *                  //    { x: -25.980762113533157, y: -15 },
+     *                  //    { x: 0, y: -30 }
+     *                  // ]
      */
     return function corners() {
         const width = this.width()
         const height = this.height()
+        const { x, y } = this.origin
 
         if (this.isPointy()) {
             return [
-                Point(width, height * 0.25),
-                Point(width, height * 0.75),
-                Point(width * 0.5, height),
-                Point(0, height * 0.75),
-                Point(0, height * 0.25),
-                Point(width * 0.5, 0)
+                Point(width - x, height * 0.25 - y),
+                Point(width - x, height * 0.75 - y),
+                Point(width * 0.5 - x, height - y),
+                Point(0 - x, height * 0.75 - y),
+                Point(0 - x, height * 0.25 - y),
+                Point(width * 0.5 - x, 0 - y)
             ]
         } else {
             return [
-                Point(width, height * 0.5),
-                Point(width * 0.75, height),
-                Point(width * 0.25, height),
-                Point(0, height * 0.5),
-                Point(width * 0.25, 0),
-                Point(width * 0.75, 0)
+                Point(width - x, height * 0.5 - y),
+                Point(width * 0.75 - x, height - y),
+                Point(width * 0.25 - x, height - y),
+                Point(0 - x, height * 0.5 - y),
+                Point(width * 0.25 - x, 0 - y),
+                Point(width * 0.75 - x, 0 - y)
             ]
         }
     }

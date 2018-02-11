@@ -209,12 +209,13 @@ describe('corners', function() {
     let width, height, isPointy, Point, corners, context
 
     beforeEach(function() {
-        width = sinon.stub().returns(1)
-        height = sinon.stub().returns(1)
+        width = sinon.stub().returns(2)
+        height = sinon.stub().returns(2)
         isPointy = sinon.stub()
-        Point = sinon.stub().callsFake((...coordinates) => coordinates)
+        Point = sinon.stub().callsFake((x, y) => ({ x, y }))
         corners = methods.cornersFactory({ Point })
         context = {
+            origin: {},
             width,
             height,
             isPointy
@@ -233,15 +234,17 @@ describe('corners', function() {
             isPointy.returns(true)
         })
 
-        it('returns an array of 6 corners', function() {
-            expect(corners.call(context)).to.eql([
-                [ 1, 0.25 ],
-                [ 1, 0.75 ],
-                [ 0.5, 1 ],
-                [ 0, 0.75 ],
-                [ 0, 0.25 ],
-                [ 0.5, 0 ]
-            ])
+        it('returns an array of 6 corners relative to origin', function() {
+            context.origin = { x: 1, y: 1 }
+            const result = corners.call(context)
+
+            expect(result).to.have.lengthOf(6)
+            expect(Point.getCall(0).args).to.eql([1, -0.5])
+            expect(Point.getCall(1).args).to.eql([1, 0.5])
+            expect(Point.getCall(2).args).to.eql([0, 1])
+            expect(Point.getCall(3).args).to.eql([-1, 0.5])
+            expect(Point.getCall(4).args).to.eql([-1, -0.5])
+            expect(Point.getCall(5).args).to.eql([0, -1])
         })
     })
 
@@ -250,15 +253,17 @@ describe('corners', function() {
             isPointy.returns(false)
         })
 
-        it('returns an array of 6 corners', function() {
-            expect(corners.call(context)).to.eql([
-                [ 1, 0.5 ],
-                [ 0.75, 1 ],
-                [ 0.25, 1 ],
-                [ 0, 0.5 ],
-                [ 0.25, 0 ],
-                [ 0.75, 0 ],
-            ])
+        it('returns an array of 6 corners relative to origin', function() {
+            context.origin = { x: 1, y: 1 }
+            const result = corners.call(context)
+
+            expect(result).to.have.lengthOf(6)
+            expect(Point.getCall(0).args).to.eql([1, 0])
+            expect(Point.getCall(1).args).to.eql([0.5, 1])
+            expect(Point.getCall(2).args).to.eql([-0.5, 1])
+            expect(Point.getCall(3).args).to.eql([-1, 0])
+            expect(Point.getCall(4).args).to.eql([-0.5, -1])
+            expect(Point.getCall(5).args).to.eql([0.5, -1])
         })
     })
 })
