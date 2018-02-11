@@ -76,9 +76,9 @@ export default function extendHexFactory({ ensureXY }) {
              */
             orientation: ORIENTATION.pointy,
             /**
-             * Distance from a hex's center. Defaults to `Point(0)`.
+             * Distance from a hex's top left corner (as if it were a rectange). Defaults to `Point(0)`.
              * Can be anything the {@link Honeycomb.Point} factory accepts.
-             * Used to {@link Hex#toPoint|convert a hex to a point}.
+             * When a {@link Hex#toPoint|hex is converted to a point}, it is converted to this origin.
              *
              * @memberof Hex#
              * @type {point}

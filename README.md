@@ -18,6 +18,7 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 -   ✨ Create your own hexes by extending the built-in Hex.
 -   🗺 Convert points to hexes and vice versa.
 -   ⬢ Pointy and ⬣ flat hexes.
+-   🖥 Let's you decide how hexes are rendered.
 
 ## Installation
 
@@ -41,7 +42,7 @@ yarn add honeycomb-grid
 <script src="honeycomb.js"></script>
 
 <script>
-    const Grid = Honeycomb.defineGrid(Hex)
+    const Grid = Honeycomb.defineGrid()
     Grid.rectangle({ width: 4, height: 4 })
 </script>
 ```
@@ -51,13 +52,75 @@ yarn add honeycomb-grid
 ```javascript
 const Honeycomb = require('honeycomb-grid')
 
-const Grid = Honeycomb.defineGrid(Hex)
+const Grid = Honeycomb.defineGrid()
 Grid.rectangle({ width: 4, height: 4 })
 ```
 
 ## Examples
 
-Coming soon.
+### Rendering
+
+Honeycomb comes without the ability to render hexes to screen. Fortunately, it isn't very hard. Especially if you use a dedicated rendering library.
+
+#### With [PixiJS](http://www.pixijs.com/)
+
+```javascript
+const app = new PIXI.Application({ transparent: true })
+const graphics = new PIXI.Graphics()
+
+const Hex = Honeycomb.extendHex({ size: 5 })
+const Grid = Honeycomb.defineGrid(Hex)
+
+document.body.appendChild(app.view)
+// set a line style of 1px wide and color #999
+graphics.lineStyle(1, 0x999999)
+
+// render 10,000 hexes
+Grid.rectangle({ width: 100, height: 100 }).forEach(hex => {
+    const point = hex.toPoint()
+    // add the hex's position to each of its corner points
+    const corners = hex.corners().map(corner => corner.add(point))
+    // separate the first from the other corners
+    const [firstCorner, ...otherCorners] = corners
+
+    // move the "pencil" to the first corner
+    graphics.moveTo(firstCorner.x, firstCorner.y)
+    // draw lines to the other corners
+    otherCorners.forEach(({ x, y }) => graphics.lineTo(x, y))
+    // finish at the first corner
+    graphics.lineTo(firstCorner.x, firstCorner.y)
+
+    app.stage.addChild(graphics)
+})
+```
+
+[Edit in JSFiddle](https://jsfiddle.net/Flauwekeul/qmfgey44/).
+
+#### With [SVG.js](http://svgjs.com/)
+
+```javascript
+const draw = SVG(document.body)
+
+const Hex = Honeycomb.extendHex({ size: 5 })
+const Grid = Honeycomb.defineGrid(Hex)
+// get the corners of a hex (they're the same for all hexes created with the same Hex factory)
+const corners = Hex().corners()
+// an SVG symbol can be reused
+const hexSymbol = draw.symbol()
+    // map the corners' positions to a string and create a polygon
+    .polygon(corners.map(({ x, y }) => `${x},${y}`))
+    .fill('none')
+    .stroke({ width: 1, color: '#999' })
+
+// render 10,000 hexes
+Grid.rectangle({ width: 100, height: 100 }).forEach(hex => {
+    const { x, y } = hex.toPoint()
+    // use hexSymbol and set its position for each hex
+    draw.use(hexSymbol).translate(x, y)
+})
+```
+
+[Edit in JSFiddle](https://jsfiddle.net/Flauwekeul/u4wgda8t/).
 
 ## API
 
@@ -1278,29 +1341,16 @@ Returns **void** Nothing.
 
 ## Backlog
 
-### Bugs
+### 🐛 Bugs
 
-1.  Honeycomb is [very slow](https://github.com/flauwekeul/honeycomb/issues/3) when used with canvas rendering (like pixi.js).
+### 🚀 Features
 
-### Features
-
+8.  Add method to get a hex's center point relative to its origin.
+9.  Hex methods that do nothing with a hex's coordinates should be static (e.g. `cubeToCartesian`, `isPointy`, `width`)?
+10. Make methods that accept points, also accept `x` and `y` as separate parameters.
 11. Make more methods accept points (instead of hexes).
 12. Maybe make entities immutable?
 13. Make some Grid instance methods also Grid static methods and vice versa?
-14. Make some Hex instance methods also Hex static methods. The instance methods can be partially applied, e.g.:
-
-    ```javascript
-    // static method Hex.isPointy():
-    function isPointy(hex) {
-        return hex.isPointy()
-    }
-
-    // instance method Hex#isPointy():
-    function isPointy() {
-        return this.orientation.toUpperCase() === ORIENTATIONS.POINTY
-    }
-    ```
-
 15. Add logger that "renders" a grid using `console.log`.
 16. Overwrite `Grid#sort` so it can sort by 1 or more dimensions, ascending/descending (and also accepts a custom comparator)?
 17. Add `Grid.union`, `Grid.subtract`, `Grid.intersect` and `Grid.difference` (or maybe as prototype methods?). [More info](https://www.sketchapp.com/docs/shapes/boolean-operations/).
@@ -1311,7 +1361,7 @@ Returns **void** Nothing.
 22. Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.
 23. Add type definition files? Potential tools: [dts-gen](https://github.com/Microsoft/dts-gen), [dtsmake](https://github.com/ConquestArrow/dtsmake).
 
-### Refactorings
+### 🛠 Refactorings
 
 1.  Only inject what's needed, instead of whole factories (see `Grid.colSize` for example).
 2.  Don't use `this` at all and just inject a context. Functional programming yo 🤓.
