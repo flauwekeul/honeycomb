@@ -227,33 +227,26 @@ export function toPointFactory({ Point }) {
     /**
      * @memberof Hex#
      * @method
-     * @returns {Honeycomb.Point} Vector from Hex(0), relative to the hex's origin.
+     * @returns {point} The hex's origin point.
      *
      * @example
-     * // the default origin is 0, corresponding to the center of the hex
-     * const Hex1 = Honeycomb.extendHex({ size: 30 })
-     * Hex1().toPoint()          // {x: 0, y: 0}
-     * Hex1(-2, -5).toPoint()    // {x: -77.94228634059947, y: -225}
-     *
-     * // set the origin to the upper left of the hex
-     * const Hex2 = Honeycomb.extendHex({ size: 30, origin: [-30, -30] })
-     * Hex2().toPoint()          // {x: 30, y: 30}
-     * Hex2(-2, -5).toPoint()    // {x: -47.94228634059947, y: -195}
+     * const Hex = Honeycomb.extendHex({ size: 30 })
+     * Hex().toPoint()          // { x: 0, y: 0 }
+     * Hex(-2, -5).toPoint()    // { x: -77.94228634059947, y: -225 }
      */
     return function toPoint() {
         const { q, r, size } = this
         let x, y
 
         if (this.isPointy()) {
-            x = size * Math.sqrt(3) * (q + r / 2)
+            x = size * sqrt3 * (q + r / 2)
             y = size * 3/2 * r
         } else {
             x = size * 3/2 * q
-            y = size * Math.sqrt(3) * (r + q / 2)
+            y = size * sqrt3 * (r + q / 2)
         }
 
-        // `x` and `y` are always the hex's center, so the origin needs to be subtracted
-        return Point(x - this.origin.x, y - this.origin.y)
+        return Point(x, y)
     }
 }
 

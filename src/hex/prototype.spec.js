@@ -269,23 +269,28 @@ describe('corners', function() {
 })
 
 describe('toPoint', function() {
-    let Point, toPoint, context
+    let Point, toPoint, isPointy, context
 
     beforeEach(function() {
         Point = sinon.stub().returns('point result')
         toPoint = methods.toPointFactory({ Point })
+        isPointy = sinon.stub()
         context = {
             q: 1,
             r: 1,
             size: 1,
-            origin: { x: 0, y: 0 },
-            isPointy: () => null
+            isPointy
         }
+    })
+
+    it('returns the point', function() {
+        const result = toPoint.call(context)
+        expect(result).to.eql('point result')
     })
 
     describe('when the hex has a pointy orientation', function() {
         beforeEach(function() {
-            context.isPointy = () => true
+            isPointy.returns(true)
         })
 
         it('creates a new point', function() {
@@ -297,7 +302,7 @@ describe('toPoint', function() {
 
     describe('when the hex has a flat orientation', function() {
         beforeEach(function() {
-            context.isPointy = () => false
+            isPointy.returns(false)
         })
 
         it('creates a new point', function() {
@@ -305,19 +310,6 @@ describe('toPoint', function() {
             expect(Point.firstCall.args[0]).to.equal(1.5)
             expect(Point.firstCall.args[1]).to.be.closeTo(2.5980, 0.0005)
         })
-    })
-
-    it('subtracts the hex\'s origin from that point', function() {
-        context.origin.x = 10
-        context.origin.y = 10
-        toPoint.call(context)
-        expect(Point.firstCall.args[0]).to.equal(1.5 - 10)
-        expect(Point.firstCall.args[1]).to.be.closeTo(2.5980 - 10, 0.0005)
-    })
-
-    it('returns the point', function() {
-        const result = toPoint.call(context)
-        expect(result).to.eql('point result')
     })
 })
 
