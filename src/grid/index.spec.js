@@ -67,7 +67,8 @@ describe('GridFactory', function() {
         expect(prototypeProps).to.eql([
             'get',
             'hexesBetween',
-            'neighborsOf'
+            'neighborsOf',
+            'set'
         ])
     })
 })

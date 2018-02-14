@@ -34,6 +34,66 @@ describe('get', () => {
     })
 })
 
+describe('set', () => {
+    let set, isValidHex
+
+    beforeEach(() => {
+        isValidHex = sinon.stub().returns(true)
+        set = methods.setFactory({ Grid: GridFactory })
+    })
+
+    describe('when the hex that must be replaced is present in the grid', () => {
+        it('replaces the hex with the new hex and returns the updated grid', () => {
+            const targetHex = Hex(3, -2)
+            const newHex = Hex(1, 1)
+            const grid = GridFactory(targetHex)
+            const result = set.call(grid, targetHex, newHex)
+
+            expect(grid).not.to.contain.hexes([targetHex])
+            expect(result).to.contain.hexes([newHex])
+        })
+
+        describe('when the new hex is invalid', () => {
+            it('does not replace the hex and returns the grid', () => {
+                isValidHex.returns(false)
+                const targetHex = Hex(3, -2)
+                const newHex = 'invalid hex'
+                const grid = GridFactory(targetHex)
+                const result = set.call(grid, targetHex, newHex)
+
+                expect(grid).not.to.contain.hexes([newHex])
+                expect(result).to.contain.hexes(grid)
+            })
+        })
+    })
+
+    describe('when the hex that must be replaced is not present in the grid', () => {
+        it(`pushes the new hex and returns the grid`, () => {
+            const targetHex = Hex(3, -2)
+            const newHex = Hex(1, 1)
+            const grid = GridFactory(/* empty */)
+            const result = set.call(grid, targetHex, newHex)
+
+            expect(grid).not.to.contain.hexes([targetHex])
+            expect(result).to.contain.hexes([...grid, newHex])
+        })
+
+        describe('when the new hex is invalid', () => {
+            it('does not push the new hex and returns the grid', () => {
+                isValidHex.returns(false)
+                const targetHex = Hex(3, -2)
+                const newHex = 'invalid hex'
+                const grid = GridFactory(/* empty */)
+                const result = set.call(grid, targetHex, newHex)
+
+                expect(grid).not.to.contain.hexes([targetHex])
+                expect(grid).not.to.contain.hexes([newHex])
+                expect(result).to.contain.hexes(grid)
+            })
+        })
+    })
+})
+
 describe('hexesBetween', () => {
     it('calls the passed firstHex.distance()', () => {
         const distance = sinon.stub()

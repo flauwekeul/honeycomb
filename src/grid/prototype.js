@@ -23,6 +23,39 @@ export function get(hex) {
     return this[this.indexOf(hex)]
 }
 
+export function setFactory({ Grid }) {
+    /**
+     * Update the passed target hex with the passed new hex.
+     *
+     * If the target hex isn't present in the grid, the new hex is added (appended) to the grid.
+     * If the new hex is invalid, nothing happens.
+     *
+     * @memberof Grid#
+     *
+     * @param {point} targetHex The coordinates of the hex that must be replaced.
+     * @param {hex} newHex      The replacing hex.
+     *
+     * @returns {grid}          A **copy** of the updated grid.
+     *
+     * @example
+     */
+    return function set(targetHex, newHex) {
+        if (!Grid.isValidHex(newHex)) {
+            return this
+        }
+
+        const index = this.indexOf(targetHex)
+
+        if (index < 0) {
+            this.push(newHex)
+        } else {
+            this[index] = newHex
+        }
+
+        return Grid(this)
+    }
+}
+
 /**
  * @memberof Grid#
  * @see {@link https://www.redblobgames.com/grids/hexagons/#line-drawing|redblobgames.com}
