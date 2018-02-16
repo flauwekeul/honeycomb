@@ -79,7 +79,7 @@ export default function defineGridFactory({ extendHex }) {
          * A Grid factory has several static methods that return {@link grid}s of hexes in a certain shape.
          * It can also be called with 1 or more hexes or an array of hexes to construct/clone a {@link grid} containing those hexes.
          *
-         * A {@link grid} inherits from `Array`, with some methods overwritten and some new methods added.
+         * A {@link grid} extends `Array.prototype`, with some methods overwritten and some new methods added.
          *
          * @param {(hex[]|hex)} [arrayOrHex]    An array or a hex. Any invalid hexes are filtered out.
          * @param {...hex} [hexes]              More hexes. Any invalid hexes are filtered out.

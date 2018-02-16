@@ -58,6 +58,96 @@ Grid.rectangle({ width: 4, height: 4 })
 
 ## Examples
 
+### Basic usage
+
+Create a hex grid in 3 steps:
+
+```javascript
+// 1.  (optionally) create a Hex factory by extending the default:
+const Hex = Honeycomb.extendHex({
+    size: 30,           // default: 1
+    orientation: 'flat' // default: 'pointy'
+})
+
+// 2.  create a Grid factory that uses the Hex factory:
+const Grid = Honeycomb.defineGrid(Hex)
+
+// 3a. create a grid with a "shape" method:
+const grid1 = Grid.rectangle({ width: 4, height: 4 })
+// [
+//    { x: 0, y: 0 },
+//    { x: 0, y: 1 },
+//    { x: 0, y: 2 },
+//    …
+// ]
+
+// 3b. or create a grid from individual hexes:
+const grid2 = Grid(Hex(1, 2), Hex(3, 4))
+// [
+//    { x: 1, y: 2 },
+//    { x: 3, y: 4 }
+// ]
+```
+
+#### Grids extend `Array.prototype`
+
+Most properties/methods of grids are the same as their Array counterpart:
+
+```javascript
+const grid = Grid.rectangle({ width: 4, height: 4 })
+
+grid.length // 16
+grid.pop()  // { x: 3, y: 3 }
+grid.length // 15
+grid[4]     // { x: 1, y: 0 }
+```
+
+Some Grid methods are augmented. For example: [`Array#includes()`](https://developer.mozilla.org/nl/docs/Web/JavaScript/Reference/Global_Objects/Array/includes) always returns `false` when passed an object literal because it uses [strict equality](https://developer.mozilla.org/nl/docs/Web/JavaScript/Equality_comparisons_and_sameness) internally. [`Grid#includes()`](#includes) *only* accepts object literals (in the form of [points](#point-1)):
+
+```javascript
+const grid = Grid(Hex(1, 0))
+grid.includes({ x: 1, y: 0 })   // true
+```
+
+#### Mutating grid methods
+
+Methods that mutate the grid in-place ([Grid#push](#push), [Grid#splice](#splice) and [Grid#unshift](#unshift)) only accept valid hexes to prevent "grid corruption" 👮‍♀️ ([Grid#fill](#fill) isn't implemented at all).
+
+```javascript
+const grid = Grid()             // []
+
+// this silently fails:
+grid.push('invalid hex')        // 0 <- the grid's length, which remains 0
+grid.includes('invalid hex')    // false
+```
+
+#### Be carefull with bracket notation!
+
+It's possible to add an invalid hex to a grid when using bracket notation:
+
+```javascript
+const grid = Grid(Hex())
+
+grid[0]                     // { x: 0, y: 0 }
+grid[0] = 'invalid hex'
+grid[0]                     // 'invalid hex' ⚠️
+```
+
+Use [`Grid#get`](#get) and [`Grid#set`](#set) instead:
+
+```javascript
+const grid = Grid(Hex())
+
+grid.get(0)                 // { x: 0, y: 0 }
+grid.set(0, 'invalid hex')
+grid.get(0)                 // { x: 0, y: 0 } <- invalid hex is ignored
+
+// Grid#set() also accepts a point:
+grid.set({ x: 0, y: 0 }, Hex(-1, 3))
+// …as does Grid#get():
+grid.get([-1, 3])           // { x: -1, y: 3 }
+```
+
 ### Rendering
 
 Honeycomb comes without the ability to render hexes to screen. Fortunately, it isn't very hard. Especially if you use a dedicated rendering library.
