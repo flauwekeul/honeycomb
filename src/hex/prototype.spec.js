@@ -4,12 +4,14 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 
 import { ensureXY } from '../utils'
+import PointFactory from '../point'
 import { EPSILON } from './constants'
 import extendHexFactory from './'
 import * as methods from './prototype'
 
 const extendHex = extendHexFactory({ ensureXY })
 const Hex = extendHex()
+const Point = PointFactory({ ensureXY })
 
 describe('set', () => {
     let HexSpy, set
@@ -314,18 +316,22 @@ describe('toPoint', function() {
 })
 
 describe('add', function () {
-    let HexSpy
+    let HexSpy, PointSpy, add
 
     before(function () {
         HexSpy = sinon.spy(Hex)
+        PointSpy = sinon.spy(Point)
+        add = methods.addFactory({ Hex: HexSpy, Point: PointSpy }).bind({ x: 1, y: -3 })
     })
 
-    it('returns a new hex where the coordinates are the sum of the current and passed hex', function () {
-        const add = methods.addFactory({ Hex: HexSpy }).bind({ x: 1, y: -3 })
-        const result = add(Hex(2, 0))
+    it('accepts a point', () => {
+        expect(add([2, 1])).to.contain({ x: 3, y: -2 })
+        expect(PointSpy).to.have.been.calledWith([2, 1])
+    })
 
-        expect(HexSpy).to.have.been.calledWith(3, -3)
-        expect(result).to.contain({ x: 3, y: -3 })
+    it('returns a new hex where the coordinates are the sum of the current and passed point', function () {
+        expect(add(Hex(2, 1))).to.contain({ x: 3, y: -2 })
+        expect(HexSpy).to.have.been.calledWith(3, -2)
     })
 
     it('transfers any custom properties the current hex might have', function() {
@@ -334,34 +340,37 @@ describe('add', function () {
     })
 })
 
-describe('subtract', function () {
-    let HexSpy
+describe('subtract', function() {
+    let HexSpy, PointSpy, subtract
 
     before(function() {
         HexSpy = sinon.spy(Hex)
+        PointSpy = sinon.spy(Point)
+        subtract = methods.subtractFactory({ Hex: HexSpy, Point: PointSpy }).bind({ x: 1, y: -3 })
     })
 
-    it('returns a new hex where the coordinates are the difference between the current and the passed hex', function () {
-        const subtract = methods.subtractFactory({ Hex: HexSpy }).bind({ x: 1, y: -3 })
-        const result = subtract(Hex(2, 0))
+    it('accepts a point', () => {
+        expect(subtract([2, 1])).to.contain({ x: -1, y: -4 })
+        expect(PointSpy).to.have.been.calledWith([2, 1])
+    })
 
-        expect(HexSpy).to.have.been.calledWith(-1, -3)
-        expect(result).to.contain({ x: -1, y: -3 })
+    it('returns a new hex where the coordinates are the sum of the current and passed point', function() {
+        expect(subtract(Hex(2, 1))).to.contain({ x: -1, y: -4 })
+        expect(HexSpy).to.have.been.calledWith(-1, -4)
     })
 
     it('transfers any custom properties the current hex might have', function() {
-        const subtract = methods.subtractFactory({ Hex: HexSpy }).bind({
-            x: 0,
-            y: 0,
-            custom: 'subtract()'
-        })
-        const result = subtract(Hex())
+        const result = Hex.call({ x: 0, y: 0, custom: 'subtract()' }).subtract(Hex())
         expect(result).to.contain({ custom: 'subtract()' })
     })
 })
 
 describe('equals', function () {
-    it('returns whether the coordinates of the current and the passed hex are equal', function() {
+    it('accepts a point', () => {
+        expect(Hex().equals([0, 0])).to.be.true
+    })
+
+    it('returns whether the coordinates of the current hex and the passed point are equal', function() {
         expect(Hex().equals(Hex())).to.be.true
         expect(Hex(5, -3).equals(Hex(-1, 2))).to.be.false
     })

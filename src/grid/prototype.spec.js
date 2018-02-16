@@ -13,13 +13,13 @@ const Hex = extendHex()
 const GridFactory = defineGridFactory({ extendHex })(Hex)
 
 describe('get', () => {
-    it('accepts a number or a hex', () => {
+    it('accepts a number or a point', () => {
         const targetHex = Hex(3, -2)
         const grid = GridFactory(targetHex)
 
         expect(grid.get(0)).to.equal(targetHex)
         expect(grid.get(Hex(3, -2))).to.equal(targetHex)
-        expect(grid.get({ x: 3, y: -2 })).to.equal(targetHex)
+        expect(grid.get([3, -2])).to.equal(targetHex)
     })
 
     describe('when not present in the grid', () => {
@@ -48,13 +48,8 @@ describe('set', () => {
             .and.contain.hexes([newHex])
     })
 
-    it('accepts a hex as the first parameter', () => {
-        expect(grid.set(targetHex, newHex)).to.have.lengthOf(1)
-            .and.contain.hexes([newHex])
-    })
-
     it('accepts a point as the first parameter', () => {
-        expect(grid.set({ x: 3, y: -2 }, newHex)).to.have.lengthOf(1)
+        expect(grid.set([3, -2], newHex)).to.have.lengthOf(1)
             .and.contain.hexes([newHex])
     })
 

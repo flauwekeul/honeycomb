@@ -250,56 +250,62 @@ export function toPointFactory({ Point }) {
     }
 }
 
-export function addFactory({ Hex }) {
+export function addFactory({ Hex, Point }) {
     /**
      * @memberof Hex#
      * @method
      *
      * @todo Accept any number of hexes to add.
      *
-     * @param {point} hex   The hex (or point) that will be added to the current.
+     * @param {point} point The hex (or point) that will be added to the current.
      * @returns {hex}       A *new* hex where the passed hex's coordinates are added to the current.
      *                      Any custom properties are copied.
      */
-    return function add(hex) {
+    return function add(point) {
+        const { x, y } = Point(point)
         // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
         return Hex.call(
             this,
-            this.x + hex.x,
-            this.y + hex.y
+            this.x + x,
+            this.y + y
         )
     }
 }
 
-export function subtractFactory({ Hex }) {
+export function subtractFactory({ Hex, Point }) {
     /**
      * @memberof Hex#
      * @method
      *
      * @todo Accept any number of hexes to subtract.
      *
-     * @param {point} hex   The hex (or point) that will be subtracted from the current.
+     * @param {point} point The hex (or point) that will be subtracted from the current.
      * @returns {hex}       A *new* hex where the passed hex's coordinates are subtracted from the current.
      *                      Any custom properties are copied.
      */
-    return function subtract(hex) {
+    return function subtract(point) {
+        const { x, y } = Point(point)
         // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
         return Hex.call(
             this,
-            this.x - hex.x,
-            this.y - hex.y
+            this.x - x,
+            this.y - y
         )
     }
 }
 
-/**
- * @memberof Hex#
- *
- * @param {point} hex   The hex (or point) whose coordinates will be compared against the current hex.
- * @returns {boolean}   Whether the coordinates of the current and the passed hex are equal.
- */
-export function equals(hex) {
-    return this.x === hex.x && this.y === hex.y
+export function equalsFactory({ Point }) {
+    /**
+     * @memberof Hex#
+     * @method
+     *
+     * @param {point} point The hex (or point) whose coordinates will be compared against the current hex.
+     * @returns {boolean}   Whether the coordinates of the current and the passed point are equal.
+     */
+    return function equals(point) {
+        const { x, y } = Point(point)
+        return this.x === x && this.y === y
+    }
 }
 
 /**

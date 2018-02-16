@@ -1,3 +1,8 @@
+import { ensureXY } from '../utils'
+import PointFactory from '../point'
+
+const Point = PointFactory({ ensureXY })
+
 /**
  * @private
  *
@@ -38,7 +43,7 @@ export default class Grid extends Array {
      * @memberof Grid#
      * @override
      *
-     * @param {point} hex               An object with x and y properties.
+     * @param {point} point             The coordinates to search for.
      * @param {number} [fromIndex=0]    Optional index to start searching.
      *
      * @returns {boolean}               Whether the hex is included in the grid.
@@ -46,15 +51,15 @@ export default class Grid extends Array {
      * @example
      * const Grid = Honeycomb.defineGrid()
      * const Hex = Grid.Hex
-     * const grid = Grid.rectangle({ width: 2, height: 2 })
+     * const grid = Grid(Hex(0))    // [ { x: 0, y: 0 } ]
      *
-     * grid.includes(Hex())         // true
-     * grid.includes(Hex(), 2)      // false
-     * grid.includes({ x: 0, y: 1}) // true
+     * grid.includes(Hex(0))        // true
+     * grid.includes([0, 0])        // true
+     * grid.includes(Hex(0), 1)     // false
      * grid.includes(Hex(5, 7))     // false
      */
-    includes(hex, fromIndex = 0) {
-        return !!(this.indexOf(hex, fromIndex) + 1)
+    includes(point, fromIndex = 0) {
+        return !!(this.indexOf(point, fromIndex) + 1)
     }
 
     /**
@@ -64,7 +69,7 @@ export default class Grid extends Array {
      * @memberof Grid#
      * @override
      *
-     * @param {point} hex               An object with x and y properties.
+     * @param {point} point             The coordinates to search for.
      * @param {number} [fromIndex=0]    Optional index to start searching.
      *                                  If negative, it is taken as the offset from the end of the grid.
      *
@@ -73,21 +78,27 @@ export default class Grid extends Array {
      * @example
      * const Grid = Honeycomb.defineGrid()
      * const Hex = Grid.Hex
-     * const grid = Grid.rectangle({ width: 2, height: 2 })
+     * const grid = Grid(Hex(0), Hex(1), Hex(0))
+     * // [
+     * //    { x: 0, y: 0 },
+     * //    { x: 1, y: 1 },
+     * //    { x: 0, y: 0 }
+     * // ]
      *
-     * grid.indexOf(Hex())          // 0
-     * grid.indexOf(Hex(), 2)       // -1
-     * grid.indexOf({ x: 0, y: 1})  // 2
-     * grid.indexOf(Hex(5, 7))      // -1
+     * grid.indexOf(Hex(0))     // 0
+     * grid.indexOf([0, 0])     // 0
+     * grid.indexOf(Hex(0), 1)  // 2
+     * grid.indexOf(Hex(5, 7))  // -1
      */
-    indexOf(hex, fromIndex = 0) {
+    indexOf(point, fromIndex = 0) {
         const { length } = this
         let i = Number(fromIndex)
 
+        point = Point(point)
         i = Math.max(i >= 0 ? i : length + i, 0)
 
         for (i; i < length; i++) {
-            if (this[i].equals(hex)) {
+            if (this[i].equals(point)) {
                 return i
             }
         }
@@ -105,7 +116,7 @@ export default class Grid extends Array {
      * @memberof Grid#
      * @override
      *
-     * @param {point} hex                   An object with x and y properties.
+     * @param {point} point                 The coordinates to search for.
      * @param {number} [fromIndex=length-1] Optional index to start searching back from.
      *                                      If negative, it is taken as the offset from the end of the grid.
      *
@@ -114,22 +125,27 @@ export default class Grid extends Array {
      * @example
      * const Grid = Honeycomb.defineGrid()
      * const Hex = Grid.Hex
-     * const grid = Grid.rectangle({ width: 2, height: 2 })
+     * const grid = Grid(Hex(0), Hex(1), Hex(0))
+     * // [
+     * //    { x: 0, y: 0 },
+     * //    { x: 1, y: 1 },
+     * //    { x: 0, y: 0 }
+     * // ]
      *
-     * // this returns the same as grid.indexOf() because all hexes have different coordinates:
-     * grid.lastIndexOf(Hex())          // 0
-     * grid.lastIndexOf(Hex(), 2)       // -1
-     * grid.lastIndexOf({ x: 0, y: 1})  // 2
-     * grid.lastIndexOf(Hex(5, 7))      // -1
+     * grid.lastIndexOf(Hex(0))     // 2
+     * grid.lastIndexOf([0, 0])     // 2
+     * grid.lastIndexOf(Hex(0), 1)  // 0
+     * grid.lastIndexOf(Hex(5, 7))  // -1
      */
-    lastIndexOf(hex, fromIndex = this.length - 1) {
+    lastIndexOf(point, fromIndex = this.length - 1) {
         const { length } = this
         let i = Number(fromIndex)
 
+        point = Point(point)
         i = i >= 0 ? Math.min(i, length - 1) : length + i
 
         for (i; i >= 0; i--) {
-            if (this[i].equals(hex)) {
+            if (this[i].equals(point)) {
                 return i
             }
         }
@@ -152,12 +168,12 @@ export default class Grid extends Array {
      * const Grid = Honeycomb.defineGrid()
      * const Hex = Grid.Hex
      *
-     * const grid = Grid(Hex()) // [{ x: 0, y: 0 }]
-     * grid.push(Hex(1))        // 2
-     * grid                     // [{ x: 0, y: 0 }, { x: 1, y: 1 }]
+     * const grid = Grid(Hex(0))    // [{ x: 0, y: 0 }]
+     * grid.push(Hex(1))            // 2
+     * grid                         // [{ x: 0, y: 0 }, { x: 1, y: 1 }]
      *
-     * grid.push('invalid')     // 2
-     * grid                     // [{ x: 0, y: 0 }, { x: 1, y: 1 }]
+     * grid.push('invalid')         // 2
+     * grid                         // [{ x: 0, y: 0 }, { x: 1, y: 1 }]
      */
     push(...hexes) {
         return super.push(...hexes.filter(Grid.isValidHex))
@@ -180,8 +196,12 @@ export default class Grid extends Array {
      * const Grid = Honeycomb.defineGrid()
      * const Hex = Grid.Hex
      * const grid = Grid.rectangle({ width: 2, height: 1 })
-     *
-     * grid                         // [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }]
+     * // [
+     * //    { x: 0, y: 0 },
+     * //    { x: 1, y: 0 },
+     * //    { x: 0, y: 1 },
+     * //    { x: 1, y: 1 }
+     * // ]
      *
      * grid.splice(2)               // [{ x: 0, y: 1 }, { x: 1, y: 1 }] <- deleted hexes
      * grid                         // [{ x: 0, y: 0 }, { x: 1, y: 0 }] <- leftover hexes
@@ -190,7 +210,13 @@ export default class Grid extends Array {
      * grid                         // [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }]
      *
      * grid.splice(2, 1, Hex(2))    // [{ x: 0, y: 1 }]
-     * grid                         // [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 2 }, { x: 1, y: 1 }]
+     * grid
+     * // [
+     * //    { x: 0, y: 0 },
+     * //    { x: 1, y: 0 },
+     * //    { x: 2, y: 2 },
+     * //    { x: 1, y: 1 }
+     * // ]
      */
     splice(start, deleteCount, ...hexes) {
         // when deleteCount is undefined/null, it's casted to 0, deleting 0 hexes
@@ -218,12 +244,12 @@ export default class Grid extends Array {
      * const Grid = Honeycomb.defineGrid()
      * const Hex = Grid.Hex
      *
-     * const grid = Grid(Hex()) // [{ x: 0, y: 0 }]
-     * grid.unshift(Hex(1))     // 2
-     * grid                     // [{ x: 1, y: 1 }, { x: 0, y: 0 }]
+     * const grid = Grid(Hex(0))    // [{ x: 0, y: 0 }]
+     * grid.unshift(Hex(1))         // 2
+     * grid                         // [{ x: 1, y: 1 }, { x: 0, y: 0 }]
      *
-     * grid.unshift('invalid')  // 2
-     * grid                     // [{ x: 1, y: 1 }, { x: 0, y: 0 }]
+     * grid.unshift('invalid')      // 2
+     * grid                         // [{ x: 1, y: 1 }, { x: 0, y: 0 }]
      */
     unshift(...hexes) {
         return super.unshift(...hexes.filter(Grid.isValidHex))

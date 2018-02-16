@@ -42,13 +42,18 @@ describe('Grid class', () => {
     })
 
     describe('Grid#includes', () => {
-        describe(`when called with a hex-like that's present in the grid`, () => {
+        it('accepts a point', () => {
+            expect(instance.includes([0, 0])).to.be.true
+            expect(instance.includes({ x: 0, y: 0 })).to.be.true
+        })
+
+        describe(`when called with a point that's present in the grid`, () => {
             it('returns true', () => {
                 expect(instance.includes(Hex(0))).to.be.true
             })
         })
 
-        describe(`when called with a hex-like that's not present in the grid`, () => {
+        describe(`when called with a point that's not present in the grid`, () => {
             it('returns false', () => {
                 expect(instance.includes(Hex(1))).to.be.false
             })
@@ -64,6 +69,11 @@ describe('Grid class', () => {
     })
 
     describe('Grid#indexOf', () => {
+        it('accepts a point', () => {
+            expect(instance.indexOf([0, 0])).to.equal(0)
+            expect(instance.indexOf({ x: 0, y: 0 })).to.equal(0)
+        })
+
         describe(`when called with a hex-like that's present in the grid`, () => {
             it('returns its index (from the left)', () => {
                 instance = new Grid(Hex(0), Hex(1), Hex(0))
@@ -96,6 +106,11 @@ describe('Grid class', () => {
     })
 
     describe('Grid#lastIndexOf', () => {
+        it('accepts a point', () => {
+            expect(instance.lastIndexOf([0, 0])).to.equal(0)
+            expect(instance.lastIndexOf({ x: 0, y: 0 })).to.equal(0)
+        })
+
         describe(`when called with a hex-like that's present in the grid`, () => {
             it('returns its index (from the right)', () => {
                 instance = new Grid(Hex(0), Hex(1), Hex(0))

@@ -128,7 +128,7 @@ export default function extendHexFactory({ ensureXY }) {
             get s() { return _cubeProp(this, 's') },
 
             // methods:
-            add: methods.addFactory({ Hex }),
+            add: methods.addFactory({ Hex, Point }),
             /**
              * Alias for {@link Hex#coordinates}.
              * @memberof Hex#
@@ -141,7 +141,7 @@ export default function extendHexFactory({ ensureXY }) {
             cube: methods.cube,
             cubeToCartesian: methods.cubeToCartesian,
             distance: methods.distance,
-            equals: methods.equals,
+            equals: methods.equalsFactory({ Point }),
             height: methods.height,
             isFlat: methods.isFlat,
             isPointy: methods.isPointy,
@@ -151,7 +151,7 @@ export default function extendHexFactory({ ensureXY }) {
             oppositeSideDistance: methods.oppositeSideDistance,
             round: methods.roundFactory({ Hex }),
             set: methods.setFactory({ Hex }),
-            subtract: methods.subtractFactory({ Hex }),
+            subtract: methods.subtractFactory({ Hex, Point }),
             /**
              * Alias for {@link Hex#cubeToCartesian}.
              * @memberof Hex#

@@ -8,8 +8,8 @@ import { DIRECTION_COORDINATES, DIAGONAL_DIRECTION_COORDINATES } from '../hex/co
  * @memberof Grid#
  * @method
  *
- * @param {(number|point)} keyOrHex An index or a hex.
- * @returns {hex}                   The found hex or `undefined`.
+ * @param {(number|point)} keyOrPoint   An index/key or a point.
+ * @returns {hex}                       The found hex or `undefined`.
  *
  * @example
  * const Grid = Honeycomb.defineGrid()
@@ -24,11 +24,11 @@ import { DIRECTION_COORDINATES, DIAGONAL_DIRECTION_COORDINATES } from '../hex/co
  * grid.get(42)             // undefined
  * grid.get(Hex(6, -2))     // undefined
  */
-export function get(keyOrHex) {
-    if (isNumber(keyOrHex)) {
-        return this[keyOrHex]
+export function get(keyOrPoint) {
+    if (isNumber(keyOrPoint)) {
+        return this[keyOrPoint]
     } else {
-        return this[this.indexOf(keyOrHex)]
+        return this[this.indexOf(keyOrPoint)]
     }
 }
 
@@ -42,10 +42,10 @@ export function setFactory({ Grid }) {
      * @memberof Grid#
      * @method
      *
-     * @param {(number|point)} keyOrHex The coordinates of the hex that must be replaced.
-     * @param {hex} newHex              The replacing hex.
+     * @param {(number|point)} keyOrPoint   The coordinates of the hex that must be replaced.
+     * @param {hex} newHex                  The replacing hex.
      *
-     * @returns {grid}                  Itself.
+     * @returns {grid}                      Itself.
      *
      * @example
      * const Grid = Honeycomb.defineGrid()
@@ -67,12 +67,12 @@ export function setFactory({ Grid }) {
      * grid.set({ x: 9, y: 9 }, Hex(3, 3))
      * grid                         // [ { x: 2, y: 2 }, { x: 3, y: 3 } ]
      */
-    return function set(keyOrHex, newHex) {
+    return function set(keyOrPoint, newHex) {
         if (!Grid.isValidHex(newHex)) {
             return this
         }
 
-        const index = isNumber(keyOrHex) ? keyOrHex : this.indexOf(keyOrHex)
+        const index = isNumber(keyOrPoint) ? keyOrPoint : this.indexOf(keyOrPoint)
 
         if (index < 0) {
             this.push(newHex)
