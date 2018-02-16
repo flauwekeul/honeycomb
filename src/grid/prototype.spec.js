@@ -13,23 +13,21 @@ const Hex = extendHex()
 const GridFactory = defineGridFactory({ extendHex })(Hex)
 
 describe('get', () => {
-    describe('when present in the grid', () => {
-        it('returns the passed hex', () => {
-            const targetHex = Hex(3, -2)
-            const get = methods.get.bind(GridFactory(targetHex))
-            const result = get(Hex(3, -2))
+    it('accepts a number or a hex', () => {
+        const targetHex = Hex(3, -2)
+        const grid = GridFactory(targetHex)
 
-            expect(result).to.equal(targetHex)
-        })
+        expect(grid.get(0)).to.equal(targetHex)
+        expect(grid.get(Hex(3, -2))).to.equal(targetHex)
+        expect(grid.get({ x: 3, y: -2 })).to.equal(targetHex)
     })
 
     describe('when not present in the grid', () => {
         it('returns the passed hex', () => {
             const targetHex = Hex(3, -2)
-            const get = methods.get.bind(GridFactory(targetHex))
-            const result = get(Hex())
+            const grid = GridFactory(targetHex)
 
-            expect(result).to.be.undefined
+            expect(grid.get(Hex())).to.be.undefined
         })
     })
 })

@@ -1,4 +1,4 @@
-import { isString } from 'axis.js'
+import { isString, isNumber } from 'axis.js'
 
 import { DIRECTION_COORDINATES, DIAGONAL_DIRECTION_COORDINATES } from '../hex/constants'
 
@@ -6,21 +6,30 @@ import { DIRECTION_COORDINATES, DIAGONAL_DIRECTION_COORDINATES } from '../hex/co
  * Get a hex from a grid.
  *
  * @memberof Grid#
+ * @method
  *
- * @param {point} hex   The returned hex (if any) has these coordinates.
- * @returns {hex}       The found hex or `undefined`.
+ * @param {(number|point)} keyOrHex An index or a hex.
+ * @returns {hex}                   The found hex or `undefined`.
  *
  * @example
  * const Grid = Honeycomb.defineGrid()
  * const Hex = Grid.Hex
  * const grid = Grid.rectangle({ width: 2, height: 2 })
  *
+ * grid.get(0)              // { x: 0, y: 0 }
  * grid.get(Hex(0, 1))      // { x: 0, y: 1 }
  * grid.get({ x: 0, y: 1 }) // { x: 0, y: 1 }
+ * grid.get([0, 1])         // { x: 0, y: 1 }
+ *
+ * grid.get(42)             // undefined
  * grid.get(Hex(6, -2))     // undefined
  */
-export function get(hex) {
-    return this[this.indexOf(hex)]
+export function get(keyOrHex) {
+    if (isNumber(keyOrHex)) {
+        return this[keyOrHex]
+    } else {
+        return this[this.indexOf(keyOrHex)]
+    }
 }
 
 export function setFactory({ Grid }) {
