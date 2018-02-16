@@ -34,26 +34,45 @@ export function get(keyOrHex) {
 
 export function setFactory({ Grid }) {
     /**
-     * Update the passed target hex with the passed new hex.
+     * Replace a hex with another hex. This is a safe alternative to using bracket notation (`grid[0] = 'invalid'`).
      *
-     * If the target hex isn't present in the grid, the new hex is added (appended) to the grid.
-     * If the new hex is invalid, nothing happens.
+     * If the target hex isn't present in the grid, the new hex is added (using {@link Grid#push}) to the grid.
+     * If the new hex is invalid, nothing changes.
      *
      * @memberof Grid#
+     * @method
      *
-     * @param {point} targetHex The coordinates of the hex that must be replaced.
-     * @param {hex} newHex      The replacing hex.
+     * @param {(number|point)} keyOrHex The coordinates of the hex that must be replaced.
+     * @param {hex} newHex              The replacing hex.
      *
-     * @returns {grid}          A **copy** of the updated grid.
+     * @returns {grid}                  Itself.
      *
      * @example
+     * const Grid = Honeycomb.defineGrid()
+     * const Hex = Grid.Hex
+     * const grid = Grid(Hex(0, 0)) // [ { x: 0, y: 0 } ]
+     *
+     * // replace a hex:
+     * grid.set(0, Hex(1, 1))
+     * grid                         // [ { x: 1, y: 1 } ]
+     * // the target hex can also be a point:
+     * grid.set([1, 1], Hex(2, 2))
+     * grid                         // [ { x: 2, y: 2 } ]
+     *
+     * // invalid replace values are ignored:
+     * grid.set(0, 'invalid')
+     * grid                         // [ { x: 2, y: 2 } ]
+     *
+     * // when the target hex isn't present in the grid, the replacing hex is added instead:
+     * grid.set({ x: 9, y: 9 }, Hex(3, 3))
+     * grid                         // [ { x: 2, y: 2 }, { x: 3, y: 3 } ]
      */
-    return function set(targetHex, newHex) {
+    return function set(keyOrHex, newHex) {
         if (!Grid.isValidHex(newHex)) {
             return this
         }
 
-        const index = this.indexOf(targetHex)
+        const index = isNumber(keyOrHex) ? keyOrHex : this.indexOf(keyOrHex)
 
         if (index < 0) {
             this.push(newHex)
@@ -61,7 +80,7 @@ export function setFactory({ Grid }) {
             this[index] = newHex
         }
 
-        return Grid(this)
+        return this
     }
 }
 

@@ -33,60 +33,70 @@ describe('get', () => {
 })
 
 describe('set', () => {
-    let set, isValidHex
+    let set, isValidHex, targetHex, newHex, grid
 
     beforeEach(() => {
         isValidHex = sinon.stub().returns(true)
-        set = methods.setFactory({ Grid: GridFactory })
+        set = methods.setFactory({ Grid: { isValidHex } })
+        targetHex = Hex(3, -2)
+        newHex = Hex(1, 1)
+        grid = GridFactory(targetHex)
+    })
+
+    it('accepts a number as the first parameter', () => {
+        expect(grid.set(0, newHex)).to.have.lengthOf(1)
+            .and.contain.hexes([newHex])
+    })
+
+    it('accepts a hex as the first parameter', () => {
+        expect(grid.set(targetHex, newHex)).to.have.lengthOf(1)
+            .and.contain.hexes([newHex])
+    })
+
+    it('accepts a point as the first parameter', () => {
+        expect(grid.set({ x: 3, y: -2 }, newHex)).to.have.lengthOf(1)
+            .and.contain.hexes([newHex])
     })
 
     describe('when the hex that must be replaced is present in the grid', () => {
         it('replaces the hex with the new hex and returns the updated grid', () => {
-            const targetHex = Hex(3, -2)
-            const newHex = Hex(1, 1)
-            const grid = GridFactory(targetHex)
             const result = set.call(grid, targetHex, newHex)
 
-            expect(grid).not.to.contain.hexes([targetHex])
-            expect(result).to.contain.hexes([newHex])
+            expect(result).to.have.lengthOf(1)
+                .and.contain.hexes([newHex])
+                .and.not.contain.hexes([targetHex])
+            expect(grid).to.eql(result)
         })
 
         describe('when the new hex is invalid', () => {
             it('does not replace the hex and returns the grid', () => {
                 isValidHex.returns(false)
-                const targetHex = Hex(3, -2)
                 const newHex = 'invalid hex'
-                const grid = GridFactory(targetHex)
-                const result = set.call(grid, targetHex, newHex)
-
-                expect(grid).not.to.contain.hexes([newHex])
-                expect(result).to.contain.hexes(grid)
+                expect(set.call(grid, targetHex, newHex)).to.eql(grid)
             })
         })
     })
 
     describe('when the hex that must be replaced is not present in the grid', () => {
         it(`pushes the new hex and returns the grid`, () => {
-            const targetHex = Hex(3, -2)
-            const newHex = Hex(1, 1)
-            const grid = GridFactory(/* empty */)
+            const startHex = Hex(-9, 9)
+            const grid = GridFactory(startHex)
             const result = set.call(grid, targetHex, newHex)
 
-            expect(grid).not.to.contain.hexes([targetHex])
-            expect(result).to.contain.hexes([...grid, newHex])
+            expect(result).to.have.lengthOf(2)
+                .and.contain.hexes([startHex, newHex])
+                .and.not.contain.hexes([targetHex])
+            expect(grid).to.eql(result)
         })
 
         describe('when the new hex is invalid', () => {
             it('does not push the new hex and returns the grid', () => {
                 isValidHex.returns(false)
-                const targetHex = Hex(3, -2)
+                const startHex = Hex(-9, 9)
                 const newHex = 'invalid hex'
-                const grid = GridFactory(/* empty */)
-                const result = set.call(grid, targetHex, newHex)
+                const grid = GridFactory(startHex)
 
-                expect(grid).not.to.contain.hexes([targetHex])
-                expect(grid).not.to.contain.hexes([newHex])
-                expect(result).to.contain.hexes(grid)
+                expect(set.call(grid, targetHex, newHex)).to.eql(grid)
             })
         })
     })

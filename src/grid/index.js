@@ -66,7 +66,7 @@ export default function defineGridFactory({ extendHex }) {
                 get: methods.get,
                 hexesBetween: methods.hexesBetween,
                 neighborsOf: methods.neighborsOfFactory({ Grid, signedModulo, compassToNumberDirection }),
-                set: methods.setFactory({ Grid: GridFactory })
+                set: methods.setFactory({ Grid })
             }
         )
 
