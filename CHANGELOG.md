@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/flauwekeul/honeycomb/compare/v1.0.2...v1.1.0) (2018-02-17)
+
+
+### Bug Fixes
+
+* **Grid:** `Grid.pointToHex()` now subtracts the hex's center ([bad8e6f](https://github.com/flauwekeul/honeycomb/commit/bad8e6f))
+* **Hex,Grid:** methods that were supposed to accept points, now actually accept points ([b213286](https://github.com/flauwekeul/honeycomb/commit/b213286))
+
+
+### Features
+
+* **Grid:** `Grid#get()` now also accepts a number (index) ([02978cf](https://github.com/flauwekeul/honeycomb/commit/02978cf))
+* **Grid:** `Grid#set()` now also accepts an index and doesn't return a grid copy anymore ([7a6b84b](https://github.com/flauwekeul/honeycomb/commit/7a6b84b))
+* **Grid:** add `Grid#set()` method that replaces a hex with the another hex ([f7b9ea5](https://github.com/flauwekeul/honeycomb/commit/f7b9ea5))
+* **Hex:** add `Hex#center()` method that returns the center point relative to the hex's origin ([2ed9a19](https://github.com/flauwekeul/honeycomb/commit/2ed9a19))
+
+
+
 <a name="1.0.2"></a>
 ## [1.0.2](https://github.com/flauwekeul/honeycomb/compare/v1.0.1...v1.0.2) (2018-02-11)
 

@@ -102,7 +102,7 @@ grid.length // 15
 grid[4]     // { x: 1, y: 0 }
 ```
 
-Some Grid methods are augmented. For example: [`Array#includes()`](https://developer.mozilla.org/nl/docs/Web/JavaScript/Reference/Global_Objects/Array/includes) always returns `false` when passed an object literal because it uses [strict equality](https://developer.mozilla.org/nl/docs/Web/JavaScript/Equality_comparisons_and_sameness) internally. [`Grid#includes()`](#includes) *only* accepts object literals (in the form of [points](#point-1)):
+Some Grid methods are augmented. For example: [`Array#includes()`](https://developer.mozilla.org/nl/docs/Web/JavaScript/Reference/Global_Objects/Array/includes) always returns `false` when passed an object literal because it uses [strict equality](https://developer.mozilla.org/nl/docs/Web/JavaScript/Equality_comparisons_and_sameness) internally. [`Grid#includes()`](#includes) _only_ accepts object literals (in the form of [points](#point-1)):
 
 ```javascript
 const grid = Grid(Hex(1, 0))
@@ -241,84 +241,85 @@ See a more elaborate example on [JSFiddle](https://jsfiddle.net/Flauwekeul/3bd6s
     -   [defineGrid](#definegrid)
     -   [extendHex](#extendhex)
     -   [Point](#point)
--   [Factories](#factories)
-    -   [Grid](#grid)
-        -   [concat](#concat)
-        -   [copyWithin](#copywithin)
-        -   [entries](#entries)
-        -   [every](#every)
-        -   [fill](#fill)
-        -   [filter](#filter)
-        -   [find](#find)
-        -   [findIndex](#findindex)
-        -   [forEach](#foreach)
-        -   [get](#get)
-        -   [hexesBetween](#hexesbetween)
-        -   [includes](#includes)
-        -   [indexOf](#indexof)
-        -   [join](#join)
-        -   [keys](#keys)
-        -   [lastIndexOf](#lastindexof)
-        -   [map](#map)
-        -   [neighborsOf](#neighborsof)
-        -   [pop](#pop)
-        -   [push](#push)
-        -   [reduce](#reduce)
-        -   [reduceRight](#reduceright)
-        -   [reverse](#reverse)
-        -   [shift](#shift)
-        -   [some](#some)
-        -   [sort](#sort)
-        -   [splice](#splice)
-        -   [toLocaleString](#tolocalestring)
-        -   [toString](#tostring)
-        -   [unshift](#unshift)
-        -   [values](#values)
-        -   [Hex](#hex)
-        -   [hexagon](#hexagon)
-        -   [isValidHex](#isvalidhex)
-        -   [parallelogram](#parallelogram)
-        -   [pointToHex](#pointtohex)
-        -   [rectangle](#rectangle)
-        -   [triangle](#triangle)
-    -   [Hex](#hex-1)
-        -   [add](#add)
-        -   [cartesian](#cartesian)
-        -   [cartesianToCube](#cartesiantocube)
-        -   [coordinates](#coordinates)
-        -   [corners](#corners)
-        -   [cube](#cube)
-        -   [cubeToCartesian](#cubetocartesian)
-        -   [distance](#distance)
-        -   [equals](#equals)
-        -   [height](#height)
-        -   [isFlat](#isflat)
-        -   [isPointy](#ispointy)
-        -   [lerp](#lerp)
-        -   [nudge](#nudge)
-        -   [offset](#offset)
-        -   [oppositeCornerDistance](#oppositecornerdistance)
-        -   [oppositeSideDistance](#oppositesidedistance)
-        -   [orientation](#orientation)
-        -   [origin](#origin)
-        -   [q](#q)
-        -   [r](#r)
-        -   [round](#round)
-        -   [s](#s)
-        -   [set](#set)
-        -   [size](#size)
-        -   [subtract](#subtract)
-        -   [toCartesian](#tocartesian)
-        -   [toCube](#tocube)
-        -   [toPoint](#topoint)
-        -   [toString](#tostring-1)
-        -   [width](#width)
-        -   [thirdCoordinate](#thirdcoordinate)
-    -   [Point](#point-1)
-        -   [add](#add-1)
-        -   [divide](#divide)
-        -   [multiply](#multiply)
-        -   [subtract](#subtract-1)
+-   [Grid](#grid)
+    -   [concat](#concat)
+    -   [copyWithin](#copywithin)
+    -   [entries](#entries)
+    -   [every](#every)
+    -   [fill](#fill)
+    -   [filter](#filter)
+    -   [find](#find)
+    -   [findIndex](#findindex)
+    -   [forEach](#foreach)
+    -   [get](#get)
+    -   [hexesBetween](#hexesbetween)
+    -   [includes](#includes)
+    -   [indexOf](#indexof)
+    -   [join](#join)
+    -   [keys](#keys)
+    -   [lastIndexOf](#lastindexof)
+    -   [map](#map)
+    -   [neighborsOf](#neighborsof)
+    -   [pop](#pop)
+    -   [push](#push)
+    -   [reduce](#reduce)
+    -   [reduceRight](#reduceright)
+    -   [reverse](#reverse)
+    -   [set](#set)
+    -   [shift](#shift)
+    -   [some](#some)
+    -   [sort](#sort)
+    -   [splice](#splice)
+    -   [toLocaleString](#tolocalestring)
+    -   [toString](#tostring)
+    -   [unshift](#unshift)
+    -   [values](#values)
+    -   [Hex](#hex)
+    -   [hexagon](#hexagon)
+    -   [isValidHex](#isvalidhex)
+    -   [parallelogram](#parallelogram)
+    -   [pointToHex](#pointtohex)
+    -   [rectangle](#rectangle)
+    -   [triangle](#triangle)
+-   [Hex](#hex-1)
+    -   [add](#add)
+    -   [cartesian](#cartesian)
+    -   [cartesianToCube](#cartesiantocube)
+    -   [center](#center)
+    -   [coordinates](#coordinates)
+    -   [corners](#corners)
+    -   [cube](#cube)
+    -   [cubeToCartesian](#cubetocartesian)
+    -   [distance](#distance)
+    -   [equals](#equals)
+    -   [height](#height)
+    -   [isFlat](#isflat)
+    -   [isPointy](#ispointy)
+    -   [lerp](#lerp)
+    -   [nudge](#nudge)
+    -   [offset](#offset)
+    -   [oppositeCornerDistance](#oppositecornerdistance)
+    -   [oppositeSideDistance](#oppositesidedistance)
+    -   [orientation](#orientation)
+    -   [origin](#origin)
+    -   [q](#q)
+    -   [r](#r)
+    -   [round](#round)
+    -   [s](#s)
+    -   [set](#set-1)
+    -   [size](#size)
+    -   [subtract](#subtract)
+    -   [toCartesian](#tocartesian)
+    -   [toCube](#tocube)
+    -   [toPoint](#topoint)
+    -   [toString](#tostring-1)
+    -   [width](#width)
+    -   [thirdCoordinate](#thirdcoordinate)
+-   [Point](#point-1)
+    -   [add](#add-1)
+    -   [divide](#divide)
+    -   [multiply](#multiply)
+    -   [subtract](#subtract-1)
 -   [Instances](#instances)
     -   [grid](#grid-1)
     -   [hex](#hex-2)
@@ -408,19 +409,14 @@ Returns **[Hex](#hex)** A function to produce hexes that are all linked to the s
 
 See [Point](#point).
 
-### Factories
-
-
-
-
-#### Grid
+### Grid
 
 A function to create hex [grid](#grid)s and perform various operations on them.
 
 A Grid factory has several static methods that return [grid](#grid)s of hexes in a certain shape.
 It can also be called with 1 or more hexes or an array of hexes to construct/clone a [grid](#grid) containing those hexes.
 
-A [grid](#grid) inherits from `Array`, with some methods overwritten and some new methods added.
+A [grid](#grid) extends `Array.prototype`, with some methods overwritten and some new methods added.
 
 **Parameters**
 
@@ -449,51 +445,51 @@ grid === clonedGrid              // false
 
 Returns **[grid](#grid)** A grid instance containing only valid hexes.
 
-##### concat
+#### concat
 
 Identical to [Array#concat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat).
 
-##### copyWithin
+#### copyWithin
 
 Identical to [Array#copyWithin](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/copyWithin).
 
-##### entries
+#### entries
 
 Identical to [Array#entries](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/entries).
 
-##### every
+#### every
 
 Identical to [Array#every](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every).
 
-##### fill
+#### fill
 
 -   Throws **[TypeError](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/TypeError)** It makes no sense for a grid to fill it with arbitrary values, because it should only contain valid hexes.
 
 Returns **[TypeError](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/TypeError)** An error.
 
-##### filter
+#### filter
 
 Identical to [Array#filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter).
 
-##### find
+#### find
 
 Identical to [Array#find](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find).
 
-##### findIndex
+#### findIndex
 
 Identical to [Array#findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex).
 
-##### forEach
+#### forEach
 
 Identical to [Array#forEach](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach).
 
-##### get
+#### get
 
 Get a hex from a grid.
 
 **Parameters**
 
--   `hex` **[point](#point)** The returned hex (if any) has these coordinates.
+-   `keyOrPoint` **([number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [point](#point))** An index/key or a point.
 
 **Examples**
 
@@ -502,14 +498,18 @@ const Grid = Honeycomb.defineGrid()
 const Hex = Grid.Hex
 const grid = Grid.rectangle({ width: 2, height: 2 })
 
+grid.get(0)              // { x: 0, y: 0 }
 grid.get(Hex(0, 1))      // { x: 0, y: 1 }
 grid.get({ x: 0, y: 1 }) // { x: 0, y: 1 }
+grid.get([0, 1])         // { x: 0, y: 1 }
+
+grid.get(42)             // undefined
 grid.get(Hex(6, -2))     // undefined
 ```
 
 Returns **[hex](#hex)** The found hex or `undefined`.
 
-##### hexesBetween
+#### hexesBetween
 
 -   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#line-drawing)**
 
@@ -537,14 +537,14 @@ grid.hexesBetween(Hex(), Hex(3)) // [
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[hex](#hex)>** Array (not a [grid](#grid)) of hexes in a straight line from `firstHex` to (and including) `lastHex`.
 
-##### includes
+#### includes
 
 Identical to [Array#includes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes),
 but searches the passed hex (which can also be a [point](#point).
 
 **Parameters**
 
--   `hex` **[point](#point)** An object with x and y properties.
+-   `point` **[point](#point)** The coordinates to search for.
 -   `fromIndex` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Optional index to start searching. (optional, default `0`)
 
 **Examples**
@@ -552,24 +552,24 @@ but searches the passed hex (which can also be a [point](#point).
 ```javascript
 const Grid = Honeycomb.defineGrid()
 const Hex = Grid.Hex
-const grid = Grid.rectangle({ width: 2, height: 2 })
+const grid = Grid(Hex(0))    // [ { x: 0, y: 0 } ]
 
-grid.includes(Hex())         // true
-grid.includes(Hex(), 2)      // false
-grid.includes({ x: 0, y: 1}) // true
+grid.includes(Hex(0))        // true
+grid.includes([0, 0])        // true
+grid.includes(Hex(0), 1)     // false
 grid.includes(Hex(5, 7))     // false
 ```
 
 Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether the hex is included in the grid.
 
-##### indexOf
+#### indexOf
 
 Identical to [Array#indexOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf),
 but accepts a [point](#point) and internally uses [Hex#equals](#hexequals) as a comparator.
 
 **Parameters**
 
--   `hex` **[point](#point)** An object with x and y properties.
+-   `point` **[point](#point)** The coordinates to search for.
 -   `fromIndex` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Optional index to start searching.
                                      If negative, it is taken as the offset from the end of the grid. (optional, default `0`)
 
@@ -578,25 +578,30 @@ but accepts a [point](#point) and internally uses [Hex#equals](#hexequals) as a 
 ```javascript
 const Grid = Honeycomb.defineGrid()
 const Hex = Grid.Hex
-const grid = Grid.rectangle({ width: 2, height: 2 })
+const grid = Grid(Hex(0), Hex(1), Hex(0))
+// [
+//    { x: 0, y: 0 },
+//    { x: 1, y: 1 },
+//    { x: 0, y: 0 }
+// ]
 
-grid.indexOf(Hex())          // 0
-grid.indexOf(Hex(), 2)       // -1
-grid.indexOf({ x: 0, y: 1})  // 2
-grid.indexOf(Hex(5, 7))      // -1
+grid.indexOf(Hex(0))     // 0
+grid.indexOf([0, 0])     // 0
+grid.indexOf(Hex(0), 1)  // 2
+grid.indexOf(Hex(5, 7))  // -1
 ```
 
 Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The index of the found hex (first from the left) or -1 if the hex wasn't found.
 
-##### join
+#### join
 
 Identical to [Array#join](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join).
 
-##### keys
+#### keys
 
 Identical to [Array#keys](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/keys).
 
-##### lastIndexOf
+#### lastIndexOf
 
 Identical to [Array#lastIndexOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/lastIndexOf),
 but accepts a [point](#point) and internally uses [Hex#equals](#hexequals) as a comparator.
@@ -606,7 +611,7 @@ This method might have a slightly better performance if you know the search hex 
 
 **Parameters**
 
--   `hex` **[point](#point)** An object with x and y properties.
+-   `point` **[point](#point)** The coordinates to search for.
 -   `fromIndex` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Optional index to start searching back from.
                                          If negative, it is taken as the offset from the end of the grid. (optional, default `length-1`)
 
@@ -615,22 +620,26 @@ This method might have a slightly better performance if you know the search hex 
 ```javascript
 const Grid = Honeycomb.defineGrid()
 const Hex = Grid.Hex
-const grid = Grid.rectangle({ width: 2, height: 2 })
+const grid = Grid(Hex(0), Hex(1), Hex(0))
+// [
+//    { x: 0, y: 0 },
+//    { x: 1, y: 1 },
+//    { x: 0, y: 0 }
+// ]
 
-// this returns the same as grid.indexOf() because all hexes have different coordinates:
-grid.lastIndexOf(Hex())          // 0
-grid.lastIndexOf(Hex(), 2)       // -1
-grid.lastIndexOf({ x: 0, y: 1})  // 2
-grid.lastIndexOf(Hex(5, 7))      // -1
+grid.lastIndexOf(Hex(0))     // 2
+grid.lastIndexOf([0, 0])     // 2
+grid.lastIndexOf(Hex(0), 1)  // 0
+grid.lastIndexOf(Hex(5, 7))  // -1
 ```
 
 Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The last index of the found hex or -1 if the hex wasn't found.
 
-##### map
+#### map
 
 Identical to [Array#map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map).
 
-##### neighborsOf
+#### neighborsOf
 
 -   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#neighbors)**
 
@@ -683,11 +692,11 @@ grid.neighborsOf(Hex(-1, -1), 'NW')      // []
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[hex](#hex)>** An array of 0 up to 6 neighboring hexes. Only hexes that are present in the grid are returned.
 
-##### pop
+#### pop
 
 Identical to [Array#pop](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop).
 
-##### push
+#### push
 
 Identical to [Array#push](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push),
 but filters out any passed invalid hexes.
@@ -702,41 +711,78 @@ but filters out any passed invalid hexes.
 const Grid = Honeycomb.defineGrid()
 const Hex = Grid.Hex
 
-const grid = Grid(Hex()) // [{ x: 0, y: 0 }]
-grid.push(Hex(1))        // 2
-grid                     // [{ x: 0, y: 0 }, { x: 1, y: 1 }]
+const grid = Grid(Hex(0))    // [{ x: 0, y: 0 }]
+grid.push(Hex(1))            // 2
+grid                         // [{ x: 0, y: 0 }, { x: 1, y: 1 }]
 
-grid.push('invalid')     // 2
-grid                     // [{ x: 0, y: 0 }, { x: 1, y: 1 }]
+grid.push('invalid')         // 2
+grid                         // [{ x: 0, y: 0 }, { x: 1, y: 1 }]
 ```
 
 Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The new length of the grid.
 
-##### reduce
+#### reduce
 
 Identical to [Array#reduce](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce).
 
-##### reduceRight
+#### reduceRight
 
 Identical to [Array#reduceRight](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduceRight).
 
-##### reverse
+#### reverse
 
 Identical to [Array#reverse](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse).
 
-##### shift
+#### set
+
+Replace a hex with another hex. This is a safe alternative to using bracket notation (`grid[0] = 'invalid'`).
+
+If the target hex isn't present in the grid, the new hex is added (using [Grid#push](#gridpush)) to the grid.
+If the new hex is invalid, nothing changes.
+
+**Parameters**
+
+-   `keyOrPoint` **([number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [point](#point))** The coordinates of the hex that must be replaced.
+-   `newHex` **[hex](#hex)** The replacing hex.
+
+**Examples**
+
+```javascript
+const Grid = Honeycomb.defineGrid()
+const Hex = Grid.Hex
+const grid = Grid(Hex(0, 0)) // [ { x: 0, y: 0 } ]
+
+// replace a hex:
+grid.set(0, Hex(1, 1))
+grid                         // [ { x: 1, y: 1 } ]
+// the target hex can also be a point:
+grid.set([1, 1], Hex(2, 2))
+grid                         // [ { x: 2, y: 2 } ]
+
+// invalid replace values are ignored:
+grid.set(0, 'invalid')
+grid                         // [ { x: 2, y: 2 } ]
+
+// when the target hex isn't present in the grid, the replacing hex is added instead:
+grid.set({ x: 9, y: 9 }, Hex(3, 3))
+grid                         // [ { x: 2, y: 2 }, { x: 3, y: 3 } ]
+```
+
+Returns **[grid](#grid)** Itself.
+
+#### shift
 
 Identical to [Array#shift](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift).
 
-##### some
+#### some
 
 Identical to [Array#some](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some).
 
-##### sort
+#### sort
 
 Identical to [Array#sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort).
 
-##### splice
+#### splice
 
 Identical to [Array#splice](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice),
 but filters out any passed invalid hexes.
@@ -753,8 +799,12 @@ but filters out any passed invalid hexes.
 const Grid = Honeycomb.defineGrid()
 const Hex = Grid.Hex
 const grid = Grid.rectangle({ width: 2, height: 1 })
-
-grid                         // [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }]
+// [
+//    { x: 0, y: 0 },
+//    { x: 1, y: 0 },
+//    { x: 0, y: 1 },
+//    { x: 1, y: 1 }
+// ]
 
 grid.splice(2)               // [{ x: 0, y: 1 }, { x: 1, y: 1 }] <- deleted hexes
 grid                         // [{ x: 0, y: 0 }, { x: 1, y: 0 }] <- leftover hexes
@@ -763,20 +813,26 @@ grid.splice(2, 1)            // [{ x: 0, y: 1 }]
 grid                         // [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }]
 
 grid.splice(2, 1, Hex(2))    // [{ x: 0, y: 1 }]
-grid                         // [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 2 }, { x: 1, y: 1 }]
+grid
+// [
+//    { x: 0, y: 0 },
+//    { x: 1, y: 0 },
+//    { x: 2, y: 2 },
+//    { x: 1, y: 1 }
+// ]
 ```
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[hex](#hex)>** A grid with the deleted hexes (if any).
 
-##### toLocaleString
+#### toLocaleString
 
 Identical to [Array#toLocaleString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toLocaleString).
 
-##### toString
+#### toString
 
 Identical to [Array#toString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toString).
 
-##### unshift
+#### unshift
 
 Identical to [Array#unshift](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift),
 but filters out any passed invalid hexes.
@@ -791,25 +847,25 @@ but filters out any passed invalid hexes.
 const Grid = Honeycomb.defineGrid()
 const Hex = Grid.Hex
 
-const grid = Grid(Hex()) // [{ x: 0, y: 0 }]
-grid.unshift(Hex(1))     // 2
-grid                     // [{ x: 1, y: 1 }, { x: 0, y: 0 }]
+const grid = Grid(Hex(0))    // [{ x: 0, y: 0 }]
+grid.unshift(Hex(1))         // 2
+grid                         // [{ x: 1, y: 1 }, { x: 0, y: 0 }]
 
-grid.unshift('invalid')  // 2
-grid                     // [{ x: 1, y: 1 }, { x: 0, y: 0 }]
+grid.unshift('invalid')      // 2
+grid                         // [{ x: 1, y: 1 }, { x: 0, y: 0 }]
 ```
 
 Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The new length of the grid.
 
-##### values
+#### values
 
 Identical to [Array#values](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/values).
 
-##### Hex
+#### Hex
 
 The [Hex](#hex) factory the Grid factory was created with.
 
-##### hexagon
+#### hexagon
 
 -   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes)**
 
@@ -825,7 +881,7 @@ Creates a grid in the shape of a [hexagon](https://en.wikipedia.org/wiki/Hexagon
 
 Returns **[grid](#grid)** Grid of hexes in a hexagon arrangement.
 
-##### isValidHex
+#### isValidHex
 
 **Parameters**
 
@@ -833,7 +889,7 @@ Returns **[grid](#grid)** Grid of hexes in a hexagon arrangement.
 
 Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether the passed value is a valid hex.
 
-##### parallelogram
+#### parallelogram
 
 -   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes)**
 
@@ -851,7 +907,7 @@ Creates a grid in the shape of a [parallelogram](https://en.wikipedia.org/wiki/P
 
 Returns **[grid](#grid)** Grid of hexes in a parallelogram arrangement.
 
-##### pointToHex
+#### pointToHex
 
 -   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#pixel-to-hex)**
 
@@ -876,7 +932,7 @@ Grid.pointToHex(Point(120, 280))     // { x: 1, y: 4 }
 
 Returns **[hex](#hex)** A hex (with rounded coordinates) that contains the passed point.
 
-##### rectangle
+#### rectangle
 
 -   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes)**
 
@@ -895,7 +951,7 @@ Creates a grid in the shape of a [rectangle](https://en.wikipedia.org/wiki/Recta
 
 Returns **[grid](#grid)** Grid of hexes in a rectangular arrangement.
 
-##### triangle
+#### triangle
 
 -   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes)**
 
@@ -912,7 +968,7 @@ Creates a grid in the shape of a [(equilateral) triangle](https://en.wikipedia.o
 
 Returns **[grid](#grid)** Grid of hexes in a triangle arrangement.
 
-#### Hex
+### Hex
 
 -   **See: [https://www.redblobgames.com/grids/hexagons/#coordinates](redblobgames.com)**
 
@@ -966,20 +1022,20 @@ someHex === clone            // false
 
 Returns **[hex](#hex)** A hex. It _always_ contains _only_ the cartesian (x and y) coordinates and any custom properties.
 
-##### add
+#### add
 
 **Parameters**
 
--   `hex` **[point](#point)** The hex (or point) that will be added to the current.
+-   `point` **[point](#point)** The hex (or point) that will be added to the current.
 
 Returns **[hex](#hex)** A _new_ hex where the passed hex's coordinates are added to the current.
                      Any custom properties are copied.
 
-##### cartesian
+#### cartesian
 
 Alias for [Hex#coordinates](#hexcoordinates).
 
-##### cartesianToCube
+#### cartesianToCube
 
 **Parameters**
 
@@ -997,7 +1053,23 @@ Hex().cartesianToCube({ x: 4, y: -2 }) // { q: 5, r: -2, s: -3 }
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** The hex's cube `q`, `r` and `s` coordinates.
 
-##### coordinates
+#### center
+
+**Examples**
+
+```javascript
+const Hex1 = Honeycomb.extendHex({ size: 10 })
+Hex1().center()  // { x: 8.660254037844386, y: 10 }
+
+const Hex2 = Honeycomb.extendHex({ size: 10, origin: [5, 5] })
+Hex2().center()  // { x: 3.6602540378443855, y: 5 }
+```
+
+Returns **[point](#point)** Point relative to the [hex's origin](#hexorigin).
+Note that the default origin is the top left corner, so the default center is
+`{ x: hexWidth / 2, y: hexHeight / 2 }`.
+
+#### coordinates
 
 **Examples**
 
@@ -1010,7 +1082,7 @@ Hex(1, 2).coordinates()  // { x: 1, y: 2 }
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** The hex's cartesian `x` and `y` coordinates.
 
-##### corners
+#### corners
 
 **Examples**
 
@@ -1041,7 +1113,7 @@ Hex2().corners() // [
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[point](#point)>** Array of corner points relative to the [hex's origin](#hexorigin).
 Starting at the top right corner for pointy hexes and the right corner for flat hexes.
 
-##### cube
+#### cube
 
 **Examples**
 
@@ -1054,7 +1126,7 @@ Hex(1, 2).cube() // { q: 0, r: 2, s: -2 }
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** The hex's cube `q`, `r` and `s` coordinates.
 
-##### cubeToCartesian
+#### cubeToCartesian
 
 **Parameters**
 
@@ -1075,7 +1147,7 @@ Hex().cubeToCartesian({ q: -3, r: 5 })       // { x: -1, y: 5 }
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** The hex's cartesian `x` and `y` coordinates.
 
-##### distance
+#### distance
 
 -   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#distances)**
 
@@ -1094,27 +1166,27 @@ Hex(-2, -2).distance(Hex(4, 1))  // 8
 
 Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The amount of hexes from the current to (and excluding) the last hex.
 
-##### equals
+#### equals
 
 **Parameters**
 
--   `hex` **[point](#point)** The hex (or point) whose coordinates will be compared against the current hex.
+-   `point` **[point](#point)** The hex (or point) whose coordinates will be compared against the current hex.
 
-Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether the coordinates of the current and the passed hex are equal.
+Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether the coordinates of the current and the passed point are equal.
 
-##### height
+#### height
 
 Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The (vertical) height of a hex.
 
-##### isFlat
+#### isFlat
 
 Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether hexes have a flat ⬣ orientation.
 
-##### isPointy
+#### isPointy
 
 Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether hexes have a pointy ⬢ orientation.
 
-##### lerp
+#### lerp
 
 Returns an interpolation between the current hex and the passed hex for a `t` between 0 and 1.
 More info on [wikipedia](https://en.wikipedia.org/wiki/Linear_interpolation).
@@ -1127,14 +1199,14 @@ More info on [wikipedia](https://en.wikipedia.org/wiki/Linear_interpolation).
 Returns **[hex](#hex)** A new hex (likely with floating point coordinates).
                      Any custom properties are copied.
 
-##### nudge
+#### nudge
 
 -   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#line-drawing)**
 
 Returns **[hex](#hex)** A _new_ hex with a tiny offset from the current hex.
                  Useful for interpolating in a consistent direction.
 
-##### offset
+#### offset
 
 -   **See: OFFSET**
 
@@ -1143,33 +1215,33 @@ Defaults to `-1` (odd offset).
 See [OFFSET](#offset) for details.
 See [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#coordinates-offset) why this is needed.
 
-##### oppositeCornerDistance
+#### oppositeCornerDistance
 
 Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The distance between opposite corners of a hex.
 
-##### oppositeSideDistance
+#### oppositeSideDistance
 
 Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The distance between opposite sides of a hex.
 
-##### orientation
+#### orientation
 
 Either pointy or flat. Defaults to `pointy`.
 
-##### origin
+#### origin
 
 Distance from a hex's top left corner (as if it were a rectange). Defaults to `Point(0)`.
 Can be anything the [Honeycomb.Point](#honeycombpoint) factory accepts.
 When a [hex is converted to a point](#hextopoint), it is converted to this origin.
 
-##### q
+#### q
 
 Getter for `q` cube coordinate. Calls [Hex#cartesianToCube](#hexcartesiantocube) internally.
 
-##### r
+#### r
 
 Getter for `r` cube coordinate. Calls [Hex#cartesianToCube](#hexcartesiantocube) internally.
 
-##### round
+#### round
 
 -   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#rounding)**
 
@@ -1185,11 +1257,11 @@ Hex(3.1415, 0.5).round() // { x: 3, y: 1 }
 Returns **[hex](#hex)** A _new_ hex with rounded coordinates.
                  Any custom properties are copied.
 
-##### s
+#### s
 
 Getter for `s` cube coordinate. Calls [Hex#cartesianToCube](#hexcartesiantocube) internally.
 
-##### set
+#### set
 
 **Parameters**
 
@@ -1207,28 +1279,28 @@ hex === updatedHex                                   // true: hex is updated in-
 
 Returns **[hex](#hex)** Itself with the passed parameters merged into it.
 
-##### size
+#### size
 
 A hex's radius or the length of any of its sides. Defaults to `1`.
 
-##### subtract
+#### subtract
 
 **Parameters**
 
--   `hex` **[point](#point)** The hex (or point) that will be subtracted from the current.
+-   `point` **[point](#point)** The hex (or point) that will be subtracted from the current.
 
 Returns **[hex](#hex)** A _new_ hex where the passed hex's coordinates are subtracted from the current.
                      Any custom properties are copied.
 
-##### toCartesian
+#### toCartesian
 
 Alias for [Hex#cubeToCartesian](#hexcubetocartesian).
 
-##### toCube
+#### toCube
 
 Alias for [Hex#cartesianToCube](#hexcartesiantocube).
 
-##### toPoint
+#### toPoint
 
 **Examples**
 
@@ -1240,15 +1312,15 @@ Hex(-2, -5).toPoint()    // { x: -77.94228634059947, y: -225 }
 
 Returns **[point](#point)** The hex's origin point.
 
-##### toString
+#### toString
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** A string representation of the hex.
 
-##### width
+#### width
 
 Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The (horizontal) width of a hex.
 
-##### thirdCoordinate
+#### thirdCoordinate
 
 Calculates the third cube coordinate from the other two. The sum of all three coordinates must be 0.
 
@@ -1266,7 +1338,7 @@ Hex.thirdCoordinate(3, -2)   // -1
 
 Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The third cube coordinate.
 
-#### Point
+### Point
 
 Factory function for creating two-dimensional points.
 
@@ -1298,7 +1370,7 @@ Point({ x: 1, y: 2 })    // { x: 1, y: 2 }
 
 Returns **[point](#point)** A point.
 
-##### add
+#### add
 
 **Parameters**
 
@@ -1306,7 +1378,7 @@ Returns **[point](#point)** A point.
 
 Returns **[point](#point)** The sum of the passed point's coordinates to the current point's.
 
-##### divide
+#### divide
 
 **Parameters**
 
@@ -1314,7 +1386,7 @@ Returns **[point](#point)** The sum of the passed point's coordinates to the cur
 
 Returns **[point](#point)** The division of the current point's coordinates and the passed point's.
 
-##### multiply
+#### multiply
 
 **Parameters**
 
@@ -1322,7 +1394,7 @@ Returns **[point](#point)** The division of the current point's coordinates and 
 
 Returns **[point](#point)** The multiplication of the passed point's coordinates and the current point's.
 
-##### subtract
+#### subtract
 
 **Parameters**
 
@@ -1462,20 +1534,20 @@ Returns **void** Nothing.
 ### 🚀 Features
 
 1.  Make more methods accept points (instead of hexes). Also: instead of filtering invalid hexes, attempt to convert values to hexes (by passing them to `Hex()`)?
-12. Make some methods getters (e.g. `Hex#width`)?
-9.  Hex methods that do nothing with a hex's coordinates should be static (e.g. `cubeToCartesian`, `isPointy`, `width`)?
-10. Make methods that accept points, also accept `x` and `y` as separate parameters?
-12. Maybe make entities immutable?
-13. Make some Grid instance methods also Grid static methods and vice versa?
-14. Add logger that "renders" a grid using `console.log`.
-15. Overwrite `Grid#sort` so it can sort by 1 or more dimensions, ascending/descending (and also accepts a custom comparator)?
-16. Add `Grid.union`, `Grid.subtract`, `Grid.intersect` and `Grid.difference` (or maybe as prototype methods?). [More info](https://www.sketchapp.com/docs/shapes/boolean-operations/).
-18. Shiny github.io pages 😎
-19. Maybe add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well. Might be a problem that needs solvin' in the view (and not in Honeycomb).
-20. Maybe `Honeycomb.defineGrid` should accept a prototype too (as a second parameter).
-21. Maybe `Honeycomb` should (also) be a function that accepts a hex prototype and returns a Grid factory?
-21. Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.
-22. Add type definition files? Potential tools: [dts-gen](https://github.com/Microsoft/dts-gen), [dtsmake](https://github.com/ConquestArrow/dtsmake).
+2.  Make some methods getters (e.g. `Hex#width`)?
+3.  Hex methods that do nothing with a hex's coordinates should be static (e.g. `cubeToCartesian`, `isPointy`, `width`)?
+4.  Make methods that accept points, also accept `x` and `y` as separate parameters?
+5.  Maybe make entities immutable?
+6.  Make some Grid instance methods also Grid static methods and vice versa?
+7.  Add logger that "renders" a grid using `console.log`.
+8.  Overwrite `Grid#sort` so it can sort by 1 or more dimensions, ascending/descending (and also accepts a custom comparator)?
+9.  Add `Grid.union`, `Grid.subtract`, `Grid.intersect` and `Grid.difference` (or maybe as prototype methods?). [More info](https://www.sketchapp.com/docs/shapes/boolean-operations/).
+10. Shiny github.io pages 😎
+11. Maybe add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well. Might be a problem that needs solvin' in the view (and not in Honeycomb).
+12. Maybe `Honeycomb.defineGrid` should accept a prototype too (as a second parameter).
+13. Maybe `Honeycomb` should (also) be a function that accepts a hex prototype and returns a Grid factory?
+14. Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.
+15. Add type definition files? Potential tools: [dts-gen](https://github.com/Microsoft/dts-gen), [dtsmake](https://github.com/ConquestArrow/dtsmake).
 
 ### 🛠 Refactorings
 
