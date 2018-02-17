@@ -210,7 +210,26 @@ Grid.rectangle({ width: 100, height: 100 }).forEach(hex => {
 })
 ```
 
-[Edit in JSFiddle](https://jsfiddle.net/Flauwekeul/u4wgda8t/).
+[Edit in JSFiddle](https://jsfiddle.net/Flauwekeul/0vm2azj2/).
+
+### Hex ↔ Point
+
+Translating a point (pixel) in the grid to the corresponding hex is possible with [`Grid.pointToHex()`](#pointtohex).
+
+```javascript
+const Hex = Honeycomb.extendHex({ size: 30 })
+const Grid = Honeycomb.defineGrid(Hex)
+const grid = Grid.rectangle({ width: 10, height: 10 })
+
+document.addEventListener('click', ({ offsetX, offsetY }) => {
+    // convert point to hex (coordinates)
+    const hexCoordinates = Grid.pointToHex([offsetX, offsetY])
+    // get the actual hex from the grid
+    console.log(grid.get(hexCoordinates))
+})
+```
+
+See a more elaborate example on [JSFiddle](https://jsfiddle.net/Flauwekeul/3bd6sa9r/).
 
 ## API
 
@@ -1442,8 +1461,8 @@ Returns **void** Nothing.
 
 ### 🚀 Features
 
-11. Make more methods accept points (instead of hexes). Also: instead of filtering invalid hexes, attempt to convert values to hexes (by passing them to `Hex()`)?
-12. Make some methods getters (e.g. `Hex#width()`)?
+1.  Make more methods accept points (instead of hexes). Also: instead of filtering invalid hexes, attempt to convert values to hexes (by passing them to `Hex()`)?
+12. Make some methods getters (e.g. `Hex#width`)?
 9.  Hex methods that do nothing with a hex's coordinates should be static (e.g. `cubeToCartesian`, `isPointy`, `width`)?
 10. Make methods that accept points, also accept `x` and `y` as separate parameters?
 12. Maybe make entities immutable?
@@ -1451,10 +1470,10 @@ Returns **void** Nothing.
 14. Add logger that "renders" a grid using `console.log`.
 15. Overwrite `Grid#sort` so it can sort by 1 or more dimensions, ascending/descending (and also accepts a custom comparator)?
 16. Add `Grid.union`, `Grid.subtract`, `Grid.intersect` and `Grid.difference` (or maybe as prototype methods?). [More info](https://www.sketchapp.com/docs/shapes/boolean-operations/).
-17. Use JSFiddle for better examples.
 18. Shiny github.io pages 😎
 19. Maybe add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well. Might be a problem that needs solvin' in the view (and not in Honeycomb).
 20. Maybe `Honeycomb.defineGrid` should accept a prototype too (as a second parameter).
+21. Maybe `Honeycomb` should (also) be a function that accepts a hex prototype and returns a Grid factory?
 21. Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.
 22. Add type definition files? Potential tools: [dts-gen](https://github.com/Microsoft/dts-gen), [dtsmake](https://github.com/ConquestArrow/dtsmake).
 
@@ -1462,4 +1481,3 @@ Returns **void** Nothing.
 
 1.  Only inject what's needed, instead of whole factories (see `Grid.colSize` for example).
 2.  Don't use `this` at all and just inject a context. Functional programming yo 🤓.
-3.  Don't transpile to ES5. Who needs IE anyway?
