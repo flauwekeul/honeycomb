@@ -40,10 +40,8 @@ export function pointToHexFactory({ Point, Hex }) {
     return function pointToHex(point) {
         const hex = Hex()
         const size = hex.size
+        const { x, y } = Point(point).subtract(hex.center())
         let q, r
-
-        // guarantee point is an actual Point instance
-        const { x, y } = Point(point)
 
         if (hex.isPointy()) {
             q = (x * Math.sqrt(3) / 3 - y / 3) / size

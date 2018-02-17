@@ -25,23 +25,26 @@ describe('isValidHex', () => {
 })
 
 describe('pointToHex', function() {
-    let Point, isPointy, hexResult, Hex, round, pointToHex, point
+    let subtract, Point, isPointy, hexResult, Hex, round, center, pointToHex, point
 
     beforeEach(function() {
-        Point = sinon.stub().callsFake(point => point)
+        point = { x: 1, y: 1 }
+        subtract = sinon.stub().returns(point)
+        Point = sinon.stub().returns({ subtract })
         isPointy = sinon.stub()
         round = sinon.stub().returns('round result')
+        center = sinon.stub().returns('center result')
         hexResult = {
             size: 1,
             isPointy,
-            round
+            round,
+            center
         }
         Hex = sinon.stub().returns(hexResult)
         pointToHex = statics.pointToHexFactory({ Point, Hex })
-        point = { x: 1, y: 1 }
     })
 
-    it('calls Hex to access its size and isPointy', function() {
+    it('calls Hex to access its size, center and isPointy', function() {
         pointToHex(point)
         expect(Hex).to.have.been.called
     })
@@ -49,6 +52,12 @@ describe('pointToHex', function() {
     it('calls Point with the passed point to convert it to an actual point', function() {
         pointToHex(point)
         expect(Point).to.have.been.calledWith(point)
+    })
+
+    it(`subtracts the hex's center from the point`, function() {
+        pointToHex(point)
+        expect(center).to.have.been.called
+        expect(subtract).to.have.been.calledWith('center result')
     })
 
     describe('when the hex has a pointy orientation', function() {
