@@ -6,7 +6,7 @@ const sqrt3 = Math.sqrt(3)
 export function setFactory({ Hex }) {
     /**
      * @memberof Hex#
-     * @method
+     * @instance
      *
      * @param {*} coordinates   Same parameters as the {@link Hex} factory.
      * @returns {hex}           Itself with the passed parameters merged into it.
@@ -168,7 +168,7 @@ export function height() {
 export function cornersFactory({ Point }) {
     /**
      * @memberof Hex#
-     * @method
+     * @instance
      * @returns {point[]}
      * Array of corner points relative to the {@link Hex#origin|hex's origin}.
      * Starting at the top right corner for pointy hexes and the right corner for flat hexes.
@@ -226,7 +226,7 @@ export function cornersFactory({ Point }) {
 export function centerFactory({ Point }) {
     /**
      * @memberof Hex#
-     * @method
+     * @instance
      * @returns {point} Point relative to the {@link Hex#origin|hex's origin}.
      * Note that the default origin is the top left corner, so the default center is
      * `{ x: hexWidth / 2, y: hexHeight / 2 }`.
@@ -247,7 +247,7 @@ export function centerFactory({ Point }) {
 export function toPointFactory({ Point }) {
     /**
      * @memberof Hex#
-     * @method
+     * @instance
      * @returns {point} The hex's origin point.
      *
      * @example
@@ -274,7 +274,7 @@ export function toPointFactory({ Point }) {
 export function addFactory({ Hex, Point }) {
     /**
      * @memberof Hex#
-     * @method
+     * @instance
      *
      * @todo Accept any number of hexes to add.
      *
@@ -296,7 +296,7 @@ export function addFactory({ Hex, Point }) {
 export function subtractFactory({ Hex, Point }) {
     /**
      * @memberof Hex#
-     * @method
+     * @instance
      *
      * @todo Accept any number of hexes to subtract.
      *
@@ -318,7 +318,7 @@ export function subtractFactory({ Hex, Point }) {
 export function equalsFactory({ Point }) {
     /**
      * @memberof Hex#
-     * @method
+     * @instance
      *
      * @param {point} point The hex (or point) whose coordinates will be compared against the current hex.
      * @returns {boolean}   Whether the coordinates of the current and the passed point are equal.

@@ -6,7 +6,7 @@ import { DIRECTION_COORDINATES, DIAGONAL_DIRECTION_COORDINATES } from '../hex/co
  * Get a hex from a grid.
  *
  * @memberof Grid#
- * @method
+ * @instance
  *
  * @param {(number|point)} keyOrPoint   An index/key or a point.
  * @returns {hex}                       The found hex or `undefined`.
@@ -40,7 +40,7 @@ export function setFactory({ Grid }) {
      * If the new hex is invalid, nothing changes.
      *
      * @memberof Grid#
-     * @method
+     * @instance
      *
      * @param {(number|point)} keyOrPoint   The coordinates of the hex that must be replaced.
      * @param {hex} newHex                  The replacing hex.
@@ -123,7 +123,7 @@ export function hexesBetween(firstHex, lastHex) {
 export function neighborsOfFactory({ Grid, signedModulo, compassToNumberDirection }) {
     /**
      * @memberof Grid#
-     * @method
+     * @instance
      * @see {@link https://www.redblobgames.com/grids/hexagons/#neighbors|redblobgames.com}
      *
      * @param {hex} hex

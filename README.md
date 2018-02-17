@@ -102,7 +102,7 @@ grid.length // 15
 grid[4]     // { x: 1, y: 0 }
 ```
 
-Some Grid methods are augmented. For example: [`Array#includes()`](https://developer.mozilla.org/nl/docs/Web/JavaScript/Reference/Global_Objects/Array/includes) always returns `false` when passed an object literal because it uses [strict equality](https://developer.mozilla.org/nl/docs/Web/JavaScript/Equality_comparisons_and_sameness) internally. [`Grid#includes()`](#includes) _only_ accepts object literals (in the form of [points](#point-1)):
+Some Grid methods are augmented. For example: [`Array#includes()`](https://developer.mozilla.org/nl/docs/Web/JavaScript/Reference/Global_Objects/Array/includes) always returns `false` when passed an object literal because it uses [strict equality](https://developer.mozilla.org/nl/docs/Web/JavaScript/Equality_comparisons_and_sameness) internally. [`Grid#includes()`](#gridincludes) _only_ accepts object literals (in the form of [points](#point-1)):
 
 ```javascript
 const grid = Grid(Hex(1, 0))
@@ -111,7 +111,7 @@ grid.includes({ x: 1, y: 0 })   // true
 
 #### Mutating grid methods
 
-Methods that mutate the grid in-place ([Grid#push](#push), [Grid#splice](#splice) and [Grid#unshift](#unshift)) only accept valid hexes to prevent "grid corruption" 👮‍♀️ ([Grid#fill](#fill) isn't implemented at all).
+Methods that mutate the grid in-place ([Grid#push](#gridpush), [Grid#splice](#gridsplice) and [Grid#unshift](#gridunshift)) only accept valid hexes to prevent "grid corruption" 👮‍ ([Grid#fill](#gridfill) isn't implemented at all).
 
 ```javascript
 const grid = Grid()             // []
@@ -133,7 +133,7 @@ grid[0] = 'invalid hex'
 grid[0]                     // 'invalid hex' ⚠️
 ```
 
-Use [`Grid#get`](#get) and [`Grid#set`](#set) instead:
+Use [`Grid#get`](#gridget) and [`Grid#set`](#gridset) instead:
 
 ```javascript
 const grid = Grid(Hex())

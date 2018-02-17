@@ -132,7 +132,7 @@ export default function extendHexFactory({ ensureXY }) {
             /**
              * Alias for {@link Hex#coordinates}.
              * @memberof Hex#
-             * @method
+             * @instance
              */
             cartesian: methods.coordinates,
             cartesianToCube: methods.cartesianToCube,
@@ -156,13 +156,13 @@ export default function extendHexFactory({ ensureXY }) {
             /**
              * Alias for {@link Hex#cubeToCartesian}.
              * @memberof Hex#
-             * @method
+             * @instance
              */
             toCartesian: methods.cubeToCartesian,
             /**
              * Alias for {@link Hex#cartesianToCube}.
              * @memberof Hex#
-             * @method
+             * @instance
              */
             toCube: methods.cartesianToCube,
             toPoint: methods.toPointFactory({ Point }),
