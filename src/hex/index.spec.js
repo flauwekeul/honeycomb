@@ -43,6 +43,7 @@ describe('extendHex', function() {
             'add',
             'cartesian',
             'cartesianToCube',
+            'center',
             'coordinates',
             'corners',
             'cube',

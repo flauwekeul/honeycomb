@@ -446,3 +446,18 @@ describe('toString', function() {
         expect(Hex(1, 2).toString()).to.eql('1,2')
     })
 })
+
+describe('center', () => {
+    it(`returns a hex's center point relative to its origin`, () => {
+        let Hex = extendHex()
+        let result = Hex().center()
+
+        expect(result.x).to.be.closeTo(0.8660, 0.0005)
+        expect(result.y).to.equal(1)
+
+        Hex = extendHex({ size: 10, origin: [5,5] })
+        result = Hex().center()
+        expect(result.x).to.be.closeTo(3.6602, 0.005)
+        expect(result.y).to.equal(5)
+    })
+})

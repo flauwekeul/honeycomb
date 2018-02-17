@@ -136,6 +136,7 @@ export default function extendHexFactory({ ensureXY }) {
              */
             cartesian: methods.coordinates,
             cartesianToCube: methods.cartesianToCube,
+            center: methods.centerFactory({ Point }),
             coordinates: methods.coordinates,
             corners: methods.cornersFactory({ Point }),
             cube: methods.cube,

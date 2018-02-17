@@ -1442,10 +1442,10 @@ Returns **void** Nothing.
 
 ### 🚀 Features
 
-8.  Add method to get a hex's center point relative to its origin.
+11. Make more methods accept points (instead of hexes). Also: instead of filtering invalid hexes, attempt to convert values to hexes (by passing them to `Hex()`)?
+12. Make some methods getters (e.g. `Hex#width()`)?
 9.  Hex methods that do nothing with a hex's coordinates should be static (e.g. `cubeToCartesian`, `isPointy`, `width`)?
-10. Make methods that accept points, also accept `x` and `y` as separate parameters.
-11. Make more methods accept points (instead of hexes).
+10. Make methods that accept points, also accept `x` and `y` as separate parameters?
 12. Maybe make entities immutable?
 13. Make some Grid instance methods also Grid static methods and vice versa?
 14. Add logger that "renders" a grid using `console.log`.

@@ -223,6 +223,27 @@ export function cornersFactory({ Point }) {
     }
 }
 
+export function centerFactory({ Point }) {
+    /**
+     * @memberof Hex#
+     * @method
+     * @returns {point} Point relative to the {@link Hex#origin|hex's origin}.
+     * Note that the default origin is the top left corner, so the default center is
+     * `{ x: hexWidth / 2, y: hexHeight / 2 }`.
+     *
+     * @example
+     * const Hex1 = Honeycomb.extendHex({ size: 10 })
+     * Hex1().center()  // { x: 8.660254037844386, y: 10 }
+     *
+     * const Hex2 = Honeycomb.extendHex({ size: 10, origin: [5, 5] })
+     * Hex2().center()  // { x: 3.6602540378443855, y: 5 }
+     */
+    return function center() {
+        const { x, y } = this.origin
+        return Point(this.width() / 2 - x, this.height() / 2 - y)
+    }
+}
+
 export function toPointFactory({ Point }) {
     /**
      * @memberof Hex#
