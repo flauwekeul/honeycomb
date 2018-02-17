@@ -184,7 +184,7 @@ Grid.rectangle({ width: 100, height: 100 }).forEach(hex => {
 })
 ```
 
-[Edit in JSFiddle](https://jsfiddle.net/Flauwekeul/qmfgey44/).
+[Try it in JSFiddle](https://jsfiddle.net/Flauwekeul/qmfgey44/).
 
 #### With [SVG.js](http://svgjs.com/)
 
@@ -210,7 +210,7 @@ Grid.rectangle({ width: 100, height: 100 }).forEach(hex => {
 })
 ```
 
-[Edit in JSFiddle](https://jsfiddle.net/Flauwekeul/0vm2azj2/).
+[Try it in JSFiddle](https://jsfiddle.net/Flauwekeul/0vm2azj2/).
 
 ### Hex ↔ Point
 
@@ -229,7 +229,11 @@ document.addEventListener('click', ({ offsetX, offsetY }) => {
 })
 ```
 
-See a more elaborate example on [JSFiddle](https://jsfiddle.net/Flauwekeul/3bd6sa9r/).
+See a more elaborate example in [JSFiddle](https://jsfiddle.net/Flauwekeul/3bd6sa9r/).
+
+### Grid shapes
+
+Honeycomb offers 4 shape methods: [rectangle](#rectangle), [triangle](#triangle), [hexagon](#hexagon) and [parallelogram](#parallelogram). [Try them out in JSFiddle](https://jsfiddle.net/Flauwekeul/arxo1vqo/).
 
 ## API
 

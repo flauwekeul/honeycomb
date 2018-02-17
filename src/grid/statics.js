@@ -237,15 +237,15 @@ export function rectangleFactory({ Grid, Hex, compassToNumberDirection, signedMo
      * @todo Validate params
      * @todo Move duplicate code to util
      *
-     * @param {Object} options                          An options object.
-     * @param {number} options.width                    The width (in hexes).
-     * @param {number} options.height                   The height (in hexes).
-     * @param {hex} [options.start=Hex(0)]              The start hex.
+     * @param {Object} options                      An options object.
+     * @param {number} options.width                The width (in hexes).
+     * @param {number} options.height               The height (in hexes).
+     * @param {hex} [options.start=Hex(0)]          The start hex.
      * @param {(COMPASS_DIRECTION|number)} [options.direction=E|S]
      * The direction (from the start hex) in which to create the shape.
      * Defaults to `0` (`E`) for pointy hexes and `1` (`S`) for flat hexes.
      * Each direction corresponds to a different arrangement of hexes.
-     * @param {onCreate} [options.onCreate=no-op]       Callback that's called for each hex. Defaults to a {@link https://en.wikipedia.org/wiki/NOP|no-op}.
+     * @param {onCreate} [options.onCreate=no-op]   Callback that's called for each hex. Defaults to a {@link https://en.wikipedia.org/wiki/NOP|no-op}.
      *
      * @returns {grid}                              Grid of hexes in a rectangular arrangement.
      */
