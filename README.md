@@ -1579,20 +1579,20 @@ Returns **void** Nothing.
 ### 🚀 Features
 
 3.  Hex methods that do nothing with a hex's coordinates should be static (e.g. `cubeToCartesian`, `isPointy`, `width`)?
-6.  Make some Grid instance methods also Grid static methods and vice versa?
-1.  Make more methods accept points (instead of hexes). Also: instead of filtering invalid hexes, attempt to convert values to hexes (by passing them to `Hex()`)?
-2.  Make some methods getters (e.g. `Hex#width`)?
-4.  Make methods that accept points, also accept `x` and `y` as separate parameters?
-5.  Maybe make entities immutable?
-11. Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well. Maybe this should be solved during rendering (and not in Honeycomb at all)?
-7.  Add logger that "renders" a grid using `console.log`.
-8.  Overwrite `Grid#sort` so it can sort by 1 or more dimensions, ascending/descending (and also accepts a custom comparator)?
-9.  Add `Grid.union`, `Grid.subtract`, `Grid.intersect` and `Grid.difference` (or maybe as prototype methods?). [More info](https://www.sketchapp.com/docs/shapes/boolean-operations/).
-10. Shiny github.io pages 😎
-12. Maybe `Honeycomb.defineGrid` should accept a prototype too (as a second parameter).
-13. Maybe `Honeycomb` should (also) be a function that accepts a hex prototype and returns a Grid factory?
-14. Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.
-15. Add type definition files? Potential tools: [dts-gen](https://github.com/Microsoft/dts-gen), [dtsmake](https://github.com/ConquestArrow/dtsmake).
+4.  Make some Grid instance methods also Grid static methods and vice versa?
+5.  Make more methods accept points (instead of hexes). Also: instead of filtering invalid hexes, attempt to convert values to hexes (by passing them to `Hex()`)?
+6.  Make some methods getters (e.g. `Hex#width`)?
+7.  Make methods that accept points, also accept `x` and `y` as separate parameters?
+8.  Maybe make entities immutable?
+9.  Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well. Maybe this should be solved during rendering (and not in Honeycomb at all)?
+10. Add logger that "renders" a grid using `console.log`.
+11. Overwrite `Grid#sort` so it can sort by 1 or more dimensions, ascending/descending (and also accepts a custom comparator)?
+12. Add `Grid.union`, `Grid.subtract`, `Grid.intersect` and `Grid.difference` (or maybe as prototype methods?). [More info](https://www.sketchapp.com/docs/shapes/boolean-operations/).
+13. Shiny github.io pages 😎
+14. Maybe `Honeycomb.defineGrid` should accept a prototype too (as a second parameter).
+15. Maybe `Honeycomb` should (also) be a function that accepts a hex prototype and returns a Grid factory?
+16. Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.
+17. Add type definition files? Potential tools: [dts-gen](https://github.com/Microsoft/dts-gen), [dtsmake](https://github.com/ConquestArrow/dtsmake).
 
 ### 🛠 Refactorings
 
