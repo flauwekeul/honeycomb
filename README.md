@@ -8,17 +8,17 @@
 
 Another hex grid library made in JavaScript, heavily inspired by [Red Blob Games'](http://www.redblobgames.com/grids/hexagons/) blog posts and code samples.
 
-All existing JS hex grid libraries I could find are coupled with some form of view. Most often a `<canvas>` element or the browser DOM. I want more separation of concerns...and a new hobby project to spend countless hours on.
+All existing JS hex grid libraries I could find are coupled with some form of view. Most often a `<canvas>` element or the browser DOM. I want more separation of concerns…and a new hobby project to spend countless hours on.
 
 ### Features
 
 -   🙌 Works in (modern) browsers and in Node.js.
 -   📐 Create hex grids in different shapes: ▭ rectangles, △ triangles, ⬡ hexagons and ▱ parallelograms.
 -   🌐 2 coordinate systems: cartesian (`x` and `y`) and cube (`q`, `r` and `s`).
--   ✨ Create your own hexes by extending the built-in Hex.
+-   ✨ Create your own hexes by extending the built-in hex factory.
 -   🗺 Convert points to hexes and vice versa.
 -   ⬢ Pointy and ⬣ flat hexes.
--   🖥 Lets you decide how hexes are rendered.
+-   🖥 Lets you decide if and how hexes are rendered.
 
 ## Installation
 
@@ -89,68 +89,6 @@ const grid2 = Grid(Hex(1, 2), Hex(3, 4))
 // ]
 ```
 
-#### Grids extend `Array.prototype`
-
-Most properties/methods of grids are the same as their Array counterpart:
-
-```javascript
-const grid = Grid.rectangle({ width: 4, height: 4 })
-
-grid.length // 16
-grid.pop()  // { x: 3, y: 3 }
-grid.length // 15
-grid[4]     // { x: 1, y: 0 }
-```
-
-Some Grid methods are augmented. For example: [`Array#includes()`](https://developer.mozilla.org/nl/docs/Web/JavaScript/Reference/Global_Objects/Array/includes) always returns `false` when passed an object literal because it uses [strict equality](https://developer.mozilla.org/nl/docs/Web/JavaScript/Equality_comparisons_and_sameness) internally. [`Grid#includes()`](#gridincludes) _only_ accepts object literals (in the form of [points](#point-1)):
-
-```javascript
-const array = [{ x: 1, y: 0 }]
-array.includes({ x: 1, y: 0 })  // false
-
-const grid = Grid(Hex(1, 0))
-grid.includes({ x: 1, y: 0 })   // true
-```
-
-#### Mutating grid methods
-
-Methods that mutate the grid in-place ([Grid#push](#gridpush), [Grid#splice](#gridsplice) and [Grid#unshift](#gridunshift)) only accept valid hexes to prevent "grid corruption" 👮‍ ([Grid#fill](#gridfill) isn't implemented at all).
-
-```javascript
-const grid = Grid()             // []
-
-// this silently fails:
-grid.push('invalid hex')        // 0 <- the grid's length, which remains 0
-grid.includes('invalid hex')    // false
-```
-
-#### Be carefull with bracket notation!
-
-It's possible to add an invalid hex to a grid when using bracket notation:
-
-```javascript
-const grid = Grid(Hex())
-
-grid[0]                     // { x: 0, y: 0 }
-grid[0] = 'invalid hex'
-grid[0]                     // 'invalid hex' ⚠️
-```
-
-Use [`Grid#get`](#gridget) and [`Grid#set`](#gridset) instead:
-
-```javascript
-const grid = Grid(Hex())
-
-grid.get(0)                 // { x: 0, y: 0 }
-grid.set(0, 'invalid hex')
-grid.get(0)                 // { x: 0, y: 0 } <- invalid hex is ignored
-
-// Grid#set() also accepts a point:
-grid.set({ x: 0, y: 0 }, Hex(-1, 3))
-// …as does Grid#get():
-grid.get([-1, 3])           // { x: -1, y: 3 }
-```
-
 ### Rendering
 
 Honeycomb comes without the ability to render hexes to screen. Fortunately, it isn't very hard. Especially if you use a dedicated rendering library.
@@ -215,9 +153,85 @@ Grid.rectangle({ width: 100, height: 100 }).forEach(hex => {
 
 [Try it in JSFiddle](https://jsfiddle.net/Flauwekeul/0vm2azj2/).
 
-### Hex ↔ Point
+### Grids extend `Array.prototype`
 
-Translating a point (pixel) in the grid to the corresponding hex is possible with [`Grid.pointToHex()`](#pointtohex).
+Most properties/methods of grids are the same as their Array counterpart:
+
+```javascript
+const grid = Grid.rectangle({ width: 4, height: 4 })
+
+grid.length // 16
+grid.pop()  // { x: 3, y: 3 }
+grid.length // 15
+grid[4]     // { x: 1, y: 0 }
+```
+
+Some Grid methods are augmented. For example: [`Array#includes`](https://developer.mozilla.org/nl/docs/Web/JavaScript/Reference/Global_Objects/Array/includes) always returns `false` when passed an object literal because it uses [strict equality](https://developer.mozilla.org/nl/docs/Web/JavaScript/Equality_comparisons_and_sameness) internally. [`Grid#includes`](#includes) _only_ accepts object literals (in the form of [points](#point-2)):
+
+```javascript
+const array = [{ x: 1, y: 0 }]
+array.includes({ x: 1, y: 0 })  // false
+
+const grid = Grid(Hex(1, 0))
+grid.includes({ x: 1, y: 0 })   // true
+```
+
+#### Grid methods that mutate
+
+Methods that mutate the grid in-place ([Grid#push](#push), [Grid#splice](#splice) and [Grid#unshift](#unshift)) only accept valid hexes to prevent "grid corruption" 👮‍.
+
+```javascript
+const grid = Grid()             // []
+
+// this silently fails:
+grid.push('invalid hex')        // 0 <- the grid's length, which remains 0
+grid.includes('invalid hex')    // false
+```
+
+Keep in mind that methods that return a new grid (e.g. [Grid#map](#map)) can create grids with invalid hexes:
+
+```javascript
+const grid = Grid.rectangle({ width: 4, height: 4 })
+
+const newGrid = grid.map(hex => 'invalid hex')
+// [
+//    'invalid hex',
+//    'invalid hex',
+//    'invalid hex',
+//    …
+// ]
+```
+
+#### Be careful with bracket notation
+
+It's possible to add an invalid hex to a grid by using bracket notation:
+
+```javascript
+const grid = Grid(Hex())
+
+grid[0]                     // { x: 0, y: 0 }
+grid[0] = 'invalid hex'
+grid[0]                     // 'invalid hex' ⚠️
+```
+
+Use [`Grid#get`](#get) and [`Grid#set`](#set) instead:
+
+```javascript
+const grid = Grid(Hex())
+
+grid.get(0)                 // { x: 0, y: 0 }
+grid.set(0, 'invalid hex')
+grid.get(0)                 // { x: 0, y: 0 } <- invalid hex is ignored
+
+// Grid#set() also accepts a point:
+grid.set({ x: 0, y: 0 }, Hex(-1, 3))
+// …as does Grid#get():
+grid.get([-1, 3])           // { x: -1, y: 3 }
+```
+
+### Point → Hex
+
+Translating a screen point (pixel) to the corresponding hex in a grid is possible with [`Grid.pointToHex()`](#pointtohex).
 
 ```javascript
 const Hex = Honeycomb.extendHex({ size: 30 })
@@ -263,7 +277,8 @@ const Hex = Honeycomb.extendHex()
 const hex = Hex()
 
 hex.toCube({ x: 3, y: 4 })      // { q: 1, r: 4, s: -5 }
-// Hex#toCartesian() doesn't require the s coordinate:
+
+// Hex#toCartesian doesn't require the s coordinate:
 hex.toCartesian({ q: 1, r: 4 }) // { x: 3, y: 4 }
 ```
 
@@ -651,7 +666,7 @@ Identical to [Array#keys](https://developer.mozilla.org/en-US/docs/Web/JavaScrip
 Identical to [Array#lastIndexOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/lastIndexOf),
 but accepts a [point](#point) and internally uses [Hex#equals](#hexequals) as a comparator.
 
-Because all hexes will have different coordinates in most grids, this method behaves the same as [Grid#indexOf](#gridindexof).
+Because all hexes will have different coordinates in most grids, this method behaves the same as [Grid#indexOf](#indexof).
 This method might have a slightly better performance if you know the search hex is at the end of the grid.
 
 **Parameters**
@@ -782,7 +797,7 @@ Identical to [Array#reverse](https://developer.mozilla.org/en-US/docs/Web/JavaSc
 
 Replace a hex with another hex. This is a safe alternative to using bracket notation (`grid[0] = 'invalid'`).
 
-If the target hex isn't present in the grid, the new hex is added (using [Grid#push](#gridpush)) to the grid.
+If the target hex isn't present in the grid, the new hex is added (using [Grid#push](#push)) to the grid.
 If the new hex is invalid, nothing changes.
 
 **Parameters**
@@ -1575,6 +1590,8 @@ Returns **void** Nothing.
 ## Backlog
 
 ### 🐛 Bugs
+
+1.  The grid factory returned from `Honeycomb.defineGrid()` has a `Hex` property (which is the hex factory). But that hex factory has no properties (i.e. `Hex.thirdCoordinate()`). Cause: `Hex.bind()` (src/grid/index.js#50).
 
 ### 🚀 Features
 
