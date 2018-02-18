@@ -18,17 +18,17 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 -   ✨ Create your own hexes by extending the built-in Hex.
 -   🗺 Convert points to hexes and vice versa.
 -   ⬢ Pointy and ⬣ flat hexes.
--   🖥 Let's you decide how hexes are rendered.
+-   🖥 Lets you decide how hexes are rendered.
 
 ## Installation
 
-### NPM
+NPM:
 
 ```bash
 npm i --save honeycomb-grid
 ```
 
-### Yarn
+Yarn:
 
 ```bash
 yarn add honeycomb-grid
@@ -105,6 +105,9 @@ grid[4]     // { x: 1, y: 0 }
 Some Grid methods are augmented. For example: [`Array#includes()`](https://developer.mozilla.org/nl/docs/Web/JavaScript/Reference/Global_Objects/Array/includes) always returns `false` when passed an object literal because it uses [strict equality](https://developer.mozilla.org/nl/docs/Web/JavaScript/Equality_comparisons_and_sameness) internally. [`Grid#includes()`](#gridincludes) _only_ accepts object literals (in the form of [points](#point-1)):
 
 ```javascript
+const array = [{ x: 1, y: 0 }]
+array.includes({ x: 1, y: 0 })  // false
+
 const grid = Grid(Hex(1, 0))
 grid.includes({ x: 1, y: 0 })   // true
 ```
@@ -173,7 +176,7 @@ Grid.rectangle({ width: 100, height: 100 }).forEach(hex => {
     // separate the first from the other corners
     const [firstCorner, ...otherCorners] = corners
 
-    // move the "pencil" to the first corner
+    // move the "pen" to the first corner
     graphics.moveTo(firstCorner.x, firstCorner.y)
     // draw lines to the other corners
     otherCorners.forEach(({ x, y }) => graphics.lineTo(x, y))
@@ -234,6 +237,44 @@ See a more elaborate example in [JSFiddle](https://jsfiddle.net/Flauwekeul/3bd6s
 ### Grid shapes
 
 Honeycomb offers 4 shape methods: [rectangle](#rectangle), [triangle](#triangle), [hexagon](#hexagon) and [parallelogram](#parallelogram). [Try them out in JSFiddle](https://jsfiddle.net/Flauwekeul/arxo1vqo/).
+
+### Coordinate systems
+
+The standard coordinate system is a [cartesian](https://en.wikipedia.org/wiki/Cartesian_coordinate_system) one. It's intuitive and easy to reason about. A lot of methods internally use a "cube" coordinate system. See [this redblobgames.com blog post](https://www.redblobgames.com/grids/hexagons/#coordinates) for an explanation between the two (he calls the cartesian system "offset coordinates").
+
+Hexes have getters for each of the cube coordinates `q`, `r` and `s`:
+
+```javascript
+const Hex = Honeycomb.extendHex()
+const hex = Hex(3, 4)
+
+hex.q           // 1
+hex.r           // 4
+hex.s           // -5
+
+hex.cartesian() // { x: 3, y: 4 }
+hex.cube()      // { q: 1, r: 4, s: -5 }
+```
+
+There are methods for converting between cartesian and cube:
+
+```javascript
+const Hex = Honeycomb.extendHex()
+const hex = Hex()
+
+hex.toCube({ x: 3, y: 4 })      // { q: 1, r: 4, s: -5 }
+// Hex#toCartesian() doesn't require the s coordinate:
+hex.toCartesian({ q: 1, r: 4 }) // { x: 3, y: 4 }
+```
+
+> These methods always require coordinates to be passed and don't work on a hex instance, even though they're instance methods. This will be fixed in a future release 🙃
+
+Hexes can also be created from cube coordinates:
+
+```javascript
+const Hex = Honeycomb.extendHex()
+Hex({ q: 1, r: 4, s: -5 })  // { x: 3, y: 4 }
+```
 
 ## API
 
