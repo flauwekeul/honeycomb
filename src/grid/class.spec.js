@@ -6,8 +6,10 @@ import sinon from 'sinon'
 import { ensureXY } from '../utils'
 import Grid from './class'
 import extendHexFactory from '../hex'
+import PointFactory from '../point'
 
-const Hex = extendHexFactory({ ensureXY })()
+const Point = PointFactory({ ensureXY })
+const Hex = extendHexFactory({ ensureXY, Point })()
 
 describe('Grid class', () => {
     let instance

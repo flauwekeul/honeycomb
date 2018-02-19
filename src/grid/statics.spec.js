@@ -7,8 +7,10 @@ import { ensureXY, compassToNumberDirection, signedModulo } from '../utils'
 import extendHexFactory from '../hex'
 import Grid from './class'
 import * as statics from './statics'
+import PointFactory from '../point'
 
-const extendHex = extendHexFactory({ ensureXY })
+const Point = PointFactory({ ensureXY })
+const extendHex = extendHexFactory({ ensureXY, Point })
 const Hex = extendHex()
 
 describe('pointToHex', function() {

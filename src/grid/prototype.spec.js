@@ -8,10 +8,12 @@ import extendHexFactory from '../hex'
 import defineGridFactory from './'
 import Grid from './class'
 import * as methods from './prototype'
+import PointFactory from '../point'
 
-const extendHex = extendHexFactory({ ensureXY })
+const Point = PointFactory({ ensureXY })
+const extendHex = extendHexFactory({ ensureXY, Point })
 const Hex = extendHex()
-const GridFactory = defineGridFactory({ extendHex, Grid })(Hex)
+const GridFactory = defineGridFactory({ extendHex, Grid, Point })(Hex)
 
 describe('get', () => {
     it('accepts a number or a point', () => {

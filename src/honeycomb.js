@@ -4,9 +4,9 @@ import defineGridFactory from './grid'
 import Grid from './grid/class'
 import PointFactory from './point'
 
-const extendHex = extendHexFactory({ ensureXY })
-const defineGrid = defineGridFactory({ extendHex, Grid })
 const Point = PointFactory({ ensureXY })
+const extendHex = extendHexFactory({ ensureXY, Point })
+const defineGrid = defineGridFactory({ extendHex, Grid, Point })
 
 /**
  * @namespace {Object} Honeycomb

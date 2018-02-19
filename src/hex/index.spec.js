@@ -6,9 +6,11 @@ import sinon from 'sinon'
 import { ensureXY } from '../utils'
 import extendHexFactory, { staticMethods } from '../../src/hex'
 import { ORIENTATION, OFFSET } from './constants'
+import PointFactory from '../point'
 
+const Point = PointFactory({ ensureXY })
 const ensureXYSpy = sinon.spy(ensureXY)
-const extendHex = extendHexFactory({ ensureXY: ensureXYSpy })
+const extendHex = extendHexFactory({ ensureXY: ensureXYSpy, Point })
 
 describe('extendHex', function() {
     let Hex

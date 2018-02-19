@@ -1,18 +1,14 @@
 import { isObject, isNumber, isArray } from 'axis.js'
 
-import { ensureXY } from '../utils'
 import { ORIENTATION, OFFSET } from './constants'
-import PointFactory from '../point'
 import * as statics from './statics'
 import * as methods from './prototype'
-
-const Point = PointFactory({ ensureXY })
 
 export const staticMethods = {
     thirdCoordinate: statics.thirdCoordinate
 }
 
-export default function extendHexFactory({ ensureXY }) {
+export default function extendHexFactory({ ensureXY, Point }) {
     /**
      * @function extendHex
      *

@@ -9,9 +9,9 @@ import { EPSILON } from './constants'
 import extendHexFactory from './'
 import * as methods from './prototype'
 
-const extendHex = extendHexFactory({ ensureXY })
-const Hex = extendHex()
 const Point = PointFactory({ ensureXY })
+const extendHex = extendHexFactory({ ensureXY, Point })
+const Hex = extendHex()
 
 describe('set', () => {
     let HexSpy, set

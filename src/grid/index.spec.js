@@ -7,16 +7,18 @@ import { ensureXY } from '../utils'
 import defineGridFactory from './'
 import Grid from './class'
 import extendHexFactory from '../hex'
+import PointFactory from '../point'
 
-const extendHex = extendHexFactory({ ensureXY })
-const defineGrid = defineGridFactory({ extendHex, Grid })
+const Point = PointFactory({ ensureXY })
+const extendHex = extendHexFactory({ ensureXY, Point })
+const defineGrid = defineGridFactory({ extendHex, Grid, Point })
 const Hex = extendHex()
 
 describe('defineGrid', function() {
     describe('when not passed a function', function() {
         it(`calls Honeycomb.extendHex() to create a default Hex factory`, function() {
             const extendHexSpy = sinon.spy(extendHex)
-            const defineGrid = defineGridFactory({ extendHex: extendHexSpy, Grid })
+            const defineGrid = defineGridFactory({ extendHex: extendHexSpy, Grid, Point })
             defineGrid()
             expect(extendHexSpy).to.have.been.called
         })
@@ -79,7 +81,7 @@ describe('Grid creation', function() {
 
     beforeEach(function() {
         sinon.spy(Grid, 'isValidHex')
-        GridFactory = defineGridFactory({ extendHex, Grid })(Hex)
+        GridFactory = defineGridFactory({ extendHex, Grid, Point })(Hex)
     })
 
     afterEach(() => {
