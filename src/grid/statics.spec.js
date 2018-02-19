@@ -11,19 +11,6 @@ import * as statics from './statics'
 const extendHex = extendHexFactory({ ensureXY })
 const Hex = extendHex()
 
-describe('isValidHex', () => {
-    it('calls Grid.isValidHex', () => {
-        sinon.spy(Grid, 'isValidHex')
-
-        const isValidHex = statics.isValidHexFactory({ Grid })
-        isValidHex('value')
-
-        expect(Grid.isValidHex).to.have.been.calledWith('value')
-
-        Grid.isValidHex.restore()
-    })
-})
-
 describe('pointToHex', function() {
     let subtract, Point, isPointy, hexResult, Hex, round, center, pointToHex, point
 

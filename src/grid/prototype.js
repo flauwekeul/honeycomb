@@ -32,7 +32,7 @@ export function get(keyOrPoint) {
     }
 }
 
-export function setFactory({ Grid }) {
+export function setFactory({ isValidHex }) {
     /**
      * Replace a hex with another hex. This is a safe alternative to using bracket notation (`grid[0] = 'invalid'`).
      *
@@ -68,7 +68,7 @@ export function setFactory({ Grid }) {
      * grid                         // [ { x: 2, y: 2 }, { x: 3, y: 3 } ]
      */
     return function set(keyOrPoint, newHex) {
-        if (!Grid.isValidHex(newHex)) {
+        if (!isValidHex(newHex)) {
             return this
         }
 
@@ -120,7 +120,7 @@ export function hexesBetween(firstHex, lastHex) {
     return hexes
 }
 
-export function neighborsOfFactory({ Grid, signedModulo, compassToNumberDirection }) {
+export function neighborsOfFactory({ isValidHex, signedModulo, compassToNumberDirection }) {
     /**
      * @memberof Grid#
      * @instance
@@ -175,7 +175,7 @@ export function neighborsOfFactory({ Grid, signedModulo, compassToNumberDirectio
      * grid.neighborsOf(Hex(-1, -1), 'NW')      // []
      */
     return function neighborsOf(hex, directions = 'all', diagonal = false) {
-        if (!Grid.isValidHex(hex)) {
+        if (!isValidHex(hex)) {
             throw new Error(`Invalid hex: ${hex}.`)
         }
 

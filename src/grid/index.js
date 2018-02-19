@@ -2,13 +2,14 @@ import { isArray } from 'axis.js'
 
 import { ensureXY, signedModulo, compassToNumberDirection } from '../utils'
 import PointFactory from '../point'
-import Grid from './class'
 import * as statics from './statics'
 import * as methods from './prototype'
 
 const Point = PointFactory({ ensureXY })
 
-export default function defineGridFactory({ extendHex }) {
+export default function defineGridFactory({ extendHex, Grid }) {
+    const { isValidHex } = Grid
+
     /**
      * @function defineGrid
      *
@@ -50,7 +51,15 @@ export default function defineGridFactory({ extendHex }) {
             Hex: Hex.bind(),
 
             // methods
-            isValidHex: statics.isValidHexFactory({ Grid }),
+            /**
+             * @memberof Grid
+             * @static
+             * @method
+             *
+             * @param {*} value     Any value.
+             * @returns {boolean}   Whether the passed value is a valid hex.
+             */
+            isValidHex,
             pointToHex: statics.pointToHexFactory({ Point, Hex }),
             parallelogram: statics.parallelogramFactory({ Grid, Hex }),
             triangle: statics.triangleFactory({ Grid, Hex }),
@@ -65,8 +74,12 @@ export default function defineGridFactory({ extendHex }) {
                 // methods
                 get: methods.get,
                 hexesBetween: methods.hexesBetween,
-                neighborsOf: methods.neighborsOfFactory({ Grid, signedModulo, compassToNumberDirection }),
-                set: methods.setFactory({ Grid })
+                neighborsOf: methods.neighborsOfFactory({
+                    isValidHex,
+                    signedModulo,
+                    compassToNumberDirection
+                }),
+                set: methods.setFactory({ isValidHex })
             }
         )
 
@@ -116,7 +129,7 @@ export default function defineGridFactory({ extendHex }) {
              *
              * @property {number} length    Amount of hexes in the grid.
              */
-            return new Grid(...hexes.filter(Grid.isValidHex))
+            return new Grid(...hexes.filter(isValidHex))
         }
 
         return GridFactory

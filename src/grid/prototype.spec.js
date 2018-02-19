@@ -6,11 +6,12 @@ import sinon from 'sinon'
 import { ensureXY, signedModulo, compassToNumberDirection } from '../utils'
 import extendHexFactory from '../hex'
 import defineGridFactory from './'
+import Grid from './class'
 import * as methods from './prototype'
 
 const extendHex = extendHexFactory({ ensureXY })
 const Hex = extendHex()
-const GridFactory = defineGridFactory({ extendHex })(Hex)
+const GridFactory = defineGridFactory({ extendHex, Grid })(Hex)
 
 describe('get', () => {
     it('accepts a number or a point', () => {
@@ -37,7 +38,7 @@ describe('set', () => {
 
     beforeEach(() => {
         isValidHex = sinon.stub().returns(true)
-        set = methods.setFactory({ Grid: { isValidHex } })
+        set = methods.setFactory({ isValidHex })
         targetHex = Hex(3, -2)
         newHex = Hex(1, 1)
         grid = GridFactory(targetHex)
@@ -171,7 +172,7 @@ describe('neighborsOf', () => {
         hex = { cubeToCartesian, q: 1, r: 1 }
         get = sinon.spy()
         neighborsOf = methods.neighborsOfFactory({
-            Grid: { isValidHex },
+            isValidHex,
             signedModulo: signedModuloSpy,
             compassToNumberDirection: compassToNumberDirectionSpy
         }).bind({ get })

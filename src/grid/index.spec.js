@@ -9,14 +9,14 @@ import Grid from './class'
 import extendHexFactory from '../hex'
 
 const extendHex = extendHexFactory({ ensureXY })
-const defineGrid = defineGridFactory({ extendHex })
+const defineGrid = defineGridFactory({ extendHex, Grid })
 const Hex = extendHex()
 
 describe('defineGrid', function() {
     describe('when not passed a function', function() {
         it(`calls Honeycomb.extendHex() to create a default Hex factory`, function() {
             const extendHexSpy = sinon.spy(extendHex)
-            const defineGrid = defineGridFactory({ extendHex: extendHexSpy })
+            const defineGrid = defineGridFactory({ extendHex: extendHexSpy, Grid })
             defineGrid()
             expect(extendHexSpy).to.have.been.called
         })
@@ -36,6 +36,7 @@ describe('defineGrid', function() {
             'hexagon',
             'rectangle'
         ])
+        expect(GridFactory.isValidHex).to.eql(Grid.isValidHex)
     })
 
     it('unbinds the Hex property (binds to undefined)', function() {
@@ -77,8 +78,8 @@ describe('Grid creation', function() {
     let GridFactory
 
     beforeEach(function() {
-        GridFactory = defineGrid(Hex)
         sinon.spy(Grid, 'isValidHex')
+        GridFactory = defineGridFactory({ extendHex, Grid })(Hex)
     })
 
     afterEach(() => {

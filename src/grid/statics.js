@@ -1,20 +1,6 @@
 import { isString } from 'axis.js'
 import { offsetFromZero } from '../utils'
 
-export function isValidHexFactory({ Grid }) {
-    /**
-     * @memberof Grid
-     * @static
-     * @method
-     *
-     * @param {*} value     Any value.
-     * @returns {boolean}   Whether the passed value is a valid hex.
-     */
-    return function isValidHex(value) {
-        return Grid.isValidHex(value)
-    }
-}
-
 export function pointToHexFactory({ Point, Hex }) {
     /**
      * Converts the passed {@link point} to a hex.
