@@ -386,7 +386,6 @@ Hex({ q: 1, r: 4, s: -5 })  // { x: 3, y: 4 }
     -   [point](#point-2)
 -   [Constants](#constants)
     -   [OFFSET](#offset-1)
-    -   [ORIENTATION](#orientation-1)
     -   [COMPASS_DIRECTION](#compass_direction)
 -   [Other](#other)
     -   [onCreate](#oncreate)
@@ -666,7 +665,7 @@ Identical to [Array#keys](https://developer.mozilla.org/en-US/docs/Web/JavaScrip
 Identical to [Array#lastIndexOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/lastIndexOf),
 but accepts a [point](#point) and internally uses [Hex#equals](#hexequals) as a comparator.
 
-Because all hexes will have different coordinates in most grids, this method behaves the same as [Grid#indexOf](#indexof).
+Because all hexes will have different coordinates in most grids, this method behaves the same as [Grid#indexOf](#gridindexof).
 This method might have a slightly better performance if you know the search hex is at the end of the grid.
 
 **Parameters**
@@ -797,7 +796,7 @@ Identical to [Array#reverse](https://developer.mozilla.org/en-US/docs/Web/JavaSc
 
 Replace a hex with another hex. This is a safe alternative to using bracket notation (`grid[0] = 'invalid'`).
 
-If the target hex isn't present in the grid, the new hex is added (using [Grid#push](#push)) to the grid.
+If the target hex isn't present in the grid, the new hex is added (using [Grid#push](#gridpush)) to the grid.
 If the new hex is invalid, nothing changes.
 
 **Parameters**
@@ -1285,7 +1284,7 @@ Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 #### orientation
 
-Either pointy or flat. Defaults to `pointy`.
+Either ⬢ pointy or ⬣ flat. Defaults to `pointy`.
 
 #### origin
 
@@ -1536,15 +1535,6 @@ An odd offset:
 
 -   `even` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** \+1
 -   `odd` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** \-1
-
-#### ORIENTATION
-
-The different orientations hexes can have.
-
-**Properties**
-
--   `pointy` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** ⬢
--   `flat` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** ⬣
 
 #### COMPASS_DIRECTION
 
