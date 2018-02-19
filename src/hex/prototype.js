@@ -1,4 +1,4 @@
-import { ORIENTATION, EPSILON } from './constants'
+import { EPSILON } from './constants'
 import { offsetFromZero } from '../utils'
 
 const sqrt3 = Math.sqrt(3)
@@ -118,7 +118,7 @@ export function cartesianToCube({ x, y }) {
  * @returns {boolean}   Whether hexes have a pointy ⬢ orientation.
  */
 export function isPointy() {
-    return this.orientation.toLowerCase() === ORIENTATION.pointy
+    return this.orientation.toLowerCase() === 'pointy'
 }
 
 /**
@@ -126,7 +126,7 @@ export function isPointy() {
  * @returns {boolean}   Whether hexes have a flat ⬣ orientation.
  */
 export function isFlat() {
-    return this.orientation.toLowerCase() === ORIENTATION.flat
+    return this.orientation.toLowerCase() === 'flat'
 }
 
 /**

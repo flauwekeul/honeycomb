@@ -1613,5 +1613,4 @@ Returns **void** Nothing.
 
 ### 🛠 Refactorings
 
-1.  Only inject what's needed, instead of whole factories (see `Grid.rectangle()` for example).
-2.  Don't use `this` at all and just inject a context. Functional programming yo 🤓.
+1.  Don't use `this` at all and just inject a context. Functional programming yo 🤓.

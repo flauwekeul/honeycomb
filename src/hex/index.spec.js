@@ -5,7 +5,6 @@ import sinon from 'sinon'
 
 import { ensureXY } from '../utils'
 import extendHexFactory, { staticMethods } from '../../src/hex'
-import { ORIENTATION, OFFSET } from './constants'
 import PointFactory from '../point'
 
 const Point = PointFactory({ ensureXY })
@@ -69,10 +68,10 @@ describe('extendHex', function() {
             'width'
         ])
         expect(prototype).to.have.property('__isHoneycombHex', true)
-        expect(prototype).to.have.property('orientation', ORIENTATION.pointy)
+        expect(prototype).to.have.property('orientation', 'pointy')
         expect(prototype).to.have.property('origin').that.contains({ x: 0, y: 0 })
         expect(prototype).to.have.property('size', 1)
-        expect(prototype).to.have.property('offset', OFFSET.odd)
+        expect(prototype).to.have.property('offset', -1)
     })
 
     it('has getters for the q, r and s cube coordinates', () => {

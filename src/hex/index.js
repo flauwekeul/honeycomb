@@ -1,6 +1,5 @@
 import { isObject, isNumber, isArray } from 'axis.js'
 
-import { ORIENTATION, OFFSET } from './constants'
 import * as statics from './statics'
 import * as methods from './prototype'
 
@@ -64,13 +63,13 @@ export default function extendHexFactory({ ensureXY, Point }) {
              */
             __isHoneycombHex: true,
             /**
-             * Either pointy or flat. Defaults to `pointy`.
+             * Either ⬢ pointy or ⬣ flat. Defaults to `pointy`.
              *
              * @memberof Hex#
              * @type {string}
-             * @default ORIENTATION.pointy
+             * @default 'pointy'
              */
-            orientation: ORIENTATION.pointy,
+            orientation: 'pointy',
             /**
              * Distance from a hex's top left corner (as if it were a rectange). Defaults to `Point(0)`.
              * Can be anything the {@link Honeycomb.Point} factory accepts.
@@ -100,7 +99,7 @@ export default function extendHexFactory({ ensureXY, Point }) {
              * @default -1
              * @see OFFSET
              */
-            offset: OFFSET.odd,
+            offset: -1,
             /**
              * Getter for `q` cube coordinate. Calls {@link Hex#cartesianToCube} internally.
              *

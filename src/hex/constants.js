@@ -1,18 +1,4 @@
 /**
- * The different orientations hexes can have.
- *
- * @readonly
- * @enum {string}
- *
- * @property {string} pointy    ⬢
- * @property {string} flat      ⬣
- */
-export const ORIENTATION = {
-    pointy: 'pointy',
-    flat: 'flat'
-}
-
-/**
  * How rows/columns of hexes are placed relative to each other.
  *
  * An even offset:
@@ -33,10 +19,6 @@ export const ORIENTATION = {
  * @property {number} even  +1
  * @property {number} odd   -1
  */
-export const OFFSET = {
-    even: 1,
-    odd: -1
-}
 
 export const DIRECTION_COORDINATES = [
     { q: 1, r: 0 },

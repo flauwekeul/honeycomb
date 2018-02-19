@@ -8,6 +8,5 @@ toc:
   - hex
   - point
   - OFFSET
-  - ORIENTATION
   - COMPASS_DIRECTION
   - onCreate
