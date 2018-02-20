@@ -321,7 +321,9 @@ describe('add', function () {
     before(function () {
         HexSpy = sinon.spy(Hex)
         PointSpy = sinon.spy(Point)
-        add = methods.addFactory({ Hex: HexSpy, Point: PointSpy }).bind({ x: 1, y: -3 })
+        add = methods.addFactory({ Hex: HexSpy, Point: PointSpy }).bind(
+            Object.freeze({ x: 1, y: -3 })
+        )
     })
 
     it('accepts a point', () => {
@@ -346,7 +348,9 @@ describe('subtract', function() {
     before(function() {
         HexSpy = sinon.spy(Hex)
         PointSpy = sinon.spy(Point)
-        subtract = methods.subtractFactory({ Hex: HexSpy, Point: PointSpy }).bind({ x: 1, y: -3 })
+        subtract = methods.subtractFactory({ Hex: HexSpy, Point: PointSpy }).bind(
+            Object.freeze({ x: 1, y: -3 })
+        )
     })
 
     it('accepts a point', () => {
@@ -395,7 +399,9 @@ describe('round', function () {
 
     before(function () {
         HexStub = sinon.stub().returnsThis()
-        round = methods.roundFactory({ Hex: HexStub }).bind({ q: 2.9, r: 2.2, s: -5.1, custom: 'round()' })
+        round = methods.roundFactory({ Hex: HexStub }).bind(
+            Object.freeze({ q: 2.9, r: 2.2, s: -5.1, custom: 'round()' })
+        )
     })
 
     it('rounds floating point coordinates to their nearest integer coordinates', function () {
@@ -413,7 +419,9 @@ describe('lerp', function () {
 
     before(function() {
         HexStub = sinon.stub().returnsThis()
-        lerp = methods.lerpFactory({ Hex: HexStub }).bind({ q: 0, r: 0, s: 0, custom: 'lerp()' })
+        lerp = methods.lerpFactory({ Hex: HexStub }).bind(
+            Object.freeze({ q: 0, r: 0, s: 0, custom: 'lerp()' })
+        )
     })
 
     it('returns an interpolation between the current and passed hex for a `t` between 0..1', function () {

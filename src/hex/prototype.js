@@ -285,11 +285,7 @@ export function addFactory({ Hex, Point }) {
     return function add(point) {
         const { x, y } = Point(point)
         // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
-        return Hex.call(
-            this,
-            this.x + x,
-            this.y + y
-        )
+        return Hex.call(this, this.x + x, this.y + y)
     }
 }
 
@@ -307,11 +303,7 @@ export function subtractFactory({ Hex, Point }) {
     return function subtract(point) {
         const { x, y } = Point(point)
         // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
-        return Hex.call(
-            this,
-            this.x - x,
-            this.y - y
-        )
+        return Hex.call(this, this.x - x, this.y - y)
     }
 }
 
