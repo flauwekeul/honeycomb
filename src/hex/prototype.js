@@ -284,8 +284,7 @@ export function addFactory({ Hex, Point }) {
      */
     return function add(point) {
         const { x, y } = Point(point)
-        // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
-        return Hex.call(this, this.x + x, this.y + y)
+        return Hex(this.x + x, this.y + y, {...this})
     }
 }
 
@@ -302,8 +301,7 @@ export function subtractFactory({ Hex, Point }) {
      */
     return function subtract(point) {
         const { x, y } = Point(point)
-        // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
-        return Hex.call(this, this.x - x, this.y - y)
+        return Hex(this.x - x, this.y - y, {...this})
     }
 }
 
@@ -374,8 +372,7 @@ export function roundFactory({ Hex }) {
             roundedS = -roundedQ - roundedR
         }
 
-        // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
-        return Hex.call(this, { q: roundedQ, r: roundedR, s: roundedS })
+        return Hex({ ...this, q: roundedQ, r: roundedR, s: roundedS })
     }
 }
 
@@ -395,8 +392,7 @@ export function lerpFactory({ Hex }) {
     return function lerp(hex, t) {
         const q = this.q * (1 - t) + hex.q * t
         const r = this.r * (1 - t) + hex.r * t
-        // use call() to bind any custom properties to Hex(), which get merged into the resulting hex.
-        return Hex.call(this, { q, r, s: -q - r })
+        return Hex({ ...this, q, r, s: -q - r })
     }
 }
 

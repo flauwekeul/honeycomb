@@ -257,8 +257,6 @@ export default function extendHexFactory({ ensureXY, Point }) {
             return Object.assign(
                 // the prototype has to be attached here, else Grid's shape methods break 🙁
                 Object.create(finalPrototype),
-                // also merge any custom properties already present
-                this,
                 Object.assign(customProps, ensureXY(x, y))
             )
         }

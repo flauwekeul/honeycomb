@@ -337,7 +337,7 @@ describe('add', function () {
     })
 
     it('transfers any custom properties the current hex might have', function() {
-        const result = Hex.call({ x: 0, y: 0, custom: 'add()' }).add(Hex())
+        const result = Hex({ x: 0, y: 0, custom: 'add()' }).add(Hex())
         expect(result).to.contain({ custom: 'add()' })
     })
 })
@@ -364,7 +364,7 @@ describe('subtract', function() {
     })
 
     it('transfers any custom properties the current hex might have', function() {
-        const result = Hex.call({ x: 0, y: 0, custom: 'subtract()' }).subtract(Hex())
+        const result = Hex({ x: 0, y: 0, custom: 'subtract()' }).subtract(Hex())
         expect(result).to.contain({ custom: 'subtract()' })
     })
 })
@@ -380,8 +380,8 @@ describe('equals', function () {
     })
 
     it('ignores any custom properties', function() {
-        const hex1 = Hex.call({ custom: 1 }, 4, 4)
-        const hex2 = Hex.call({ custom: 2 }, 4, 4)
+        const hex1 = Hex(4, 4, { custom: 1 })
+        const hex2 = Hex(4, 4, { custom: 2 })
 
         expect(hex1.equals(hex2)).to.be.true
     })
@@ -395,18 +395,18 @@ describe('distance', function () {
 })
 
 describe('round', function () {
-    let HexStub, round
+    let spiedHex, round
 
     before(function () {
-        HexStub = sinon.stub().returnsThis()
-        round = methods.roundFactory({ Hex: HexStub }).bind(
+        spiedHex = sinon.spy(Hex)
+        round = methods.roundFactory({ Hex: spiedHex }).bind(
             Object.freeze({ q: 2.9, r: 2.2, s: -5.1, custom: 'round()' })
         )
     })
 
     it('rounds floating point coordinates to their nearest integer coordinates', function () {
         round()
-        expect(HexStub).to.have.been.calledWith({ q: 3, r: 2, s: -5 })
+        expect(spiedHex).to.have.been.calledWith({ q: 3, r: 2, s: -5, custom: 'round()' })
     })
 
     it('transfers any custom properties the current hex might have', function() {
@@ -415,22 +415,22 @@ describe('round', function () {
 })
 
 describe('lerp', function () {
-    let HexStub, lerp
+    let spiedHex, lerp
 
     before(function() {
-        HexStub = sinon.stub().returnsThis()
-        lerp = methods.lerpFactory({ Hex: HexStub }).bind(
+        spiedHex = sinon.spy(Hex)
+        lerp = methods.lerpFactory({ Hex: spiedHex }).bind(
             Object.freeze({ q: 0, r: 0, s: 0, custom: 'lerp()' })
         )
     })
 
     it('returns an interpolation between the current and passed hex for a `t` between 0..1', function () {
         lerp({ q: 4, r: -5, s: 1 }, 0.5)
-        expect(HexStub).to.have.been.calledWith({ q: 2, r: -2.5, s: 0.5 })
+        expect(spiedHex).to.have.been.calledWith({ q: 2, r: -2.5, s: 0.5, custom: 'lerp()' })
     })
 
     it('transfers any custom properties the current hex might have', function() {
-        expect(lerp({})).to.have.property('custom', 'lerp()')
+        expect(lerp(Hex(), 0)).to.have.property('custom', 'lerp()')
     })
 })
 
@@ -444,7 +444,7 @@ describe('nudge', function () {
     })
 
     it('transfers any custom properties the current hex might have', function() {
-        const result = Hex.call({ custom: 'nudge()' }).nudge()
+        const result = Hex(0, 0, { custom: 'nudge()' }).nudge()
         expect(result).to.have.property('custom', 'nudge()')
     })
 })
