@@ -44,8 +44,13 @@ export default function defineGridFactory({ extendHex, Grid, Point }) {
              * @static
              * @function
              */
-            // if Hex isn't unbound, it's `this` will reference GridFactory
-            Hex: Hex.bind(),
+            // don't manually bind `this` to Hex (i.e. `Hex.call`/`Hex.apply`) anywhere in the source
+            // it could cause this:
+            // function methodThatBindsThis() {
+            //     return Hex.call(this, ...) <- `this` refers to `GridFactory`
+            // }
+            // which is caused by the following line:
+            Hex,
 
             // methods
             /**

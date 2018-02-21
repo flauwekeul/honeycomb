@@ -40,19 +40,6 @@ describe('defineGrid', function() {
         ])
         expect(GridFactory.isValidHex).to.eql(Grid.isValidHex)
     })
-
-    it('unbinds the Hex property (binds to undefined)', function() {
-        const boundHex = sinon.spy()
-        const bindSpy = sinon.stub().returns(boundHex)
-        const Hex = { bind: bindSpy }
-        const GridFactory = defineGrid(Hex)
-
-        expect(bindSpy).to.have.been.calledWith(/* undefined */) // passing undefined doesn't work...
-        expect(GridFactory.Hex).to.equal(boundHex)
-
-        GridFactory.Hex()
-        expect(boundHex).to.have.been.called
-    })
 })
 
 describe('GridFactory', function() {

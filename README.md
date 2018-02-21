@@ -1581,8 +1581,6 @@ Returns **void** Nothing.
 
 ### 🐛 Bugs
 
-1.  The grid factory returned from `Honeycomb.defineGrid()` has a `Hex` property (which is the hex factory). But that hex factory has no properties (i.e. `Hex.thirdCoordinate()`). Cause: `Hex.bind()` (src/grid/index.js#50).
-
 ### 🚀 Features
 
 3.  Hex methods that do nothing with a hex's coordinates should be static (e.g. `cubeToCartesian`, `isPointy`, `width`)?
