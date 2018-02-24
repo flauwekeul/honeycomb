@@ -1,10 +1,10 @@
-*.js.map
+*.html
+*.yml
 .babelrc
 .eslintrc.js*
 .npmignore
 .nyc_output/
 coverage/
+rollup.config.js
 src/
 test/
-rollup.config.js
-yarn.lock
