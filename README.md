@@ -38,6 +38,8 @@ yarn add honeycomb-grid
 
 ### Browser
 
+Honeycomb works at least in recent versions of Chrome, Firefox, Edge and Safari.
+
 ```html
 <script src="honeycomb.js"></script>
 
@@ -53,6 +55,15 @@ yarn add honeycomb-grid
 const Honeycomb = require('honeycomb-grid')
 
 const Grid = Honeycomb.defineGrid()
+Grid.rectangle({ width: 4, height: 4 })
+```
+
+### With ES2015 modules
+
+```javascript
+import { defineGrid } from 'honeycomb-grid
+
+const Grid = defineGrid()
 Grid.rectangle({ width: 4, height: 4 })
 ```
 
