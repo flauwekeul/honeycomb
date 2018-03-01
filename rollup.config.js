@@ -5,12 +5,24 @@ import commonjs from 'rollup-plugin-commonjs'
 import babel from 'rollup-plugin-babel'
 import uglify from 'rollup-plugin-uglify'
 
-const config = {
+const isProduction = process.env.NODE_ENV === 'production'
+
+export default {
     input: 'src/honeycomb.js',
-    output: {
-        name: 'Honeycomb',
-        format: 'umd'
-    },
+    output: [
+        {
+            name: 'Honeycomb',
+            format: 'umd',
+            file: `dist/honeycomb${isProduction ? '.min' : ''}.js`,
+            sourcemap: true
+        },
+        {
+            name: 'Honeycomb',
+            format: 'es',
+            file: `dist/honeycomb.esm${isProduction ? '.min' : ''}.js`,
+            sourcemap: true
+        }
+    ],
     plugins: [
         babel({
             exclude: 'node_modules/**',
@@ -21,20 +33,7 @@ const config = {
             namedExports: {
                 'axis.js': ['isObject', 'isNumber', 'isArray', 'isString']
             }
-        })
+        }),
+        ...(isProduction ? [uglify()] : [])
     ]
 }
-
-if (process.env.NODE_ENV === 'production') {
-    Object.assign(config.output, {
-        file: 'dist/honeycomb.min.js'
-    })
-    config.plugins.push(uglify())
-} else {
-    Object.assign(config.output, {
-        file: 'dist/honeycomb.js',
-        sourcemap: true
-    })
-}
-
-export default config
