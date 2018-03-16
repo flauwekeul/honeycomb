@@ -121,10 +121,10 @@ export interface CubeCoordinates {
 declare function PointFactory(pointOrX?: PointCoordinates, y?: number): Point
 
 export interface Point extends PointLike {
-    add(point: Point): Point
-    subtract(point: Point): Point
-    multiply(point: Point): Point
-    divide(point: Point): Point
+    add(pointOrX?: PointCoordinates, y?: number): Point
+    subtract(pointOrX?: PointCoordinates, y?: number): Point
+    multiply(pointOrX?: PointCoordinates, y?: number): Point
+    divide(pointOrX?: PointCoordinates, y?: number): Point
 }
 
 export interface PointLike {
