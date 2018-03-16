@@ -81,7 +81,7 @@ export interface Hex<T> extends PointLike {
     q: number
     r: number
     s: number
-    add(point?: PointCoordinates): ExtendedHex<T>
+    add(point: PointCoordinates): ExtendedHex<T>
     cartesian(): PointLike
     cartesianToCube(cartesianCoordinates: PointLike): CubeCoordinates
     center(): Point
@@ -90,7 +90,7 @@ export interface Hex<T> extends PointLike {
     cube(): CubeCoordinates
     cubeToCartesian(cubeCoordinates: { q: number, r: number, s?: number }): PointLike
     distance(hex: CubeCoordinates): number
-    equals(point: PointLike): boolean
+    equals(point: PointCoordinates): boolean
     height(): number
     isFlat(): boolean
     isPointy(): boolean
@@ -100,7 +100,7 @@ export interface Hex<T> extends PointLike {
     oppositeSideDistance(): number
     round(): ExtendedHex<T>
     set(): ExtendedHex<T>
-    subtract(point?: PointCoordinates): ExtendedHex<T>
+    subtract(point: PointCoordinates): ExtendedHex<T>
     toCartesian(cubeCoordinates: { q: number, r: number, s?: number }): PointLike
     toCube(cartesianCoordinates: PointLike): CubeCoordinates
     toPoint(): Point
