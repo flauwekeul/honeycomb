@@ -3,7 +3,7 @@ declare function defineGrid<T = HexFactory<T>>(Hex?: HexFactory<T>): GridFactory
 export interface GridFactory<T> {
     (arrayOrHex?: Array<Hex<T>> | Hex<T>, ...hexes: Array<Hex<T>>): Grid<T>
     isValidHex(value: any): boolean
-    pointToHex(point: PointCoordinates): ExtendedHex<T>
+    pointToHex(pointOrX?: PointCoordinates, y?: number): ExtendedHex<T>
     parallelogram(options: {
         width: number,
         height: number,

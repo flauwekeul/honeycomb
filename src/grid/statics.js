@@ -10,24 +10,29 @@ export function pointToHexFactory({ Point, Hex }) {
      * @method
      * @see {@link https://www.redblobgames.com/grids/hexagons/#pixel-to-hex|redblobgames.com}
      *
-     * @param {point} point The point to convert from.
-     * @returns {hex}       A hex (with rounded coordinates) that contains the passed point.
+     * @param {(number|number[]|point)} [pointOrX=] The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
+     * @param {number} [pointOrX.x=]                The x coordinate.
+     * @param {number} [pointOrX.y=]                The y coordinate.
+     * @param {number} [y=]                         The y coordinate.
+     *
+     * @returns {hex}                               A hex (with rounded coordinates) that contains the passed point.
      *
      * @example
      * const Hex = Honeycomb.extendHex({ size: 50 })
      * const Grid = Honeycomb.defineGrid(Hex)
+     * const Point = Honeycomb.Point
      *
+     * Grid.pointToHex(Point(120, 280))     // { x: 1, y: 4 }
+     * Grid.pointToHex(120, 280)            // { x: 1, y: 4 }
      * Grid.pointToHex({ x: 120, y: 280 })  // { x: 1, y: 4 }
      * Grid.pointToHex([ 120, 280 ])        // { x: 1, y: 4 }
-     *
-     * const Point = Honeycomb.Point
-     * Grid.pointToHex(Point(120, 280))     // { x: 1, y: 4 }
      */
-    return function pointToHex(point) {
+    return function pointToHex(pointOrX, y) {
         const hex = Hex()
         const size = hex.size
-        const { x, y } = Point(point).subtract(hex.center())
-        let q, r
+        let x, q, r
+
+        ({ x, y } = Point(pointOrX, y).subtract(hex.center()))
 
         if (hex.isPointy()) {
             q = (x * Math.sqrt(3) / 3 - y / 3) / size

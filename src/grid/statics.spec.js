@@ -38,9 +38,18 @@ describe('pointToHex', function() {
         expect(Hex).to.have.been.called
     })
 
-    it('calls Point with the passed point to convert it to an actual point', function() {
-        pointToHex(point)
-        expect(Point).to.have.been.calledWith(point)
+    it('calls Point with the passed parameters', () => {
+        pointToHex(1, 2)
+        expect(Point).to.have.been.calledWith(1, 2)
+
+        pointToHex({ x: 1, y: 2 })
+        expect(Point).to.have.been.calledWith({ x: 1, y: 2 })
+
+        pointToHex([1, 2])
+        expect(Point).to.have.been.calledWith([1, 2])
+
+        pointToHex(1)
+        expect(Point).to.have.been.calledWith(1)
     })
 
     it(`subtracts the hex's center from the point`, function() {

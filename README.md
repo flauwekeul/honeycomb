@@ -251,7 +251,7 @@ const grid = Grid.rectangle({ width: 10, height: 10 })
 
 document.addEventListener('click', ({ offsetX, offsetY }) => {
     // convert point to hex (coordinates)
-    const hexCoordinates = Grid.pointToHex([offsetX, offsetY])
+    const hexCoordinates = Grid.pointToHex(offsetX, offsetY)
     // get the actual hex from the grid
     console.log(grid.get(hexCoordinates))
 })
