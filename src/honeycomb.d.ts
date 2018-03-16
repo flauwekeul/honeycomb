@@ -63,6 +63,7 @@ declare function extendHex<T = {}>(prototype?: T): HexFactory<T>
 
 export interface HexFactory<T> {
     (xOrProps?: PointCoordinates & T, y?: number, customProps?: T): ExtendedHex<T>
+    // tslint:disable-next-line:unified-signatures <- false positive
     (xOrProps?: CubeCoordinates & T, y?: number, customProps?: T): ExtendedHex<T>
     thirdCoordinate(firstCoordinate: number, secondCoordinate: number): number
 }
