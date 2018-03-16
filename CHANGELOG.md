@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/flauwekeul/honeycomb/compare/v1.1.5...v1.2.0) (2018-03-16)
+
+
+### Features
+
+* add typescript type definitions file ([7d22f33](https://github.com/flauwekeul/honeycomb/commit/7d22f33))
+
+
+
 <a name="1.1.5"></a>
 ## [1.1.5](https://github.com/flauwekeul/honeycomb/compare/v1.1.4...v1.1.5) (2018-03-02)
 

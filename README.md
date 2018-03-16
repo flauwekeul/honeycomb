@@ -1285,6 +1285,8 @@ Defaults to `-1` (odd offset).
 See [OFFSET](#offset) for details.
 See [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#coordinates-offset) why this is needed.
 
+Type: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)
+
 #### oppositeCornerDistance
 
 Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The distance between opposite corners of a hex.
@@ -1297,19 +1299,27 @@ Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Either ⬢ pointy or ⬣ flat. Defaults to `pointy`.
 
+Type: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)
+
 #### origin
 
 Distance from a hex's top left corner (as if it were a rectange). Defaults to `Point(0)`.
 Can be anything the [Honeycomb.Point](#honeycombpoint) factory accepts.
 When a [hex is converted to a point](#hextopoint), it is converted to this origin.
 
+Type: [point](#point)
+
 #### q
 
 Getter for `q` cube coordinate. Calls [Hex#cartesianToCube](#hexcartesiantocube) internally.
 
+Type: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)
+
 #### r
 
 Getter for `r` cube coordinate. Calls [Hex#cartesianToCube](#hexcartesiantocube) internally.
+
+Type: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)
 
 #### round
 
@@ -1330,6 +1340,8 @@ Returns **[hex](#hex)** A _new_ hex with rounded coordinates.
 #### s
 
 Getter for `s` cube coordinate. Calls [Hex#cartesianToCube](#hexcartesiantocube) internally.
+
+Type: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)
 
 #### set
 
@@ -1352,6 +1364,8 @@ Returns **[hex](#hex)** Itself with the passed parameters merged into it.
 #### size
 
 A hex's radius or the length of any of its sides. Defaults to `1`.
+
+Type: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)
 
 #### subtract
 
@@ -1595,20 +1609,20 @@ Returns **void** Nothing.
 ### 🚀 Features
 
 3.  Hex methods that do nothing with a hex's coordinates should be static (e.g. `cubeToCartesian`, `isPointy`, `width`)?
-3.  `Hex.corners` should return points relative to `Hex.origin` (like `Hex#corners` does now) and `Hex#corners` should return points relative to the hex (so it's not needed to add the hex's point to them).
-4.  Make some Grid instance methods also Grid static methods and vice versa?
-5.  Make more methods accept points (instead of hexes). Also: instead of filtering invalid hexes, attempt to convert values to hexes (by passing them to `Hex()`)?
-6.  Make some methods getters (e.g. `Hex#width`)?
-7.  Make methods that accept points, also accept `x` and `y` as separate parameters?
-8.  Maybe make entities immutable?
-9.  Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well. Maybe this should be solved during rendering (and not in Honeycomb at all)?
-10. Add logger that "renders" a grid using `console.log`.
-11. Overwrite `Grid#sort` so it can sort by 1 or more dimensions, ascending/descending (and also accepts a custom comparator)?
-12. Add `Grid.union`, `Grid.subtract`, `Grid.intersect` and `Grid.difference` (or maybe as prototype methods?). [More info](https://www.sketchapp.com/docs/shapes/boolean-operations/).
-13. Shiny github.io pages 😎
-14. Maybe `Honeycomb.defineGrid` should accept a prototype too (as a second parameter).
-15. Maybe `Honeycomb` should (also) be a function that accepts a hex prototype and returns a Grid factory?
-16. Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.
+4.  `Hex.corners` should return points relative to `Hex.origin` (like `Hex#corners` does now) and `Hex#corners` should return points relative to the hex (so it's not needed to add the hex's point to them).
+5.  Make some Grid instance methods also Grid static methods and vice versa?
+6.  Make more methods accept points (instead of hexes). Also: instead of filtering invalid hexes, attempt to convert values to hexes (by passing them to `Hex()`)?
+7.  Make some methods getters (e.g. `Hex#width`)?
+8.  Make methods that accept points, also accept `x` and `y` as separate parameters?
+9.  Maybe make entities immutable?
+10. Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well. Maybe this should be solved during rendering (and not in Honeycomb at all)?
+11. Add logger that "renders" a grid using `console.log`.
+12. Overwrite `Grid#sort` so it can sort by 1 or more dimensions, ascending/descending (and also accepts a custom comparator)?
+13. Add `Grid.union`, `Grid.subtract`, `Grid.intersect` and `Grid.difference` (or maybe as prototype methods?). [More info](https://www.sketchapp.com/docs/shapes/boolean-operations/).
+14. Shiny github.io pages 😎
+15. Maybe `Honeycomb.defineGrid` should accept a prototype too (as a second parameter).
+16. Maybe `Honeycomb` should (also) be a function that accepts a hex prototype and returns a Grid factory?
+17. Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.
 
 ### 🛠 Refactorings
 
