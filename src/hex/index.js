@@ -54,6 +54,7 @@ export default function extendHexFactory({ ensureXY, Point }) {
      * hex3.instanceProperty    // I'm a unique snowflake 😌
      */
     return function extendHex(prototype = {}) {
+        const cartesianToCube = methods.cartesianToCubeFactory({ Point })
         const defaultPrototype = {
             /**
              * Used internally for type checking
@@ -106,21 +107,21 @@ export default function extendHexFactory({ ensureXY, Point }) {
              * @memberof Hex#
              * @type {number}
              */
-            get q() { return _cubeProp(this, 'q') },
+            get q() { return this.cartesianToCube(this).q },
             /**
              * Getter for `r` cube coordinate. Calls {@link Hex#cartesianToCube} internally.
              *
              * @memberof Hex#
              * @type {number}
              */
-            get r() { return _cubeProp(this, 'r') },
+            get r() { return this.cartesianToCube(this).r },
             /**
              * Getter for `s` cube coordinate. Calls {@link Hex#cartesianToCube} internally.
              *
              * @memberof Hex#
              * @type {number}
              */
-            get s() { return _cubeProp(this, 's') },
+            get s() { return this.cartesianToCube(this).s },
 
             // methods:
             add: methods.addFactory({ Hex, Point }),
@@ -130,7 +131,7 @@ export default function extendHexFactory({ ensureXY, Point }) {
              * @instance
              */
             cartesian: methods.coordinates,
-            cartesianToCube: methods.cartesianToCube,
+            cartesianToCube,
             center: methods.centerFactory({ Point }),
             coordinates: methods.coordinates,
             corners: methods.cornersFactory({ Point }),
@@ -159,7 +160,7 @@ export default function extendHexFactory({ ensureXY, Point }) {
              * @memberof Hex#
              * @instance
              */
-            toCube: methods.cartesianToCube,
+            toCube: cartesianToCube,
             toPoint: methods.toPointFactory({ Point }),
             toString: methods.toString,
             width: methods.width
@@ -263,8 +264,4 @@ export default function extendHexFactory({ ensureXY, Point }) {
 
         return Hex
     }
-}
-
-function _cubeProp(context, prop) {
-    return context.cartesianToCube({ x: context.x, y: context.y })[prop]
 }

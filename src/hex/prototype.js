@@ -84,35 +84,45 @@ export function cubeToCartesian({ q, r }) {
     return { x, y }
 }
 
-/**
- * @memberof Hex#
- *
- * @todo make this a static (and instance?) method
- *
- * @param {Object} cartesianCoordinates     The `x` and `y` cartesian coordinate.
- * @param {number} cartesianCoordinates.x   The `x` cartesian coordinate.
- * @param {number} cartesianCoordinates.y   The `y` cartesian coordinate.
- *
- * @returns {Object}                        The hex's cube `q`, `r` and `s` coordinates.
- *
- * @example
- * const Hex = Honeycomb.extendHex()
- *
- * Hex().cartesianToCube({ x: 4, y: -2 }) // { q: 5, r: -2, s: -3 }
- */
-export function cartesianToCube({ x, y }) {
-    let q, r
+export function cartesianToCubeFactory({ Point }) {
+    /**
+     * @memberof Hex#
+     *
+     * @todo make this a static (and instance?) method
+     *
+     * @param {(number|number[]|point)} [pointOrX=] The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
+     * @param {number} [pointOrX.x=]                The x coordinate.
+     * @param {number} [pointOrX.y=]                The y coordinate.
+     * @param {number} [y=]                         The y coordinate.
+     *
+     * @returns {Object}    The hex's cube `q`, `r` and `s` coordinates.
+     *
+     * @example
+     * const Hex = Honeycomb.extendHex()
+     * const Point = Honeycomb.Point
+     *
+     * Hex().cartesianToCube(Point(4, -2))      // { q: 5, r: -2, s: -3 }
+     * Hex().cartesianToCube(4, -2)             // { q: 5, r: -2, s: -3 }
+     * Hex().cartesianToCube({ x: 4, y: -2 })   // { q: 5, r: -2, s: -3 }
+     * Hex().cartesianToCube([4, -2])           // { q: 5, r: -2, s: -3 }
+     */
+    return function cartesianToCube(pointOrX, y) {
+        let x, q, r
 
-    if (this.isPointy()) {
-        q = x - offsetFromZero(this.offset, y)
-        r = y
-    } else {
-        q = x
-        r = y - offsetFromZero(this.offset, x)
+        ({ x, y } = Point(pointOrX, y))
+
+        if (this.isPointy()) {
+            q = x - offsetFromZero(this.offset, y)
+            r = y
+        } else {
+            q = x
+            r = y - offsetFromZero(this.offset, x)
+        }
+
+        return { q, r, s: -q - r }
     }
-
-    return { q, r, s: -q - r }
 }
+
 /**
  * @memberof Hex#
  * @returns {boolean}   Whether hexes have a pointy ⬢ orientation.

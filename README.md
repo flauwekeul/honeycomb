@@ -1611,7 +1611,7 @@ Returns **void** Nothing.
 3.  Hex methods that do nothing with a hex's coordinates should be static (e.g. `cubeToCartesian`, `isPointy`, `width`)?
 4.  `Hex.corners` should return points relative to `Hex.origin` (like `Hex#corners` does now) and `Hex#corners` should return points relative to the hex (so it's not needed to add the hex's point to them).
 5.  Make some Grid instance methods also Grid static methods and vice versa?
-6.  Make more methods accept points (instead of hexes). Also: instead of filtering invalid hexes, attempt to convert values to hexes (by passing them to `Hex()`)?
+6.  Instead of filtering invalid hexes, attempt to convert values to hexes (by passing them to `Hex()`)?
 7.  Make some methods getters (e.g. `Hex#width`)?
 8.  Make methods that accept points, also accept `x` and `y` as separate parameters?
 9.  Maybe make entities immutable?

@@ -59,7 +59,7 @@ describe('coordinates', function() {
 
 describe('cubeToCartesian', () => {
     describe('when the hex has a pointy orientation', () => {
-        it('converts the passed cube coordinates to rectangular coordinates', () => {
+        it('converts the passed cube coordinates to cartesian coordinates', () => {
             const isPointy = sinon.stub().returns(true)
             let cubeToCartesian = methods.cubeToCartesian.bind({ isPointy, offset: -1 })
             expect(cubeToCartesian({ q: 2, r: 1, s: -3 })).to.eql({ x: 2, y: 1 })
@@ -69,7 +69,7 @@ describe('cubeToCartesian', () => {
     })
 
     describe('when the hex has a flat orientation', () => {
-        it('converts the passed cube coordinates to rectangular coordinates', () => {
+        it('converts the passed cube coordinates to cartesian coordinates', () => {
             const isPointy = sinon.stub().returns(false)
             let cubeToCartesian = methods.cubeToCartesian.bind({ isPointy, offset: -1 })
             expect(cubeToCartesian({ q: 1, r: 1, s: -2 })).to.eql({ x: 1, y: 1 })
@@ -80,23 +80,43 @@ describe('cubeToCartesian', () => {
 })
 
 describe('cartesianToCube', () => {
+    let cartesianToCube, PointSpy, isPointy
+
+    beforeEach(() => {
+        PointSpy = sinon.spy(Point)
+        isPointy = sinon.stub()
+        cartesianToCube = methods.cartesianToCubeFactory({ Point: PointSpy })
+    })
+
+    it('calls Point with the passed parameters', () => {
+        cartesianToCube = cartesianToCube.bind({ isPointy })
+
+        cartesianToCube(1, 2)
+        expect(PointSpy).to.have.been.calledWith(1, 2)
+
+        cartesianToCube({ x: 1, y: 2 })
+        expect(PointSpy).to.have.been.calledWith({ x: 1, y: 2 })
+
+        cartesianToCube([1, 2])
+        expect(PointSpy).to.have.been.calledWith([1, 2])
+
+        cartesianToCube(1)
+        expect(PointSpy).to.have.been.calledWith(1)
+    })
+
     describe('when the hex has a pointy orientation', () => {
-        it('converts the passed rectangular coordinates to cube coordinates', () => {
-            const isPointy = sinon.stub().returns(true)
-            let cartesianToCube = methods.cartesianToCube.bind({ isPointy, offset: -1 })
-            expect(cartesianToCube({ x: 2, y: 1 })).to.eql({ q: 2, r: 1, s: -3 })
-            cartesianToCube = methods.cartesianToCube.bind({ isPointy, offset: 1 })
-            expect(cartesianToCube({ x: 2, y: 1 })).to.eql({ q: 1, r: 1, s: -2 })
+        it('converts the passed cartesian coordinates to cube coordinates', () => {
+            isPointy.returns(true)
+            expect(cartesianToCube.call({ isPointy, offset: -1 }, { x: 2, y: 1 })).to.eql({ q: 2, r: 1, s: -3 })
+            expect(cartesianToCube.call({ isPointy, offset: 1 }, { x: 2, y: 1 })).to.eql({ q: 1, r: 1, s: -2 })
         })
     })
 
     describe('when the hex has a flat orientation', () => {
-        it('converts the passed rectangular coordinates to cube coordinates', () => {
-            const isPointy = sinon.stub().returns(false)
-            let cartesianToCube = methods.cartesianToCube.bind({ isPointy, offset: -1 })
-            expect(cartesianToCube({ x: 1, y: 1 })).to.eql({ q: 1, r: 1, s: -2 })
-            cartesianToCube = methods.cartesianToCube.bind({ isPointy, offset: 1 })
-            expect(cartesianToCube({ x: 1, y: 1 })).to.eql({ q: 1, r: 0, s: -1 })
+        it('converts the passed cartesian coordinates to cube coordinates', () => {
+            isPointy.returns(false)
+            expect(cartesianToCube.call({ isPointy, offset: -1 }, { x: 1, y: 1 })).to.eql({ q: 1, r: 1, s: -2 })
+            expect(cartesianToCube.call({ isPointy, offset: 1 }, { x: 1, y: 1 })).to.eql({ q: 1, r: 0, s: -1 })
         })
     })
 })
