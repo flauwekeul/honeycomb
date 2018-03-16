@@ -1609,7 +1609,6 @@ Returns **void** Nothing.
 14. Maybe `Honeycomb.defineGrid` should accept a prototype too (as a second parameter).
 15. Maybe `Honeycomb` should (also) be a function that accepts a hex prototype and returns a Grid factory?
 16. Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.
-17. Add type definition files? Potential tools: [dts-gen](https://github.com/Microsoft/dts-gen), [dtsmake](https://github.com/ConquestArrow/dtsmake).
 
 ### 🛠 Refactorings
 
