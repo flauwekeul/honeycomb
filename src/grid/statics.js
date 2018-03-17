@@ -1,14 +1,14 @@
 import { isString } from 'axis.js'
 import { offsetFromZero } from '../utils'
 
-export function pointToHexFactory({ Point, Hex }) {
+export function pointToHexFactory({ Hex }) {
     /**
-     * Converts the passed {@link point} to a hex.
+     * Converts the passed {@link point} to a hex. Internally calls {@link Hex#fromPoint}.
      *
      * @memberof Grid
      * @static
      * @method
-     * @see {@link https://www.redblobgames.com/grids/hexagons/#pixel-to-hex|redblobgames.com}
+     * @see {@link Hex#fromPoint}
      *
      * @param {(number|number[]|point)} [pointOrX=] The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
      * @param {number} [pointOrX.x=]                The x coordinate.
@@ -22,27 +22,13 @@ export function pointToHexFactory({ Point, Hex }) {
      * const Grid = Honeycomb.defineGrid(Hex)
      * const Point = Honeycomb.Point
      *
-     * Grid.pointToHex(Point(120, 280))     // { x: 1, y: 4 }
-     * Grid.pointToHex(120, 280)            // { x: 1, y: 4 }
-     * Grid.pointToHex({ x: 120, y: 280 })  // { x: 1, y: 4 }
-     * Grid.pointToHex([ 120, 280 ])        // { x: 1, y: 4 }
+     * Grid.pointToHex(Point(120, 280))     // { x: 0, y: 3 }
+     * Grid.pointToHex(120, 280)            // { x: 0, y: 3 }
+     * Grid.pointToHex({ x: 120, y: 280 })  // { x: 0, y: 3 }
+     * Grid.pointToHex([ 120, 280 ])        // { x: 0, y: 3 }
      */
     return function pointToHex(pointOrX, y) {
-        const hex = Hex()
-        const size = hex.size
-        let x, q, r
-
-        ({ x, y } = Point(pointOrX, y).subtract(hex.center()))
-
-        if (hex.isPointy()) {
-            q = (x * Math.sqrt(3) / 3 - y / 3) / size
-            r = y * 2 / 3 / size
-        } else {
-            q = x * 2 / 3 / size
-            r = (-x / 3 + Math.sqrt(3) / 3 * y) / size
-        }
-
-        return Hex({q, r, s: -q - r }).round()
+        return Hex().fromPoint(pointOrX, y)
     }
 }
 

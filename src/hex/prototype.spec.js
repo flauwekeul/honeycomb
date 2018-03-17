@@ -335,6 +335,71 @@ describe('toPoint', function() {
     })
 })
 
+describe('fromPoint', function() {
+    let subtract, Point, Hex, isPointy, round, center, fromPoint, point
+
+    beforeEach(function() {
+        point = { x: 1, y: 1 }
+        subtract = sinon.stub().returns(point)
+        Point = sinon.stub().returns({ subtract })
+        isPointy = sinon.stub()
+        round = sinon.stub().returns('round result')
+        center = sinon.stub().returns('center result')
+        Hex = sinon.stub().returns({ round })
+        fromPoint = methods.fromPointFactory({ Point, Hex }).bind({ size: 1, isPointy, center })
+    })
+
+    it('calls Point with the passed parameters', () => {
+        fromPoint(1, 2)
+        expect(Point).to.have.been.calledWith(1, 2)
+
+        fromPoint({ x: 1, y: 2 })
+        expect(Point).to.have.been.calledWith({ x: 1, y: 2 })
+
+        fromPoint([1, 2])
+        expect(Point).to.have.been.calledWith([1, 2])
+
+        fromPoint(1)
+        expect(Point).to.have.been.calledWith(1)
+    })
+
+    it(`subtracts the hex's center from the point`, function() {
+        fromPoint(point)
+        expect(center).to.have.been.called
+        expect(subtract).to.have.been.calledWith('center result')
+    })
+
+    describe('when the hex has a pointy orientation', function() {
+        it('creates a new hex', function() {
+            isPointy.returns(true)
+            fromPoint(point)
+
+            expect(Hex.firstCall.args[0].q).to.be.closeTo(0.2440, 0.0005)
+            expect(Hex.firstCall.args[0].r).to.be.closeTo(0.6667, 0.0005)
+        })
+    })
+
+    describe('when the hex has a flat orientation', function() {
+        it('creates a new hex', function() {
+            isPointy.returns(false)
+            fromPoint(point)
+
+            expect(Hex.firstCall.args[0].q).to.be.closeTo(0.6667, 0.0005)
+            expect(Hex.firstCall.args[0].r).to.be.closeTo(0.2440, 0.0005)
+        })
+    })
+
+    it('rounds that hex', function() {
+        fromPoint(point)
+        expect(round).to.have.been.called
+    })
+
+    it('returns the hex', function() {
+        const result = fromPoint(point)
+        expect(result).to.equal('round result')
+    })
+})
+
 describe('add', function () {
     let HexSpy, PointSpy, add
 

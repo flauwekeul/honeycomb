@@ -139,6 +139,7 @@ export default function extendHexFactory({ ensureXY, Point }) {
             cubeToCartesian: methods.cubeToCartesian,
             distance: methods.distance,
             equals: methods.equalsFactory({ Point }),
+            fromPoint: methods.fromPointFactory({ Point, Hex }),
             height: methods.height,
             isFlat: methods.isFlat,
             isPointy: methods.isPointy,

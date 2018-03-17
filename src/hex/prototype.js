@@ -281,6 +281,49 @@ export function toPointFactory({ Point }) {
     }
 }
 
+export function fromPointFactory({ Point, Hex }) {
+    /**
+     * Returns a hex from the passed {@link point}.
+     *
+     * @memberof Hex
+     * @instance
+     * @see {@link https://www.redblobgames.com/grids/hexagons/#pixel-to-hex|redblobgames.com}
+     *
+     * @param {(number|number[]|point)} [pointOrX=] The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
+     * @param {number} [pointOrX.x=]                The x coordinate.
+     * @param {number} [pointOrX.y=]                The y coordinate.
+     * @param {number} [y=]                         The y coordinate.
+     *
+     * @returns {hex}                               A hex (with rounded coordinates) that contains the passed point.
+     *
+     * @example
+     * const Hex = Honeycomb.extendHex({ size: 50 })
+     * const Point = Honeycomb.Point
+     * const hex = Hex()
+     *
+     * hex.fromPoint(Point(120, 280))     // { x: 0, y: 3 }
+     * hex.fromPoint(120, 280)            // { x: 0, y: 3 }
+     * hex.fromPoint({ x: 120, y: 280 })  // { x: 0, y: 3 }
+     * hex.fromPoint([ 120, 280 ])        // { x: 0, y: 3 }
+     */
+    return function fromPoint(pointOrX, y) {
+        const { size } = this
+        let x, q, r
+
+        ({ x, y } = Point(pointOrX, y).subtract(this.center()))
+
+        if (this.isPointy()) {
+            q = (x * sqrt3 / 3 - y / 3) / size
+            r = y * 2 / 3 / size
+        } else {
+            q = x * 2 / 3 / size
+            r = (-x / 3 + sqrt3 / 3 * y) / size
+        }
+
+        return Hex({ q, r, s: -q - r }).round()
+    }
+}
+
 export function addFactory({ Hex, Point }) {
     /**
      * @memberof Hex#

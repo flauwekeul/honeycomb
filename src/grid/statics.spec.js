@@ -14,82 +14,15 @@ const extendHex = extendHexFactory({ ensureXY, Point })
 const Hex = extendHex()
 
 describe('pointToHex', function() {
-    let subtract, Point, isPointy, hexResult, Hex, round, center, pointToHex, point
+    it('creates a Hex and passes all parameters to its fromPoint() method and returns that result', function() {
+        const fromPoint = sinon.stub().returns('fromPoint result')
+        const Hex = sinon.stub().returns({ fromPoint })
+        const pointToHex = statics.pointToHexFactory({ Hex })
+        const result = pointToHex('some x', 'some y')
 
-    beforeEach(function() {
-        point = { x: 1, y: 1 }
-        subtract = sinon.stub().returns(point)
-        Point = sinon.stub().returns({ subtract })
-        isPointy = sinon.stub()
-        round = sinon.stub().returns('round result')
-        center = sinon.stub().returns('center result')
-        hexResult = {
-            size: 1,
-            isPointy,
-            round,
-            center
-        }
-        Hex = sinon.stub().returns(hexResult)
-        pointToHex = statics.pointToHexFactory({ Point, Hex })
-    })
-
-    it('calls Hex to access its size, center and isPointy', function() {
-        pointToHex(point)
         expect(Hex).to.have.been.called
-    })
-
-    it('calls Point with the passed parameters', () => {
-        pointToHex(1, 2)
-        expect(Point).to.have.been.calledWith(1, 2)
-
-        pointToHex({ x: 1, y: 2 })
-        expect(Point).to.have.been.calledWith({ x: 1, y: 2 })
-
-        pointToHex([1, 2])
-        expect(Point).to.have.been.calledWith([1, 2])
-
-        pointToHex(1)
-        expect(Point).to.have.been.calledWith(1)
-    })
-
-    it(`subtracts the hex's center from the point`, function() {
-        pointToHex(point)
-        expect(center).to.have.been.called
-        expect(subtract).to.have.been.calledWith('center result')
-    })
-
-    describe('when the hex has a pointy orientation', function() {
-        beforeEach(function() {
-            isPointy.returns(true)
-        })
-
-        it('creates a new hex', function() {
-            pointToHex(point)
-            expect(Hex.secondCall.args[0].q).to.be.closeTo(0.2440, 0.0005)
-            expect(Hex.secondCall.args[0].r).to.be.closeTo(0.6667, 0.0005)
-        })
-    })
-
-    describe('when the hex has a flat orientation', function() {
-        beforeEach(function() {
-            isPointy.returns(false)
-        })
-
-        it('creates a new hex', function() {
-            pointToHex(point)
-            expect(Hex.secondCall.args[0].q).to.be.closeTo(0.6667, 0.0005)
-            expect(Hex.secondCall.args[0].r).to.be.closeTo(0.2440, 0.0005)
-        })
-    })
-
-    it('rounds that hex', function() {
-        pointToHex(point)
-        expect(round).to.have.been.called
-    })
-
-    it('returns the hex', function() {
-        const result = pointToHex(point)
-        expect(result).to.equal('round result')
+        expect(fromPoint).to.have.been.calledWith('some x', 'some y')
+        expect(result).to.equal('fromPoint result')
     })
 })
 

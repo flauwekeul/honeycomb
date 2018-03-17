@@ -91,6 +91,7 @@ export interface Hex<T> extends PointLike {
     cubeToCartesian(cubeCoordinates: { q: number, r: number, s?: number }): PointLike
     distance(hex: CubeCoordinates): number
     equals(point: PointCoordinates): boolean
+    fromPoint(pointOrX?: PointCoordinates, y?: number): ExtendedHex<T>
     height(): number
     isFlat(): boolean
     isPointy(): boolean

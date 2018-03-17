@@ -51,6 +51,7 @@ describe('extendHex', function() {
             'cubeToCartesian',
             'distance',
             'equals',
+            'fromPoint',
             'height',
             'isFlat',
             'isPointy',
