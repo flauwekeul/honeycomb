@@ -363,6 +363,7 @@ Hex({ q: 1, r: 4, s: -5 })  // { x: 3, y: 4 }
     -   [cubeToCartesian](#cubetocartesian)
     -   [distance](#distance)
     -   [equals](#equals)
+    -   [fromPoint](#frompoint)
     -   [height](#height)
     -   [isFlat](#isflat)
     -   [isPointy](#ispointy)
@@ -979,25 +980,28 @@ Returns **[grid](#grid)** Grid of hexes in a parallelogram arrangement.
 
 #### pointToHex
 
--   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#pixel-to-hex)**
+-   **See: [Hex#fromPoint](#hexfrompoint)**
 
-Converts the passed [point](#point) to a hex.
+Converts the passed [point](#point) to a hex. Internally calls [Hex#fromPoint](#hexfrompoint).
 
 **Parameters**
 
--   `point` **[point](#point)** The point to convert from.
+-   `pointOrX` **([number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)> | [point](#point))?** The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
+    -   `pointOrX.x` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The x coordinate.
+    -   `pointOrX.y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
+-   `y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
 
 **Examples**
 
 ```javascript
 const Hex = Honeycomb.extendHex({ size: 50 })
 const Grid = Honeycomb.defineGrid(Hex)
-
-Grid.pointToHex({ x: 120, y: 280 })  // { x: 1, y: 4 }
-Grid.pointToHex([ 120, 280 ])        // { x: 1, y: 4 }
-
 const Point = Honeycomb.Point
-Grid.pointToHex(Point(120, 280))     // { x: 1, y: 4 }
+
+Grid.pointToHex(Point(120, 280))     // { x: 0, y: 3 }
+Grid.pointToHex(120, 280)            // { x: 0, y: 3 }
+Grid.pointToHex({ x: 120, y: 280 })  // { x: 0, y: 3 }
+Grid.pointToHex([ 120, 280 ])        // { x: 0, y: 3 }
 ```
 
 Returns **[hex](#hex)** A hex (with rounded coordinates) that contains the passed point.
@@ -1109,16 +1113,21 @@ Alias for [Hex#coordinates](#hexcoordinates).
 
 **Parameters**
 
--   `cartesianCoordinates` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** The `x` and `y` cartesian coordinate.
-    -   `cartesianCoordinates.x` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The `x` cartesian coordinate.
-    -   `cartesianCoordinates.y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The `y` cartesian coordinate.
+-   `pointOrX` **([number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)> | [point](#point))?** The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
+    -   `pointOrX.x` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The x coordinate.
+    -   `pointOrX.y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
+-   `y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
 
 **Examples**
 
 ```javascript
 const Hex = Honeycomb.extendHex()
+const Point = Honeycomb.Point
 
-Hex().cartesianToCube({ x: 4, y: -2 }) // { q: 5, r: -2, s: -3 }
+Hex().cartesianToCube(Point(4, -2))      // { q: 5, r: -2, s: -3 }
+Hex().cartesianToCube(4, -2)             // { q: 5, r: -2, s: -3 }
+Hex().cartesianToCube({ x: 4, y: -2 })   // { q: 5, r: -2, s: -3 }
+Hex().cartesianToCube([4, -2])           // { q: 5, r: -2, s: -3 }
 ```
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** The hex's cube `q`, `r` and `s` coordinates.
@@ -1243,6 +1252,34 @@ Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 -   `point` **[point](#point)** The hex (or point) whose coordinates will be compared against the current hex.
 
 Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether the coordinates of the current and the passed point are equal.
+
+#### fromPoint
+
+-   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#pixel-to-hex)**
+
+Returns a hex from the passed [point](#point).
+
+**Parameters**
+
+-   `pointOrX` **([number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)> | [point](#point))?** The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
+    -   `pointOrX.x` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The x coordinate.
+    -   `pointOrX.y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
+-   `y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
+
+**Examples**
+
+```javascript
+const Hex = Honeycomb.extendHex({ size: 50 })
+const Point = Honeycomb.Point
+const hex = Hex()
+
+hex.fromPoint(Point(120, 280))     // { x: 0, y: 3 }
+hex.fromPoint(120, 280)            // { x: 0, y: 3 }
+hex.fromPoint({ x: 120, y: 280 })  // { x: 0, y: 3 }
+hex.fromPoint([ 120, 280 ])        // { x: 0, y: 3 }
+```
+
+Returns **[hex](#hex)** A hex (with rounded coordinates) that contains the passed point.
 
 #### height
 
@@ -1458,7 +1495,10 @@ Returns **[point](#point)** A point.
 
 **Parameters**
 
--   `point` **[point](#point)** The point to add to the current point.
+-   `pointOrX` **([number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)> | [point](#point))?** The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
+    -   `pointOrX.x` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The x coordinate.
+    -   `pointOrX.y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
+-   `y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
 
 Returns **[point](#point)** The sum of the passed point's coordinates to the current point's.
 
@@ -1466,7 +1506,10 @@ Returns **[point](#point)** The sum of the passed point's coordinates to the cur
 
 **Parameters**
 
--   `point` **[point](#point)** The point where the current point is divided by.
+-   `pointOrX` **([number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)> | [point](#point))?** The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
+    -   `pointOrX.x` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The x coordinate.
+    -   `pointOrX.y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
+-   `y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
 
 Returns **[point](#point)** The division of the current point's coordinates and the passed point's.
 
@@ -1474,7 +1517,10 @@ Returns **[point](#point)** The division of the current point's coordinates and 
 
 **Parameters**
 
--   `point` **[point](#point)** The point to multiply with the current point.
+-   `pointOrX` **([number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)> | [point](#point))?** The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
+    -   `pointOrX.x` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The x coordinate.
+    -   `pointOrX.y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
+-   `y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
 
 Returns **[point](#point)** The multiplication of the passed point's coordinates and the current point's.
 
@@ -1482,7 +1528,10 @@ Returns **[point](#point)** The multiplication of the passed point's coordinates
 
 **Parameters**
 
--   `point` **[point](#point)** The point to subtract from the current point.
+-   `pointOrX` **([number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)> | [point](#point))?** The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
+    -   `pointOrX.x` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The x coordinate.
+    -   `pointOrX.y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
+-   `y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
 
 Returns **[point](#point)** The difference between the passed point's coordinates and the current point's.
 
@@ -1613,15 +1662,15 @@ Returns **void** Nothing.
 5.  Make some Grid instance methods also Grid static methods and vice versa?
 6.  Instead of filtering invalid hexes, attempt to convert values to hexes (by passing them to `Hex()`)?
 7.  Make some methods getters (e.g. `Hex#width`)?
-9.  Maybe make entities immutable?
-10. Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well. Maybe this should be solved during rendering (and not in Honeycomb at all)?
-11. Add logger that "renders" a grid using `console.log`.
-12. Overwrite `Grid#sort` so it can sort by 1 or more dimensions, ascending/descending (and also accepts a custom comparator)?
-13. Add `Grid.union`, `Grid.subtract`, `Grid.intersect` and `Grid.difference` (or maybe as prototype methods?). [More info](https://www.sketchapp.com/docs/shapes/boolean-operations/).
-14. Shiny github.io pages 😎
-15. Maybe `Honeycomb.defineGrid` should accept a prototype too (as a second parameter).
-16. Maybe `Honeycomb` should (also) be a function that accepts a hex prototype and returns a Grid factory?
-17. Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.
+8.  Maybe make entities immutable?
+9.  Add possibility to [stretch hexes](http://www.redblobgames.com/grids/hexagons/implementation.html#layout-test-size-tall); they needn't be regularly shaped. This is an [actual request](https://github.com/flauwekeul/honeycomb/issues/1) as well. Maybe this should be solved during rendering (and not in Honeycomb at all)?
+10. Add logger that "renders" a grid using `console.log`.
+11. Overwrite `Grid#sort` so it can sort by 1 or more dimensions, ascending/descending (and also accepts a custom comparator)?
+12. Add `Grid.union`, `Grid.subtract`, `Grid.intersect` and `Grid.difference` (or maybe as prototype methods?). [More info](https://www.sketchapp.com/docs/shapes/boolean-operations/).
+13. Shiny github.io pages 😎
+14. Maybe `Honeycomb.defineGrid` should accept a prototype too (as a second parameter).
+15. Maybe `Honeycomb` should (also) be a function that accepts a hex prototype and returns a Grid factory?
+16. Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.
 
 ### 🛠 Refactorings
 

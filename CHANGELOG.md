@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/flauwekeul/honeycomb/compare/v1.2.0...v1.3.0) (2018-03-17)
+
+
+### Bug Fixes
+
+* Minor improvements to type definitions ([d3cd849](https://github.com/flauwekeul/honeycomb/commit/d3cd849))
+
+
+### Features
+
+* **Grid:** `Grid.pointToHex()` now accepts the same parameters as `Point()` ([89668f7](https://github.com/flauwekeul/honeycomb/commit/89668f7))
+* **Hex:** `Hex#cartesianToCube()` now accepts the same parameters as `Point()` ([d414848](https://github.com/flauwekeul/honeycomb/commit/d414848))
+* **Hex:** add `Hex#fromPoint()` ([d82ba48](https://github.com/flauwekeul/honeycomb/commit/d82ba48))
+* **Point:** all Point methods now accept the same parameters as `Point()` ([7343b5f](https://github.com/flauwekeul/honeycomb/commit/7343b5f))
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/flauwekeul/honeycomb/compare/v1.1.5...v1.2.0) (2018-03-16)
 
