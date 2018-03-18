@@ -62,11 +62,11 @@ export type CompassDirection = PointyCompassDirection | FlatCompassDirection
 declare function extendHex<T = {}>(prototype?: T): HexFactory<T>
 
 export interface HexFactory<T> {
-    (xOrProps?: PointCoordinates & T, y?: number, customProps?: T): ExtendedHex<T>
-    // tslint:disable-next-line:unified-signatures <- false positive
-    (xOrProps?: CubeCoordinates & T, y?: number, customProps?: T): ExtendedHex<T>
+    (xOrProps?: HexCoordinates | T, y?: number, customProps?: T): ExtendedHex<T>
     thirdCoordinate(firstCoordinate: number, secondCoordinate: number): number
 }
+
+export type HexCoordinates = PointCoordinates | CubeCoordinates
 
 export type ExtendedHex<T> = {
     [P in keyof T]: T[P]
@@ -108,10 +108,6 @@ export interface Hex<T> extends PointLike {
     toString(): string
     width(): number
 }
-
-// not very acurate, but good enough for now
-// problem: { x: 0, q: 0 } is valid...
-export type HexCoordinates = PointCoordinates | CubeCoordinates
 
 export interface CubeCoordinates {
     q: number
