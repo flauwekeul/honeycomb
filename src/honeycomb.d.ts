@@ -7,25 +7,25 @@ export interface GridFactory<T> {
     parallelogram(options: {
         width: number,
         height: number,
-        start?: HexCoordinates<T>,
+        start?: HexCoordinates,
         direction?: 1 | 3 | 5,
         onCreate?: onCreateCallback<T>
     }): Grid<T>
     triangle(options: {
         size: number,
-        start?: HexCoordinates<T>,
+        start?: HexCoordinates,
         direction?: 1 | 5,
         onCreate?: onCreateCallback<T>
     }): Grid<T>
     hexagon(options: {
         radius: number,
-        center?: HexCoordinates<T>,
+        center?: HexCoordinates,
         onCreate?: onCreateCallback<T>
     }): Grid<T>
     rectangle(options: {
         width: number,
         height: number,
-        start?: HexCoordinates<T>,
+        start?: HexCoordinates,
         direction?: CompassDirection | number,
         onCreate?: onCreateCallback<T>
     }): Grid<T>
@@ -111,7 +111,7 @@ export interface Hex<T> extends PointLike {
 
 // not very acurate, but good enough for now
 // problem: { x: 0, q: 0 } is valid...
-export type HexCoordinates<T> = (PointCoordinates | CubeCoordinates) & T
+export type HexCoordinates = PointCoordinates | CubeCoordinates
 
 export interface CubeCoordinates {
     q: number
