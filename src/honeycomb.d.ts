@@ -33,7 +33,7 @@ export interface GridFactory<T> {
 
 export type onCreateCallback<T> = (hex: ExtendedHex<T>, grid: Grid<T>) => void
 
-export class Grid<T> extends Array {
+export class Grid<T> extends Array<ExtendedHex<T>> {
     // defined in class:
     fill(): never
     includes(point: PointCoordinates, fromIndex?: number): boolean
