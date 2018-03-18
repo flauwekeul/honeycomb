@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.3.2"></a>
+## [1.3.2](https://github.com/flauwekeul/honeycomb/compare/v1.3.1...v1.3.2) (2018-03-18)
+
+
+### Bug Fixes
+
+* **typings:** fix bug where a grid's methods inherited from `Array.prototype` returned `any[]` ([2cebcba](https://github.com/flauwekeul/honeycomb/commit/2cebcba))
+
+
+
 <a name="1.3.1"></a>
 ## [1.3.1](https://github.com/flauwekeul/honeycomb/compare/v1.3.0...v1.3.1) (2018-03-18)
 
