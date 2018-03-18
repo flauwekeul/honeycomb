@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.3.1"></a>
+## [1.3.1](https://github.com/flauwekeul/honeycomb/compare/v1.3.0...v1.3.1) (2018-03-18)
+
+
+### Bug Fixes
+
+* types are now actually present in the released package ([bcb1576](https://github.com/flauwekeul/honeycomb/commit/bcb1576))
+* **typings:** fix bug in `HexFactory()` typing that required all props of `T` ([3ec2eee](https://github.com/flauwekeul/honeycomb/commit/3ec2eee))
+* **typings:** fix bug in Grid's shape methods' `start`/`center` property ([159b197](https://github.com/flauwekeul/honeycomb/commit/159b197))
+
+
+
 <a name="1.3.0"></a>
 # [1.3.0](https://github.com/flauwekeul/honeycomb/compare/v1.2.0...v1.3.0) (2018-03-17)
 
