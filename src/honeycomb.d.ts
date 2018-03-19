@@ -1,7 +1,7 @@
 declare function defineGrid<T = HexFactory<T>>(Hex?: HexFactory<T>): GridFactory<T>
 
 export interface GridFactory<T> {
-    (arrayOrHex?: Array<Hex<T>> | Hex<T>, ...hexes: Array<Hex<T>>): Grid<T>
+    (arrayOrHex?: Array<Hex<T>> | Hex<T>, ...hexes: Array<Hex<T>>): Grid<ExtendedHex<T>>
     isValidHex(value: any): boolean
     pointToHex(pointOrX?: PointCoordinates, y?: number): ExtendedHex<T>
     parallelogram(options: {
@@ -10,49 +10,61 @@ export interface GridFactory<T> {
         start?: HexCoordinates,
         direction?: 1 | 3 | 5,
         onCreate?: onCreateCallback<T>
-    }): Grid<T>
+    }): Grid<ExtendedHex<T>>
     triangle(options: {
         size: number,
         start?: HexCoordinates,
         direction?: 1 | 5,
         onCreate?: onCreateCallback<T>
-    }): Grid<T>
+    }): Grid<ExtendedHex<T>>
     hexagon(options: {
         radius: number,
         center?: HexCoordinates,
         onCreate?: onCreateCallback<T>
-    }): Grid<T>
+    }): Grid<ExtendedHex<T>>
     rectangle(options: {
         width: number,
         height: number,
         start?: HexCoordinates,
         direction?: CompassDirection | number,
         onCreate?: onCreateCallback<T>
-    }): Grid<T>
+    }): Grid<ExtendedHex<T>>
 }
 
-export type onCreateCallback<T> = (hex: ExtendedHex<T>, grid: Grid<T>) => void
+export type onCreateCallback<T> = (hex: ExtendedHex<T>, grid: Grid<ExtendedHex<T>>) => void
 
-export class Grid<T> extends Array<ExtendedHex<T>> {
+export class Grid<T> extends Array<T> {
     // defined in class:
     fill(): never
     includes(point: PointCoordinates, fromIndex?: number): boolean
     indexOf(point: PointCoordinates, fromIndex?: number): number
     lastIndexOf(point: PointCoordinates, fromIndex?: number): number
-    push(...hexes: Array<Hex<T>>): number
+    push(...hexes: T[]): number
     splice(start: number, deleteCount?: number): Grid<T>
-    splice(start: number, deleteCount: number, ...hexes: Array<Hex<T>>): Grid<T>
-    unshift(...hexes: Array<Hex<T>>): number
+    splice(start: number, deleteCount: number, ...hexes: T[]): Grid<T>
+    unshift(...hexes: T[]): number
+
+    // inherited from Array.prototype:
+    concat(...items: Array<T | ConcatArray<T>>): Grid<T>
+    filter(callbackfn: (hex: T, index: number, grid: Grid<T>) => any, thisArg?: any): Grid<T>
+    find(predicate: (hex: T, index: number, grid: Grid<T>) => any, thisArg?: any): T | undefined
+    findIndex(predicate: (hex: T, index: number, grid: Grid<T>) => any, thisArg?: any): number
+    forEach(callbackfn: (hex: T, index: number, grid: Grid<T>) => void, thisArg?: any): void
+    map<U>(callbackfn: (hex: T, index: number, grid: Grid<T>) => U, thisArg?: any): Grid<U>
+    reduce<U>(callbackfn: (previousValue: U, hex: T, index: number, grid: Grid<T>) => U, initialValue?: U): U
+    reduceRight<U>(callbackfn: (previousValue: U, hex: T, index: number, grid: Grid<T>) => U, initialValue?: U): U
+    reverse(): Grid<T>
+    some(callbackfn: (hex: T, index: number, grid: Grid<T>) => any, thisArg?: any): boolean
 
     // defined in prototype:
-    get(keyOrPoint: number | PointCoordinates): ExtendedHex<T>
-    hexesBetween(firstHex: Hex<T>, lastHex: Hex<T>): Array<ExtendedHex<T>>
+    get(keyOrPoint: number | PointCoordinates): T | undefined
+    hexesBetween(firstHex: T, lastHex: T): T[]
     neighborsOf(
-        hex: Hex<T>,
+        hex: T,
         directions?: CompassDirection[] | number[] | CompassDirection | number | 'all',
         diagonal?: boolean
-    ): Array<ExtendedHex<T>>
-    set(keyOrPoint: number | PointCoordinates, newHex?: Hex<T>): Grid<T>
+    ): T[]
+    set(keyOrPoint: number | PointCoordinates, newHex?: T): this
 }
 
 export enum PointyCompassDirection { E, SE, SW, W, NW, NE }

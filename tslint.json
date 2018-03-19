@@ -10,7 +10,8 @@
         "interface-name": [true, "never-prefix"],
         "trailing-comma": [true, {
             "multiline": "ignore"
-        }]
+        }],
+        "arrow-parens": [true, "ban-single-arg-parens"]
     },
     "rulesDirectory": []
 }
