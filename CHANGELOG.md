@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.3.3"></a>
+## [1.3.3](https://github.com/flauwekeul/honeycomb/compare/v1.3.2...v1.3.3) (2018-03-20)
+
+
+### Bug Fixes
+
+* **typings:** improve Grid typings and override some method typings inherited from Array ([bf0d0b4](https://github.com/flauwekeul/honeycomb/commit/bf0d0b4))
+* **typings:** improve typings, rename some types for brevity ([38ec4c4](https://github.com/flauwekeul/honeycomb/commit/38ec4c4))
+
+
+
 <a name="1.3.2"></a>
 ## [1.3.2](https://github.com/flauwekeul/honeycomb/compare/v1.3.1...v1.3.2) (2018-03-18)
 
