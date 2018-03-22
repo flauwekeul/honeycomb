@@ -1657,7 +1657,7 @@ Returns **void** Nothing.
 
 ### 🚀 Features
 
-2.  Add src to package? Also point `main` to unminified version by default? Also: add `browser` property to package.json? See [jimp](https://github.com/oliver-moran/jimp) for an example of a library that's used on the server and the browser.
+2.  Add src to package and point `module` to it? Also point `main` to unminified version by default? Also: add `browser` property to package.json? See [jimp](https://github.com/oliver-moran/jimp) for an example of a library that's used on the server and the browser.
 3.  Hex methods that do nothing with a hex's coordinates should be static (e.g. `cubeToCartesian`, `isPointy`, `width`)?
 4.  `Hex.corners` should return points relative to `Hex.origin` (like `Hex#corners` does now) and `Hex#corners` should return points relative to the hex (so it's not needed to add the hex's point to them).
 5.  Make some Grid instance methods also Grid static methods and vice versa?
@@ -1675,4 +1675,5 @@ Returns **void** Nothing.
 
 ### 🛠 Refactorings
 
+1.  Rewrite in typescript and use classes internally?
 1.  Don't use `this` at all and just inject a context. Functional programming yo 🤓.
