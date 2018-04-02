@@ -6,5 +6,5 @@
 .nyc_output/
 coverage/
 rollup.config.js
-src/
+src/**/*.spec.js
 test/
