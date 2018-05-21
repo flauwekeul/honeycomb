@@ -1676,4 +1676,4 @@ Returns **void** Nothing.
 ### 🛠 Refactorings
 
 1.  Rewrite in typescript and use classes internally?
-1.  Don't use `this` at all and just inject a context. Functional programming yo 🤓.
+2.  Don't use `this` at all and just inject a context. Functional programming yo 🤓.

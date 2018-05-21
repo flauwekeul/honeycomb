@@ -228,7 +228,7 @@ describe('neighborsOf', () => {
             neighborsOf(hex, -1)
             expect(signedModuloSpy).to.have.been.calledWith(-1, 6)
 
-            signedModuloSpy.reset()
+            signedModuloSpy.resetHistory()
 
             neighborsOf(hex, 3)
             expect(signedModuloSpy).not.to.have.been.called

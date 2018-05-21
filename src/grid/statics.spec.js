@@ -315,7 +315,7 @@ describe('rectangle', function() {
             rectangle({ direction: -1 })
             expect(signedModuloSpy).to.have.been.calledWith(-1, 6)
 
-            signedModuloSpy.reset()
+            signedModuloSpy.resetHistory()
 
             rectangle({ direction: 3 })
             expect(signedModuloSpy).not.to.have.been.called
