@@ -310,9 +310,15 @@ Hex({ q: 1, r: 4, s: -5 })  // { x: 3, y: 4 }
 
 -   [Honeycomb](#honeycomb)
     -   [defineGrid](#definegrid)
+        -   [Parameters](#parameters)
+        -   [Examples](#examples)
     -   [extendHex](#extendhex)
+        -   [Parameters](#parameters-1)
+        -   [Examples](#examples-1)
     -   [Point](#point)
 -   [Grid](#grid)
+    -   [Parameters](#parameters-2)
+    -   [Examples](#examples-2)
     -   [concat](#concat)
     -   [copyWithin](#copywithin)
     -   [entries](#entries)
@@ -323,51 +329,95 @@ Hex({ q: 1, r: 4, s: -5 })  // { x: 3, y: 4 }
     -   [findIndex](#findindex)
     -   [forEach](#foreach)
     -   [get](#get)
+        -   [Parameters](#parameters-3)
+        -   [Examples](#examples-3)
     -   [hexesBetween](#hexesbetween)
+        -   [Parameters](#parameters-4)
+        -   [Examples](#examples-4)
     -   [includes](#includes)
+        -   [Parameters](#parameters-5)
+        -   [Examples](#examples-5)
     -   [indexOf](#indexof)
+        -   [Parameters](#parameters-6)
+        -   [Examples](#examples-6)
     -   [join](#join)
     -   [keys](#keys)
     -   [lastIndexOf](#lastindexof)
+        -   [Parameters](#parameters-7)
+        -   [Examples](#examples-7)
     -   [map](#map)
     -   [neighborsOf](#neighborsof)
+        -   [Parameters](#parameters-8)
+        -   [Examples](#examples-8)
     -   [pop](#pop)
     -   [push](#push)
+        -   [Parameters](#parameters-9)
+        -   [Examples](#examples-9)
     -   [reduce](#reduce)
     -   [reduceRight](#reduceright)
     -   [reverse](#reverse)
     -   [set](#set)
+        -   [Parameters](#parameters-10)
+        -   [Examples](#examples-10)
     -   [shift](#shift)
     -   [some](#some)
     -   [sort](#sort)
     -   [splice](#splice)
+        -   [Parameters](#parameters-11)
+        -   [Examples](#examples-11)
     -   [toLocaleString](#tolocalestring)
     -   [toString](#tostring)
     -   [unshift](#unshift)
+        -   [Parameters](#parameters-12)
+        -   [Examples](#examples-12)
     -   [values](#values)
     -   [Hex](#hex)
     -   [hexagon](#hexagon)
+        -   [Parameters](#parameters-13)
     -   [isValidHex](#isvalidhex)
+        -   [Parameters](#parameters-14)
     -   [parallelogram](#parallelogram)
+        -   [Parameters](#parameters-15)
     -   [pointToHex](#pointtohex)
+        -   [Parameters](#parameters-16)
+        -   [Examples](#examples-13)
     -   [rectangle](#rectangle)
+        -   [Parameters](#parameters-17)
     -   [triangle](#triangle)
+        -   [Parameters](#parameters-18)
 -   [Hex](#hex-1)
+    -   [Parameters](#parameters-19)
+    -   [Examples](#examples-14)
     -   [add](#add)
+        -   [Parameters](#parameters-20)
     -   [cartesian](#cartesian)
     -   [cartesianToCube](#cartesiantocube)
+        -   [Parameters](#parameters-21)
+        -   [Examples](#examples-15)
     -   [center](#center)
+        -   [Examples](#examples-16)
     -   [coordinates](#coordinates)
+        -   [Examples](#examples-17)
     -   [corners](#corners)
+        -   [Examples](#examples-18)
     -   [cube](#cube)
+        -   [Examples](#examples-19)
     -   [cubeToCartesian](#cubetocartesian)
+        -   [Parameters](#parameters-22)
+        -   [Examples](#examples-20)
     -   [distance](#distance)
+        -   [Parameters](#parameters-23)
+        -   [Examples](#examples-21)
     -   [equals](#equals)
+        -   [Parameters](#parameters-24)
     -   [fromPoint](#frompoint)
+        -   [Parameters](#parameters-25)
+        -   [Examples](#examples-22)
     -   [height](#height)
     -   [isFlat](#isflat)
     -   [isPointy](#ispointy)
     -   [lerp](#lerp)
+        -   [Parameters](#parameters-26)
     -   [nudge](#nudge)
     -   [offset](#offset)
     -   [oppositeCornerDistance](#oppositecornerdistance)
@@ -377,30 +427,49 @@ Hex({ q: 1, r: 4, s: -5 })  // { x: 3, y: 4 }
     -   [q](#q)
     -   [r](#r)
     -   [round](#round)
+        -   [Examples](#examples-23)
     -   [s](#s)
     -   [set](#set-1)
+        -   [Parameters](#parameters-27)
+        -   [Examples](#examples-24)
     -   [size](#size)
     -   [subtract](#subtract)
+        -   [Parameters](#parameters-28)
     -   [toCartesian](#tocartesian)
     -   [toCube](#tocube)
     -   [toPoint](#topoint)
+        -   [Examples](#examples-25)
     -   [toString](#tostring-1)
     -   [width](#width)
     -   [thirdCoordinate](#thirdcoordinate)
+        -   [Parameters](#parameters-29)
+        -   [Examples](#examples-26)
 -   [Point](#point-1)
+    -   [Parameters](#parameters-30)
+    -   [Examples](#examples-27)
     -   [add](#add-1)
+        -   [Parameters](#parameters-31)
     -   [divide](#divide)
+        -   [Parameters](#parameters-32)
     -   [multiply](#multiply)
+        -   [Parameters](#parameters-33)
     -   [subtract](#subtract-1)
+        -   [Parameters](#parameters-34)
 -   [Instances](#instances)
     -   [grid](#grid-1)
+        -   [Properties](#properties)
     -   [hex](#hex-2)
+        -   [Properties](#properties-1)
     -   [point](#point-2)
+        -   [Properties](#properties-2)
 -   [Constants](#constants)
     -   [OFFSET](#offset-1)
+        -   [Properties](#properties-3)
     -   [COMPASS_DIRECTION](#compass_direction)
+        -   [Properties](#properties-4)
 -   [Other](#other)
     -   [onCreate](#oncreate)
+        -   [Parameters](#parameters-35)
 
 ### Honeycomb
 
@@ -410,12 +479,12 @@ Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 This function can be used to create [Grid](#grid) factories by passing it a [Hex](#hex) factory.
 
-**Parameters**
+##### Parameters
 
 -   `Hex` **[Hex](#hex)** A [Hex](#hex) factory.
                                              If nothing is passed, the default Hex factory is used by calling `Honeycomb.extendHex()` internally. (optional, default `Honeycomb.extendHex()`)
 
-**Examples**
+##### Examples
 
 ```javascript
 // create a Grid factory that uses the default Hex Factory:
@@ -441,12 +510,12 @@ This function can be used to create custom hexes by extending the default Hex pr
 All properties of the object passed to `extendHex()` will be added to the prototype of the resulting [Hex](#hex) factory.
 To add properties to individual hexes (instances), pass them to the [Hex](#hex) factory.
 
-**Parameters**
+##### Parameters
 
 -   `prototype` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object that's used as the prototype for all hexes in a grid.
                                      **Warning:** properties in this object will overwrite properties with the same name in the default prototype. (optional, default `{}`)
 
-**Examples**
+##### Examples
 
 ```javascript
 const Hex = Honeycomb.extendHex({
@@ -489,12 +558,12 @@ It can also be called with 1 or more hexes or an array of hexes to construct/clo
 
 A [grid](#grid) extends `Array.prototype`, with some methods overwritten and some new methods added.
 
-**Parameters**
+#### Parameters
 
 -   `arrayOrHex` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[hex](#hex)> | [hex](#hex))?** An array or a hex. Any invalid hexes are filtered out.
 -   `hexes` **...[hex](#hex)?** More hexes. Any invalid hexes are filtered out.
 
-**Examples**
+#### Examples
 
 ```javascript
 const Grid = Honeycomb.defineGrid()
@@ -558,11 +627,11 @@ Identical to [Array#forEach](https://developer.mozilla.org/en-US/docs/Web/JavaSc
 
 Get a hex from a grid.
 
-**Parameters**
+##### Parameters
 
 -   `keyOrPoint` **([number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [point](#point))** An index/key or a point.
 
-**Examples**
+##### Examples
 
 ```javascript
 const Grid = Honeycomb.defineGrid()
@@ -584,12 +653,12 @@ Returns **[hex](#hex)** The found hex or `undefined`.
 
 -   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#line-drawing)**
 
-**Parameters**
+##### Parameters
 
 -   `firstHex` **[hex](#hex)** The first hex.
 -   `lastHex` **[hex](#hex)** The last hex.
 
-**Examples**
+##### Examples
 
 ```javascript
 const Grid = Honeycomb.defineGrid()
@@ -613,12 +682,12 @@ Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Gl
 Identical to [Array#includes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes),
 but searches the passed hex (which can also be a [point](#point).
 
-**Parameters**
+##### Parameters
 
 -   `point` **[point](#point)** The coordinates to search for.
 -   `fromIndex` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Optional index to start searching. (optional, default `0`)
 
-**Examples**
+##### Examples
 
 ```javascript
 const Grid = Honeycomb.defineGrid()
@@ -638,13 +707,13 @@ Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 Identical to [Array#indexOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf),
 but accepts a [point](#point) and internally uses [Hex#equals](#hexequals) as a comparator.
 
-**Parameters**
+##### Parameters
 
 -   `point` **[point](#point)** The coordinates to search for.
 -   `fromIndex` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Optional index to start searching.
                                      If negative, it is taken as the offset from the end of the grid. (optional, default `0`)
 
-**Examples**
+##### Examples
 
 ```javascript
 const Grid = Honeycomb.defineGrid()
@@ -680,13 +749,13 @@ but accepts a [point](#point) and internally uses [Hex#equals](#hexequals) as a 
 Because all hexes will have different coordinates in most grids, this method behaves the same as [Grid#indexOf](#gridindexof).
 This method might have a slightly better performance if you know the search hex is at the end of the grid.
 
-**Parameters**
+##### Parameters
 
 -   `point` **[point](#point)** The coordinates to search for.
 -   `fromIndex` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Optional index to start searching back from.
                                          If negative, it is taken as the offset from the end of the grid. (optional, default `length-1`)
 
-**Examples**
+##### Examples
 
 ```javascript
 const Grid = Honeycomb.defineGrid()
@@ -714,13 +783,13 @@ Identical to [Array#map](https://developer.mozilla.org/en-US/docs/Web/JavaScript
 
 -   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#neighbors)**
 
-**Parameters**
+##### Parameters
 
 -   `hex` **[hex](#hex)** A hex to get 1 or more neighbors from.
 -   `directions` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;([COMPASS_DIRECTION](#compass_direction) \| [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number))> | [COMPASS_DIRECTION](#compass_direction) \| [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) | all)** 1 or more directions. Either (an array of) [compass directions](#compass_direction) or numbers or the string `'all'`. (optional, default `all`)
 -   `diagonal` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether to get the diagonal neighbor. See [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#neighbors-diagonal). (optional, default `false`)
 
-**Examples**
+##### Examples
 
 ```javascript
 const Hex = Honeycomb.extendHex({ orientation: 'pointy' })
@@ -772,11 +841,11 @@ Identical to [Array#pop](https://developer.mozilla.org/en-US/docs/Web/JavaScript
 Identical to [Array#push](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push),
 but filters out any passed invalid hexes.
 
-**Parameters**
+##### Parameters
 
 -   `hexes` **...[hex](#hex)?** Hexes to add to the end of the grid. Invalid hexes are ignored.
 
-**Examples**
+##### Examples
 
 ```javascript
 const Grid = Honeycomb.defineGrid()
@@ -811,12 +880,12 @@ Replace a hex with another hex. This is a safe alternative to using bracket nota
 If the target hex isn't present in the grid, the new hex is added (using [Grid#push](#gridpush)) to the grid.
 If the new hex is invalid, nothing changes.
 
-**Parameters**
+##### Parameters
 
 -   `keyOrPoint` **([number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [point](#point))** The coordinates of the hex that must be replaced.
 -   `newHex` **[hex](#hex)** The replacing hex.
 
-**Examples**
+##### Examples
 
 ```javascript
 const Grid = Honeycomb.defineGrid()
@@ -858,13 +927,13 @@ Identical to [Array#sort](https://developer.mozilla.org/en-US/docs/Web/JavaScrip
 Identical to [Array#splice](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice),
 but filters out any passed invalid hexes.
 
-**Parameters**
+##### Parameters
 
 -   `start` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Index at which to start changing the grid.
 -   `deleteCount` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Amount of hexes to delete. (optional, default `length-start`)
 -   `hexes` **...[hex](#hex)** The hexes to add to the grid, beginning at the `start`. (optional, default `[]`)
 
-**Examples**
+##### Examples
 
 ```javascript
 const Grid = Honeycomb.defineGrid()
@@ -908,11 +977,11 @@ Identical to [Array#toString](https://developer.mozilla.org/en-US/docs/Web/JavaS
 Identical to [Array#unshift](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift),
 but filters out any passed invalid hexes.
 
-**Parameters**
+##### Parameters
 
 -   `hexes` **...[hex](#hex)?** Hexes to add to the start of the grid. Invalid hexes are ignored.
 
-**Examples**
+##### Examples
 
 ```javascript
 const Grid = Honeycomb.defineGrid()
@@ -942,7 +1011,7 @@ The [Hex](#hex) factory the Grid factory was created with.
 
 Creates a grid in the shape of a [hexagon](https://en.wikipedia.org/wiki/Hexagon) ⬡.
 
-**Parameters**
+##### Parameters
 
 -   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object.
     -   `options.radius` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The radius (in hexes) _excluding_ the center hex.
@@ -954,7 +1023,7 @@ Returns **[grid](#grid)** Grid of hexes in a hexagon arrangement.
 
 #### isValidHex
 
-**Parameters**
+##### Parameters
 
 -   `value` **any** Any value.
 
@@ -966,7 +1035,7 @@ Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 Creates a grid in the shape of a [parallelogram](https://en.wikipedia.org/wiki/Parallelogram) ▱.
 
-**Parameters**
+##### Parameters
 
 -   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object.
     -   `options.width` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The width (in hexes).
@@ -984,14 +1053,14 @@ Returns **[grid](#grid)** Grid of hexes in a parallelogram arrangement.
 
 Converts the passed [point](#point) to a hex. Internally calls [Hex#fromPoint](#hexfrompoint).
 
-**Parameters**
+##### Parameters
 
 -   `pointOrX` **([number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)> | [point](#point))?** The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
     -   `pointOrX.x` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The x coordinate.
     -   `pointOrX.y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
 -   `y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
 
-**Examples**
+##### Examples
 
 ```javascript
 const Hex = Honeycomb.extendHex({ size: 50 })
@@ -1012,7 +1081,7 @@ Returns **[hex](#hex)** A hex (with rounded coordinates) that contains the passe
 
 Creates a grid in the shape of a [rectangle](https://en.wikipedia.org/wiki/Rectangle) ▭.
 
-**Parameters**
+##### Parameters
 
 -   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object.
     -   `options.width` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The width (in hexes).
@@ -1031,7 +1100,7 @@ Returns **[grid](#grid)** Grid of hexes in a rectangular arrangement.
 
 Creates a grid in the shape of a [(equilateral) triangle](https://en.wikipedia.org/wiki/Equilateral_triangle) △.
 
-**Parameters**
+##### Parameters
 
 -   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object.
     -   `options.size` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The side length (in hexes).
@@ -1048,7 +1117,7 @@ Returns **[grid](#grid)** Grid of hexes in a triangle arrangement.
 
 Factory function to create hexes. Use [Honeycomb.extendHex](#honeycombextendhex) to create a Hex factory.
 
-**Parameters**
+#### Parameters
 
 -   `xOrProps` **([number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)>)?** The x coordinate,
                                                      **or** an object containing _any_ of the cartesian (`x` and `y`) coordinates and optional custom properties,
@@ -1059,7 +1128,7 @@ Factory function to create hexes. Use [Honeycomb.extendHex](#honeycombextendhex)
 -   `y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
 -   `customProps` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Any custom properties. The coordinates are merged into this object, ignoring any coordinates present in `customProps`. (optional, default `{}`)
 
-**Examples**
+#### Examples
 
 ```javascript
 const Hex = Honeycomb.extendHex()
@@ -1098,7 +1167,7 @@ Returns **[hex](#hex)** A hex. It _always_ contains _only_ the cartesian (x and 
 
 #### add
 
-**Parameters**
+##### Parameters
 
 -   `point` **[point](#point)** The hex (or point) that will be added to the current.
 
@@ -1111,14 +1180,14 @@ Alias for [Hex#coordinates](#hexcoordinates).
 
 #### cartesianToCube
 
-**Parameters**
+##### Parameters
 
 -   `pointOrX` **([number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)> | [point](#point))?** The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
     -   `pointOrX.x` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The x coordinate.
     -   `pointOrX.y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
 -   `y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
 
-**Examples**
+##### Examples
 
 ```javascript
 const Hex = Honeycomb.extendHex()
@@ -1134,7 +1203,7 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 #### center
 
-**Examples**
+##### Examples
 
 ```javascript
 const Hex1 = Honeycomb.extendHex({ size: 10 })
@@ -1150,7 +1219,7 @@ Note that the default origin is the top left corner, so the default center is
 
 #### coordinates
 
-**Examples**
+##### Examples
 
 ```javascript
 const Hex = Honeycomb.extendHex()
@@ -1163,7 +1232,7 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 #### corners
 
-**Examples**
+##### Examples
 
 ```javascript
 // a hex's origin defaults to its top left corner (as if it's a rectangle)
@@ -1194,7 +1263,7 @@ Starting at the top right corner for pointy hexes and the right corner for flat 
 
 #### cube
 
-**Examples**
+##### Examples
 
 ```javascript
 const Hex = Honeycomb.extendHex()
@@ -1207,14 +1276,14 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 #### cubeToCartesian
 
-**Parameters**
+##### Parameters
 
 -   `cubeCoordinates` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** At least the `q` and `r` cube coordinates.
     -   `cubeCoordinates.q` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The `q` cube coordinate.
     -   `cubeCoordinates.r` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The `r` cube coordinate.
     -   `cubeCoordinates.s` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The optional `s` cube coordinate.
 
-**Examples**
+##### Examples
 
 ```javascript
 const Hex = Honeycomb.extendHex()
@@ -1230,11 +1299,11 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 -   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#distances)**
 
-**Parameters**
+##### Parameters
 
 -   `hex` **[hex](#hex)** The last hex (cannot be a [point](#point)).
 
-**Examples**
+##### Examples
 
 ```javascript
 const Hex = Honeycomb.extendHex()
@@ -1247,7 +1316,7 @@ Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 #### equals
 
-**Parameters**
+##### Parameters
 
 -   `point` **[point](#point)** The hex (or point) whose coordinates will be compared against the current hex.
 
@@ -1259,14 +1328,14 @@ Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 Returns a hex from the passed [point](#point).
 
-**Parameters**
+##### Parameters
 
 -   `pointOrX` **([number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)> | [point](#point))?** The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
     -   `pointOrX.x` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The x coordinate.
     -   `pointOrX.y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
 -   `y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
 
-**Examples**
+##### Examples
 
 ```javascript
 const Hex = Honeycomb.extendHex({ size: 50 })
@@ -1298,7 +1367,7 @@ Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 Returns an interpolation between the current hex and the passed hex for a `t` between 0 and 1.
 More info on [wikipedia](https://en.wikipedia.org/wiki/Linear_interpolation).
 
-**Parameters**
+##### Parameters
 
 -   `hex` **[hex](#hex)** The other hex (cannot be a [point](#point)).
 -   `t` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** A "parameter" between 0 and 1.
@@ -1364,7 +1433,7 @@ Type: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 Rounds the current floating point hex coordinates to their nearest integer hex coordinates.
 
-**Examples**
+##### Examples
 
 ```javascript
 const Hex = Honeycomb.extendHex()
@@ -1382,11 +1451,11 @@ Type: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 #### set
 
-**Parameters**
+##### Parameters
 
 -   `coordinates` **any** Same parameters as the [Hex](#hex) factory.
 
-**Examples**
+##### Examples
 
 ```javascript
 const Hex = Honeycomb.extendHex()
@@ -1406,7 +1475,7 @@ Type: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 #### subtract
 
-**Parameters**
+##### Parameters
 
 -   `point` **[point](#point)** The hex (or point) that will be subtracted from the current.
 
@@ -1423,7 +1492,7 @@ Alias for [Hex#cartesianToCube](#hexcartesiantocube).
 
 #### toPoint
 
-**Examples**
+##### Examples
 
 ```javascript
 const Hex = Honeycomb.extendHex({ size: 30 })
@@ -1445,12 +1514,12 @@ Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Calculates the third cube coordinate from the other two. The sum of all three coordinates must be 0.
 
-**Parameters**
+##### Parameters
 
 -   `firstCoordinate` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The first other cube coordinate.
 -   `secondCoordinate` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The second other cube coordinate.
 
-**Examples**
+##### Examples
 
 ```javascript
 const Hex = Honeycomb.extendHex()
@@ -1463,14 +1532,14 @@ Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Factory function for creating two-dimensional points.
 
-**Parameters**
+#### Parameters
 
 -   `pointOrX` **([number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)> | [point](#point))?** The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
     -   `pointOrX.x` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The x coordinate.
     -   `pointOrX.y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
 -   `y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The y coordinate.
 
-**Examples**
+#### Examples
 
 ```javascript
 const Point = Honeycomb.Point
@@ -1493,7 +1562,7 @@ Returns **[point](#point)** A point.
 
 #### add
 
-**Parameters**
+##### Parameters
 
 -   `pointOrX` **([number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)> | [point](#point))?** The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
     -   `pointOrX.x` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The x coordinate.
@@ -1504,7 +1573,7 @@ Returns **[point](#point)** The sum of the passed point's coordinates to the cur
 
 #### divide
 
-**Parameters**
+##### Parameters
 
 -   `pointOrX` **([number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)> | [point](#point))?** The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
     -   `pointOrX.x` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The x coordinate.
@@ -1515,7 +1584,7 @@ Returns **[point](#point)** The division of the current point's coordinates and 
 
 #### multiply
 
-**Parameters**
+##### Parameters
 
 -   `pointOrX` **([number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)> | [point](#point))?** The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
     -   `pointOrX.x` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The x coordinate.
@@ -1526,7 +1595,7 @@ Returns **[point](#point)** The multiplication of the passed point's coordinates
 
 #### subtract
 
-**Parameters**
+##### Parameters
 
 -   `pointOrX` **([number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)> | [point](#point))?** The x coordinate or an array with 2 numbers or an object with an `x` and `y` coordinate.
     -   `pointOrX.x` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** The x coordinate.
@@ -1546,7 +1615,7 @@ Returns **[point](#point)** The difference between the passed point's coordinate
 
 Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)
 
-**Properties**
+##### Properties
 
 -   `length` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Amount of hexes in the grid.
 
@@ -1556,7 +1625,7 @@ An object with x and y properties and several methods in its prototype chain, cr
 
 Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)
 
-**Properties**
+##### Properties
 
 -   `x` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Cartesian x coordinate.
 -   `y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Cartesian y coordinate.
@@ -1579,7 +1648,7 @@ const point = Honeycomb.Point(1, 2)
 
 Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)
 
-**Properties**
+##### Properties
 
 -   `x` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (horizontal) x coordinate
 -   `y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (vertical) y coordinate
@@ -1605,7 +1674,7 @@ An odd offset:
 -   places **odd rows** of **pointy hexes** half a hex right of the even rows;
 -   places **odd columns** of **flat hexes** half a hex down of the even rows;
 
-**Properties**
+##### Properties
 
 -   `even` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** \+1
 -   `odd` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** \-1
@@ -1621,7 +1690,7 @@ Number directions of flat hexes start at their bottom right side (`0`), their bo
 
 Type: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)
 
-**Properties**
+##### Properties
 
 -   `E` **[COMPASS_DIRECTION](#compass_direction)** → east
 -   `SE` **[COMPASS_DIRECTION](#compass_direction)** ↘ southeast
@@ -1644,7 +1713,7 @@ Gets called for each hex that's about to be added to the grid.
 
 Type: [Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)
 
-**Parameters**
+##### Parameters
 
 -   `hex` **[hex](#hex)** The freshly created hex, just before it's added to the grid.
 -   `grid` **[grid](#grid)** The grid (for as far as it's created).
