@@ -34,6 +34,8 @@ Yarn:
 yarn add honeycomb-grid
 ```
 
+Or download the minified file from [unpkg.com](https://unpkg.com/honeycomb-grid/dist/honeycomb.min.js).
+
 ## Getting started
 
 ### Browser
