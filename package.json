@@ -26,21 +26,22 @@
   "author": "Abbe Keultjes <flauwekeul@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "babel-core": "6.26.3",
-    "babel-plugin-external-helpers": "6.22.0",
-    "babel-plugin-istanbul": "4.1.6",
-    "babel-plugin-transform-object-rest-spread": "6.26.0",
-    "babel-preset-env": "1.7.0",
+    "@babel/core": "7.0.0",
+    "@babel/plugin-external-helpers": "7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "7.0.0",
+    "@babel/preset-env": "7.0.0",
+    "@babel/register": "7.0.0",
+    "babel-plugin-istanbul": "5.0.1",
     "chai": "4.1.2",
     "cz-conventional-changelog": "2.1.0",
-    "documentation": "8.1.2",
+    "documentation": "9.0.0-alpha.0",
     "eslint": "5.5.0",
     "husky": "0.14.3",
     "istanbul": "0.4.5",
     "mocha": "5.2.0",
     "nyc": "13.0.1",
     "rollup": "0.65.0",
-    "rollup-plugin-babel": "3.0.5",
+    "rollup-plugin-babel": "4.0.3",
     "rollup-plugin-commonjs": "9.1.6",
     "rollup-plugin-node-resolve": "3.3.0",
     "rollup-plugin-terser": "2.0.2",
@@ -74,7 +75,7 @@
   "homepage": "http://abbekeultjes.nl/honeycomb",
   "nyc": {
     "require": [
-      "babel-register"
+      "@babel/register"
     ],
     "sourceMap": false,
     "instrument": false
