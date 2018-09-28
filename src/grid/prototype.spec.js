@@ -163,6 +163,85 @@ describe('hexesBetween', () => {
     })
 })
 
+describe('hexesInRange', () => {
+    let hexesInRange, isValidHex, cubeToCartesian, equals, hex, get
+
+    beforeEach(() => {
+        isValidHex = sinon.stub().returns(true)
+        cubeToCartesian = sinon.stub().returns('cubeToCartesian result')
+        equals = sinon.stub().returns(false)
+        hex = { cubeToCartesian, equals }
+        get = sinon.stub().returns('get result')
+        hexesInRange = methods.hexesInRangeFactory({ isValidHex }).bind({ get })
+    })
+
+    it('throws when no valid hex is passed', () => {
+        isValidHex.returns(false)
+        expect(() => hexesInRange()).to.throw(`Invalid center hex: undefined.`)
+    })
+
+    it(`throws when a hex is passed that isn't present in the grid`, () => {
+        get.returns(undefined)
+        expect(() => hexesInRange(Hex(1, 2))).to.throw(`Center hex with coordinates 1,2 not present in grid.`)
+    })
+
+    it('calls cubeToCartesian() on the passed center hex', () => {
+        hex.q = 1
+        hex.r = 2
+        hexesInRange(hex, 1)
+        expect(cubeToCartesian).to.have.been.calledWith({ q: 1, r: 2 })
+    })
+
+    it('calls grid.get() with the result of cubeToCartesian()', () => {
+        hexesInRange(hex, 1)
+        expect(get).to.have.been.calledWith('cubeToCartesian result')
+    })
+
+    it('calls equals() on the passed center hex', () => {
+        hexesInRange(hex, 1)
+        expect(equals).to.have.been.calledWith('get result')
+    })
+
+    describe('when all surrounding hexes are present in the grid', () => {
+        it('returns all hexes surrounding the passed center hex within the passed range', () => {
+            const grid = GridFactory.rectangle({ width: 3, height: 3 })
+            const result = grid.hexesInRange(Hex(1, 1), 1)
+
+            expect(result).to.be.an('array').that.has.a.lengthOf(7)
+            expect(result[0]).to.equal(grid[3])
+            expect(result[1]).to.equal(grid[7])
+            expect(result[2]).to.equal(grid[1])
+            expect(result[3]).to.equal(grid[4])
+            expect(result[4]).to.equal(grid[8])
+            expect(result[5]).to.equal(grid[2])
+            expect(result[6]).to.equal(grid[5])
+        })
+    })
+
+    describe('when some surrounding hexes are present in the grid', () => {
+        it('returns the hexes surrounding the passed center hex within the passed range that are present in the grid', () => {
+            const grid = GridFactory.rectangle({ width: 3, height: 3 })
+            const result = grid.hexesInRange(Hex(0, 0), 1)
+
+            expect(result).to.be.an('array').that.has.a.lengthOf(3)
+            expect(result[0]).to.equal(grid[0])
+            expect(result[1]).to.equal(grid[3])
+            expect(result[2]).to.equal(grid[1])
+        })
+    })
+
+    describe('when passed false as a third parameter', () => {
+        it('excludes the center hex from the result', () => {
+            const grid = GridFactory.rectangle({ width: 3, height: 3 })
+            const centerHex = Hex(1, 1)
+            const result = grid.hexesInRange(centerHex, 1, false)
+
+            expect(result).to.be.an('array').that.has.a.lengthOf(6)
+            expect(result).not.to.include(grid.get(centerHex))
+        })
+    })
+})
+
 describe('neighborsOf', () => {
     let neighborsOf, isValidHex, signedModuloSpy, compassToNumberDirectionSpy, cubeToCartesian, hex, get
 

@@ -120,6 +120,79 @@ export function hexesBetween(firstHex, lastHex) {
     return hexes
 }
 
+export function hexesInRangeFactory({ isValidHex }) {
+    /**
+     * @memberof Grid#
+     * @instance
+     * @see {@link https://www.redblobgames.com/grids/hexagons/#range-coordinate|redblobgames.com}
+     *
+     * @param {hex} centerHex                   A hex to get surrounding hexes from.
+     * @param {number} [range=0]                The range (in hexes) surrounding the center hex.
+     * @param {boolean} [includeCenterHex=true] Whether to include the center hex in the result
+     *
+     * @returns {hex[]}             An array with all hexes surrounding the passed center hex.
+     *                              Only hexes that are present in the grid are returned.
+     *
+     * @throws {Error} When no valid hex is passed.
+     *
+     * @example
+     * const Hex = Honeycomb.extendHex({ orientation: 'pointy' })
+     * const Grid = Honeycomb.defineGrid(Hex)
+     * const grid = Grid.rectangle({ width: 5, height: 5 })
+     *
+     * grid.hexesInRange(Hex(2, 2), 2)          // [
+     *                                          //    { x: 0, y: 2 },
+     *                                          //    { x: 0, y: 3 },
+     *                                          //    { x: 1, y: 4 },
+     *                                          //    ...
+     *                                          //    { x: 3, y: 0 },
+     *                                          //    { x: 3, y: 1 },
+     *                                          //    { x: 4, y: 2 }
+     *                                          // ]
+     *
+     * // only returns hexes that exist in the grid:
+     * grid.hexesInRange(Hex(0, 0), 1)          // [
+     *                                          //    { x: 0, y: 0 },
+     *                                          //    { x: 0, y: 1 },
+     *                                          //    { x: 1, y: 0 }
+     *                                          // ]
+     *
+     * // exclude center hex:
+     * grid.hexesInRange(Hex(2, 2), 1, false)   // [
+     *                                          //    { x: 1, y: 2 },
+     *                                          //    { x: 1, y: 3 },
+     *                                          //    { x: 1, y: 1 },
+     *                                          //    { x: 2, y: 3 },
+     *                                          //    { x: 3, y: 2 }
+     *                                          // ]
+     */
+    return function hexesInRange(centerHex, range = 0, includeCenterHex = true) {
+        if (!isValidHex(centerHex)) {
+            throw new Error(`Invalid center hex: ${centerHex}.`)
+        }
+
+        if (!this.get(centerHex)) {
+            throw new Error(`Center hex with coordinates ${centerHex} not present in grid.`)
+        }
+
+        let hexes = []
+
+        for (let q = -range; q <= range; q++) {
+            for (let r = Math.max(-range, -q - range); r <= Math.min(range, -q + range); r++) {
+                const hex = this.get(centerHex.cubeToCartesian({ q: centerHex.q + q, r: centerHex.r + r }))
+
+                if (centerHex.equals(hex) && !includeCenterHex) {
+                    continue
+                }
+
+                hexes.push(hex)
+            }
+        }
+
+        return hexes.filter(Boolean)
+    }
+}
+
 export function neighborsOfFactory({ isValidHex, signedModulo, compassToNumberDirection }) {
     /**
      * @memberof Grid#
