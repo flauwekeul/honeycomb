@@ -336,90 +336,93 @@ Hex({ q: 1, r: 4, s: -5 })  // { x: 3, y: 4 }
     -   [hexesBetween](#hexesbetween)
         -   [Parameters](#parameters-4)
         -   [Examples](#examples-4)
-    -   [includes](#includes)
+    -   [hexesInRange](#hexesinrange)
         -   [Parameters](#parameters-5)
         -   [Examples](#examples-5)
-    -   [indexOf](#indexof)
+    -   [includes](#includes)
         -   [Parameters](#parameters-6)
         -   [Examples](#examples-6)
+    -   [indexOf](#indexof)
+        -   [Parameters](#parameters-7)
+        -   [Examples](#examples-7)
     -   [join](#join)
     -   [keys](#keys)
     -   [lastIndexOf](#lastindexof)
-        -   [Parameters](#parameters-7)
-        -   [Examples](#examples-7)
-    -   [map](#map)
-    -   [neighborsOf](#neighborsof)
         -   [Parameters](#parameters-8)
         -   [Examples](#examples-8)
-    -   [pop](#pop)
-    -   [push](#push)
+    -   [map](#map)
+    -   [neighborsOf](#neighborsof)
         -   [Parameters](#parameters-9)
         -   [Examples](#examples-9)
+    -   [pop](#pop)
+    -   [push](#push)
+        -   [Parameters](#parameters-10)
+        -   [Examples](#examples-10)
     -   [reduce](#reduce)
     -   [reduceRight](#reduceright)
     -   [reverse](#reverse)
     -   [set](#set)
-        -   [Parameters](#parameters-10)
-        -   [Examples](#examples-10)
+        -   [Parameters](#parameters-11)
+        -   [Examples](#examples-11)
     -   [shift](#shift)
     -   [some](#some)
     -   [sort](#sort)
     -   [splice](#splice)
-        -   [Parameters](#parameters-11)
-        -   [Examples](#examples-11)
+        -   [Parameters](#parameters-12)
+        -   [Examples](#examples-12)
     -   [toLocaleString](#tolocalestring)
     -   [toString](#tostring)
     -   [unshift](#unshift)
-        -   [Parameters](#parameters-12)
-        -   [Examples](#examples-12)
+        -   [Parameters](#parameters-13)
+        -   [Examples](#examples-13)
     -   [values](#values)
     -   [Hex](#hex)
     -   [hexagon](#hexagon)
-        -   [Parameters](#parameters-13)
-    -   [isValidHex](#isvalidhex)
         -   [Parameters](#parameters-14)
-    -   [parallelogram](#parallelogram)
+    -   [isValidHex](#isvalidhex)
         -   [Parameters](#parameters-15)
-    -   [pointToHex](#pointtohex)
+    -   [parallelogram](#parallelogram)
         -   [Parameters](#parameters-16)
-        -   [Examples](#examples-13)
-    -   [rectangle](#rectangle)
+    -   [pointToHex](#pointtohex)
         -   [Parameters](#parameters-17)
-    -   [triangle](#triangle)
+        -   [Examples](#examples-14)
+    -   [rectangle](#rectangle)
         -   [Parameters](#parameters-18)
+    -   [triangle](#triangle)
+        -   [Parameters](#parameters-19)
 -   [Hex](#hex-1)
-    -   [Parameters](#parameters-19)
-    -   [Examples](#examples-14)
+    -   [Parameters](#parameters-20)
+    -   [Examples](#examples-15)
     -   [add](#add)
-        -   [Parameters](#parameters-20)
+        -   [Parameters](#parameters-21)
     -   [cartesian](#cartesian)
     -   [cartesianToCube](#cartesiantocube)
-        -   [Parameters](#parameters-21)
-        -   [Examples](#examples-15)
-    -   [center](#center)
-        -   [Examples](#examples-16)
-    -   [coordinates](#coordinates)
-        -   [Examples](#examples-17)
-    -   [corners](#corners)
-        -   [Examples](#examples-18)
-    -   [cube](#cube)
-        -   [Examples](#examples-19)
-    -   [cubeToCartesian](#cubetocartesian)
         -   [Parameters](#parameters-22)
+        -   [Examples](#examples-16)
+    -   [center](#center)
+        -   [Examples](#examples-17)
+    -   [coordinates](#coordinates)
+        -   [Examples](#examples-18)
+    -   [corners](#corners)
+        -   [Examples](#examples-19)
+    -   [cube](#cube)
         -   [Examples](#examples-20)
-    -   [distance](#distance)
+    -   [cubeToCartesian](#cubetocartesian)
         -   [Parameters](#parameters-23)
         -   [Examples](#examples-21)
-    -   [equals](#equals)
+    -   [distance](#distance)
         -   [Parameters](#parameters-24)
-    -   [fromPoint](#frompoint)
-        -   [Parameters](#parameters-25)
         -   [Examples](#examples-22)
+    -   [equals](#equals)
+        -   [Parameters](#parameters-25)
+    -   [fromPoint](#frompoint)
+        -   [Parameters](#parameters-26)
+        -   [Examples](#examples-23)
     -   [height](#height)
     -   [isFlat](#isflat)
     -   [isPointy](#ispointy)
     -   [lerp](#lerp)
-        -   [Parameters](#parameters-26)
+        -   [Parameters](#parameters-27)
     -   [nudge](#nudge)
     -   [offset](#offset)
     -   [oppositeCornerDistance](#oppositecornerdistance)
@@ -429,34 +432,34 @@ Hex({ q: 1, r: 4, s: -5 })  // { x: 3, y: 4 }
     -   [q](#q)
     -   [r](#r)
     -   [round](#round)
-        -   [Examples](#examples-23)
+        -   [Examples](#examples-24)
     -   [s](#s)
     -   [set](#set-1)
-        -   [Parameters](#parameters-27)
-        -   [Examples](#examples-24)
+        -   [Parameters](#parameters-28)
+        -   [Examples](#examples-25)
     -   [size](#size)
     -   [subtract](#subtract)
-        -   [Parameters](#parameters-28)
+        -   [Parameters](#parameters-29)
     -   [toCartesian](#tocartesian)
     -   [toCube](#tocube)
     -   [toPoint](#topoint)
-        -   [Examples](#examples-25)
+        -   [Examples](#examples-26)
     -   [toString](#tostring-1)
     -   [width](#width)
     -   [thirdCoordinate](#thirdcoordinate)
-        -   [Parameters](#parameters-29)
-        -   [Examples](#examples-26)
+        -   [Parameters](#parameters-30)
+        -   [Examples](#examples-27)
 -   [Point](#point-1)
-    -   [Parameters](#parameters-30)
-    -   [Examples](#examples-27)
+    -   [Parameters](#parameters-31)
+    -   [Examples](#examples-28)
     -   [add](#add-1)
-        -   [Parameters](#parameters-31)
-    -   [divide](#divide)
         -   [Parameters](#parameters-32)
-    -   [multiply](#multiply)
+    -   [divide](#divide)
         -   [Parameters](#parameters-33)
-    -   [subtract](#subtract-1)
+    -   [multiply](#multiply)
         -   [Parameters](#parameters-34)
+    -   [subtract](#subtract-1)
+        -   [Parameters](#parameters-35)
 -   [Instances](#instances)
     -   [grid](#grid-1)
         -   [Properties](#properties)
@@ -471,7 +474,7 @@ Hex({ q: 1, r: 4, s: -5 })  // { x: 3, y: 4 }
         -   [Properties](#properties-4)
 -   [Other](#other)
     -   [onCreate](#oncreate)
-        -   [Parameters](#parameters-35)
+        -   [Parameters](#parameters-36)
 
 ### Honeycomb
 
@@ -678,6 +681,55 @@ grid.hexesBetween(Hex(), Hex(3)) // [
 ```
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[hex](#hex)>** Array (not a [grid](#grid)) of hexes in a straight line from `firstHex` to (and including) `lastHex`.
+
+#### hexesInRange
+
+-   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#range-coordinate)**
+
+##### Parameters
+
+-   `centerHex` **[hex](#hex)** A hex to get surrounding hexes from.
+-   `range` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The range (in hexes) surrounding the center hex. (optional, default `0`)
+-   `includeCenterHex` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether to include the center hex in the result (optional, default `true`)
+
+##### Examples
+
+```javascript
+const Hex = Honeycomb.extendHex({ orientation: 'pointy' })
+const Grid = Honeycomb.defineGrid(Hex)
+const grid = Grid.rectangle({ width: 5, height: 5 })
+
+grid.hexesInRange(Hex(2, 2), 2)          // [
+                                         //    { x: 0, y: 2 },
+                                         //    { x: 0, y: 3 },
+                                         //    { x: 1, y: 4 },
+                                         //    ...
+                                         //    { x: 3, y: 0 },
+                                         //    { x: 3, y: 1 },
+                                         //    { x: 4, y: 2 }
+                                         // ]
+
+// only returns hexes that exist in the grid:
+grid.hexesInRange(Hex(0, 0), 1)          // [
+                                         //    { x: 0, y: 0 },
+                                         //    { x: 0, y: 1 },
+                                         //    { x: 1, y: 0 }
+                                         // ]
+
+// exclude center hex:
+grid.hexesInRange(Hex(2, 2), 1, false)   // [
+                                         //    { x: 1, y: 2 },
+                                         //    { x: 1, y: 3 },
+                                         //    { x: 1, y: 1 },
+                                         //    { x: 2, y: 3 },
+                                         //    { x: 3, y: 2 }
+                                         // ]
+```
+
+-   Throws **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)** When no valid hex is passed.
+
+Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[hex](#hex)>** An array with all hexes surrounding the passed center hex.
+                             Only hexes that are present in the grid are returned.
 
 #### includes
 
