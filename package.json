@@ -16,7 +16,6 @@
     "docs": "documentation readme src --config documentation.yml --sort-order alpha --section API",
     "docs:serve": "documentation serve src --config documentation.serve.yml --sort-order alpha --watch",
     "lint": "eslint src --fix && tslint src/honeycomb.d.ts --fix",
-    "precommit": "npm run lint",
     "prerelease": "npm run lint && npm test && npm run docs && NODE_ENV=production npm run build",
     "release": "git add --patch && standard-version --commit-all",
     "start": "npm run build && node --require ./dist/honeycomb.js",
@@ -26,26 +25,26 @@
   "author": "Abbe Keultjes <flauwekeul@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "7.0.0",
+    "@babel/core": "7.1.6",
     "@babel/plugin-external-helpers": "7.0.0",
     "@babel/plugin-proposal-object-rest-spread": "7.0.0",
-    "@babel/preset-env": "7.0.0",
+    "@babel/preset-env": "7.1.6",
     "@babel/register": "7.0.0",
-    "babel-plugin-istanbul": "5.0.1",
-    "chai": "4.1.2",
+    "babel-plugin-istanbul": "5.1.0",
+    "chai": "4.2.0",
     "cz-conventional-changelog": "2.1.0",
-    "documentation": "9.0.0-alpha.0",
-    "eslint": "5.5.0",
-    "husky": "0.14.3",
+    "documentation": "9.0.0-alpha.1",
+    "eslint": "5.9.0",
+    "husky": "1.1.4",
     "istanbul": "0.4.5",
     "mocha": "5.2.0",
-    "nyc": "13.0.1",
-    "rollup": "0.65.0",
+    "nyc": "13.1.0",
+    "rollup": "0.67.1",
     "rollup-plugin-babel": "4.0.3",
-    "rollup-plugin-commonjs": "9.1.6",
-    "rollup-plugin-node-resolve": "3.3.0",
+    "rollup-plugin-commonjs": "9.2.0",
+    "rollup-plugin-node-resolve": "3.4.0",
     "rollup-plugin-terser": "2.0.2",
-    "sinon": "6.1.5",
+    "sinon": "7.1.1",
     "sinon-chai": "3.2.0",
     "standard-version": "4.4.0",
     "tslint": "5.11.0",
@@ -83,6 +82,11 @@
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
     }
   }
 }
