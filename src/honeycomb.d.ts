@@ -58,6 +58,7 @@ export class Grid<T = Hex<T>> extends Array<T> {
     // defined in prototype:
     get(keyOrPoint: number | PointCoordinates): T | undefined
     hexesBetween(firstHex: T, lastHex: T): T[]
+    hexesInRange(centerHex: T, range?: number, includeCenterHex?: boolean): T[]
     neighborsOf(
         hex: T,
         directions?: CompassDirection[] | number[] | CompassDirection | number | 'all',
