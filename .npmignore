@@ -8,3 +8,4 @@ coverage/
 rollup.config.js
 src/**/*.spec.js
 test/
+tslint.json
