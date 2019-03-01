@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.4-0](https://github.com/flauwekeul/honeycomb/compare/v1.4.3...v1.4.4-0) (2019-03-01)
+
+
+### Bug Fixes
+
+* **typings:** attempt to fix typescript error TS2744 (since typescript 3.0) ([cac4cca](https://github.com/flauwekeul/honeycomb/commit/cac4cca))
+
+
+
 <a name="1.4.3"></a>
 ## [1.4.3](https://github.com/flauwekeul/honeycomb/compare/v1.4.2...v1.4.3) (2019-02-08)
 
