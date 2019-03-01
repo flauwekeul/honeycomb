@@ -1,4 +1,4 @@
-declare function defineGrid<T = HexFactory<T>>(Hex?: HexFactory<T>): GridFactory<Hex<T>>
+declare function defineGrid<T = HexFactory<{}>>(Hex?: HexFactory<T>): GridFactory<Hex<T>>
 
 export interface GridFactory<T> {
     (arrayOrHex?: T[] | T, ...hexes: T[]): Grid<T>
@@ -33,7 +33,7 @@ export interface GridFactory<T> {
 
 export type onCreateCallback<T> = (hex: Hex<T>, grid: Grid<T>) => void
 
-export class Grid<T = Hex<T>> extends Array<T> {
+export class Grid<T = Hex<{}>> extends Array<T> {
     // defined in class:
     fill(): never
     includes(point: PointCoordinates, fromIndex?: number): boolean
