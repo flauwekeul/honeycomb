@@ -1,7 +1,5 @@
-import { EPSILON } from './constants'
 import { offsetFromZero } from '../utils'
-
-const sqrt3 = Math.sqrt(3)
+import { EPSILON } from './constants'
 
 export function setFactory({ Hex }) {
     /**
@@ -141,28 +139,13 @@ export function isFlat() {
 
 /**
  * @memberof Hex#
- * @returns {number}    The distance between opposite corners of a hex.
- */
-export function oppositeCornerDistance() {
-    return this.size * 2
-}
-
-/**
- * @memberof Hex#
- * @returns {number}    The distance between opposite sides of a hex.
- */
-export function oppositeSideDistance() {
-    return sqrt3 / 2 * this.oppositeCornerDistance()
-}
-
-/**
- * @memberof Hex#
  * @returns {number}    The (horizontal) width of a hex.
  */
 export function width() {
+    const { xRadius } = this.size
     return this.isPointy() ?
-        this.oppositeSideDistance() :
-        this.oppositeCornerDistance()
+        xRadius * Math.sqrt(3) :
+        xRadius * 2
 }
 
 /**
@@ -170,9 +153,10 @@ export function width() {
  * @returns {number}    The (vertical) height of a hex.
  */
 export function height() {
+    const { yRadius } = this.size
     return this.isPointy() ?
-        this.oppositeCornerDistance() :
-        this.oppositeSideDistance()
+        yRadius * 2 :
+        yRadius * Math.sqrt(3)
 }
 
 export function cornersFactory({ Point }) {
@@ -267,14 +251,15 @@ export function toPointFactory({ Point }) {
      */
     return function toPoint() {
         const { q, r, size } = this
+        const { xRadius, yRadius } = size
         let x, y
 
         if (this.isPointy()) {
-            x = size * sqrt3 * (q + r / 2)
-            y = size * 3/2 * r
+            x = xRadius * Math.sqrt(3) * (q + r / 2)
+            y = yRadius * 3 / 2 * r
         } else {
-            x = size * 3/2 * q
-            y = size * sqrt3 * (r + q / 2)
+            x = xRadius * 3 / 2 * q
+            y = yRadius * Math.sqrt(3) * (r + q / 2)
         }
 
         return Point(x, y)
@@ -307,17 +292,19 @@ export function fromPointFactory({ Point, Hex }) {
      * hex.fromPoint([ 120, 280 ])        // { x: 0, y: 3 }
      */
     return function fromPoint(pointOrX, y) {
-        const { size } = this
+        const { xRadius, yRadius } = this.size
         let x, q, r
 
         ({ x, y } = Point(pointOrX, y).subtract(this.center()))
 
+        // inspired by https://github.com/gojuno/hexgrid-py
+        // and simplified by https://www.symbolab.com/solver/simplify-calculator/simplify
         if (this.isPointy()) {
-            q = (x * sqrt3 / 3 - y / 3) / size
-            r = y * 2 / 3 / size
+            q = (Math.sqrt(3) * x) / (3 * xRadius) - y / (3 * yRadius)
+            r = (2 / 3) * (y / yRadius)
         } else {
-            q = x * 2 / 3 / size
-            r = (-x / 3 + sqrt3 / 3 * y) / size
+            q = (2 / 3) * (x / xRadius)
+            r = (Math.sqrt(3) * y) / (3 * yRadius) - x / (3 * xRadius)
         }
 
         return Hex({ q, r, s: -q - r }).round()
@@ -337,7 +324,7 @@ export function addFactory({ Hex, Point }) {
      */
     return function add(point) {
         const { x, y } = Point(point)
-        return Hex(this.x + x, this.y + y, {...this})
+        return Hex(this.x + x, this.y + y, { ...this })
     }
 }
 
@@ -354,7 +341,7 @@ export function subtractFactory({ Hex, Point }) {
      */
     return function subtract(point) {
         const { x, y } = Point(point)
-        return Hex(this.x - x, this.y - y, {...this})
+        return Hex(this.x - x, this.y - y, { ...this })
     }
 }
 

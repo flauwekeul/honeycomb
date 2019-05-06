@@ -88,7 +88,7 @@ export interface BaseHex<T> extends PointLike {
     __isHoneycombHex: true
     orientation: 'pointy' | 'flat'
     origin: number
-    size: number
+    size: { xRadius: number, yRadius: number } | { width: number, height: number } | number
     offset: number
     q: number
     r: number
@@ -109,8 +109,6 @@ export interface BaseHex<T> extends PointLike {
     isPointy(): boolean
     lerp(hex: { q: number, r: number, s?: number }, t: number): Hex<T>
     nudge(): Hex<T>
-    oppositeCornerDistance(): number
-    oppositeSideDistance(): number
     round(): Hex<T>
     set(): Hex<T>
     subtract(point: PointCoordinates): Hex<T>
@@ -147,8 +145,4 @@ type Partial<T> = {
     [P in keyof T]?: T[P]
 }
 
-export {
-    defineGrid,
-    extendHex,
-    PointFactory as Point
-}
+export { defineGrid, extendHex, PointFactory as Point }

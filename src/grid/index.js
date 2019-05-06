@@ -1,8 +1,7 @@
 import { isArray } from 'axis.js'
-
-import { signedModulo, compassToNumberDirection } from '../utils'
-import * as statics from './statics'
+import { compassToNumberDirection, signedModulo } from '../utils'
 import * as methods from './prototype'
+import * as statics from './statics'
 
 export default function defineGridFactory({ extendHex, Grid, Point }) {
     const { isValidHex } = Grid

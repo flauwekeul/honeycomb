@@ -1,13 +1,12 @@
-import { isObject, isNumber, isArray } from 'axis.js'
-
-import * as statics from './statics'
+import { isArray, isNumber, isObject } from 'axis.js'
 import * as methods from './prototype'
+import * as statics from './statics'
 
 export const staticMethods = {
     thirdCoordinate: statics.thirdCoordinate
 }
 
-export default function extendHexFactory({ ensureXY, Point }) {
+export default function extendHexFactory({ ensureXY, normalizeRadiuses, Point }) {
     /**
      * @function extendHex
      *
@@ -88,7 +87,7 @@ export default function extendHexFactory({ ensureXY, Point }) {
              * @type {number}
              * @default 1
              */
-            size: 1,
+            size: { xRadius: 1, yRadius: 1 },
             /**
              * Used to calculate the coordinates of rows for pointy hexes and columns for flat hexes.
              * Defaults to `-1` (odd offset).
@@ -145,8 +144,6 @@ export default function extendHexFactory({ ensureXY, Point }) {
             isPointy: methods.isPointy,
             lerp: methods.lerpFactory({ Hex }),
             nudge: methods.nudge,
-            oppositeCornerDistance: methods.oppositeCornerDistance,
-            oppositeSideDistance: methods.oppositeSideDistance,
             round: methods.roundFactory({ Hex }),
             set: methods.setFactory({ Hex }),
             subtract: methods.subtractFactory({ Hex, Point }),
@@ -168,6 +165,7 @@ export default function extendHexFactory({ ensureXY, Point }) {
         }
         const finalPrototype = Object.assign(defaultPrototype, prototype)
 
+        finalPrototype.size = normalizeRadiuses(finalPrototype.size, finalPrototype.isPointy())
         // ensure origin is a point
         finalPrototype.origin = Point(finalPrototype.origin)
 

@@ -2,16 +2,15 @@
 
 import { expect } from 'chai'
 import sinon from 'sinon'
-
-import { ensureXY, signedModulo, compassToNumberDirection } from '../utils'
 import extendHexFactory from '../hex'
+import PointFactory from '../point'
+import { compassToNumberDirection, ensureXY, normalizeRadiuses, signedModulo } from '../utils'
 import defineGridFactory from './'
 import Grid from './class'
 import * as methods from './prototype'
-import PointFactory from '../point'
 
 const Point = PointFactory({ ensureXY })
-const extendHex = extendHexFactory({ ensureXY, Point })
+const extendHex = extendHexFactory({ ensureXY, normalizeRadiuses, Point })
 const Hex = extendHex()
 const GridFactory = defineGridFactory({ extendHex, Grid, Point })(Hex)
 

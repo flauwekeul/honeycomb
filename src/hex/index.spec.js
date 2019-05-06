@@ -2,14 +2,15 @@
 
 import { expect } from 'chai'
 import sinon from 'sinon'
-
-import { ensureXY } from '../utils'
 import extendHexFactory, { staticMethods } from '../../src/hex'
 import PointFactory from '../point'
+import { ensureXY, normalizeRadiuses } from '../utils'
+
 
 const Point = PointFactory({ ensureXY })
 const ensureXYSpy = sinon.spy(ensureXY)
-const extendHex = extendHexFactory({ ensureXY: ensureXYSpy, Point })
+const normalizeRadiusesSpy = sinon.spy(normalizeRadiuses)
+const extendHex = extendHexFactory({ ensureXY: ensureXYSpy, normalizeRadiuses: normalizeRadiusesSpy, Point })
 
 describe('extendHex', function() {
     let Hex
@@ -57,8 +58,6 @@ describe('extendHex', function() {
             'isPointy',
             'lerp',
             'nudge',
-            'oppositeCornerDistance',
-            'oppositeSideDistance',
             'round',
             'set',
             'subtract',
@@ -71,7 +70,7 @@ describe('extendHex', function() {
         expect(prototype).to.have.property('__isHoneycombHex', true)
         expect(prototype).to.have.property('orientation', 'pointy')
         expect(prototype).to.have.property('origin').that.contains({ x: 0, y: 0 })
-        expect(prototype).to.have.property('size', 1)
+        expect(prototype).to.have.property('size').that.contains({ xRadius: 1, yRadius: 1 })
         expect(prototype).to.have.property('offset', -1)
     })
 
@@ -87,8 +86,12 @@ describe('extendHex', function() {
         expect(() => hex.s = 1).to.throw
     })
 
-    describe('when passed an object', function() {
-        it(`returns a Hex factory with the object's properties merged into the default prototype`, function() {
+    it('calls normalizeRadiuses', () => {
+        expect(normalizeRadiusesSpy).to.have.been.calledWith({ xRadius: 1, yRadius: 1 }, true)
+    })
+
+    describe('when passed an object', function () {
+        it(`returns a Hex factory with the object's properties merged into the default prototype`, function () {
             const prototype = {
                 size: 100,
                 custom: 'property'
@@ -96,7 +99,7 @@ describe('extendHex', function() {
             const Hex = extendHex(prototype)
             const finalPrototype = Object.getPrototypeOf(Hex())
 
-            expect(finalPrototype).to.have.own.property('size', 100)
+            expect(finalPrototype).to.have.own.property('size').that.contains({ xRadius: 100, yRadius: 100 })
             expect(finalPrototype).to.have.own.property('custom')
         })
 

@@ -1,4 +1,4 @@
-import { isNumber } from 'axis.js'
+import { isNumber, isObject } from 'axis.js'
 
 /**
  * @private
@@ -85,4 +85,25 @@ export function ensureXY(x, y) {
     }
 
     return { x, y }
+}
+
+export function normalizeRadiuses(size, isPointy) {
+    if (isObject(size)) {
+        if (isNumber(size.xRadius) && isNumber(size.yRadius)) {
+            return size
+        }
+
+        const { width, height } = size
+        if (isNumber(width) && isNumber(height)) {
+            return isPointy
+                ? { xRadius: width / Math.sqrt(3), yRadius: height / 2 }
+                : { xRadius: width / 2, yRadius: height / Math.sqrt(3) }
+        }
+    }
+
+    if (isNumber(size)) {
+        return { xRadius: size, yRadius: size }
+    }
+
+    throw new Error(`Invalid size: ${size}. Set it as a number or as an object containing width and height.`)
 }

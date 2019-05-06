@@ -2,15 +2,14 @@
 
 import { expect } from 'chai'
 import sinon from 'sinon'
-
-import { ensureXY } from '../utils'
 import PointFactory from '../point'
-import { EPSILON } from './constants'
+import { ensureXY, normalizeRadiuses } from '../utils'
 import extendHexFactory from './'
+import { EPSILON } from './constants'
 import * as methods from './prototype'
 
 const Point = PointFactory({ ensureXY })
-const extendHex = extendHexFactory({ ensureXY, Point })
+const extendHex = extendHexFactory({ ensureXY, normalizeRadiuses, Point })
 const Hex = extendHex()
 
 describe('set', () => {
@@ -143,86 +142,60 @@ describe('isFlat', function() {
     })
 })
 
-describe('oppositeCornerDistance', function() {
-    it('returns the distance between two opposite corners of the hex', function() {
-        const oppositeCornerDistance = methods.oppositeCornerDistance.bind({ size: 1 })
-        expect(oppositeCornerDistance()).to.equal(2)
-    })
-})
+describe('width', function () {
+    let isPointy
 
-describe('oppositeSideDistance', function() {
-    it('returns the distance between two opposite sides of a hex', function() {
-        const oppositeCornerDistance = sinon.stub().returns(1)
-        const oppositeSideDistance = methods.oppositeSideDistance.bind({ oppositeCornerDistance })
-        const result = oppositeSideDistance()
-
-        expect(oppositeCornerDistance).to.have.been.called
-        expect(result).to.be.closeTo(0.8660, 0.0005)
+    beforeEach(() => {
+        isPointy = sinon.stub(methods, 'isPointy')
     })
-})
-
-describe('width', function() {
-    beforeEach(function() {
-        sinon.stub(methods, 'isPointy')
-    })
-    afterEach(function() {
+    afterEach(() => {
         methods.isPointy.restore()
     })
 
-    describe('when the hex has a pointy orientation', function() {
-        it('returns Hex.oppositeSideDistance()', function() {
-            methods.isPointy.returns(true)
-            sinon.spy(methods, 'oppositeSideDistance')
+    describe('when the hex has a pointy orientation', function () {
+        it('returns Hex.oppositeSideDistance()', function () {
+            isPointy.returns(true)
 
-            methods.width()
-            expect(methods.oppositeSideDistance).to.have.been.called
-
-            methods.oppositeSideDistance.restore()
+            const result = methods.width.call({ size: { xRadius: 1 }, isPointy })
+            expect(result).to.eql(Math.sqrt(3))
         })
     })
 
-    describe('when the hex has a flat orientation', function() {
-        it('returns Hex.oppositeCornerDistance()', function() {
-            methods.isPointy.returns(false)
-            sinon.spy(methods, 'oppositeCornerDistance')
+    describe('when the hex has a flat orientation', function () {
+        it('returns Hex.oppositeCornerDistance()', function () {
+            isPointy.returns(false)
 
-            methods.width()
-            expect(methods.oppositeCornerDistance).to.have.been.called
-
-            methods.oppositeCornerDistance.restore()
+            const result = methods.width.call({ size: { xRadius: 1 }, isPointy })
+            expect(result).to.eql(2)
         })
     })
 })
 
-describe('height', function() {
-    beforeEach(function() {
-        sinon.stub(methods, 'isPointy')
+describe('height', function () {
+    let isPointy
+
+    beforeEach(() => {
+        isPointy = sinon.stub(methods, 'isPointy')
     })
-    afterEach(function() {
+    afterEach(() => {
         methods.isPointy.restore()
     })
 
-    describe('when the hex has a pointy orientation', function() {
-        it('returns Hex.oppositeCornerDistance()', function() {
-            methods.isPointy.returns(true)
-            sinon.spy(methods, 'oppositeCornerDistance')
+    describe('when the hex has a pointy orientation', function () {
+        it('returns Hex.oppositeCornerDistance()', function () {
+            isPointy.returns(true)
 
-            methods.height()
-            expect(methods.oppositeCornerDistance).to.have.been.called
-
-            methods.oppositeCornerDistance.restore()
+            const result = methods.height.call({ size: { yRadius: 1 }, isPointy })
+            expect(result).to.eql(2)
         })
     })
 
-    describe('when the hex has a flat orientation', function() {
-        it('returns Hex.oppositeSideDistance()', function() {
-            methods.isPointy.returns(false)
-            sinon.spy(methods, 'oppositeSideDistance')
+    describe('when the hex has a flat orientation', function () {
+        it('returns Hex.oppositeSideDistance()', function () {
+            isPointy.returns(false)
 
-            methods.height()
-            expect(methods.oppositeSideDistance).to.have.been.called
-
-            methods.oppositeSideDistance.restore()
+            const result = methods.height.call({ size: { yRadius: 1 }, isPointy })
+            expect(result).to.eql(Math.sqrt(3))
         })
     })
 })
@@ -300,7 +273,7 @@ describe('toPoint', function() {
         context = {
             q: 1,
             r: 1,
-            size: 1,
+            size: { xRadius: 1, yRadius: 1 },
             isPointy
         }
     })
@@ -346,7 +319,7 @@ describe('fromPoint', function() {
         round = sinon.stub().returns('round result')
         center = sinon.stub().returns('center result')
         Hex = sinon.stub().returns({ round })
-        fromPoint = methods.fromPointFactory({ Point, Hex }).bind({ size: 1, isPointy, center })
+        fromPoint = methods.fromPointFactory({ Point, Hex }).bind({ size: { xRadius: 1, yRadius: 1 }, isPointy, center })
     })
 
     it('calls Point with the passed parameters', () => {
@@ -548,7 +521,7 @@ describe('center', () => {
         expect(result.x).to.be.closeTo(0.8660, 0.0005)
         expect(result.y).to.equal(1)
 
-        Hex = extendHex({ size: 10, origin: [5,5] })
+        Hex = extendHex({ size: 10, origin: [5, 5] })
         result = Hex().center()
         expect(result.x).to.be.closeTo(3.6602, 0.005)
         expect(result.y).to.equal(5)

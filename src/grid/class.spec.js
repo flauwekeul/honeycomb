@@ -2,14 +2,13 @@
 
 import { expect } from 'chai'
 import sinon from 'sinon'
-
-import { ensureXY } from '../utils'
-import Grid from './class'
 import extendHexFactory from '../hex'
 import PointFactory from '../point'
+import { ensureXY, normalizeRadiuses } from '../utils'
+import Grid from './class'
 
 const Point = PointFactory({ ensureXY })
-const Hex = extendHexFactory({ ensureXY, Point })()
+const Hex = extendHexFactory({ ensureXY, normalizeRadiuses, Point })()
 
 describe('Grid class', () => {
     let instance
