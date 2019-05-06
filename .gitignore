@@ -1,4 +1,5 @@
 *.log
+.history/
 .nyc_output/
 .vscode/
 coverage/
