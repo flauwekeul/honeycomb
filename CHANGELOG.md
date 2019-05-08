@@ -1,6 +1,21 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [2.0.0](https://github.com/flauwekeul/honeycomb/compare/v1.4.4...v2.0.0) (2019-05-08)
+
+
+### Build System
+
+* lift minimal Node version from 6 to 8 ([3ab2260](https://github.com/flauwekeul/honeycomb/commit/3ab2260))
+* upgrade dependencies ([f5d1f8e](https://github.com/flauwekeul/honeycomb/commit/f5d1f8e))
+
+
+### Features
+
+* **Hex:** add option to set size as width and height or x radius and y radius ([4ca42b3](https://github.com/flauwekeul/honeycomb/commit/4ca42b3))
+
+
 
 ## [1.4.4](https://github.com/flauwekeul/honeycomb/compare/v1.4.4-0...v1.4.4) (2019-03-23)
 

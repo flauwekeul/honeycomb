@@ -1634,6 +1634,8 @@ An odd offset:
 -   places **odd rows** of **pointy hexes** half a hex right of the even rows;
 -   places **odd columns** of **flat hexes** half a hex down of the even rows;
 
+Type: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)
+
 ##### Properties
 
 -   `even` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** \+1
@@ -1648,7 +1650,7 @@ and flat hexes don't have a west and east compass direction.
 Number directions map to a side of a hex. A pointy hex's right side is `0`, its bottom right side `1`, its bottom left side `2`, etc.
 Number directions of flat hexes start at their bottom right side (`0`), their bottom side is `1`, etc.
 
-Type: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)
+Type: [COMPASS_DIRECTION](#compass_direction)
 
 ##### Properties
 
