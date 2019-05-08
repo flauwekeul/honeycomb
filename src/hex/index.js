@@ -19,7 +19,7 @@ export default function extendHexFactory({ ensureXY, normalizeRadiuses, Point })
      * All properties of the object passed to `extendHex()` will be added to the prototype of the resulting {@link Hex} factory.
      * To add properties to individual hexes (instances), pass them to the {@link Hex} factory.
      *
-     * @todo validate orientation, size, origin
+     * @todo validate orientation, origin
      * @todo warn when properties are overriden
      *
      * @param {Object} [prototype={}]   An object that's used as the prototype for all hexes in a grid.
@@ -39,13 +39,14 @@ export default function extendHexFactory({ ensureXY, normalizeRadiuses, Point })
      * const hex = Hex(5, -1)
      *
      * hex.coordinates()    // { x: 5, y: -1 }
-     * hex.size             // 50
+     * // size is normalized to an object containing an x radius and y radius:
+     * hex.size             // { xRadius: 50, yRadius: 50 }
      * hex.customProperty   // I'm custom 😃
      * hex.customMethod()   // I'm custom 😃 and called from a custom method 😎
      *
      * // every hex created with Hex() shares these properties:
      * const hex2 = Hex(3, 0)
-     * hex2.size            // 50
+     * hex2.size            // { xRadius: 50, yRadius: 50 }
      * hex2.customProperty  // I'm custom 😃
      *
      * // to set properties on individual hexes, pass them to Hex():
@@ -81,11 +82,24 @@ export default function extendHexFactory({ ensureXY, normalizeRadiuses, Point })
              */
             origin: 0,
             /**
-             * A hex's radius or the length of any of its sides. Defaults to `1`.
+             * A hex's size that can be set as:
+             * * an object with `width` and `height`, representing the total width and height of the hex
+             * * an object with `xRadius` and `yRadius`. This can be visualized as if the hex was enclosed in an ellipse.
+             *   `xRadius` would be the distance from the center to the left or right of the ellipse (semi-major axis) and
+             *   `yRadius` would be the distance from the center to the top or bottom of the ellipse (semi-minor axis).
+             * * a number, represening the length of each side and the distance from the center to any corner of the hex
+             *   (which are the same in regular hexagons).
+             *
+             * ![Different ways to set size](docs/hex-sizes.png)
+             *
+             * When setting size with a number the hex will be regular. When setting size with an object it's possible to
+             * "stretch" a hex; having a (very) different width and height.
+             *
+             * Defaults to `{ xRadius: 1, yRadius: 1 }`.
              *
              * @memberof Hex#
-             * @type {number}
-             * @default 1
+             * @type {{width: number, height: number}|{xRadius: number, yRadius: number}|number}
+             * @default { xRadius: 1, yRadius: 1 }
              */
             size: { xRadius: 1, yRadius: 1 },
             /**

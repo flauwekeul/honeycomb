@@ -24,15 +24,15 @@ export default function defineGridFactory({ extendHex, Grid, Point }) {
      * // create a Grid factory that uses the default Hex Factory:
      * const Grid = Honeycomb.defineGrid()
      * const hex = Grid.Hex()
-     * hex.size     // 1
+     * hex.size         // { xRadius: 1, yRadius: 1 }
      *
      * // create your own Hex factory
      * const CustomHex = Honeycomb.extendHex({ size: 10, custom: '🤓' })
      * // …and pass it to defineGrid() to create a Grid factory that produces your custom hexes
      * const CustomGrid = Honeycomb.defineGrid(CustomHex)
      * const customHex = CustomGrid.Hex()
-     * hex.size     // 10
-     * hex.custom   // 🤓
+     * customHex.size   // { xRadius: 10, yRadius: 10 }
+     * customHex.custom // 🤓
      */
     return function defineGrid(Hex = extendHex()) {
         // static properties
