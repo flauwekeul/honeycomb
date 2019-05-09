@@ -15,6 +15,12 @@ All notable changes to this project will be documented in this file. See [standa
 
 * **Hex:** add option to set size as width and height or x radius and y radius ([4ca42b3](https://github.com/flauwekeul/honeycomb/commit/4ca42b3))
 
+### BREAKING CHANGES
+
+* Dropped Node 6 support
+* Removed Hex.oppositeCornerDistance() and Hex.oppositeSideDistance() methods because opposite corners
+and sides no longer always have the same distance.
+
 
 
 ## [1.4.4](https://github.com/flauwekeul/honeycomb/compare/v1.4.4-0...v1.4.4) (2019-03-23)
