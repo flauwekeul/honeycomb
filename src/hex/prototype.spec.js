@@ -443,6 +443,18 @@ describe('equals', function () {
 
         expect(hex1.equals(hex2)).to.be.true
     })
+
+    describe('when passed anything but an array, point or hex', () => {
+        it('returns false', () => {
+            expect(Hex().equals()).to.be.false
+            expect(Hex(null).equals(null)).to.be.false
+            expect(Hex({}).equals({})).to.be.false
+            expect(Hex('a').equals('a')).to.be.false
+
+            expect(Hex(4, 5).equals([4, 5])).to.be.true
+            expect(Hex(3, 2).equals(Point(3, 2))).to.be.true
+        })
+    })
 })
 
 describe('distance', function () {

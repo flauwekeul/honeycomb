@@ -1,3 +1,4 @@
+import { isArray, isNumber } from 'axis.js'
 import { offsetFromZero } from '../utils'
 import { EPSILON } from './constants'
 
@@ -354,8 +355,12 @@ export function equalsFactory({ Point }) {
      * @returns {boolean}   Whether the coordinates of the current and the passed point are equal.
      */
     return function equals(point) {
-        const { x, y } = Point(point)
-        return this.x === x && this.y === y
+        if (point != null && (isArray(point) || isNumber(point.x) && isNumber(point.y))) {
+            const { x, y } = Point(point)
+            return this.x === x && this.y === y
+        }
+
+        return false
     }
 }
 
