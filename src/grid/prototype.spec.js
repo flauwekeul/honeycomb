@@ -376,17 +376,25 @@ describe('neighborsOf', () => {
   })
 
   describe('when some neighbors are present in the grid', () => {
-    it('returns only the present neighbors', () => {
+    it('returns all neighboring hexes present in the grid and undefined for each non-existing hex', () => {
       const grid = GridFactory.hexagon({ radius: 1 })
       const hex = Hex(1, 0)
       const result = grid.neighborsOf(hex)
 
       expect(result)
         .to.be.an('array')
-        .that.has.a.lengthOf(3)
-      expect(result[0]).to.equal(grid[4])
-      expect(result[1]).to.equal(grid[3])
-      expect(result[2]).to.equal(grid[5])
+        .that.has.a.lengthOf(6)
+      expect(result[0]).to.be.undefined
+      expect(result[1]).to.be.undefined
+      expect(result[2]).to.equal(grid[4])
+      expect(result[3]).to.equal(grid[3])
+      expect(result[4]).to.equal(grid[5])
+      expect(result[5]).to.be.undefined
+    })
+
+    it('throws when no hex is passed', () => {
+      isValidHex.returns(false)
+      expect(() => neighborsOf()).to.throw(`Invalid hex: undefined.`)
     })
   })
 })

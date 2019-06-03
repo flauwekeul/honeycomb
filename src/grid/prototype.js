@@ -209,7 +209,7 @@ export function neighborsOfFactory({ isValidHex, signedModulo, compassToNumberDi
    * Whether to get the diagonal neighbor. See {@link https://www.redblobgames.com/grids/hexagons/#neighbors-diagonal|redblobgames.com}.
    *
    * @returns {hex[]}
-   * An array of 0 up to 6 neighboring hexes. Only hexes that are present in the grid are returned.
+   * An array with the neighboring hex for each queried direction or `undefined` if the hex doesn't exist in the grid.
    *
    * @throws {Error} When no valid hex is passed.
    * @throws {Error} When the direction is invalid for the hex.
@@ -246,8 +246,8 @@ export function neighborsOfFactory({ isValidHex, signedModulo, compassToNumberDi
    * // diagonal neighbor:
    * grid.neighborsOf(Hex(-1, 0), 'E', true)  // [{ x: 0, y: -1 }]
    *
-   * // only returns hexes that exist in the grid:
-   * grid.neighborsOf(Hex(-1, -1), 'NW')      // []
+   * // returns undefined for hexes that aren't present in the grid:
+   * grid.neighborsOf(Hex(-1, -1), 'NW')      // [undefined]
    */
   return function neighborsOf(hex, directions = 'all', diagonal = false) {
     if (!isValidHex(hex)) {
@@ -275,8 +275,7 @@ export function neighborsOfFactory({ isValidHex, signedModulo, compassToNumberDi
 
         const { q, r } = coordinates[direction]
         return this.get(hex.cubeToCartesian({ q: hex.q + q, r: hex.r + r }))
-      })
-      .filter(Boolean))
+      }))
   }
 }
 
