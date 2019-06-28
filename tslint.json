@@ -1,17 +1,42 @@
 {
     "defaultSeverity": "error",
-    "extends": ["tslint:recommended"],
+    "extends": [
+        "tslint-plugin-prettier",
+        "tslint-config-prettier"
+    ],
     "jsRules": {},
     "rules": {
-        "quotemark": [true, "single"],
-        "max-line-length": [true, 180],
-        "semicolon": [true, "never"],
-        "member-access": [true, "no-public"],
-        "interface-name": [true, "never-prefix"],
-        "trailing-comma": [true, {
-            "multiline": "ignore"
-        }],
-        "arrow-parens": [true, "ban-single-arg-parens"]
+        "prettier": true,
+        "quotemark": [
+            true,
+            "single"
+        ],
+        "max-line-length": [
+            true,
+            180
+        ],
+        "semicolon": [
+            true,
+            "never"
+        ],
+        "member-access": [
+            true,
+            "no-public"
+        ],
+        "interface-name": [
+            true,
+            "never-prefix"
+        ],
+        "trailing-comma": [
+            true,
+            {
+                "multiline": "ignore"
+            }
+        ],
+        "arrow-parens": [
+            true,
+            "ban-single-arg-parens"
+        ]
     },
     "rulesDirectory": []
 }

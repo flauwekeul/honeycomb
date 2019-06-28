@@ -3,16 +3,24 @@
         "es6": true,
         "shared-node-browser": true
     },
-    "extends": "eslint:recommended",
+    "extends": [
+        "plugin:prettier/recommended"
+    ],
     "parserOptions": {
         "ecmaVersion": 2018,
         "sourceType": "module"
     },
+    "plugins": [
+        "prettier"
+    ],
     "rules": {
+        "prettier/prettier": "error",
         "quotes": [
             "error",
             "single",
-            { "allowTemplateLiterals": true }
+            {
+                "allowTemplateLiterals": true
+            }
         ],
         "semi": [
             "error",
@@ -20,7 +28,11 @@
         ],
         "no-console": [
             "error",
-            { "allow": [ "warn" ] }
+            {
+                "allow": [
+                    "warn"
+                ]
+            }
         ],
         "valid-jsdoc": [
             "warn"
