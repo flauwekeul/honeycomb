@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/flauwekeul/honeycomb/compare/v2.0.3...v2.1.0) (2019-06-28)
+
+
+### Build System
+
+* add and configure prettier formatter ([0ec4285](https://github.com/flauwekeul/honeycomb/commit/0ec4285))
+* upgrade dependencies ([50e3db4](https://github.com/flauwekeul/honeycomb/commit/50e3db4))
+* upgrade dependencies ([a97283a](https://github.com/flauwekeul/honeycomb/commit/a97283a))
+
+
+### Features
+
+* **Grid:** add pointHeight() and pointWidth() instance methods to Grid ([f229e46](https://github.com/flauwekeul/honeycomb/commit/f229e46)), closes [#32](https://github.com/flauwekeul/honeycomb/issues/32)
+* **Grid:** add properties with which it was made to grid instance ([d8c36f3](https://github.com/flauwekeul/honeycomb/commit/d8c36f3))
+
+
+
 ### [2.0.3](https://github.com/flauwekeul/honeycomb/compare/v2.0.2...v2.0.3) (2019-06-01)
 
 

@@ -349,6 +349,8 @@ Set the `offset` property to `1` or `-1` (default) to control whether the even o
     -   [neighborsOf](#neighborsof)
         -   [Parameters](#parameters-9)
         -   [Examples](#examples-9)
+    -   [pointHeight](#pointheight)
+    -   [pointWidth](#pointwidth)
     -   [push](#push)
         -   [Parameters](#parameters-10)
         -   [Examples](#examples-10)
@@ -825,6 +827,14 @@ grid.neighborsOf(Hex(-1, -1), 'NW')      // []
 -   Throws **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)** When the direction is invalid for the hex.
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[hex](#hex)>** An array of 0 up to 6 neighboring hexes. Only hexes that are present in the grid are returned.
+
+#### pointHeight
+
+Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The heigth of the grid in points/pixels.
+
+#### pointWidth
+
+Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The width of the grid in points/pixels.
 
 #### push
 
