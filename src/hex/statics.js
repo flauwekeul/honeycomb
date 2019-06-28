@@ -14,5 +14,5 @@
  * Hex.thirdCoordinate(3, -2)   // -1
  */
 export function thirdCoordinate(firstCoordinate, secondCoordinate) {
-    return -firstCoordinate - secondCoordinate
+  return -firstCoordinate - secondCoordinate
 }

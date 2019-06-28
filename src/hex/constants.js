@@ -21,21 +21,21 @@
  */
 
 export const DIRECTION_COORDINATES = [
-    { q: 1, r: 0 },
-    { q: 0, r: 1 },
-    { q: -1, r: 1 },
-    { q: -1, r: 0 },
-    { q: 0, r: -1 },
-    { q: 1, r: -1 }
+  { q: 1, r: 0 },
+  { q: 0, r: 1 },
+  { q: -1, r: 1 },
+  { q: -1, r: 0 },
+  { q: 0, r: -1 },
+  { q: 1, r: -1 },
 ]
 
 export const DIAGONAL_DIRECTION_COORDINATES = [
-    { q: 2, r: -1 },
-    { q: 1, r: 1 },
-    { q: -1, r: 2 },
-    { q: -2, r: 1 },
-    { q: -1, r: -1 },
-    { q: 1, r: -2 }
+  { q: 2, r: -1 },
+  { q: 1, r: 1 },
+  { q: -1, r: 2 },
+  { q: -2, r: 1 },
+  { q: -1, r: -1 },
+  { q: 1, r: -2 },
 ]
 
 export const EPSILON = { x: 1e-6, y: 1e-6 }

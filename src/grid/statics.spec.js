@@ -4,12 +4,7 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import extendHexFactory from '../hex'
 import PointFactory from '../point'
-import {
-  compassToNumberDirection,
-  ensureXY,
-  normalizeRadiuses,
-  signedModulo,
-} from '../utils'
+import { compassToNumberDirection, ensureXY, normalizeRadiuses, signedModulo } from '../utils'
 import Grid from './class'
 import * as statics from './statics'
 
@@ -80,13 +75,8 @@ describe('parallelogram', function() {
           width: 2,
           height: 2,
           start: Hex(5, 4),
-        })
-      ).to.contain.hexes([
-        { x: 5, y: 4 },
-        { x: 6, y: 4 },
-        { x: 5, y: 5 },
-        { x: 6, y: 5 },
-      ])
+        }),
+      ).to.contain.hexes([{ x: 5, y: 4 }, { x: 6, y: 4 }, { x: 5, y: 5 }, { x: 6, y: 5 }])
     })
   })
 
@@ -97,13 +87,8 @@ describe('parallelogram', function() {
           width: 2,
           height: 2,
           direction: 1,
-        })
-      ).to.contain.hexes([
-        { x: 0, y: 0 },
-        { x: 1, y: 0 },
-        { x: 0, y: 1 },
-        { x: 1, y: 1 },
-      ])
+        }),
+      ).to.contain.hexes([{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }])
     })
   })
 
@@ -114,13 +99,8 @@ describe('parallelogram', function() {
           width: 2,
           height: 2,
           direction: 3,
-        })
-      ).to.contain.hexes([
-        { x: -1, y: 0 },
-        { x: 0, y: 0 },
-        { x: -2, y: 1 },
-        { x: -1, y: 1 },
-      ])
+        }),
+      ).to.contain.hexes([{ x: -1, y: 0 }, { x: 0, y: 0 }, { x: -2, y: 1 }, { x: -1, y: 1 }])
     })
   })
 
@@ -131,13 +111,8 @@ describe('parallelogram', function() {
           width: 2,
           height: 2,
           direction: 5,
-        })
-      ).to.contain.hexes([
-        { x: 0, y: -2 },
-        { x: -1, y: -1 },
-        { x: 0, y: -1 },
-        { x: 0, y: 0 },
-      ])
+        }),
+      ).to.contain.hexes([{ x: 0, y: -2 }, { x: -1, y: -1 }, { x: 0, y: -1 }, { x: 0, y: 0 }])
     })
   })
 
@@ -152,7 +127,7 @@ describe('parallelogram', function() {
       expect(callback.callCount).to.eql(4)
       expect(callback).to.always.have.been.calledWithExactly(
         sinon.match.has('__isHoneycombHex', true),
-        sinon.match.same(result)
+        sinon.match.same(result),
       )
     })
   })
@@ -191,11 +166,7 @@ describe('triangle', function() {
 
   describe('when called without start hex or direction', function() {
     it('returns the hexes in a triangle shape, starting at Hex(0)', function() {
-      expect(triangle({ size: 2 })).to.contain.hexes([
-        { x: 0, y: 0 },
-        { x: 1, y: 0 },
-        { x: 0, y: 1 },
-      ])
+      expect(triangle({ size: 2 })).to.contain.hexes([{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 1 }])
     })
   })
 
@@ -205,7 +176,7 @@ describe('triangle', function() {
         triangle({
           size: 2,
           start: Hex(3, 6),
-        })
+        }),
       ).to.contain.hexes([{ x: 3, y: 6 }, { x: 4, y: 6 }, { x: 3, y: 7 }])
     })
   })
@@ -216,7 +187,7 @@ describe('triangle', function() {
         triangle({
           size: 2,
           direction: 1,
-        })
+        }),
       ).to.contain.hexes([{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 1 }])
     })
   })
@@ -227,7 +198,7 @@ describe('triangle', function() {
         triangle({
           size: 2,
           direction: 5,
-        })
+        }),
       ).to.contain.hexes([{ x: 1, y: 1 }, { x: 1, y: 2 }, { x: 2, y: 2 }])
     })
   })
@@ -242,7 +213,7 @@ describe('triangle', function() {
       expect(callback.callCount).to.eql(3)
       expect(callback).to.always.have.been.calledWithExactly(
         sinon.match.has('__isHoneycombHex', true),
-        sinon.match.same(result)
+        sinon.match.same(result),
       )
     })
   })
@@ -296,7 +267,7 @@ describe('hexagon', function() {
         hexagon({
           radius: 1,
           center: Hex(3, 1),
-        })
+        }),
       ).to.contain.hexes([
         { x: 3, y: 0 },
         { x: 4, y: 0 },
@@ -319,7 +290,7 @@ describe('hexagon', function() {
       expect(callback.callCount).to.eql(7)
       expect(callback).to.always.have.been.calledWithExactly(
         sinon.match.has('__isHoneycombHex', true),
-        sinon.match.same(result)
+        sinon.match.same(result),
       )
     })
   })
@@ -409,7 +380,7 @@ describe('rectangle', function() {
             width: 2,
             height: 3,
             start: Hex(-4, -2),
-          })
+          }),
         ).to.contain.hexes([
           { x: -4, y: -2 },
           { x: -3, y: -2 },
@@ -428,13 +399,8 @@ describe('rectangle', function() {
             width: 2,
             height: 2,
             direction: 0,
-          })
-        ).to.contain.hexes([
-          { x: 0, y: 0 },
-          { x: 1, y: 0 },
-          { x: 0, y: 1 },
-          { x: 1, y: 1 },
-        ])
+          }),
+        ).to.contain.hexes([{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }])
       })
     })
 
@@ -445,13 +411,8 @@ describe('rectangle', function() {
             width: 2,
             height: 2,
             direction: 1,
-          })
-        ).to.contain.hexes([
-          { x: 0, y: 0 },
-          { x: 0, y: 1 },
-          { x: 1, y: 0 },
-          { x: 1, y: 1 },
-        ])
+          }),
+        ).to.contain.hexes([{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 0 }, { x: 1, y: 1 }])
       })
     })
 
@@ -462,13 +423,8 @@ describe('rectangle', function() {
             width: 2,
             height: 2,
             direction: 2,
-          })
-        ).to.contain.hexes([
-          { x: 0, y: 0 },
-          { x: -1, y: 1 },
-          { x: -1, y: 0 },
-          { x: -2, y: 1 },
-        ])
+          }),
+        ).to.contain.hexes([{ x: 0, y: 0 }, { x: -1, y: 1 }, { x: -1, y: 0 }, { x: -2, y: 1 }])
       })
     })
 
@@ -479,13 +435,8 @@ describe('rectangle', function() {
             width: 2,
             height: 2,
             direction: 3,
-          })
-        ).to.contain.hexes([
-          { x: 0, y: 0 },
-          { x: -1, y: 0 },
-          { x: -1, y: 1 },
-          { x: -2, y: 1 },
-        ])
+          }),
+        ).to.contain.hexes([{ x: 0, y: 0 }, { x: -1, y: 0 }, { x: -1, y: 1 }, { x: -2, y: 1 }])
       })
     })
 
@@ -496,13 +447,8 @@ describe('rectangle', function() {
             width: 2,
             height: 2,
             direction: 4,
-          })
-        ).to.contain.hexes([
-          { x: 0, y: -2 },
-          { x: -1, y: -1 },
-          { x: 0, y: -1 },
-          { x: 0, y: 0 },
-        ])
+          }),
+        ).to.contain.hexes([{ x: 0, y: -2 }, { x: -1, y: -1 }, { x: 0, y: -1 }, { x: 0, y: 0 }])
       })
     })
 
@@ -513,13 +459,8 @@ describe('rectangle', function() {
             width: 2,
             height: 2,
             direction: 5,
-          })
-        ).to.contain.hexes([
-          { x: 0, y: -2 },
-          { x: -1, y: -1 },
-          { x: 0, y: -1 },
-          { x: 0, y: 0 },
-        ])
+          }),
+        ).to.contain.hexes([{ x: 0, y: -2 }, { x: -1, y: -1 }, { x: 0, y: -1 }, { x: 0, y: 0 }])
       })
     })
   })
@@ -550,7 +491,7 @@ describe('rectangle', function() {
             width: 2,
             height: 3,
             start: Hex(-4, -2),
-          })
+          }),
         ).to.contain.hexes([
           { x: -4, y: -2 },
           { x: -3, y: -2 },
@@ -569,13 +510,8 @@ describe('rectangle', function() {
             width: 2,
             height: 2,
             direction: 0,
-          })
-        ).to.contain.hexes([
-          { x: 0, y: 0 },
-          { x: 1, y: 0 },
-          { x: 0, y: 1 },
-          { x: 1, y: 1 },
-        ])
+          }),
+        ).to.contain.hexes([{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }])
       })
     })
 
@@ -586,13 +522,8 @@ describe('rectangle', function() {
             width: 2,
             height: 2,
             direction: 1,
-          })
-        ).to.contain.hexes([
-          { x: 0, y: 0 },
-          { x: 0, y: 1 },
-          { x: 1, y: 0 },
-          { x: 1, y: 1 },
-        ])
+          }),
+        ).to.contain.hexes([{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 0 }, { x: 1, y: 1 }])
       })
     })
 
@@ -603,13 +534,8 @@ describe('rectangle', function() {
             width: 2,
             height: 2,
             direction: 2,
-          })
-        ).to.contain.hexes([
-          { x: -1, y: -1 },
-          { x: -2, y: 0 },
-          { x: 0, y: 0 },
-          { x: -1, y: 0 },
-        ])
+          }),
+        ).to.contain.hexes([{ x: -1, y: -1 }, { x: -2, y: 0 }, { x: 0, y: 0 }, { x: -1, y: 0 }])
       })
     })
 
@@ -620,13 +546,8 @@ describe('rectangle', function() {
             width: 2,
             height: 2,
             direction: 3,
-          })
-        ).to.contain.hexes([
-          { x: -1, y: -1 },
-          { x: -2, y: 0 },
-          { x: -1, y: 0 },
-          { x: 0, y: 0 },
-        ])
+          }),
+        ).to.contain.hexes([{ x: -1, y: -1 }, { x: -2, y: 0 }, { x: -1, y: 0 }, { x: 0, y: 0 }])
       })
     })
 
@@ -637,13 +558,8 @@ describe('rectangle', function() {
             width: 2,
             height: 2,
             direction: 4,
-          })
-        ).to.contain.hexes([
-          { x: 0, y: 0 },
-          { x: 0, y: -1 },
-          { x: 1, y: -1 },
-          { x: 1, y: -2 },
-        ])
+          }),
+        ).to.contain.hexes([{ x: 0, y: 0 }, { x: 0, y: -1 }, { x: 1, y: -1 }, { x: 1, y: -2 }])
       })
     })
 
@@ -654,13 +570,8 @@ describe('rectangle', function() {
             width: 2,
             height: 2,
             direction: 5,
-          })
-        ).to.contain.hexes([
-          { x: 0, y: 0 },
-          { x: 1, y: -1 },
-          { x: 0, y: -1 },
-          { x: 1, y: -2 },
-        ])
+          }),
+        ).to.contain.hexes([{ x: 0, y: 0 }, { x: 1, y: -1 }, { x: 0, y: -1 }, { x: 1, y: -2 }])
       })
     })
   })
@@ -676,7 +587,7 @@ describe('rectangle', function() {
       expect(callback.callCount).to.eql(4)
       expect(callback).to.always.have.been.calledWithExactly(
         sinon.match.has('__isHoneycombHex', true),
-        sinon.match.same(result)
+        sinon.match.same(result),
       )
     })
   })

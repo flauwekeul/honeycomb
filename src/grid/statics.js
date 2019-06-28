@@ -77,9 +77,7 @@ export function parallelogramFactory({ Grid, Hex }) {
       3: ['r', 's', 'q'],
       5: ['s', 'q', 'r'],
     }
-    const [firstCoordinate, secondCoordinate, thirdCoordinate] = DIRECTIONS[
-      direction
-    ]
+    const [firstCoordinate, secondCoordinate, thirdCoordinate] = DIRECTIONS[direction]
     const grid = new Grid()
     grid.width = width
     grid.height = height
@@ -93,7 +91,7 @@ export function parallelogramFactory({ Grid, Hex }) {
             [firstCoordinate]: first + start[firstCoordinate],
             [secondCoordinate]: second + start[secondCoordinate],
             [thirdCoordinate]: -first - second + start[thirdCoordinate],
-          })
+          }),
         )
         onCreate(hex, grid)
         grid.push(hex)
@@ -125,12 +123,7 @@ export function triangleFactory({ Grid, Hex }) {
    *
    * @returns {grid}                              Grid of hexes in a triangle arrangement.
    */
-  return function triangle({
-    size,
-    start,
-    direction = 1,
-    onCreate = () => {},
-  }) {
+  return function triangle({ size, start, direction = 1, onCreate = () => {} }) {
     start = Hex(start)
     // TODO: validate direction
     const DIRECTIONS = {
@@ -156,7 +149,7 @@ export function triangleFactory({ Grid, Hex }) {
             q: q + start.q,
             r: r + start.r,
             s: -q - r + start.s,
-          })
+          }),
         )
         onCreate(hex, grid)
         grid.push(hex)
@@ -204,7 +197,7 @@ export function hexagonFactory({ Grid, Hex }) {
             q: q + center.q,
             r: r + center.r,
             s: -q - r + center.s,
-          })
+          }),
         )
         onCreate(hex, grid)
         grid.push(hex)
@@ -215,12 +208,7 @@ export function hexagonFactory({ Grid, Hex }) {
   }
 }
 
-export function rectangleFactory({
-  Grid,
-  Hex,
-  compassToNumberDirection,
-  signedModulo,
-}) {
+export function rectangleFactory({ Grid, Hex, compassToNumberDirection, signedModulo }) {
   /**
    * Creates a grid in the shape of a [rectangle](https://en.wikipedia.org/wiki/Rectangle) ▭.
    *
@@ -269,12 +257,8 @@ export function rectangleFactory({
       ['s', 'q', 'r'],
       ['q', 's', 'r'],
     ]
-    const [firstCoordinate, secondCoordinate, thirdCoordinate] = DIRECTIONS[
-      direction
-    ]
-    const [firstStop, secondStop] = start.isPointy()
-      ? [width, height]
-      : [height, width]
+    const [firstCoordinate, secondCoordinate, thirdCoordinate] = DIRECTIONS[direction]
+    const [firstStop, secondStop] = start.isPointy() ? [width, height] : [height, width]
     const grid = new Grid()
     grid.width = width
     grid.height = height
@@ -284,17 +268,13 @@ export function rectangleFactory({
     for (let second = 0; second < secondStop; second++) {
       const secondOffset = offsetFromZero(start.offset, second)
 
-      for (
-        let first = -secondOffset;
-        first < firstStop - secondOffset;
-        first++
-      ) {
+      for (let first = -secondOffset; first < firstStop - secondOffset; first++) {
         const hex = Hex(
           start.cubeToCartesian({
             [firstCoordinate]: first + start[firstCoordinate],
             [secondCoordinate]: second + start[secondCoordinate],
             [thirdCoordinate]: -first - second + start[thirdCoordinate],
-          })
+          }),
         )
         onCreate(hex, grid)
         grid.push(hex)
