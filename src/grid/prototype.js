@@ -1,6 +1,5 @@
-import { isString, isNumber } from 'axis.js'
-
-import { DIRECTION_COORDINATES, DIAGONAL_DIRECTION_COORDINATES } from '../hex/constants'
+import { isNumber, isString } from 'axis.js'
+import { DIAGONAL_DIRECTION_COORDINATES, DIRECTION_COORDINATES } from '../hex/constants'
 
 /**
  * Get a hex from a grid.
@@ -279,4 +278,42 @@ export function neighborsOfFactory({ isValidHex, signedModulo, compassToNumberDi
       })
       .filter(Boolean))
   }
+}
+
+/**
+ * @memberof Grid#
+ * @instance
+ *
+ * @returns {number}    The width of the grid in points/pixels.
+ */
+export function pointWidth() {
+  if (this.length === 0) {
+    return 0
+  }
+
+  // sort hexes from left to right and take the first and last
+  const { 0: mostLeft, length, [length - 1]: mostRight } = this[0].isPointy()
+    ? [...this].sort((a, b) => b.s - a.s || a.q - b.q)
+    : [...this].sort((a, b) => a.q - b.q)
+
+  return mostRight.toPoint().x - mostLeft.toPoint().x + this[0].width()
+}
+
+/**
+ * @memberof Grid#
+ * @instance
+ *
+ * @returns {number}    The heigth of the grid in points/pixels.
+ */
+export function pointHeight() {
+  if (this.length === 0) {
+    return 0
+  }
+
+  // sort hexes from top to bottom and take the first and last
+  const { 0: mostUp, length, [length - 1]: mostDown } = this[0].isPointy()
+    ? [...this].sort((a, b) => a.r - b.r)
+    : [...this].sort((a, b) => b.s - a.s || a.r - b.r)
+
+  return mostDown.toPoint().y - mostUp.toPoint().y + this[0].height()
 }

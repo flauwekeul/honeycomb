@@ -79,6 +79,8 @@ export default function defineGridFactory({ extendHex, Grid, Point }) {
         signedModulo,
         compassToNumberDirection,
       }),
+      pointHeight: methods.pointHeight,
+      pointWidth: methods.pointWidth,
       set: methods.setFactory({ isValidHex }),
     })
 

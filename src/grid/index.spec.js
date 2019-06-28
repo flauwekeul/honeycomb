@@ -47,7 +47,15 @@ describe('GridFactory', function() {
     const prototype = Object.getPrototypeOf(GridFactory())
     const prototypeProps = Object.keys(prototype)
 
-    expect(prototypeProps).to.eql(['get', 'hexesBetween', 'hexesInRange', 'neighborsOf', 'set'])
+    expect(prototypeProps).to.eql([
+      'get',
+      'hexesBetween',
+      'hexesInRange',
+      'neighborsOf',
+      'pointHeight',
+      'pointWidth',
+      'set',
+    ])
   })
 })
 

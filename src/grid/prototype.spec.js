@@ -390,3 +390,97 @@ describe('neighborsOf', () => {
     })
   })
 })
+
+describe('pointWidth', () => {
+  describe('when the grid contains no hexes', () => {
+    it('returns 0', () => {
+      const grid = GridFactory()
+      expect(grid.pointWidth()).to.equal(0)
+    })
+  })
+
+  describe('when the grid contains pointy hexes', () => {
+    let GridFactory,
+      options = { width: 4, height: 2 }
+
+    beforeEach(() => {
+      const Hex = extendHex({ orientation: 'pointy', size: 20 })
+      GridFactory = defineGridFactory({ extendHex, Grid, Point })(Hex)
+    })
+
+    it('returns the total width (in points/pixels) of the grid', () => {
+      expect(GridFactory.rectangle({ ...options, direction: 0 }).pointWidth()).to.be.closeTo(155.8846, 0.0005)
+      expect(GridFactory.rectangle({ ...options, direction: 1 }).pointWidth()).to.be.closeTo(121.2436, 0.0005)
+      expect(GridFactory.rectangle({ ...options, direction: 2 }).pointWidth()).to.be.closeTo(121.2436, 0.0005)
+      expect(GridFactory.rectangle({ ...options, direction: 3 }).pointWidth()).to.be.closeTo(155.8846, 0.0005)
+      expect(GridFactory.rectangle({ ...options, direction: 4 }).pointWidth()).to.be.closeTo(103.923, 0.0005)
+      expect(GridFactory.rectangle({ ...options, direction: 5 }).pointWidth()).to.be.closeTo(103.923, 0.0005)
+    })
+  })
+
+  describe('when the grid contains flat hexes', () => {
+    let GridFactory,
+      options = { width: 4, height: 2 }
+
+    beforeEach(() => {
+      const Hex = extendHex({ orientation: 'flat', size: 20 })
+      GridFactory = defineGridFactory({ extendHex, Grid, Point })(Hex)
+    })
+
+    it('returns the total width (in points/pixels) of the grid', () => {
+      expect(GridFactory.rectangle({ ...options, direction: 0 }).pointWidth()).to.equal(100)
+      expect(GridFactory.rectangle({ ...options, direction: 1 }).pointWidth()).to.equal(130)
+      expect(GridFactory.rectangle({ ...options, direction: 2 }).pointWidth()).to.equal(130)
+      expect(GridFactory.rectangle({ ...options, direction: 3 }).pointWidth()).to.equal(130)
+      expect(GridFactory.rectangle({ ...options, direction: 4 }).pointWidth()).to.equal(130)
+      expect(GridFactory.rectangle({ ...options, direction: 5 }).pointWidth()).to.equal(100)
+    })
+  })
+})
+
+describe('pointHeight', () => {
+  describe('when the grid contains no hexes', () => {
+    it('returns 0', () => {
+      const grid = GridFactory()
+      expect(grid.pointHeight()).to.equal(0)
+    })
+  })
+
+  describe('when the grid contains pointy hexes', () => {
+    let GridFactory,
+      options = { width: 4, height: 2 }
+
+    beforeEach(() => {
+      const Hex = extendHex({ orientation: 'pointy', size: 20 })
+      GridFactory = defineGridFactory({ extendHex, Grid, Point })(Hex)
+    })
+
+    it('returns the total width (in points/pixels) of the grid', () => {
+      expect(GridFactory.rectangle({ ...options, direction: 0 }).pointHeight()).to.equal(70)
+      expect(GridFactory.rectangle({ ...options, direction: 1 }).pointHeight()).to.equal(130)
+      expect(GridFactory.rectangle({ ...options, direction: 2 }).pointHeight()).to.equal(130)
+      expect(GridFactory.rectangle({ ...options, direction: 3 }).pointHeight()).to.equal(70)
+      expect(GridFactory.rectangle({ ...options, direction: 4 }).pointHeight()).to.equal(160)
+      expect(GridFactory.rectangle({ ...options, direction: 5 }).pointHeight()).to.equal(160)
+    })
+  })
+
+  describe('when the grid contains flat hexes', () => {
+    let GridFactory,
+      options = { width: 4, height: 2 }
+
+    beforeEach(() => {
+      const Hex = extendHex({ orientation: 'flat', size: 20 })
+      GridFactory = defineGridFactory({ extendHex, Grid, Point })(Hex)
+    })
+
+    it('returns the total width (in points/pixels) of the grid', () => {
+      expect(GridFactory.rectangle({ ...options, direction: 0 }).pointHeight()).to.be.closeTo(138.564, 0.0005)
+      expect(GridFactory.rectangle({ ...options, direction: 1 }).pointHeight()).to.be.closeTo(86.6025, 0.0005)
+      expect(GridFactory.rectangle({ ...options, direction: 2 }).pointHeight()).to.be.closeTo(121.2436, 0.0005)
+      expect(GridFactory.rectangle({ ...options, direction: 3 }).pointHeight()).to.be.closeTo(121.2436, 0.0005)
+      expect(GridFactory.rectangle({ ...options, direction: 4 }).pointHeight()).to.be.closeTo(86.6025, 0.0005)
+      expect(GridFactory.rectangle({ ...options, direction: 5 }).pointHeight()).to.be.closeTo(138.564, 0.0005)
+    })
+  })
+})
