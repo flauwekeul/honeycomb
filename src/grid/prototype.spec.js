@@ -16,8 +16,8 @@ const GridFactory = defineGridFactory({ extendHex, Grid, Point })(Hex)
 
 describe('get', () => {
   it('accepts a number or a point', () => {
-    const targetHex = Hex(3, -2)
-    const grid = GridFactory(targetHex)
+    const grid = GridFactory(Hex(3, -2))
+    const targetHex = grid[0]
 
     expect(grid.get(0)).to.equal(targetHex)
     expect(grid.get(Hex(3, -2))).to.equal(targetHex)

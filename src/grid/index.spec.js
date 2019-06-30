@@ -63,91 +63,88 @@ describe('Grid creation', function() {
   let GridFactory
 
   beforeEach(function() {
-    sinon.spy(Grid, 'isValidHex')
     GridFactory = defineGridFactory({ extendHex, Grid, Point })(Hex)
   })
 
-  afterEach(() => {
-    Grid.isValidHex.restore()
-  })
+  describe('when called with a single point', () => {
+    it('returns a grid with a single hex', () => {
+      const grid1 = GridFactory([0, 0])
+      expect(grid1).to.have.lengthOf(1)
+      expect(grid1[0]).to.eql(Hex(0, 0))
 
-  describe(`when called with one or more arguments that aren't arrays`, () => {
-    it('calls Grid.isValidHex for each argument', () => {
-      const hex1 = Hex()
-      const hex2 = Hex(2, -4)
-      GridFactory(hex1, hex2)
-
-      expect(Grid.isValidHex).to.have.been.calledWith(hex1)
-      expect(Grid.isValidHex).to.have.been.calledWith(hex2)
-    })
-
-    describe(`when they're valid hexes`, function() {
-      it('returns a grid instance containing those hexes', function() {
-        const hex1 = Hex()
-        const hex2 = Hex(2, -4)
-        const result = GridFactory(hex1, hex2)
-
-        expect(result).to.have.lengthOf(2)
-        expect(result[0]).to.equal(hex1)
-        expect(result[1]).to.equal(hex2)
-      })
-    })
-
-    describe(`when they're valid hexes and other types`, function() {
-      it('returns a grid instance with only the valid hexes', function() {
-        const hex1 = Hex()
-        const hex2 = Hex(2, -4)
-        const result = GridFactory(null, 'string', hex1, {}, hex2, 1)
-
-        expect(result).to.have.lengthOf(2)
-        expect(result[0]).to.equal(hex1)
-        expect(result[1]).to.equal(hex2)
-      })
+      const grid2 = GridFactory({ x: 0, y: 0 })
+      expect(grid2).to.have.lengthOf(1)
+      expect(grid2[0]).to.eql(Hex(0, 0))
     })
   })
 
-  describe(`when called with an array`, () => {
-    it('calls Grid.isValidHex for each element in the array', () => {
-      const hex1 = Hex()
-      const hex2 = Hex(2, -4)
-      GridFactory([hex1, hex2])
+  describe('when called with multiple points as separate arguments', () => {
+    it('returns a grid with as many hexes', () => {
+      const grid1 = GridFactory([0, 0], [1, 1])
+      expect(grid1).to.have.lengthOf(2)
+      expect(grid1[0]).to.eql(Hex(0, 0))
+      expect(grid1[1]).to.eql(Hex(1, 1))
 
-      expect(Grid.isValidHex).to.have.been.calledWith(hex1)
-      expect(Grid.isValidHex).to.have.been.calledWith(hex2)
+      const grid2 = GridFactory({ x: 0, y: 0 }, { x: 1, y: 1 })
+      expect(grid2).to.have.lengthOf(2)
+      expect(grid2[0]).to.eql(Hex(0, 0))
+      expect(grid2[1]).to.eql(Hex(1, 1))
     })
+  })
 
-    describe('that is a valid grid', function() {
-      it('returns a copy of the grid', function() {
-        const grid = GridFactory(Hex(), Hex())
-        const result = GridFactory(grid)
+  describe('when called with an array of points', () => {
+    it('returns a grid with as many hexes', () => {
+      const grid1 = GridFactory([[0, 0], [1, 1]])
+      expect(grid1).to.have.lengthOf(2)
+      expect(grid1[0]).to.eql(Hex(0, 0))
+      expect(grid1[1]).to.eql(Hex(1, 1))
 
-        expect(result).to.eql(grid)
-        expect(result).to.not.equal(grid)
-      })
+      const grid2 = GridFactory([{ x: 0, y: 0 }, { x: 1, y: 1 }])
+      expect(grid2).to.have.lengthOf(2)
+      expect(grid2[0]).to.eql(Hex(0, 0))
+      expect(grid2[1]).to.eql(Hex(1, 1))
     })
+  })
 
-    describe('containing valid hexes', function() {
-      it('returns a grid instance containing those hexes', function() {
-        const hex1 = Hex()
-        const hex2 = Hex(2, -4)
-        const result = GridFactory([hex1, hex2])
-
-        expect(result).to.have.lengthOf(2)
-        expect(result[0]).to.equal(hex1)
-        expect(result[1]).to.equal(hex2)
-      })
+  describe('when called with a single hex', () => {
+    it('returns a grid with a single hex', () => {
+      const grid = GridFactory(Hex(0, 0))
+      expect(grid).to.have.lengthOf(1)
+      expect(grid[0]).to.eql(Hex(0, 0))
     })
+  })
 
-    describe('containing valid hexes and other types', function() {
-      it('returns a grid instance with only the valid hexes', function() {
-        const hex1 = Hex()
-        const hex2 = Hex(2, -4)
-        const result = GridFactory([null, 'string', hex1, {}, hex2, 1])
+  describe('when called with multiple hexes as separate arguments', () => {
+    it('returns a grid with as many hexes', () => {
+      const grid = GridFactory(Hex(0, 0), Hex(1, 1))
+      expect(grid).to.have.lengthOf(2)
+      expect(grid[0]).to.eql(Hex(0, 0))
+      expect(grid[1]).to.eql(Hex(1, 1))
+    })
+  })
 
-        expect(result).to.have.lengthOf(2)
-        expect(result[0]).to.equal(hex1)
-        expect(result[1]).to.equal(hex2)
-      })
+  describe('when called with an array of hexes', () => {
+    it('returns a grid with as many hexes', () => {
+      const grid = GridFactory([Hex(0, 0), Hex(1, 1)])
+      expect(grid).to.have.lengthOf(2)
+      expect(grid[0]).to.eql(Hex(0, 0))
+      expect(grid[1]).to.eql(Hex(1, 1))
+    })
+  })
+
+  describe('when called without arguments or a falsy argument', () => {
+    it('returns an empty grid', () => {
+      expect(GridFactory()).to.have.lengthOf(0)
+      expect(GridFactory(undefined)).to.have.lengthOf(0)
+      expect(GridFactory(null)).to.have.lengthOf(0)
+      expect(GridFactory(0)).to.have.lengthOf(0)
+      expect(GridFactory('')).to.have.lengthOf(0)
+    })
+  })
+
+  describe('when called with an empty array', () => {
+    it('returns an empty grid', () => {
+      expect(GridFactory([])).to.have.lengthOf(0)
     })
   })
 })
