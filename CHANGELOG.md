@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/flauwekeul/honeycomb/compare/v2.1.0...v3.0.0) (2019-08-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* **Grid:** arguments passed to the grid factory are no longer filtered for valid hexes; any
+points (in the shape of a tuple or object) or hexes are converted to hexes and added to the returned
+grid
+* **Grid:** Grid#neighborsOf() no longer filters out nonexistent hexes. This makes it possible
+to map each direction to a hex, because the length of the returned array is always equal to the
+length of the passed directions array.
+
+### Features
+
+* **Grid:** grid factory now also accepts points and point-likes ([97a298d](https://github.com/flauwekeul/honeycomb/commit/97a298d)), closes [#34](https://github.com/flauwekeul/honeycomb/issues/34)
+* **Grid:** remove filtering of nonexistent hexes from Grid#neighborsOf() ([6a6d27d](https://github.com/flauwekeul/honeycomb/commit/6a6d27d))
+* **Hex:** add `toJSON()` static method ([d2d4c50](https://github.com/flauwekeul/honeycomb/commit/d2d4c50)), closes [#39](https://github.com/flauwekeul/honeycomb/issues/39)
+
 ## [2.1.0](https://github.com/flauwekeul/honeycomb/compare/v2.0.3...v2.1.0) (2019-06-28)
 
 

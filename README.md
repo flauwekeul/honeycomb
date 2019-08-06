@@ -596,14 +596,13 @@ See [Point](#point).
 A function to create hex [grid](#grid)s and perform various operations on them.
 
 A Grid factory has several static methods that return [grid](#grid)s of hexes in a certain shape.
-It can also be called with 1 or more hexes or an array of hexes to construct/clone a [grid](#grid) containing those hexes.
+It can also be called with 1 or more points/hexes or an array of points/hexes to create a [grid](#grid) instance.
 
 A [grid](#grid) extends `Array.prototype`, with some methods overwritten and some new methods added.
 
 #### Parameters
 
--   `arrayOrHex` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[hex](#hex)> | [hex](#hex))?** An array or a hex. Any invalid hexes are filtered out.
--   `hexes` **...[hex](#hex)?** More hexes. Any invalid hexes are filtered out.
+-   `points` **...[point](#point)?** An array of points/hexes or separate arguments that are points/hexes.
 
 #### Examples
 
@@ -615,14 +614,14 @@ const Hex = Grid.Hex
 Grid(Hex(3, -1), Hex(2, 0))      // [{ x: 3, y: -1 }, { x: 2, y: 0 }]
 Grid([Hex(3, -1), Hex(2, 0)])    // [{ x: 3, y: -1 }, { x: 2, y: 0 }]
 
-// invalid hexes are filtered out:
-Grid('no hex', { x: 3, y: -1 })  // []
-Grid(['no hex', Hex(1, -1)])     // [{ x: 1, y: -1 }]
+// it also accepts points
+Grid({ x: 3, y: -1 }, [2, 0])    // [{ x: 3, y: -1 }, { x: 2, y: 0 }]
+Grid([{ x: 3, y: -1 }, [2, 0]])  // [{ x: 3, y: -1 }, { x: 2, y: 0 }]
 
 // clone a grid:
 const grid = Grid(Hex(), Hex(1), Hex(2))
-const clonedGrid = Grid(grid)    // [{ x: 0, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 2 }]
-grid === clonedGrid              // false
+const clonedGrid = Grid(grid)      // [{ x: 0, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 2 }]
+grid === clonedGrid                // false
 ```
 
 Returns **[grid](#grid)** A grid instance containing only valid hexes.
@@ -870,14 +869,14 @@ grid.neighborsOf(Hex(), [1, 2])          // [
 // diagonal neighbor:
 grid.neighborsOf(Hex(-1, 0), 'E', true)  // [{ x: 0, y: -1 }]
 
-// only returns hexes that exist in the grid:
-grid.neighborsOf(Hex(-1, -1), 'NW')      // []
+// returns undefined for hexes that aren't present in the grid:
+grid.neighborsOf(Hex(-1, -1), 'NW')      // [undefined]
 ```
 
 -   Throws **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)** When no valid hex is passed.
 -   Throws **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)** When the direction is invalid for the hex.
 
-Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[hex](#hex)>** An array of 0 up to 6 neighboring hexes. Only hexes that are present in the grid are returned.
+Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[hex](#hex)>** An array with the neighboring hex for each queried direction or `undefined` if the hex doesn't exist in the grid.
 
 #### pointHeight
 
@@ -1753,15 +1752,15 @@ Returns **void** Nothing.
 3.  Hex methods that do nothing with a hex's coordinates should be static (e.g. `cubeToCartesian`, `isPointy`, `width`)?
 4.  `Hex.corners` should return points relative to `Hex.origin` (like `Hex#corners` does now) and `Hex#corners` should return points relative to the hex (so it's not needed to add the hex's point to them).
 5.  Make some Grid instance methods also Grid static methods and vice versa?
-7.  Make some methods getters (e.g. `Hex#width`)?
-8.  Maybe make entities immutable?
-9.  Add logger that "renders" a grid using `console.log`.
-10. Overwrite `Grid#sort` so it can sort by 1 or more dimensions, ascending/descending (and also accepts a custom comparator)?
-11. Add `Grid.union`, `Grid.subtract`, `Grid.intersect` and `Grid.difference` (or maybe as prototype methods?). [More info](https://www.sketchapp.com/docs/shapes/boolean-operations/).
-12. Shiny github.io pages 😎
-13. Maybe `Honeycomb.defineGrid` should accept a prototype too (as a second parameter).
-14. Maybe `Honeycomb` should (also) be a function that accepts a hex prototype and returns a Grid factory?
-15. Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.
+6.  Make some methods getters (e.g. `Hex#width`)?
+7.  Maybe make entities immutable?
+8.  Add logger that "renders" a grid using `console.log`.
+9.  Overwrite `Grid#sort` so it can sort by 1 or more dimensions, ascending/descending (and also accepts a custom comparator)?
+10. Add `Grid.union`, `Grid.subtract`, `Grid.intersect` and `Grid.difference` (or maybe as prototype methods?). [More info](https://www.sketchapp.com/docs/shapes/boolean-operations/).
+11. Shiny github.io pages 😎
+12. Maybe `Honeycomb.defineGrid` should accept a prototype too (as a second parameter).
+13. Maybe `Honeycomb` should (also) be a function that accepts a hex prototype and returns a Grid factory?
+14. Investigate how instance properties are set vs prototype properties. When creating a custom hex it should be possible to set properties that are copied when creating new hexes and properties that only exist in the prototype. Similar to how [stampit](https://github.com/stampit-org/stampit) solves this.
 
 ### 🛠 Refactorings
 
