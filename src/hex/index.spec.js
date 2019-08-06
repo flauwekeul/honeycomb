@@ -2,7 +2,7 @@
 
 import { expect } from 'chai'
 import sinon from 'sinon'
-import extendHexFactory, { staticMethods } from '../../src/hex'
+import extendHexFactory from '../../src/hex'
 import PointFactory from '../point'
 import { ensureXY, normalizeRadiuses } from '../utils'
 
@@ -23,7 +23,14 @@ describe('extendHex', function() {
   })
 
   it('returns a function that has the Hex static methods', function() {
-    expect(Object.entries(Hex)).to.eql(Object.entries(staticMethods))
+    expect(Object.keys(Hex)).to.eql(['thirdCoordinate', 'toJSON'])
+  })
+
+  describe('toJSON()', () => {
+    it('returns the Hex prototype in JSON format', () => {
+      Hex = extendHex({ custom: 'some value' })
+      expect(Hex.toJSON()).to.eql({ custom: 'some value' })
+    })
   })
 
   it('returns a function with the default prototype', function() {

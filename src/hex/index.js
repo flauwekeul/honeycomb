@@ -189,7 +189,8 @@ export default function extendHexFactory({ ensureXY, normalizeRadiuses, Point })
     // ensure origin is a point
     finalPrototype.origin = Point(finalPrototype.origin)
 
-    Object.assign(Hex, staticMethods)
+    // the toJSON method is added here, because only here it has (easy) access to the prototype
+    Object.assign(Hex, staticMethods, { toJSON: () => prototype })
 
     /**
      * @function Hex

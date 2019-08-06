@@ -94,11 +94,12 @@ const grid1 = Grid.rectangle({ width: 4, height: 4 })
 //    …
 // ]
 
-// 3b. or create a grid from individual hexes:
-const grid2 = Grid(Hex(1, 2), Hex(3, 4))
+// 3b. or create a grid from individual hexes/points:
+const grid2 = Grid(Hex(1, 2), [3, 4], { x: 5, y: 6 })
 // [
 //    { x: 1, y: 2 },
-//    { x: 3, y: 4 }
+//    { x: 3, y: 4 },
+//    { x: 5, y: 6 }
 // ]
 ```
 
@@ -309,6 +310,56 @@ Hex({ q: 1, r: 4, s: -5 })  // { x: 3, y: 4 }
 In a grid with pointy hexes, each row is offsetted half a hex relative to the previous row. In grids with flat hexes, this applies to the columns. Redblobgames.com has a [visual example](https://www.redblobgames.com/grids/hexagons/#coordinates-offset).
 
 Set the `offset` property to `1` or `-1` (default) to control whether the even or odd rows/columns are offsetted. [Try it out in JSFiddle](https://jsfiddle.net/Flauwekeul/36jot1h7/).
+
+### (De)serialization
+
+Since version 3 it's possible to properly [serialize and deserialize](https://en.wikipedia.org/wiki/Serialization) grids (including their Hex factory). This can be done using `JSON.stringify()` and `JSON.parse()`:
+
+```javascript
+const hexPrototype = { size: 10, custom: 'some value' }
+const Hex = Honeycomb.extendHex(hexPrototype)
+const Grid = Honeycomb.defineGrid(Hex)
+const grid = Grid.rectangle({ width: 2, height: 2 })
+
+const serializedGrid = JSON.stringify(grid)
+// [{"x":0,"y":0},{"x":1,"y":0},{"x":0,"y":1},{"x":1,"y":1}]
+
+const deserializedGrid = JSON.parse(serializedGrid)
+// [
+//     { x: 0, y: 0 },
+//     { x: 1, y: 0 },
+//     { x: 0, y: 1 },
+//     { x: 1, y: 1 }
+// ]
+```
+
+You can define a [`toJSON()` method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#toJSON()_behavior) on your Hex prototype to control how a grid is serialized:
+
+```javascript
+const hexPrototype = {
+    toJSON() { return [this.x, this.y] }
+}
+const Hex = Honeycomb.extendHex(hexPrototype)
+const Grid = Honeycomb.defineGrid(Hex)
+const grid = Grid.rectangle({ width: 2, height: 2 })
+
+const serializedGrid = JSON.stringify(grid)
+// [[0,0],[1,0],[0,1],[1,1]]
+```
+
+Any Hex factory has a (static) `toJSON()` method that makes it easy to get a Hex's prototype:
+
+```javascript
+const Hex = Honeycomb.extendHex({
+    size: 10,
+    custom: 'some value'
+})
+
+Hex.toJSON()        // {size: 10, custom: "some value"}
+
+// Hex.toJSON() is called automatically when passed to JSON.stringify():
+JSON.stringify(Hex) // {"size":10,"custom":"some value"}
+```
 
 ## API
 
