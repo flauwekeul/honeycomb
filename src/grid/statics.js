@@ -86,13 +86,11 @@ export function parallelogramFactory({ Grid, Hex }) {
 
     for (let first = 0; first < width; first++) {
       for (let second = 0; second < height; second++) {
-        const hex = Hex(
-          start.cubeToCartesian({
-            [firstCoordinate]: first + start[firstCoordinate],
-            [secondCoordinate]: second + start[secondCoordinate],
-            [thirdCoordinate]: -first - second + start[thirdCoordinate],
-          }),
-        )
+        const hex = Hex({
+          [firstCoordinate]: first + start[firstCoordinate],
+          [secondCoordinate]: second + start[secondCoordinate],
+          [thirdCoordinate]: -first - second + start[thirdCoordinate],
+        })
         onCreate(hex, grid)
         grid.push(hex)
       }
@@ -144,13 +142,11 @@ export function triangleFactory({ Grid, Hex }) {
 
     for (let q = 0; q < size; q++) {
       for (let r = rStart(q); r < rEnd(q); r++) {
-        const hex = Hex(
-          start.cubeToCartesian({
-            q: q + start.q,
-            r: r + start.r,
-            s: -q - r + start.s,
-          }),
-        )
+        const hex = Hex({
+          q: q + start.q,
+          r: r + start.r,
+          s: -q - r + start.s,
+        })
         onCreate(hex, grid)
         grid.push(hex)
       }
@@ -192,13 +188,11 @@ export function hexagonFactory({ Grid, Hex }) {
       const endR = Math.min(radius, -q + radius)
 
       for (let r = startR; r <= endR; r++) {
-        const hex = Hex(
-          center.cubeToCartesian({
-            q: q + center.q,
-            r: r + center.r,
-            s: -q - r + center.s,
-          }),
-        )
+        const hex = Hex({
+          q: q + center.q,
+          r: r + center.r,
+          s: -q - r + center.s,
+        })
         onCreate(hex, grid)
         grid.push(hex)
       }
@@ -269,13 +263,11 @@ export function rectangleFactory({ Grid, Hex, compassToNumberDirection, signedMo
       const secondOffset = offsetFromZero(start.offset, second)
 
       for (let first = -secondOffset; first < firstStop - secondOffset; first++) {
-        const hex = Hex(
-          start.cubeToCartesian({
-            [firstCoordinate]: first + start[firstCoordinate],
-            [secondCoordinate]: second + start[secondCoordinate],
-            [thirdCoordinate]: -first - second + start[thirdCoordinate],
-          }),
-        )
+        const hex = Hex({
+          [firstCoordinate]: first + start[firstCoordinate],
+          [secondCoordinate]: second + start[secondCoordinate],
+          [thirdCoordinate]: -first - second + start[thirdCoordinate],
+        })
         onCreate(hex, grid)
         grid.push(hex)
       }
