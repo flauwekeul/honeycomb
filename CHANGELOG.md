@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/flauwekeul/honeycomb/compare/v3.0.1...v3.1.0) (2019-10-03)
+
+
+### Features
+
+* **Grid:** add ring() shape method ([0949af3](https://github.com/flauwekeul/honeycomb/commit/0949af3))
+* **Grid:** add spiral() shape method ([a80d087](https://github.com/flauwekeul/honeycomb/commit/a80d087))
+
 ### [3.0.1](https://github.com/flauwekeul/honeycomb/compare/v3.0.0...v3.0.1) (2019-09-25)
 
 ## [3.0.0](https://github.com/flauwekeul/honeycomb/compare/v2.1.0...v3.0.0) (2019-08-06)
