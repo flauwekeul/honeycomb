@@ -426,16 +426,18 @@ JSON.stringify(Hex) // {"size":10,"custom":"some value"}
         -   [Examples](#examples-14)
     -   [rectangle](#rectangle)
         -   [Parameters](#parameters-18)
-    -   [triangle](#triangle)
+    -   [ring](#ring)
         -   [Parameters](#parameters-19)
+    -   [triangle](#triangle)
+        -   [Parameters](#parameters-20)
 -   [Hex](#hex-1)
-    -   [Parameters](#parameters-20)
+    -   [Parameters](#parameters-21)
     -   [Examples](#examples-15)
     -   [add](#add)
-        -   [Parameters](#parameters-21)
+        -   [Parameters](#parameters-22)
     -   [cartesian](#cartesian)
     -   [cartesianToCube](#cartesiantocube)
-        -   [Parameters](#parameters-22)
+        -   [Parameters](#parameters-23)
         -   [Examples](#examples-16)
     -   [center](#center)
         -   [Examples](#examples-17)
@@ -446,21 +448,21 @@ JSON.stringify(Hex) // {"size":10,"custom":"some value"}
     -   [cube](#cube)
         -   [Examples](#examples-20)
     -   [cubeToCartesian](#cubetocartesian)
-        -   [Parameters](#parameters-23)
+        -   [Parameters](#parameters-24)
         -   [Examples](#examples-21)
     -   [distance](#distance)
-        -   [Parameters](#parameters-24)
+        -   [Parameters](#parameters-25)
         -   [Examples](#examples-22)
     -   [equals](#equals)
-        -   [Parameters](#parameters-25)
-    -   [fromPoint](#frompoint)
         -   [Parameters](#parameters-26)
+    -   [fromPoint](#frompoint)
+        -   [Parameters](#parameters-27)
         -   [Examples](#examples-23)
     -   [height](#height)
     -   [isFlat](#isflat)
     -   [isPointy](#ispointy)
     -   [lerp](#lerp)
-        -   [Parameters](#parameters-27)
+        -   [Parameters](#parameters-28)
     -   [nudge](#nudge)
     -   [offset](#offset)
     -   [orientation](#orientation)
@@ -471,11 +473,11 @@ JSON.stringify(Hex) // {"size":10,"custom":"some value"}
         -   [Examples](#examples-24)
     -   [s](#s)
     -   [set](#set-1)
-        -   [Parameters](#parameters-28)
+        -   [Parameters](#parameters-29)
         -   [Examples](#examples-25)
     -   [size](#size)
     -   [subtract](#subtract)
-        -   [Parameters](#parameters-29)
+        -   [Parameters](#parameters-30)
     -   [toCartesian](#tocartesian)
     -   [toCube](#tocube)
     -   [toPoint](#topoint)
@@ -483,19 +485,19 @@ JSON.stringify(Hex) // {"size":10,"custom":"some value"}
     -   [toString](#tostring)
     -   [width](#width)
     -   [thirdCoordinate](#thirdcoordinate)
-        -   [Parameters](#parameters-30)
+        -   [Parameters](#parameters-31)
         -   [Examples](#examples-27)
 -   [Point](#point-1)
-    -   [Parameters](#parameters-31)
+    -   [Parameters](#parameters-32)
     -   [Examples](#examples-28)
     -   [add](#add-1)
-        -   [Parameters](#parameters-32)
-    -   [divide](#divide)
         -   [Parameters](#parameters-33)
-    -   [multiply](#multiply)
+    -   [divide](#divide)
         -   [Parameters](#parameters-34)
-    -   [subtract](#subtract-1)
+    -   [multiply](#multiply)
         -   [Parameters](#parameters-35)
+    -   [subtract](#subtract-1)
+        -   [Parameters](#parameters-36)
 -   [Instances](#instances)
     -   [grid](#grid-1)
         -   [Properties](#properties)
@@ -510,7 +512,7 @@ JSON.stringify(Hex) // {"size":10,"custom":"some value"}
         -   [Properties](#properties-4)
 -   [Other](#other)
     -   [onCreate](#oncreate)
-        -   [Parameters](#parameters-36)
+        -   [Parameters](#parameters-37)
 
 ### Honeycomb
 
@@ -1029,8 +1031,7 @@ Creates a grid in the shape of a [hexagon](https://en.wikipedia.org/wiki/Hexagon
 
 -   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object.
     -   `options.radius` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The radius (in hexes) _excluding_ the center hex.
-    -   `options.center` **[hex](#hex)** The center hex.
-                                                     Each direction corresponds to a different arrangement of hexes. (optional, default `Hex(0)`)
+    -   `options.center` **[hex](#hex)** The center hex. (optional, default `Hex(0)`)
     -   `options.onCreate` **[onCreate](#oncreate)** Callback that's called for each hex. Defaults to a [no-op](https://en.wikipedia.org/wiki/NOP). (optional, default `no-op`)
 
 Returns **[grid](#grid)** Grid of hexes in a hexagon arrangement.
@@ -1107,6 +1108,21 @@ Creates a grid in the shape of a [rectangle](https://en.wikipedia.org/wiki/Recta
     -   `options.onCreate` **[onCreate](#oncreate)** Callback that's called for each hex. Defaults to a [no-op](https://en.wikipedia.org/wiki/NOP). (optional, default `no-op`)
 
 Returns **[grid](#grid)** Grid of hexes in a rectangular arrangement.
+
+#### ring
+
+-   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#rings)**
+
+Creates a grid in the shape of a ring.
+
+##### Parameters
+
+-   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** An options object.
+    -   `options.radius` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The radius (in hexes) _excluding_ the center hex.
+    -   `options.center` **[hex](#hex)** The center hex. (optional, default `Hex(0)`)
+    -   `options.onCreate` **[onCreate](#oncreate)** Callback that's called for each hex. Defaults to a [no-op](https://en.wikipedia.org/wiki/NOP). (optional, default `no-op`)
+
+Returns **[grid](#grid)** Grid of hexes in a ring arrangement.
 
 #### triangle
 

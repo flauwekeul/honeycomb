@@ -592,3 +592,76 @@ describe('rectangle', function() {
     })
   })
 })
+
+describe('ring', () => {
+  let ring
+
+  beforeEach(() => {
+    ring = statics.ringFactory({ Grid, Hex })
+  })
+
+  it('has properties radius and center', () => {
+    const result = ring({
+      radius: 1,
+      center: [2, 3],
+    })
+    expect(result).to.have.ownProperty('radius', 1)
+    expect(result)
+      .to.have.ownProperty('center')
+      .that.includes(Hex(2, 3))
+  })
+
+  describe('when passed a radius and center', () => {
+    it('returns a ring of radius * 6 hexes around the center', () => {
+      const result = ring({ radius: 2, center: Hex(1, 2) })
+
+      expect(result).to.have.lengthOf(12)
+      expect(result).to.contain.hexes([
+        { x: 0, y: 0 },
+        { x: 1, y: 0 },
+        { x: 2, y: 0 },
+        { x: 2, y: 1 },
+        { x: 3, y: 2 },
+        { x: 2, y: 3 },
+        { x: 2, y: 4 },
+        { x: 1, y: 4 },
+        { x: 0, y: 4 },
+        { x: -1, y: 3 },
+        { x: -1, y: 2 },
+        { x: -1, y: 1 },
+      ])
+    })
+  })
+
+  describe('when passed only a radius', () => {
+    it('returns a ring around center Hex(0, 0)', () => {
+      expect(ring({ radius: 2 })).to.contain.hexes([
+        { x: -1, y: -2 },
+        { x: 0, y: -2 },
+        { x: 1, y: -2 },
+        { x: 1, y: -1 },
+        { x: 2, y: 0 },
+        { x: 1, y: 1 },
+        { x: 1, y: 2 },
+        { x: 0, y: 2 },
+        { x: -1, y: 2 },
+        { x: -2, y: 1 },
+        { x: -2, y: 0 },
+        { x: -2, y: -1 },
+      ])
+    })
+  })
+
+  describe('when passed an onCreate callback', () => {
+    it('calls the callback for each created hex passing the hex and the grid', () => {
+      const callback = sinon.spy()
+      const result = ring({ radius: 2, onCreate: callback })
+
+      expect(callback.callCount).to.eql(12)
+      expect(callback).to.always.have.been.calledWithExactly(
+        sinon.match.has('__isHoneycombHex', true),
+        sinon.match.same(result),
+      )
+    })
+  })
+})

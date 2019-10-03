@@ -1,4 +1,5 @@
 import { isString } from 'axis.js'
+import { DIRECTION_COORDINATES } from '../hex/constants'
 import { offsetFromZero } from '../utils'
 
 export function pointToHexFactory({ Hex }) {
@@ -171,7 +172,6 @@ export function hexagonFactory({ Grid, Hex }) {
    * @param {Object} options                      An options object.
    * @param {number} options.radius               The radius (in hexes) *excluding* the center hex.
    * @param {hex} [options.center=Hex(0)]         The center hex.
-   *                                              Each direction corresponds to a different arrangement of hexes.
    * @param {onCreate} [options.onCreate=no-op]   Callback that's called for each hex. Defaults to a {@link https://en.wikipedia.org/wiki/NOP|no-op}.
    *
    * @returns {grid}                              Grid of hexes in a hexagon arrangement.
@@ -270,6 +270,46 @@ export function rectangleFactory({ Grid, Hex, compassToNumberDirection, signedMo
         })
         onCreate(hex, grid)
         grid.push(hex)
+      }
+    }
+
+    return grid
+  }
+}
+
+export function ringFactory({ Grid, Hex }) {
+  /**
+   * Creates a grid in the shape of a ring.
+   *
+   * @memberof Grid
+   * @static
+   * @method
+   * @see {@link https://www.redblobgames.com/grids/hexagons/#rings|redblobgames.com}
+   *
+   * @param {Object} options                      An options object.
+   * @param {number} options.radius               The radius (in hexes) *excluding* the center hex.
+   * @param {hex} [options.center=Hex(0)]         The center hex.
+   * @param {onCreate} [options.onCreate=no-op]   Callback that's called for each hex. Defaults to a {@link https://en.wikipedia.org/wiki/NOP|no-op}.
+   *
+   * @returns {grid}                              Grid of hexes in a ring arrangement.
+   */
+  return function ring({ radius, center, onCreate = () => {} }) {
+    center = Hex(center)
+
+    const grid = new Grid()
+    grid.radius = radius
+    grid.center = center
+
+    const { q, r, s } = center
+    let hex = Hex({ q, r: r - radius, s: s + radius })
+
+    for (let i = 0; i < 6; i++) {
+      for (let j = 0; j < radius; j++) {
+        onCreate(hex, grid)
+        grid.push(hex)
+
+        const { q, r, s } = DIRECTION_COORDINATES[i]
+        hex = Hex({ q: hex.q + q, r: hex.r + r, s: hex.s + s })
       }
     }
 

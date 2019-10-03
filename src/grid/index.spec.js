@@ -28,7 +28,16 @@ describe('defineGrid', function() {
     expect(GridFactory).to.be.a('function')
     const staticProps = Object.keys(GridFactory)
 
-    expect(staticProps).to.eql(['Hex', 'isValidHex', 'pointToHex', 'parallelogram', 'triangle', 'hexagon', 'rectangle'])
+    expect(staticProps).to.eql([
+      'Hex',
+      'isValidHex',
+      'pointToHex',
+      'parallelogram',
+      'triangle',
+      'hexagon',
+      'rectangle',
+      'ring',
+    ])
     expect(GridFactory.isValidHex).to.eql(Grid.isValidHex)
   })
 })
