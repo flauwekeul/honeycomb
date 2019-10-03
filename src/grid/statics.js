@@ -316,3 +316,39 @@ export function ringFactory({ Grid, Hex }) {
     return grid
   }
 }
+
+export function spiralFactory({ Grid, Hex }) {
+  /**
+   * Creates a grid in the shape of a spiral starting from the center outward.
+   * The result is the same as a hexagon, but the order of hexes is different.
+   *
+   * @memberof Grid
+   * @static
+   * @method
+   * @see {@link https://www.redblobgames.com/grids/hexagons/#rings-spiral|redblobgames.com}
+   *
+   * @param {Object} options                      An options object.
+   * @param {number} options.radius               The radius (in hexes) *excluding* the center hex.
+   * @param {hex} [options.center=Hex(0)]         The center hex.
+   * @param {onCreate} [options.onCreate=no-op]   Callback that's called for each hex. Defaults to a {@link https://en.wikipedia.org/wiki/NOP|no-op}.
+   *
+   * @returns {grid}                              Grid of hexes in a spiral arrangement.
+   */
+  return function spiral({ radius, center, onCreate = () => {} }) {
+    center = Hex(center)
+
+    let grid = new Grid()
+
+    onCreate(center, grid)
+    grid.push(center)
+
+    for (let i = 1; i <= radius; i++) {
+      grid = grid.concat(this.ring({ radius: i, center, onCreate }))
+    }
+
+    grid.radius = radius
+    grid.center = center
+
+    return grid
+  }
+}

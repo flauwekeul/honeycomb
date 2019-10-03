@@ -67,6 +67,7 @@ export default function defineGridFactory({ extendHex, Grid, Point }) {
       hexagon: statics.hexagonFactory({ Grid, Hex }),
       rectangle: statics.rectangleFactory({ Grid, Hex, compassToNumberDirection, signedModulo }),
       ring: statics.ringFactory({ Grid, Hex }),
+      spiral: statics.spiralFactory({ Grid, Hex }),
     })
 
     // prototype properties

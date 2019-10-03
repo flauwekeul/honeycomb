@@ -37,6 +37,7 @@ describe('defineGrid', function() {
       'hexagon',
       'rectangle',
       'ring',
+      'spiral',
     ])
     expect(GridFactory.isValidHex).to.eql(Grid.isValidHex)
   })
