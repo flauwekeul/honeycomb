@@ -25,6 +25,8 @@ export interface GridFactory<T> {
     direction?: CompassDirection | number
     onCreate?: onCreateCallback<T>
   }): Grid<T>
+  ring(options: { radius: number; center?: HexCoordinates; onCreate?: onCreateCallback<T> }): Grid<T>
+  spiral(options: { radius: number; center?: HexCoordinates; onCreate?: onCreateCallback<T> }): Grid<T>
 }
 
 export type onCreateCallback<T> = (hex: Hex<T>, grid: Grid<T>) => void
