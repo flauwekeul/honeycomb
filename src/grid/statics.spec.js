@@ -76,7 +76,12 @@ describe('parallelogram', function() {
           height: 2,
           start: Hex(5, 4),
         }),
-      ).to.contain.hexes([{ x: 5, y: 4 }, { x: 6, y: 4 }, { x: 5, y: 5 }, { x: 6, y: 5 }])
+      ).to.contain.hexes([
+        { x: 5, y: 4 },
+        { x: 6, y: 4 },
+        { x: 5, y: 5 },
+        { x: 6, y: 5 },
+      ])
     })
   })
 
@@ -88,7 +93,12 @@ describe('parallelogram', function() {
           height: 2,
           direction: 1,
         }),
-      ).to.contain.hexes([{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }])
+      ).to.contain.hexes([
+        { x: 0, y: 0 },
+        { x: 1, y: 0 },
+        { x: 0, y: 1 },
+        { x: 1, y: 1 },
+      ])
     })
   })
 
@@ -100,7 +110,12 @@ describe('parallelogram', function() {
           height: 2,
           direction: 3,
         }),
-      ).to.contain.hexes([{ x: -1, y: 0 }, { x: 0, y: 0 }, { x: -2, y: 1 }, { x: -1, y: 1 }])
+      ).to.contain.hexes([
+        { x: -1, y: 0 },
+        { x: 0, y: 0 },
+        { x: -2, y: 1 },
+        { x: -1, y: 1 },
+      ])
     })
   })
 
@@ -112,7 +127,12 @@ describe('parallelogram', function() {
           height: 2,
           direction: 5,
         }),
-      ).to.contain.hexes([{ x: 0, y: -2 }, { x: -1, y: -1 }, { x: 0, y: -1 }, { x: 0, y: 0 }])
+      ).to.contain.hexes([
+        { x: 0, y: -2 },
+        { x: -1, y: -1 },
+        { x: 0, y: -1 },
+        { x: 0, y: 0 },
+      ])
     })
   })
 
@@ -166,7 +186,11 @@ describe('triangle', function() {
 
   describe('when called without start hex or direction', function() {
     it('returns the hexes in a triangle shape, starting at Hex(0)', function() {
-      expect(triangle({ size: 2 })).to.contain.hexes([{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 1 }])
+      expect(triangle({ size: 2 })).to.contain.hexes([
+        { x: 0, y: 0 },
+        { x: 1, y: 0 },
+        { x: 0, y: 1 },
+      ])
     })
   })
 
@@ -177,7 +201,11 @@ describe('triangle', function() {
           size: 2,
           start: Hex(3, 6),
         }),
-      ).to.contain.hexes([{ x: 3, y: 6 }, { x: 4, y: 6 }, { x: 3, y: 7 }])
+      ).to.contain.hexes([
+        { x: 3, y: 6 },
+        { x: 4, y: 6 },
+        { x: 3, y: 7 },
+      ])
     })
   })
 
@@ -188,7 +216,11 @@ describe('triangle', function() {
           size: 2,
           direction: 1,
         }),
-      ).to.contain.hexes([{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 1 }])
+      ).to.contain.hexes([
+        { x: 0, y: 0 },
+        { x: 1, y: 0 },
+        { x: 0, y: 1 },
+      ])
     })
   })
 
@@ -199,7 +231,11 @@ describe('triangle', function() {
           size: 2,
           direction: 5,
         }),
-      ).to.contain.hexes([{ x: 1, y: 1 }, { x: 1, y: 2 }, { x: 2, y: 2 }])
+      ).to.contain.hexes([
+        { x: 1, y: 1 },
+        { x: 1, y: 2 },
+        { x: 2, y: 2 },
+      ])
     })
   })
 
@@ -400,7 +436,12 @@ describe('rectangle', function() {
             height: 2,
             direction: 0,
           }),
-        ).to.contain.hexes([{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }])
+        ).to.contain.hexes([
+          { x: 0, y: 0 },
+          { x: 1, y: 0 },
+          { x: 0, y: 1 },
+          { x: 1, y: 1 },
+        ])
       })
     })
 
@@ -412,7 +453,12 @@ describe('rectangle', function() {
             height: 2,
             direction: 1,
           }),
-        ).to.contain.hexes([{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 0 }, { x: 1, y: 1 }])
+        ).to.contain.hexes([
+          { x: 0, y: 0 },
+          { x: 0, y: 1 },
+          { x: 1, y: 0 },
+          { x: 1, y: 1 },
+        ])
       })
     })
 
@@ -424,7 +470,12 @@ describe('rectangle', function() {
             height: 2,
             direction: 2,
           }),
-        ).to.contain.hexes([{ x: 0, y: 0 }, { x: -1, y: 1 }, { x: -1, y: 0 }, { x: -2, y: 1 }])
+        ).to.contain.hexes([
+          { x: 0, y: 0 },
+          { x: -1, y: 1 },
+          { x: -1, y: 0 },
+          { x: -2, y: 1 },
+        ])
       })
     })
 
@@ -436,7 +487,12 @@ describe('rectangle', function() {
             height: 2,
             direction: 3,
           }),
-        ).to.contain.hexes([{ x: 0, y: 0 }, { x: -1, y: 0 }, { x: -1, y: 1 }, { x: -2, y: 1 }])
+        ).to.contain.hexes([
+          { x: 0, y: 0 },
+          { x: -1, y: 0 },
+          { x: -1, y: 1 },
+          { x: -2, y: 1 },
+        ])
       })
     })
 
@@ -448,7 +504,12 @@ describe('rectangle', function() {
             height: 2,
             direction: 4,
           }),
-        ).to.contain.hexes([{ x: 0, y: -2 }, { x: -1, y: -1 }, { x: 0, y: -1 }, { x: 0, y: 0 }])
+        ).to.contain.hexes([
+          { x: 0, y: -2 },
+          { x: -1, y: -1 },
+          { x: 0, y: -1 },
+          { x: 0, y: 0 },
+        ])
       })
     })
 
@@ -460,7 +521,12 @@ describe('rectangle', function() {
             height: 2,
             direction: 5,
           }),
-        ).to.contain.hexes([{ x: 0, y: -2 }, { x: -1, y: -1 }, { x: 0, y: -1 }, { x: 0, y: 0 }])
+        ).to.contain.hexes([
+          { x: 0, y: -2 },
+          { x: -1, y: -1 },
+          { x: 0, y: -1 },
+          { x: 0, y: 0 },
+        ])
       })
     })
   })
@@ -511,7 +577,12 @@ describe('rectangle', function() {
             height: 2,
             direction: 0,
           }),
-        ).to.contain.hexes([{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }])
+        ).to.contain.hexes([
+          { x: 0, y: 0 },
+          { x: 1, y: 0 },
+          { x: 0, y: 1 },
+          { x: 1, y: 1 },
+        ])
       })
     })
 
@@ -523,7 +594,12 @@ describe('rectangle', function() {
             height: 2,
             direction: 1,
           }),
-        ).to.contain.hexes([{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 0 }, { x: 1, y: 1 }])
+        ).to.contain.hexes([
+          { x: 0, y: 0 },
+          { x: 0, y: 1 },
+          { x: 1, y: 0 },
+          { x: 1, y: 1 },
+        ])
       })
     })
 
@@ -535,7 +611,12 @@ describe('rectangle', function() {
             height: 2,
             direction: 2,
           }),
-        ).to.contain.hexes([{ x: -1, y: -1 }, { x: -2, y: 0 }, { x: 0, y: 0 }, { x: -1, y: 0 }])
+        ).to.contain.hexes([
+          { x: -1, y: -1 },
+          { x: -2, y: 0 },
+          { x: 0, y: 0 },
+          { x: -1, y: 0 },
+        ])
       })
     })
 
@@ -547,7 +628,12 @@ describe('rectangle', function() {
             height: 2,
             direction: 3,
           }),
-        ).to.contain.hexes([{ x: -1, y: -1 }, { x: -2, y: 0 }, { x: -1, y: 0 }, { x: 0, y: 0 }])
+        ).to.contain.hexes([
+          { x: -1, y: -1 },
+          { x: -2, y: 0 },
+          { x: -1, y: 0 },
+          { x: 0, y: 0 },
+        ])
       })
     })
 
@@ -559,7 +645,12 @@ describe('rectangle', function() {
             height: 2,
             direction: 4,
           }),
-        ).to.contain.hexes([{ x: 0, y: 0 }, { x: 0, y: -1 }, { x: 1, y: -1 }, { x: 1, y: -2 }])
+        ).to.contain.hexes([
+          { x: 0, y: 0 },
+          { x: 0, y: -1 },
+          { x: 1, y: -1 },
+          { x: 1, y: -2 },
+        ])
       })
     })
 
@@ -571,7 +662,12 @@ describe('rectangle', function() {
             height: 2,
             direction: 5,
           }),
-        ).to.contain.hexes([{ x: 0, y: 0 }, { x: 1, y: -1 }, { x: 0, y: -1 }, { x: 1, y: -2 }])
+        ).to.contain.hexes([
+          { x: 0, y: 0 },
+          { x: 1, y: -1 },
+          { x: 0, y: -1 },
+          { x: 1, y: -2 },
+        ])
       })
     })
   })

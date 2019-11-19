@@ -104,12 +104,18 @@ describe('Grid creation', function() {
 
   describe('when called with an array of points', () => {
     it('returns a grid with as many hexes', () => {
-      const grid1 = GridFactory([[0, 0], [1, 1]])
+      const grid1 = GridFactory([
+        [0, 0],
+        [1, 1],
+      ])
       expect(grid1).to.have.lengthOf(2)
       expect(grid1[0]).to.eql(Hex(0, 0))
       expect(grid1[1]).to.eql(Hex(1, 1))
 
-      const grid2 = GridFactory([{ x: 0, y: 0 }, { x: 1, y: 1 }])
+      const grid2 = GridFactory([
+        { x: 0, y: 0 },
+        { x: 1, y: 1 },
+      ])
       expect(grid2).to.have.lengthOf(2)
       expect(grid2[0]).to.eql(Hex(0, 0))
       expect(grid2[1]).to.eql(Hex(1, 1))
