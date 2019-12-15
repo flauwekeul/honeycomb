@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.2](https://github.com/flauwekeul/honeycomb/compare/v3.1.1...v3.1.2) (2019-12-15)
+
+
+### Bug Fixes
+
+* **hex:** fix bug where rounding a nudged hex would sometimes be incorrect ([eb846f8](https://github.com/flauwekeul/honeycomb/commit/eb846f8f239134c3d79cc48bf67aaba8a2471e90))
+
 ### [3.1.1](https://github.com/flauwekeul/honeycomb/compare/v3.1.0...v3.1.1) (2019-11-19)
 
 ## [3.1.0](https://github.com/flauwekeul/honeycomb/compare/v3.0.1...v3.1.0) (2019-10-03)
