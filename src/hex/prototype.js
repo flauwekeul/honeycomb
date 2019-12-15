@@ -431,15 +431,18 @@ export function lerpFactory({ Hex }) {
   }
 }
 
-/**
- * @memberof Hex#
- * @see {@link https://www.redblobgames.com/grids/hexagons/#line-drawing|redblobgames.com}
- *
- * @returns {hex}   A *new* hex with a tiny offset from the current hex.
- *                  Useful for interpolating in a consistent direction.
- */
-export function nudge() {
-  return this.add(EPSILON)
+export function nudgeFactory({ Hex }) {
+  /**
+   * @memberof Hex#
+   * @see {@link https://www.redblobgames.com/grids/hexagons/#line-drawing|redblobgames.com}
+   *
+   * @returns {hex}   A *new* hex with a tiny offset from the current hex.
+   *                  Useful for interpolating in a consistent direction.
+   */
+  return function nudge() {
+    const { q, r, s } = EPSILON
+    return Hex({ ...this, q: this.q + q, r: this.r + r, s: this.s + s })
+  }
 }
 
 /**

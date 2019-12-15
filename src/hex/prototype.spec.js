@@ -5,7 +5,6 @@ import sinon from 'sinon'
 import PointFactory from '../point'
 import { ensureXY, normalizeRadiuses } from '../utils'
 import extendHexFactory from './'
-import { EPSILON } from './constants'
 import * as methods from './prototype'
 
 const Point = PointFactory({ ensureXY })
@@ -497,12 +496,13 @@ describe('lerp', function() {
 })
 
 describe('nudge', function() {
-  it('returns the current hex with a tiny offset', function() {
-    const add = sinon.stub().returns('add result')
-    const nudge = methods.nudge.bind({ add })
-    const result = nudge()
-    expect(add).to.have.been.calledWith(EPSILON)
-    expect(result).to.eql('add result')
+  it('returns the current hex with a tiny offset on each cube coordinate', function() {
+    const hex = Hex({ q: 1, r: -3, s: 2 })
+    const result = hex.nudge()
+
+    expect(result.q).to.eql(1.000001)
+    expect(result.r).to.eql(-2.999999)
+    expect(result.s).to.eql(1.999998)
   })
 
   it('transfers any custom properties the current hex might have', function() {

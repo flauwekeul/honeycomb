@@ -163,7 +163,7 @@ export default function extendHexFactory({ ensureXY, normalizeRadiuses, Point })
       isFlat: methods.isFlat,
       isPointy: methods.isPointy,
       lerp: methods.lerpFactory({ Hex }),
-      nudge: methods.nudge,
+      nudge: methods.nudgeFactory({ Hex }),
       round: methods.roundFactory({ Hex }),
       set: methods.setFactory({ Hex }),
       subtract: methods.subtractFactory({ Hex, Point }),

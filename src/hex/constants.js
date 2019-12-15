@@ -38,4 +38,4 @@ export const DIAGONAL_DIRECTION_COORDINATES = [
   { q: 1, r: -2, s: 1 },
 ]
 
-export const EPSILON = { x: 1e-6, y: 1e-6 }
+export const EPSILON = { q: 1e-6, r: 1e-6, s: -2e-6 }
