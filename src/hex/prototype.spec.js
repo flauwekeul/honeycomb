@@ -497,12 +497,12 @@ describe('lerp', function() {
 
 describe('nudge', function() {
   it('returns the current hex with a tiny offset on each cube coordinate', function() {
-    const hex = Hex({ q: 1, r: -3, s: 2 })
+    const hex = Hex({ q: 4, r: -4, s: 0 })
     const result = hex.nudge()
 
-    expect(result.q).to.eql(1.000001)
-    expect(result.r).to.eql(-2.999999)
-    expect(result.s).to.eql(1.999998)
+    expect(result.q).to.be.closeTo(4.000001, 1e-12)
+    expect(result.r).to.be.closeTo(-3.999999, 1e-12)
+    expect(result.s).to.be.closeTo(-0.000002, 1e-12)
   })
 
   it('transfers any custom properties the current hex might have', function() {

@@ -250,7 +250,10 @@ export default function extendHexFactory({ ensureXY, normalizeRadiuses, Point })
         let { q, r, s, ...rest } = xOrProps
 
         if (isNumber(q) || isNumber(r) || isNumber(s)) {
-          if (q + r + s !== 0) {
+          const sum = q + r + s
+          // when any coordinate is undefined, sum will be NaN
+          // deal with floating point errors by allowing a maximum precision of 1e-12
+          if (Number.isNaN(sum) || sum > 1e-12) {
             throw new Error(`Cube coordinates must have a sum of 0. q: ${q}, r: ${r}, s: ${s}, sum: ${q + r + s}.`)
           }
 
