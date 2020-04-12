@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.5](https://github.com/flauwekeul/honeycomb/compare/v3.1.4...v3.1.5) (2020-04-12)
+
+
+### Bug Fixes
+
+* **grid:** add missing types ([1c5d3a0](https://github.com/flauwekeul/honeycomb/commit/1c5d3a04379e6c17657b94116e3852407c7c0627))
+
 ### [3.1.4](https://github.com/flauwekeul/honeycomb/compare/v3.1.3...v3.1.4) (2020-03-18)
 
 ### [3.1.3](https://github.com/flauwekeul/honeycomb/compare/v3.1.2...v3.1.3) (2019-12-24)
