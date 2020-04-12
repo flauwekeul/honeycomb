@@ -62,6 +62,8 @@ export class Grid<T = Hex<{}>> extends Array<T> {
     directions?: CompassDirection[] | number[] | CompassDirection | number | 'all',
     diagonal?: boolean,
   ): T[]
+  pointHeight(): number
+  pointWidth(): number
   set(keyOrPoint: number | PointCoordinates, newHex?: T): this
 }
 
