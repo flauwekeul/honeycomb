@@ -263,7 +263,7 @@ export function neighborsOfFactory({ isValidHex, signedModulo, compassToNumberDi
     return (directions = []
       // ensure directions is an array
       .concat(directions)
-      .map(direction => {
+      .map((direction) => {
         // todo: move this to a util, also grid/statics.js#277
         if (isString(direction)) {
           direction = compassToNumberDirection(direction, hex.orientation)

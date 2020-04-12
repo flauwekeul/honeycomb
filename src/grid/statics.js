@@ -128,10 +128,10 @@ export function triangleFactory({ Grid, Hex }) {
     const DIRECTIONS = {
       1: {
         rStart: () => 0,
-        rEnd: q => size - q,
+        rEnd: (q) => size - q,
       },
       5: {
-        rStart: q => size - q,
+        rStart: (q) => size - q,
         rEnd: () => size + 1,
       },
     }

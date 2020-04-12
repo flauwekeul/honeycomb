@@ -13,9 +13,9 @@ const extendHex = extendHexFactory({ ensureXY, normalizeRadiuses, Point })
 const defineGrid = defineGridFactory({ extendHex, Grid, Point })
 const Hex = extendHex()
 
-describe('defineGrid', function() {
-  describe('when not passed a function', function() {
-    it(`calls Honeycomb.extendHex() to create a default Hex factory`, function() {
+describe('defineGrid', function () {
+  describe('when not passed a function', function () {
+    it(`calls Honeycomb.extendHex() to create a default Hex factory`, function () {
       const extendHexSpy = sinon.spy(extendHex)
       const defineGrid = defineGridFactory({ extendHex: extendHexSpy, Grid, Point })
       defineGrid()
@@ -23,7 +23,7 @@ describe('defineGrid', function() {
     })
   })
 
-  it('returns a GridFactory with static methods', function() {
+  it('returns a GridFactory with static methods', function () {
     const GridFactory = defineGrid()
     expect(GridFactory).to.be.a('function')
     const staticProps = Object.keys(GridFactory)
@@ -43,16 +43,14 @@ describe('defineGrid', function() {
   })
 })
 
-describe('GridFactory', function() {
-  it('returns a function with the Array prototype in its prototype chain', function() {
+describe('GridFactory', function () {
+  it('returns a function with the Array prototype in its prototype chain', function () {
     const instance = defineGrid()()
     expect(Array.prototype.isPrototypeOf(instance)).to.be.true
-    expect(instance)
-      .to.have.property('map')
-      .that.equals(Array.prototype.map) // ducktype
+    expect(instance).to.have.property('map').that.equals(Array.prototype.map) // ducktype
   })
 
-  it('returns a function with the Grid prototype', function() {
+  it('returns a function with the Grid prototype', function () {
     const GridFactory = defineGrid()
     const prototype = Object.getPrototypeOf(GridFactory())
     const prototypeProps = Object.keys(prototype)
@@ -69,10 +67,10 @@ describe('GridFactory', function() {
   })
 })
 
-describe('Grid creation', function() {
+describe('Grid creation', function () {
   let GridFactory
 
-  beforeEach(function() {
+  beforeEach(function () {
     GridFactory = defineGridFactory({ extendHex, Grid, Point })(Hex)
   })
 

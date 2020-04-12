@@ -14,7 +14,7 @@ const Hex = extendHex()
 describe('set', () => {
   let HexSpy, set
 
-  beforeEach(function() {
+  beforeEach(function () {
     HexSpy = sinon.spy(Hex)
     set = methods.setFactory({ Hex: HexSpy })
   })
@@ -48,8 +48,8 @@ describe('set', () => {
   })
 })
 
-describe('coordinates', function() {
-  it(`returns the hex's x and y coordinates`, function() {
+describe('coordinates', function () {
+  it(`returns the hex's x and y coordinates`, function () {
     const boundCoordinates = methods.coordinates.bind({ x: 8, y: -3 })
     expect(boundCoordinates()).to.eql({ x: 8, y: -3 })
   })
@@ -119,8 +119,8 @@ describe('cartesianToCube', () => {
   })
 })
 
-describe('isPointy', function() {
-  it('returns whether the hex has a pointy orientation', function() {
+describe('isPointy', function () {
+  it('returns whether the hex has a pointy orientation', function () {
     let isPointy = methods.isPointy.bind({ orientation: 'pointy' })
     expect(isPointy()).to.be.true
     isPointy = methods.isPointy.bind({ orientation: 'pointy' })
@@ -130,8 +130,8 @@ describe('isPointy', function() {
   })
 })
 
-describe('isFlat', function() {
-  it('returns whether the hex has a flat orientation', function() {
+describe('isFlat', function () {
+  it('returns whether the hex has a flat orientation', function () {
     let isFlat = methods.isFlat.bind({ orientation: 'flat' })
     expect(isFlat()).to.be.true
     isFlat = methods.isFlat.bind({ orientation: 'flat' })
@@ -141,7 +141,7 @@ describe('isFlat', function() {
   })
 })
 
-describe('width', function() {
+describe('width', function () {
   let isPointy
 
   beforeEach(() => {
@@ -151,8 +151,8 @@ describe('width', function() {
     methods.isPointy.restore()
   })
 
-  describe('when the hex has a pointy orientation', function() {
-    it('returns Hex.oppositeSideDistance()', function() {
+  describe('when the hex has a pointy orientation', function () {
+    it('returns Hex.oppositeSideDistance()', function () {
       isPointy.returns(true)
 
       const result = methods.width.call({ size: { xRadius: 1 }, isPointy })
@@ -160,8 +160,8 @@ describe('width', function() {
     })
   })
 
-  describe('when the hex has a flat orientation', function() {
-    it('returns Hex.oppositeCornerDistance()', function() {
+  describe('when the hex has a flat orientation', function () {
+    it('returns Hex.oppositeCornerDistance()', function () {
       isPointy.returns(false)
 
       const result = methods.width.call({ size: { xRadius: 1 }, isPointy })
@@ -170,7 +170,7 @@ describe('width', function() {
   })
 })
 
-describe('height', function() {
+describe('height', function () {
   let isPointy
 
   beforeEach(() => {
@@ -180,8 +180,8 @@ describe('height', function() {
     methods.isPointy.restore()
   })
 
-  describe('when the hex has a pointy orientation', function() {
-    it('returns Hex.oppositeCornerDistance()', function() {
+  describe('when the hex has a pointy orientation', function () {
+    it('returns Hex.oppositeCornerDistance()', function () {
       isPointy.returns(true)
 
       const result = methods.height.call({ size: { yRadius: 1 }, isPointy })
@@ -189,8 +189,8 @@ describe('height', function() {
     })
   })
 
-  describe('when the hex has a flat orientation', function() {
-    it('returns Hex.oppositeSideDistance()', function() {
+  describe('when the hex has a flat orientation', function () {
+    it('returns Hex.oppositeSideDistance()', function () {
       isPointy.returns(false)
 
       const result = methods.height.call({ size: { yRadius: 1 }, isPointy })
@@ -199,10 +199,10 @@ describe('height', function() {
   })
 })
 
-describe('corners', function() {
+describe('corners', function () {
   let width, height, isPointy, Point, corners, context
 
-  beforeEach(function() {
+  beforeEach(function () {
     width = sinon.stub().returns(2)
     height = sinon.stub().returns(2)
     isPointy = sinon.stub()
@@ -216,19 +216,19 @@ describe('corners', function() {
     }
   })
 
-  it(`calls the hex's witdh(), height() and isPointy() methods`, function() {
+  it(`calls the hex's witdh(), height() and isPointy() methods`, function () {
     corners.call(context)
     expect(width).to.have.been.called
     expect(height).to.have.been.called
     expect(isPointy).to.have.been.called
   })
 
-  describe('when the hex has a pointy orientation', function() {
-    beforeEach(function() {
+  describe('when the hex has a pointy orientation', function () {
+    beforeEach(function () {
       isPointy.returns(true)
     })
 
-    it('returns an array of 6 corners relative to origin', function() {
+    it('returns an array of 6 corners relative to origin', function () {
       context.origin = { x: 1, y: 1 }
       const result = corners.call(context)
 
@@ -242,12 +242,12 @@ describe('corners', function() {
     })
   })
 
-  describe('when the hex has a flat orientation', function() {
-    beforeEach(function() {
+  describe('when the hex has a flat orientation', function () {
+    beforeEach(function () {
       isPointy.returns(false)
     })
 
-    it('returns an array of 6 corners relative to origin', function() {
+    it('returns an array of 6 corners relative to origin', function () {
       context.origin = { x: 1, y: 1 }
       const result = corners.call(context)
 
@@ -262,10 +262,10 @@ describe('corners', function() {
   })
 })
 
-describe('toPoint', function() {
+describe('toPoint', function () {
   let Point, toPoint, isPointy, context
 
-  beforeEach(function() {
+  beforeEach(function () {
     Point = sinon.stub().returns('point result')
     toPoint = methods.toPointFactory({ Point })
     isPointy = sinon.stub()
@@ -277,29 +277,29 @@ describe('toPoint', function() {
     }
   })
 
-  it('returns the point', function() {
+  it('returns the point', function () {
     const result = toPoint.call(context)
     expect(result).to.eql('point result')
   })
 
-  describe('when the hex has a pointy orientation', function() {
-    beforeEach(function() {
+  describe('when the hex has a pointy orientation', function () {
+    beforeEach(function () {
       isPointy.returns(true)
     })
 
-    it('creates a new point', function() {
+    it('creates a new point', function () {
       toPoint.call(context)
       expect(Point.firstCall.args[0]).to.be.closeTo(2.598, 0.0005)
       expect(Point.firstCall.args[1]).to.equal(1.5)
     })
   })
 
-  describe('when the hex has a flat orientation', function() {
-    beforeEach(function() {
+  describe('when the hex has a flat orientation', function () {
+    beforeEach(function () {
       isPointy.returns(false)
     })
 
-    it('creates a new point', function() {
+    it('creates a new point', function () {
       toPoint.call(context)
       expect(Point.firstCall.args[0]).to.equal(1.5)
       expect(Point.firstCall.args[1]).to.be.closeTo(2.598, 0.0005)
@@ -307,10 +307,10 @@ describe('toPoint', function() {
   })
 })
 
-describe('fromPoint', function() {
+describe('fromPoint', function () {
   let subtract, Point, Hex, isPointy, round, center, fromPoint, point
 
-  beforeEach(function() {
+  beforeEach(function () {
     point = { x: 1, y: 1 }
     subtract = sinon.stub().returns(point)
     Point = sinon.stub().returns({ subtract })
@@ -335,14 +335,14 @@ describe('fromPoint', function() {
     expect(Point).to.have.been.calledWith(1)
   })
 
-  it(`subtracts the hex's center from the point`, function() {
+  it(`subtracts the hex's center from the point`, function () {
     fromPoint(point)
     expect(center).to.have.been.called
     expect(subtract).to.have.been.calledWith('center result')
   })
 
-  describe('when the hex has a pointy orientation', function() {
-    it('creates a new hex', function() {
+  describe('when the hex has a pointy orientation', function () {
+    it('creates a new hex', function () {
       isPointy.returns(true)
       fromPoint(point)
 
@@ -351,8 +351,8 @@ describe('fromPoint', function() {
     })
   })
 
-  describe('when the hex has a flat orientation', function() {
-    it('creates a new hex', function() {
+  describe('when the hex has a flat orientation', function () {
+    it('creates a new hex', function () {
       isPointy.returns(false)
       fromPoint(point)
 
@@ -361,21 +361,21 @@ describe('fromPoint', function() {
     })
   })
 
-  it('rounds that hex', function() {
+  it('rounds that hex', function () {
     fromPoint(point)
     expect(round).to.have.been.called
   })
 
-  it('returns the hex', function() {
+  it('returns the hex', function () {
     const result = fromPoint(point)
     expect(result).to.equal('round result')
   })
 })
 
-describe('add', function() {
+describe('add', function () {
   let HexSpy, PointSpy, add
 
-  before(function() {
+  before(function () {
     HexSpy = sinon.spy(Hex)
     PointSpy = sinon.spy(Point)
     add = methods.addFactory({ Hex: HexSpy, Point: PointSpy }).bind(Object.freeze({ x: 1, y: -3 }))
@@ -386,21 +386,21 @@ describe('add', function() {
     expect(PointSpy).to.have.been.calledWith([2, 1])
   })
 
-  it('returns a new hex where the coordinates are the sum of the current and passed point', function() {
+  it('returns a new hex where the coordinates are the sum of the current and passed point', function () {
     expect(add(Hex(2, 1))).to.contain({ x: 3, y: -2 })
     expect(HexSpy).to.have.been.calledWith(3, -2)
   })
 
-  it('transfers any custom properties the current hex might have', function() {
+  it('transfers any custom properties the current hex might have', function () {
     const result = Hex({ x: 0, y: 0, custom: 'add()' }).add(Hex())
     expect(result).to.contain({ custom: 'add()' })
   })
 })
 
-describe('subtract', function() {
+describe('subtract', function () {
   let HexSpy, PointSpy, subtract
 
-  before(function() {
+  before(function () {
     HexSpy = sinon.spy(Hex)
     PointSpy = sinon.spy(Point)
     subtract = methods.subtractFactory({ Hex: HexSpy, Point: PointSpy }).bind(Object.freeze({ x: 1, y: -3 }))
@@ -411,28 +411,28 @@ describe('subtract', function() {
     expect(PointSpy).to.have.been.calledWith([2, 1])
   })
 
-  it('returns a new hex where the coordinates are the sum of the current and passed point', function() {
+  it('returns a new hex where the coordinates are the sum of the current and passed point', function () {
     expect(subtract(Hex(2, 1))).to.contain({ x: -1, y: -4 })
     expect(HexSpy).to.have.been.calledWith(-1, -4)
   })
 
-  it('transfers any custom properties the current hex might have', function() {
+  it('transfers any custom properties the current hex might have', function () {
     const result = Hex({ x: 0, y: 0, custom: 'subtract()' }).subtract(Hex())
     expect(result).to.contain({ custom: 'subtract()' })
   })
 })
 
-describe('equals', function() {
+describe('equals', function () {
   it('accepts a point', () => {
     expect(Hex().equals([0, 0])).to.be.true
   })
 
-  it('returns whether the coordinates of the current hex and the passed point are equal', function() {
+  it('returns whether the coordinates of the current hex and the passed point are equal', function () {
     expect(Hex().equals(Hex())).to.be.true
     expect(Hex(5, -3).equals(Hex(-1, 2))).to.be.false
   })
 
-  it('ignores any custom properties', function() {
+  it('ignores any custom properties', function () {
     const hex1 = Hex(4, 4, { custom: 1 })
     const hex2 = Hex(4, 4, { custom: 2 })
 
@@ -452,51 +452,51 @@ describe('equals', function() {
   })
 })
 
-describe('distance', function() {
-  it('returns the highest absolute coordinate of the other hex coordinates subtracted from the current', function() {
+describe('distance', function () {
+  it('returns the highest absolute coordinate of the other hex coordinates subtracted from the current', function () {
     const distance = methods.distance.bind({ q: 1, r: 2, s: -3 })
     expect(distance({ q: 1, r: 1, s: 1 })).to.equal(4)
   })
 })
 
-describe('round', function() {
+describe('round', function () {
   let spiedHex, round
 
-  before(function() {
+  before(function () {
     spiedHex = sinon.spy(Hex)
     round = methods.roundFactory({ Hex: spiedHex }).bind(Object.freeze({ q: 2.9, r: 2.2, s: -5.1, custom: 'round()' }))
   })
 
-  it('rounds floating point coordinates to their nearest integer coordinates', function() {
+  it('rounds floating point coordinates to their nearest integer coordinates', function () {
     round()
     expect(spiedHex).to.have.been.calledWith({ q: 3, r: 2, s: -5, custom: 'round()' })
   })
 
-  it('transfers any custom properties the current hex might have', function() {
+  it('transfers any custom properties the current hex might have', function () {
     expect(round()).to.have.property('custom', 'round()')
   })
 })
 
-describe('lerp', function() {
+describe('lerp', function () {
   let spiedHex, lerp
 
-  before(function() {
+  before(function () {
     spiedHex = sinon.spy(Hex)
     lerp = methods.lerpFactory({ Hex: spiedHex }).bind(Object.freeze({ q: 0, r: 0, s: 0, custom: 'lerp()' }))
   })
 
-  it('returns an interpolation between the current and passed hex for a `t` between 0..1', function() {
+  it('returns an interpolation between the current and passed hex for a `t` between 0..1', function () {
     lerp({ q: 4, r: -5, s: 1 }, 0.5)
     expect(spiedHex).to.have.been.calledWith({ q: 2, r: -2.5, s: 0.5, custom: 'lerp()' })
   })
 
-  it('transfers any custom properties the current hex might have', function() {
+  it('transfers any custom properties the current hex might have', function () {
     expect(lerp(Hex(), 0)).to.have.property('custom', 'lerp()')
   })
 })
 
-describe('nudge', function() {
-  it('returns the current hex with a tiny offset on each cube coordinate', function() {
+describe('nudge', function () {
+  it('returns the current hex with a tiny offset on each cube coordinate', function () {
     const hex = Hex({ q: 4, r: -4, s: 0 })
     const result = hex.nudge()
 
@@ -505,14 +505,14 @@ describe('nudge', function() {
     expect(result.s).to.be.closeTo(-0.000002, 1e-12)
   })
 
-  it('transfers any custom properties the current hex might have', function() {
+  it('transfers any custom properties the current hex might have', function () {
     const result = Hex(0, 0, { custom: 'nudge()' }).nudge()
     expect(result).to.have.property('custom', 'nudge()')
   })
 })
 
-describe('toString', function() {
-  it('returns a string containing the coordinates of the hex', function() {
+describe('toString', function () {
+  it('returns a string containing the coordinates of the hex', function () {
     expect(Hex(1, 2).toString()).to.eql('1,2')
   })
 })

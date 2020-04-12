@@ -46,9 +46,7 @@ describe('set', () => {
   })
 
   it('accepts a number as the first parameter', () => {
-    expect(grid.set(0, newHex))
-      .to.have.lengthOf(1)
-      .and.contain.hexes([newHex])
+    expect(grid.set(0, newHex)).to.have.lengthOf(1).and.contain.hexes([newHex])
   })
 
   it('accepts a point as the first parameter', () => {
@@ -61,10 +59,7 @@ describe('set', () => {
     it('replaces the hex with the new hex and returns the updated grid', () => {
       const result = set.call(grid, targetHex, newHex)
 
-      expect(result)
-        .to.have.lengthOf(1)
-        .and.contain.hexes([newHex])
-        .and.not.contain.hexes([targetHex])
+      expect(result).to.have.lengthOf(1).and.contain.hexes([newHex]).and.not.contain.hexes([targetHex])
       expect(grid).to.eql(result)
     })
 
@@ -83,10 +78,7 @@ describe('set', () => {
       const grid = GridFactory(startHex)
       const result = set.call(grid, targetHex, newHex)
 
-      expect(result)
-        .to.have.lengthOf(2)
-        .and.contain.hexes([startHex, newHex])
-        .and.not.contain.hexes([targetHex])
+      expect(result).to.have.lengthOf(2).and.contain.hexes([startHex, newHex]).and.not.contain.hexes([targetHex])
       expect(grid).to.eql(result)
     })
 
@@ -140,9 +132,7 @@ describe('hexesBetween', () => {
       const grid = GridFactory.rectangle({ width: 4, height: 2 })
       const result = grid.hexesBetween(Hex(), Hex(3, 1))
 
-      expect(result)
-        .to.be.an('array')
-        .that.has.a.lengthOf(5)
+      expect(result).to.be.an('array').that.has.a.lengthOf(5)
       expect(result[0]).to.equal(grid[0])
       expect(result[1]).to.equal(grid[1])
       expect(result[2]).to.equal(grid[2])
@@ -158,9 +148,7 @@ describe('hexesBetween', () => {
       const lastHex = Hex(3, 1)
       const result = grid.hexesBetween(firstHex, lastHex)
 
-      expect(result)
-        .to.be.an('array')
-        .that.has.a.lengthOf(5)
+      expect(result).to.be.an('array').that.has.a.lengthOf(5)
       expect(result[0]).to.equal(grid[0])
       expect(result[1]).to.equal(grid[1])
       expect(result[2]).to.equal(grid[2])
@@ -214,9 +202,7 @@ describe('hexesInRange', () => {
       const grid = GridFactory.rectangle({ width: 3, height: 3 })
       const result = grid.hexesInRange(Hex(1, 1), 1)
 
-      expect(result)
-        .to.be.an('array')
-        .that.has.a.lengthOf(7)
+      expect(result).to.be.an('array').that.has.a.lengthOf(7)
       expect(result[0]).to.equal(grid[3])
       expect(result[1]).to.equal(grid[7])
       expect(result[2]).to.equal(grid[1])
@@ -232,9 +218,7 @@ describe('hexesInRange', () => {
       const grid = GridFactory.rectangle({ width: 3, height: 3 })
       const result = grid.hexesInRange(Hex(0, 0), 1)
 
-      expect(result)
-        .to.be.an('array')
-        .that.has.a.lengthOf(3)
+      expect(result).to.be.an('array').that.has.a.lengthOf(3)
       expect(result[0]).to.equal(grid[0])
       expect(result[1]).to.equal(grid[3])
       expect(result[2]).to.equal(grid[1])
@@ -247,9 +231,7 @@ describe('hexesInRange', () => {
       const centerHex = Hex(1, 1)
       const result = grid.hexesInRange(centerHex, 1, false)
 
-      expect(result)
-        .to.be.an('array')
-        .that.has.a.lengthOf(6)
+      expect(result).to.be.an('array').that.has.a.lengthOf(6)
       expect(result).not.to.include(grid.get(centerHex))
     })
   })
@@ -363,9 +345,7 @@ describe('neighborsOf', () => {
       const grid = GridFactory.hexagon({ radius: 1 })
       const result = grid.neighborsOf(Hex())
 
-      expect(result)
-        .to.be.an('array')
-        .that.has.a.lengthOf(6)
+      expect(result).to.be.an('array').that.has.a.lengthOf(6)
       expect(result[0]).to.equal(grid[6])
       expect(result[1]).to.equal(grid[4])
       expect(result[2]).to.equal(grid[1])
@@ -381,9 +361,7 @@ describe('neighborsOf', () => {
       const hex = Hex(1, 0)
       const result = grid.neighborsOf(hex)
 
-      expect(result)
-        .to.be.an('array')
-        .that.has.a.lengthOf(6)
+      expect(result).to.be.an('array').that.has.a.lengthOf(6)
       expect(result[0]).to.be.undefined
       expect(result[1]).to.be.undefined
       expect(result[2]).to.equal(grid[4])

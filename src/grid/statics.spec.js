@@ -12,8 +12,8 @@ const Point = PointFactory({ ensureXY })
 const extendHex = extendHexFactory({ ensureXY, normalizeRadiuses, Point })
 const Hex = extendHex()
 
-describe('pointToHex', function() {
-  it('creates a Hex and passes all parameters to its fromPoint() method and returns that result', function() {
+describe('pointToHex', function () {
+  it('creates a Hex and passes all parameters to its fromPoint() method and returns that result', function () {
     const fromPoint = sinon.stub().returns('fromPoint result')
     const Hex = sinon.stub().returns({ fromPoint })
     const pointToHex = statics.pointToHexFactory({ Hex })
@@ -25,14 +25,14 @@ describe('pointToHex', function() {
   })
 })
 
-describe('parallelogram', function() {
+describe('parallelogram', function () {
   let parallelogram
 
-  before(function() {
+  before(function () {
     parallelogram = statics.parallelogramFactory({ Grid, Hex })
   })
 
-  it('returns a grid instance with a length of (width ⨉ height) hexes', function() {
+  it('returns a grid instance with a length of (width ⨉ height) hexes', function () {
     const gridInstance = sinon.createStubInstance(Grid)
     const GridSpy = sinon.spy(() => gridInstance)
     const parallelogram = statics.parallelogramFactory({ Grid: GridSpy, Hex })
@@ -51,14 +51,12 @@ describe('parallelogram', function() {
     })
     expect(result).to.have.ownProperty('width', 1)
     expect(result).to.have.ownProperty('height', 2)
-    expect(result)
-      .to.have.ownProperty('start')
-      .that.includes(Hex(3, 4))
+    expect(result).to.have.ownProperty('start').that.includes(Hex(3, 4))
     expect(result).to.have.ownProperty('direction', 3)
   })
 
-  describe('when called without start hex or direction', function() {
-    it('returns the hexes in a parallelogram shape, starting at Hex(0)', function() {
+  describe('when called without start hex or direction', function () {
+    it('returns the hexes in a parallelogram shape, starting at Hex(0)', function () {
       expect(parallelogram({ width: 2, height: 2 })).to.contain.hexes([
         { x: 0, y: 0 },
         { x: 1, y: 0 },
@@ -68,8 +66,8 @@ describe('parallelogram', function() {
     })
   })
 
-  describe('when called with start hex', function() {
-    it('returns the hexes in a parallelogram shape, starting at the given start hex', function() {
+  describe('when called with start hex', function () {
+    it('returns the hexes in a parallelogram shape, starting at the given start hex', function () {
       expect(
         parallelogram({
           width: 2,
@@ -85,8 +83,8 @@ describe('parallelogram', function() {
     })
   })
 
-  describe('when called with direction 1', function() {
-    it('returns the hexes in a parallelogram shape, in a southeastern direction', function() {
+  describe('when called with direction 1', function () {
+    it('returns the hexes in a parallelogram shape, in a southeastern direction', function () {
       expect(
         parallelogram({
           width: 2,
@@ -102,8 +100,8 @@ describe('parallelogram', function() {
     })
   })
 
-  describe('when called with direction 3', function() {
-    it('returns the hexes in a parallelogram shape, in a southwestern direction', function() {
+  describe('when called with direction 3', function () {
+    it('returns the hexes in a parallelogram shape, in a southwestern direction', function () {
       expect(
         parallelogram({
           width: 2,
@@ -119,8 +117,8 @@ describe('parallelogram', function() {
     })
   })
 
-  describe('when called with direction 5', function() {
-    it('returns the hexes in a parallelogram shape, in a northern direction', function() {
+  describe('when called with direction 5', function () {
+    it('returns the hexes in a parallelogram shape, in a northern direction', function () {
       expect(
         parallelogram({
           width: 2,
@@ -136,8 +134,8 @@ describe('parallelogram', function() {
     })
   })
 
-  describe('when called with an onCreate callback', function() {
-    it('calls the callback for each created hex passing the hex and the grid', function() {
+  describe('when called with an onCreate callback', function () {
+    it('calls the callback for each created hex passing the hex and the grid', function () {
       const callback = sinon.spy()
       const result = parallelogram({
         width: 2,
@@ -153,15 +151,15 @@ describe('parallelogram', function() {
   })
 })
 
-describe('triangle', function() {
+describe('triangle', function () {
   let triangle
 
-  before(function() {
+  before(function () {
     triangle = statics.triangleFactory({ Grid, Hex })
   })
 
   // https://en.wikipedia.org/wiki/Triangular_number
-  it('returns a grid instance with a length of the triangular number of the size', function() {
+  it('returns a grid instance with a length of the triangular number of the size', function () {
     const gridInstance = sinon.createStubInstance(Grid)
     const GridSpy = sinon.spy(() => gridInstance)
     const triangle = statics.triangleFactory({ Grid: GridSpy, Hex })
@@ -178,14 +176,12 @@ describe('triangle', function() {
       direction: 5,
     })
     expect(result).to.have.ownProperty('size', 1)
-    expect(result)
-      .to.have.ownProperty('start')
-      .that.includes(Hex(2, 3))
+    expect(result).to.have.ownProperty('start').that.includes(Hex(2, 3))
     expect(result).to.have.ownProperty('direction', 5)
   })
 
-  describe('when called without start hex or direction', function() {
-    it('returns the hexes in a triangle shape, starting at Hex(0)', function() {
+  describe('when called without start hex or direction', function () {
+    it('returns the hexes in a triangle shape, starting at Hex(0)', function () {
       expect(triangle({ size: 2 })).to.contain.hexes([
         { x: 0, y: 0 },
         { x: 1, y: 0 },
@@ -194,8 +190,8 @@ describe('triangle', function() {
     })
   })
 
-  describe('when called with start hex', function() {
-    it('returns the hexes in a triangle shape, starting at the given start hex', function() {
+  describe('when called with start hex', function () {
+    it('returns the hexes in a triangle shape, starting at the given start hex', function () {
       expect(
         triangle({
           size: 2,
@@ -209,8 +205,8 @@ describe('triangle', function() {
     })
   })
 
-  describe('when called with direction 1', function() {
-    it('returns the hexes in a triangle shape, pointing down', function() {
+  describe('when called with direction 1', function () {
+    it('returns the hexes in a triangle shape, pointing down', function () {
       expect(
         triangle({
           size: 2,
@@ -224,8 +220,8 @@ describe('triangle', function() {
     })
   })
 
-  describe('when called with direction 5', function() {
-    it('returns the hexes in a triangle shape, pointing up', function() {
+  describe('when called with direction 5', function () {
+    it('returns the hexes in a triangle shape, pointing up', function () {
       expect(
         triangle({
           size: 2,
@@ -239,8 +235,8 @@ describe('triangle', function() {
     })
   })
 
-  describe('when called with an onCreate callback', function() {
-    it('calls the callback for each created hex passing the hex and the grid', function() {
+  describe('when called with an onCreate callback', function () {
+    it('calls the callback for each created hex passing the hex and the grid', function () {
       const callback = sinon.spy()
       const result = triangle({
         size: 2,
@@ -255,14 +251,14 @@ describe('triangle', function() {
   })
 })
 
-describe('hexagon', function() {
+describe('hexagon', function () {
   let hexagon
 
-  before(function() {
+  before(function () {
     hexagon = statics.hexagonFactory({ Grid, Hex })
   })
 
-  it('returns a grid instance with a hard to determine amount of hexes 😬', function() {
+  it('returns a grid instance with a hard to determine amount of hexes 😬', function () {
     const gridInstance = sinon.createStubInstance(Grid)
     const GridSpy = sinon.spy(() => gridInstance)
     const hexagon = statics.hexagonFactory({ Grid: GridSpy, Hex })
@@ -278,13 +274,11 @@ describe('hexagon', function() {
       center: [2, 3],
     })
     expect(result).to.have.ownProperty('radius', 1)
-    expect(result)
-      .to.have.ownProperty('center')
-      .that.includes(Hex(2, 3))
+    expect(result).to.have.ownProperty('center').that.includes(Hex(2, 3))
   })
 
-  describe('when called without center hex', function() {
-    it('returns the hexes in a hexagon shape, with its center at Hex(0)', function() {
+  describe('when called without center hex', function () {
+    it('returns the hexes in a hexagon shape, with its center at Hex(0)', function () {
       expect(hexagon({ radius: 1 })).to.contain.hexes([
         { x: -1, y: 1 },
         { x: 0, y: -1 },
@@ -297,8 +291,8 @@ describe('hexagon', function() {
     })
   })
 
-  describe('when called with center hex', function() {
-    it('returns the hexes in a hexagon shape, with its center at the given center hex', function() {
+  describe('when called with center hex', function () {
+    it('returns the hexes in a hexagon shape, with its center at the given center hex', function () {
       expect(
         hexagon({
           radius: 1,
@@ -316,8 +310,8 @@ describe('hexagon', function() {
     })
   })
 
-  describe('when called with an onCreate callback', function() {
-    it('calls the callback for each created hex passing the hex and the grid', function() {
+  describe('when called with an onCreate callback', function () {
+    it('calls the callback for each created hex passing the hex and the grid', function () {
       const callback = sinon.spy()
       const result = hexagon({
         radius: 1,
@@ -332,10 +326,10 @@ describe('hexagon', function() {
   })
 })
 
-describe('rectangle', function() {
+describe('rectangle', function () {
   let compassToNumberDirectionSpy, signedModuloSpy, Hex, rectangle
 
-  before(function() {
+  before(function () {
     compassToNumberDirectionSpy = sinon.spy(compassToNumberDirection)
     signedModuloSpy = sinon.spy(signedModulo)
     Hex = extendHex()
@@ -347,7 +341,7 @@ describe('rectangle', function() {
     })
   })
 
-  it('returns a grid instance with a length of (width ⨉ height) hexes', function() {
+  it('returns a grid instance with a length of (width ⨉ height) hexes', function () {
     const gridInstance = sinon.createStubInstance(Grid)
     const GridSpy = sinon.spy(() => gridInstance)
     const rectangle = statics.rectangleFactory({ Grid: GridSpy, Hex })
@@ -365,9 +359,7 @@ describe('rectangle', function() {
     })
     expect(result).to.have.ownProperty('width', 1)
     expect(result).to.have.ownProperty('height', 2)
-    expect(result)
-      .to.have.ownProperty('start')
-      .that.includes(Hex(3, 4))
+    expect(result).to.have.ownProperty('start').that.includes(Hex(3, 4))
     expect(result).to.have.ownProperty('direction', 0)
   })
 
@@ -390,14 +382,14 @@ describe('rectangle', function() {
     })
   })
 
-  describe('when hexes have a pointy orientation', function() {
-    before(function() {
+  describe('when hexes have a pointy orientation', function () {
+    before(function () {
       Hex = extendHex({ orientation: 'pointy' })
       rectangle = statics.rectangleFactory({ Grid, Hex })
     })
 
-    describe('when called without start hex or direction', function() {
-      it('returns the hexes in a rectangle shape in direction 0, starting at Hex(0)', function() {
+    describe('when called without start hex or direction', function () {
+      it('returns the hexes in a rectangle shape in direction 0, starting at Hex(0)', function () {
         expect(rectangle({ width: 2, height: 3 })).to.contain.hexes([
           { x: 0, y: 0 },
           { x: 1, y: 0 },
@@ -409,8 +401,8 @@ describe('rectangle', function() {
       })
     })
 
-    describe('when called with start hex', function() {
-      it('returns the hexes in a rectangle shape, starting at the given start hex', function() {
+    describe('when called with start hex', function () {
+      it('returns the hexes in a rectangle shape, starting at the given start hex', function () {
         expect(
           rectangle({
             width: 2,
@@ -428,8 +420,8 @@ describe('rectangle', function() {
       })
     })
 
-    describe('when called with direction 0', function() {
-      it('returns the hexes in a rectangle shape, in an eastern direction', function() {
+    describe('when called with direction 0', function () {
+      it('returns the hexes in a rectangle shape, in an eastern direction', function () {
         expect(
           rectangle({
             width: 2,
@@ -445,8 +437,8 @@ describe('rectangle', function() {
       })
     })
 
-    describe('when called with direction 1', function() {
-      it('returns the hexes in a rectangle shape, in a southeastern direction', function() {
+    describe('when called with direction 1', function () {
+      it('returns the hexes in a rectangle shape, in a southeastern direction', function () {
         expect(
           rectangle({
             width: 2,
@@ -462,8 +454,8 @@ describe('rectangle', function() {
       })
     })
 
-    describe('when called with direction 2', function() {
-      it('returns the hexes in a rectangle shape, in a southwestern direction', function() {
+    describe('when called with direction 2', function () {
+      it('returns the hexes in a rectangle shape, in a southwestern direction', function () {
         expect(
           rectangle({
             width: 2,
@@ -479,8 +471,8 @@ describe('rectangle', function() {
       })
     })
 
-    describe('when called with direction 3', function() {
-      it('returns the hexes in a rectangle shape, in a western direction', function() {
+    describe('when called with direction 3', function () {
+      it('returns the hexes in a rectangle shape, in a western direction', function () {
         expect(
           rectangle({
             width: 2,
@@ -496,8 +488,8 @@ describe('rectangle', function() {
       })
     })
 
-    describe('when called with direction 4', function() {
-      it('returns the hexes in a rectangle shape, in a northwestern direction', function() {
+    describe('when called with direction 4', function () {
+      it('returns the hexes in a rectangle shape, in a northwestern direction', function () {
         expect(
           rectangle({
             width: 2,
@@ -513,8 +505,8 @@ describe('rectangle', function() {
       })
     })
 
-    describe('when called with direction 5', function() {
-      it('returns the hexes in a rectangle shape, in a northeastern direction', function() {
+    describe('when called with direction 5', function () {
+      it('returns the hexes in a rectangle shape, in a northeastern direction', function () {
         expect(
           rectangle({
             width: 2,
@@ -531,14 +523,14 @@ describe('rectangle', function() {
     })
   })
 
-  describe('when hexes have a flat orientation', function() {
-    before(function() {
+  describe('when hexes have a flat orientation', function () {
+    before(function () {
       Hex = extendHex({ orientation: 'flat' })
       rectangle = statics.rectangleFactory({ Grid, Hex })
     })
 
-    describe('when called without start hex or direction', function() {
-      it('returns the hexes in a rectangle shape in direction 1, starting at Hex(0)', function() {
+    describe('when called without start hex or direction', function () {
+      it('returns the hexes in a rectangle shape in direction 1, starting at Hex(0)', function () {
         expect(rectangle({ width: 2, height: 3 })).to.contain.hexes([
           { x: 0, y: 0 },
           { x: 1, y: 0 },
@@ -550,8 +542,8 @@ describe('rectangle', function() {
       })
     })
 
-    describe('when called with start hex', function() {
-      it('returns the hexes in a rectangle shape, starting at the given start hex', function() {
+    describe('when called with start hex', function () {
+      it('returns the hexes in a rectangle shape, starting at the given start hex', function () {
         expect(
           rectangle({
             width: 2,
@@ -569,8 +561,8 @@ describe('rectangle', function() {
       })
     })
 
-    describe('when called with direction 0', function() {
-      it('returns the hexes in a rectangle shape, in a southeastern direction', function() {
+    describe('when called with direction 0', function () {
+      it('returns the hexes in a rectangle shape, in a southeastern direction', function () {
         expect(
           rectangle({
             width: 2,
@@ -586,8 +578,8 @@ describe('rectangle', function() {
       })
     })
 
-    describe('when called with direction 1', function() {
-      it('returns the hexes in a rectangle shape, in a southern direction', function() {
+    describe('when called with direction 1', function () {
+      it('returns the hexes in a rectangle shape, in a southern direction', function () {
         expect(
           rectangle({
             width: 2,
@@ -603,8 +595,8 @@ describe('rectangle', function() {
       })
     })
 
-    describe('when called with direction 2', function() {
-      it('returns the hexes in a rectangle shape, in a southwestern direction', function() {
+    describe('when called with direction 2', function () {
+      it('returns the hexes in a rectangle shape, in a southwestern direction', function () {
         expect(
           rectangle({
             width: 2,
@@ -620,8 +612,8 @@ describe('rectangle', function() {
       })
     })
 
-    describe('when called with direction 3', function() {
-      it('returns the hexes in a rectangle shape, in a northwestern direction', function() {
+    describe('when called with direction 3', function () {
+      it('returns the hexes in a rectangle shape, in a northwestern direction', function () {
         expect(
           rectangle({
             width: 2,
@@ -637,8 +629,8 @@ describe('rectangle', function() {
       })
     })
 
-    describe('when called with direction 4', function() {
-      it('returns the hexes in a rectangle shape, in a northern direction', function() {
+    describe('when called with direction 4', function () {
+      it('returns the hexes in a rectangle shape, in a northern direction', function () {
         expect(
           rectangle({
             width: 2,
@@ -654,8 +646,8 @@ describe('rectangle', function() {
       })
     })
 
-    describe('when called with direction 5', function() {
-      it('returns the hexes in a rectangle shape, in a northeastern direction', function() {
+    describe('when called with direction 5', function () {
+      it('returns the hexes in a rectangle shape, in a northeastern direction', function () {
         expect(
           rectangle({
             width: 2,
@@ -672,8 +664,8 @@ describe('rectangle', function() {
     })
   })
 
-  describe('when called with an onCreate callback', function() {
-    it('calls the callback for each created hex passing the hex and the grid', function() {
+  describe('when called with an onCreate callback', function () {
+    it('calls the callback for each created hex passing the hex and the grid', function () {
       const callback = sinon.spy()
       const result = rectangle({
         width: 2,
@@ -702,9 +694,7 @@ describe('ring', () => {
       center: [2, 3],
     })
     expect(result).to.have.ownProperty('radius', 1)
-    expect(result)
-      .to.have.ownProperty('center')
-      .that.includes(Hex(2, 3))
+    expect(result).to.have.ownProperty('center').that.includes(Hex(2, 3))
   })
 
   describe('when passed a radius and center', () => {
@@ -776,9 +766,7 @@ describe('spiral', () => {
       center: [2, 3],
     })
     expect(result).to.have.ownProperty('radius', 1)
-    expect(result)
-      .to.have.ownProperty('center')
-      .that.includes(Hex(2, 3))
+    expect(result).to.have.ownProperty('center').that.includes(Hex(2, 3))
   })
 
   describe('when passed a radius and center', () => {

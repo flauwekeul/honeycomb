@@ -120,7 +120,7 @@ export default function defineGridFactory({ extendHex, Grid, Point }) {
     function GridFactory(...points) {
       points = points.filter(Boolean)
 
-      if (isArray(points[0]) && (points[0].length === 0 || points[0].some(point => !isNumber(point)))) {
+      if (isArray(points[0]) && (points[0].length === 0 || points[0].some((point) => !isNumber(point)))) {
         points = points[0]
       }
 
@@ -130,7 +130,7 @@ export default function defineGridFactory({ extendHex, Grid, Point }) {
        *
        * @property {number} length    Amount of hexes in the grid.
        */
-      return new Grid(...points.map(point => Hex(point)))
+      return new Grid(...points.map((point) => Hex(point)))
     }
 
     return GridFactory

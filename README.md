@@ -664,7 +664,8 @@ Returns **[hex](#hex)** The found hex or `undefined`.
 
 #### hexesBetween
 
--   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#line-drawing)**
+-   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#line-drawing)
+    **
 
 ##### Parameters
 
@@ -692,7 +693,8 @@ Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Gl
 
 #### hexesInRange
 
--   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#range-coordinate)**
+-   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#range-coordinate)
+    **
 
 ##### Parameters
 
@@ -831,7 +833,8 @@ Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 #### neighborsOf
 
--   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#neighbors)**
+-   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#neighbors)
+    **
 
 ##### Parameters
 
@@ -1025,7 +1028,8 @@ The [Hex](#hex) factory the Grid factory was created with.
 
 #### hexagon
 
--   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes)**
+-   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes)
+    **
 
 Creates a grid in the shape of a [hexagon](https://en.wikipedia.org/wiki/Hexagon) ⬡.
 
@@ -1048,7 +1052,8 @@ Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### parallelogram
 
--   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes)**
+-   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes)
+    **
 
 Creates a grid in the shape of a [parallelogram](https://en.wikipedia.org/wiki/Parallelogram) ▱.
 
@@ -1066,7 +1071,8 @@ Returns **[grid](#grid)** Grid of hexes in a parallelogram arrangement.
 
 #### pointToHex
 
--   **See: [Hex#fromPoint](#hexfrompoint)**
+-   **See: [Hex#fromPoint](#hexfrompoint)
+    **
 
 Converts the passed [point](#point) to a hex. Internally calls [Hex#fromPoint](#hexfrompoint).
 
@@ -1094,7 +1100,8 @@ Returns **[hex](#hex)** A hex (with rounded coordinates) that contains the passe
 
 #### rectangle
 
--   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes)**
+-   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes)
+    **
 
 Creates a grid in the shape of a [rectangle](https://en.wikipedia.org/wiki/Rectangle) ▭.
 
@@ -1113,7 +1120,8 @@ Returns **[grid](#grid)** Grid of hexes in a rectangular arrangement.
 
 #### ring
 
--   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#rings)**
+-   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#rings)
+    **
 
 Creates a grid in the shape of a ring.
 
@@ -1128,7 +1136,8 @@ Returns **[grid](#grid)** Grid of hexes in a ring arrangement.
 
 #### spiral
 
--   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#rings-spiral)**
+-   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#rings-spiral)
+    **
 
 Creates a grid in the shape of a spiral starting from the center outward.
 The result is the same as a hexagon, but the order of hexes is different.
@@ -1144,7 +1153,8 @@ Returns **[grid](#grid)** Grid of hexes in a spiral arrangement.
 
 #### triangle
 
--   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes)**
+-   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/implementation.html#map-shapes)
+    **
 
 Creates a grid in the shape of a [(equilateral) triangle](https://en.wikipedia.org/wiki/Equilateral_triangle) △.
 
@@ -1161,7 +1171,8 @@ Returns **[grid](#grid)** Grid of hexes in a triangle arrangement.
 
 ### Hex
 
--   **See: [https://www.redblobgames.com/grids/hexagons/#coordinates](redblobgames.com)**
+-   **See: [https://www.redblobgames.com/grids/hexagons/#coordinates](redblobgames.com)
+    **
 
 Factory function to create hexes. Use [Honeycomb.extendHex](#honeycombextendhex) to create a Hex factory.
 
@@ -1345,7 +1356,8 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 #### distance
 
--   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#distances)**
+-   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#distances)
+    **
 
 ##### Parameters
 
@@ -1372,7 +1384,8 @@ Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### fromPoint
 
--   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#pixel-to-hex)**
+-   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#pixel-to-hex)
+    **
 
 Returns a hex from the passed [point](#point).
 
@@ -1425,14 +1438,16 @@ Returns **[hex](#hex)** A new hex (likely with floating point coordinates).
 
 #### nudge
 
--   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#line-drawing)**
+-   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#line-drawing)
+    **
 
 Returns **[hex](#hex)** A _new_ hex with a tiny offset from the current hex.
                  Useful for interpolating in a consistent direction.
 
 #### offset
 
--   **See: OFFSET**
+-   **See: OFFSET
+    **
 
 Used to calculate the coordinates of rows for pointy hexes and columns for flat hexes.
 Defaults to `-1` (odd offset).
@@ -1469,7 +1484,8 @@ Type: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 #### round
 
--   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#rounding)**
+-   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#rounding)
+    **
 
 Rounds the current floating point hex coordinates to their nearest integer hex coordinates.
 
@@ -1714,7 +1730,8 @@ Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 #### OFFSET
 
--   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#coordinates-offset)**
+-   **See: [redblobgames.com](https://www.redblobgames.com/grids/hexagons/#coordinates-offset)
+    **
 
 How rows/columns of hexes are placed relative to each other.
 
