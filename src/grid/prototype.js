@@ -290,11 +290,7 @@ export function pointWidth() {
     return 0
   }
 
-  // sort hexes from left to right and take the first and last
-  const { 0: mostLeft, length, [length - 1]: mostRight } = this[0].isPointy()
-    ? [...this].sort((a, b) => b.s - a.s || a.q - b.q)
-    : [...this].sort((a, b) => a.q - b.q)
-
+  const {mostLeft, mostRight} = this.horizontalBounds()
   return mostRight.toPoint().x - mostLeft.toPoint().x + this[0].width()
 }
 
@@ -309,10 +305,47 @@ export function pointHeight() {
     return 0
   }
 
+  const {mostDown, mostUp} = this.verticalBounds()
+  return mostDown.toPoint().y - mostUp.toPoint().y + this[0].height()
+}
+
+
+/**
+ * @memberof Grid#
+ * @instance
+ *
+ * @returns {mostLeft}    The most left hex in the grid.
+ * @returns {mostRight}   The most right hex in the grid.
+ */
+export function horizontalBounds() {
+
+  // sort hexes from left to right and take the first and last
+  const { 0: mostLeft, length, [length - 1]: mostRight } = this[0].isPointy()
+    ? [...this].sort((a, b) => b.s - a.s || a.q - b.q)
+    : [...this].sort((a, b) => a.q - b.q)
+
+  return {
+    mostLeft,
+    mostRight,
+  }
+}
+
+/**
+ * @memberof Grid#
+ * @instance
+ *
+ * @returns {mostDown}    The most down hex in the grid.
+ * @returns {mostUp}      The most up hex in the grid.
+ */
+export function verticalBounds() {
+
   // sort hexes from top to bottom and take the first and last
   const { 0: mostUp, length, [length - 1]: mostDown } = this[0].isPointy()
     ? [...this].sort((a, b) => a.r - b.r)
     : [...this].sort((a, b) => b.s - a.s || a.r - b.r)
 
-  return mostDown.toPoint().y - mostUp.toPoint().y + this[0].height()
+  return {
+    mostDown,
+    mostUp,
+  }
 }
