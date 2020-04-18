@@ -195,6 +195,41 @@ export function hexesInRangeFactory({ isValidHex }) {
   }
 }
 
+export function nearestMatchingHexesFactory({ isValidHex }) {
+  /**
+   * @memberof Grid#
+   * @instance
+   *
+   * @param {hex} centerHex                   A hex to search hexes nearest to.
+   * @param {number} maxDistance              The max distance (in hexes) from the center hex to search.
+   * @param {function} hexFilter              The function used to determine if a hex is a match.
+   *
+   * @returns {hex[]}             An array of hexes matching hexFilter at equal distances from center Hex.
+   *                              Only hexes that are present in the grid are returned.
+   *
+   * @throws {Error} When no valid hex is passed.
+   */
+  return function nearestMatchingHexes(centerHex, maxDistance, hexFilter) {
+    if (!isValidHex(centerHex)) {
+      throw new Error(`Invalid center hex: ${centerHex}.`)
+    }
+
+    if (!this.get(centerHex)) {
+      throw new Error(`Center hex with coordinates ${centerHex} not present in grid.`)
+    }
+
+    for (let i = 1; i <= maxDistance; i++) {
+      let ring = this.hexesInRing(centerHex, i)
+      let results = ring.filter(hexFilter);
+
+      if(results.length){
+        return results;
+      }
+    }
+    return []
+  }
+}
+
 export function hexesInRingFactory({ isValidHex }) {
   /**
    * @memberof Grid#

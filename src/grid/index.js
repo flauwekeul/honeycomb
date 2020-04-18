@@ -77,6 +77,7 @@ export default function defineGridFactory({ extendHex, Grid, Point }) {
       hexesBetween: methods.hexesBetween,
       hexesInRange: methods.hexesInRangeFactory({ isValidHex }),
       hexesInRing: methods.hexesInRingFactory({ isValidHex }),
+      nearestMatchingHexes: methods.nearestMatchingHexesFactory({ isValidHex }),
       horizontalBounds: methods.horizontalBounds,
       verticalBounds: methods.verticalBounds,
       maxHorizontalDistance: methods.maxHorizontalDistance,
