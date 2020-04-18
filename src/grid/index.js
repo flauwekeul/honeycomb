@@ -78,6 +78,8 @@ export default function defineGridFactory({ extendHex, Grid, Point }) {
       hexesInRange: methods.hexesInRangeFactory({ isValidHex }),
       horizontalBounds: methods.horizontalBounds,
       verticalBounds: methods.verticalBounds,
+      maxHorizontalDistance: methods.maxHorizontalDistance,
+      maxVerticalDistance: methods.maxVerticalDistance,
       neighborsOf: methods.neighborsOfFactory({
         isValidHex,
         signedModulo,

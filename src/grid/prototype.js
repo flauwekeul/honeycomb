@@ -309,6 +309,33 @@ export function pointHeight() {
   return mostDown.toPoint().y - mostUp.toPoint().y + this[0].height()
 }
 
+/**
+ * @memberof Grid#
+ * @instance
+ *
+ * @returns {number}    The distance between the most left and most right hexes.
+ */
+export function maxHorizontalDistance(){
+  if (this.length === 0) {
+    return 0
+  }
+  const {mostLeft, mostRight} = this.horizontalBounds()
+  return mostLeft.distance(mostRight)
+}
+
+/**
+ * @memberof Grid#
+ * @instance
+ *
+ * @returns {number}    The distance between the most left and most right hexes.
+ */
+export function maxVerticalDistance(){
+  if (this.length === 0) {
+    return 0
+  }
+  const {mostDown, mostUp} = this.verticalBounds()
+  return mostDown.distance(mostUp)
+}
 
 /**
  * @memberof Grid#
