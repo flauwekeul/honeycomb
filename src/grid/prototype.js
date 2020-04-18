@@ -195,6 +195,57 @@ export function hexesInRangeFactory({ isValidHex }) {
   }
 }
 
+export function hexesInRingFactory({ isValidHex }) {
+  /**
+   * @memberof Grid#
+   * @instance
+   * @see {@link https://www.redblobgames.com/grids/hexagons/#rings|redblobgames.com}
+   *
+   * @param {hex} centerHex                   A hex to get surrounding hexes from.
+   * @param {number} radius                   The radius (in hexes) from the center hex.
+   *
+   * @returns {hex[]}             An array of hexes in a ring arrangement centered on the passed center hex.
+   *                              Only hexes that are present in the grid are returned.
+   *
+   * @throws {Error} When no valid hex is passed.
+   */
+  return function hexesInRing(centerHex, radius) {
+    if (!isValidHex(centerHex)) {
+      throw new Error(`Invalid center hex: ${centerHex}.`)
+    }
+
+    if (!this.get(centerHex)) {
+      throw new Error(`Center hex with coordinates ${centerHex} not present in grid.`)
+    }
+
+    let hexes = []
+
+    const { q, r, s } = centerHex
+    let cube = {
+      q,
+      r: r - radius,
+      s: s + radius
+    }
+    for (let i = 0; i < 6; i++) {
+      for (let j = 0; j < radius; j++) {
+        let hex = this.get(centerHex.cubeToCartesian(cube))
+        if(hex){
+          hexes.push(hex)
+        }
+
+        const { q, r, s } = DIRECTION_COORDINATES[i]
+        cube = {
+          q: cube.q + q,
+          r: cube.r + r,
+          s: cube.s + s
+        }
+      }
+    }
+
+    return hexes
+  }
+}
+
 export function neighborsOfFactory({ isValidHex, signedModulo, compassToNumberDirection }) {
   /**
    * @memberof Grid#
