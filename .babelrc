@@ -1,45 +1,43 @@
 {
-    "plugins": [
+  "plugins": [
+    [
+      "@babel/plugin-proposal-object-rest-spread",
+      {
+        "useBuiltIns": true
+      }
+    ]
+  ],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": 8,
+          "browsers": [
+            "last 2 Chrome versions",
+            "last 2 Firefox versions",
+            "last 2 Safari versions",
+            "last 2 Edge versions"
+          ]
+        },
+        "modules": false
+      }
+    ]
+  ],
+  "env": {
+    "test": {
+      "plugins": ["istanbul"],
+      "presets": [
         [
-            "@babel/plugin-proposal-object-rest-spread",
-            {
-                "useBuiltIns": true
-            }
+          "@babel/preset-env",
+          {
+            "targets": {
+              "node": 8
+            },
+            "modules": "commonjs"
+          }
         ]
-    ],
-    "presets": [
-        [
-            "@babel/preset-env",
-            {
-                "targets": {
-                    "node": 8,
-                    "browsers": [
-                        "last 2 Chrome versions",
-                        "last 2 Firefox versions",
-                        "last 2 Safari versions",
-                        "last 2 Edge versions"
-                    ]
-                },
-                "modules": false
-            }
-        ]
-    ],
-    "env": {
-        "test": {
-            "plugins": [
-                "istanbul"
-            ],
-            "presets": [
-                [
-                    "@babel/preset-env",
-                    {
-                        "targets": {
-                            "node": 8
-                        },
-                        "modules": "commonjs"
-                    }
-                ]
-            ]
-        }
+      ]
     }
+  }
 }

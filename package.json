@@ -14,8 +14,9 @@
     "dev": "npm run build -- --watch",
     "docs": "documentation readme src --config documentation.yml --sort-order alpha --section API",
     "docs:serve": "documentation serve src --config documentation.serve.yml --sort-order alpha --watch",
+    "format": "prettier . --write",
     "lint": "eslint \"{,!(dist)/**/}*.{js,ts}\" --fix",
-    "precommit": "npm run lint",
+    "precommit": "npm run lint && npm run format",
     "prerelease": "npm run lint && npm test && npm run docs && NODE_ENV=production npm run build",
     "release": "git add --patch && standard-version --commit-all",
     "start": "npm run build && node --require ./dist/honeycomb.js",
@@ -35,6 +36,7 @@
     "eslint-plugin-jest": "23.8.2",
     "husky": "4.2.5",
     "jest": "25.5.4",
+    "prettier": "2.0.5",
     "rollup": "2.7.6",
     "rollup-plugin-commonjs": "10.1.0",
     "rollup-plugin-node-resolve": "5.2.0",
@@ -79,7 +81,10 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "npm run format && npm run lint"
     }
-  }
+  },
+  "browserslist": [
+    "last 2 years"
+  ]
 }
