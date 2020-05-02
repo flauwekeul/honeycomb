@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.6](https://github.com/flauwekeul/honeycomb/compare/v3.1.5...v3.1.6) (2020-05-02)
+
+
+### Bug Fixes
+
+* **typings:** improve typing of `extendHex()` ([19ada80](https://github.com/flauwekeul/honeycomb/commit/19ada803cb6c95db033384d436ea69a97335b7c7))
+
 ### [3.1.5](https://github.com/flauwekeul/honeycomb/compare/v3.1.4...v3.1.5) (2020-04-12)
 
 
