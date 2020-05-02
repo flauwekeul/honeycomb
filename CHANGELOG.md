@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.7](https://github.com/flauwekeul/honeycomb/compare/v3.1.6...v3.1.7) (2020-05-02)
+
+
+### Bug Fixes
+
+* **typings:** improve enums ([b94ae75](https://github.com/flauwekeul/honeycomb/commit/b94ae75c40d40add0bde86f7dcc46ff0b6f4647e)), closes [#52](https://github.com/flauwekeul/honeycomb/issues/52)
+
 ### [3.1.6](https://github.com/flauwekeul/honeycomb/compare/v3.1.5...v3.1.6) (2020-05-02)
 
 
