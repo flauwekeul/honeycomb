@@ -67,21 +67,21 @@ export class Grid<T = Hex<{}>> extends Array<T> {
   set(keyOrPoint: number | PointCoordinates, newHex?: T): this
 }
 
-export enum PointyCompassDirection {
-  E,
-  SE,
-  SW,
-  W,
-  NW,
-  NE,
+export const enum PointyCompassDirection {
+  E = 'E',
+  SE = 'SE',
+  SW = 'SW',
+  W = 'W',
+  NW = 'NW',
+  NE = 'NE',
 }
-export enum FlatCompassDirection {
-  SE,
-  S,
-  SW,
-  NW,
-  N,
-  NE,
+export const enum FlatCompassDirection {
+  SE = 'SE',
+  S = 'S',
+  SW = 'SW',
+  NW = 'NW',
+  N = 'N',
+  NE = 'NE',
 }
 export type CompassDirection = PointyCompassDirection | FlatCompassDirection
 
