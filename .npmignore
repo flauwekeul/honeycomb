@@ -1,11 +1,12 @@
-*.html
-*.yml
 .babelrc
 .eslintrc.js*
 .npmignore
 .nyc_output/
+*.html
+*.yml
 coverage/
 rollup.config.js
 src/**/*.spec.js
+test.ts
 test/
 tslint.json

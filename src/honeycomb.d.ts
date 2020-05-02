@@ -85,7 +85,7 @@ export enum FlatCompassDirection {
 }
 export type CompassDirection = PointyCompassDirection | FlatCompassDirection
 
-declare function extendHex<P = {}>(prototype?: P): HexFactory<P>
+declare function extendHex<P = {}>(prototype?: P | Hex<P>): HexFactory<P>
 
 export interface HexFactory<P = {}> {
   (xOrProps?: HexCoordinates | P, y?: number, customProps?: P): Hex<P>
