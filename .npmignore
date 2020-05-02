@@ -1,10 +1,13 @@
 .babelrc
 .eslintrc.js*
+.history
 .npmignore
 .nyc_output/
+.prettierrc
 *.html
 *.yml
 coverage/
+docs/
 rollup.config.js
 src/**/*.spec.js
 test.ts
