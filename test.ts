@@ -6,7 +6,9 @@ interface CustomHex {
 
 const Hex = extendHex<CustomHex>({
   size: 10,
-  customMethod() {},
+  customMethod() {
+    return
+  },
 })
 
 const hex = Hex()
