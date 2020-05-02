@@ -1,0 +1,10 @@
+.cache
+.history/
+.nyc_output/
+.vscode/
+*.log
+*.md
+coverage/
+dist/
+node_modules/
+src-js
