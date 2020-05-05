@@ -144,7 +144,7 @@ Grid.rectangle({ width: 100, height: 100 }).forEach(hex => {
 #### With [SVG.js](http://svgjs.com/)
 
 ```javascript
-const draw = SVG(document.body)
+const draw = SVG().addTo('body').size('100%', '100%')
 
 const Hex = Honeycomb.extendHex({ size: 5 })
 const Grid = Honeycomb.defineGrid(Hex)
