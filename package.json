@@ -2,16 +2,15 @@
   "name": "honeycomb-grid",
   "version": "3.1.7",
   "description": "Create hexagon grids easily",
-  "source": "src/honeycomb.js",
-  "main": "dist/honeycomb.min.js",
-  "module": "dist/honeycomb.esm.min.js",
-  "jsnext:main": "dist/honeycomb.esm.min.js",
-  "types": "dist/honeycomb.d.ts",
+  "source": "src/index.ts",
+  "main": "dist/honeycomb.js",
+  "module": "dist/honeycomb.esm.js",
+  "jsnext:main": "dist/honeycomb.esm.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "npm run clean && npm run copy-types && rollup --config rollup.config.js",
+    "build": "npm run clean && rollup --config",
     "clean": "rm -rf dist && mkdir dist",
-    "copy-types": "cp src/honeycomb.d.ts dist/",
-    "dev": "npm run build -- --watch",
+    "dev": "npm run clean && rollup --config --watch",
     "docs": "documentation readme src --config documentation.yml --sort-order alpha --section API",
     "docs:serve": "documentation serve src --config documentation.serve.yml --sort-order alpha --watch",
     "format": "prettier . --write",
@@ -19,7 +18,7 @@
     "precommit": "npm run lint && npm run format",
     "prerelease": "npm run lint && npm test && npm run docs && NODE_ENV=production npm run build",
     "release": "git add --patch && standard-version --commit-all",
-    "start": "npm run build && node --require ./dist/honeycomb.js",
+    "start": "npm run build && node --require dist/honeycomb.js",
     "test": "jest",
     "test:watch": "npm test -- --watch"
   },
@@ -27,6 +26,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "25.2.1",
+    "@types/node": "12.12.37",
     "@typescript-eslint/eslint-plugin": "2.30.0",
     "@typescript-eslint/parser": "2.30.0",
     "cz-conventional-changelog": "3.1.0",
@@ -38,9 +38,7 @@
     "jest": "25.5.4",
     "prettier": "2.0.5",
     "rollup": "2.7.6",
-    "rollup-plugin-commonjs": "10.1.0",
-    "rollup-plugin-node-resolve": "5.2.0",
-    "rollup-plugin-terser": "5.3.0",
+    "rollup-plugin-typescript2": "0.27.0",
     "standard-version": "7.1.0",
     "ts-jest": "25.4.0",
     "typescript": "3.8.3"
@@ -48,9 +46,7 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {
-    "axis.js": "1.2.1"
-  },
+  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/flauwekeul/honeycomb.git"
@@ -68,9 +64,6 @@
   },
   "homepage": "http://abbekeultjes.nl/honeycomb",
   "nyc": {
-    "require": [
-      "@babel/register"
-    ],
     "sourceMap": false,
     "instrument": false
   },
