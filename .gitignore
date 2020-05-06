@@ -1,7 +1,8 @@
-*.log
+.cache
 .history/
 .nyc_output/
 .vscode/
+*.log
 coverage/
 dist/
 node_modules/

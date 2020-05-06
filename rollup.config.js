@@ -1,38 +1,20 @@
-/* eslint-env node */
-
-import resolve from 'rollup-plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
-import babel from 'rollup-plugin-babel'
-import { terser } from 'rollup-plugin-terser'
-
-const isProduction = process.env.NODE_ENV === 'production'
+import typescript from 'rollup-plugin-typescript2'
+import pkg from './package.json'
 
 export default {
-  input: 'src/honeycomb.js',
+  input: 'src/index.ts',
   output: [
     {
       name: 'Honeycomb',
+      file: pkg.main,
       format: 'umd',
-      file: `dist/honeycomb${isProduction ? '.min' : ''}.js`,
       sourcemap: true,
     },
     {
-      name: 'Honeycomb',
+      file: pkg.module,
       format: 'es',
-      file: `dist/honeycomb.esm${isProduction ? '.min' : ''}.js`,
       sourcemap: true,
     },
   ],
-  plugins: [
-    babel({
-      exclude: 'node_modules/**',
-    }),
-    resolve(),
-    commonjs({
-      namedExports: {
-        'axis.js': ['isObject', 'isNumber', 'isArray', 'isString'],
-      },
-    }),
-    ...(isProduction ? [terser()] : []),
-  ],
+  plugins: [typescript()],
 }
