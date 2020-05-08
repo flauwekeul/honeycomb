@@ -19,7 +19,94 @@ Another hex grid library made in JavaScript, heavily inspired by [Red Blob Games
 
 All existing JS hex grid libraries I could find are coupled with some form of view. Most often a `<canvas>` element or the browser DOM. I want more separation of concerns…and a new hobby project to spend countless hours on.
 
-### Features
+## Ideas for v4.0
+
+### Functions instead of methods
+
+- hex functions (apply to single hexes):
+  - ?   add
+  - cartesian
+  - ?   cartesianToCube (alias: toCube)
+  - center
+  - ?   coordinates (returns cube by default?)
+  - corners
+  - cube
+  - cubeToCartesian (alias: toCartesian)
+  - equals
+  - from (convert anything? to a hex)
+  - height
+  - isFlat
+  - isPointy
+  - lerp
+  - nudge
+  - round
+  - ?   set
+  - ?   subtract
+  - thirdCoordinate
+  - toString
+  - width
+- grid functions (apply to multiple hexes):
+  - ?   distance
+  - hexToPoint
+  - pointToHex
+  - get
+  - hexesBetween
+  - hexesInRange
+  - ?   line (can be infinite)
+  - neighborsOf
+  - pointHeight
+  - pointWidth
+  - ?   set
+  - parallelogram
+  - triangle (can be infinite?)
+  - hexagon (can be infinite?)
+  - rectangle
+  - ring (can be infinite?)
+  - spiral (can be infinite)
+
+### Coordinates
+
+- Store coordinates as "tuples" (arrays). Investigate whether arrays or objects (without prototype?) (maybe even strings, ArrayBuffer?) are more performant.
+- Currently there are 3 types of coordinates: cube `{ q, r, s }`, cartesian `{ x, y }` and point `[x, y]`. Only use cube `[q, r, s]` and point `[x, y]`?
+  - Problem: how to differentiate between 2D hex coordinate and 2D "pixel" coordinate?
+
+### Simpler hexes
+
+- Hexes have cube coordinates by default (most methods need to convert to cube anyway).
+- By default hexes have no state, only coordinates. Should be possible for users to add state.
+  - Problem: how can you type functions that accept hexes? RxJS operators seem to be able to fix this.
+
+### Grid
+
+- Traverse (roam? meander?) [generators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*): accept start coordinates, optional stop coordinates and a direction (maybe make `start` and `stop` also be functions?):
+  ```ts
+  const hexTemplate = { size: 10, orientation: 'flat' }
+  const grid = Grid.create(hexTemplate) // or: new Grid(hexTemplate)
+  // this returns a Generator object
+  const rect = grid.rectangle({ width: 10, height: 10, direction: 'E' })
+  // also: rectangle(hexTemplate, { width: 10, height: 10, direction: 'E' })
+  // also? (using currying):
+  // const rect = rectangle(hexTemplate)
+  // rect({ width: 10, height: 10, direction: 'E' })
+
+  // using generators it's up to the user how to store grids:
+  // as an array:
+  const array = [...rect]
+  // as a set:
+  const set = new Set(rect)
+  // as an object (or whatever else):
+  reduce(rect, (acc, hex, i) => {
+    acc[i] = hex
+    return acc
+  }, {})
+
+  // it's also possible to traverse concrete grids (arrays, sets, etc.):
+  Grid.from(array).rectangle({ /* options */ })
+  ```
+- Some of these traversal functions don't require dimensions up-front, then they'll generate an infinite grid.
+- There should be a way to loop over hexes in a grid with transducers, also with the possibility to complete the generator
+
+## Features
 
 -   🙌 Works in (modern) browsers and in Node.js.
 -   📐 Create hex grids in different shapes: ▭ rectangles, △ triangles, ⬡ hexagons and ▱ parallelograms.
