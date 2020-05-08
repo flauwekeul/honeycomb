@@ -1,0 +1,12 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 2vmin;
+}
+
+svg {
+  overflow: visible;
+}
