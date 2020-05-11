@@ -3,9 +3,9 @@
   "version": "3.1.7",
   "description": "Create hexagon grids easily",
   "source": "src/index.ts",
-  "main": "dist/honeycomb.js",
-  "module": "dist/honeycomb.esm.js",
-  "jsnext:main": "dist/honeycomb.esm.js",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "jsnext:main": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "npm run clean && rollup --config",
@@ -19,7 +19,7 @@
     "precommit": "npm run lint && npm run format",
     "prerelease": "npm run lint && npm test && npm run docs && NODE_ENV=production npm run build",
     "release": "git add --patch && standard-version --commit-all",
-    "start": "npm run build && node --require dist/honeycomb.js",
+    "start": "npm run build && node --require dist/index.js",
     "test": "jest",
     "test:watch": "npm test -- --watch"
   },
