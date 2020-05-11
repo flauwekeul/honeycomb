@@ -7,5 +7,5 @@ export const defaultPrototype: HexPrototype = {
   offset: -1,
 }
 
-export const createHexPrototype = (prototype: Partial<HexPrototype>) =>
-  ({ ...defaultPrototype, ...prototype } as HexPrototype)
+export const createHexPrototype = <T>(prototype: T & Partial<HexPrototype>) =>
+  ({ ...defaultPrototype, ...prototype } as T & HexPrototype)
