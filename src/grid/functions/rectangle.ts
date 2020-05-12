@@ -1,6 +1,5 @@
-import { Coordinates, CubeCoordinates } from '../../coordinates'
-import { from, HexPrototype, hexToCube, isPointy } from '../../hex'
-import { offsetFromZero } from '../../utils'
+import { createHex, CubeCoordinates, HexPrototype, isPointy } from '../../hex'
+import { offsetFromZero, signedModulo } from '../../utils'
 import { FlatCompassDirection, PointyCompassDirection } from '../types'
 
 export type RectangleDirection = PointyCompassDirection.E | FlatCompassDirection.S
@@ -8,7 +7,7 @@ export type RectangleDirection = PointyCompassDirection.E | FlatCompassDirection
 export interface RectangleOptions {
   width: number
   height: number
-  start?: Coordinates
+  start?: CubeCoordinates
   direction?: RectangleDirection
 }
 
@@ -19,7 +18,7 @@ const DIRECTIONS = [
   ['s', 'r', 'q'],
   ['s', 'q', 'r'],
   ['q', 's', 'r'],
-]
+] as [keyof CubeCoordinates, keyof CubeCoordinates, keyof CubeCoordinates][]
 
 export function* rectangle(
   hexPrototype: HexPrototype,
@@ -30,12 +29,9 @@ export function* rectangle(
     direction = isPointy(hexPrototype) ? PointyCompassDirection.E : FlatCompassDirection.S,
   }: RectangleOptions,
 ) {
-  const cubeCoordinates = hexToCube(from(hexPrototype, start))
-
-  // todo:
-  // if (direction < 0 || direction > 5) {
-  //   direction = signedModulo(direction, 6)
-  // }
+  if (direction < 0 || direction > 5) {
+    direction = signedModulo(direction, 6)
+  }
 
   const [firstCoordinate, secondCoordinate, thirdCoordinate] = DIRECTIONS[direction]
   const [firstStop, secondStop] = isPointy(hexPrototype) ? [width, height] : [height, width]
@@ -45,11 +41,11 @@ export function* rectangle(
 
     for (let first = -secondOffset; first < firstStop - secondOffset; first++) {
       const nextCubeCoordinates = {
-        [firstCoordinate]: first + cubeCoordinates[firstCoordinate as keyof CubeCoordinates],
-        [secondCoordinate]: second + cubeCoordinates[secondCoordinate as keyof CubeCoordinates],
-        [thirdCoordinate]: -first - second + cubeCoordinates[thirdCoordinate as keyof CubeCoordinates],
+        [firstCoordinate]: first + start[firstCoordinate],
+        [secondCoordinate]: second + start[secondCoordinate],
+        [thirdCoordinate]: -first - second + start[thirdCoordinate],
       } as unknown
-      yield from(hexPrototype, nextCubeCoordinates as CubeCoordinates)
+      yield createHex(hexPrototype, nextCubeCoordinates as CubeCoordinates)
     }
   }
 }
