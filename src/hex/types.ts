@@ -1,5 +1,10 @@
 // todo: move types to single file in /src
 
+export interface Point {
+  x: number
+  y: number
+}
+
 export const enum Orientation {
   FLAT = 'FLAT',
   POINTY = 'POINTY',
@@ -11,10 +16,7 @@ export interface CubeCoordinates {
   s: number
 }
 
-export interface CartesianCoordinates {
-  x: number
-  y: number
-}
+export type CartesianCoordinates = Point
 
 export interface Ellipse {
   xRadius: number
