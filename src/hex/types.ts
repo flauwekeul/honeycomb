@@ -1,3 +1,5 @@
+// todo: move types to single file in /src
+
 export const enum Orientation {
   FLAT = 'FLAT',
   POINTY = 'POINTY',
