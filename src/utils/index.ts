@@ -1,4 +1,5 @@
+export * from './isCartesian'
+export * from './isCube'
 export * from './isObject'
-export * from './normalizeDimensions'
 export * from './offsetFromZero'
 export * from './signedModulo'
