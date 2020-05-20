@@ -13,10 +13,8 @@
     "dev": "npm run clean && rollup --config --watch",
     "docs": "documentation readme src --config documentation.yml --sort-order alpha --section API",
     "docs:serve": "documentation serve src --config documentation.serve.yml --sort-order alpha --watch",
-    "format": "prettier . --write",
     "lint": "eslint \"{,!(dist)/**/}*.{js,ts}\" --fix",
     "playground": "parcel playground/index.html --out-dir playground/dist --cache-dir playground/.cache",
-    "precommit": "npm run lint && npm run format",
     "prerelease": "npm run lint && npm test && npm run docs && NODE_ENV=production npm run build",
     "release": "git add --patch && standard-version --commit-all",
     "start": "npm run build && node --require dist/index.js",
@@ -38,6 +36,7 @@
     "husky": "4.2.5",
     "jest": "25.5.4",
     "parcel-bundler": "1.12.4",
+    "precise-commits": "1.0.2",
     "prettier": "2.0.5",
     "rollup": "2.7.6",
     "rollup-plugin-typescript2": "0.27.0",
@@ -76,7 +75,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run format && npm run lint"
+      "pre-commit": "precise-commits && npm run lint"
     }
   },
   "browserslist": [
