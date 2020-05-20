@@ -1,5 +1,8 @@
 import { isCartesian, isObject } from '../../utils'
-import { CartesianCoordinates, Ellipse, HexPrototype, Orientation, Rectangle } from '../types'
+import { CartesianCoordinates, DefaultHexPrototype, Ellipse, Hex, HexPrototype, Orientation, Rectangle } from '../types'
+import { heightPointy } from './height'
+import { createToPointPointy } from './toPoint'
+import { widthPointy } from './width'
 
 export interface HexPrototypeOptions {
   dimensions: Ellipse | Rectangle | number
@@ -8,7 +11,7 @@ export interface HexPrototypeOptions {
   offset: number
 }
 
-export const defaultPrototype: HexPrototype = {
+export const defaultPrototype: DefaultHexPrototype = {
   dimensions: { xRadius: 1, yRadius: 1 },
   orientation: Orientation.POINTY,
   // todo: why isn't this the center of the hex:
@@ -74,10 +77,31 @@ const assertOffset = ({ offset }: HexPrototypeOptions) => {
 export const createHexPrototype = <T>(prototype: T & Partial<HexPrototypeOptions>) => {
   const finalPrototype = { ...defaultPrototype, ...prototype } as T & HexPrototype
 
-  finalPrototype.dimensions = normalizeDimensions(finalPrototype)
-  finalPrototype.orientation = normalizeOrientation(finalPrototype)
-  finalPrototype.origin = normalizeOrigin(finalPrototype)
-  finalPrototype.offset = assertOffset(finalPrototype)
+  // use Object.defineProperties() to create readonly properties
+  Object.defineProperties(finalPrototype, {
+    dimensions: { value: normalizeDimensions(finalPrototype) },
+    orientation: { value: normalizeOrientation(finalPrototype) },
+    origin: { value: normalizeOrigin(finalPrototype) },
+    offset: { value: assertOffset(finalPrototype) },
+  })
 
-  return finalPrototype
+  if (finalPrototype.orientation === Orientation.POINTY) {
+    Object.defineProperties(finalPrototype, {
+      isFlat: { value: false },
+      isPointy: { value: true },
+      height: { value: heightPointy(finalPrototype.dimensions.yRadius) },
+      // todo: adding toPoint() here doesn't make sense because `this` is undefined
+      // `this` will be set once a Hex is created and it would make more sense to add toPoint() to the prototype there
+      // but that will probably have a hit on performance
+      toPoint: {
+        value: function toPoint() {
+          return createToPointPointy(finalPrototype.dimensions)(this)
+        },
+      },
+      width: { value: widthPointy(finalPrototype.dimensions.xRadius) },
+    } as PropertyDescriptorMap & ThisType<Hex>)
+  }
+
+  // fixme: should return T (that extends HexPrototype)
+  return finalPrototype as T & HexPrototype
 }
