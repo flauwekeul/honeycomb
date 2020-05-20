@@ -1,4 +1,7 @@
+export * from './corners'
 export * from './createHex'
 export * from './createHexPrototype'
+export * from './height'
 export * from './isFlat'
 export * from './isPointy'
+export * from './width'
