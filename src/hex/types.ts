@@ -30,11 +30,21 @@ export interface Rectangle {
 
 export type hexDimensions = Ellipse | Rectangle | number
 
-export interface HexPrototype {
-  dimensions: Ellipse
-  orientation: Orientation
-  origin: CartesianCoordinates
-  offset: number
+export interface DefaultHexPrototype {
+  readonly dimensions: Ellipse
+  readonly orientation: Orientation
+  readonly origin: CartesianCoordinates
+  readonly offset: number
+}
+
+export interface HexPrototype extends DefaultHexPrototype {
+  readonly corners: Point[]
+  readonly height: number
+  readonly isFlat: boolean
+  readonly isPointy: boolean
+  readonly width: number
+
+  toPoint(): Point
 }
 
 export type Hex = HexPrototype & CubeCoordinates
