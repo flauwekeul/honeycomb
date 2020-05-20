@@ -9,8 +9,20 @@ export interface CubeCoordinates {
   s: number
 }
 
+export interface Ellipse {
+  xRadius: number
+  yRadius: number
+}
+
+export interface Rectangle {
+  width: number
+  height: number
+}
+
+export type hexDimensions = Ellipse | Rectangle | number
+
 export interface HexPrototype {
-  size: number
+  dimensions: hexDimensions
   orientation: Orientation
   origin: number
   offset: number
