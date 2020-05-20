@@ -12,90 +12,134 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 
 ## Ideas for v4.0
 
-### Functions instead of methods
+### Functions *and* methods
 
-- hex functions (apply to single hexes):
-  - ?   add
-  - cartesian
-  - ?   cartesianToCube (alias: toCube)
-  - center
-  - ?   coordinates (returns cube by default?)
-  - corners
-  - cube
-  - cubeToCartesian (alias: toCartesian)
-  - equals
-  - from (convert anything? to a hex)
-  - height
-  - isFlat
-  - isPointy
-  - lerp
-  - nudge
-  - round
-  - ?   set
-  - ?   subtract
-  - thirdCoordinate
-  - toString
-  - width
-- grid functions (apply to multiple hexes):
-  - ?   distance
-  - hexToPoint
-  - pointToHex
-  - get
-  - hexesBetween
-  - hexesInRange
-  - ?   line (can be infinite)
-  - neighborsOf
-  - pointHeight
-  - pointWidth
-  - ?   set
-  - parallelogram
-  - triangle (can be infinite?)
-  - hexagon (can be infinite?)
-  - rectangle
-  - ring (can be infinite?)
-  - spiral (can be infinite)
+- [ ] hex functions (apply to single hexes):
+  - [ ] ?   add
+  - [ ] cartesian
+  - [ ] ?   cartesianToCube (alias: toCube)
+  - [ ] center
+  - [ ] ?   coordinates (returns cube by default?)
+  - [ ] corners
+  - [ ] cube
+  - [ ] cubeToCartesian (alias: toCartesian)
+  - [ ] equals
+  - [ ] from (convert anything? to a hex)
+  - [ ] height
+  - [ ] isFlat
+  - [ ] isPointy
+  - [ ] lerp
+  - [ ] nudge
+  - [ ] round
+  - [ ] ?   set
+  - [ ] ?   subtract
+  - [ ] thirdCoordinate
+  - [ ] toString
+  - [ ] width
+- [ ] grid functions (apply to multiple hexes):
+  - [ ] ?   distance
+  - [ ] hexToPoint
+  - [ ] pointToHex
+  - [ ] get
+  - [ ] hexesBetween
+  - [ ] hexesInRange
+  - [ ] ?   line (can be infinite)
+  - [ ] neighborsOf
+  - [ ] pointHeight
+  - [ ] pointWidth
+  - [ ] ?   set
+  - [ ] parallelogram
+  - [ ] triangle (can be infinite?)
+  - [ ] hexagon (can be infinite?)
+  - [ ] rectangle
+  - [ ] ring (can be infinite?)
+  - [ ] spiral (can be infinite)
 
 ### Coordinates
 
-- Store coordinates as "tuples" (arrays). Investigate whether arrays or objects (without prototype?) (maybe even strings, ArrayBuffer?) are more performant.
-- Currently there are 3 types of coordinates: cube `{ q, r, s }`, cartesian `{ x, y }` and point `[x, y]`. Only use cube `[q, r, s]` and point `[x, y]`?
-  - Problem: how to differentiate between 2D hex coordinate and 2D "pixel" coordinate?
+- [ ] Store coordinates as ~~"tuples" (arrays)~~ simple 3D objects. Investigate whether arrays or objects (without prototype?) (maybe even strings, ArrayBuffer?) are more performant.
+- [x] Currently there are 3 types of coordinates: cube `{ q, r, s }`, cartesian `{ x, y }` and point `[x, y]`. Only use cube `{ q, r, s }` and cartesian `{ x, y }`.
+  - [x] Problem: how to differentiate between 2D hex coordinate and 2D "pixel" coordinate?
+    **Solution**: `CartesianCoordinates` is an alias of `Point`. A "coordinate" is a point in a grid, a "point" is any 2D/3D point in any system (e.g. a grid).
 
 ### Simpler hexes
 
-- Hexes have cube coordinates by default (most methods need to convert to cube anyway).
-- By default hexes have no state, only coordinates. Should be possible for users to add state.
-  - Problem: how can you type functions that accept hexes? RxJS operators seem to be able to fix this.
+- [x] Hexes only have cube coordinates (most methods require cube coordinates anyway).
+- [ ] Different groups of functions:
+  1. Functions that **require both** a hex prototype and a hex (e.g. `toPoint()`)
+  2. Functions that require a hex prototype and **optionally a hex** (e.g. `corners()` with just a hex prototype returns the relative corners of any hex, `corners()` with both a hex prototype and a hex returns the absolute corners of the hex)
+  3. Functions that require **only** a **hex prototype** (e.g. `width()`)
+  4. Functions that require **only** a **hex** (e.g. `equals()`)
+  - [x] What to do when group 1 is only called with a hex prototype? Return a function that accepts a hex.
+  - [ ] (Naming) conventions for these groups?
+    - group 1: offer higher order function that accepts a hex prototype (prefixed with `create`, e.g. `createToPoint()`?) and returns a function that accepts a hex. This can be used to create hex prototype methods using partial application (i.e. `hex.toPoint()`).
+    - group 2: 1st parameter is the hex prototype, 2nd optional parameter the hex. The return value depends on whether the 2nd parameter was passed. This can also be used as a static method on Hex or a prototype method (then the function is partially applied with the hex prototype).
+    - group 3: are both available as a static and prototype method.
+    - group 4: available as a static method and a partially applied prototype method.
+- [ ] By default hexes only have coordinates as state. Should be possible for users to add state:
+    ```ts
+    interface CustomHex {
+      customProp: string
+      customMethod(): void
+    }
+
+    // the properties of CustomHex are available to all hexes (because they're added to the prototype)
+    const hexPrototype = createHexPrototype<CustomHex>({ size: 20, customProp: 'custom', customMethod() {} })
+
+    // using classes:
+    // todo: check if this works
+    class CustomHex extends Hex {
+      // only way to put a property on the prototype
+      get customProp() {
+        return 'custom'
+      }
+
+      // it should be discouraged to use a constructor because Hexes are created by honeycomb
+
+      customMethod() {}
+    }
+    ```
+  - Todo: how can you type functions that accept hexes? RxJS operators seem to be able to fix this.
+- [ ] ~~Maybe either have pointy or flat hexes and leave it to rendering if they're pointy or flat?~~ All the `if` statements that check whether hexes are pointy or flat may be resolved by having separate functions for pointy and flat hexes and using those in the Hex prototype.
+- [ ] Todo: Investigate if memoization helps
 
 ### Grid
 
-- Traverse (roam? meander?) [generators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*): accept start coordinates, optional stop coordinates and a direction (maybe make `start` and `stop` also be functions?):
+- [ ] There's a function to create a `traverser`: a [generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*) that determines how to traverse a grid. It's called with a start direction and returns a [Generator object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator):
   ```ts
-  const hexTemplate = { size: 10, orientation: 'flat' }
-  const grid = Grid.create(hexTemplate) // or: new Grid(hexTemplate)
-  // this returns a Generator object
-  const rect = grid.rectangle({ width: 10, height: 10, direction: 'E' })
-  // also: rectangle(hexTemplate, { width: 10, height: 10, direction: 'E' })
-  // also? (using currying):
-  // const rect = rectangle(hexTemplate)
-  // rect({ width: 10, height: 10, direction: 'E' })
+  const hexPrototype = createHexPrototype({ size: 10, orientation: 'flat' })
 
-  // using generators it's up to the user how to store grids:
+  // using separate functions:
+  const rectange = createTraverser((hexPrototype, direction = 'E') => {
+    // some logic that determines when to change direction (and when to stop?)
+  })
+  // this returns a Generator object
+  const grid = rectangle(hexPrototype, /* todo: determine args */)
+  ```
+  - [x] ~~these generators produce infinite grids, how to signal boundaries?~~ Traversers accept an optional width or height and/or a `stop()` predicate function that signal when to return from the generator.
+- [ ] `Grid` has built-in traversers to create grids in a certain shape (rectangle, triangle, ring, etc.)?
+  ```ts
+  const Grid = defineGrid(hexPrototype)
+  const grid = Grid.rectangle({ width: 10, height: 10, direction: 'E' })
+  ```
+- [ ] Using generators it's up to the user how to store grids (make them concrete):
+  ```ts
   // as an array:
-  const array = [...rect]
+  const array = [...grid]
   // as a set:
-  const set = new Set(rect)
+  const set = new Set(grid)
   // as an object (or whatever else):
-  reduce(rect, (acc, hex, i) => {
+  reduce(grid, (acc, hex, i) => {
     acc[i] = hex
     return acc
   }, {})
-
-  // it's also possible to traverse concrete grids (arrays, sets, etc.):
-  Grid.from(array).rectangle({ /* options */ })
   ```
-- Some of these traversal functions don't require dimensions up-front, then they'll generate an infinite grid.
-- There should be a way to loop over hexes in a grid with transducers, also with the possibility to complete the generator
+- [ ] It's also possible to traverse concrete grids (arrays, sets, etc.):
+  ```ts
+  // array is some concrete grid
+  Grid.from(array).rectangle({ /* options */ }) // or: new Grid(array)
+  ```
+- [ ] There should be a way to loop over hexes in a grid with **transducers**?
 
 ## Features
 
