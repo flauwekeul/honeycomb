@@ -1,4 +1,4 @@
-import { CubeCoordinates, Ellipse, HexPrototype, Orientation, Point } from '../types'
+import { CubeCoordinates, Ellipse, HexSettings, Orientation, Point } from '../types'
 
 // todo: benchmark if currying the higher order functions has significant performance impact
 
@@ -15,6 +15,6 @@ export const createToPointFlat = ({ xRadius, yRadius }: Ellipse) => ({ q, r }: C
   } as Point)
 
 // todo: improve name? toPointFor()?
-export const createToPoint = ({ orientation, dimensions }: HexPrototype) => {
+export const createToPoint = ({ orientation, dimensions }: HexSettings) => {
   return orientation === Orientation.POINTY ? createToPointPointy(dimensions) : createToPointFlat(dimensions)
 }

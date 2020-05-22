@@ -1,3 +1,3 @@
-import { HexPrototype, Orientation } from '../types'
+import { HexSettings, Orientation } from '../types'
 
-export const isPointy = ({ orientation }: HexPrototype) => orientation === Orientation.POINTY
+export const isPointy = ({ orientation }: HexSettings) => orientation === Orientation.POINTY
