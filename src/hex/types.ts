@@ -10,9 +10,12 @@ export const enum Orientation {
   POINTY = 'POINTY',
 }
 
-export interface CubeCoordinates {
+export interface AxialCoordinates {
   q: number
   r: number
+}
+
+export interface CubeCoordinates extends AxialCoordinates {
   s: number
 }
 
@@ -47,4 +50,4 @@ export interface DefaultHexPrototype extends HexSettings {
   toPoint(): Point
 }
 
-export interface Hex extends DefaultHexPrototype, CubeCoordinates {}
+export interface Hex extends DefaultHexPrototype, AxialCoordinates {}

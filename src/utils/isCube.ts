@@ -6,5 +6,4 @@ export const isCube = (value: unknown): value is CubeCoordinates =>
   Number.isFinite(value.q) &&
   Number.isFinite(value.r) &&
   Number.isFinite(value.s) &&
-  // todo: not sure if this is necessary
   value.q + value.r + value.s === 0

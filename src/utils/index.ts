@@ -1,5 +1,7 @@
+export * from './isAxial'
 export * from './isCartesian'
 export * from './isCube'
+export * from './isFunction'
 export * from './isObject'
 export * from './offsetFromZero'
 export * from './signedModulo'
