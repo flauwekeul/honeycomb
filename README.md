@@ -58,6 +58,10 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 ### Coordinates
 
 - [ ] Store coordinates as ~~"tuples" (arrays)~~ simple 3D objects. Investigate whether arrays or objects (without prototype?) (maybe even strings, ArrayBuffer?) are more performant.
+- [x] Take [Amit's advice](https://www.redblobgames.com/grids/hexagons/#coordinates-comparison) and use axial coordinates by default.
+  - [ ] Use `x`, `y` and `z` for cube coordinates?
+  - [ ] Rename cartesian to offset?
+  - [ ] Also use [doubled coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-doubled)?
 - [x] Currently there are 3 types of coordinates: cube `{ q, r, s }`, cartesian `{ x, y }` and point `[x, y]`. Only use cube `{ q, r, s }` and cartesian `{ x, y }`.
   - [x] Problem: how to differentiate between 2D hex coordinate and 2D "pixel" coordinate?
     **Solution**: `CartesianCoordinates` is an alias of `Point`. A "coordinate" is a point in a grid, a "point" is any 2D/3D point in any system (e.g. a grid).
@@ -105,6 +109,7 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 
 ### Grid
 
+- [ ] Do something with this: [https://www.redblobgames.com/grids/hexagons/#map-storage](https://www.redblobgames.com/grids/hexagons/#map-storage)?
 - [ ] There's a function to create a `traverser`: a [generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*) that determines how to traverse a grid. It's called with a start direction and returns a [Generator object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator):
   ```ts
   const hexPrototype = createHexPrototype({ size: 10, orientation: 'flat' })
