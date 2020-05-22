@@ -1,4 +1,4 @@
-import { CartesianCoordinates, HexPrototype, Orientation } from '../types'
+import { CartesianCoordinates, HexSettings, Orientation } from '../types'
 import { heightFlat, heightPointy } from './height'
 import { widthFlat, widthPointy } from './width'
 
@@ -25,7 +25,7 @@ export const corners = ({
   orientation,
   dimensions: { xRadius, yRadius },
   origin,
-}: HexPrototype): CartesianCoordinates[] =>
+}: HexSettings): CartesianCoordinates[] =>
   orientation === Orientation.POINTY
     ? cornersPointy(widthPointy(xRadius), heightPointy(yRadius), origin)
     : cornersFlat(widthFlat(xRadius), heightFlat(yRadius), origin)
