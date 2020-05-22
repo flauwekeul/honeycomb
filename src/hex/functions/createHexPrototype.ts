@@ -1,7 +1,9 @@
 import { isCartesian, isObject } from '../../utils'
-import { CartesianCoordinates, DefaultHexPrototype, Ellipse, Hex, HexPrototype, Orientation, Rectangle } from '../types'
-import { heightPointy } from './height'
-import { createToPointPointy } from './toPoint'
+import { CartesianCoordinates, DefaultHexPrototype, Ellipse, Hex, HexSettings, Orientation, Rectangle } from '../types'
+import { height } from './height'
+import { isFlat } from './isFlat'
+import { isPointy } from './isPointy'
+import { createToPoint } from './toPoint'
 import { widthPointy } from './width'
 
 export interface HexPrototypeOptions {
@@ -11,7 +13,7 @@ export interface HexPrototypeOptions {
   offset: number
 }
 
-export const defaultPrototype: DefaultHexPrototype = {
+export const defaultHexSettings: HexSettings = {
   dimensions: { xRadius: 1, yRadius: 1 },
   orientation: Orientation.POINTY,
   // todo: why isn't this the center of the hex:
@@ -74,34 +76,31 @@ const assertOffset = ({ offset }: HexPrototypeOptions) => {
   return offset
 }
 
-export const createHexPrototype = <T>(prototype: T & Partial<HexPrototypeOptions>) => {
-  const finalPrototype = { ...defaultPrototype, ...prototype } as T & HexPrototype
-
+export const createHexPrototype = <T extends DefaultHexPrototype>(
+  customPrototype?: T | Partial<HexPrototypeOptions>,
+) => {
+  const prototype = { ...defaultHexSettings, ...customPrototype } as T & HexPrototypeOptions
   // use Object.defineProperties() to create readonly properties
-  Object.defineProperties(finalPrototype, {
-    dimensions: { value: normalizeDimensions(finalPrototype) },
-    orientation: { value: normalizeOrientation(finalPrototype) },
-    origin: { value: normalizeOrigin(finalPrototype) },
-    offset: { value: assertOffset(finalPrototype) },
-  })
+  Object.defineProperties(prototype, {
+    dimensions: { value: normalizeDimensions(prototype) },
+    orientation: { value: normalizeOrientation(prototype) },
+    origin: { value: normalizeOrigin(prototype) },
+    offset: { value: assertOffset(prototype) },
+  }) as T
+  const toPoint = createToPoint(prototype)
 
-  if (finalPrototype.orientation === Orientation.POINTY) {
-    Object.defineProperties(finalPrototype, {
-      isFlat: { value: false },
-      isPointy: { value: true },
-      height: { value: heightPointy(finalPrototype.dimensions.yRadius) },
-      // todo: adding toPoint() here doesn't make sense because `this` is undefined
-      // `this` will be set once a Hex is created and it would make more sense to add toPoint() to the prototype there
-      // but that will probably have a hit on performance
-      toPoint: {
-        value: function toPoint() {
-          return createToPointPointy(finalPrototype.dimensions)(this)
-        },
+  return Object.defineProperties(prototype, {
+    height: { value: height(prototype) },
+    isFlat: { value: isFlat(prototype) },
+    isPointy: { value: isPointy(prototype) },
+    width: { value: widthPointy(prototype.dimensions.xRadius) },
+
+    // toPoint() is created with a closure here for better performance, todo: check if it's better for performance
+    // calling toPoint() in finalPrototype doesn't make sense though (returns { x: NaN, y: NaN })
+    toPoint: {
+      value() {
+        return toPoint(this)
       },
-      width: { value: widthPointy(finalPrototype.dimensions.xRadius) },
-    } as PropertyDescriptorMap & ThisType<Hex>)
-  }
-
-  // fixme: should return T (that extends HexPrototype)
-  return finalPrototype as T & HexPrototype
+    },
+  } as PropertyDescriptorMap & ThisType<T & Hex>) as T
 }
