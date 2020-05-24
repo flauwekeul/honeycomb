@@ -19,6 +19,10 @@ export interface CubeCoordinates extends AxialCoordinates {
   s: number
 }
 
+export interface HexCoordinates extends AxialCoordinates {
+  s?: number
+}
+
 export type CartesianCoordinates = Point
 
 export interface Ellipse {
@@ -46,6 +50,9 @@ export interface DefaultHexPrototype extends HexSettings {
   readonly isFlat: boolean
   readonly isPointy: boolean
   readonly width: number
+
+  _s: number
+  s: number
 
   toPoint(): Point
 }
