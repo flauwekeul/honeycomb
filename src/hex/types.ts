@@ -40,7 +40,7 @@ export type hexDimensions = Ellipse | Rectangle | number
 export interface HexSettings {
   readonly dimensions: Ellipse
   readonly orientation: Orientation
-  readonly origin: CartesianCoordinates
+  readonly origin: Point
   readonly offset: number
 }
 
