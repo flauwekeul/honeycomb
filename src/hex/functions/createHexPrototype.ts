@@ -1,5 +1,5 @@
-import { isCartesian, isObject } from '../../utils'
-import { CartesianCoordinates, DefaultHexPrototype, Ellipse, Hex, HexSettings, Orientation, Rectangle } from '../types'
+import { isObject, isPoint } from '../../utils'
+import { DefaultHexPrototype, Ellipse, Hex, HexSettings, Orientation, Point, Rectangle } from '../types'
 import { height } from './height'
 import { hexToPoint } from './hexToPoint'
 import { isFlat } from './isFlat'
@@ -9,7 +9,7 @@ import { widthPointy } from './width'
 export interface HexPrototypeOptions {
   dimensions: Ellipse | Rectangle | number
   orientation: Orientation | 'pointy' | 'flat'
-  origin: CartesianCoordinates | number
+  origin: Point | number
   offset: number
 }
 
@@ -55,16 +55,16 @@ const normalizeOrientation = ({ orientation }: HexPrototypeOptions) => {
 }
 
 const normalizeOrigin = ({ origin }: HexPrototypeOptions) => {
-  if (isCartesian(origin)) {
-    return { ...origin } as CartesianCoordinates
+  if (isPoint(origin)) {
+    return { ...origin } as Point
   }
 
   if (Number.isFinite(origin)) {
-    return { x: origin, y: origin } as CartesianCoordinates
+    return { x: origin, y: origin } as Point
   }
 
   throw new TypeError(
-    `Invalid origin: ${origin}. Origin must be expressed as CartesianCoordinates ({ x: number, y: number }), or a number.`,
+    `Invalid origin: ${origin}. Origin must be expressed as a Point ({ x: number, y: number }), or a number.`,
   )
 }
 

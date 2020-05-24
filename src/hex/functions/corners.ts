@@ -1,8 +1,8 @@
-import { CartesianCoordinates, HexSettings, Orientation } from '../types'
+import { HexSettings, Orientation, Point } from '../types'
 import { heightFlat, heightPointy } from './height'
 import { widthFlat, widthPointy } from './width'
 
-export const cornersPointy = (width: number, height: number, { x, y }: CartesianCoordinates) => [
+export const cornersPointy = (width: number, height: number, { x, y }: Point) => [
   { x: width - x, y: height * 0.25 - y },
   { x: width - x, y: height * 0.75 - y },
   { x: width * 0.5 - x, y: height - y },
@@ -11,7 +11,7 @@ export const cornersPointy = (width: number, height: number, { x, y }: Cartesian
   { x: width * 0.5 - x, y: 0 - y },
 ]
 
-export const cornersFlat = (width: number, height: number, { x, y }: CartesianCoordinates) => [
+export const cornersFlat = (width: number, height: number, { x, y }: Point) => [
   { x: width - x, y: height * 0.5 - y },
   { x: width * 0.75 - x, y: height - y },
   { x: width * 0.25 - x, y: height - y },
@@ -21,11 +21,7 @@ export const cornersFlat = (width: number, height: number, { x, y }: CartesianCo
 ]
 
 // todo: add optional hex as 2nd param to return corners relative to hex coordinates and/or curry it?
-export const corners = ({
-  orientation,
-  dimensions: { xRadius, yRadius },
-  origin,
-}: HexSettings): CartesianCoordinates[] =>
+export const corners = ({ orientation, dimensions: { xRadius, yRadius }, origin }: HexSettings): Point[] =>
   orientation === Orientation.POINTY
     ? cornersPointy(widthPointy(xRadius), heightPointy(yRadius), origin)
     : cornersFlat(widthFlat(xRadius), heightFlat(yRadius), origin)
