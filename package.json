@@ -75,7 +75,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "precise-commits && npm run lint"
+      "pre-commit": "precise-commits && npm run lint -- --ignore-pattern playground"
     }
   },
   "browserslist": [
