@@ -1,4 +1,4 @@
-import { HexSettings, Orientation, Point } from '../types'
+import { Hex, HexSettings, Orientation, Point } from '../types'
 import { heightFlat, heightPointy } from './height'
 import { widthFlat, widthPointy } from './width'
 
@@ -20,8 +20,9 @@ export const cornersFlat = (width: number, height: number, { x, y }: Point) => [
   { x: width * 0.75 - x, y: 0 - y },
 ]
 
-// todo: add optional hex as 2nd param to return corners relative to hex coordinates and/or curry it?
-export const corners = ({ orientation, dimensions: { xRadius, yRadius }, origin }: HexSettings): Point[] =>
-  orientation === Orientation.POINTY
-    ? cornersPointy(widthPointy(xRadius), heightPointy(yRadius), origin)
-    : cornersFlat(widthFlat(xRadius), heightFlat(yRadius), origin)
+export const corners = ({ orientation, dimensions: { xRadius, yRadius }, origin }: HexSettings, hex?: Hex): Point[] => {
+  const point = hex ? hex.toPoint() : origin
+  return orientation === Orientation.POINTY
+    ? cornersPointy(widthPointy(xRadius), heightPointy(yRadius), point)
+    : cornersFlat(widthFlat(xRadius), heightFlat(yRadius), point)
+}

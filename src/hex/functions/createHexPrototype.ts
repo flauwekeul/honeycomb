@@ -1,10 +1,11 @@
 import { isObject, isPoint } from '../../utils'
 import { DefaultHexPrototype, Ellipse, Hex, HexSettings, Orientation, Point, Rectangle } from '../types'
+import { corners } from './corners'
 import { height } from './height'
 import { hexToPoint } from './hexToPoint'
 import { isFlat } from './isFlat'
 import { isPointy } from './isPointy'
-import { widthPointy } from './width'
+import { width } from './width'
 
 export interface HexPrototypeOptions {
   dimensions: Ellipse | Rectangle | number
@@ -59,6 +60,7 @@ const normalizeOrigin = ({ origin }: HexPrototypeOptions) => {
     return { ...origin } as Point
   }
 
+  // todo: why can origin be expressed as a number?
   if (Number.isFinite(origin)) {
     return { x: origin, y: origin } as Point
   }
@@ -79,20 +81,43 @@ const assertOffset = ({ offset }: HexPrototypeOptions) => {
 export const createHexPrototype = <T extends DefaultHexPrototype>(
   customPrototype?: T | Partial<HexPrototypeOptions>,
 ) => {
-  const prototype = { ...defaultHexSettings, ...customPrototype } as T & HexPrototypeOptions
+  const prototype = {
+    ...defaultHexSettings,
+
+    toPoint() {
+      return hexToPoint(this)
+    },
+
+    // todo: add to docs that any of the above methods will be overwritten when present in customPrototype
+    ...customPrototype,
+  } as T & HexPrototypeOptions
+
   // use Object.defineProperties() to create readonly properties
-  Object.defineProperties(prototype, {
+  return Object.defineProperties(prototype, {
     dimensions: { value: normalizeDimensions(prototype) },
     orientation: { value: normalizeOrientation(prototype) },
     origin: { value: normalizeOrigin(prototype) },
     offset: { value: assertOffset(prototype) },
-  }) as T
-
-  // todo: any property accessors that use `this` are pointless in a hex prototype
-  return Object.defineProperties(prototype, {
-    height: { value: height(prototype) },
-    isFlat: { value: isFlat(prototype) },
-    isPointy: { value: isPointy(prototype) },
+    corners: {
+      get() {
+        return corners(this, this)
+      },
+    },
+    height: {
+      get() {
+        return height(this)
+      },
+    },
+    isFlat: {
+      get() {
+        return isFlat(this)
+      },
+    },
+    isPointy: {
+      get() {
+        return isPointy(this)
+      },
+    },
     s: {
       get() {
         // todo: typescript doesn't support this somehow: return this._s ?? -this.q - this.r
@@ -102,11 +127,9 @@ export const createHexPrototype = <T extends DefaultHexPrototype>(
         this._s = s
       },
     },
-    width: { value: widthPointy(prototype.dimensions.xRadius) },
-
-    toPoint: {
-      value() {
-        return hexToPoint(this)
+    width: {
+      get() {
+        return width(this)
       },
     },
   } as PropertyDescriptorMap & ThisType<T & Hex>) as T

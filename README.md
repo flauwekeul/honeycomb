@@ -74,7 +74,7 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 - [x] Problem: how to differentiate between 2D hex coordinate and 2D "pixel" coordinate?
   **Solution**: `CartesianCoordinates` is an alias of `Point`. A "coordinate" is a point in a grid, a "point" is any 2D/3D point in any system (e.g. a grid).
 
-### Simpler hexes
+### Hex
 
 - [x] Hexes only have axial coordinates (most methods require axial coordinates anyway).
 - [ ] Different groups of functions:
@@ -96,6 +96,7 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
     }
 
     // the properties of CustomHex are available to all hexes (because they're added to the prototype)
+    // todo: rename `createHexPrototype()` to `defineHex()`?
     const hexPrototype = createHexPrototype<CustomHex>({ size: 20, customProp: 'custom', customMethod() {} })
 
     // using classes:
@@ -111,9 +112,10 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
       customMethod() {}
     }
     ```
-  - Todo: how can you type functions that accept hexes? RxJS operators seem to be able to fix this.
-- [ ] ~~Maybe either have pointy or flat hexes and leave it to rendering if they're pointy or flat?~~ All the `if` statements that check whether hexes are pointy or flat may be resolved by having separate functions for pointy and flat hexes and using those in the Hex prototype.
-- [ ] Todo: Investigate if memoization helps
+  - how can you type functions that accept hexes? RxJS operators seem to be able to fix this.
+- [x] ~~Maybe either have pointy or flat hexes and leave it to rendering if they're pointy or flat?~~ All the `if` statements that check whether hexes are pointy or flat may be resolved by having separate functions for pointy and flat hexes and using those in the Hex prototype. This doesn't seem to improve performance.
+- [ ] Investigate if memoization helps
+- [ ] Make it possible to use own createHex() functions (this also means hex prototypes aren't set by Honeycomb)?
 
 ### Grid
 
