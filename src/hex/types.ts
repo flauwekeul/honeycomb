@@ -54,7 +54,7 @@ export interface DefaultHexPrototype extends HexSettings {
   _s: number
   s: number
 
-  toPoint(): Point
+  toPoint(this: Hex): Point
 }
 
 export interface Hex extends DefaultHexPrototype, AxialCoordinates {}
