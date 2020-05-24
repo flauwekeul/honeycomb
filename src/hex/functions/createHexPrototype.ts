@@ -89,14 +89,23 @@ export const createHexPrototype = <T extends DefaultHexPrototype>(
   }) as T
   const toPoint = createToPoint(prototype)
 
+  // todo: any property accessors that use `this` are pointless in a hex prototype
   return Object.defineProperties(prototype, {
     height: { value: height(prototype) },
     isFlat: { value: isFlat(prototype) },
     isPointy: { value: isPointy(prototype) },
+    s: {
+      get() {
+        // todo: typescript doesn't support this somehow: return this._s ?? -this.q - this.r
+        return Number.isFinite(this._s) ? this._s : -this.q - this.r
+      },
+      set(s: number) {
+        this._s = s
+      },
+    },
     width: { value: widthPointy(prototype.dimensions.xRadius) },
 
     // toPoint() is created with a closure here for better performance, todo: check if it's better for performance
-    // calling toPoint() in finalPrototype doesn't make sense though (returns { x: NaN, y: NaN })
     toPoint: {
       value() {
         return toPoint(this)
