@@ -1,9 +1,9 @@
 import { isCartesian, isObject } from '../../utils'
 import { CartesianCoordinates, DefaultHexPrototype, Ellipse, Hex, HexSettings, Orientation, Rectangle } from '../types'
 import { height } from './height'
+import { hexToPoint } from './hexToPoint'
 import { isFlat } from './isFlat'
 import { isPointy } from './isPointy'
-import { createToPoint } from './toPoint'
 import { widthPointy } from './width'
 
 export interface HexPrototypeOptions {
@@ -87,7 +87,6 @@ export const createHexPrototype = <T extends DefaultHexPrototype>(
     origin: { value: normalizeOrigin(prototype) },
     offset: { value: assertOffset(prototype) },
   }) as T
-  const toPoint = createToPoint(prototype)
 
   // todo: any property accessors that use `this` are pointless in a hex prototype
   return Object.defineProperties(prototype, {
@@ -105,10 +104,9 @@ export const createHexPrototype = <T extends DefaultHexPrototype>(
     },
     width: { value: widthPointy(prototype.dimensions.xRadius) },
 
-    // toPoint() is created with a closure here for better performance, todo: check if it's better for performance
     toPoint: {
       value() {
-        return toPoint(this)
+        return hexToPoint(this)
       },
     },
   } as PropertyDescriptorMap & ThisType<T & Hex>) as T
