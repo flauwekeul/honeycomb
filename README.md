@@ -68,6 +68,10 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 ### Hex
 
 - [x] Hexes only have axial coordinates (most methods require axial coordinates anyway).
+- [x] Make default origin the center of the hex (currently is top left corner)? Can't remember why it's not already the center.
+  - [ ] Maybe add `topLeft()` or `boundingBox()` function?
+  - [ ] Origin should also be able to set with a function that's called with the hex prototype (?) so that width, height or corners can be used to determine origin
+- [ ] Make it possible to use own createHex() functions (this also means hex prototypes aren't set by Honeycomb)?
 - [ ] Different groups of functions:
   1. Functions that **require both** a hex prototype and a hex (e.g. `toPoint()`)
   2. Functions that require a hex prototype and **optionally a hex** (e.g. `corners()` with just a hex prototype returns the relative corners of any hex, `corners()` with both a hex prototype and a hex returns the absolute corners of the hex)
@@ -106,7 +110,6 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
   - how can you type functions that accept hexes? RxJS operators seem to be able to fix this.
 - [x] ~~Maybe either have pointy or flat hexes and leave it to rendering if they're pointy or flat?~~ All the `if` statements that check whether hexes are pointy or flat may be resolved by having separate functions for pointy and flat hexes and using those in the Hex prototype. This doesn't seem to improve performance.
 - [ ] Investigate if memoization helps
-- [ ] Make it possible to use own createHex() functions (this also means hex prototypes aren't set by Honeycomb)?
 
 ### Grid
 
