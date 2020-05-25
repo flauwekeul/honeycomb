@@ -10,14 +10,13 @@ import { width } from './width'
 export interface HexPrototypeOptions {
   dimensions: Ellipse | Rectangle | number
   orientation: Orientation | 'pointy' | 'flat'
-  origin: Point | number
+  origin: Point
   offset: number
 }
 
 export const defaultHexSettings: HexSettings = {
   dimensions: { xRadius: 1, yRadius: 1 },
   orientation: Orientation.POINTY,
-  // todo: why isn't this the center of the hex:
   origin: { x: 0, y: 0 },
   offset: -1,
 }
@@ -55,19 +54,12 @@ const normalizeOrientation = ({ orientation }: HexPrototypeOptions) => {
   throw new TypeError(`Invalid orientation: ${orientation}. Orientation must be either 'POINTY' or 'FLAT'.`)
 }
 
-const normalizeOrigin = ({ origin }: HexPrototypeOptions) => {
-  if (isPoint(origin)) {
-    return { ...origin } as Point
+const assertOrigin = ({ origin }: HexPrototypeOptions) => {
+  if (!isPoint(origin)) {
+    throw new TypeError(`Invalid origin: ${origin}. Origin must be expressed as a Point ({ x: number, y: number }).`)
   }
 
-  // todo: why can origin be expressed as a number?
-  if (Number.isFinite(origin)) {
-    return { x: origin, y: origin } as Point
-  }
-
-  throw new TypeError(
-    `Invalid origin: ${origin}. Origin must be expressed as a Point ({ x: number, y: number }), or a number.`,
-  )
+  return { ...origin }
 }
 
 const assertOffset = ({ offset }: HexPrototypeOptions) => {
@@ -96,7 +88,7 @@ export const createHexPrototype = <T extends DefaultHexPrototype>(
   return Object.defineProperties(prototype, {
     dimensions: { value: normalizeDimensions(prototype) },
     orientation: { value: normalizeOrientation(prototype) },
-    origin: { value: normalizeOrigin(prototype) },
+    origin: { value: assertOrigin(prototype) },
     offset: { value: assertOffset(prototype) },
     corners: {
       get() {
