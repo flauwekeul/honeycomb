@@ -64,13 +64,14 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
   - [ ] Also use [doubled coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-doubled)?
 - [x] Problem: how to differentiate between 2D hex coordinate and 2D "pixel" coordinate?
   **Solution**: `CartesianCoordinates` is an alias of `Point`. A "coordinate" is a point in a grid, a "point" is any 2D/3D point in any system (e.g. a grid).
+- [ ] Offer `Point()` function (with `add()` etc methods)? And/or a way to convert tuples to points/coordinates?
 
 ### Hex
 
 - [x] Hexes only have axial coordinates (most methods require axial coordinates anyway).
 - [x] Make default origin the center of the hex (currently is top left corner)? Can't remember why it's not already the center.
-  - [ ] Maybe add `topLeft()` or `boundingBox()` function?
-  - [ ] Origin should also be able to set with a function that's called with the hex prototype (?) so that width, height or corners can be used to determine origin
+  - [ ] Add `boundingBox` (with `topLeft`, `topRight`, etc)
+  - [x] Origin should also be able to set with a function that's called with the hex prototype (?) so that width, height or corners can be used to determine origin
 - [ ] Make it possible to use own createHex() functions (this also means hex prototypes aren't set by Honeycomb)?
 - [ ] Different groups of functions:
   1. Functions that **require both** a hex prototype and a hex (e.g. `toPoint()`)
@@ -126,6 +127,7 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
   const grid = rectangle(hexPrototype, /* todo: determine args */)
   ```
   - [x] ~~these generators produce infinite grids, how to signal boundaries?~~ Traversers accept an optional width or height and/or a `stop()` predicate function that signal when to return from the generator.
+  - [ ] Problem: generators can't be "reused" once `done`.
 - [ ] `Grid` has built-in traversers to create grids in a certain shape (rectangle, triangle, ring, etc.)?
   ```ts
   const Grid = defineGrid(hexPrototype)
