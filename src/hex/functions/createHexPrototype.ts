@@ -1,4 +1,4 @@
-import { isObject, isPoint } from '../../utils'
+import { isFunction, isObject, isPoint } from '../../utils'
 import { DefaultHexPrototype, Ellipse, Hex, HexSettings, Orientation, Point, Rectangle } from '../types'
 import { corners } from './corners'
 import { height } from './height'
@@ -10,7 +10,7 @@ import { width } from './width'
 export interface HexPrototypeOptions {
   dimensions: Ellipse | Rectangle | number
   orientation: Orientation | 'pointy' | 'flat'
-  origin: Point
+  origin: Point | (<T extends Omit<DefaultHexPrototype, 'origin'>>(hexPrototype: T) => Point)
   offset: number
 }
 
@@ -54,12 +54,21 @@ const normalizeOrientation = ({ orientation }: HexPrototypeOptions) => {
   throw new TypeError(`Invalid orientation: ${orientation}. Orientation must be either 'POINTY' or 'FLAT'.`)
 }
 
-const assertOrigin = ({ origin }: HexPrototypeOptions) => {
-  if (!isPoint(origin)) {
-    throw new TypeError(`Invalid origin: ${origin}. Origin must be expressed as a Point ({ x: number, y: number }).`)
+// origin can be a function that will be called with the almost-complete hex prototype (complete except for origin)
+const normalizeOrigin = <T extends DefaultHexPrototype>(
+  prototype: Omit<T, 'origin'> & Pick<HexPrototypeOptions, 'origin'>,
+) => {
+  if (isPoint(prototype.origin)) {
+    return { ...prototype.origin } as Point
   }
 
-  return { ...origin }
+  if (isFunction(prototype.origin)) {
+    return prototype.origin(prototype)
+  }
+
+  throw new TypeError(
+    `Invalid origin: ${prototype.origin}. Origin must be expressed as a Point ({ x: number, y: number }) or a function that returns a Point.`,
+  )
 }
 
 const assertOffset = ({ offset }: HexPrototypeOptions) => {
@@ -85,10 +94,10 @@ export const createHexPrototype = <T extends DefaultHexPrototype>(
   } as T & HexPrototypeOptions
 
   // use Object.defineProperties() to create readonly properties
-  return Object.defineProperties(prototype, {
+  Object.defineProperties(prototype, {
     dimensions: { value: normalizeDimensions(prototype) },
     orientation: { value: normalizeOrientation(prototype) },
-    origin: { value: assertOrigin(prototype) },
+    // origin is set in the final "step"
     offset: { value: assertOffset(prototype) },
     corners: {
       get() {
@@ -124,5 +133,9 @@ export const createHexPrototype = <T extends DefaultHexPrototype>(
         return width(this)
       },
     },
-  } as PropertyDescriptorMap & ThisType<T & Hex>) as T
+  } as PropertyDescriptorMap & ThisType<T & Hex>)
+
+  return Object.defineProperties(prototype, {
+    origin: { value: normalizeOrigin<T>(prototype) },
+  }) as T
 }
