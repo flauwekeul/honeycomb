@@ -85,6 +85,7 @@ export const createHexPrototype = <T extends DefaultHexPrototype>(
   const prototype = {
     ...defaultHexSettings,
 
+    // todo: make this a getter and name it `asPoint`?
     toPoint() {
       return hexToPoint(this)
     },
@@ -95,6 +96,8 @@ export const createHexPrototype = <T extends DefaultHexPrototype>(
 
   // use Object.defineProperties() to create readonly properties
   Object.defineProperties(prototype, {
+    // todo: all props set with `value` are writable (somehow the default `writable: false` doesn't apply). Not sure if this is a problem though
+    // see: Object.getOwnPropertyDescriptors(hexPrototype)
     dimensions: { value: normalizeDimensions(prototype) },
     orientation: { value: normalizeOrientation(prototype) },
     // origin is set in the final "step"
