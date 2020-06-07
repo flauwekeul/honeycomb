@@ -38,10 +38,10 @@ export interface Rectangle {
 export type hexDimensions = Ellipse | Rectangle | number
 
 export interface HexSettings {
-  readonly dimensions: Ellipse
-  readonly orientation: Orientation
-  readonly origin: Point
-  readonly offset: number
+  dimensions: Ellipse
+  orientation: Orientation
+  origin: Point
+  offset: number
 }
 
 export interface DefaultHexPrototype extends HexSettings {
