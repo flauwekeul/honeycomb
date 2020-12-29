@@ -10,10 +10,12 @@ module.exports = {
     'prettier/@typescript-eslint',
   ],
   env: {
+    es2021: true,
     browser: true,
     node: true,
   },
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
   },
 }
