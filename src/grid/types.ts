@@ -1,4 +1,6 @@
-export const enum CompassDirection {
+import { HexCoordinates } from '../hex'
+
+export enum CompassDirection {
   E,
   SE,
   S,
@@ -9,7 +11,7 @@ export const enum CompassDirection {
   NE,
 }
 
-export const enum PointyCompassDirection {
+export enum PointyCompassDirection {
   E,
   SE,
   SW,
@@ -18,7 +20,7 @@ export const enum PointyCompassDirection {
   NE,
 }
 
-export const enum FlatCompassDirection {
+export enum FlatCompassDirection {
   SE,
   S,
   SW,
@@ -26,3 +28,5 @@ export const enum FlatCompassDirection {
   N,
   NE,
 }
+
+export type GridGenerator = Generator<HexCoordinates, void>
