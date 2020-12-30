@@ -1,17 +1,16 @@
-import { DefaultHexPrototype, HexCoordinates } from '../hex'
+import { Hex } from '../hex'
 import { rectangle, RectangleOptions } from './functions'
 import { GridGenerator } from './types'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-function* defaultTraverser(): GridGenerator {}
+function* defaultTraverser<T extends Hex>(): GridGenerator<T> {}
 
-// fixme: probably not `T extends DefaultHexPrototype`, but `T extends Hex`
-export class Grid<T extends DefaultHexPrototype> {
-  static of<T extends DefaultHexPrototype>(hexPrototype: T, traverser?: (this: Grid<T>) => GridGenerator) {
+export class Grid<T extends Hex> {
+  static of<T extends Hex>(hexPrototype: T, traverser?: (this: Grid<T>) => GridGenerator<T>) {
     return new Grid(hexPrototype, traverser)
   }
 
-  constructor(public hexPrototype: T, private traverser = defaultTraverser) {}
+  constructor(public hexPrototype: T, private traverser: () => GridGenerator<T> = defaultTraverser) {}
 
   [Symbol.iterator]() {
     return this.traverser()
@@ -32,7 +31,7 @@ export class Grid<T extends DefaultHexPrototype> {
   //   return ((grid: Grid<T>) => fns.reduce((prev, fn) => fn(prev), grid))(this)
   // }
 
-  each(fn: (hex: HexCoordinates) => void) {
+  each(fn: (hex: T) => void) {
     const traverser = function* (this: Grid<T>) {
       for (const hex of this) {
         fn(hex)
@@ -42,7 +41,7 @@ export class Grid<T extends DefaultHexPrototype> {
     return this.clone(traverser)
   }
 
-  map(fn: (hex: HexCoordinates) => HexCoordinates) {
+  map(fn: (hex: T) => T) {
     const traverser = function* (this: Grid<T>) {
       for (const hex of this) {
         yield fn(hex)
@@ -52,7 +51,7 @@ export class Grid<T extends DefaultHexPrototype> {
   }
 
   // todo: other/more args?
-  run(stopFn: (hex: HexCoordinates) => boolean = () => false) {
+  run(stopFn: (hex: T) => boolean = () => false) {
     for (const hex of this) {
       if (stopFn(hex)) {
         return this
@@ -61,12 +60,12 @@ export class Grid<T extends DefaultHexPrototype> {
     return this // or clone()? todo: when to return clone and when not?
   }
 
-  traverse(...commands: ((hex: HexCoordinates) => GridGenerator)[]) {
+  traverse(...commands: ((hex: T) => GridGenerator<T>)[]) {
     // todo: move this inside generator?
     if (commands.length === 0) {
       return this.clone()
     }
-    let nextHex = this.traverser().next().value || { q: 0, r: 0 }
+    let nextHex = this.traverser().next().value || ({ q: 0, r: 0 } as T)
 
     const traverser = function* (this: Grid<T>) {
       for (const command of commands) {

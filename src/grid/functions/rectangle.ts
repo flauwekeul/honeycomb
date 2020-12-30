@@ -1,4 +1,4 @@
-import { CubeCoordinates, DefaultHexPrototype, isPointy } from '../../hex'
+import { createHex, CubeCoordinates, Hex, isPointy } from '../../hex'
 import { offsetFromZero, signedModulo } from '../../utils'
 import { FlatCompassDirection, PointyCompassDirection } from '../types'
 
@@ -20,7 +20,7 @@ const DIRECTIONS = [
   ['q', 's', 'r'],
 ] as [keyof CubeCoordinates, keyof CubeCoordinates, keyof CubeCoordinates][]
 
-export function* rectangle<T extends DefaultHexPrototype>(
+export function* rectangle<T extends Hex>(
   hexPrototype: T,
   {
     width,
@@ -45,9 +45,7 @@ export function* rectangle<T extends DefaultHexPrototype>(
         [secondCoordinate]: second + start[secondCoordinate],
         [thirdCoordinate]: -first - second + start[thirdCoordinate],
       } as unknown
-      // todo: leave it to the consumer to create a hex?
-      // yield createHex(hexPrototype, nextCoordinates as CubeCoordinates)
-      yield nextCoordinates as CubeCoordinates
+      yield createHex(hexPrototype, nextCoordinates as CubeCoordinates)
     }
   }
 }
