@@ -8,7 +8,7 @@ interface CustomHex extends Hex {
 
 const hexPrototype = createHexPrototype<CustomHex>({
   dimensions: 30,
-  custom: 'custom',
+  custom: 'custom', // fixme: adding `orientation: 'flat'` makes this an error, adding `orientation: Orientation.FLAT` doesn't
   origin: (hexPrototype) => ({ x: hexPrototype.width * -0.5, y: hexPrototype.height * -0.5 }),
 })
 // const hex = createHex(hexPrototype, { q: 4, r: 3 })
@@ -30,8 +30,10 @@ const result = grid
   .run(({ r }) => r === 2)
 console.log(result)
 
-/**
- * Todo:
- * - how to hold state? Probably use serialized hex coordinates
- * - what to do with infinite grids and "sub grids" (like what rectangle() returns)
- */
+// createSuite()
+//   .add('without prototype', function () {
+//     rectangle2(hexPrototype, { width: 5, height: 5 })
+//   })
+//   .add('with prototype', function () {
+//     rectangle(hexPrototype, { width: 5, height: 5 })
+//   })
