@@ -1,10 +1,13 @@
 import { createHex, Hex } from '../../hex'
 import { DIRECTION_COORDINATES } from '../constants'
-import { FlatCompassDirection, PointyCompassDirection } from '../types'
+import { FlatCompassDirection, GridGeneratorFunction, PointyCompassDirection } from '../types'
 
-export const move = <T extends Hex>(direction: PointyCompassDirection | FlatCompassDirection) =>
-  function* next(hex: T) {
+export const move = <T extends Hex>(
+  direction: PointyCompassDirection | FlatCompassDirection,
+): GridGeneratorFunction<T> =>
+  function* (currentHex) {
     const { q, r } = DIRECTION_COORDINATES[direction]
+    const nextCoordinates = { q: currentHex.q + q, r: currentHex.r + r }
     // todo: make createHex accept hex instances or use cloneHex()?
-    yield createHex(Object.getPrototypeOf(hex), { q: hex.q + q, r: hex.r + r })
+    yield createHex(Object.getPrototypeOf(currentHex), nextCoordinates)
   }

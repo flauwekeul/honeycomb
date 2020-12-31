@@ -1,24 +1,38 @@
-import { Hex } from '../hex'
+import { equals, Hex, HexCoordinates } from '../hex'
 import { rectangle, RectangleOptions } from './functions'
-import { GridGenerator } from './types'
+import { GridGenerator, GridGeneratorFunction } from './types'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-function* defaultTraverser<T extends Hex>(): GridGenerator<T> {}
+function* infiniteTraverser<T extends Hex>(): GridGenerator<T> {}
 
+// fixme: there's a lot of duplicate iteration, use a cache (or memoisation?)
 export class Grid<T extends Hex> {
-  static of<T extends Hex>(hexPrototype: T, traverser?: (this: Grid<T>) => GridGenerator<T>) {
+  static of<T extends Hex>(hexPrototype: T, traverser?: GridGeneratorFunction<T>) {
     return new Grid(hexPrototype, traverser)
   }
 
-  constructor(public hexPrototype: T, private traverser: () => GridGenerator<T> = defaultTraverser) {}
+  constructor(public hexPrototype: T, private traverser: GridGeneratorFunction<T> = infiniteTraverser) {}
 
   [Symbol.iterator]() {
-    return this.traverser()
+    // todo: {} as T is a bit hacky, but making it an optional parameter is meh
+    return this.traverser({} as T)
+  }
+
+  has(coordinates: HexCoordinates) {
+    // the defaultTraverser "has" all coordinates
+    if (this.traverser === infiniteTraverser) {
+      return true
+    }
+    for (const hex of this) {
+      if (equals(hex, coordinates)) {
+        return true
+      }
+    }
   }
 
   clone(traverser = this.traverser) {
-    // todo: maybe not bind and pass grid to traverser?
-    return new Grid(this.hexPrototype, traverser.bind(this))
+    // todo: maybe not bind and pass grid to traverser? Tried this, but it results in a "Maximum call stack size exceeded" error
+    return Grid.of(this.hexPrototype, traverser.bind(this))
   }
 
   rectangle(options: RectangleOptions) {
@@ -31,6 +45,8 @@ export class Grid<T extends Hex> {
   //   return ((grid: Grid<T>) => fns.reduce((prev, fn) => fn(prev), grid))(this)
   // }
 
+  // fixme: use generic functions for these kinds of operations
+  // something like https://github.com/benji6/imlazy or https://github.com/lodash/lodash/wiki/FP-Guide
   each(fn: (hex: T) => void) {
     const traverser = function* (this: Grid<T>) {
       for (const hex of this) {
@@ -60,19 +76,23 @@ export class Grid<T extends Hex> {
     return this // or clone()? todo: when to return clone and when not?
   }
 
-  traverse(...commands: ((hex: T) => GridGenerator<T>)[]) {
-    // todo: move this inside generator?
+  traverse(...commands: GridGeneratorFunction<T>[]) {
     if (commands.length === 0) {
-      return this.clone()
+      return this // or clone()? todo: when to return clone and when not?
     }
-    let nextHex = this.traverser().next().value || ({ q: 0, r: 0 } as T)
+    // todo: {} as T is a bit hacky, but making it an optional parameter is meh
+    let currentHex = this.traverser({} as T).next().value || ({ q: 0, r: 0 } as T)
 
     const traverser = function* (this: Grid<T>) {
       for (const command of commands) {
-        const hexes = command(nextHex)
+        const hexes = command(currentHex)
         for (const hex of hexes) {
+          // stop once the hex is outside the grid
+          if (!this.has(hex)) {
+            return
+          }
           yield hex
-          nextHex = hex
+          currentHex = hex
         }
       }
     }

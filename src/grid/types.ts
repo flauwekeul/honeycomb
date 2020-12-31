@@ -30,3 +30,7 @@ export enum FlatCompassDirection {
 }
 
 export type GridGenerator<T extends Hex> = Generator<T, void>
+
+export interface GridGeneratorFunction<T extends Hex> {
+  (currentHex: T): GridGenerator<T>
+}
