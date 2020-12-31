@@ -1,4 +1,4 @@
-import { at, createHex, createHexPrototype, Grid, Hex, move, PointyCompassDirection } from '../dist'
+import { at, createHex, createHexPrototype, Grid, Hex, move, PointyCompassDirection, repeat } from '../dist'
 import { render } from './render'
 
 interface CustomHex extends Hex {
@@ -13,22 +13,20 @@ const hexPrototype = createHexPrototype<CustomHex>({
 })
 // const hex = createHex(hexPrototype, { q: 4, r: 3 })
 
-const grid = Grid.of(hexPrototype)
-const result = grid
-  .rectangle({ width: 3, height: 3 })
+Grid.of(hexPrototype)
+  // .rectangle({ width: 3, height: 3 })
   .traverse(
-    // repeat(5, move(PointyCompassDirection.E)),
-    at({ q: 2, r: 0 }),
+    at({ q: 1, r: 0 }),
     move(PointyCompassDirection.E),
-    move(PointyCompassDirection.E),
-    move(PointyCompassDirection.E),
+    move(PointyCompassDirection.SE),
+    move(PointyCompassDirection.W),
   )
+  .traverse(at({ q: 1, r: 1 }), repeat(3, move(PointyCompassDirection.E)))
   .each((hex) => {
     hex.svg = render(createHex(hexPrototype, hex))
-    // console.log(hex)
+    console.log(hex)
   })
-  .run(({ r }) => r === 2)
-console.log(result)
+  .run()
 
 // createSuite()
 //   .add('without prototype', function () {
