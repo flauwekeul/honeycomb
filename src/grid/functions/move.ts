@@ -1,10 +1,9 @@
 import { createHex, Hex } from '../../hex'
 import { DIRECTION_COORDINATES } from '../constants'
-import { FlatCompassDirection, GridGeneratorFunction, PointyCompassDirection } from '../types'
+import { CompassDirection, GridGeneratorFunction } from '../types'
 
-export const move = <T extends Hex>(
-  direction: PointyCompassDirection | FlatCompassDirection,
-): GridGeneratorFunction<T> =>
+// todo: also accept a string and/or number for direction
+export const move = <T extends Hex>(direction: CompassDirection): GridGeneratorFunction<T> =>
   function* (currentHex) {
     const { q, r } = DIRECTION_COORDINATES[direction]
     const nextCoordinates = { q: currentHex.q + q, r: currentHex.r + r }
