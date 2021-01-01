@@ -1,16 +1,5 @@
 import { Hex } from '../hex'
 
-export enum CompassDirection {
-  E,
-  SE,
-  S,
-  SW,
-  W,
-  NW,
-  N,
-  NE,
-}
-
 export enum PointyCompassDirection {
   E,
   SE,
@@ -28,6 +17,8 @@ export enum FlatCompassDirection {
   N,
   NE,
 }
+
+export type CompassDirection = PointyCompassDirection | FlatCompassDirection
 
 export type GridGenerator<T extends Hex> = Generator<T, void>
 

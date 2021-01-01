@@ -1,14 +1,12 @@
 import { createHex, CubeCoordinates, Hex, isPointy } from '../../hex'
 import { offsetFromZero, signedModulo } from '../../utils'
-import { FlatCompassDirection, PointyCompassDirection } from '../types'
-
-export type RectangleDirection = PointyCompassDirection.E | FlatCompassDirection.S
+import { CompassDirection, FlatCompassDirection, PointyCompassDirection } from '../types'
 
 export interface RectangleOptions {
   width: number
   height: number
   start?: CubeCoordinates
-  direction?: RectangleDirection
+  direction?: CompassDirection
 }
 
 const DIRECTIONS = [
@@ -20,6 +18,7 @@ const DIRECTIONS = [
   ['q', 's', 'r'],
 ] as [keyof CubeCoordinates, keyof CubeCoordinates, keyof CubeCoordinates][]
 
+// todo: move this to Grid.rectangle()?
 export function* rectangle<T extends Hex>(
   hexPrototype: T,
   {
