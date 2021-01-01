@@ -1,21 +1,24 @@
 import { equals, Hex, HexCoordinates } from '../hex'
 import { rectangle, RectangleOptions } from './functions'
-import { GridGenerator, GridGeneratorFunction } from './types'
+import { GridGenerator, Traverser } from './types'
+
+interface InternalTraverser<T extends Hex> {
+  (this: Grid<T>): GridGenerator<T>
+}
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 function* infiniteTraverser<T extends Hex>(): GridGenerator<T> {}
 
 // fixme: there's a lot of duplicate iteration, use a cache (or memoisation?)
 export class Grid<T extends Hex> {
-  static of<T extends Hex>(hexPrototype: T, traverser?: GridGeneratorFunction<T>) {
+  static of<T extends Hex>(hexPrototype: T, traverser?: InternalTraverser<T>) {
     return new Grid(hexPrototype, traverser)
   }
 
-  constructor(public hexPrototype: T, private traverser: GridGeneratorFunction<T> = infiniteTraverser) {}
+  constructor(public hexPrototype: T, private traverser: InternalTraverser<T> = infiniteTraverser) {}
 
   [Symbol.iterator]() {
-    // todo: {} as T is a bit hacky, but making it an optional parameter is meh
-    return this.traverser({} as T)
+    return this.traverser()
   }
 
   has(coordinates: HexCoordinates) {
@@ -31,7 +34,6 @@ export class Grid<T extends Hex> {
   }
 
   clone(traverser = this.traverser) {
-    // todo: maybe not bind and pass grid to traverser? Tried this, but it results in a "Maximum call stack size exceeded" error
     return Grid.of(this.hexPrototype, traverser.bind(this))
   }
 
@@ -40,33 +42,28 @@ export class Grid<T extends Hex> {
     return this.clone(() => rectangle(this.hexPrototype, options))
   }
 
-  // inspired by https://github.com/ReactiveX/rxjs/blob/master/src/internal/util/pipe.ts
-  // pipe(...fns: GridOperator<T>[]): Grid<T> {
-  //   return ((grid: Grid<T>) => fns.reduce((prev, fn) => fn(prev), grid))(this)
-  // }
-
   // fixme: use generic functions for these kinds of operations
   // something like https://github.com/benji6/imlazy or https://github.com/lodash/lodash/wiki/FP-Guide
   each(fn: (hex: T) => void) {
-    const traverser = function* (this: Grid<T>) {
+    const each: InternalTraverser<T> = function* () {
       for (const hex of this) {
         fn(hex)
         yield hex
       }
     }
-    return this.clone(traverser)
+    return this.clone(each)
   }
 
   map(fn: (hex: T) => T) {
-    const traverser = function* (this: Grid<T>) {
+    const map: InternalTraverser<T> = function* () {
       for (const hex of this) {
         yield fn(hex)
       }
     }
-    return this.clone(traverser)
+    return this.clone(map)
   }
 
-  // todo: other/more args?
+  // todo: alias to take or takeUntil?
   run(stopFn: (hex: T) => boolean = () => false) {
     for (const hex of this) {
       if (stopFn(hex)) {
@@ -76,14 +73,13 @@ export class Grid<T extends Hex> {
     return this // or clone()? todo: when to return clone and when not?
   }
 
-  traverse(...commands: GridGeneratorFunction<T>[]) {
+  traverse(...commands: Traverser<T>[]) {
     if (commands.length === 0) {
       return this // or clone()? todo: when to return clone and when not?
     }
-    // todo: {} as T is a bit hacky, but making it an optional parameter is meh
-    let currentHex = this.traverser({} as T).next().value || ({ q: 0, r: 0 } as T)
+    let currentHex = this.traverser().next().value || ({ q: 0, r: 0 } as T)
 
-    const traverser = function* (this: Grid<T>) {
+    function* traverse(this: Grid<T>) {
       for (const command of commands) {
         const hexes = command(currentHex)
         for (const hex of hexes) {
@@ -96,6 +92,6 @@ export class Grid<T extends Hex> {
         }
       }
     }
-    return this.clone(traverser)
+    return this.clone(traverse)
   }
 }

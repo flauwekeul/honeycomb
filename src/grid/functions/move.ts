@@ -1,10 +1,10 @@
 import { createHex, Hex } from '../../hex'
 import { DIRECTION_COORDINATES } from '../constants'
-import { CompassDirection, GridGeneratorFunction } from '../types'
+import { CompassDirection, Traverser } from '../types'
 
 // todo: also accept a string and/or number for direction
-export const move = <T extends Hex>(direction: CompassDirection): GridGeneratorFunction<T> =>
-  function* (currentHex) {
+export const move = <T extends Hex>(direction: CompassDirection): Traverser<T> =>
+  function* next(currentHex) {
     const { q, r } = DIRECTION_COORDINATES[direction]
     const nextCoordinates = { q: currentHex.q + q, r: currentHex.r + r }
     // todo: make createHex accept hex instances or use cloneHex()?

@@ -1,8 +1,8 @@
 import { createHex, Hex, HexCoordinates } from '../../hex'
-import { GridGeneratorFunction } from '../types'
+import { Traverser } from '../types'
 
-export const at = <T extends Hex>(coordinates: HexCoordinates): GridGeneratorFunction<T> =>
-  function* (currentHex) {
+export const at = <T extends Hex>(coordinates: HexCoordinates): Traverser<T> =>
+  function* next(currentHex) {
     // todo: make createHex accept hex instances or use cloneHex()?
     yield createHex(Object.getPrototypeOf(currentHex), coordinates)
   }

@@ -22,6 +22,6 @@ export type CompassDirection = PointyCompassDirection | FlatCompassDirection
 
 export type GridGenerator<T extends Hex> = Generator<T, void>
 
-export interface GridGeneratorFunction<T extends Hex> {
+export interface Traverser<T extends Hex> {
   (currentHex: T): GridGenerator<T>
 }
