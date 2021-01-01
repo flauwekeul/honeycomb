@@ -1,9 +1,9 @@
 import { Hex } from '../../hex'
-import { GridGeneratorFunction } from '../types'
+import { Traverser } from '../types'
 
 // todo: looks a lot like Grid.traverse()
-export const repeat = <T extends Hex>(amount: number, command: GridGeneratorFunction<T>): GridGeneratorFunction<T> =>
-  function* (currentHex) {
+export const repeat = <T extends Hex>(amount: number, command: Traverser<T>): Traverser<T> =>
+  function* next(currentHex) {
     let nextHex = currentHex
     for (let i = 0; i < amount; i++) {
       const hexes = command(nextHex)
