@@ -1,4 +1,4 @@
-import { equals, Hex, HexCoordinates } from '../hex'
+import { createHex, Hex } from '../hex'
 import { rectangle, RectangleOptions } from './functions'
 import { GridGenerator, Traverser } from './types'
 
@@ -73,22 +73,17 @@ export class Grid<T extends Hex> {
     return this // or clone()? todo: when to return clone and when not?
   }
 
-  traverse(...commands: Traverser<T>[]) {
+  traverse(...commands: Traverser[]) {
     if (commands.length === 0) {
       return this // or clone()? todo: when to return clone and when not?
     }
-    let currentHex = this.traverser().next().value || ({ q: 0, r: 0 } as T)
+    let coordinates = this.traverser().next().value || { q: 0, r: 0 }
 
     function* traverse(this: Grid<T>) {
       for (const command of commands) {
-        const hexes = command(currentHex)
-        for (const hex of hexes) {
-          // stop once the hex is outside the grid
-          if (!this.has(hex)) {
-            return
-          }
-          yield hex
-          currentHex = hex
+        for (const nextCoordinates of command(coordinates)) {
+          coordinates = nextCoordinates
+          yield createHex(this.hexPrototype, coordinates)
         }
       }
     }
