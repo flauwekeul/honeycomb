@@ -68,7 +68,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "precise-commits && npm run lint -- --ignore-pattern playground"
+      "pre-commit": "precise-commits && npm run lint -- --ignore-pattern playground",
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
     }
   }
 }
