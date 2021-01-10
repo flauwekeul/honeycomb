@@ -1,4 +1,4 @@
-import { createHex, Hex } from '../hex'
+import { createHex, equals, Hex, HexCoordinates } from '../hex'
 import { rectangle, RectangleOptions } from './functions'
 import { GridGenerator, Traverser } from './types'
 
@@ -9,28 +9,16 @@ interface InternalTraverser<T extends Hex> {
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 function* infiniteTraverser<T extends Hex>(): GridGenerator<T> {}
 
-// fixme: there's a lot of duplicate iteration, use a cache (or memoisation?)
 export class Grid<T extends Hex> {
   static of<T extends Hex>(hexPrototype: T, traverser?: InternalTraverser<T>) {
     return new Grid(hexPrototype, traverser)
   }
 
+  // todo: rename traverser to iterator?
   constructor(public hexPrototype: T, private traverser: InternalTraverser<T> = infiniteTraverser) {}
 
   [Symbol.iterator]() {
     return this.traverser()
-  }
-
-  has(coordinates: HexCoordinates) {
-    // the defaultTraverser "has" all coordinates
-    if (this.traverser === infiniteTraverser) {
-      return true
-    }
-    for (const hex of this) {
-      if (equals(hex, coordinates)) {
-        return true
-      }
-    }
   }
 
   clone(traverser = this.traverser) {
@@ -45,8 +33,8 @@ export class Grid<T extends Hex> {
   // fixme: use generic functions for these kinds of operations
   // something like https://github.com/benji6/imlazy or https://github.com/lodash/lodash/wiki/FP-Guide
   each(fn: (hex: T) => void) {
-    const each: InternalTraverser<T> = function* () {
-      for (const hex of this) {
+    const each: InternalTraverser<T> = function* each() {
+      for (const hex of this.traverser()) {
         fn(hex)
         yield hex
       }
@@ -55,8 +43,8 @@ export class Grid<T extends Hex> {
   }
 
   map(fn: (hex: T) => T) {
-    const map: InternalTraverser<T> = function* () {
-      for (const hex of this) {
+    const map: InternalTraverser<T> = function* map() {
+      for (const hex of this.traverser()) {
         yield fn(hex)
       }
     }
@@ -65,7 +53,7 @@ export class Grid<T extends Hex> {
 
   // todo: alias to take or takeUntil?
   run(stopFn: (hex: T) => boolean = () => false) {
-    for (const hex of this) {
+    for (const hex of this.traverser()) {
       if (stopFn(hex)) {
         return this
       }
@@ -77,16 +65,23 @@ export class Grid<T extends Hex> {
     if (commands.length === 0) {
       return this // or clone()? todo: when to return clone and when not?
     }
-    let coordinates = this.traverser().next().value || { q: 0, r: 0 }
 
-    function* traverse(this: Grid<T>) {
+    const traverse: InternalTraverser<T> = function* traverse() {
+      const hasTraversedBefore = this.traverser !== infiniteTraverser
+      const previousHexes = [...this.traverser()]
+      let coordinates: HexCoordinates = previousHexes[previousHexes.length - 1] || { q: 0, r: 0 }
+
       for (const command of commands) {
         for (const nextCoordinates of command(coordinates)) {
           coordinates = nextCoordinates
+          if (hasTraversedBefore && !previousHexes.some((prevCoords) => equals(prevCoords, coordinates))) {
+            return // todo: or continue? or make this configurable?
+          }
           yield createHex(this.hexPrototype, coordinates)
         }
       }
     }
+
     return this.clone(traverse)
   }
 }
