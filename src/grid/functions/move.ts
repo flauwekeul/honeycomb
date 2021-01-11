@@ -10,8 +10,7 @@ import { CompassDirection, Traverser } from '../types'
 //     yield createHex(Object.getPrototypeOf(currentHex), nextCoordinates)
 //   }
 
-export const move = (direction: CompassDirection): Traverser =>
-  function* next(currentCoordinates) {
-    const { q, r } = DIRECTION_COORDINATES[direction]
-    yield { q: currentCoordinates.q + q, r: currentCoordinates.r + r }
-  }
+export const move = (direction: CompassDirection): Traverser => {
+  const { q, r } = DIRECTION_COORDINATES[direction]
+  return (currentCoordinates) => [{ q: currentCoordinates.q + q, r: currentCoordinates.r + r }]
+}
