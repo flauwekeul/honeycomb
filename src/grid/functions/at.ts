@@ -7,9 +7,6 @@ import { Traverser } from '../types'
 //     yield createHex(Object.getPrototypeOf(currentHex), coordinates)
 //   }
 
-export const at = (coordinates: HexCoordinates): Traverser =>
-  function* next() {
-    yield coordinates
-  }
+export const at = (coordinates: HexCoordinates): Traverser => () => [coordinates]
 
 export const start = at

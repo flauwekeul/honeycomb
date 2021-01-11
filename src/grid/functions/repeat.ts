@@ -1,3 +1,4 @@
+import { HexCoordinates } from '../../hex'
 import { Traverser } from '../types'
 
 // todo: looks a lot like Grid.traverse()
@@ -15,14 +16,18 @@ import { Traverser } from '../types'
 //     }
 //   }
 
-export const repeat = (amount: number, command: Traverser): Traverser =>
-  function* next(currentCoordinates) {
-    let coordinates = currentCoordinates
+export const repeat = (amount: number, ...commands: Traverser[]): Traverser => (currentCoordinates) => {
+  const result: HexCoordinates[] = []
+  let coordinates = currentCoordinates
 
-    for (let i = 0; i < amount; i++) {
+  for (let i = 0; i < amount; i++) {
+    for (const command of commands) {
       for (const nextCoordinates of command(coordinates)) {
         coordinates = nextCoordinates
-        yield coordinates
+        result.push(coordinates)
       }
     }
   }
+
+  return result
+}

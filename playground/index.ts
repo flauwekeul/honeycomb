@@ -1,4 +1,5 @@
 import { at, createHex, createHexPrototype, Grid, Hex, move, PointyCompassDirection, repeat } from '../dist'
+import { createSuite } from './benchmark'
 import { render } from './render'
 
 interface CustomHex extends Hex {
@@ -14,24 +15,41 @@ const hexPrototype = createHexPrototype<CustomHex>({
 // const hex = createHex(hexPrototype, { q: 4, r: 3 })
 
 Grid.of(hexPrototype)
-  // .rectangle({ width: 3, height: 3 })
   .traverse(
-    at({ q: 1, r: 0 }),
-    move(PointyCompassDirection.E),
-    move(PointyCompassDirection.SE),
-    move(PointyCompassDirection.W),
+    at({ q: 0, r: 0 }),
+    repeat(
+      2,
+      repeat(4, move(PointyCompassDirection.E)),
+      move(PointyCompassDirection.SE),
+      repeat(4, move(PointyCompassDirection.W)),
+      move(PointyCompassDirection.SW),
+    ),
+    repeat(4, move(PointyCompassDirection.E)),
   )
-  .traverse(at({ q: 1, r: 1 }), repeat(3, move(PointyCompassDirection.E)))
+  .rectangle({ width: 10, height: 10 })
   .each((hex) => {
     hex.svg = render(createHex(hexPrototype, hex))
-    console.log(hex)
+    // console.log(hex)
   })
   .run()
 
-// createSuite()
-//   .add('without prototype', function () {
-//     rectangle2(hexPrototype, { width: 5, height: 5 })
-//   })
-//   .add('with prototype', function () {
-//     rectangle(hexPrototype, { width: 5, height: 5 })
-//   })
+const grid = Grid.of(hexPrototype)
+createSuite()
+  .add('rectangle', function () {
+    grid.rectangle({ width: 5, height: 5 }).run()
+  })
+  .add('traverse', function () {
+    grid
+      .traverse(
+        at({ q: 0, r: 0 }),
+        repeat(
+          2,
+          repeat(4, move(PointyCompassDirection.E)),
+          move(PointyCompassDirection.SE),
+          repeat(4, move(PointyCompassDirection.W)),
+          move(PointyCompassDirection.SW),
+        ),
+        repeat(4, move(PointyCompassDirection.E)),
+      )
+      .run()
+  })
