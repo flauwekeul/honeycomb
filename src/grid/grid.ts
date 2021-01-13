@@ -1,6 +1,7 @@
-import { createHex, equals, Hex, HexCoordinates } from '../hex'
-import { rectangle, RectangleOptions } from './functions'
-import { GridGenerator, Traverser } from './types'
+import { createHex, CubeCoordinates, equals, Hex, HexCoordinates, isPointy } from '../hex'
+import { offsetFromZero, signedModulo } from '../utils'
+import { RECTANGLE_DIRECTIONS } from './constants'
+import { FlatCompassDirection, GridGenerator, PointyCompassDirection, RectangleOptions, Traverser } from './types'
 
 interface InternalTraverser<T extends Hex> {
   (this: Grid<T>): GridGenerator<T>
@@ -23,11 +24,6 @@ export class Grid<T extends Hex> {
   clone(traverser = this.traverser) {
     // bind(this) in case the traverser is a "regular" (generator) function
     return Grid.of(this.hexPrototype, traverser.bind(this))
-  }
-
-  rectangle(options: RectangleOptions) {
-    // todo: the generator is wrapped, should that be the same in other calls to clone()? Or should this not be wrapped? Doesn't seem consistent
-    return this.clone(() => rectangle(this.hexPrototype, options))
   }
 
   // fixme: use generic functions for these kinds of operations
@@ -61,6 +57,51 @@ export class Grid<T extends Hex> {
       }
     }
     return this // or clone()? todo: when to return clone and when not?
+  }
+
+  rectangle({
+    width,
+    height,
+    start = { q: 0, r: 0 },
+    direction = isPointy(this.hexPrototype) ? PointyCompassDirection.E : FlatCompassDirection.S,
+  }: RectangleOptions) {
+    const _start: CubeCoordinates = { q: start.q, r: start.r, s: -start.q - start.r }
+
+    // todo: remove this?
+    if (direction < 0 || direction > 5) {
+      direction = signedModulo(direction, 6)
+    }
+
+    const [firstCoordinate, secondCoordinate, thirdCoordinate] = RECTANGLE_DIRECTIONS[direction]
+    const [firstStop, secondStop] = isPointy(this.hexPrototype) ? [width, height] : [height, width]
+
+    // todo: duplication in traverse()
+    const rectangle: InternalTraverser<T> = () => {
+      const result: T[] = []
+      const hasTraversedBefore = this.traverser !== infiniteTraverser
+      const previousHexes = [...this.traverser()]
+      let coordinates: CubeCoordinates = previousHexes[previousHexes.length - 1] || { q: 0, r: 0 }
+
+      for (let second = 0; second < secondStop; second++) {
+        const secondOffset = offsetFromZero(this.hexPrototype.offset, second)
+
+        for (let first = -secondOffset; first < firstStop - secondOffset; first++) {
+          const nextCoordinates: unknown = {
+            [firstCoordinate]: first + _start[firstCoordinate],
+            [secondCoordinate]: second + _start[secondCoordinate],
+            [thirdCoordinate]: -first - second + _start[thirdCoordinate],
+          }
+          coordinates = nextCoordinates as CubeCoordinates
+          if (hasTraversedBefore && !previousHexes.some((prevCoords) => equals(prevCoords, coordinates))) {
+            return result // todo: or continue? or make this configurable?
+          }
+          result.push(createHex(this.hexPrototype, coordinates))
+        }
+      }
+
+      return result
+    }
+    return this.clone(rectangle)
   }
 
   traverse(...commands: Traverser[]) {
