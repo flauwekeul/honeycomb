@@ -28,4 +28,10 @@ export type GridGenerator<T extends Hex> = Iterable<T>
 export interface Traverser {
   (currentCoordinates: HexCoordinates): Iterable<HexCoordinates>
 }
+
+export interface RectangleOptions {
+  width: number
+  height: number
+  start?: HexCoordinates
+  direction?: CompassDirection
 }
