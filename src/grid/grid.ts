@@ -1,20 +1,20 @@
-import { createHex, CubeCoordinates, equals, Hex, HexCoordinates, isPointy } from '../hex'
-import { offsetFromZero, signedModulo } from '../utils'
+import { createHex, CubeCoordinates, equals, Hex, HexCoordinates } from '../hex'
+import { offsetFromZero } from '../utils'
 import { RECTANGLE_DIRECTIONS } from './constants'
-import { FlatCompassDirection, GridGenerator, PointyCompassDirection, RectangleOptions, Traverser } from './types'
+import { at, move, repeat } from './functions'
+import { FlatCompassDirection, PointyCompassDirection, RectangleOptions, Traverser } from './types'
 
 interface InternalTraverser<T extends Hex> {
-  (this: Grid<T>): GridGenerator<T>
+  (this: Grid<T>): Iterable<T>
 }
 
-const infiniteTraverser = <T extends Hex>(): GridGenerator<T> => []
+const infiniteTraverser = <T extends Hex>(): Iterable<T> => []
 
 export class Grid<T extends Hex> {
   static of<T extends Hex>(hexPrototype: T, traverser?: InternalTraverser<T>) {
     return new Grid(hexPrototype, traverser)
   }
 
-  // todo: rename traverser to iterator?
   constructor(public hexPrototype: T, private traverser: InternalTraverser<T> = infiniteTraverser) {}
 
   [Symbol.iterator]() {
@@ -26,7 +26,7 @@ export class Grid<T extends Hex> {
     return Grid.of(this.hexPrototype, traverser.bind(this))
   }
 
-  // fixme: use generic functions for these kinds of operations
+  // todo: use generic functions for these kinds of operations
   // something like https://github.com/benji6/imlazy or https://github.com/lodash/lodash/wiki/FP-Guide
   each(fn: (hex: T) => void) {
     const each: InternalTraverser<T> = () => {
@@ -63,39 +63,33 @@ export class Grid<T extends Hex> {
     width,
     height,
     start = { q: 0, r: 0 },
-    direction = isPointy(this.hexPrototype) ? PointyCompassDirection.E : FlatCompassDirection.S,
+    direction = this.hexPrototype.isPointy ? PointyCompassDirection.E : FlatCompassDirection.S,
   }: RectangleOptions) {
     const _start: CubeCoordinates = { q: start.q, r: start.r, s: -start.q - start.r }
-
-    // todo: remove this?
-    if (direction < 0 || direction > 5) {
-      direction = signedModulo(direction, 6)
-    }
-
     const [firstCoordinate, secondCoordinate, thirdCoordinate] = RECTANGLE_DIRECTIONS[direction]
-    const [firstStop, secondStop] = isPointy(this.hexPrototype) ? [width, height] : [height, width]
+    const [firstStop, secondStop] = this.hexPrototype.isPointy ? [width, height] : [height, width]
 
     // todo: duplication in traverse()
     const rectangle: InternalTraverser<T> = () => {
       const result: T[] = []
       const hasTraversedBefore = this.traverser !== infiniteTraverser
       const previousHexes = [...this.traverser()]
-      let coordinates: CubeCoordinates = previousHexes[previousHexes.length - 1] || { q: 0, r: 0 }
+      let cursor: CubeCoordinates = previousHexes[previousHexes.length - 1] || { q: 0, r: 0 }
 
       for (let second = 0; second < secondStop; second++) {
         const secondOffset = offsetFromZero(this.hexPrototype.offset, second)
 
         for (let first = -secondOffset; first < firstStop - secondOffset; first++) {
-          const nextCoordinates: unknown = {
+          const nextCursor: unknown = {
             [firstCoordinate]: first + _start[firstCoordinate],
             [secondCoordinate]: second + _start[secondCoordinate],
             [thirdCoordinate]: -first - second + _start[thirdCoordinate],
           }
-          coordinates = nextCoordinates as CubeCoordinates
-          if (hasTraversedBefore && !previousHexes.some((prevCoords) => equals(prevCoords, coordinates))) {
+          cursor = nextCursor as CubeCoordinates
+          if (hasTraversedBefore && !previousHexes.some((prevCoords) => equals(prevCoords, cursor))) {
             return result // todo: or continue? or make this configurable?
           }
-          result.push(createHex(this.hexPrototype, coordinates))
+          result.push(createHex(this.hexPrototype, cursor))
         }
       }
 
@@ -104,24 +98,24 @@ export class Grid<T extends Hex> {
     return this.clone(rectangle)
   }
 
-  traverse(...commands: Traverser[]) {
-    if (commands.length === 0) {
-      return this // or clone()? todo: when to return clone and when not?
+  traverse(...traversers: Traverser[]) {
+    if (traversers.length === 0) {
+      return this // or clone()? bottomRightdo: when to return clone and when not?
     }
 
     const traverse: InternalTraverser<T> = () => {
       const result: T[] = []
       const hasTraversedBefore = this.traverser !== infiniteTraverser
       const previousHexes = [...this.traverser()]
-      let coordinates: HexCoordinates = previousHexes[previousHexes.length - 1] || { q: 0, r: 0 }
+      let cursor: HexCoordinates = previousHexes[previousHexes.length - 1] || { q: 0, r: 0 }
 
-      for (const command of commands) {
-        for (const nextCoordinates of command(coordinates)) {
-          coordinates = nextCoordinates
-          if (hasTraversedBefore && !previousHexes.some((prevCoords) => equals(prevCoords, coordinates))) {
+      for (const traverser of traversers) {
+        for (const nextCursor of traverser(cursor)) {
+          cursor = nextCursor
+          if (hasTraversedBefore && !previousHexes.some((prevCoords) => equals(prevCoords, cursor))) {
             return result // todo: or continue? or make this configurable?
           }
-          result.push(createHex(this.hexPrototype, coordinates))
+          result.push(createHex(this.hexPrototype, cursor))
         }
       }
 

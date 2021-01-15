@@ -1,5 +1,5 @@
-import { createHex, CubeCoordinates, Hex, isPointy } from '../../hex'
-import { offsetFromZero, signedModulo } from '../../utils'
+import { createHex, CubeCoordinates, Hex } from '../../hex'
+import { offsetFromZero } from '../../utils'
 import { RECTANGLE_DIRECTIONS } from '../constants'
 import { FlatCompassDirection, PointyCompassDirection, RectangleOptions } from '../types'
 
@@ -9,7 +9,7 @@ export const rectangle = <T extends Hex>(
     width,
     height,
     start = { q: 0, r: 0 },
-    direction = isPointy(hexPrototype) ? PointyCompassDirection.E : FlatCompassDirection.S,
+    direction = hexPrototype.isPointy ? PointyCompassDirection.E : FlatCompassDirection.S,
   }: RectangleOptions,
 ) => {
   const result: T[] = []
@@ -17,13 +17,8 @@ export const rectangle = <T extends Hex>(
   // const hasTraversedBefore = this.traverser !== infiniteTraverser
   // const previousHexes = [...this.traverser()]
   // let coordinates: CubeCoordinates = previousHexes[previousHexes.length - 1] || { q: 0, r: 0 }
-
-  if (direction < 0 || direction > 5) {
-    direction = signedModulo(direction, 6)
-  }
-
   const [firstCoordinate, secondCoordinate, thirdCoordinate] = RECTANGLE_DIRECTIONS[direction]
-  const [firstStop, secondStop] = isPointy(hexPrototype) ? [width, height] : [height, width]
+  const [firstStop, secondStop] = hexPrototype.isPointy ? [width, height] : [height, width]
 
   for (let second = 0; second < secondStop; second++) {
     const secondOffset = offsetFromZero(hexPrototype.offset, second)

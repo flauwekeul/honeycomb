@@ -5,7 +5,7 @@ export interface Point {
   y: number
 }
 
-export const enum Orientation {
+export enum Orientation {
   FLAT = 'FLAT',
   POINTY = 'POINTY',
 }
