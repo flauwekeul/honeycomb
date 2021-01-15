@@ -19,12 +19,12 @@ Grid.of(hexPrototype)
     at({ q: 0, r: 0 }),
     repeat(
       2,
-      repeat(4, move(PointyCompassDirection.E)),
+      move(PointyCompassDirection.E, 4),
       move(PointyCompassDirection.SE),
-      repeat(4, move(PointyCompassDirection.W)),
+      move(PointyCompassDirection.W, 4),
       move(PointyCompassDirection.SW),
     ),
-    repeat(4, move(PointyCompassDirection.E)),
+    move(PointyCompassDirection.E, 4),
   )
   .rectangle({ width: 10, height: 10 })
   .each((hex) => {
@@ -34,22 +34,4 @@ Grid.of(hexPrototype)
   .run()
 
 const grid = Grid.of(hexPrototype)
-createSuite()
-  .add('rectangle', function () {
-    grid.rectangle({ width: 5, height: 5 }).run()
-  })
-  .add('traverse', function () {
-    grid
-      .traverse(
-        at({ q: 0, r: 0 }),
-        repeat(
-          2,
-          repeat(4, move(PointyCompassDirection.E)),
-          move(PointyCompassDirection.SE),
-          repeat(4, move(PointyCompassDirection.W)),
-          move(PointyCompassDirection.SW),
-        ),
-        repeat(4, move(PointyCompassDirection.E)),
-      )
-      .run()
-  })
+createSuite().add('', function () {})
