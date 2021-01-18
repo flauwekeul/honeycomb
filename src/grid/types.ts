@@ -1,32 +1,23 @@
-import { HexCoordinates } from '../hex'
+import { DefaultHexPrototype, HexCoordinates } from '../hex'
 
-export enum PointyCompassDirection {
+export enum Compass {
   E,
-  SE,
-  SW,
-  W,
-  NW,
-  NE,
-}
-
-export enum FlatCompassDirection {
   SE,
   S,
   SW,
+  W,
   NW,
   N,
   NE,
 }
 
-export type CompassDirection = PointyCompassDirection | FlatCompassDirection
-
-export interface Traverser {
-  (cursor: HexCoordinates): Iterable<HexCoordinates>
+export interface Traverser<T extends DefaultHexPrototype> {
+  (cursor: HexCoordinates, hexPrototype: T): Iterable<HexCoordinates>
 }
 
 export interface RectangleOptions {
   width: number
   height: number
   start?: HexCoordinates
-  direction?: CompassDirection
+  direction?: Compass
 }

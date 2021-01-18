@@ -1,7 +1,7 @@
 import { createHex, CubeCoordinates, Hex } from '../../hex'
 import { offsetFromZero } from '../../utils'
 import { RECTANGLE_DIRECTIONS } from '../constants'
-import { FlatCompassDirection, PointyCompassDirection, RectangleOptions } from '../types'
+import { Compass, RectangleOptions } from '../types'
 
 export const rectangle = <T extends Hex>(
   hexPrototype: T,
@@ -9,7 +9,7 @@ export const rectangle = <T extends Hex>(
     width,
     height,
     start = { q: 0, r: 0 },
-    direction = hexPrototype.isPointy ? PointyCompassDirection.E : FlatCompassDirection.S,
+    direction = hexPrototype.isPointy ? Compass.E : Compass.SE,
   }: RectangleOptions,
 ) => {
   const result: T[] = []
