@@ -2,6 +2,7 @@ import { createHex, CubeCoordinates, equals, Hex, HexCoordinates } from '../hex'
 import { offsetFromZero } from '../utils'
 import { RECTANGLE_DIRECTIONS } from './constants'
 import { Compass, RectangleOptions, Traverser } from './types'
+import { forEach, map } from './utils'
 
 interface InternalTraverser<T extends Hex> {
   (this: Grid<T>): Iterable<T>
@@ -25,37 +26,28 @@ export class Grid<T extends Hex> {
     return Grid.of(this.hexPrototype, traverser.bind(this))
   }
 
-  // todo: use generic functions for these kinds of operations
-  // something like https://github.com/benji6/imlazy or https://github.com/lodash/lodash/wiki/FP-Guide
   each(fn: (hex: T) => void) {
-    const each: InternalTraverser<T> = () => {
-      for (const hex of this.traverser()) {
-        fn(hex)
-      }
-      return this.traverser()
-    }
-    return this.clone(each)
+    // todo: make it point-free:
+    //   const each: InternalTraverser<T> = forEach(fn)
+    // then in clone():
+    //   return Grid.of(this.hexPrototype, () => traverser(this.traverser()))
+    // or this, but then traverser needs to be passed `this.traverser()` at the right moment (in the for of loop):
+    //   return Grid.of(this.hexPrototype, traverser)
+    return this.clone(() => forEach(fn)(this.traverser()))
   }
 
   map(fn: (hex: T) => T) {
-    const map: InternalTraverser<T> = () => {
-      const result: T[] = []
-      for (const hex of this.traverser()) {
-        result.push(fn(hex))
-      }
-      return result
-    }
-    return this.clone(map)
+    return this.clone(() => map(fn)(this.traverser()))
   }
 
   // todo: alias to take or takeUntil?
   run(stopFn: (hex: T) => boolean = () => false) {
-    for (const hex of this.traverser()) {
+    forEach<T>((hex) => {
       if (stopFn(hex)) {
         return this
       }
-    }
-    return this // or clone()? todo: when to return clone and when not?
+    })(this.traverser())
+    return this
   }
 
   rectangle({
@@ -68,7 +60,7 @@ export class Grid<T extends Hex> {
     const [firstCoordinate, secondCoordinate, thirdCoordinate] = RECTANGLE_DIRECTIONS[direction]
     const [firstStop, secondStop] = this.hexPrototype.isPointy ? [width, height] : [height, width]
     const relativeOffset = (coordinate: number) => offsetFromZero(this.hexPrototype.offset, coordinate)
-    const traverser: Traverser<T> = (cursor) => {
+    const rectangle: Traverser<T> = (cursor) => {
       const result: HexCoordinates[] = []
       let _cursor = cursor
       for (let second = 0; second < secondStop; second++) {
@@ -85,7 +77,7 @@ export class Grid<T extends Hex> {
       }
       return result
     }
-    return this.traverse(traverser)
+    return this.traverse(rectangle)
   }
 
   // fixme: when topLeft > bottomRight
