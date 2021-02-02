@@ -23,7 +23,10 @@ export interface HexCoordinates extends AxialCoordinates {
   s?: number
 }
 
-export type CartesianCoordinates = Point
+export type OffsetCoordinates = {
+  col: number
+  row: number
+}
 
 export interface Ellipse {
   xRadius: number
@@ -45,16 +48,19 @@ export interface HexSettings {
 }
 
 export interface DefaultHexPrototype extends HexSettings {
+  readonly col: number
   readonly corners: Point[]
   readonly height: number
   readonly isFlat: boolean
   readonly isPointy: boolean
+  readonly row: number
   readonly width: number
 
-  _s: number
   s: number
 
-  toPoint(this: Hex): Point
+  // todo: about 80% sure the newProps type works (it's used in more places, if it works: maybe make it a separate type?)
+  copy<T extends Hex>(this: T, newProps?: Partial<T> | HexCoordinates): T
+  toPoint<T extends Hex>(this: T): Point
 }
 
 export interface Hex extends DefaultHexPrototype, AxialCoordinates {}

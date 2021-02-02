@@ -1,7 +1,9 @@
 import { isFunction, isObject, isPoint } from '../../utils'
 import { DefaultHexPrototype, Ellipse, Hex, HexSettings, Orientation, Point, Rectangle } from '../types'
+import { copyHex } from './copyHex'
 import { corners } from './corners'
 import { height } from './height'
+import { hexToOffset } from './hexToOffset'
 import { hexToPoint } from './hexToPoint'
 import { isFlat } from './isFlat'
 import { isPointy } from './isPointy'
@@ -82,31 +84,38 @@ const assertOffset = ({ offset }: HexPrototypeOptions) => {
 export const createHexPrototype = <T extends DefaultHexPrototype>(
   customPrototype?: T | Partial<HexPrototypeOptions>,
 ) => {
+  // pseudo private property
+  const s = new WeakMap()
+
   const prototype = {
     ...defaultHexSettings,
-
-    // todo: make this a getter and name it `asPoint`?
+    copy(newProps = {}) {
+      return copyHex(this, newProps)
+    },
+    // fixme: make this a getter and name it `asPoint`, or better: add getters for x and y
     toPoint() {
       return hexToPoint(this)
     },
-
     // todo: add to docs that any of the above methods will be overwritten when present in customPrototype
     ...customPrototype,
   } as T & HexPrototypeOptions
 
   // use Object.defineProperties() to create readonly properties
+  // origin is set in the final "step"
   Object.defineProperties(prototype, {
     // todo: all props set with `value` are writable (somehow the default `writable: false` doesn't apply). Not sure if this is a problem though
     // see: Object.getOwnPropertyDescriptors(hexPrototype)
-    dimensions: { value: normalizeDimensions(prototype) },
-    orientation: { value: normalizeOrientation(prototype) },
-    // origin is set in the final "step"
-    offset: { value: assertOffset(prototype) },
+    col: {
+      get() {
+        return hexToOffset(this).col
+      },
+    },
     corners: {
       get() {
         return corners(this, this)
       },
     },
+    dimensions: { value: normalizeDimensions(prototype) },
     height: {
       get() {
         return height(this)
@@ -122,13 +131,19 @@ export const createHexPrototype = <T extends DefaultHexPrototype>(
         return isPointy(this)
       },
     },
+    orientation: { value: normalizeOrientation(prototype) },
+    offset: { value: assertOffset(prototype) },
+    row: {
+      get() {
+        return hexToOffset(this).row
+      },
+    },
     s: {
       get() {
-        // todo: typescript doesn't support this somehow: return this._s ?? -this.q - this.r
-        return Number.isFinite(this._s) ? this._s : -this.q - this.r
+        return Number.isFinite(s.get(this)) ? s.get(this) : -this.q - this.r
       },
-      set(s: number) {
-        this._s = s
+      set(_s: number) {
+        s.set(this, _s)
       },
     },
     width: {
