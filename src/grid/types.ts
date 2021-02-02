@@ -1,4 +1,4 @@
-import { DefaultHexPrototype, HexCoordinates } from '../hex'
+import { Hex, HexCoordinates } from '../hex'
 
 export enum Compass {
   E,
@@ -11,8 +11,8 @@ export enum Compass {
   NE,
 }
 
-export interface Traverser<T extends DefaultHexPrototype> {
-  (cursor: HexCoordinates, hexPrototype: T): Iterable<HexCoordinates>
+export interface Traverser<T extends Hex> {
+  (cursor: T): Iterable<T>
 }
 
 export interface RectangleOptions {

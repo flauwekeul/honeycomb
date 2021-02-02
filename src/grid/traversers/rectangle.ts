@@ -3,6 +3,7 @@ import { offsetFromZero } from '../../utils'
 import { RECTANGLE_DIRECTIONS } from '../constants'
 import { Compass, RectangleOptions } from '../types'
 
+// todo: either delete this or fix it so it can do what Grid.rectangle() can
 export const rectangle = <T extends Hex>(
   hexPrototype: T,
   {
@@ -33,7 +34,7 @@ export const rectangle = <T extends Hex>(
       // if (hasTraversedBefore && !previousHexes.some((prevCoords) => equals(prevCoords, coordinates))) {
       //   return result // todo: or continue? or make this configurable?
       // }
-      result.push(createHex(hexPrototype, nextCoordinates as CubeCoordinates))
+      result.push(createHex<T>(hexPrototype, nextCoordinates as CubeCoordinates))
     }
   }
 

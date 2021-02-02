@@ -1,6 +1,7 @@
 import { createHex, CubeCoordinates, equals, Hex, HexCoordinates } from '../hex'
 import { offsetFromZero } from '../utils'
 import { RECTANGLE_DIRECTIONS } from './constants'
+import { neighborOf } from './functions'
 import { Compass, RectangleOptions, Traverser } from './types'
 import { forEach, map } from './utils'
 
@@ -61,17 +62,17 @@ export class Grid<T extends Hex> {
     const [firstStop, secondStop] = this.hexPrototype.isPointy ? [width, height] : [height, width]
     const relativeOffset = (coordinate: number) => offsetFromZero(this.hexPrototype.offset, coordinate)
     const rectangle: Traverser<T> = (cursor) => {
-      const result: HexCoordinates[] = []
+      const result: T[] = []
       let _cursor = cursor
       for (let second = 0; second < secondStop; second++) {
         const secondOffset = relativeOffset(second)
         for (let first = -secondOffset; first < firstStop - secondOffset; first++) {
-          const nextCursor: unknown = {
+          const coordinates: unknown = {
             [firstCoordinate]: first + _start[firstCoordinate],
             [secondCoordinate]: second + _start[secondCoordinate],
             [thirdCoordinate]: -first - second + _start[thirdCoordinate],
           }
-          _cursor = nextCursor as CubeCoordinates
+          _cursor = _cursor.copy(coordinates as CubeCoordinates)
           result.push(_cursor)
         }
       }
@@ -111,15 +112,15 @@ export class Grid<T extends Hex> {
       const result: T[] = []
       const hasTraversedBefore = this.traverser !== infiniteTraverser
       const previousHexes = [...this.traverser()]
-      let cursor: HexCoordinates = previousHexes[previousHexes.length - 1] || { q: 0, r: 0 }
+      let cursor: T = previousHexes[previousHexes.length - 1] || createHex(this.hexPrototype)
 
       for (const traverser of traversers) {
-        for (const nextCursor of traverser(cursor, this.hexPrototype)) {
+        for (const nextCursor of traverser(cursor)) {
           cursor = nextCursor
           if (hasTraversedBefore && !previousHexes.some((prevCoords) => equals(prevCoords, cursor))) {
             return result // todo: or continue? or make this configurable?
           }
-          result.push(createHex(this.hexPrototype, cursor))
+          result.push(cursor)
         }
       }
 
@@ -127,5 +128,9 @@ export class Grid<T extends Hex> {
     }
 
     return this.clone(traverse)
+  }
+
+  neighborOf(hex: T, direction: Compass) {
+    return neighborOf(hex, direction)
   }
 }

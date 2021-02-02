@@ -17,42 +17,42 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 
 - [ ] hex functions (apply to single hexes):
   - [ ] ?   add
-  - [ ] cartesian
-  - [ ] ?   cartesianToCube (alias: toCube)
+  - [x] ~~cartesian~~ replaced with `row` and `col` props
+  - [x] ~~cartesianToCube (alias: toCube)~~ replaced with `offsetToAxial()`
   - [ ] center
-  - [ ] ?   coordinates (returns cube by default?)
-  - [ ] corners
-  - [ ] cube
-  - [ ] cubeToCartesian (alias: toCartesian)
-  - [ ] equals
+  - [x] ~~coordinates (returns cube by default?)~~ considered obsolete
+  - [x] corners
+  - [x] ~~cube~~ considered obsolete
+  - [x] ~~cubeToCartesian (alias: toCartesian)~~ replaced with `hexToOffset()`
+  - [x] equals
   - [ ] from (convert anything? to a hex)
-  - [ ] height
-  - [ ] isFlat
-  - [ ] isPointy
+  - [x] height
+  - [x] isFlat
+  - [x] isPointy
   - [ ] lerp
   - [ ] nudge
   - [ ] round
   - [ ] ?   set
   - [ ] ?   subtract
   - [ ] thirdCoordinate
-  - [ ] toString
-  - [ ] width
+  - [x] toString
+  - [x] width
 - [ ] grid functions (apply to multiple hexes):
   - [ ] ?   distance
-  - [ ] hexToPoint
+  - [x] hexToPoint
   - [ ] pointToHex
   - [ ] get
   - [ ] hexesBetween
   - [ ] hexesInRange
   - [ ] ?   line (can be infinite)
-  - [ ] neighborsOf
+  - [x] ~~neighborsOf~~ replaced with `neighborOf()` (singular)
   - [ ] pointHeight
   - [ ] pointWidth
   - [ ] ?   set
   - [ ] parallelogram
   - [ ] triangle (can be infinite?)
   - [ ] hexagon (can be infinite?)
-  - [ ] rectangle
+  - [x] rectangle
   - [ ] ring (can be infinite?)
   - [ ] spiral (can be infinite)
 
