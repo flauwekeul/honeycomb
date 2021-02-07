@@ -1,4 +1,4 @@
-import { createHex, createHexPrototype, Grid, Hex } from '../dist'
+import { createHexPrototype, Grid, Hex } from '../dist'
 import { createSuite } from './benchmark'
 import { render } from './render'
 
@@ -19,7 +19,7 @@ Grid.of(hexPrototype)
   .rectangle({ start: { q: 0, r: 3 }, width: 5, height: 5 })
   // .rectangleFromOpposingCorners({ q: 0, r: 3 }, { q: 3, r: 6 })
   .each((hex) => {
-    hex.svg = render(createHex(hexPrototype, hex))
+    hex.svg = render(hex)
     // console.log(hex)
   })
   .run()

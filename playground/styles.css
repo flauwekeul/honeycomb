@@ -5,9 +5,14 @@ body {
 
 body {
   margin: 2vmin;
+  font-family: sans-serif;
+  color: #333;
 }
 
 svg {
   display: block;
   overflow: visible;
+}
+svg text {
+  fill: currentColor;
 }
