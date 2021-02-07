@@ -1,4 +1,4 @@
-import { createHex, CubeCoordinates, equals, Hex, HexCoordinates } from '../hex'
+import { createHex, CubeCoordinates, equals, Hex, HexCoordinates, hexToOffsetFlat, hexToOffsetPointy } from '../hex'
 import { offsetFromZero } from '../utils'
 import { RECTANGLE_DIRECTIONS } from './constants'
 import { neighborOf } from './functions'
@@ -81,31 +81,51 @@ export class Grid<T extends Hex> {
     return this.traverse(rectangle)
   }
 
-  // fixme: when topLeft > bottomRight
   // todo: is it okay to never pass a direction? Probably, but maybe add option to determine if row or col is traversed first
   // todo: have a single rectangle method that either takes {width, height} or {topLeft, bottomRight}?
+  // tested with:
+  //     width diff (pointy)
+  //   end→ O,O  E,O  O,E  E,E
+  // start↓
+  //    O,O   0    0    1    1
+  //    E,O   0    0    1    1
+  //    O,E   0    0    0    0
+  //    E,E   0    0    0    0
+  //
+  //     height diff (flat)
+  //   end→ O,O  E,O  O,E  E,E
+  // start↓
+  //    O,O   0    1    0    1
+  //    E,O   0    0    0    0
+  //    O,E   0    1    0    1
+  //    E,E   0    0    0    0
   rectangleFromOpposingCorners(topLeft: HexCoordinates, bottomRight: HexCoordinates) {
     const { isPointy, offset } = this.hexPrototype
-    const relativeOffset = (coordinate: number) => offsetFromZero(offset, coordinate)
 
     if (isPointy) {
-      const topLeftCol = topLeft.q + relativeOffset(topLeft.r)
-      const bottomRightCol = bottomRight.q + relativeOffset(bottomRight.r)
-      const height = Math.abs(topLeft.r - bottomRight.r) + 1
-      const width = Math.abs(topLeftCol - bottomRightCol) + (height % 2)
-      return this.rectangle({ width, height, start: topLeft })
+      const { col: topLeftCol, row: topLeftRow } = hexToOffsetPointy(topLeft.q, topLeft.r, offset)
+      const { col: bottomRightCol, row: bottomRightRow } = hexToOffsetPointy(bottomRight.q, bottomRight.r, offset)
+      return this.rectangle({
+        // only add 1 if topLeftRow is even or if bottomRightRow is odd
+        width: Math.abs(topLeftCol - bottomRightCol) + Math.abs((topLeftRow + 1) % 2 || bottomRightRow % 2),
+        height: Math.abs(topLeftRow - bottomRightRow) + 1,
+        start: topLeft,
+      })
     }
 
-    const topLeftRow = topLeft.r + relativeOffset(topLeft.q)
-    const bottomRightRow = bottomRight.r + relativeOffset(bottomRight.q)
-    const height = Math.abs(topLeftRow - bottomRightRow) + 1
-    const width = Math.abs(topLeft.q - bottomRight.q) + (height % 2)
-    return this.rectangle({ width, height, start: topLeft })
+    const { col: topLeftCol, row: topLeftRow } = hexToOffsetFlat(topLeft.q, topLeft.r, offset)
+    const { col: bottomRightCol, row: bottomRightRow } = hexToOffsetFlat(bottomRight.q, bottomRight.r, offset)
+    return this.rectangle({
+      width: Math.abs(topLeftCol - bottomRightCol) + 1,
+      // only add 1 if topLeftCol is even or if bottomRightCol is odd
+      height: Math.abs(topLeftRow - bottomRightRow) + Math.abs((topLeftCol + 1) % 2 || bottomRightCol % 2),
+      start: topLeft,
+    })
   }
 
   traverse(...traversers: Traverser<T>[]) {
     if (traversers.length === 0) {
-      return this // or clone()? bottomRightdo: when to return clone and when not?
+      return this
     }
 
     const traverse: InternalTraverser<T> = () => {

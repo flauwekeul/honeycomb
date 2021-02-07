@@ -1,4 +1,5 @@
 // todo: move types to single file in /src
+// tried it and somehow typescript can't call origin as a function anymore in createHexPrototype.ts normalizeOrigin()
 
 export interface Point {
   x: number
