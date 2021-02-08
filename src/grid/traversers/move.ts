@@ -1,8 +1,9 @@
+import { CompassDirection } from '../../compass'
 import { Hex } from '../../hex'
 import { neighborOf } from '../functions'
-import { Compass, Traverser } from '../types'
+import { Traverser } from '../types'
 
-export const move = <T extends Hex>(direction: Compass, times = 1): Traverser<T> => {
+export const move = <T extends Hex>(direction: CompassDirection, times = 1): Traverser<T> => {
   return (cursor) => {
     const result: T[] = []
     let _cursor = cursor
