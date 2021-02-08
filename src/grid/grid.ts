@@ -1,8 +1,8 @@
-import { createHex, CubeCoordinates, equals, Hex, HexCoordinates, hexToOffsetFlat, hexToOffsetPointy } from '../hex'
-import { offsetFromZero } from '../utils'
-import { RECTANGLE_DIRECTIONS } from './constants'
+import { CompassDirection } from '../compass'
+import { createHex, equals, Hex, HexCoordinates, hexToOffsetFlat, hexToOffsetPointy } from '../hex'
 import { neighborOf } from './functions'
-import { Compass, RectangleOptions, Traverser } from './types'
+import { rectangle } from './traversers'
+import { RectangleOptions, Traverser } from './types'
 import { forEach, map } from './utils'
 
 interface InternalTraverser<T extends Hex> {
@@ -51,54 +51,14 @@ export class Grid<T extends Hex> {
     return this
   }
 
-  rectangle({
-    width,
-    height,
-    start = { q: 0, r: 0 },
-    direction = this.hexPrototype.isPointy ? Compass.E : Compass.SE,
-  }: RectangleOptions) {
-    const _start: CubeCoordinates = { q: start.q, r: start.r, s: -start.q - start.r }
-    const [firstCoordinate, secondCoordinate, thirdCoordinate] = RECTANGLE_DIRECTIONS[direction]
-    const [firstStop, secondStop] = this.hexPrototype.isPointy ? [width, height] : [height, width]
-    const relativeOffset = (coordinate: number) => offsetFromZero(this.hexPrototype.offset, coordinate)
-    const rectangle: Traverser<T> = (cursor) => {
-      const result: T[] = []
-      let _cursor = cursor
-      for (let second = 0; second < secondStop; second++) {
-        const secondOffset = relativeOffset(second)
-        for (let first = -secondOffset; first < firstStop - secondOffset; first++) {
-          const coordinates: unknown = {
-            [firstCoordinate]: first + _start[firstCoordinate],
-            [secondCoordinate]: second + _start[secondCoordinate],
-            [thirdCoordinate]: -first - second + _start[thirdCoordinate],
-          }
-          _cursor = _cursor.copy(coordinates as CubeCoordinates)
-          result.push(_cursor)
-        }
-      }
-      return result
-    }
-    return this.traverse(rectangle)
+  // todo: add in docs: only 90° corners for cardinal directions
+  rectangle(options: RectangleOptions) {
+    return this.traverse(rectangle(options))
   }
 
-  // todo: is it okay to never pass a direction? Probably, but maybe add option to determine if row or col is traversed first
+  // todo: accept any opposing corner
   // todo: have a single rectangle method that either takes {width, height} or {topLeft, bottomRight}?
-  // tested with:
-  //     width diff (pointy)
-  //   end→ O,O  E,O  O,E  E,E
-  // start↓
-  //    O,O   0    0    1    1
-  //    E,O   0    0    1    1
-  //    O,E   0    0    0    0
-  //    E,E   0    0    0    0
-  //
-  //     height diff (flat)
-  //   end→ O,O  E,O  O,E  E,E
-  // start↓
-  //    O,O   0    1    0    1
-  //    E,O   0    0    0    0
-  //    O,E   0    1    0    1
-  //    E,E   0    0    0    0
+  // todo: maybe add option to determine if row or col is traversed first
   rectangleFromOpposingCorners(topLeft: HexCoordinates, bottomRight: HexCoordinates) {
     const { isPointy, offset } = this.hexPrototype
 
@@ -106,8 +66,7 @@ export class Grid<T extends Hex> {
       const { col: topLeftCol, row: topLeftRow } = hexToOffsetPointy(topLeft.q, topLeft.r, offset)
       const { col: bottomRightCol, row: bottomRightRow } = hexToOffsetPointy(bottomRight.q, bottomRight.r, offset)
       return this.rectangle({
-        // only add 1 if topLeftRow is even or if bottomRightRow is odd
-        width: Math.abs(topLeftCol - bottomRightCol) + Math.abs((topLeftRow + 1) % 2 || bottomRightRow % 2),
+        width: Math.abs(topLeftCol - bottomRightCol) + 1,
         height: Math.abs(topLeftRow - bottomRightRow) + 1,
         start: topLeft,
       })
@@ -117,8 +76,7 @@ export class Grid<T extends Hex> {
     const { col: bottomRightCol, row: bottomRightRow } = hexToOffsetFlat(bottomRight.q, bottomRight.r, offset)
     return this.rectangle({
       width: Math.abs(topLeftCol - bottomRightCol) + 1,
-      // only add 1 if topLeftCol is even or if bottomRightCol is odd
-      height: Math.abs(topLeftRow - bottomRightRow) + Math.abs((topLeftCol + 1) % 2 || bottomRightCol % 2),
+      height: Math.abs(topLeftRow - bottomRightRow) + 1,
       start: topLeft,
     })
   }
@@ -150,7 +108,7 @@ export class Grid<T extends Hex> {
     return this.clone(traverse)
   }
 
-  neighborOf(hex: T, direction: Compass) {
+  neighborOf(hex: T, direction: CompassDirection) {
     return neighborOf(hex, direction)
   }
 }

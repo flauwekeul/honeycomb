@@ -1,5 +1,5 @@
+import { CompassDirection } from '../../compass'
 import { AxialCoordinates, Hex, offsetToAxialFlat, offsetToAxialPointy } from '../../hex'
-import { Compass } from '../types'
 
 const DIRECTIONS_POINTY = [
   null, // ambiguous
@@ -22,23 +22,23 @@ const DIRECTIONS_FLAT = [
   { q: -1, r: 0 }, // NW
 ] as AxialCoordinates[]
 
-export const neighborOfPointy = <T extends Hex>({ offset, q, r, col, row }: T, direction: Compass) => {
-  if (direction === Compass.S || direction === Compass.N) {
-    const nextRow = direction === Compass.S ? row + 1 : row - 1
+export const neighborOfPointy = <T extends Hex>({ offset, q, r, col, row }: T, direction: CompassDirection) => {
+  if (direction === CompassDirection.S || direction === CompassDirection.N) {
+    const nextRow = direction === CompassDirection.S ? row + 1 : row - 1
     return offsetToAxialPointy(col, nextRow, offset)
   }
   const neighbor = DIRECTIONS_POINTY[direction]
   return { q: q + neighbor.q, r: r + neighbor.r }
 }
 
-export const neighborOfFlat = <T extends Hex>({ offset, q, r, col, row }: T, direction: Compass) => {
-  if (direction === Compass.E || direction === Compass.W) {
-    const nextCol = direction === Compass.E ? col + 1 : col - 1
+export const neighborOfFlat = <T extends Hex>({ offset, q, r, col, row }: T, direction: CompassDirection) => {
+  if (direction === CompassDirection.E || direction === CompassDirection.W) {
+    const nextCol = direction === CompassDirection.E ? col + 1 : col - 1
     return offsetToAxialFlat(nextCol, row, offset)
   }
   const neighbor = DIRECTIONS_FLAT[direction]
   return { q: q + neighbor.q, r: r + neighbor.r }
 }
 
-export const neighborOf = <T extends Hex>(hex: T, direction: Compass) =>
+export const neighborOf = <T extends Hex>(hex: T, direction: CompassDirection) =>
   hex.isPointy ? neighborOfPointy(hex, direction) : neighborOfFlat(hex, direction)
