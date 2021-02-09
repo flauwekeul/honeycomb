@@ -103,6 +103,7 @@ export const createHexPrototype = <T extends DefaultHexPrototype>(
   // use Object.defineProperties() to create readonly properties
   // origin is set in the final "step"
   Object.defineProperties(prototype, {
+    __isHoneycombHex: { value: true },
     // todo: all props set with `value` are writable (somehow the default `writable: false` doesn't apply). Not sure if this is a problem though
     // see: Object.getOwnPropertyDescriptors(hexPrototype)
     col: {
@@ -112,7 +113,7 @@ export const createHexPrototype = <T extends DefaultHexPrototype>(
     },
     corners: {
       get() {
-        return corners(this, this)
+        return corners(this)
       },
     },
     dimensions: { value: normalizeDimensions(prototype) },

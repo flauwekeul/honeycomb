@@ -7,7 +7,7 @@ const draw = SVG().addTo('body').size('100%', '100%')
 export const render = (hex: Hex) => {
   const { x, y } = hexToPoint(hex)
   const polygon = draw
-    .polygon(corners(hex, hex).map(({ x, y }) => `${x},${y}`))
+    .polygon(corners(hex).map(({ x, y }) => `${x},${y}`))
     .fill('none')
     .stroke({ width: 1, color: '#999' })
   const text = draw
