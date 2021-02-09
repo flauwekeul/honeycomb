@@ -1,5 +1,5 @@
 import { CompassDirection } from '../compass'
-import { createHex, equals, Hex, HexCoordinates, hexToOffsetFlat, hexToOffsetPointy } from '../hex'
+import { createHex, equals, Hex, HexCoordinates } from '../hex'
 import { neighborOf } from './functions'
 import { rectangle } from './traversers'
 import { RectangleOptions, Traverser } from './types'
@@ -51,34 +51,12 @@ export class Grid<T extends Hex> {
     return this
   }
 
+  // todo: maybe remove this method? What's wrong with just calling grid.traverse(rectangle({ ... }))?
   // todo: add in docs: only 90° corners for cardinal directions
-  rectangle(options: RectangleOptions) {
-    return this.traverse(rectangle(options))
-  }
-
-  // todo: accept any opposing corner
-  // todo: have a single rectangle method that either takes {width, height} or {topLeft, bottomRight}?
-  // todo: maybe add option to determine if row or col is traversed first
-  rectangleFromOpposingCorners(topLeft: HexCoordinates, bottomRight: HexCoordinates) {
-    const { isPointy, offset } = this.hexPrototype
-
-    if (isPointy) {
-      const { col: topLeftCol, row: topLeftRow } = hexToOffsetPointy(topLeft.q, topLeft.r, offset)
-      const { col: bottomRightCol, row: bottomRightRow } = hexToOffsetPointy(bottomRight.q, bottomRight.r, offset)
-      return this.rectangle({
-        width: Math.abs(topLeftCol - bottomRightCol) + 1,
-        height: Math.abs(topLeftRow - bottomRightRow) + 1,
-        start: topLeft,
-      })
-    }
-
-    const { col: topLeftCol, row: topLeftRow } = hexToOffsetFlat(topLeft.q, topLeft.r, offset)
-    const { col: bottomRightCol, row: bottomRightRow } = hexToOffsetFlat(bottomRight.q, bottomRight.r, offset)
-    return this.rectangle({
-      width: Math.abs(topLeftCol - bottomRightCol) + 1,
-      height: Math.abs(topLeftRow - bottomRightRow) + 1,
-      start: topLeft,
-    })
+  rectangle(options: RectangleOptions): Grid<T>
+  rectangle(cornerA: HexCoordinates, cornerB: HexCoordinates): Grid<T>
+  rectangle(optionsOrCornerA: RectangleOptions | HexCoordinates, cornerB?: HexCoordinates) {
+    return this.traverse(rectangle(optionsOrCornerA as HexCoordinates, cornerB as HexCoordinates))
   }
 
   traverse(...traversers: Traverser<T>[]) {
@@ -108,6 +86,7 @@ export class Grid<T extends Hex> {
     return this.clone(traverse)
   }
 
+  // todo: maybe remove this method?
   neighborOf(hex: T, direction: CompassDirection) {
     return neighborOf(hex, direction)
   }
