@@ -49,6 +49,7 @@ export interface HexSettings {
 }
 
 export interface DefaultHexPrototype extends HexSettings {
+  readonly __isHoneycombHex: true
   readonly col: number
   readonly corners: Point[]
   readonly height: number
