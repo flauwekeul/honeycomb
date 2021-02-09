@@ -1,18 +1,72 @@
 import { Compass, CompassDirection } from '../../compass'
-import { Hex } from '../../hex'
+import { Hex, HexCoordinates, hexToOffset } from '../../hex'
 import { RectangleOptions, Traverser } from '../types'
 import { at } from './at'
 import { branch } from './branch'
 import { concat } from './concat'
 import { move } from './move'
 
-export const rectangle = <T extends Hex>({
-  width,
-  height,
-  start = { q: 0, r: 0 },
-  direction = CompassDirection.E,
-}: RectangleOptions): Traverser<T> =>
-  branch(concat(at(start), move(Compass.rotate(direction, 2), height - 1)), move(direction, width - 1))
+// todo: add in docs: only 90° corners for cardinal directions
+// todo: when passed opposing corners: maybe add option to determine if row or col is traversed first
+export function rectangle<T extends Hex>(options: RectangleOptions): Traverser<T>
+export function rectangle<T extends Hex>(cornerA: HexCoordinates, cornerB: HexCoordinates): Traverser<T>
+export function rectangle<T extends Hex>(
+  optionsOrCornerA: RectangleOptions | HexCoordinates,
+  cornerB?: HexCoordinates,
+): Traverser<T> {
+  return (cursor) => {
+    const { width, height, start = { q: 0, r: 0 }, direction = CompassDirection.E } = cornerB
+      ? optionsFromOpposingCorners(optionsOrCornerA as HexCoordinates, cornerB, cursor.isPointy, cursor.offset)
+      : (optionsOrCornerA as RectangleOptions)
+
+    return branch<T>(
+      concat(at(start), move(Compass.rotate(direction, 2), height - 1)),
+      move(direction, width - 1),
+    )(cursor)
+  }
+}
+
+function optionsFromOpposingCorners(
+  cornerA: HexCoordinates,
+  cornerB: HexCoordinates,
+  isPointy: boolean,
+  offset: number,
+): RectangleOptions {
+  const { col: cornerACol, row: cornerARow } = hexToOffset({ q: cornerA.q, r: cornerA.r, isPointy, offset })
+  const { col: cornerBCol, row: cornerBRow } = hexToOffset({ q: cornerB.q, r: cornerB.r, isPointy, offset })
+  const smallestCol = cornerACol < cornerBCol ? 'A' : 'B'
+  const smallestRow = cornerARow < cornerBRow ? 'A' : 'B'
+  const smallestColRow = (smallestCol + smallestRow) as keyof typeof RULES_FOR_SMALLEST_COL_ROW
+  const { swapWidthHeight, direction } = RULES_FOR_SMALLEST_COL_ROW[smallestColRow]
+  const width = Math.abs(cornerACol - cornerBCol) + 1
+  const height = Math.abs(cornerARow - cornerBRow) + 1
+
+  return {
+    width: swapWidthHeight ? height : width,
+    height: swapWidthHeight ? width : height,
+    start: cornerA,
+    direction,
+  }
+}
+
+const RULES_FOR_SMALLEST_COL_ROW = {
+  AA: {
+    swapWidthHeight: false,
+    direction: CompassDirection.E,
+  },
+  AB: {
+    swapWidthHeight: true,
+    direction: CompassDirection.N,
+  },
+  BA: {
+    swapWidthHeight: true,
+    direction: CompassDirection.S,
+  },
+  BB: {
+    swapWidthHeight: false,
+    direction: CompassDirection.W,
+  },
+}
 
 /**
  * This is the "old way" of creating rectangles. It's less performant (up until ~40x slower with 200x200 rectangles), but it's able to create
