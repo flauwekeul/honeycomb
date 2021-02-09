@@ -1,12 +1,12 @@
 import { offsetFromZero } from '../../utils'
-import { DefaultHexPrototype, HexCoordinates, OffsetCoordinates } from '../types'
+import { AxialCoordinates, DefaultHexPrototype, OffsetCoordinates } from '../types'
 
-export const offsetToAxialPointy = (col: number, row: number, offset: number): HexCoordinates => ({
+export const offsetToAxialPointy = (col: number, row: number, offset: number): AxialCoordinates => ({
   q: col - offsetFromZero(offset, row),
   r: row,
 })
 
-export const offsetToAxialFlat = (col: number, row: number, offset: number): HexCoordinates => ({
+export const offsetToAxialFlat = (col: number, row: number, offset: number): AxialCoordinates => ({
   q: col,
   r: row - offsetFromZero(offset, col),
 })
