@@ -68,7 +68,7 @@ export class Grid<T extends Hex> {
       const result: T[] = []
       const hasTraversedBefore = this.traverser !== infiniteTraverser
       const previousHexes = [...this.traverser()]
-      let cursor: T = previousHexes[previousHexes.length - 1] || createHex(this.hexPrototype)
+      let cursor: T = previousHexes[previousHexes.length - 1] || createHex(this.hexPrototype).copy() // copy to enable users to make custom hexes
 
       for (const traverser of traversers) {
         for (const nextCursor of traverser(cursor)) {
