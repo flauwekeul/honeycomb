@@ -18,8 +18,10 @@ export class Grid<T extends Hex> {
 
   constructor(public hexPrototype: T, private traverser: InternalTraverser<T> = infiniteTraverser) {}
 
-  [Symbol.iterator]() {
-    return this.traverser()
+  *[Symbol.iterator]() {
+    for (const hex of this.traverser()) {
+      yield hex
+    }
   }
 
   clone(traverser = this.traverser) {
