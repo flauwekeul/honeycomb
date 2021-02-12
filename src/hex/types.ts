@@ -61,8 +61,8 @@ export interface DefaultHexPrototype extends HexSettings {
   s: number
 
   // todo: about 80% sure the newProps type works (it's used in more places, if it works: maybe make it a separate type?)
-  copy<T extends Hex>(this: T, newProps?: Partial<T> | HexCoordinates): T
-  toPoint<T extends Hex>(this: T): Point
+  copy(this: this, newProps?: Partial<this> | HexCoordinates): this
+  toPoint(this: this): Point
 }
 
 export interface Hex extends DefaultHexPrototype, AxialCoordinates {}
