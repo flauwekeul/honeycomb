@@ -5,12 +5,7 @@ import { rectangle } from './traversers'
 import { RectangleOptions, Traverser } from './types'
 import { forEach, map } from './utils'
 
-interface InternalTraverser<T extends Hex> {
-  (this: Grid<T>): Iterable<T>
-}
-
-const infiniteTraverser = <T extends Hex>(): Iterable<T> => []
-
+// todo: add from() static method that only accepts hexes and creates a grid by picking the prototype and traverser (traverser is just: `() => hexes`)
 export class Grid<T extends Hex> {
   static of<T extends Hex>(hexPrototype: T, traverser?: InternalTraverser<T>) {
     return new Grid(hexPrototype, traverser)
@@ -24,23 +19,18 @@ export class Grid<T extends Hex> {
     }
   }
 
-  clone(traverser = this.traverser) {
+  // it doesn't take a hexPrototype and hexes because it doesn't need to copy those
+  copy(traverser = this.traverser) {
     // bind(this) in case the traverser is a "regular" (generator) function
     return Grid.of(this.hexPrototype, traverser.bind(this))
   }
 
   each(fn: (hex: T) => void) {
-    // todo: make it point-free:
-    //   const each: InternalTraverser<T> = forEach(fn)
-    // then in clone():
-    //   return Grid.of(this.hexPrototype, () => traverser(this.traverser()))
-    // or this, but then traverser needs to be passed `this.traverser()` at the right moment (in the for of loop):
-    //   return Grid.of(this.hexPrototype, traverser)
-    return this.clone(() => forEach(fn)(this.traverser()))
+    return this.copy(() => forEach(fn)(this.traverser()))
   }
 
   map(fn: (hex: T) => T) {
-    return this.clone(() => map(fn)(this.traverser()))
+    return this.copy(() => map(fn)(this.traverser()))
   }
 
   // todo: alias to take or takeUntil?
@@ -85,7 +75,7 @@ export class Grid<T extends Hex> {
       return result
     }
 
-    return this.clone(traverse)
+    return this.copy(traverse)
   }
 
   // todo: maybe remove this method?
@@ -93,3 +83,9 @@ export class Grid<T extends Hex> {
     return neighborOf(hex, direction)
   }
 }
+
+interface InternalTraverser<T extends Hex> {
+  (this: Grid<T>): Iterable<T>
+}
+
+const infiniteTraverser = <T extends Hex>(): Iterable<T> => []
