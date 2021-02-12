@@ -81,15 +81,13 @@ const assertOffset = ({ offset }: HexPrototypeOptions) => {
   return offset
 }
 
-export const createHexPrototype = <T extends DefaultHexPrototype>(
-  customPrototype?: T | Partial<HexPrototypeOptions>,
-) => {
+export const createHexPrototype = <T extends Hex>(customPrototype?: T | Partial<HexPrototypeOptions>) => {
   // pseudo private property
   const s = new WeakMap()
 
   const prototype = {
     ...defaultHexSettings,
-    copy(newProps = {}) {
+    copy(newProps) {
       return copyHex(this, newProps)
     },
     // fixme: make this a getter and name it `asPoint`, or better: add getters for x and y
