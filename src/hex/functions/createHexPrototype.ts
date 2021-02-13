@@ -2,6 +2,7 @@ import { isFunction, isObject, isPoint } from '../../utils'
 import { DefaultHexPrototype, Ellipse, Hex, HexSettings, Orientation, Point, Rectangle } from '../types'
 import { copyHex } from './copyHex'
 import { corners } from './corners'
+import { equals } from './equals'
 import { height } from './height'
 import { hexToOffset } from './hexToOffset'
 import { hexToPoint } from './hexToPoint'
@@ -87,6 +88,9 @@ export const createHexPrototype = <T extends Hex>(customPrototype?: T | Partial<
 
   const prototype = {
     ...defaultHexSettings,
+    equals(coordinates) {
+      return equals(this, coordinates)
+    },
     copy(newProps) {
       return copyHex(this, newProps)
     },
