@@ -1,9 +1,9 @@
 import { CompassDirection } from '../compass'
-import { createHex, equals, Hex, HexCoordinates } from '../hex'
+import { createHex, Hex, HexCoordinates } from '../hex'
 import { HexCache } from '../hexCache'
 import { neighborOf } from './functions'
-import { rectangle } from './traversers'
-import { RectangleOptions, Traverser } from './types'
+import { rectangle, RectangleOptions } from './traversers'
+import { GetOrCreateHexFn, Traverser } from './types'
 import { forEach, map } from './utils'
 
 // todo: add from() static method that only accepts hexes and creates a grid by picking the prototype and traverser (traverser is just: `() => hexes`)
@@ -14,6 +14,7 @@ export class Grid<T extends Hex> {
 
   constructor(
     public hexPrototype: T,
+    // todo: default to a no-op cache that does nothing?
     public hexes = new HexCache<T>(),
     private traverser: InternalTraverser<T> = infiniteTraverser,
   ) {}
@@ -41,12 +42,7 @@ export class Grid<T extends Hex> {
 
   // todo: alias to take or takeUntil?
   run(stopFn: (hex: T) => boolean = () => false) {
-    // when traverser() is called once, `this.hexes` will be empty and it needs to be set here,
-    // when traverser() is called more than once, `this.hexes` will already be set and must not be overridden by the last traversal,
-    // for the first traversal sets how many hexes the grid contains.
-    const hexes = [...this.traverser()]
-    this.hexes.items = this.hexes.size > 0 ? this.hexes.items : hexes
-    for (const hex of this.hexes.items) {
+    for (const hex of this.traverser()) {
       if (stopFn(hex)) {
         return this
       }
@@ -67,38 +63,33 @@ export class Grid<T extends Hex> {
       return this
     }
 
-    const traverse: InternalTraverser<T> = () => {
+    const nextTraverse: InternalTraverser<T> = () => {
       const result: T[] = []
       const hasTraversedBefore = this.traverser !== infiniteTraverser
-      let previousHexes: T[] = []
-
-      if (this.hexes.size > 0) {
-        // use cached hexes
-        previousHexes = this.hexes.items
-      } else {
-        previousHexes = [...this.traverser()]
-        if (previousHexes.length > 0) {
-          // cache hexes
-          this.hexes.items = previousHexes
-        }
-      }
-
-      let cursor: T = previousHexes[previousHexes.length - 1] || createHex(this.hexPrototype).copy() // copy to enable users to make custom hexes
+      // run any previous traversal to set cache
+      this.traverser()
+      // todo: private method/property?
+      const getOrCreateHex: GetOrCreateHexFn<T> = (coordinates) =>
+        // todo: use Map for faster finding (also for `this.hexes.items.some()`)?
+        this.hexes.items.find((hex) => hex.equals(coordinates)) ?? createHex(this.hexPrototype).copy(coordinates) // copy to enable users to make custom hexes
+      let cursor: T = this.hexes.items[this.hexes.items.length - 1] || createHex(this.hexPrototype).copy() // copy to enable users to make custom hexes
 
       for (const traverser of traversers) {
-        for (const nextCursor of traverser(cursor)) {
+        for (const nextCursor of traverser(cursor, getOrCreateHex)) {
           cursor = nextCursor
-          if (hasTraversedBefore && !previousHexes.some((prevCoords) => equals(prevCoords, cursor))) {
+          if (hasTraversedBefore && !this.hexes.items.some((prevHex) => prevHex.equals(cursor))) {
             return result // todo: or continue? or make this configurable?
           }
           result.push(cursor)
         }
       }
 
+      // cache hexes
+      this.hexes.items = result
       return result
     }
 
-    return this.copy(traverse)
+    return this.copy(nextTraverse)
   }
 
   // todo: maybe remove this method?
