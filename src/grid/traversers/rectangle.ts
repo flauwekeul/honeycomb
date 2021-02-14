@@ -1,6 +1,6 @@
 import { Compass, CompassDirection } from '../../compass'
 import { Hex, HexCoordinates, hexToOffset } from '../../hex'
-import { RectangleOptions, Traverser } from '../types'
+import { Traverser } from '../types'
 import { at } from './at'
 import { branch } from './branch'
 import { concat } from './concat'
@@ -14,16 +14,23 @@ export function rectangle<T extends Hex>(
   optionsOrCornerA: RectangleOptions | HexCoordinates,
   cornerB?: HexCoordinates,
 ): Traverser<T> {
-  return (cursor) => {
+  return (cursor, getHex) => {
     const { width, height, start = { q: 0, r: 0 }, direction = CompassDirection.E } = cornerB
       ? optionsFromOpposingCorners(optionsOrCornerA as HexCoordinates, cornerB, cursor.isPointy, cursor.offset)
       : (optionsOrCornerA as RectangleOptions)
 
-    return branch<T>(
-      concat(at(start), move(Compass.rotate(direction, 2), height - 1)),
-      move(direction, width - 1),
-    )(cursor)
+    return branch<T>(concat(at(start), move(Compass.rotate(direction, 2), height - 1)), move(direction, width - 1))(
+      cursor,
+      getHex,
+    )
   }
+}
+
+export interface RectangleOptions {
+  width: number
+  height: number
+  start?: HexCoordinates
+  direction?: CompassDirection
 }
 
 function optionsFromOpposingCorners(

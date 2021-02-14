@@ -1,6 +1,7 @@
 import { Hex } from '../hex'
 
 export interface Cache<T> {
+  // todo: rename to value?
   items: T[]
   size: number
 }
