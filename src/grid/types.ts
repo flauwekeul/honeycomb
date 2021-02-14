@@ -1,13 +1,9 @@
-import { CompassDirection } from '../compass'
 import { Hex, HexCoordinates } from '../hex'
 
 export interface Traverser<T extends Hex> {
-  (cursor: T): Iterable<T>
+  (cursor: T, getHex: GetOrCreateHexFn<T>): Iterable<T>
 }
 
-export interface RectangleOptions {
-  width: number
-  height: number
-  start?: HexCoordinates
-  direction?: CompassDirection
+export interface GetOrCreateHexFn<T extends Hex> {
+  (coordinates: HexCoordinates): T
 }
