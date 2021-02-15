@@ -8,6 +8,7 @@ import { hexToOffset } from './hexToOffset'
 import { hexToPoint } from './hexToPoint'
 import { isFlat } from './isFlat'
 import { isPointy } from './isPointy'
+import { toString } from './toString'
 import { width } from './width'
 
 export interface HexPrototypeOptions {
@@ -97,6 +98,9 @@ export const createHexPrototype = <T extends Hex>(customPrototype?: T | Partial<
     // fixme: make this a getter and name it `asPoint`, or better: add getters for x and y
     toPoint() {
       return hexToPoint(this)
+    },
+    toString() {
+      return toString(this)
     },
     // todo: add to docs that any of the above methods will be overwritten when present in customPrototype
     ...customPrototype,
