@@ -1,4 +1,4 @@
-import { CoordinatesCache } from '../cache'
+import { Cache, NoOpCache } from '../cache'
 import { CompassDirection } from '../compass'
 import { createHex, Hex, HexCoordinates } from '../hex'
 import { neighborOf } from './functions'
@@ -8,14 +8,14 @@ import { forEach, map } from './utils'
 
 // todo: add from() static method that only accepts a cache and creates a grid by picking the prototype and traverser (traverser is just: `() => cache`)
 export class Grid<T extends Hex> {
-  static of<T extends Hex>(hexPrototype: T, cache?: CoordinatesCache<T>, traverser?: InternalTraverser<T>) {
+  static of<T extends Hex>(hexPrototype: T, cache?: Cache<T>, traverser?: InternalTraverser<T>) {
     return new Grid(hexPrototype, cache, traverser)
   }
 
   constructor(
     public hexPrototype: T,
     // todo: default to a no-op cache that does nothing?
-    public cache = new CoordinatesCache<T>(),
+    public cache: Cache<T> = new NoOpCache(),
     private traverser: InternalTraverser<T> = infiniteTraverser,
   ) {}
 

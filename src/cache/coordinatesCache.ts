@@ -1,19 +1,8 @@
 import { toString } from '../hex/functions'
 import { Hex, HexCoordinates } from '../hex/types'
-
-export interface Cache<T> {
-  readonly last: T | undefined
-  readonly size: number
-  clear(): void
-  delete(id: unknown): boolean
-  forEach(fn: (item: T, id: unknown, cache: this) => void): void
-  get(id: unknown): T | undefined
-  has(id: unknown): boolean
-  set(id: unknown): this
-}
+import { Cache } from './types'
 
 // todo: experiment with cache that serializes and deserializes hexes (users should probably implement it)
-// todo: add "dummy cache" that doesn't cache (for the purpose of performance)
 export class CoordinatesCache<T extends Hex> implements Cache<T> {
   static of<T extends Hex>(hexes?: T[]) {
     return new CoordinatesCache(hexes)
