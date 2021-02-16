@@ -1,4 +1,4 @@
-export * from './copyHex'
+export * from './cloneHex'
 export * from './corners'
 export * from './createHex'
 export * from './createHexPrototype'
