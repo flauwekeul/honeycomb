@@ -26,18 +26,18 @@ export class Grid<T extends Hex> {
   }
 
   // it doesn't take a hexPrototype and cache because it doesn't need to copy those
-  copy(traverser = this.traverser) {
+  clone(traverser = this.traverser) {
     // bind(this) in case the traverser is a "regular" (generator) function
     return Grid.of(this.hexPrototype, this.cache, traverser.bind(this))
   }
 
   each(fn: (hex: T) => void) {
-    return this.copy(() => forEach(fn)(this.traverser()))
+    return this.clone(() => forEach(fn)(this.traverser()))
   }
 
   // todo: use this.cache
   map(fn: (hex: T) => T) {
-    return this.copy(() => map(fn)(this.traverser()))
+    return this.clone(() => map(fn)(this.traverser()))
   }
 
   // todo: alias to take or takeUntil?
@@ -70,9 +70,9 @@ export class Grid<T extends Hex> {
       this.traverser()
       // todo: private method/property?
       const getOrCreateHex: GetOrCreateHexFn<T> = (coordinates) =>
-        this.cache.get(coordinates) ?? createHex(this.hexPrototype).copy(coordinates) // copy to enable users to make custom hexes
+        this.cache.get(coordinates) ?? createHex(this.hexPrototype).clone(coordinates) // clone to enable users to make custom hexes
       // todo: don't start at last hex and/or make it configurable?
-      let cursor: T = this.cache.last || createHex(this.hexPrototype).copy() // copy to enable users to make custom hexes
+      let cursor: T = this.cache.last || createHex(this.hexPrototype).clone() // clone to enable users to make custom hexes
 
       for (const traverser of traversers) {
         for (const nextCursor of traverser(cursor, getOrCreateHex)) {
@@ -89,7 +89,7 @@ export class Grid<T extends Hex> {
       return result
     }
 
-    return this.copy(nextTraverse)
+    return this.clone(nextTraverse)
   }
 
   // todo: maybe remove this method?
