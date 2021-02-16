@@ -1,6 +1,6 @@
 import { isFunction, isObject, isPoint } from '../../utils'
 import { DefaultHexPrototype, Ellipse, Hex, HexSettings, Orientation, Point, Rectangle } from '../types'
-import { copyHex } from './copyHex'
+import { cloneHex } from './cloneHex'
 import { corners } from './corners'
 import { equals } from './equals'
 import { height } from './height'
@@ -92,8 +92,8 @@ export const createHexPrototype = <T extends Hex>(customPrototype?: T | Partial<
     equals(coordinates) {
       return equals(this, coordinates)
     },
-    copy(newProps) {
-      return copyHex(this, newProps)
+    clone(newProps) {
+      return cloneHex(this, newProps)
     },
     // fixme: make this a getter and name it `asPoint`, or better: add getters for x and y
     toPoint() {
