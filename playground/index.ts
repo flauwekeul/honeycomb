@@ -1,4 +1,4 @@
-import { createHexPrototype, Grid, Hex, Orientation } from '../dist'
+import { at, CompassDirection, createHexPrototype, Grid, Hex, move, NoopMap, Orientation } from '../dist'
 import { createSuite } from './benchmark'
 import { render } from './render'
 
@@ -15,21 +15,23 @@ const hexPrototype = createHexPrototype<CustomHex>({
 })
 // const hex = createHex(hexPrototype, { q: 4, r: 3 })
 
-Grid.of(hexPrototype)
-  .rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 })
-  // .traverse(at({ q: 6, r: 6 }), move(CompassDirection.SE, 8))
+const grid = Grid.of(hexPrototype)
+  // .rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 })
+  .traverse(at({ q: 0, r: 0 }), move(CompassDirection.SE, 4))
+  .traverse(at({ q: 0, r: 0 }), move(CompassDirection.SE, 8))
+  .traverse(at({ q: 0, r: 0 }), move(CompassDirection.SE, 6))
   .each((hex) => {
     hex.svg = render(hex)
     // console.log(hex)
   })
   .run()
+console.log('final', grid.hexes)
 
+const amount = 50
 createSuite()
-  .add('rectangle', function () {
-    const grid = Grid.of(hexPrototype)
-    grid.rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 }).run()
+  .add('Map', function () {
+    Grid.of(hexPrototype).rectangle({ width: amount, height: amount }).run()
   })
-  .add('rectangleFromOpposingCorners', function () {
-    const grid = Grid.of(hexPrototype)
-    grid.rectangle({ q: 5, r: 9 }, { q: 0, r: 0 }).run()
+  .add('NoopMap', function () {
+    Grid.of(hexPrototype, new NoopMap()).rectangle({ width: amount, height: amount }).run()
   })
