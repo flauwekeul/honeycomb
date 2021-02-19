@@ -7,3 +7,5 @@ export interface Traverser<T extends Hex> {
 export interface GetOrCreateHexFn<T extends Hex> {
   (coordinates: HexCoordinates): T
 }
+
+export type HexMap<T extends Hex> = Map<string, T>

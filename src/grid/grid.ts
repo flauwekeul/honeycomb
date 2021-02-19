@@ -1,21 +1,19 @@
-import { Cache, NoOpCache } from '../cache'
 import { CompassDirection } from '../compass'
-import { createHex, Hex, HexCoordinates } from '../hex'
+import { createHex, Hex, HexCoordinates, toString } from '../hex'
 import { neighborOf } from './functions'
 import { rectangle, RectangleOptions } from './traversers'
-import { GetOrCreateHexFn, Traverser } from './types'
+import { GetOrCreateHexFn, HexMap, Traverser } from './types'
 import { forEach, map } from './utils'
 
-// todo: add from() static method that only accepts a cache and creates a grid by picking the prototype and traverser (traverser is just: `() => cache`)
+// todo: add from() static method that only accepts hexes and creates a grid by picking the prototype and traverser (traverser is just: `() => hexes`)
 export class Grid<T extends Hex> {
-  static of<T extends Hex>(hexPrototype: T, cache?: Cache<T>, traverser?: InternalTraverser<T>) {
-    return new Grid(hexPrototype, cache, traverser)
+  static of<T extends Hex>(hexPrototype: T, hexes?: HexMap<T>, traverser?: InternalTraverser<T>) {
+    return new Grid(hexPrototype, hexes, traverser)
   }
 
   constructor(
     public hexPrototype: T,
-    // todo: default to a no-op cache that does nothing?
-    public cache: Cache<T> = new NoOpCache(),
+    public hexes: HexMap<T> = new Map(),
     private traverser: InternalTraverser<T> = infiniteTraverser,
   ) {}
 
@@ -25,17 +23,17 @@ export class Grid<T extends Hex> {
     }
   }
 
-  // it doesn't take a hexPrototype and cache because it doesn't need to copy those
+  // it doesn't take a hexPrototype and hexes because it doesn't need to copy those
   clone(traverser = this.traverser) {
     // bind(this) in case the traverser is a "regular" (generator) function
-    return Grid.of(this.hexPrototype, this.cache, traverser.bind(this))
+    return Grid.of(this.hexPrototype, this.hexes, traverser.bind(this))
   }
 
   each(fn: (hex: T) => void) {
     return this.clone(() => forEach(fn)(this.traverser()))
   }
 
-  // todo: use this.cache
+  // todo: use this.hexes
   map(fn: (hex: T) => T) {
     return this.clone(() => map(fn)(this.traverser()))
   }
@@ -66,22 +64,25 @@ export class Grid<T extends Hex> {
     const nextTraverse: InternalTraverser<T> = () => {
       const result: T[] = []
       const hasTraversedBefore = this.traverser !== infiniteTraverser
-      // run any previous traversal to set cache
+      // run any previous traversal to set this.hexes
       this.traverser()
       // todo: private method/property?
       const getOrCreateHex: GetOrCreateHexFn<T> = (coordinates) =>
-        this.cache.get(coordinates) ?? createHex(this.hexPrototype).clone(coordinates) // clone to enable users to make custom hexes
+        this.hexes.get(toString(coordinates)) ?? createHex(this.hexPrototype).clone(coordinates) // clone to enable users to make custom hexes
       // todo: don't start at last hex and/or make it configurable?
-      let cursor: T = this.cache.last || createHex(this.hexPrototype).clone() // clone to enable users to make custom hexes
+      // todo: the last cursor of the previous traversal should be used (difficult, should probably be hold in an object and cloned as well,
+      // or maybe returned together with result)
+      let cursor: T = Array.from(this.hexes.values()).pop() || createHex(this.hexPrototype).clone() // clone to enable users to make custom hexes
 
       for (const traverser of traversers) {
         for (const nextCursor of traverser(cursor, getOrCreateHex)) {
           cursor = nextCursor
           // return early when traversing outside previously made grid
-          if (hasTraversedBefore && !this.cache.has(cursor)) {
+          if (hasTraversedBefore && !this.hexes.has(toString(cursor))) {
             return result // todo: or continue? or make this configurable?
           }
-          this.cache.set(cursor)
+          // todo: cursor.toString() can't be used, because in getOrCreateHex() only hex coordinates are available
+          this.hexes.set(toString(cursor), cursor)
           result.push(cursor)
         }
       }
@@ -93,7 +94,7 @@ export class Grid<T extends Hex> {
   }
 
   // todo: maybe remove this method?
-  // todo: use this.cache
+  // todo: use this.hexes
   neighborOf(hex: T, direction: CompassDirection) {
     return neighborOf(hex, direction)
   }
