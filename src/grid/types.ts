@@ -16,3 +16,7 @@ export interface GetOrCreateHexFn<T extends Hex> {
 export type eachCallbackFn<T extends Hex> = (value: T, grid: Grid<T>) => void
 
 export type mapCallbackFn<T extends Hex> = (value: T, grid: Grid<T>) => T
+
+export interface GridStore<T extends Hex> {
+  get(id: string): T | undefined
+}
