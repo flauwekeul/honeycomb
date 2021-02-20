@@ -1,19 +1,21 @@
-import { createHex, Hex, HexCoordinates, toString } from '../hex'
+import { createHex, Hex, HexCoordinates } from '../hex'
 import { NoopMap } from './noopMap'
 import { rectangle, RectangleOptions } from './traversers'
-import { eachCallbackFn, GetOrCreateHexFn, GetPrevHexesFn, mapCallbackFn, Traverser } from './types'
+import { eachCallbackFn, GetOrCreateHexFn, GetPrevHexesFn, GridStore, mapCallbackFn, Traverser } from './types'
 
 export class Grid<T extends Hex> {
-  static of<T extends Hex>(hexPrototype: T, store?: Map<string, T>, getPrevHexes?: GetPrevHexesFn<T>) {
+  static of<T extends Hex>(hexPrototype: T, store?: GridStore<T>, getPrevHexes?: GetPrevHexesFn<T>) {
     return new Grid<T>(hexPrototype, store, getPrevHexes)
   }
 
-  getOrCreateHex: GetOrCreateHexFn<T> = (coordinates) =>
-    this.store.get(toString(coordinates)) ?? createHex(this.hexPrototype).clone(coordinates) // clone to enable users to make custom hexes
+  getOrCreateHex: GetOrCreateHexFn<T> = (coordinates) => {
+    const hex = createHex(this.hexPrototype).clone(coordinates) // clone to enable users to make custom hexes
+    return this.store.get(hex.toString()) ?? hex
+  }
 
   constructor(
     public hexPrototype: T,
-    public store: Map<string, T> = new NoopMap(),
+    public store: GridStore<T> = new NoopMap(),
     private getPrevHexes: GetPrevHexesFn<T> = () => [],
   ) {}
 
@@ -78,7 +80,7 @@ export class Grid<T extends Hex> {
 
     const traverse: GetPrevHexesFn<T> = () => {
       const nextHexes: T[] = []
-      let cursor = Array.from(this.getPrevHexes()).pop() || createHex(this.hexPrototype).clone() // clone to enable users to make custom hexes
+      let cursor = Array.from(this.getPrevHexes()).pop() ?? createHex(this.hexPrototype).clone() // clone to enable users to make custom hexes
 
       for (const traverser of traversers) {
         for (const nextCursor of traverser(cursor, this.getOrCreateHex)) {
