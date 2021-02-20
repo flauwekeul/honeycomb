@@ -1,22 +1,25 @@
 import { createHex, Hex, HexCoordinates } from '../hex'
-import { NoopMap } from './noopMap'
 import { rectangle, RectangleOptions } from './traversers'
-import { eachCallbackFn, GetOrCreateHexFn, GetPrevHexState, GridStore, mapCallbackFn, Traverser } from './types'
+import { GetOrCreateHexFn, GetPrevHexState, GridStore, Traverser } from './types'
 
-export class Grid<T extends Hex> {
-  static of<T extends Hex>(hexPrototype: T, store?: GridStore<T>, getPrevHexState?: GetPrevHexState<T>) {
-    return new Grid<T>(hexPrototype, store, getPrevHexState)
+export class Grid<T extends Hex, S extends GridStore<T>> {
+  static of<T extends Hex, S extends GridStore<T>>(
+    hexPrototype: T,
+    store?: S,
+    getPrevHexState?: GetPrevHexState<T, S>,
+  ) {
+    return new Grid<T, S>(hexPrototype, store, getPrevHexState)
   }
 
   getOrCreateHex: GetOrCreateHexFn<T> = (coordinates) => {
     const hex = createHex(this.hexPrototype).clone(coordinates) // clone to enable users to make custom hexes
-    return this.store.get(hex.toString()) ?? hex
+    return this.store?.get(hex.toString()) ?? hex
   }
 
   constructor(
     public hexPrototype: T,
-    public store: GridStore<T> = new NoopMap(),
-    private getPrevHexState: GetPrevHexState<T> = () => ({ hexes: [], cursor: null }),
+    public store?: S,
+    private getPrevHexState: GetPrevHexState<T, S> = () => ({ hexes: [], cursor: null }),
   ) {}
 
   *[Symbol.iterator]() {
@@ -31,7 +34,7 @@ export class Grid<T extends Hex> {
     return Grid.of(this.hexPrototype, this.store, getPrevHexState.bind(this))
   }
 
-  each(callback: eachCallbackFn<T>) {
+  each(callback: (hex: T, grid: this) => void) {
     const each = () => {
       const prevHexState = this.getPrevHexState()
       for (const hex of prevHexState.hexes) {
@@ -43,7 +46,7 @@ export class Grid<T extends Hex> {
     return this.clone(each)
   }
 
-  map(callback: mapCallbackFn<T>) {
+  map(callback: (hex: T, grid: this) => T) {
     const map = () => {
       const { hexes, cursor } = this.getPrevHexState()
       const nextHexes: T[] = []
@@ -68,8 +71,8 @@ export class Grid<T extends Hex> {
 
   // todo: maybe remove this method? What's wrong with just calling grid.traverse(rectangle({ ... }))?
   // todo: add in docs: only 90° corners for cardinal directions
-  rectangle(options: RectangleOptions): Grid<T>
-  rectangle(cornerA: HexCoordinates, cornerB: HexCoordinates): Grid<T>
+  rectangle(options: RectangleOptions): Grid<T, S>
+  rectangle(cornerA: HexCoordinates, cornerB: HexCoordinates): Grid<T, S>
   rectangle(optionsOrCornerA: RectangleOptions | HexCoordinates, cornerB?: HexCoordinates) {
     return this.traverse(rectangle(optionsOrCornerA as HexCoordinates, cornerB as HexCoordinates))
   }
@@ -79,7 +82,7 @@ export class Grid<T extends Hex> {
       return this
     }
 
-    const traverse: GetPrevHexState<T> = () => {
+    const traverse: GetPrevHexState<T, S> = () => {
       const nextHexes: T[] = []
       let cursor = this.getPrevHexState().cursor ?? createHex(this.hexPrototype).clone() // clone to enable users to make custom hexes
 
