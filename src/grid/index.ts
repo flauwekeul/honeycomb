@@ -1,5 +1,4 @@
 export * from './functions'
 export * from './grid'
-export * from './noopMap'
 export * from './traversers'
 export * from './types'

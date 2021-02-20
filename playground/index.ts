@@ -1,4 +1,4 @@
-import { at, CompassDirection, createHexPrototype, Grid, Hex, move, NoopMap, Orientation } from '../dist'
+import { at, CompassDirection, createHexPrototype, Grid, Hex, move, Orientation } from '../dist'
 import { createSuite } from './benchmark'
 import { render } from './render'
 
@@ -17,16 +17,16 @@ import { render } from './render'
  * - const statefulGrid = Grid.from(store)
  * same as:
  * - const statefulGrid = new Grid(prototype, store)
- * todo: how does Grid know how to get hexes from store?
+ * done: how does Grid know how to get hexes from store?
  *   -> store must have get() method
  *   statefulGrid.traverse() -> always over any hexes, but hexes are only created when not present in store
  * todo: how to limit traversal outside store?
  *   -> statefulGrid.traverse().takeWhile(inStore) // stops once a hex is traversed that's not in the store
  *   -> statefulGrid.traverse().filter(inStore) // rejects hexes that are not in the store
- * todo: how to update store?
+ * done: how to update store?
  *   -> statefulGrid.traverse().each((hex) => store.set(...))
- *   -> statefulGrid.traverse().each((hex, grid) => grid.store.set(...)) // probably need to pass store to clone() to make this work?
- * todo: when hexes in store are updated, should hexes in grid be updated too? How?
+ *   -> statefulGrid.traverse().each((hex, grid) => grid.store.set(...))
+ * done: when hexes in store are updated, should hexes in grid be updated too? How?
  *   -> No, because a stateful grid uses hexes from store 😃
  */
 
@@ -44,23 +44,25 @@ const hexPrototype = createHexPrototype<CustomHex>({
 })
 // const hex = createHex(hexPrototype, { q: 4, r: 3 })
 
-const grid = Grid.of(hexPrototype)
-  // .rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 })
+const store = new Map<string, CustomHex>()
+const grid = Grid.of(hexPrototype, store)
+  .rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 })
   .traverse(at({ q: 0, r: 0 }), move(CompassDirection.SE, 4))
-  .traverse(at({ q: 0, r: 0 }), move(CompassDirection.SE, 8))
-  .traverse(at({ q: 0, r: 0 }), move(CompassDirection.SE, 6))
+  .traverse(move(CompassDirection.E, 8))
+  // .traverse(move(CompassDirection.NE, 6))
   .each((hex) => {
     hex.svg = render(hex)
     // console.log(hex)
   })
+  .map((hex, grid) => {
+    hex.custom = 'custom'
+    grid.store.set(hex.toString(), hex)
+    return hex
+  })
   .run()
-console.log('final', grid.hexes)
+console.log('final', grid, store)
 
-const amount = 50
-createSuite()
-  .add('Map', function () {
-    Grid.of(hexPrototype).rectangle({ width: amount, height: amount }).run()
-  })
-  .add('NoopMap', function () {
-    Grid.of(hexPrototype, new NoopMap()).rectangle({ width: amount, height: amount }).run()
-  })
+const amount = 10
+createSuite().add('onlyHexes', function () {
+  Grid.of(hexPrototype).rectangle({ width: amount, height: amount }).rectangle({ width: amount, height: amount }).run()
+})
