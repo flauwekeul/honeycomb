@@ -1,6 +1,4 @@
-import { CompassDirection } from '../compass'
 import { createHex, Hex, HexCoordinates, toString } from '../hex'
-import { neighborOf } from './functions'
 import { NoopMap } from './noopMap'
 import { rectangle, RectangleOptions } from './traversers'
 import { eachCallbackFn, GetOrCreateHexFn, GetPrevHexesFn, mapCallbackFn, Traverser } from './types'
@@ -93,10 +91,5 @@ export class Grid<T extends Hex> {
     }
 
     return this.clone(traverse)
-  }
-
-  // todo: maybe remove this method?
-  neighborOf(hex: T, direction: CompassDirection) {
-    return neighborOf(hex, direction)
   }
 }
