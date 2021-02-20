@@ -2,6 +2,35 @@ import { at, CompassDirection, createHexPrototype, Grid, Hex, move, NoopMap, Ori
 import { createSuite } from './benchmark'
 import { render } from './render'
 
+/**
+ * General todo:
+ * - use less type assertions (blah as Blah)
+ * - rename DefaultHexPrototype to HexPrototype
+ * - add [Symbol.toStringTag] to Hex and Grid
+ *
+ * How to deal with state:
+ * - const statelessGrid = new Grid(prototype).traverse()
+ * create stores:
+ * - const gridMap = statelessGrid.reduce((acc, hex) => acc.set(hex.toString(), hex), new Map())
+ * - const gridArray = statelessGrid.reduce((acc, hex) => acc.concat(hex), [])
+ * from stores:
+ * - const statefulGrid = Grid.from(store)
+ * same as:
+ * - const statefulGrid = new Grid(prototype, store)
+ * todo: how does Grid know how to get hexes from store?
+ *   -> store must have get() method
+ *   statefulGrid.traverse() -> always over any hexes, but hexes are only created when not present in store
+ * todo: how to limit traversal outside store?
+ *   -> statefulGrid.traverse().takeWhile(inStore) // stops once a hex is traversed that's not in the store
+ *   -> statefulGrid.traverse().filter(inStore) // rejects hexes that are not in the store
+ * todo: how to update store?
+ *   -> statefulGrid.traverse().each((hex) => store.set(...))
+ *   -> statefulGrid.traverse().each((hex, grid) => grid.store.set(...)) // probably need to pass store to clone() to make this work?
+ * todo: when hexes in store are updated, should hexes in grid be updated too? How?
+ *   -> No, because a stateful grid uses hexes from store 😃
+ */
+
+// todo: maybe `extends Hex` shouldn't be done? Maybe `extends DefaultHex`?
 interface CustomHex extends Hex {
   custom: string
   svg: any

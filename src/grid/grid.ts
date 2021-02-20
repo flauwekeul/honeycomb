@@ -1,46 +1,63 @@
 import { CompassDirection } from '../compass'
 import { createHex, Hex, HexCoordinates, toString } from '../hex'
 import { neighborOf } from './functions'
+import { NoopMap } from './noopMap'
 import { rectangle, RectangleOptions } from './traversers'
-import { GetOrCreateHexFn, HexMap, Traverser } from './types'
-import { forEach, map } from './utils'
+import { eachCallbackFn, GetOrCreateHexFn, GetPrevHexesFn, mapCallbackFn, Traverser } from './types'
 
-// todo: add from() static method that only accepts hexes and creates a grid by picking the prototype and traverser (traverser is just: `() => hexes`)
 export class Grid<T extends Hex> {
-  static of<T extends Hex>(hexPrototype: T, hexes?: HexMap<T>, traverser?: InternalTraverser<T>) {
-    return new Grid(hexPrototype, hexes, traverser)
+  static of<T extends Hex>(hexPrototype: T, store?: Map<string, T>, getPrevHexes?: GetPrevHexesFn<T>) {
+    return new Grid<T>(hexPrototype, store, getPrevHexes)
   }
+
+  getOrCreateHex: GetOrCreateHexFn<T> = (coordinates) =>
+    this.store.get(toString(coordinates)) ?? createHex(this.hexPrototype).clone(coordinates) // clone to enable users to make custom hexes
 
   constructor(
     public hexPrototype: T,
-    public hexes: HexMap<T> = new Map(),
-    private traverser: InternalTraverser<T> = infiniteTraverser,
+    public store: Map<string, T> = new NoopMap(),
+    private getPrevHexes: GetPrevHexesFn<T> = () => [],
   ) {}
 
   *[Symbol.iterator]() {
-    for (const hex of this.traverser()) {
+    for (const hex of this.getPrevHexes()) {
       yield hex
     }
   }
 
-  // it doesn't take a hexPrototype and hexes because it doesn't need to copy those
-  clone(traverser = this.traverser) {
-    // bind(this) in case the traverser is a "regular" (generator) function
-    return Grid.of(this.hexPrototype, this.hexes, traverser.bind(this))
+  // it doesn't take a hexPrototype and store because it doesn't need to copy those
+  clone(getPrevHexes = this.getPrevHexes) {
+    // bind(this) in case the getPrevHexes is a "regular" (generator) function
+    return Grid.of(this.hexPrototype, this.store, getPrevHexes.bind(this))
   }
 
-  each(fn: (hex: T) => void) {
-    return this.clone(() => forEach(fn)(this.traverser()))
+  each(callback: eachCallbackFn<T>) {
+    const each = () => {
+      const prevHexes = this.getPrevHexes()
+      for (const hex of prevHexes) {
+        callback(hex, this)
+      }
+      return prevHexes
+    }
+
+    return this.clone(each)
   }
 
-  // todo: use this.hexes
-  map(fn: (hex: T) => T) {
-    return this.clone(() => map(fn)(this.traverser()))
+  map(callback: mapCallbackFn<T>) {
+    const map = () => {
+      const nextHexes: T[] = []
+      for (const hex of this.getPrevHexes()) {
+        nextHexes.push(callback(hex, this))
+      }
+      return nextHexes
+    }
+
+    return this.clone(map)
   }
 
   // todo: alias to take or takeUntil?
   run(stopFn: (hex: T) => boolean = () => false) {
-    for (const hex of this.traverser()) {
+    for (const hex of this.getPrevHexes()) {
       if (stopFn(hex)) {
         return this
       }
@@ -61,47 +78,25 @@ export class Grid<T extends Hex> {
       return this
     }
 
-    const nextTraverse: InternalTraverser<T> = () => {
-      const result: T[] = []
-      const hasTraversedBefore = this.traverser !== infiniteTraverser
-      // run any previous traversal to set this.hexes
-      this.traverser()
-      // todo: private method/property?
-      const getOrCreateHex: GetOrCreateHexFn<T> = (coordinates) =>
-        this.hexes.get(toString(coordinates)) ?? createHex(this.hexPrototype).clone(coordinates) // clone to enable users to make custom hexes
-      // todo: don't start at last hex and/or make it configurable?
-      // todo: the last cursor of the previous traversal should be used (difficult, should probably be hold in an object and cloned as well,
-      // or maybe returned together with result)
-      let cursor: T = Array.from(this.hexes.values()).pop() || createHex(this.hexPrototype).clone() // clone to enable users to make custom hexes
+    const traverse: GetPrevHexesFn<T> = () => {
+      const nextHexes: T[] = []
+      let cursor = Array.from(this.getPrevHexes()).pop() || createHex(this.hexPrototype).clone() // clone to enable users to make custom hexes
 
       for (const traverser of traversers) {
-        for (const nextCursor of traverser(cursor, getOrCreateHex)) {
+        for (const nextCursor of traverser(cursor, this.getOrCreateHex)) {
           cursor = nextCursor
-          // return early when traversing outside previously made grid
-          if (hasTraversedBefore && !this.hexes.has(toString(cursor))) {
-            return result // todo: or continue? or make this configurable?
-          }
-          // todo: cursor.toString() can't be used, because in getOrCreateHex() only hex coordinates are available
-          this.hexes.set(toString(cursor), cursor)
-          result.push(cursor)
+          nextHexes.push(cursor)
         }
       }
 
-      return result
+      return nextHexes
     }
 
-    return this.clone(nextTraverse)
+    return this.clone(traverse)
   }
 
   // todo: maybe remove this method?
-  // todo: use this.hexes
   neighborOf(hex: T, direction: CompassDirection) {
     return neighborOf(hex, direction)
   }
 }
-
-interface InternalTraverser<T extends Hex> {
-  (this: Grid<T>): Iterable<T>
-}
-
-const infiniteTraverser = <T extends Hex>(): Iterable<T> => []
