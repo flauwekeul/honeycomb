@@ -1,4 +1,4 @@
-import { at, CompassDirection, createHexPrototype, Grid, Hex, inStore, move, Orientation } from '../dist'
+import { at, CompassDirection, createHexPrototype, Grid, Hex, inStore, move, Orientation, setStore } from '../dist'
 import { createSuite } from './benchmark'
 import { render } from './render'
 
@@ -48,7 +48,8 @@ const store = new Map<string, CustomHex>()
 // todo: when passed a store as 2nd argument, automatically use it (get and set)?
 Grid.of(hexPrototype, store)
   .rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 })
-  .each((hex, { store }) => store.set(hex.toString(), hex))
+  // .each((hex, { store }) => store.set(hex.toString(), hex))
+  .each(setStore())
   .traverse(at({ q: 9, r: 0 }), move(CompassDirection.SE, 4), move(CompassDirection.SW, 4))
   .filter(inStore())
   // .takeWhile(inStore())
