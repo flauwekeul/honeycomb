@@ -4,6 +4,8 @@ import { render } from './render'
 
 /**
  * General todo:
+ * - populate store in 1st traversal? Don't know how though...
+ * - are Grid methods "transducers"?
  * - use less type assertions (blah as Blah)
  * - rename DefaultHexPrototype to HexPrototype
  * - add [Symbol.toStringTag] to Hex and Grid
@@ -44,20 +46,18 @@ const hexPrototype = createHexPrototype<CustomHex>({
 })
 // const hex = createHex(hexPrototype, { q: 4, r: 3 })
 
-const store = new Map<string, CustomHex>()
+// const store = new Map<string, CustomHex>()
 // todo: when passed a store as 2nd argument, automatically use it (get and set)?
-Grid.of(hexPrototype, store)
+const grid = Grid.of(hexPrototype, new Map<string, CustomHex>())
   .rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 })
-  // .each((hex, { store }) => store.set(hex.toString(), hex))
   .each(setStore())
   .traverse(at({ q: 9, r: 0 }), move(CompassDirection.SE, 4), move(CompassDirection.SW, 4))
   .filter(inStore())
-  // .takeWhile(inStore())
   .run((hex) => {
     hex.svg = render(hex)
     // console.log(hex)
   })
-console.log('final', store)
+console.log('final', grid.store)
 
 const amount = 10
 createSuite().add('onlyHexes', function () {
