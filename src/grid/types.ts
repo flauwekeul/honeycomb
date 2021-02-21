@@ -20,4 +20,5 @@ export interface GetOrCreateHexFn<T extends Hex> {
 
 export interface GridStore<T extends Hex> {
   get(id: string): T | undefined
+  set(id: string, hex: T): this
 }
