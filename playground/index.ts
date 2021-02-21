@@ -1,4 +1,4 @@
-import { at, CompassDirection, createHexPrototype, Grid, Hex, move, Orientation } from '../dist'
+import { at, CompassDirection, createHexPrototype, Grid, Hex, inStore, move, Orientation } from '../dist'
 import { createSuite } from './benchmark'
 import { render } from './render'
 
@@ -20,7 +20,7 @@ import { render } from './render'
  * done: how does Grid know how to get hexes from store?
  *   -> store must have get() method
  *   statefulGrid.traverse() -> always over any hexes, but hexes are only created when not present in store
- * todo: how to limit traversal outside store?
+ * done: how to limit traversal outside store?
  *   -> statefulGrid.traverse().takeWhile(inStore) // stops once a hex is traversed that's not in the store
  *   -> statefulGrid.traverse().filter(inStore) // rejects hexes that are not in the store
  * done: how to update store?
@@ -45,22 +45,18 @@ const hexPrototype = createHexPrototype<CustomHex>({
 // const hex = createHex(hexPrototype, { q: 4, r: 3 })
 
 const store = new Map<string, CustomHex>()
-const grid = Grid.of(hexPrototype, store)
+// todo: when passed a store as 2nd argument, automatically use it (get and set)?
+Grid.of(hexPrototype, store)
   .rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 })
-  .traverse(at({ q: 0, r: 0 }), move(CompassDirection.SE, 4))
-  .traverse(move(CompassDirection.E, 8))
-  // .traverse(move(CompassDirection.NE, 6))
-  .each((hex) => {
+  .each((hex, { store }) => store.set(hex.toString(), hex))
+  .traverse(at({ q: 9, r: 0 }), move(CompassDirection.SE, 4), move(CompassDirection.SW, 4))
+  .filter(inStore())
+  // .takeWhile(inStore())
+  .run((hex) => {
     hex.svg = render(hex)
     // console.log(hex)
   })
-  .map((hex, grid) => {
-    hex.custom = 'custom'
-    grid.store.set(hex.toString(), hex)
-    return hex
-  })
-  .run()
-console.log('final', grid, store)
+console.log('final', store)
 
 const amount = 10
 createSuite().add('onlyHexes', function () {
