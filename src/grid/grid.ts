@@ -1,14 +1,10 @@
 import { createHex, Hex, HexCoordinates } from '../hex'
 import { rectangle, RectangleOptions } from './traversers'
-import { GetOrCreateHexFn, GetPrevHexState, GridStore, Traverser } from './types'
+import { GetOrCreateHexFn, GetPrevHexState, Traverser } from './types'
 
-export class Grid<T extends Hex, S extends GridStore<T>> {
-  static of<T extends Hex, S extends GridStore<T>>(
-    hexPrototype: T,
-    store?: S,
-    getPrevHexState?: GetPrevHexState<T, S>,
-  ) {
-    return new Grid<T, S>(hexPrototype, store, getPrevHexState)
+export class Grid<T extends Hex> {
+  static of<T extends Hex>(hexPrototype: T, store?: Map<string, T>, getPrevHexState?: GetPrevHexState<T>) {
+    return new Grid<T>(hexPrototype, store, getPrevHexState)
   }
 
   getOrCreateHex: GetOrCreateHexFn<T> = (coordinates) => {
@@ -18,8 +14,10 @@ export class Grid<T extends Hex, S extends GridStore<T>> {
 
   constructor(
     public hexPrototype: T,
-    public store?: S,
-    private getPrevHexState: GetPrevHexState<T, S> = () => ({ hexes: [], cursor: null }),
+    // todo: add to docs that store should be cloned to avoid it being mutated in-place
+    //       if Grid clones it (new Hex(store)), thinks break...
+    public store?: Map<string, T>,
+    private getPrevHexState: GetPrevHexState<T> = () => ({ hexes: [], cursor: null }),
   ) {}
 
   *[Symbol.iterator]() {
@@ -31,11 +29,11 @@ export class Grid<T extends Hex, S extends GridStore<T>> {
   // it doesn't take a hexPrototype and store because it doesn't need to copy those
   clone(getPrevHexState = this.getPrevHexState) {
     // bind(this) in case the getPrevHexState is a "regular" (generator) function
-    return Grid.of(this.hexPrototype, this.store, getPrevHexState.bind(this))
+    return new Grid(this.hexPrototype, this.store, getPrevHexState.bind(this))
   }
 
   each(callback: (hex: T, grid: this) => void) {
-    const each: GetPrevHexState<T, S> = () => {
+    const each: GetPrevHexState<T> = () => {
       const prevHexState = this.getPrevHexState()
       for (const hex of prevHexState.hexes) {
         callback(hex, this)
@@ -46,7 +44,7 @@ export class Grid<T extends Hex, S extends GridStore<T>> {
   }
 
   filter(callback: (hex: T, grid: this) => boolean) {
-    const filter: GetPrevHexState<T, S> = () => {
+    const filter: GetPrevHexState<T> = () => {
       const nextHexes: T[] = []
       const prevHexState = this.getPrevHexState()
       let cursor = prevHexState.cursor
@@ -65,7 +63,7 @@ export class Grid<T extends Hex, S extends GridStore<T>> {
   }
 
   takeWhile(callback: (hex: T, grid: this) => boolean) {
-    const takeWhile: GetPrevHexState<T, S> = () => {
+    const takeWhile: GetPrevHexState<T> = () => {
       const nextHexes: T[] = []
       const prevHexState = this.getPrevHexState()
       let cursor = prevHexState.cursor
@@ -95,8 +93,8 @@ export class Grid<T extends Hex, S extends GridStore<T>> {
 
   // todo: maybe remove this method? What's wrong with just calling grid.traverse(rectangle({ ... }))?
   // todo: add in docs: only 90° corners for cardinal directions
-  rectangle(options: RectangleOptions): Grid<T, S>
-  rectangle(cornerA: HexCoordinates, cornerB: HexCoordinates): Grid<T, S>
+  rectangle(options: RectangleOptions): Grid<T>
+  rectangle(cornerA: HexCoordinates, cornerB: HexCoordinates): Grid<T>
   rectangle(optionsOrCornerA: RectangleOptions | HexCoordinates, cornerB?: HexCoordinates) {
     return this.traverse(rectangle(optionsOrCornerA as HexCoordinates, cornerB as HexCoordinates))
   }
@@ -106,7 +104,7 @@ export class Grid<T extends Hex, S extends GridStore<T>> {
       return this
     }
 
-    const traverse: GetPrevHexState<T, S> = () => {
+    const traverse: GetPrevHexState<T> = () => {
       const nextHexes: T[] = []
       let cursor = this.getPrevHexState().cursor ?? createHex(this.hexPrototype).clone() // clone to enable users to make custom hexes
 
