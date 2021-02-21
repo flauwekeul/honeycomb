@@ -35,36 +35,60 @@ export class Grid<T extends Hex, S extends GridStore<T>> {
   }
 
   each(callback: (hex: T, grid: this) => void) {
-    const each = () => {
+    const each: GetPrevHexState<T, S> = () => {
       const prevHexState = this.getPrevHexState()
       for (const hex of prevHexState.hexes) {
         callback(hex, this)
       }
       return prevHexState
     }
-
     return this.clone(each)
   }
 
-  map(callback: (hex: T, grid: this) => T) {
-    const map = () => {
-      const { hexes, cursor } = this.getPrevHexState()
+  filter(callback: (hex: T, grid: this) => boolean) {
+    const filter: GetPrevHexState<T, S> = () => {
       const nextHexes: T[] = []
-      for (const hex of hexes) {
-        nextHexes.push(callback(hex, this))
+      const prevHexState = this.getPrevHexState()
+      let cursor = prevHexState.cursor
+
+      for (const hex of prevHexState.hexes) {
+        if (callback(hex, this)) {
+          cursor = hex
+          nextHexes.push(cursor)
+        }
       }
+
       return { hexes: nextHexes, cursor }
     }
 
-    return this.clone(map)
+    return this.clone(filter)
   }
 
-  // todo: alias to take or takeUntil?
-  run(stopFn: (hex: T) => boolean = () => false) {
-    for (const hex of this.getPrevHexState().hexes) {
-      if (stopFn(hex)) {
-        return this
+  takeWhile(callback: (hex: T, grid: this) => boolean) {
+    const takeWhile: GetPrevHexState<T, S> = () => {
+      const nextHexes: T[] = []
+      const prevHexState = this.getPrevHexState()
+      let cursor = prevHexState.cursor
+
+      for (const hex of prevHexState.hexes) {
+        if (!callback(hex, this)) {
+          return { hexes: nextHexes, cursor }
+        }
+        cursor = hex
+        nextHexes.push(cursor)
       }
+
+      return { hexes: nextHexes, cursor }
+    }
+
+    return this.clone(takeWhile)
+  }
+
+  // todo: maybe traversal should be done with separate curried function: traverse(...traversers)(grid): grid
+  //       I should really test this with a project that uses Honeycomb, see what API works best
+  run(callback?: (hex: T, grid: this) => void) {
+    for (const hex of this.getPrevHexState().hexes) {
+      callback && callback(hex, this)
     }
     return this
   }
