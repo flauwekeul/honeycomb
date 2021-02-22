@@ -7,6 +7,10 @@ export class Grid<T extends Hex> {
     return new Grid<T>(hexPrototype, store, getPrevHexState)
   }
 
+  get [Symbol.toStringTag]() {
+    return 'Grid'
+  }
+
   getOrCreateHex: GetOrCreateHexFn<T> = (coordinates) => {
     const hex = createHex(this.hexPrototype).clone(coordinates) // clone to enable users to make custom hexes
     return this.store?.get(hex.toString()) ?? hex
