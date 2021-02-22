@@ -48,7 +48,7 @@ export interface HexSettings {
   offset: number
 }
 
-export interface DefaultHexPrototype extends HexSettings {
+export interface HexPrototype extends HexSettings {
   readonly __isHoneycombHex: true
   readonly col: number
   readonly corners: Point[]
@@ -67,4 +67,4 @@ export interface DefaultHexPrototype extends HexSettings {
   toString(this: this): string
 }
 
-export interface Hex extends DefaultHexPrototype, AxialCoordinates {}
+export interface Hex extends HexPrototype, AxialCoordinates {}
