@@ -45,6 +45,7 @@ export const createHexPrototype = <T extends Hex>(options?: T | Partial<HexProto
   // origin is set in the final "step"
   Object.defineProperties(prototype, {
     __isHoneycombHex: { value: true },
+    [Symbol.toStringTag]: { value: 'Hex' },
     // todo: all props set with `value` are writable (somehow the default `writable: false` doesn't apply). Not sure if this is a problem though
     // see: Object.getOwnPropertyDescriptors(hexPrototype)
     col: {
