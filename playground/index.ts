@@ -5,7 +5,6 @@ import { render } from './render'
 /**
  * General todo:
  * - populate store in 1st traversal? Don't know how though...
- * - are Grid methods "transducers"?
  *
  * How to deal with state:
  * - const statelessGrid = new Grid(prototype).traverse()
