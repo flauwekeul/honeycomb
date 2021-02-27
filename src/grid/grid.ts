@@ -1,6 +1,6 @@
 import { createHex, Hex, HexCoordinates } from '../hex'
 import { rectangle, RectangleOptions } from './traversers'
-import { GetOrCreateHexFn, GetPrevHexState, Traverser } from './types'
+import { GetPrevHexState, Traverser } from './types'
 
 export class Grid<T extends Hex> {
   static of<T extends Hex>(hexPrototype: T, store?: Map<string, T>, getPrevHexState?: GetPrevHexState<T>) {
@@ -11,13 +11,9 @@ export class Grid<T extends Hex> {
     return 'Grid'
   }
 
-  getOrCreateHex: GetOrCreateHexFn<T> = (coordinates) => {
-    const hex = createHex(this.hexPrototype).clone(coordinates) // clone to enable users to make custom hexes
-    return this.store?.get(hex.toString()) ?? hex
-  }
-
   constructor(
     public hexPrototype: T,
+    // fixme: it makes no sense to create a grid without it having hexes (in the form of a traverser or store)
     // todo: add to docs that store should be cloned to avoid it being mutated in-place
     //       if Grid clones it (new Hex(store)), thinks break...
     public store?: Map<string, T>,
@@ -34,6 +30,11 @@ export class Grid<T extends Hex> {
   clone(getPrevHexState = this.getPrevHexState) {
     // bind(this) in case the getPrevHexState is a "regular" (generator) function
     return new Grid(this.hexPrototype, this.store, getPrevHexState.bind(this))
+  }
+
+  get(coordinates: HexCoordinates) {
+    const hex = createHex(this.hexPrototype).clone(coordinates) // clone to enable users to make custom hexes
+    return this.store?.get(hex.toString()) ?? hex
   }
 
   each(callback: (hex: T, grid: this) => void) {
@@ -113,7 +114,7 @@ export class Grid<T extends Hex> {
       let cursor = this.getPrevHexState().cursor ?? createHex(this.hexPrototype).clone() // clone to enable users to make custom hexes
 
       for (const traverser of traversers) {
-        for (const nextCursor of traverser(cursor, this.getOrCreateHex)) {
+        for (const nextCursor of traverser(cursor, this.get.bind(this))) {
           cursor = nextCursor
           nextHexes.push(cursor)
         }

@@ -23,6 +23,11 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 
 ## Ideas for v4.0
 
+### General
+
+- [ ] Add functionality related to [egdes](https://github.com/flauwekeul/honeycomb/issues/58#issuecomment-642099947)
+- [ ] remove "hex" from functions in hex folder (e.g. `createHex()` plainly becomes `create()`)?
+
 ### Functions *and* methods
 
 - [ ] hex functions (apply to single hexes):
@@ -51,7 +56,7 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
   - [ ] ?   distance
   - [x] hexToPoint
   - [ ] pointToHex
-  - [ ] get
+  - [x] get
   - [ ] hexesBetween
   - [ ] hexesInRange
   - [ ] ?   line (can be infinite)
@@ -66,9 +71,9 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
   - [ ] ring (can be infinite?)
   - [ ] spiral (can be infinite)
 
-### Coordinates
+### ✅ Coordinates
 
-- [ ] Store coordinates as ~~"tuples" (arrays)~~ simple 3D objects. Investigate whether arrays or objects (without prototype?) ~~(maybe even strings, ArrayBuffer?)~~ are more performant.
+- [x] Store coordinates as ~~"tuples" (arrays)~~ simple 3D objects. ~~Investigate whether arrays or objects (without prototype?) (maybe even strings, ArrayBuffer?) are more performant.~~
 - [x] Take [Amit's advice](https://www.redblobgames.com/grids/hexagons/#coordinates-comparison) and use axial coordinates by default.
   - [x] ~~Use `x`, `y` and `z` for cube coordinates?~~
   - [x] ~~Rename cartesian to offset?~~
@@ -83,7 +88,7 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
 - [x] Make default origin the center of the hex (currently is top left corner)? Can't remember why it's not already the center.
   - [ ] Add `boundingBox` (with `topLeft`, `topRight`, etc)
   - [x] Origin should also be able to set with a function that's called with the hex prototype (?) so that width, height or corners can be used to determine origin
-- [ ] Make it possible to use own createHex() functions (this also means hex prototypes aren't set by Honeycomb)?
+- [x] ~~Make it possible to use own createHex() functions (this also means hex prototypes aren't set by Honeycomb)?~~ Every time a new hex is created (in `Grid` for example), the `clone()` method is called. This way users can control how hexes are created.
 - [ ] Different groups of functions:
   1. Functions that **require both** a hex prototype and a hex (e.g. `toPoint()`)
   2. Functions that require a hex prototype and **optionally a hex** (e.g. `corners()` with just a hex prototype returns the relative corners of any hex, `corners()` with both a hex prototype and a hex returns the absolute corners of the hex)
@@ -107,30 +112,27 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
     ```
   - [x] how can you type functions that accept hexes? RxJS operators seem to be able to fix this.
 - [x] ~~Maybe either have pointy or flat hexes and leave it to rendering if they're pointy or flat?~~ All the `if` statements that check whether hexes are pointy or flat may be resolved by having separate functions for pointy and flat hexes and using those in the Hex prototype. This doesn't seem to improve performance.
-- [ ] Investigate if memoization helps
+- [x] ~~Investigate if memoization helps~~ It doesn't
 
 ### Grid
 
 #### Terminology
 
-- *grid instance*: an iterable object that represents hexes in a plane (possibly with infinite dimensions). The order of iteration is not important?
+- *grid instance*: an iterable object that represents hexes in a plane (possibly with infinite dimensions). ~~The order of iteration is not important?~~
 - *concrete grid*: a grid instance with finite hexes stored as a concrete data type (array, object, string, etc)
 - *grid-like*: an iterable that can be converted to a grid instance
-- *traverser*: a ~~generator~~ (generators are not performant) function that determines how a grid instance is traversed. It can be called with a start hex, start direction and something to indicate when to stop traversing, e.g.:
-  - at a certain hex
-  - after n hexes
-  - when a boundary is reached
-  - combination of the above
+- *traverser*: a ~~generator~~ (generators are not performant, so the built-in traversers are regular array-producing functions, but a traverser can still be a generator) function that determines how a grid instance is traversed. It produces hexes in a certain order.
 
   The result of a traversal is always a new grid (the traversed grid isn't mutated, the hexes in it can be mutated though), this can be added/subtracted/intersected/differenced, mapped/reduced or just ignored (in case of side-effects).
+- *transformer*(?): methods of `Grid` that can transform the hexes produced by a traverser: `each()`, `filter()`, `takeWhile()`, etc.
 
 #### API
 
 - [ ] **Creation**:
-  - [x] `new Grid(hexPrototype)`: can be traversed indefinitely, ~~determine default traverser (spiral?)~~ the default traverser doesn't emit hexes
-
-  `options` are more or less the same options as can be passed in current version of Honeycomb:
-- [ ] **Traversal** (todo: what to do when a boundary is reached?):
+  - [x] `new Grid<T extends Hex>(hexPrototype: T, traverserOrStore?: Traverser<T> | Map<string, T>)`: ~~can be traversed indefinitely, determine default traverser (spiral?) the default traverser doesn't emit hexes~~ A grid without hexes isn't very helpful, so it makes sense to pass a traverser or store (`Map`) to the constructor.
+  - [x] `Grid.of<T extends Hex>(/* same args as constructor */)`
+  - [ ] `Grid.from<T extends Hex>(iterable: Iterable<T>)`
+- [ ] **Traversal**:
   - [x] `grid.rectangle(options)`
   - [ ] `grid.hexagon(options)`
   - [ ] ~~`grid.parallelogram(options)`~~ add if requested
@@ -140,25 +142,6 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
   - [ ] ~~`grid.zigzag(options)`?~~ add if requested
   - [ ] todo: methods that use path finding algorithms like A*?
   - [x] ~~`grid.createTraverser(function* customTraverser(options) {})(options)`~~
-  - [ ] Traversers can be piped with transformers, which are called with:
-    ```ts
-    interface TraversalState {
-      hex: Hex         // current hex
-      index: number    // index of current hex since start of traversal
-      inGrid: boolean  // whether the traverser is within bounds of the source grid
-      sourceGrid: Grid // todo: needed?
-      grid: Grid       // hexes traversed so far, todo: needed?
-    }
-    ```
-    Pseudo code:
-    ```ts
-    grid.someTraverser(options).pipe(
-      filter((traversalState) => boolean),
-      reject((traversalState) => boolean), // complement of filter()
-      tap((traversalState) => void),       // for side-effects
-      until((traversalState) => boolean),  // to signal when traversal should stop
-    )
-    ```
   - [x] 👉 Make traversers even more fine-grained (~~seems very complex~~ it is, but worth it!)
     ```ts
     // this creates a ring around startCoordinates
@@ -166,7 +149,10 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
       .traverse((
         at(startCoordinates),
         move(Compass.E),
-        // todo: use repeat() somehow: repeat.withIndex(5, (i) => move(i + 1))
+        // todo: use repeat() somehow:
+        // repeat.withIndex(5, (i) => move(i + 1))
+        // or:
+        // withIndex((i) => repeat(5, move(i + 1)))
         move(Compass.SW),
         move(Compass.W),
         move(Compass.NW),
@@ -190,60 +176,14 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
   - [ ] `grid.reduce((any, traversalState) => any, any)`
   - [ ] `grid.toArray()`
   - [ ] `grid.toJSON()`
-  - [ ] `grid.toString()`
-  - [ ] `grid.toLinkedList()` todo: ???
-  - [ ] `grid.toRecord()` todo: ???
-  - [ ] `grid.toMap()` todo: ???
-  - [ ] `grid.toSet()` todo: ???
+  - [ ] `grid.toString()` / `grid.serialize()`
+  - [ ] ~~`grid.toLinkedList()`~~
+  - [ ] ~~`grid.toRecord()`~~
+  - [ ] ~~`grid.toMap()`~~ (just use `grid.store`)
+  - [ ] ~~`grid.toSet()`~~
 
 #### Other ideas
 
-- [ ] Define hex prototype -> define grid with hex prototype -> (optional: create iterable to traverse grid) -> use (existing) iterable to either create a concrete grid (stored in memory) or traverse an existing (concrete) grid (for mapping/reducing/filtering).
-  ```ts
-  const hexPrototype = createHexPrototype()
-  const Grid = defineGrid(hexPrototype)
-
-  // creating grids (these return "traversers" using a [Symbol.iterator] property)
-  const rectangle = Grid.rectangle({ width: 6, height: 4 })
-  const ring = Grid.ring({ radius: 2 })
-  const traverse = Grid.createTraverser(function* (hexPrototype, arg1, arg2) {
-    // yield hexes
-  })
-  // generator gets called internally like so: (...args) => generator(hexPrototype, ...args)
-  const hexes = traverse('arg1', 'arg2')
-
-  // creating concrete grids
-  const array = rectangle.toArray()
-  const customArray = rectangle.reduce((acc, hex) => acc.concat(hex), [] as Hex[])
-  // todo: should the following be a built-in thing?
-  interface CustomGrid {
-    [coordinates: string]: Hex
-    hexes: Hex[]
-  }
-  const obj = rectangle.reduce((acc, hex) => {
-    acc[hex] = hex
-    acc.hexes.push(hex)
-    return acc
-  }, { hexes: [] } as CustomGrid)
-
-  // converting concrete grids to "virtual" grids
-  // accepts any iterable (so also Grid iterables):
-  const virtualGrid1 = Grid.from(array)
-  // traverser can also be used:
-  const virtualGrid2 = traverse('arg1', 'arg2').over(array) // todo: consider
-
-  // combining grids
-  rectangle.over(array) // todo: consider
-  rectangle.union(obj)
-  rectangle.difference(ring)
-  ```
-  - [x] ~~these generators produce infinite grids, how to signal boundaries?~~ Traversers accept an optional width or height and/or a `stop()` predicate function that signal when to return from the generator.
-  - [x] Problem: generators can't be "reused" once `done`.
-- [ ] Do something with this: [https://www.redblobgames.com/grids/hexagons/#map-storage](https://www.redblobgames.com/grids/hexagons/#map-storage)?
-- [x] There should be a way to loop over hexes in a grid with **transducers**?
+- [x] ~~Do something with this: [https://www.redblobgames.com/grids/hexagons/#map-storage](https://www.redblobgames.com/grids/hexagons/#map-storage)?~~ A `Map` works fine
+- [x] There should be a way to loop over hexes in a grid with **transducers**? Experimented with this and I couldn't get it to work when a grid was traversed multiple times before being run (triggering the transducer). Surprisingly, it had a significant performance drop (more than 50%). Don't know what caused it though, probably the combination of transducers and traversers that don't fit well together. Might investigate more in the future.
 - [ ] Do something with matrices?
-
-### General
-
-- [ ] remove "hex" from functions in hex folder (e.g. `createHex()` plainly becomes `create()`)?
-- [ ] Add functionality related to [egdes](https://github.com/flauwekeul/honeycomb/issues/58#issuecomment-642099947)
