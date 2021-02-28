@@ -7,7 +7,7 @@ module.exports = {
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:jest/recommended',
-    'prettier/@typescript-eslint',
+    'prettier',
   ],
   env: {
     es2021: true,
