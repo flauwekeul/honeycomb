@@ -24,15 +24,11 @@ export const createHexPrototype = <T extends Hex>(options?: T | Partial<HexProto
 
   const prototype = {
     ...defaultHexSettings,
-    equals(coordinates) {
-      return equals(this, coordinates)
-    },
     clone(newProps) {
       return cloneHex(this, newProps)
     },
-    // fixme: make this a getter and name it `asPoint`, or better: add getters for x and y
-    toPoint() {
-      return hexToPoint(this)
+    equals(coordinates) {
+      return equals(this, coordinates)
     },
     toString() {
       return toString(this)
@@ -44,8 +40,8 @@ export const createHexPrototype = <T extends Hex>(options?: T | Partial<HexProto
   // use Object.defineProperties() to create readonly properties
   // origin is set in the final "step"
   Object.defineProperties(prototype, {
-    __isHoneycombHex: { value: true },
     [Symbol.toStringTag]: { value: 'Hex' },
+    __isHoneycombHex: { value: true, writable: false },
     // todo: all props set with `value` are writable (somehow the default `writable: false` doesn't apply). Not sure if this is a problem though
     // see: Object.getOwnPropertyDescriptors(hexPrototype)
     col: {
@@ -92,6 +88,16 @@ export const createHexPrototype = <T extends Hex>(options?: T | Partial<HexProto
     width: {
       get() {
         return width(this)
+      },
+    },
+    x: {
+      get() {
+        return hexToPoint(this).x
+      },
+    },
+    y: {
+      get() {
+        return hexToPoint(this).y
       },
     },
   } as PropertyDescriptorMap & ThisType<T & Hex>)

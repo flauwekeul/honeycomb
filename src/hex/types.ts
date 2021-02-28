@@ -50,6 +50,7 @@ export interface HexSettings {
 
 export interface HexPrototype extends HexSettings {
   readonly __isHoneycombHex: true
+  readonly [Symbol.toStringTag]: 'Hex'
   readonly col: number
   readonly corners: Point[]
   readonly height: number
@@ -57,13 +58,14 @@ export interface HexPrototype extends HexSettings {
   readonly isPointy: boolean
   readonly row: number
   readonly width: number
+  readonly x: number
+  readonly y: number
 
   s: number
 
   equals(this: this, coordinates: HexCoordinates): boolean
   // todo: about 80% sure the newProps type works (it's used in more places, if it works: maybe make it a separate type?)
   clone(this: this, newProps?: Partial<this> | HexCoordinates): this
-  toPoint(this: this): Point
   toString(this: this): string
 }
 
