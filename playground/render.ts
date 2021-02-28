@@ -1,13 +1,12 @@
-import { corners, Hex, hexToPoint } from '../dist'
+import { Hex } from '../dist'
 
 declare const SVG: any
 
 const draw = SVG().addTo('body').size('100%', '100%')
 
 export const render = (hex: Hex) => {
-  const { x, y } = hexToPoint(hex)
   const polygon = draw
-    .polygon(corners(hex).map(({ x, y }) => `${x},${y}`))
+    .polygon(hex.corners.map(({ x, y }) => `${x},${y}`))
     .fill('none')
     .stroke({ width: 1, color: '#999' })
   const text = draw
@@ -19,7 +18,7 @@ export const render = (hex: Hex) => {
       'dominant-baseline': 'central',
       leading: 0,
     })
-    .translate(x, y)
+    .translate(hex.x, hex.y)
 
   return draw.group().add(polygon).add(text)
 }
