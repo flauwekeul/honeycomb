@@ -1,4 +1,15 @@
-import { at, CompassDirection, createHexPrototype, Grid, Hex, inStore, move, Orientation, setStore } from '../dist'
+import {
+  at,
+  CompassDirection,
+  createHexPrototype,
+  Grid,
+  Hex,
+  inStore,
+  move,
+  Orientation,
+  rectangle,
+  setStore,
+} from '../dist'
 import { createSuite } from './benchmark'
 import { render } from './render'
 
@@ -42,8 +53,7 @@ const hexPrototype = createHexPrototype<CustomHex>({
 // const hex = createHex(hexPrototype, { q: 4, r: 3 })
 
 const store = new Map<string, CustomHex>()
-const grid = Grid.of(hexPrototype, store)
-  .rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 })
+const grid = Grid.of(hexPrototype, rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 }), store)
   .each(setStore())
   .traverse(at({ q: 9, r: 0 }), move(CompassDirection.SE, 4), move(CompassDirection.SW, 4))
   .filter(inStore())
