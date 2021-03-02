@@ -30,8 +30,7 @@ import { render } from './render'
 
 // todo: maybe `extends Hex` shouldn't be done? Maybe `extends DefaultHex`?
 interface CustomHex extends Hex {
-  custom: string
-  svg: any
+  [prop: string]: any
 }
 
 const hexPrototype = createHexPrototype<CustomHex>({
@@ -42,20 +41,25 @@ const hexPrototype = createHexPrototype<CustomHex>({
 })
 // const hex = createHex(hexPrototype, { q: 4, r: 3 })
 
-// const store = new Map<string, CustomHex>()
-// todo: when passed a store as 2nd argument, automatically use it (get and set)?
-const grid = Grid.of(hexPrototype, new Map<string, CustomHex>())
+const store = new Map<string, CustomHex>()
+const grid = Grid.of(hexPrototype, store)
   .rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 })
   .each(setStore())
   .traverse(at({ q: 9, r: 0 }), move(CompassDirection.SE, 4), move(CompassDirection.SW, 4))
   .filter(inStore())
-  .run((hex) => {
+  .each((hex) => {
     hex.svg = render(hex)
     // console.log(hex)
   })
-console.log('final', grid.store)
+  .run()
+console.log(store, grid.store)
 
 const amount = 10
-createSuite().add('onlyHexes', function () {
-  Grid.of(hexPrototype).rectangle({ width: amount, height: amount }).rectangle({ width: amount, height: amount }).run()
+createSuite().add('Grid', function () {
+  Grid.of(hexPrototype)
+    .rectangle({ start: { q: 0, r: 0 }, width: amount, height: amount })
+    .each((hex) => {
+      hex.custom = Math.random()
+    })
+    .run()
 })
