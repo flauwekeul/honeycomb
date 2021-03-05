@@ -1,8 +1,9 @@
 import { createHex, Hex, HexCoordinates } from '../hex'
+import { ensureArray } from '../utils'
 import { Callback, Traverser } from './types'
 
 export class Grid<T extends Hex> {
-  static of<T extends Hex>(hexPrototype: T, traverser?: Traverser<T> | null, store?: Map<string, T>) {
+  static of<T extends Hex>(hexPrototype: T, traverser?: Traverser<T> | Traverser<T>[] | null, store?: Map<string, T>) {
     return new Grid<T>(hexPrototype, traverser, store)
   }
 
@@ -12,12 +13,16 @@ export class Grid<T extends Hex> {
 
   store?: Map<string, T>
 
+  // todo: add getters for hexes and cursor? Then [Symbol.iterator] can be removed. Also, hexes should be stored as a Map?
+  //       then: what's the purpose of passing a store?
   private _getPrevHexState: GetHexState<T> = () => ({ hexes: [], cursor: null })
 
-  constructor(public hexPrototype: T, traverser?: Traverser<T> | null, store?: Map<string, T>) {
+  constructor(public hexPrototype: T, traverser?: Traverser<T> | Traverser<T>[] | null, store?: Map<string, T>) {
     if (traverser) {
       this._getPrevHexState = () => {
-        const hexes = Array.from(traverser(this.getHex(), this.getHex.bind(this)))
+        const hexes = ensureArray(traverser).flatMap<T>((traverser) =>
+          Array.from(traverser(this.getHex(), this.getHex.bind(this))),
+        )
         return { hexes, cursor: hexes[hexes.length - 1] }
       }
     }
@@ -85,16 +90,12 @@ export class Grid<T extends Hex> {
     return this._clone(takeWhile)
   }
 
-  traverse(...traversers: Traverser<T>[]) {
-    if (traversers.length === 0) {
-      return this
-    }
-
+  traverse(traversers: Traverser<T>[] | Traverser<T>) {
     const traverse: GetHexState<T> = (currentGrid) => {
       const nextHexes: T[] = []
       let cursor = this._getPrevHexState(currentGrid).cursor ?? this.getHex()
 
-      for (const traverser of traversers) {
+      for (const traverser of ensureArray(traversers)) {
         for (const nextCursor of traverser(cursor, this.getHex.bind(this))) {
           cursor = nextCursor
           nextHexes.push(cursor)
@@ -107,9 +108,9 @@ export class Grid<T extends Hex> {
     return this._clone(traverse)
   }
 
-  run(until?: Callback<T, void>) {
+  run(callback?: Callback<T, void>) {
     for (const hex of this._getPrevHexState(this).hexes) {
-      until && until(hex, this)
+      callback && callback(hex, this)
     }
     return this
   }

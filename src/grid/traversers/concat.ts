@@ -5,6 +5,7 @@ import { Traverser } from '../types'
  *
  * @param traversers One or more traversers to be combined into a single new traverser
  */
+// todo: this is probably obsolete
 export const concat = <T extends Hex>(...traversers: Traverser<T>[]): Traverser<T> => (cursor, getHex) => {
   const result: T[] = []
   let _cursor = cursor
