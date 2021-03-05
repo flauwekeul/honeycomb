@@ -55,14 +55,14 @@ const hexPrototype = createHexPrototype<CustomHex>({
 const store = new Map<string, CustomHex>()
 const grid = Grid.of(hexPrototype, rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 }), store)
   .each(setStore())
-  .traverse(at({ q: 9, r: 0 }), move(CompassDirection.SE, 4), move(CompassDirection.SW, 4))
+  .traverse([at({ q: 9, r: 0 }), move(CompassDirection.SE, 4), move(CompassDirection.SW, 4)])
   .filter(inStore())
   .each((hex) => {
     hex.svg = render(hex)
     // console.log(hex)
   })
   .run()
-console.log(store, grid.store)
+console.log(grid)
 
 const amount = 10
 createSuite().add('Grid', function () {

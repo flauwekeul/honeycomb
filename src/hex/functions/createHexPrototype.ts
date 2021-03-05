@@ -18,7 +18,7 @@ export const defaultHexSettings: HexSettings = {
   offset: -1,
 }
 
-export const createHexPrototype = <T extends Hex>(options?: T | Partial<HexPrototypeOptions>): T => {
+export const createHexPrototype = <T extends Hex>(options?: Partial<T | HexPrototypeOptions>): T => {
   // pseudo private property
   const s = new WeakMap()
 
