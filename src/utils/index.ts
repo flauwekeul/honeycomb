@@ -1,4 +1,3 @@
-export * from './ensureArray'
 export * from './isAxial'
 export * from './isCube'
 export * from './isFunction'

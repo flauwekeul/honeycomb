@@ -3,7 +3,6 @@ import { Hex, HexCoordinates, hexToOffset } from '../../hex'
 import { Traverser } from '../types'
 import { at } from './at'
 import { branch } from './branch'
-import { concat } from './concat'
 import { move } from './move'
 
 // todo: add in docs: only 90° corners for cardinal directions
@@ -19,7 +18,7 @@ export function rectangle<T extends Hex>(
       ? optionsFromOpposingCorners(optionsOrCornerA as HexCoordinates, cornerB, cursor.isPointy, cursor.offset)
       : (optionsOrCornerA as RectangleOptions)
 
-    return branch<T>(concat(at(start), move(Compass.rotate(direction, 2), height - 1)), move(direction, width - 1))(
+    return branch<T>([at(start), move(Compass.rotate(direction, 2), height - 1)], move(direction, width - 1))(
       cursor,
       getHex,
     )
