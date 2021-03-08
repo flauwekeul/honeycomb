@@ -1,6 +1,5 @@
 export * from './at'
 export * from './branch'
-export * from './concat'
 export * from './move'
 export * from './rectangle'
 export * from './repeat'
