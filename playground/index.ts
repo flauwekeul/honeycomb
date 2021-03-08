@@ -64,12 +64,4 @@ const grid = Grid.of(hexPrototype, rectangle({ start: { q: 0, r: 0 }, width: 10,
   .run()
 console.log(grid)
 
-const amount = 10
-createSuite().add('Grid', function () {
-  Grid.of(hexPrototype)
-    .rectangle({ start: { q: 0, r: 0 }, width: amount, height: amount })
-    .each((hex) => {
-      hex.custom = Math.random()
-    })
-    .run()
-})
+createSuite().add('', function () {})

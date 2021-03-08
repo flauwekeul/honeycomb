@@ -1,5 +1,5 @@
 import { createHex, Hex, HexCoordinates } from '../hex'
-import { ensureArray } from '../utils'
+import { flatTraverse } from './functions'
 import { Callback, Traverser } from './types'
 
 export class Grid<T extends Hex> {
@@ -12,17 +12,19 @@ export class Grid<T extends Hex> {
   }
 
   store?: Map<string, T>
+  getHex = (coordinates?: HexCoordinates) => {
+    const hex = createHex(this.hexPrototype).clone(coordinates) // clone to enable users to make custom hexes
+    return this.store?.get(hex.toString()) ?? hex
+  }
 
   // todo: add getters for hexes and cursor? Then [Symbol.iterator] can be removed. Also, hexes should be stored as a Map?
   //       then: what's the purpose of passing a store?
   private _getPrevHexState: GetHexState<T> = () => ({ hexes: [], cursor: null })
 
-  constructor(public hexPrototype: T, traverser?: Traverser<T> | Traverser<T>[] | null, store?: Map<string, T>) {
-    if (traverser) {
+  constructor(public hexPrototype: T, traversers?: Traverser<T> | Traverser<T>[] | null, store?: Map<string, T>) {
+    if (traversers) {
       this._getPrevHexState = () => {
-        const hexes = ensureArray(traverser).flatMap<T>((traverser) =>
-          Array.from(traverser(this.getHex(), this.getHex.bind(this))),
-        )
+        const hexes = flatTraverse(traversers)(this.getHex(), this.getHex)
         return { hexes, cursor: hexes[hexes.length - 1] }
       }
     }
@@ -33,11 +35,6 @@ export class Grid<T extends Hex> {
     for (const hex of this._getPrevHexState(this).hexes) {
       yield hex
     }
-  }
-
-  getHex(coordinates?: HexCoordinates) {
-    const hex = createHex(this.hexPrototype).clone(coordinates) // clone to enable users to make custom hexes
-    return this.store?.get(hex.toString()) ?? hex
   }
 
   each(callback: Callback<T, void>) {
@@ -95,11 +92,9 @@ export class Grid<T extends Hex> {
       const nextHexes: T[] = []
       let cursor = this._getPrevHexState(currentGrid).cursor ?? this.getHex()
 
-      for (const traverser of ensureArray(traversers)) {
-        for (const nextCursor of traverser(cursor, this.getHex.bind(this))) {
-          cursor = nextCursor
-          nextHexes.push(cursor)
-        }
+      for (const nextCursor of flatTraverse(traversers)(cursor, this.getHex)) {
+        cursor = nextCursor
+        nextHexes.push(cursor)
       }
 
       return { hexes: nextHexes, cursor }
