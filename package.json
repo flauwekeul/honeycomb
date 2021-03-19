@@ -16,7 +16,7 @@
     "postinstall": "husky install",
     "postpublish": "pinst --enable",
     "prepublishOnly": "pinst --disable",
-    "prerelease": "npm run lint && npm test && npm run docs && NODE_ENV=production npm run build",
+    "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",
     "release": "git add --patch && standard-version --commit-all",
     "start": "npm run build && node --require dist/index.js",
     "test:watch": "npm test -- --watch",
