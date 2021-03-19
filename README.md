@@ -1,12 +1,6 @@
 # Honeycomb
 
-## Next major version
-
-The alpha of the next major version (v4) is released (see the [changelog](https://github.com/flauwekeul/honeycomb/blob/next/CHANGELOG.md) in the [`next`](https://github.com/flauwekeul/honeycomb/tree/next) branch). It's a complete rewrite in TypeScript with all new shiny "traversers" 😎.
-
-I could really use your feedback about this new version, so please take a look at the [readme](https://github.com/flauwekeul/honeycomb/tree/next#honeycomb) in the [`next`](https://github.com/flauwekeul/honeycomb/tree/next) branch to see how you can start using it. Please open an [issue](https://github.com/flauwekeul/honeycomb/issues) and tell me what you like and/or don't like. Thanks! ✨
-
-* * *
+**⚠️ This is an experimental version (currently 4.0.0-alpha.0) and the API is likely to change. I encourage anyone to try out the API and open any [issues/questions](https://github.com/flauwekeul/honeycomb/issues/new) ⚠️**
 
 [![Gitter](https://img.shields.io/gitter/room/flauwekeul/honeycomb.svg)](https://gitter.im/honeycomb-grid)
 [![NPM version](https://badge.fury.io/js/honeycomb-grid.svg)](https://www.npmjs.com/package/honeycomb-grid)
@@ -17,20 +11,82 @@ I could really use your feedback about this new version, so please take a look a
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I2I24E3QI)
 
-Another hex grid library made in TypeScript, heavily inspired by [Red Blob Games'](http://www.redblobgames.com/grids/hexagons/) blog posts and code samples.
+Another hex grid library made in ~~JavaScript~~TypeScript, heavily inspired by [Red Blob Games'](http://www.redblobgames.com/grids/hexagons/) blog posts and code samples.
 
-All existing JS hex grid libraries I could find are coupled with some form of view. Most often a `<canvas>` element or the browser DOM. I want more separation of concerns…and a new hobby project to spend countless hours on.
+Honeycomb works in recent versions of the Chrome, Firefox, Edge and Safari.
 
-## Ideas for v4.0
+## Installation
+
+NPM:
+
+```bash
+npm i honeycomb-grid@4.0.0-alpha.0
+```
+
+Yarn:
+
+```bash
+yarn add honeycomb-grid@4.0.0-alpha.0
+```
+
+Or download the distribution from [unpkg.com](https://unpkg.com/honeycomb-grid@4.0.0-alpha.0).
+
+## Examples
+
+```typescript
+import { createHexPrototype, rectangle } from 'honeycomb-grid'
+
+// 1. Create a hex prototype. This is an object (literally as a JS prototype) that's used by all hexes in the grid:
+const hexPrototype = createHexPrototype({ dimensions: 30 })
+
+// 2. Create a grid with this hex prototype and also pass a "traverser" for a rectangular-shaped grid:
+const grid = new Grid(hexPrototype, rectangle({ width: 10, height: 10 }))
+
+// 3. Iterate over the grid to pass each hex to a render function (that you have to supply yourself (for now)):
+grid.each((hex) => {
+  render(hex)
+})
+
+// 4. The above won't do anything yet, that's because grid methods are executed lazily.
+//    You need to call its run() method in order to execute the each() call (and most other method calls):
+grid.run()
+```
+
+## Playground
+
+The project contains a playground to play around with Honeycomb on your machine. I use this myself to test out new functionality. To use it follow these steps:
+
+1. `git clone git@github.com:flauwekeul/honeycomb.git`
+2. `git switch next`
+3. `npm run dev` (this starts a server that automatically rebuilds the project to `/dist` when anything in `/src` changes)
+4. `npm run playground` (this starts a [parcel](https://parceljs.org/) server running at `http://localhost:1234` with `/playground/index.html` as its entrypoint)
+5. Play around with the files in `/playground` (mainly `/playground/index.ts`)
+
+The playground contains `render.ts` to render individual hexes as SVGs and `benchmark.ts` for running comparative performance tests.
+
+## Documentation
+
+I'm planning on writing documentation once the API is (more or less) stable.
+
+## 4.0 Backlog
+
+Features that are crossed out are not going to be added. Checked features are implemented (or not applicable). The rest will probably be implemented.
 
 ### General
 
+- [x] ~~Do something with this: [https://www.redblobgames.com/grids/hexagons/#map-storage](https://www.redblobgames.com/grids/hexagons/#map-storage)?~~ A `Map` works fine
+- [x] There should be a way to loop over hexes in a grid with **transducers**? Experimented with this and I couldn't get it to work when a grid was traversed multiple times before being run (triggering the transducer). Surprisingly, it had a significant performance drop (more than 50%). Don't know what caused it though, probably the combination of transducers and traversers that don't fit well together. Might investigate more in the future.
 - [ ] Add functionality related to [egdes](https://github.com/flauwekeul/honeycomb/issues/58#issuecomment-642099947)
-- [ ] remove "hex" from functions in hex folder (e.g. `createHex()` plainly becomes `create()`)?
+- [ ] Do something with matrices?
+- [ ] Add some generic rendering helpers (a "pen" that "draws" hex edges (for canvas) or a single hex (for SVG))
+- [ ] Make sure the lib can be imported as a module (e.g.: `<script type="module" src="https://unpkg.com/honeycomb-grid/dist/honeycomb.mjs"></script>`). Probably use [microbundle](https://github.com/developit/microbundle) or [snowpack](https://snowpack.dev).
+- [ ] Switch to [np](https://github.com/sindresorhus/np) for publishing releases
 
 ### Functions *and* methods
 
-- [ ] hex functions (apply to single hexes):
+These methods exist in v3 and they need to be considered for v4.
+
+- [ ] hex functions (apply to a single hex):
   - [ ] ?   add
   - [x] ~~cartesian~~ replaced with `row` and `col` props
   - [x] ~~cartesianToCube (alias: toCube)~~ replaced with `offsetToAxial()`
@@ -40,7 +96,7 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
   - [x] ~~cube~~ considered obsolete
   - [x] ~~cubeToCartesian (alias: toCartesian)~~ replaced with `hexToOffset()`
   - [x] equals
-  - [ ] from (convert anything? to a hex)
+  - [ ] from (convert anything(?) to a hex)
   - [x] height
   - [x] isFlat
   - [x] isPointy
@@ -59,7 +115,7 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
   - [x] get
   - [ ] hexesBetween
   - [ ] hexesInRange
-  - [ ] ?   line (can be infinite)
+  - [x] line (can be infinite): `move()` traverser
   - [x] ~~neighborsOf~~ replaced with `neighborOf()` (singular)
   - [ ] pointHeight
   - [ ] pointWidth
@@ -70,49 +126,6 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
   - [x] rectangle
   - [ ] ring (can be infinite?)
   - [ ] spiral (can be infinite)
-
-### ✅ Coordinates
-
-- [x] Store coordinates as ~~"tuples" (arrays)~~ simple 3D objects. ~~Investigate whether arrays or objects (without prototype?) (maybe even strings, ArrayBuffer?) are more performant.~~
-- [x] Take [Amit's advice](https://www.redblobgames.com/grids/hexagons/#coordinates-comparison) and use axial coordinates by default.
-  - [x] ~~Use `x`, `y` and `z` for cube coordinates?~~
-  - [x] ~~Rename cartesian to offset?~~
-  - [ ] Also use [doubled coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-doubled)?
-- [x] Problem: how to differentiate between 2D hex coordinate and 2D "pixel" coordinate?
-  **Solution**: `CartesianCoordinates` is an alias of `Point`. A "coordinate" is a point in a grid, a "point" is any 2D/3D point in any system (e.g. a grid).
-- [x] ~~Offer `Point()` function (with `add()` etc methods)? And/or a way to convert tuples to points/coordinates?~~ Converting from/to tuples is outside this lib's scope.
-
-### Hex
-
-- [x] Hexes only have axial coordinates (most methods require axial coordinates anyway).
-- [x] Make default origin the center of the hex (currently is top left corner)? Can't remember why it's not already the center.
-  - [ ] Add `boundingBox` (with `topLeft`, `topRight`, etc)
-  - [x] Origin should also be able to set with a function that's called with the hex prototype (?) so that width, height or corners can be used to determine origin
-- [x] ~~Make it possible to use own createHex() functions (this also means hex prototypes aren't set by Honeycomb)?~~ Every time a new hex is created (in `Grid` for example), the `clone()` method is called. This way users can control how hexes are created.
-- [ ] Different groups of functions:
-  1. Functions that **require both** a hex prototype and a hex (e.g. `toPoint()`)
-  2. Functions that require a hex prototype and **optionally a hex** (e.g. `corners()` with just a hex prototype returns the relative corners of any hex, `corners()` with both a hex prototype and a hex returns the absolute corners of the hex)
-  3. Functions that require **only** a **hex prototype** (e.g. `width()`)
-  4. Functions that require **only** a **hex** (e.g. `equals()`)
-  - [x] What to do when group 1 is only called with a hex prototype? ~~Return a function that accepts a hex.~~ Todo: Log a warning
-  - [ ] (Naming) conventions for these groups?
-    - group 1: ~~offer higher order function that accepts a hex prototype (prefixed with `create`, e.g. `createToPoint()`?) and returns a function that accepts a hex. This can be used to create hex prototype methods using partial application (i.e. `hex.toPoint()`).~~ When used as a static method: name start with `hex` (e.g. `hexToPoint()`) and accepts a hex. When used as a prototype method: accepts no arguments (works on instance).
-    - group 2: 1st parameter is the hex prototype, 2nd optional parameter the hex. The return value depends on whether the 2nd parameter was passed. This can also be used as a static method on Hex or a prototype method (then the function is partially applied with the hex prototype).
-    - group 3: are both available as a static and prototype method.
-    - group 4: available as a static method and a partially applied prototype method.
-- [x] By default hexes only have coordinates as state. Should be possible for users to add state:
-    ```ts
-    interface CustomHex {
-      customProp: string
-      customMethod(): void
-    }
-    // the properties of CustomHex are available to all hexes (because they're added to the prototype)
-    // todo: rename `createHexPrototype()` to `defineHex()`?
-    const hexPrototype = createHexPrototype<CustomHex>({ size: 20, customProp: 'custom', customMethod() {} })
-    ```
-  - [x] how can you type functions that accept hexes? RxJS operators seem to be able to fix this.
-- [x] ~~Maybe either have pointy or flat hexes and leave it to rendering if they're pointy or flat?~~ All the `if` statements that check whether hexes are pointy or flat may be resolved by having separate functions for pointy and flat hexes and using those in the Hex prototype. This doesn't seem to improve performance.
-- [x] ~~Investigate if memoization helps~~ It doesn't
 
 ### Grid
 
@@ -182,8 +195,45 @@ All existing JS hex grid libraries I could find are coupled with some form of vi
   - [ ] ~~`grid.toMap()`~~ (just use `grid.store`)
   - [ ] ~~`grid.toSet()`~~
 
-#### Other ideas
+### ✅ Coordinates
 
-- [x] ~~Do something with this: [https://www.redblobgames.com/grids/hexagons/#map-storage](https://www.redblobgames.com/grids/hexagons/#map-storage)?~~ A `Map` works fine
-- [x] There should be a way to loop over hexes in a grid with **transducers**? Experimented with this and I couldn't get it to work when a grid was traversed multiple times before being run (triggering the transducer). Surprisingly, it had a significant performance drop (more than 50%). Don't know what caused it though, probably the combination of transducers and traversers that don't fit well together. Might investigate more in the future.
-- [ ] Do something with matrices?
+- [x] Store coordinates as ~~"tuples" (arrays)~~ simple 3D objects. ~~Investigate whether arrays or objects (without prototype?) (maybe even strings, ArrayBuffer?) are more performant.~~
+- [x] Take [Amit's advice](https://www.redblobgames.com/grids/hexagons/#coordinates-comparison) and use axial coordinates by default.
+  - [x] ~~Use `x`, `y` and `z` for cube coordinates?~~
+  - [x] ~~Rename cartesian to offset?~~
+  - [ ] Also use [doubled coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-doubled)?
+- [x] Problem: how to differentiate between 2D hex coordinate and 2D "pixel" coordinate?
+  **Solution**: `CartesianCoordinates` is an alias of `Point`. A "coordinate" is a point in a grid, a "point" is any 2D/3D point in any system (e.g. a grid).
+- [x] ~~Offer `Point()` function (with `add()` etc methods)? And/or a way to convert tuples to points/coordinates?~~ Converting from/to tuples is outside this lib's scope.
+
+### ✅ Hex
+
+- [x] Hexes only have axial coordinates (most methods require axial coordinates anyway).
+- [x] Make default origin the center of the hex (currently is top left corner)? Can't remember why it's not already the center.
+  - [ ] Add `boundingBox` (with `topLeft`, `topRight`, etc)
+  - [x] Origin should also be able to set with a function that's called with the hex prototype (?) so that width, height or corners can be used to determine origin
+- [x] ~~Make it possible to use own createHex() functions (this also means hex prototypes aren't set by Honeycomb)?~~ Every time a new hex is created (in `Grid` for example), the `clone()` method is called. This way users can control how hexes are created.
+- [ ] Different groups of functions:
+  1. Functions that **require both** a hex prototype and a hex (e.g. `toPoint()`)
+  2. Functions that require a hex prototype and **optionally a hex** (e.g. `corners()` with just a hex prototype returns the relative corners of any hex, `corners()` with both a hex prototype and a hex returns the absolute corners of the hex)
+  3. Functions that require **only** a **hex prototype** (e.g. `width()`)
+  4. Functions that require **only** a **hex** (e.g. `equals()`)
+  - [x] What to do when group 1 is only called with a hex prototype? ~~Return a function that accepts a hex.~~ Todo: Log a warning
+  - [x] (Naming) conventions for these groups?
+    - group 1: ~~offer higher order function that accepts a hex prototype (prefixed with `create`, e.g. `createToPoint()`?) and returns a function that accepts a hex. This can be used to create hex prototype methods using partial application (i.e. `hex.toPoint()`).~~ When used as a static method: name start with `hex` (e.g. `hexToPoint()`) and accepts a hex. When used as a prototype method: accepts no arguments (works on instance).
+    - group 2: 1st parameter is the hex prototype, 2nd optional parameter the hex. The return value depends on whether the 2nd parameter was passed. This can also be used as a static method on Hex or a prototype method (then the function is partially applied with the hex prototype).
+    - group 3: are both available as a static and prototype method.
+    - group 4: available as a static method and a partially applied prototype method.
+- [x] By default hexes only have coordinates as state. Should be possible for users to add state:
+    ```ts
+    interface CustomHex {
+      customProp: string
+      customMethod(): void
+    }
+    // the properties of CustomHex are available to all hexes (because they're added to the prototype)
+    // todo: rename `createHexPrototype()` to `defineHex()`?
+    const hexPrototype = createHexPrototype<CustomHex>({ size: 20, customProp: 'custom', customMethod() {} })
+    ```
+  - [x] how can you type functions that accept hexes? RxJS operators seem to be able to fix this.
+- [x] ~~Maybe either have pointy or flat hexes and leave it to rendering if they're pointy or flat?~~ All the `if` statements that check whether hexes are pointy or flat may be resolved by having separate functions for pointy and flat hexes and using those in the Hex prototype. This doesn't seem to improve performance.
+- [x] ~~Investigate if memoization helps~~ It doesn't
