@@ -3,32 +3,35 @@ import { flatTraverse } from './functions'
 import { Callback, Traverser } from './types'
 
 export class Grid<T extends Hex> {
-  static of<T extends Hex>(hexPrototype: T, traverser?: Traverser<T> | Traverser<T>[] | null, store?: Map<string, T>) {
-    return new Grid<T>(hexPrototype, traverser, store)
-  }
 
   get [Symbol.toStringTag]() {
     return 'Grid'
   }
 
-  store?: Map<string, T>
+  store = new Map<string, T>()
   getHex = (coordinates?: HexCoordinates) => {
     const hex = createHex(this.hexPrototype).clone(coordinates) // clone to enable users to make custom hexes
-    return this.store?.get(hex.toString()) ?? hex
+    return this.store.get(hex.toString()) ?? hex
   }
 
   // todo: add getters for hexes and cursor? Then [Symbol.iterator] can be removed. Also, hexes should be stored as a Map?
   //       then: what's the purpose of passing a store?
   private _getPrevHexState: GetHexState<T> = () => ({ hexes: [], cursor: null })
 
-  constructor(public hexPrototype: T, traversers?: Traverser<T> | Traverser<T>[] | null, store?: Map<string, T>) {
-    if (traversers) {
+  constructor(hexPrototype: T, traversers?: Traverser<T> | Traverser<T>[])
+  constructor(hexPrototype: T, store?: Map<string, T>)
+  constructor(public hexPrototype: T, traversersOrStore?: Traverser<T> | Traverser<T>[] | Map<string, T>) {
+    if (traversersOrStore instanceof Map) {
       this._getPrevHexState = () => {
-        const hexes = flatTraverse(traversers)(this.getHex(), this.getHex)
+        const hexes = Array.from(traversersOrStore.values())
         return { hexes, cursor: hexes[hexes.length - 1] }
       }
+      this.store = new Map(traversersOrStore)
+    } else if (traversersOrStore) {
+      const hexes = flatTraverse(traversersOrStore)(this.getHex(), this.getHex)
+      this._getPrevHexState = () => ({ hexes, cursor: hexes[hexes.length - 1] })
+      this.store = new Map(hexes.map((hex) => [hex.toString(), hex]))
     }
-    this.store = store && new Map(store)
   }
 
   *[Symbol.iterator]() {
@@ -111,7 +114,7 @@ export class Grid<T extends Hex> {
   }
 
   private _clone(getHexState: GetHexState<T>) {
-    const newGrid = new Grid(this.hexPrototype, null, this.store)
+    const newGrid = new Grid(this.hexPrototype, this.store)
     newGrid._getPrevHexState = getHexState
     return newGrid
   }

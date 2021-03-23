@@ -6,30 +6,78 @@ import { Traverser } from './types'
 const hexPrototype = createHexPrototype()
 
 describe('creation', () => {
-  test('accepts a single traverser', () => {
-    const traverser = jest.fn(() => [])
-    new Grid(hexPrototype, traverser).run()
+  test(`accepts a single traverser that's called eagerly to set store`, () => {
+    const hex1 = createHex(hexPrototype, { q: 1, r: 2 })
+    const hex2 = createHex(hexPrototype, { q: 3, r: 4 })
+    const traverser = jest.fn(() => [hex1, hex2])
+    const grid = new Grid(hexPrototype, traverser) /* don't call run() */
 
-    expect(traverser).toBeCalledWith(createHex(hexPrototype), expect.any(Function))
-  })
+    expect(traverser).toBeCalledWith(createHex(hexPrototype), grid.getHex)
+    expect(grid.store).toEqual(
+      new Map([
+        ['1,2', hex1],
+        ['3,4', hex2],
+      ]),
+    )
 
-  test('accepts multiple traversers', () => {
     const callback = jest.fn()
-    const grid = new Grid(hexPrototype, [at({ q: 1, r: 2 }), at({ q: 3, r: 4 })]).run(callback)
+    grid.run(callback)
 
     expect(callback.mock.calls).toEqual([
-      [createHex(hexPrototype, { q: 1, r: 2 }), grid],
-      [createHex(hexPrototype, { q: 3, r: 4 }), grid],
+      [hex1, grid],
+      [hex2, grid],
     ])
   })
 
-  test(`accepts a store that's cloned`, () => {
+  test('accepts multiple traversers that are called eagerly to set store', () => {
+    const hex1 = createHex(hexPrototype, { q: 1, r: 2 })
+    const hex2 = createHex(hexPrototype, { q: 3, r: 4 })
+    const traverser1 = jest.fn(() => [hex1])
+    const traverser2 = jest.fn(() => [hex2])
+    const traversers: Traverser<Hex>[] = [traverser1, traverser2]
+    const grid = new Grid(hexPrototype, traversers) /* don't call run() yet */
+
+    expect(traverser1).toBeCalledWith(createHex(hexPrototype), grid.getHex)
+    expect(traverser2).toBeCalledWith(hex1, grid.getHex)
+    expect(grid.store).toEqual(
+      new Map([
+        ['1,2', hex1],
+        ['3,4', hex2],
+      ]),
+    )
+
+    const callback = jest.fn()
+    grid.run(callback)
+
+    expect(callback.mock.calls).toEqual([
+      [hex1, grid],
+      [hex2, grid],
+    ])
+  })
+
+  test(`accepts a store that's cloned and its hexes can be traversed`, () => {
     const hex = createHex(hexPrototype)
     const store = new Map([[hex.toString(), hex]])
-    const grid = new Grid(hexPrototype, null, store)
+    const grid = new Grid(hexPrototype, store)
 
     expect(grid.store).toEqual(store)
     expect(grid.store).not.toBe(store)
+
+    const callback = jest.fn()
+    grid.run(callback)
+
+    expect(callback.mock.calls).toEqual([[hex, grid]])
+  })
+
+  test('creates a stateless grid when called with only a hex prototype', () => {
+    const grid = new Grid(hexPrototype)
+
+    expect(grid.store).toEqual(new Map())
+
+    const callback = jest.fn()
+    grid.run(callback)
+
+    expect(callback).not.toBeCalled()
   })
 })
 
@@ -51,7 +99,7 @@ describe('getHex()', () => {
     const coordinates = { q: 1, r: 2 }
     const hex = createHex(hexPrototype, coordinates)
     const store = new Map([[toString(hex), hex]])
-    const grid = new Grid(hexPrototype, null, store)
+    const grid = new Grid(hexPrototype, store)
 
     expect(grid.getHex(coordinates)).toBe(hex)
   })
@@ -65,7 +113,7 @@ describe('getHex()', () => {
     const coordinates = { q: 1, r: 2 }
     const hex = createHex(customPrototype, coordinates)
     const store = new Map([['1|2', hex]])
-    const grid = new Grid(customPrototype, null, store)
+    const grid = new Grid(customPrototype, store)
 
     expect(grid.getHex(coordinates)).toBe(hex)
   })
@@ -108,22 +156,6 @@ describe('each()', () => {
       .each(callback)
       .run()
     expect(callback.mock.calls).toEqual([[createHex(hexPrototype, { q: 5, r: 6 }), grid2]])
-  })
-
-  test(`can add hexes to the grid's store`, () => {
-    const store = new Map<string, Hex>()
-    const grid = new Grid(hexPrototype, [at({ q: 1, r: 2 }), at({ q: 3, r: 4 })], store)
-      .each((hex, grid) => {
-        grid.store?.set(hex.toString(), hex)
-      })
-      .run()
-
-    expect(grid.store).toEqual(
-      new Map([
-        ['1,2', createHex(hexPrototype, { q: 1, r: 2 })],
-        ['3,4', createHex(hexPrototype, { q: 3, r: 4 })],
-      ]),
-    )
   })
 })
 
@@ -204,7 +236,7 @@ describe('traverse()', () => {
     const hexInStore = createHex(hexPrototype, { q: 1, r: 2 })
     const store = new Map([[hexInStore.toString(), hexInStore]])
     const traverser: Traverser<Hex> = (_, getHex) => [getHex({ q: 1, r: 2 })]
-    const grid = new Grid(hexPrototype, null, store)
+    const grid = new Grid(hexPrototype, store)
     const callback = jest.fn()
 
     grid.traverse(traverser).run(callback)
