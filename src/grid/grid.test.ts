@@ -35,7 +35,7 @@ describe('creation', () => {
     const traverser1 = jest.fn(() => [hex1])
     const traverser2 = jest.fn(() => [hex2])
     const traversers: Traverser<Hex>[] = [traverser1, traverser2]
-    const grid = new Grid(hexPrototype, traversers) /* don't call run() yet */
+    const grid = new Grid(hexPrototype, traversers) /* don't call run() */
 
     expect(traverser1).toBeCalledWith(createHex(hexPrototype), grid.getHex)
     expect(traverser2).toBeCalledWith(hex1, grid.getHex)

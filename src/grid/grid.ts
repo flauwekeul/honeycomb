@@ -14,8 +14,6 @@ export class Grid<T extends Hex> {
     return this.store.get(hex.toString()) ?? hex
   }
 
-  // todo: add getters for hexes and cursor? Then [Symbol.iterator] can be removed. Also, hexes should be stored as a Map?
-  //       then: what's the purpose of passing a store?
   private _getPrevHexState: GetHexState<T> = () => ({ hexes: [], cursor: null })
 
   constructor(hexPrototype: T, traversers?: Traverser<T> | Traverser<T>[])

@@ -33,8 +33,10 @@ Or download the distribution from [unpkg.com](https://unpkg.com/honeycomb-grid@4
 
 ## Examples
 
+Create a rectangular grid of 10 by 10 hexes and render it:
+
 ```typescript
-import { createHexPrototype, rectangle } from 'honeycomb-grid'
+import { createHexPrototype, Grid, rectangle } from 'honeycomb-grid'
 
 // 1. Create a hex prototype. This is an object (literally as a JS prototype) that's used by all hexes in the grid:
 const hexPrototype = createHexPrototype({ dimensions: 30 })
@@ -43,13 +45,69 @@ const hexPrototype = createHexPrototype({ dimensions: 30 })
 const grid = new Grid(hexPrototype, rectangle({ width: 10, height: 10 }))
 
 // 3. Iterate over the grid to pass each hex to a render function (that you have to supply yourself (for now)):
-grid.each((hex) => {
-  render(hex)
-})
+grid.each((hex) => render(hex))
 
 // 4. The above won't do anything yet, that's because grid methods are executed lazily.
 //    You need to call its run() method in order to execute the each() call (and most other method calls):
 grid.run()
+```
+
+Traversing a grid:
+
+```typescript
+import { at, Compass, move } from 'honeycomb-grid'
+
+// This traverses ("walks") over a grid following a triangular path:
+grid
+  .traverse([
+    at({ q: 0, r: 0 }),   // start at the hex with coordinates { q: 0, r: 0 }
+    move(Compass.E, 4),   // move 4 hexes East
+    move(Compass.SW, 4),  // move 4 hexes Southwest
+    move(Compass.NW, 3),  // move 3 hexes Northwest to close the triangle
+  ])
+  .each((hex) => console.log(hex))
+  .run()                  // logs: Hex {q: 0, r: 0}, Hex {q: 1, r: 0}, Hex {q: 2, r: 0}, …
+
+// You can also supply a custom traverser.
+// It's called with:
+//   1. cursor: the hex where the previous traverser left off
+//   2. getHex: a function that either returns a hex from the grid's store (if present) or creates a new hex
+// It must return an iterable (usually an array) of hexes:
+grid.traverse((cursor, getHex) => [getHex(cursor)]) // this traverser isn't very useful 😬
+
+// Because a traverser must return an iterable of hexes, generators can be traversers too:
+grid.traverse(function*(cursor, getHex) {
+  yield getHex({ q: 0, r: 0 })
+  yield getHex({ q: 1, r: 0 })
+  yield getHex({ q: 0, r: 1 })
+})
+```
+
+Stateful and stateless grids:
+
+```typescript
+import { Grid, rectangle } from 'honeycomb-grid'
+
+// When a grid is created with a traverser…
+const statefulGrid = new Grid(hexPrototype, rectangle({ width: 2, height: 2 }))
+// …all hexes produced by the traverser are added to a store (a JS Map):
+statefulGrid.store  // Map(4) {"0,0" => Hex, "1,0" => Hex, "0,1" => Hex, "1,1" => Hex}
+// This is a stateful grid (it has a store) and it can be iterated:
+statefulGrid
+  .filter((hex) => hex.q === 1)
+  .each((hex) => console.log(hex))
+  .run()  // logs: Hex {q: 1, r: 0}, Hex {q: 1, r: 1}
+
+// If you don't need state and/or want a performance gain, create a stateless grid:
+const statelessGrid = new Grid(hexPrototype)  // don't pass a 2nd argument
+statelessGrid.store // Map(0) {}
+// This grid can't be iterated (what hexes and in what order?)
+statelessGrid.each((hex) => console.log(hex)).run() // logs nothing
+// However, traversal is always possible:
+statelessGrid
+  .traverse(at({ q: 1, r: 1 }))     // traverse a single hex
+  .each((hex) => console.log(hex))
+  .run()  // logs: Hex {q: 1, r: 1}
 ```
 
 ## Playground
@@ -76,7 +134,7 @@ Features that are crossed out are not going to be added. Checked features are im
 
 - [x] ~~Do something with this: [https://www.redblobgames.com/grids/hexagons/#map-storage](https://www.redblobgames.com/grids/hexagons/#map-storage)?~~ A `Map` works fine
 - [x] There should be a way to loop over hexes in a grid with **transducers**? Experimented with this and I couldn't get it to work when a grid was traversed multiple times before being run (triggering the transducer). Surprisingly, it had a significant performance drop (more than 50%). Don't know what caused it though, probably the combination of transducers and traversers that don't fit well together. Might investigate more in the future.
-- [ ] Add functionality related to [egdes](https://github.com/flauwekeul/honeycomb/issues/58#issuecomment-642099947)
+- [ ] Add functionality related to [edges](https://github.com/flauwekeul/honeycomb/issues/58#issuecomment-642099947)
 - [ ] Do something with matrices?
 - [ ] Add some generic rendering helpers (a "pen" that "draws" hex edges (for canvas) or a single hex (for SVG))
 - [ ] Make sure the lib can be imported as a module (e.g.: `<script type="module" src="https://unpkg.com/honeycomb-grid/dist/honeycomb.mjs"></script>`). Probably use [microbundle](https://github.com/developit/microbundle) or [snowpack](https://snowpack.dev).
@@ -132,18 +190,20 @@ These methods exist in v3 and they need to be considered for v4.
 #### Terminology
 
 - *grid instance*: an iterable object that represents hexes in a plane (possibly with infinite dimensions). ~~The order of iteration is not important?~~
+- *stateful grid*: a grid with a non-empty `store`. The store can be filled when the grid is created by either passing a store or a traverser as the 2nd argument.
+- *stateless grid*: a grid with an empty `store`. Create a stateless grid by only passing a hex prototype to the constructor.
 - *concrete grid*: a grid instance with finite hexes stored as a concrete data type (array, object, string, etc)
 - *grid-like*: an iterable that can be converted to a grid instance
 - *traverser*: a ~~generator~~ (generators are not performant, so the built-in traversers are regular array-producing functions, but a traverser can still be a generator) function that determines how a grid instance is traversed. It produces hexes in a certain order.
 
   The result of a traversal is always a new grid (the traversed grid isn't mutated, the hexes in it can be mutated though), this can be added/subtracted/intersected/differenced, mapped/reduced or just ignored (in case of side-effects).
-- *transformer*(?): methods of `Grid` that can transform the hexes produced by a traverser: `each()`, `filter()`, `takeWhile()`, etc.
+- *iterator method*: a grid method that iterates over the hexes in the grid (if any). A traverser is also an iterator. Stateful grids can always be iterated (using the store), stateless grids can only be iterated when traversed at least once.
 
 #### API
 
 - [ ] **Creation**:
   - [x] `new Grid<T extends Hex>(hexPrototype: T, traverserOrStore?: Traverser<T> | Map<string, T>)`: ~~can be traversed indefinitely, determine default traverser (spiral?) the default traverser doesn't emit hexes~~ A grid without hexes isn't very helpful, so it makes sense to pass a traverser or store (`Map`) to the constructor.
-  - [x] `Grid.of<T extends Hex>(/* same args as constructor */)`
+  - [x] ~~`Grid.of<T extends Hex>(/* same args as constructor */)`~~
   - [ ] `Grid.from<T extends Hex>(iterable: Iterable<T>)`
 - [ ] **Traversal**:
   - [x] `grid.rectangle(options)`
@@ -181,12 +241,18 @@ These methods exist in v3 and they need to be considered for v4.
   - [ ] `grid.difference(otherGrid)`
   - [x] ~~`grid.mergeMap()` / `grid.zip()`~~ these ~~seem~~ are useless
 - [ ] **Assertion**:
-
-  Maybe make shortcut methods for these:
-  - [x] ~~`grid.someTraverser(options).pipe(until(({ hex }) => hex.someState)).size > 0`: grid.some() whether any hex passes predicate~~
-  - [x] ~~`grid.someTraverser(options).pipe(until(({ hex }) => !hex.someState)).size === grid.size` grid.every() whether all hexes pass predicate~~
+  - [ ] ? grid.some() whether any hex passes predicate
+  - [ ] ? grid.every() whether all hexes pass predicate
 - [ ] **Mutation/reduction**?:
-  - [ ] `grid.reduce((any, traversalState) => any, any)`
+  - [ ] `grid.update((grid) => void)`
+    ```typescript
+    // the passed grid is already a clone, similar to Immer
+    grid.update((grid) => {
+      // grid.hexes() returns the hexes since the last run() call
+      grid.store = new Map(grid.hexes().map((hex) => [hex.toString(), hex]))
+    })
+    ```
+  - [ ] `grid.reduce<T>((T, hex, grid) => T, T)`
   - [ ] `grid.toArray()`
   - [ ] `grid.toJSON()`
   - [ ] `grid.toString()` / `grid.serialize()`
