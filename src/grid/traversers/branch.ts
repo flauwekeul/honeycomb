@@ -16,7 +16,7 @@ export const branch = <T extends Hex>(
   let _cursor = cursor
 
   for (const sourceCursor of flatTraverse(source)(_cursor, getHex)) {
-    _cursor = getHex(sourceCursor)
+    _cursor = sourceCursor
     result.push(_cursor)
     for (const branchCursor of flatBranch(_cursor, getHex)) {
       result.push(branchCursor)
