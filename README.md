@@ -1,6 +1,6 @@
 # Honeycomb
 
-**⚠️ This is an experimental version (currently 4.0.0-alpha.0) and the API is likely to change. I encourage anyone to try out the API and open any [issues/questions](https://github.com/flauwekeul/honeycomb/issues/new) ⚠️**
+**⚠️ This is an experimental version and the API is likely to change. I encourage anyone to try out the API and open any [issues/questions](https://github.com/flauwekeul/honeycomb/issues/new) ⚠️**
 
 [![Gitter](https://img.shields.io/gitter/room/flauwekeul/honeycomb.svg)](https://gitter.im/honeycomb-grid)
 [![NPM version](https://badge.fury.io/js/honeycomb-grid.svg)](https://www.npmjs.com/package/honeycomb-grid)
@@ -18,16 +18,16 @@ Honeycomb works in recent versions of the Chrome, Firefox, Edge and Safari.
 NPM:
 
 ```bash
-npm i honeycomb-grid@4.0.0-alpha.0
+npm i honeycomb-grid@4.0.0-alpha
 ```
 
 Yarn:
 
 ```bash
-yarn add honeycomb-grid@4.0.0-alpha.0
+yarn add honeycomb-grid@4.0.0-alpha
 ```
 
-Or download the distribution from [unpkg.com](https://unpkg.com/honeycomb-grid@4.0.0-alpha.0).
+Or download the distribution from [unpkg.com](https://unpkg.com/honeycomb-grid@4.0.0-alpha.1).
 
 ## Examples
 
