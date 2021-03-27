@@ -1,5 +1,4 @@
 export * from './isAxial'
-export * from './isCube'
 export * from './isFunction'
 export * from './isObject'
 export * from './isPoint'
