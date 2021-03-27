@@ -2,6 +2,74 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0-alpha.1](https://github.com/flauwekeul/honeycomb/compare/v3.1.8...v4.0.0-alpha.1) (2021-03-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* **hex:** toString() now only accepts axial coordinates
+* **grid:** Remove the of() static grid method, because it's a rather redundant as it does the
+same as the constructor. Also update the inStore function to be used directly as a grid iterator
+method callback (before change: `grid.each(inStore())`, after change: `grid.each(inStore)`). Remove
+setStore() because it's ambiguous how the store should be set: hexes could be removed/added/updated
+from the store.
+
+### Features
+
+* **grid:** a grid can now be created with an optional traverser ([6835d7b](https://github.com/flauwekeul/honeycomb/commit/6835d7b3ca0a740f93636a228e4751f9daee6311))
+* **grid:** add from() static method that accepts an iterable of hexes and returns a new grid ([cfd3383](https://github.com/flauwekeul/honeycomb/commit/cfd3383e52a34017c62e668a0f27cadd108bac3c))
+* **grid:** add GridStore type and make sure the toString() Hex method is called to create an id ([62604fb](https://github.com/flauwekeul/honeycomb/commit/62604fb8c84e0bc7032d7cb3bdbf64f032954183))
+* **grid:** add HexCache class and use it as a start to cache hexes in grid ([a2cacc4](https://github.com/flauwekeul/honeycomb/commit/a2cacc46806cf8a70e13e5da9054b81747c1e3f6))
+* **grid:** add NoOpCache and use it as the default cache in Grid ([4d3bf8d](https://github.com/flauwekeul/honeycomb/commit/4d3bf8d75553f962caf458c84025f81dd3d679c4))
+* **grid:** add optional argument to move() traverser to move in the same direction multiple times ([3f79a08](https://github.com/flauwekeul/honeycomb/commit/3f79a084d5064c700bd2aad27c69499e2c3f8771))
+* **grid:** add setStore helper function and add set method to GridStore interface ([9db2f6b](https://github.com/flauwekeul/honeycomb/commit/9db2f6bf0193f0b890c243ee5b99538f298ac1bf))
+* **grid:** call copy() on the initial cursor hex in Grid.traverse() ([b60f8ad](https://github.com/flauwekeul/honeycomb/commit/b60f8ad6f24bfe6a3ad350d3ffd70b409e051586))
+* **grid:** change how a grid's store is set ([4d64308](https://github.com/flauwekeul/honeycomb/commit/4d64308daccbaf2a71c3a6f05472ebf184ae64c9))
+* **grid:** grids can now be created/traversed with a single traverser or an array of traversers ([40f4836](https://github.com/flauwekeul/honeycomb/commit/40f4836063fc0ce96442ca158e528b2e30d4be5f))
+* **grid:** improve types and name some anonymous functions for better debugging ([6e514ef](https://github.com/flauwekeul/honeycomb/commit/6e514ef1e4119b0261fb65819e007a27e48d8c67))
+* **grid:** improve typing of Grid methods and traverse commands ([7d44970](https://github.com/flauwekeul/honeycomb/commit/7d44970ca500c6f64be79d53b1673e0977405352))
+* **grid:** make CompassDirection a union type ([05a6260](https://github.com/flauwekeul/honeycomb/commit/05a62604470c643f71317c31ed5412660d754db8))
+* **grid:** more or less settled on Grid API ([b92a5c5](https://github.com/flauwekeul/honeycomb/commit/b92a5c5a71e39c4c7dd0091568ba7f699289b60e))
+* **grid:** move traversers to traversers folder and add utils folder with forEach and map ([578d399](https://github.com/flauwekeul/honeycomb/commit/578d399fe5e63c4d48c6b26012264cdfd646c511))
+* **grid:** pass cursor along with hexes in getPrevHexState() for a ~20% performance increase ([e587c38](https://github.com/flauwekeul/honeycomb/commit/e587c3879ebcd90568a94153594fc2f702152109))
+* **grid:** pass getHex() function to all traversers, this way they can use the cache ([a390503](https://github.com/flauwekeul/honeycomb/commit/a3905035c5d54f9afbe2483b198c8009e095d587))
+* **grid:** rectangle() traverser and grid method now accept opposing corners as arguments ([4c68b02](https://github.com/flauwekeul/honeycomb/commit/4c68b0268c1f0a2488dc566ee633d2de8f566a48))
+* **grid:** remove map method, add filter and takeWhile methods and add inStore helper function ([0c470d7](https://github.com/flauwekeul/honeycomb/commit/0c470d734798bdc2e77d9a02c14e424fb42d6aa1))
+* **grid:** restrict Grid.traverse() to the hexes in the grid (from the previous iteration, if any) ([e9232d7](https://github.com/flauwekeul/honeycomb/commit/e9232d7025a6984056a0e1cca6b8f2176489251d))
+* **grid:** rewrite the rectangle traverser and update Grid.rectangle() to use it, add Compass class ([3305b39](https://github.com/flauwekeul/honeycomb/commit/3305b39c23ab6c1beb02b63392b9ad106a327529))
+* **grid:** subsequent traverse() calls now stop when attempting to traverse outside the grid ([5ef3351](https://github.com/flauwekeul/honeycomb/commit/5ef33512a1d5133671213cfa843fa28ec3402903))
+* **grid:** traverse functions don't create hexes anymore ([fbde28c](https://github.com/flauwekeul/honeycomb/commit/fbde28c487dc0ca7be6fda8af939b80e4c8e5780))
+* **grid:** update grid rectangle method to only within previous grid ([3cf1fb3](https://github.com/flauwekeul/honeycomb/commit/3cf1fb3af2fd27fc2dba872154264c32c6debd9b))
+* **grid:** use single Compass enum, make move() accept ambiguous directions, improve grid.rectangle ([bd46148](https://github.com/flauwekeul/honeycomb/commit/bd4614802b727883dc03482c6e38690124ac3fb9))
+* **hex:** add equals() method to hex prototype ([013beee](https://github.com/flauwekeul/honeycomb/commit/013beee3e9aa9ae03b5e868dbe8447966c3076ef))
+* **hex:** add isHex() function and overload corners() to either accept a hex or hex settings ([b2d82df](https://github.com/flauwekeul/honeycomb/commit/b2d82df7a32501e3c8dd005066531f9cf1ff5def))
+* **hex:** hexCoordinates now also include offset coordinates ([9e27e0b](https://github.com/flauwekeul/honeycomb/commit/9e27e0bea2ef1ee10b679eca74b4649cac06b0a1))
+* set [Symbol.toStringTag] on Grid and hex prototype ([1fe187c](https://github.com/flauwekeul/honeycomb/commit/1fe187c8ed5edd67bacc16004a22dbdd1f10727f))
+* **grid:** rename HexCache to CoordinatesCache and expand API, add toString() to hex ([72e1913](https://github.com/flauwekeul/honeycomb/commit/72e1913eae3521179473e3acacc22644faf038c3))
+* **hex:** add corners(), width() and height() functions ([5c7439d](https://github.com/flauwekeul/honeycomb/commit/5c7439d07fd2162c0c8394be153f57d01a912155))
+* **hex:** add functions to convert hexes to points ([bc9c98c](https://github.com/flauwekeul/honeycomb/commit/bc9c98c0e869c6883e8a974833c7acf2c4171e3e))
+* **hex:** createHex() now also accepts a hex (instance) and if it does copies it ([b792e02](https://github.com/flauwekeul/honeycomb/commit/b792e021bb4a29a93140d659eda113f8c267c7fe))
+* **hex:** normalize and assert all required hex prototype properties in createHexPrototype() ([7563440](https://github.com/flauwekeul/honeycomb/commit/756344010d32035db1b0ea96cc0b5f9b5413fa9e))
+* **hex:** rename createToPoint() to hexToPoint() and make it accept a hex ([1c7bcf9](https://github.com/flauwekeul/honeycomb/commit/1c7bcf958ad23e93066604b85f5e2f44990a1e6e))
+* **hex:** rename size to dimensions and normalize dimensions in createHexPrototype() ([90db3a6](https://github.com/flauwekeul/honeycomb/commit/90db3a6362f33cc9063a667e6d959940aa33f0ee))
+* **hex:** set hex origin relative to center of hex ([05c90ec](https://github.com/flauwekeul/honeycomb/commit/05c90ec571823a3ee2013be206d5479a2ce977d9))
+* **hex:** store s cube coordinate when passed to createHex, otherwise use getter ([67eb39f](https://github.com/flauwekeul/honeycomb/commit/67eb39f679ecfbded72cbbc2769f6e7b47a8c847))
+* **hex:** use axial coordinates by default ([83103a3](https://github.com/flauwekeul/honeycomb/commit/83103a36d40f0d930ed0f5c113f8e6f15a2d3167))
+* **hex,grid:** traversers return hexes (as before), fix move() traverser, add neighborOf() function ([2ba0fb9](https://github.com/flauwekeul/honeycomb/commit/2ba0fb94d1c26abf660603d6733afc3aaf8bb8cb))
+* add parcel-bundler and playground ([ca3f71f](https://github.com/flauwekeul/honeycomb/commit/ca3f71fc11b714208a45ff194c39cfadd36b979f))
+* createHexPrototype() adds several readonly properties (WIP) ([ffd6f44](https://github.com/flauwekeul/honeycomb/commit/ffd6f44e7a808c91c32486edc9e2a1f9adcabf2c))
+* first functionality of v4.0 (WIP) ([f4c0032](https://github.com/flauwekeul/honeycomb/commit/f4c0032e12bbd1923a1dddde8a677ea7529e2eb5))
+* fix reference to type declaration and improve typing of `createHexPrototype()` ([44f2d6f](https://github.com/flauwekeul/honeycomb/commit/44f2d6f9ddffa1871df1c56bcd5e31dbd5778fda))
+* remove cartesian coordinates for now ([44b3a79](https://github.com/flauwekeul/honeycomb/commit/44b3a793753ba6fe6b4fc76d2961ddca17c9ca97))
+
+
+### Bug Fixes
+
+* **grid:** fix incorrect width or height calculation in Grid.rectangleFromOpposingCorners() ([adc128d](https://github.com/flauwekeul/honeycomb/commit/adc128d52db774b2f2bd59e528bcac2d8f0e9caf))
+* **grid:** fix neighborOf() (and functions that use it like move()) ([42683b3](https://github.com/flauwekeul/honeycomb/commit/42683b3c3adcbf156cc6ad737edb9a1add74cef7))
+* **grid:** grids are now iterable again (e.g.: `[...grid]` or `for (const hex of grid) {})`) ([63de322](https://github.com/flauwekeul/honeycomb/commit/63de3228c374aab6eb24aed7d883964a23aa50f8))
+* **hex:** when overriding a hex prototype method, `this` is now correctly typed ([7b0272b](https://github.com/flauwekeul/honeycomb/commit/7b0272bdb667bd71bfec48abe815ef7bd038b53b)), closes [1#comment116992054_66162731](https://github.com/flauwekeul/1/issues/comment116992054_66162731)
+
 ### [3.1.8](https://github.com/flauwekeul/honeycomb/compare/v3.1.7...v3.1.8) (2021-03-19)
 
 ## [4.0.0-alpha.0](https://github.com/flauwekeul/honeycomb/compare/v3.1.7...v4.0.0-alpha.0) (2021-03-19)
