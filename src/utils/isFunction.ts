@@ -2,4 +2,4 @@ interface UnknownFunction {
   (...args: unknown[]): unknown
 }
 
-export const isFunction = (value: unknown): value is UnknownFunction => typeof value === 'function'
+export const isFunction = <T = UnknownFunction>(value: unknown): value is T => typeof value === 'function'

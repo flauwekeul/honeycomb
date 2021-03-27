@@ -10,7 +10,7 @@ const hexPrototype = createHexPrototype<CustomHex>({
   dimensions: 30,
   orientation: Orientation.POINTY,
   custom: 'custom', // fixme: adding `orientation: 'flat'` makes this an error, adding `orientation: Orientation.FLAT` doesn't
-  origin: (hexPrototype) => ({ x: hexPrototype.width * -0.5, y: hexPrototype.height * -0.5 }),
+  origin: 'topLeft',
 })
 // const hex = createHex(hexPrototype, { q: 4, r: 3 })
 

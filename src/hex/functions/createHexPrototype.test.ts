@@ -1,4 +1,5 @@
-import { HexCoordinates, HexPrototype, Orientation } from '../types'
+import { Ellipse } from '../../../dist'
+import { BoundingBox, HexCoordinates, HexPrototype, Orientation } from '../types'
 import { cloneHex } from './cloneHex'
 import { corners } from './corners'
 import { createHex } from './createHex'
@@ -8,12 +9,6 @@ import { equals } from './equals'
 jest.mock('./cloneHex')
 jest.mock('./corners')
 jest.mock('./equals')
-jest.mock('./height')
-jest.mock('./hexToOffset')
-jest.mock('./hexToPoint')
-jest.mock('./isFlat')
-jest.mock('./isPointy')
-jest.mock('./width')
 
 test('returns the default hex prototype when no options are passed', () => {
   const prototype = createHexPrototype()
@@ -159,6 +154,71 @@ test('returns the hex prototype with toString method', () => {
   const result = hex.toString()
 
   expect(result).toBe('1,2')
+})
+
+describe('dimensions', () => {
+  test('accepts an ellipse', () => {
+    const prototype = createHexPrototype({ dimensions: { xRadius: 1, yRadius: 2 } })
+    expect(prototype.dimensions).toEqual({ xRadius: 1, yRadius: 2 })
+  })
+
+  test('accepts a rectangular bounding box', () => {
+    const pointyPrototype = createHexPrototype({ orientation: 'pointy', dimensions: { width: 10, height: 20 } })
+    expect(pointyPrototype.dimensions).toEqual({ xRadius: 5.773502691896258, yRadius: 10 })
+
+    const flatPrototype = createHexPrototype({ orientation: 'flat', dimensions: { width: 10, height: 20 } })
+    expect(flatPrototype.dimensions).toEqual({ xRadius: 5, yRadius: 11.547005383792516 })
+  })
+
+  test('accepts a radius', () => {
+    const prototype = createHexPrototype({ dimensions: 1 })
+    expect(prototype.dimensions).toEqual({ xRadius: 1, yRadius: 1 })
+  })
+
+  test('throws for invalid dimensions', () => {
+    const invalidEllipse: Ellipse = { xRadius: -1, yRadius: -2 }
+    expect(() => createHexPrototype({ dimensions: invalidEllipse })).toThrow(
+      `Invalid dimensions: ${invalidEllipse}. Dimensions must be expressed as an Ellipse ({ xRadius: number, yRadius: number }), a Rectangle ({ width: number, height: number }) or a number.`,
+    )
+
+    const invalidBoundingBox: BoundingBox = { width: -1, height: -2 }
+    expect(() => createHexPrototype({ dimensions: invalidBoundingBox })).toThrow(
+      `Invalid dimensions: ${invalidBoundingBox}. Dimensions must be expressed as an Ellipse ({ xRadius: number, yRadius: number }), a Rectangle ({ width: number, height: number }) or a number.`,
+    )
+
+    const invalidRadius = -1
+    expect(() => createHexPrototype({ dimensions: invalidRadius })).toThrow(
+      `Invalid dimensions: ${invalidRadius}. Dimensions must be expressed as an Ellipse ({ xRadius: number, yRadius: number }), a Rectangle ({ width: number, height: number }) or a number.`,
+    )
+  })
+})
+
+describe('orientation', () => {
+  test(`accepts Orientation, 'pointy' or 'flat'`, () => {
+    expect(createHexPrototype({ orientation: Orientation.POINTY }).orientation).toBe(Orientation.POINTY)
+    expect(createHexPrototype({ orientation: 'pointy' }).orientation).toBe(Orientation.POINTY)
+    expect(createHexPrototype({ orientation: 'flat' }).orientation).toBe(Orientation.FLAT)
+  })
+})
+
+describe('origin', () => {
+  test('accepts a point', () => {
+    const prototype = createHexPrototype({ origin: { x: 1, y: 2 } })
+    expect(prototype.origin).toEqual({ x: 1, y: 2 })
+  })
+
+  test(`accepts 'topLeft'`, () => {
+    const prototype = createHexPrototype({ origin: 'topLeft', dimensions: { width: 10, height: 10 } })
+    expect(prototype.origin).toEqual({ x: -5, y: -5 })
+  })
+
+  test('accepts a function', () => {
+    const callback = jest.fn(() => ({ x: 1, y: 2 }))
+    const prototype = createHexPrototype({ origin: callback })
+
+    expect(callback).toBeCalledWith(prototype)
+    expect(prototype.origin).toEqual({ x: 1, y: 2 })
+  })
 })
 
 // copied from internal type that Object.getOwnPropertyDescriptors() returns

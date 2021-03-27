@@ -32,12 +32,12 @@ export interface Ellipse {
   yRadius: number
 }
 
-export interface Rectangle {
+export interface BoundingBox {
   width: number
   height: number
 }
 
-export type hexDimensions = Ellipse | Rectangle | number
+export type hexDimensions = Ellipse | BoundingBox | number
 
 export interface HexSettings {
   dimensions: Ellipse
