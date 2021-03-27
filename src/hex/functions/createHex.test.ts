@@ -10,12 +10,19 @@ test('returns a new hex when passed a hex prototype', () => {
   expect(Object.getPrototypeOf(result)).toBe(hexPrototype)
 })
 
-test('returns a new hex with passed properties on the instance', () => {
+test('returns a new hex with the passed properties on the instance', () => {
   const hexPrototype = createHexPrototype<CustomHex>()
   const result = createHex(hexPrototype, { q: 1, r: 2, custom: 'A' })
 
   expect(result).toMatchObject({ q: 1, r: 2, custom: 'A' })
   expect(Object.getPrototypeOf(result)).not.toHaveProperty('custom')
+})
+
+test('returns a new hex from the passed properties containing offset coordinates', () => {
+  const hexPrototype = createHexPrototype<CustomHex>()
+  const result = createHex(hexPrototype, { col: 1, row: 2, custom: 'B' })
+
+  expect(result).toMatchObject({ q: 0, r: 2, custom: 'B' })
 })
 
 test('returns a clone when a hex (instance) is passed', () => {
