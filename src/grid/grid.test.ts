@@ -79,6 +79,41 @@ describe('creation', () => {
 
     expect(callback).not.toBeCalled()
   })
+
+  describe('Grid.from()', () => {
+    const hex = createHex(hexPrototype)
+    const store = new Map([[hex.toString(), hex]])
+
+    test('accepts a store', () => {
+      const grid = Grid.from(store)
+
+      expect(grid.store).toEqual(store)
+      expect(grid.hexPrototype).toBe(hexPrototype)
+
+      const callback = jest.fn()
+      grid.run(callback)
+
+      expect(callback.mock.calls).toEqual([[hex, grid]])
+    })
+
+    test('accepts an iterable', () => {
+      const iterable = store.values()
+      const grid = Grid.from(iterable)
+
+      expect(grid.store).toEqual(store)
+      expect(grid.hexPrototype).toBe(hexPrototype)
+
+      const callback = jest.fn()
+      grid.run(callback)
+
+      expect(callback.mock.calls).toEqual([[hex, grid]])
+    })
+
+    test('throws an error when passed an empty store or iterable', () => {
+      expect(() => Grid.from(new Map())).toThrowError(`Can't create grid from empty iterable: ${new Map()}`)
+      expect(() => Grid.from([])).toThrowError(`Can't create grid from empty iterable: ${[]}`)
+    })
+  })
 })
 
 test('implements toStringTag', () => {

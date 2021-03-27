@@ -3,6 +3,25 @@ import { flatTraverse } from './functions'
 import { Callback, Traverser } from './types'
 
 export class Grid<T extends Hex> {
+  static from<T extends Hex>(iterable: Map<string, T> | Iterable<T>) {
+    let firstHex: T
+    let store: Map<string, T>
+
+    if (iterable instanceof Map) {
+      firstHex = iterable.values()[Symbol.iterator]().next().value
+      store = iterable
+    } else {
+      const array = Array.from(iterable)
+      firstHex = array[0]
+      store = new Map(array.map((hex) => [hex.toString(), hex]))
+    }
+
+    if (!firstHex) {
+      throw new Error(`Can't create grid from empty iterable: ${iterable}`)
+    }
+
+    return new Grid<T>(Object.getPrototypeOf(firstHex), store)
+  }
 
   get [Symbol.toStringTag]() {
     return 'Grid'

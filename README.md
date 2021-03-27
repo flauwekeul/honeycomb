@@ -201,10 +201,10 @@ These methods exist in v3 and they need to be considered for v4.
 
 #### API
 
-- [ ] **Creation**:
+- [x] **Creation**:
   - [x] `new Grid<T extends Hex>(hexPrototype: T, traverserOrStore?: Traverser<T> | Map<string, T>)`: ~~can be traversed indefinitely, determine default traverser (spiral?) the default traverser doesn't emit hexes~~ A grid without hexes isn't very helpful, so it makes sense to pass a traverser or store (`Map`) to the constructor.
   - [x] ~~`Grid.of<T extends Hex>(/* same args as constructor */)`~~
-  - [ ] `Grid.from<T extends Hex>(iterable: Iterable<T>)`
+  - [x] `Grid.from<T extends Hex>(iterable: Iterable<T>)`
 - [ ] **Traversal**:
   - [x] `grid.rectangle(options)`
   - [ ] `grid.hexagon(options)`
