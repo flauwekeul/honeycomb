@@ -1,5 +1,5 @@
 import { isFunction, isObject, isPoint } from '../../utils'
-import { Ellipse, Hex, HexPrototype, HexSettings, Orientation, Point, Rectangle } from '../types'
+import { BoundingBox, Ellipse, Hex, HexPrototype, HexSettings, Orientation, Point } from '../types'
 import { cloneHex } from './cloneHex'
 import { corners } from './corners'
 import { equals } from './equals'
@@ -107,28 +107,34 @@ export const createHexPrototype = <T extends Hex>(options?: Partial<T | HexProto
   })
 }
 
+export interface OriginFn {
+  <T extends Omit<HexPrototype, 'origin'>>(prototype: T): Point
+}
+
 export interface HexPrototypeOptions {
-  dimensions: Ellipse | Rectangle | number
+  dimensions: Ellipse | BoundingBox | number
   orientation: Orientation | 'pointy' | 'flat'
-  origin: Point | (<T extends Omit<HexPrototype, 'origin'>>(hexPrototype: T) => Point)
+  origin: Point | 'topLeft' | OriginFn
   offset: number
 }
 
-function normalizeDimensions({ dimensions, orientation }: HexPrototypeOptions) {
+function normalizeDimensions(prototype: HexPrototypeOptions) {
+  const { dimensions } = prototype
+
   if (isObject(dimensions)) {
-    if (Number.isFinite((dimensions as Ellipse).xRadius) && Number.isFinite((dimensions as Ellipse).yRadius)) {
+    if ((dimensions as Ellipse).xRadius > 0 && (dimensions as Ellipse).yRadius > 0) {
       return { ...(dimensions as Ellipse) }
     }
 
-    const { width, height } = dimensions as Rectangle
-    if (Number.isFinite(width) && Number.isFinite(height)) {
-      return orientation === Orientation.POINTY
+    const { width, height } = dimensions as BoundingBox
+    if (width > 0 && height > 0) {
+      return normalizeOrientation(prototype) === Orientation.POINTY
         ? { xRadius: width / Math.sqrt(3), yRadius: height / 2 }
         : { xRadius: width / 2, yRadius: height / Math.sqrt(3) }
     }
   }
 
-  if (Number.isFinite(dimensions as number)) {
+  if (dimensions > 0) {
     return { xRadius: dimensions, yRadius: dimensions } as Ellipse
   }
 
@@ -156,16 +162,24 @@ function assertOffset({ offset }: HexPrototypeOptions) {
 }
 
 // origin can be a function that will be called with the almost-complete hex prototype (complete except for origin)
-function normalizeOrigin<T extends HexPrototype>(prototype: Omit<T, 'origin'> & Pick<HexPrototypeOptions, 'origin'>) {
-  if (isPoint(prototype.origin)) {
-    return { ...prototype.origin }
+function normalizeOrigin<T extends HexPrototype>(
+  prototype: Omit<T, 'origin'> & Pick<HexPrototypeOptions, 'origin'>,
+): Point {
+  const { origin } = prototype
+
+  if (isPoint(origin)) {
+    return { ...origin }
   }
 
-  if (isFunction(prototype.origin)) {
-    return prototype.origin(prototype)
+  if (origin === 'topLeft') {
+    return { x: prototype.width * -0.5, y: prototype.height * -0.5 }
+  }
+
+  if (isFunction<OriginFn>(origin)) {
+    return origin(prototype)
   }
 
   throw new TypeError(
-    `Invalid origin: ${prototype.origin}. Origin must be expressed as a Point ({ x: number, y: number }) or a function that returns a Point.`,
+    `Invalid origin: ${origin}. Origin must be expressed as a Point ({ x: number, y: number }), 'topLeft' or a function that returns a Point.`,
   )
 }
