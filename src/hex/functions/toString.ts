@@ -1,3 +1,3 @@
-import { HexCoordinates } from '../types'
+import { AxialCoordinates } from '../types'
 
-export const toString = ({ q, r }: HexCoordinates) => `${q},${r}`
+export const toString = ({ q, r }: AxialCoordinates) => `${q},${r}`

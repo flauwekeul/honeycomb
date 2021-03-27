@@ -1,5 +1,6 @@
 import { Compass, CompassDirection } from '../../compass'
-import { Hex, HexCoordinates, hexToOffset } from '../../hex'
+import { Hex, HexCoordinates, hexToOffset, OffsetCoordinates } from '../../hex'
+import { isOffset } from '../../utils'
 import { Traverser } from '../types'
 import { at } from './at'
 import { branch } from './branch'
@@ -38,8 +39,8 @@ function optionsFromOpposingCorners(
   isPointy: boolean,
   offset: number,
 ): RectangleOptions {
-  const { col: cornerACol, row: cornerARow } = hexToOffset({ q: cornerA.q, r: cornerA.r, isPointy, offset })
-  const { col: cornerBCol, row: cornerBRow } = hexToOffset({ q: cornerB.q, r: cornerB.r, isPointy, offset })
+  const { col: cornerACol, row: cornerARow } = assertOffsetCoordinates(cornerA, isPointy, offset)
+  const { col: cornerBCol, row: cornerBRow } = assertOffsetCoordinates(cornerB, isPointy, offset)
   const smallestCol = cornerACol < cornerBCol ? 'A' : 'B'
   const smallestRow = cornerARow < cornerBRow ? 'A' : 'B'
   const smallestColRow = (smallestCol + smallestRow) as keyof typeof RULES_FOR_SMALLEST_COL_ROW
@@ -53,6 +54,10 @@ function optionsFromOpposingCorners(
     start: cornerA,
     direction,
   }
+}
+
+function assertOffsetCoordinates(cornerA: HexCoordinates, isPointy: boolean, offset: number): OffsetCoordinates {
+  return isOffset(cornerA) ? cornerA : hexToOffset({ q: cornerA.q, r: cornerA.r, isPointy, offset })
 }
 
 const RULES_FOR_SMALLEST_COL_ROW = {

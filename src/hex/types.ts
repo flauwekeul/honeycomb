@@ -11,6 +11,11 @@ export enum Orientation {
   POINTY = 'POINTY',
 }
 
+export type OffsetCoordinates = {
+  col: number
+  row: number
+}
+
 export interface AxialCoordinates {
   q: number
   r: number
@@ -20,14 +25,7 @@ export interface CubeCoordinates extends AxialCoordinates {
   s: number
 }
 
-export interface HexCoordinates extends AxialCoordinates {
-  s?: number
-}
-
-export type OffsetCoordinates = {
-  col: number
-  row: number
-}
+export type HexCoordinates = (AxialCoordinates & { s?: number }) | OffsetCoordinates
 
 export interface Ellipse {
   xRadius: number
