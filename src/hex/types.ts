@@ -25,7 +25,11 @@ export interface CubeCoordinates extends AxialCoordinates {
   s: number
 }
 
-export type HexCoordinates = (AxialCoordinates & { s?: number }) | OffsetCoordinates
+export interface PartialCubeCoordinates extends AxialCoordinates {
+  s?: number
+}
+
+export type HexCoordinates = PartialCubeCoordinates | OffsetCoordinates
 
 export interface Ellipse {
   xRadius: number

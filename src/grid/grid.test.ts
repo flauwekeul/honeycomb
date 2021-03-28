@@ -129,6 +129,20 @@ test('can be iterated', () => {
   }
 })
 
+describe('pointToHex()', () => {
+  test('converts a point to a hex', () => {
+    const grid = new Grid(hexPrototype)
+    const hex = {} as Hex
+    const getHex = jest.spyOn(grid, 'getHex').mockReturnValue(hex)
+    const point = { x: 1, y: 2 }
+
+    const result = grid.pointToHex(point)
+
+    expect(result).toBe(hex)
+    expect(getHex).toBeCalledWith({ q: -0, r: 1, s: -1 })
+  })
+})
+
 describe('getHex()', () => {
   test('returns a hex from the store when present in the store', () => {
     const coordinates = { q: 1, r: 2 }
