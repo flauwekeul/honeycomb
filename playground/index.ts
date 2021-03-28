@@ -1,4 +1,4 @@
-import { at, Compass, createHexPrototype, Grid, Hex, inStore, move, Orientation, rectangle } from '../dist'
+import { at, Compass, createHexPrototype, Grid, Hex, inStore, move, rectangle } from '../dist'
 import { createSuite } from './benchmark'
 import { render } from './render'
 
@@ -8,8 +8,8 @@ interface CustomHex extends Hex {
 
 const hexPrototype = createHexPrototype<CustomHex>({
   dimensions: 30,
-  orientation: Orientation.POINTY,
-  custom: 'custom', // fixme: adding `orientation: 'flat'` makes this an error, adding `orientation: Orientation.FLAT` doesn't
+  orientation: 'POINTY',
+  custom: 'custom',
   origin: 'topLeft',
 })
 // const hex = createHex(hexPrototype, { q: 4, r: 3 })

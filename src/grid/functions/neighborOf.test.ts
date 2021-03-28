@@ -4,7 +4,7 @@ import { neighborOf } from './neighborOf'
 
 describe('pointy hexes', () => {
   test(`returns the neighboring hex in unambiguous directions (bordering on the hex's side)`, () => {
-    const hexPrototype = createHexPrototype({ orientation: 'pointy' })
+    const hexPrototype = createHexPrototype({ orientation: 'POINTY' })
     const pointyHex = createHex(hexPrototype, { q: 1, r: 2 })
 
     expect(neighborOf(pointyHex, CompassDirection.NE)).toMatchObject(pointyHex.clone({ q: 2, r: 1 }))
@@ -16,7 +16,7 @@ describe('pointy hexes', () => {
   })
 
   test(`returns the neighboring hex in ambiguous directions (N and S) for a hex with a negative offset`, () => {
-    const negativeOffsetHexPrototype = createHexPrototype({ orientation: 'pointy', offset: -1 })
+    const negativeOffsetHexPrototype = createHexPrototype({ orientation: 'POINTY', offset: -1 })
     const evenRowHex = createHex(negativeOffsetHexPrototype, { q: 1, r: 2 })
     const oddRowHex = createHex(negativeOffsetHexPrototype, { q: 0, r: 3 })
 
@@ -27,7 +27,7 @@ describe('pointy hexes', () => {
   })
 
   test(`returns the neighboring hex in ambiguous directions (N and S) for a hex with a positive offset`, () => {
-    const positiveOffsetHexPrototype = createHexPrototype({ orientation: 'pointy', offset: 1 })
+    const positiveOffsetHexPrototype = createHexPrototype({ orientation: 'POINTY', offset: 1 })
     const evenRowHex = createHex(positiveOffsetHexPrototype, { q: 1, r: 2 })
     const oddRowHex = createHex(positiveOffsetHexPrototype, { q: 0, r: 3 })
 
@@ -40,7 +40,7 @@ describe('pointy hexes', () => {
 
 describe('flat hexes', () => {
   test(`returns the neighboring hex in unambiguous directions (bordering on the hex's side)`, () => {
-    const flatHexPrototype = createHexPrototype({ orientation: 'flat' })
+    const flatHexPrototype = createHexPrototype({ orientation: 'FLAT' })
     const flatHex = createHex(flatHexPrototype, { q: 1, r: 2 })
 
     expect(neighborOf(flatHex, CompassDirection.N)).toMatchObject(flatHex.clone({ q: 1, r: 1 }))
@@ -52,7 +52,7 @@ describe('flat hexes', () => {
   })
 
   test(`returns the neighboring hex in ambiguous directions (E and W) for a hex with a negative offset`, () => {
-    const negativeOffsetHexPrototype = createHexPrototype({ orientation: 'flat', offset: -1 })
+    const negativeOffsetHexPrototype = createHexPrototype({ orientation: 'FLAT', offset: -1 })
     const evenColHex = createHex(negativeOffsetHexPrototype, { q: 2, r: 0 })
     const oddColHex = createHex(negativeOffsetHexPrototype, { q: 1, r: 1 })
 
@@ -63,7 +63,7 @@ describe('flat hexes', () => {
   })
 
   test(`returns the neighboring hex in ambiguous directions (E and W) for a hex with a positive offset`, () => {
-    const positiveOffsetHexPrototype = createHexPrototype({ orientation: 'flat', offset: 1 })
+    const positiveOffsetHexPrototype = createHexPrototype({ orientation: 'FLAT', offset: 1 })
     const evenRowHex = createHex(positiveOffsetHexPrototype, { q: 2, r: 0 })
     const oddRowHex = createHex(positiveOffsetHexPrototype, { q: 1, r: 1 })
 

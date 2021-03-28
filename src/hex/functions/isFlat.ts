@@ -1,3 +1,3 @@
-import { HexSettings, Orientation } from '../types'
+import { HexSettings, Orientations } from '../types'
 
-export const isFlat = ({ orientation }: HexSettings) => orientation === Orientation.FLAT
+export const isFlat = ({ orientation }: HexSettings) => orientation === Orientations.FLAT

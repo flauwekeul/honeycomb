@@ -4,13 +4,13 @@ import { hexToPoint } from './hexToPoint'
 
 test('returns the point relative to the origin of the passed hex', () => {
   const pointyHexPrototype = createHexPrototype({
-    orientation: 'pointy',
+    orientation: 'POINTY',
     origin: { x: 1, y: 1 },
     dimensions: { xRadius: 1, yRadius: 1 },
   })
   const pointyHex = createHex(pointyHexPrototype, { q: 1, r: 2 })
   const flatHexPrototype = createHexPrototype({
-    orientation: 'flat',
+    orientation: 'FLAT',
     origin: { x: 1, y: 1 },
     dimensions: { xRadius: 1, yRadius: 1 },
   })

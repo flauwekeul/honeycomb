@@ -1,12 +1,12 @@
-import { Orientation } from '../types'
+import { Orientation, Orientations } from '../types'
 import { corners } from './corners'
 import { createHex } from './createHex'
 import { createHexPrototype } from './createHexPrototype'
 
 test('returns corners relative to the hex, when a hex is passed', () => {
-  const pointyHexPrototype = createHexPrototype({ orientation: 'pointy', dimensions: 1 })
+  const pointyHexPrototype = createHexPrototype({ orientation: 'POINTY', dimensions: 1 })
   const pointyHex = createHex(pointyHexPrototype, { q: 1, r: 2 })
-  const flatHexPrototype = createHexPrototype({ orientation: 'flat', dimensions: 1 })
+  const flatHexPrototype = createHexPrototype({ orientation: 'FLAT', dimensions: 1 })
   const flatHex = createHex(flatHexPrototype, { q: 1, r: 2 })
 
   expect(corners(pointyHex)).toEqual([
@@ -29,12 +29,12 @@ test('returns corners relative to the hex, when a hex is passed', () => {
 
 test(`returns corners relative to any hex's origin, when hex settings are passed`, () => {
   const pointyHexSettings = {
-    orientation: Orientation.POINTY,
+    orientation: Orientations.POINTY,
     dimensions: { xRadius: 1, yRadius: 1 },
     origin: { x: 1, y: 2 },
   }
   const flatHexSettings = {
-    orientation: Orientation.FLAT,
+    orientation: Orientations.FLAT,
     dimensions: { xRadius: 1, yRadius: 1 },
     origin: { x: 1, y: 2 },
   }

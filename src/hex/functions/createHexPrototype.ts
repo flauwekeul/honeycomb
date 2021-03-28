@@ -1,5 +1,5 @@
 import { isFunction, isObject, isPoint } from '../../utils'
-import { BoundingBox, Ellipse, Hex, HexPrototype, HexSettings, Orientation, Point } from '../types'
+import { BoundingBox, Ellipse, Hex, HexPrototype, HexSettings, Orientation, Orientations, Point } from '../types'
 import { cloneHex } from './cloneHex'
 import { corners } from './corners'
 import { equals } from './equals'
@@ -13,7 +13,7 @@ import { width } from './width'
 
 export const defaultHexSettings: HexSettings = {
   dimensions: { xRadius: 1, yRadius: 1 },
-  orientation: Orientation.POINTY,
+  orientation: Orientations.POINTY,
   origin: { x: 0, y: 0 },
   offset: -1,
 }
@@ -113,7 +113,7 @@ export interface OriginFn {
 
 export interface HexPrototypeOptions {
   dimensions: Ellipse | BoundingBox | number
-  orientation: Orientation | 'pointy' | 'flat'
+  orientation: Orientation
   origin: Point | 'topLeft' | OriginFn
   offset: number
 }
@@ -128,7 +128,7 @@ function normalizeDimensions(prototype: HexPrototypeOptions) {
 
     const { width, height } = dimensions as BoundingBox
     if (width > 0 && height > 0) {
-      return normalizeOrientation(prototype) === Orientation.POINTY
+      return normalizeOrientation(prototype) === Orientations.POINTY
         ? { xRadius: width / Math.sqrt(3), yRadius: height / 2 }
         : { xRadius: width / 2, yRadius: height / Math.sqrt(3) }
     }
@@ -144,9 +144,9 @@ function normalizeDimensions(prototype: HexPrototypeOptions) {
 }
 
 function normalizeOrientation({ orientation }: HexPrototypeOptions) {
-  orientation = orientation.toUpperCase() as Orientation
+  orientation = orientation as Orientation
 
-  if (orientation === Orientation.POINTY || orientation === Orientation.FLAT) {
+  if (orientation === Orientations.POINTY || orientation === Orientations.FLAT) {
     return orientation
   }
 

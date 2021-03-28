@@ -1,4 +1,4 @@
-import { Hex, HexSettings, Orientation, Point } from '../types'
+import { Hex, HexSettings, Orientations, Point } from '../types'
 import { heightFlat, heightPointy } from './height'
 import { hexToPoint } from './hexToPoint'
 import { isHex } from './isHex'
@@ -32,7 +32,7 @@ export function corners(hexOrHexSettings: Omit<HexSettings, 'offset'>): Point[] 
     dimensions: { xRadius, yRadius },
   } = hexOrHexSettings
   const point = isHex(hexOrHexSettings) ? hexToPoint(hexOrHexSettings) : hexOrHexSettings.origin
-  return orientation === Orientation.POINTY
+  return orientation === Orientations.POINTY
     ? cornersPointy(widthPointy(xRadius), heightPointy(yRadius), point)
     : cornersFlat(widthFlat(xRadius), heightFlat(yRadius), point)
 }

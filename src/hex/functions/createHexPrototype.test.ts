@@ -1,5 +1,5 @@
 import { Ellipse } from '../../../dist'
-import { BoundingBox, HexCoordinates, HexPrototype, Orientation } from '../types'
+import { BoundingBox, HexCoordinates, HexPrototype, Orientations } from '../types'
 import { cloneHex } from './cloneHex'
 import { corners } from './corners'
 import { createHex } from './createHex'
@@ -20,7 +20,7 @@ test('returns the default hex prototype when no options are passed', () => {
       configurable: true,
     },
     orientation: {
-      value: Orientation.POINTY,
+      value: Orientations.POINTY,
       writable: true,
       enumerable: true,
       configurable: true,
@@ -163,10 +163,10 @@ describe('dimensions', () => {
   })
 
   test('accepts a rectangular bounding box', () => {
-    const pointyPrototype = createHexPrototype({ orientation: 'pointy', dimensions: { width: 10, height: 20 } })
+    const pointyPrototype = createHexPrototype({ orientation: 'POINTY', dimensions: { width: 10, height: 20 } })
     expect(pointyPrototype.dimensions).toEqual({ xRadius: 5.773502691896258, yRadius: 10 })
 
-    const flatPrototype = createHexPrototype({ orientation: 'flat', dimensions: { width: 10, height: 20 } })
+    const flatPrototype = createHexPrototype({ orientation: 'FLAT', dimensions: { width: 10, height: 20 } })
     expect(flatPrototype.dimensions).toEqual({ xRadius: 5, yRadius: 11.547005383792516 })
   })
 
@@ -194,10 +194,10 @@ describe('dimensions', () => {
 })
 
 describe('orientation', () => {
-  test(`accepts Orientation, 'pointy' or 'flat'`, () => {
-    expect(createHexPrototype({ orientation: Orientation.POINTY }).orientation).toBe(Orientation.POINTY)
-    expect(createHexPrototype({ orientation: 'pointy' }).orientation).toBe(Orientation.POINTY)
-    expect(createHexPrototype({ orientation: 'flat' }).orientation).toBe(Orientation.FLAT)
+  test(`accepts Orientation, 'POINTY' or 'FLAT'`, () => {
+    expect(createHexPrototype({ orientation: Orientations.POINTY }).orientation).toBe(Orientations.POINTY)
+    expect(createHexPrototype({ orientation: 'POINTY' }).orientation).toBe(Orientations.POINTY)
+    expect(createHexPrototype({ orientation: 'FLAT' }).orientation).toBe(Orientations.FLAT)
   })
 })
 
