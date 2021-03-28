@@ -1,4 +1,4 @@
-import { createHex, Hex, HexCoordinates } from '../hex'
+import { createHex, Hex, HexCoordinates, Point, pointToCube } from '../hex'
 import { flatTraverse } from './functions'
 import { Callback, Traverser } from './types'
 
@@ -55,6 +55,10 @@ export class Grid<T extends Hex> {
     for (const hex of this._getPrevHexState(this).hexes) {
       yield hex
     }
+  }
+
+  pointToHex(point: Point): T {
+    return this.getHex(pointToCube(this.hexPrototype, point))
   }
 
   each(callback: Callback<T, void>) {

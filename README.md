@@ -154,13 +154,13 @@ These methods exist in v3 and they need to be considered for v4.
   - [x] ~~cube~~ considered obsolete
   - [x] ~~cubeToCartesian (alias: toCartesian)~~ replaced with `hexToOffset()`
   - [x] equals
-  - [ ] from (convert anything(?) to a hex)
+  - [x] fromPoint: `pointToCube()`
   - [x] height
   - [x] isFlat
   - [x] isPointy
   - [ ] lerp
   - [ ] nudge
-  - [ ] round
+  - [x] round
   - [ ] ?   set
   - [ ] ?   subtract
   - [ ] thirdCoordinate
@@ -169,7 +169,7 @@ These methods exist in v3 and they need to be considered for v4.
 - [ ] grid functions (apply to multiple hexes):
   - [ ] ?   distance
   - [x] hexToPoint
-  - [ ] pointToHex
+  - [x] pointToHex
   - [x] get
   - [ ] hexesBetween
   - [ ] hexesInRange
