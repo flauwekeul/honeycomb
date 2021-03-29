@@ -43,11 +43,11 @@ const hexPrototype = createHexPrototype({ dimensions: 30 })
 const grid = new Grid(hexPrototype, rectangle({ width: 10, height: 10 }))
 
 // 3. Iterate over the grid to pass each hex to a render function (that you have to supply yourself (for now)):
-grid.each((hex) => render(hex))
+const renderGrid = grid.each((hex) => render(hex))
 
 // 4. The above won't do anything yet, that's because grid methods are executed lazily.
 //    You need to call its run() method in order to execute the each() call (and most other method calls):
-grid.run()
+renderGrid.run()
 ```
 
 Traversing a grid:
