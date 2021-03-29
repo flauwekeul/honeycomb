@@ -31,7 +31,7 @@ Or download the distribution from [unpkg.com](https://unpkg.com/honeycomb-grid@4
 
 ## Examples
 
-Create a rectangular grid of 10 by 10 hexes and render it:
+Create a rectangular grid of 10 by 10 hexes and log each hex:
 
 ```typescript
 import { createHexPrototype, Grid, rectangle } from 'honeycomb-grid'
@@ -40,17 +40,96 @@ import { createHexPrototype, Grid, rectangle } from 'honeycomb-grid'
 const hexPrototype = createHexPrototype({ dimensions: 30 })
 
 // 2. Create a grid with this hex prototype and also pass a "traverser" for a rectangular-shaped grid:
-const grid = new Grid(hexPrototype, rectangle({ width: 10, height: 10 }))
+let grid = new Grid(hexPrototype, rectangle({ width: 10, height: 10 }))
 
-// 3. Iterate over the grid to pass each hex to a render function (that you have to supply yourself (for now)):
-grid.each((hex) => render(hex))
+// 3. Iterate over the grid to log each hex (notice a new grid instance is returned):
+grid = grid.each((hex) => console.log(hex))
 
 // 4. The above won't do anything yet, that's because grid methods are executed lazily.
 //    You need to call its run() method in order to execute the each() call (and most other method calls):
 grid.run()
 ```
 
-Traversing a grid:
+### Rendering
+
+Honeycomb comes without the ability to render hexes to screen. Fortunately, it isn't very hard. Especially if you use a dedicated rendering library.
+
+Using [SVG.js](http://svgjs.com/):
+
+```typescript
+import { Hex } from 'honeycomb-grid'
+
+// it's assumed SVG is present on the window object
+const draw = SVG().addTo('body').size('100%', '100%')
+
+function renderSVG(hex: Hex) {
+  const polygon = draw
+    // create a polygon from a hex's corner points
+    .polygon(hex.corners.map(({ x, y }) => `${x},${y}`))
+    .fill('none')
+    .stroke({ width: 1, color: '#999' })
+
+  return draw.group().add(polygon)
+}
+```
+
+Using [PixiJS](http://www.pixijs.com/):
+
+```typescript
+import { Hex } from 'honeycomb-grid'
+
+// it's assumed PIXI is present on the window object
+const app = new PIXI.Application({ transparent: true })
+const graphics = new PIXI.Graphics()
+
+document.body.appendChild(app.view)
+graphics.lineStyle(1, 0x999999)
+
+function renderCanvas(hex: Hex) {
+  const [firstCorner, ...otherCorners] = hex.corners
+
+  // move the "pen" to the first corner
+  graphics.moveTo(firstCorner.x, firstCorner.y)
+  // draw lines to the other corners
+  otherCorners.forEach(({ x, y }) => graphics.lineTo(x, y))
+  // finish at the first corner
+  graphics.lineTo(firstCorner.x, firstCorner.y)
+
+  app.stage.addChild(graphics)
+}
+```
+
+Either `render()` function can be used like so:
+
+```typescript
+import { createHexPrototype, Grid, rectangle } from 'honeycomb-grid'
+
+// You may want the origin to be the top left corner of a hex's bounding box instead of its center (which is the default)
+const hexPrototype = createHexPrototype({ dimensions: 30, origin: 'topLeft' })
+
+new Grid(hexPrototype, rectangle({ width: 10, height: 10 }))
+  .each((hex) => renderSVG(hex)) // or: renderCanvas(hex)
+  .run()
+```
+
+### Point → Hex
+
+Translating a point (pixel) to the corresponding hex in a grid is possible with `Grid.pointToHex()`. It also works with irregularly shaped hexes.
+
+```typescript
+const hexPrototype = createHexPrototype({
+  dimensions: { xRadius: 50, yRadius: 30 }, // wide hexes
+  origin: 'topLeft'
+})
+const grid = new Grid(hexPrototype, rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 }))
+
+document.addEventListener('click', ({ offsetX, offsetY }) => {
+  const hex = grid.pointToHex(point)
+  console.log(hex)
+})
+```
+
+### Traversing
 
 ```typescript
 import { at, Compass, move } from 'honeycomb-grid'
@@ -81,7 +160,7 @@ grid.traverse(function*(cursor, getHex) {
 })
 ```
 
-Stateful and stateless grids:
+### Stateful and stateless grids
 
 ```typescript
 import { Grid, rectangle } from 'honeycomb-grid'
@@ -107,6 +186,22 @@ statelessGrid
   .each((hex) => console.log(hex))
   .run()  // logs: Hex {q: 1, r: 1}
 ```
+
+### Coordinate system
+
+There are three types of coordinates and most functions/methods that accept coordinates accept either of these:
+
+1. [Offset coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-offset), e.g.: `{ col: 1, row: 2 }`
+2. [Axial coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-axial), e.g.: `{ q: 1, r: 2 }`
+3. [Cube coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-cube), e.g.: `{ q: 1, r: 2, s: -3 }` (the sum of all three coordinates must always be 0)
+
+You may also find points (e.g.: `{ x: 1, r: 2 }`) in the library. For example, a hex's `corners` property returns an array of the hex's six corner points.
+
+### Odd or even hex offsets
+
+In a grid with pointy hexes, each row is offsetted half a hex relative to the previous row. In grids with flat hexes, this applies to the columns. Redblobgames.com has a [visual example](https://www.redblobgames.com/grids/hexagons/#coordinates-offset).
+
+Set the offset property to 1 or -1 (default) to control whether the even or odd rows/columns are offsetted.
 
 ## Playground
 
@@ -169,9 +264,12 @@ These methods exist in v3 and they need to be considered for v4.
   - [x] hexToPoint
   - [x] pointToHex
   - [x] get
-  - [ ] hexesBetween
-  - [ ] hexesInRange
-  - [x] line (can be infinite): `move()` traverser
+  - [ ] hexesBetween: `between()` traverser
+  - [ ] hexesInRange:
+    - [ ] `ring()` traverser (always 1 hex thick)
+    - [ ] `spiral()` traverser (uses `ring()` internally and offers an API to skip to the next ring)?
+    - [ ] `rays()` traverser (produces hexes in straight lines from the start hex)
+  - [ ] line (can be infinite): `move()` traverser. TODO: rename move() to line()?
   - [x] ~~neighborsOf~~ replaced with `neighborOf()` (singular)
   - [ ] pointHeight
   - [ ] pointWidth
