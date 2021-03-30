@@ -69,7 +69,25 @@ export class Grid<T extends Hex> {
       }
       return prevHexState
     }
+
     return this._clone(each)
+  }
+
+  map(callback: Callback<T, T | void>) {
+    const map: GetHexState<T> = (currentGrid) => {
+      const nextHexes: T[] = []
+      const prevHexState = this._getPrevHexState(currentGrid)
+      let cursor = prevHexState.cursor
+
+      for (const hex of prevHexState.hexes) {
+        cursor = hex.clone()
+        nextHexes.push(callback(cursor, currentGrid) || cursor)
+      }
+
+      return { hexes: nextHexes, cursor }
+    }
+
+    return this._clone(map)
   }
 
   filter(predicate: Callback<T, boolean>) {

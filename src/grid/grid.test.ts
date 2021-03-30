@@ -190,6 +190,13 @@ describe('getHex()', () => {
 })
 
 describe('each()', () => {
+  test('returns a new grid', () => {
+    const grid = new Grid(hexPrototype)
+    const result = grid.each(jest.fn())
+
+    expect(result).not.toBe(grid)
+  })
+
   test('iterates over each hex from the previous iterator/traverser', () => {
     const callback = jest.fn()
     const grid1 = new Grid(hexPrototype, [at({ q: 1, r: 2 }), at({ q: 3, r: 4 })]).each(callback).run()
@@ -208,7 +215,55 @@ describe('each()', () => {
   })
 })
 
+describe('map()', () => {
+  interface TestHex extends Hex {
+    a: number
+  }
+
+  test('returns a new grid', () => {
+    const grid = new Grid(hexPrototype)
+    const result = grid.map(jest.fn())
+
+    expect(result).not.toBe(grid)
+  })
+
+  test('creates a clone of each hex and passes it to the callback', () => {
+    const hexPrototype = createHexPrototype<TestHex>()
+    const mapCallback = jest.fn((hex) => hex.clone({ a: 1 }))
+    const runCallback = jest.fn()
+    const hex = createHex(hexPrototype, { q: 1, r: 2 })
+    const grid = new Grid(hexPrototype, () => [hex]).map(mapCallback)
+    const runGrid = grid.run(runCallback)
+
+    expect(mapCallback.mock.calls).toEqual([[hex, grid]])
+    expect(runCallback.mock.calls[0][0]).not.toBe(hex)
+    expect(runCallback.mock.calls).toEqual([[createHex(hexPrototype, { q: 1, r: 2, a: 1 }), runGrid]])
+  })
+
+  test(`the passed callback doesn't have to return a hex`, () => {
+    const hexPrototype = createHexPrototype<TestHex>()
+    const mapCallback = jest.fn((hex) => {
+      hex.a = 2
+    })
+    const runCallback = jest.fn()
+    const hex = createHex(hexPrototype, { q: 1, r: 2 })
+    const grid = new Grid(hexPrototype, () => [hex]).map(mapCallback)
+
+    grid.run(runCallback)
+
+    expect(mapCallback.mock.calls[0][0]).toEqual(createHex(hexPrototype, { q: 1, r: 2, a: 2 })) // hex is mutated
+    expect(runCallback.mock.calls[0][0]).toEqual(createHex(hexPrototype, { q: 1, r: 2, a: 2 }))
+  })
+})
+
 describe('filter()', () => {
+  test('returns a new grid', () => {
+    const grid = new Grid(hexPrototype)
+    const result = grid.filter(jest.fn())
+
+    expect(result).not.toBe(grid)
+  })
+
   test('filters hexes', () => {
     const callback = jest.fn()
     const grid = new Grid(hexPrototype, [at({ q: 1, r: 1 }), at({ q: 2, r: 2 }), at({ q: 3, r: 3 })])
@@ -223,6 +278,13 @@ describe('filter()', () => {
 })
 
 describe('takeWhile()', () => {
+  test('returns a new grid', () => {
+    const grid = new Grid(hexPrototype)
+    const result = grid.takeWhile(jest.fn())
+
+    expect(result).not.toBe(grid)
+  })
+
   test('stops when the passed predicate returns false', () => {
     const callback = jest.fn()
     const grid = new Grid(hexPrototype, [at({ q: 1, r: 1 }), at({ q: 2, r: 2 }), at({ q: 3, r: 3 })])
@@ -234,6 +296,13 @@ describe('takeWhile()', () => {
 })
 
 describe('traverse()', () => {
+  test('returns a new grid', () => {
+    const grid = new Grid(hexPrototype)
+    const result = grid.traverse([])
+
+    expect(result).not.toBe(grid)
+  })
+
   test('accepts a single traverser', () => {
     const traverser = jest.fn(() => [])
     const grid = new Grid(hexPrototype)
@@ -295,7 +364,14 @@ describe('traverse()', () => {
 })
 
 describe('run()', () => {
-  test('runs all iterators recursively and returns itself', () => {
+  test('returns the same grid', () => {
+    const grid = new Grid(hexPrototype)
+    const result = grid.run()
+
+    expect(result).toBe(grid)
+  })
+
+  test('runs all iterators recursively', () => {
     const eachCallback = jest.fn()
     const filterCallback = jest.fn((hex) => hex.q > 1)
     const runCallback = jest.fn()
@@ -305,9 +381,8 @@ describe('run()', () => {
 
     expect(eachCallback).not.toBeCalled()
 
-    const result = grid.run(runCallback)
+    grid.run(runCallback)
 
-    expect(result).toBe(grid)
     expect(eachCallback.mock.calls).toEqual([
       [createHex(hexPrototype, { q: 1, r: 2 }), grid],
       [createHex(hexPrototype, { q: 3, r: 4 }), grid],
