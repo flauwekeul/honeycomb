@@ -1,4 +1,4 @@
-import { at, Compass, createHexPrototype, Grid, Hex, inStore, move, Orientation, rectangle } from '../dist'
+import { at, Compass, createHexPrototype, Grid, Hex, inStore, move, rectangle } from '../dist'
 import { createSuite } from './benchmark'
 import { render } from './render'
 

@@ -11,9 +11,9 @@
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I2I24E3QI)
 
-Another hex grid library made in ~~JavaScript~~TypeScript, heavily inspired by [Red Blob Games'](http://www.redblobgames.com/grids/hexagons/) blog posts and code samples.
+Another hex grid library made in ~~JavaScript~~[TypeScript](https://www.typescriptlang.org/), heavily inspired by [Red Blob Games'](http://www.redblobgames.com/grids/hexagons/) blog posts and code samples.
 
-Honeycomb works in recent versions of the Chrome, Firefox, Edge and Safari.
+Honeycomb works in recent versions of the Chrome, Firefox, Edge and Safari. It's recommended to use Honeycomb with TypeScript, but not required.
 
 ## Installation
 
@@ -114,11 +114,41 @@ new Grid(hexPrototype, rectangle({ width: 10, height: 10 }))
   .run()
 ```
 
-### Point → Hex
+### Coordinate system
 
-Translating a point (pixel) to the corresponding hex in a grid is possible with `Grid.pointToHex()`. It also works with irregularly shaped hexes.
+There are three types of coordinates and most functions/methods that accept coordinates accept either of these:
+
+1. [Offset coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-offset), e.g.: `{ col: 1, row: 2 }`
+2. [Axial coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-axial), e.g.: `{ q: 1, r: 2 }`
+3. [Cube coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-cube), e.g.: `{ q: 1, r: 2, s: -3 }` (the sum of all three coordinates must always be 0)
+
+You may also find points (e.g.: `{ x: 1, r: 2 }`) in the library. For example, a hex's `corners` property returns an array of the hex's six corner points.
+
+There are some functions for converting between types of coordinates:
 
 ```typescript
+import { hexToOffset, hexToPoint, offsetToCube, pointToCube } from 'honeycomb-grid'
+
+offsetToCube(OffsetCoordinates, HexPrototype): CubeCoordinates
+pointToCube(Point, HexPrototype): CubeCoordinates
+
+hexToOffset(Hex): OffsetCoordinates
+hexToPoint(Hex): Point
+```
+
+### Odd or even hex offsets
+
+In a grid with pointy hexes, each row is offsetted half a hex relative to the previous row. In grids with flat hexes, this applies to the columns. Redblobgames.com has a [visual example](https://www.redblobgames.com/grids/hexagons/#coordinates-offset).
+
+Set the offset property to 1 or -1 (default) to control whether the even or odd rows/columns are offsetted.
+
+### Pixel → Hex
+
+Translating a screen pixel to the corresponding hex in a grid is possible with `Grid.pointToHex()`. It also works with irregularly shaped hexes.
+
+```typescript
+import { createHexPrototype, Grid, rectangle } from 'honeycomb-grid'
+
 const hexPrototype = createHexPrototype({
   dimensions: { xRadius: 50, yRadius: 30 }, // wide hexes
   origin: 'topLeft'
@@ -189,31 +219,47 @@ statelessGrid
   .run()  // logs: Hex {q: 1, r: 1}
 ```
 
-### Coordinate system
+### Controlling how hexes are created
 
-There are three types of coordinates and most functions/methods that accept coordinates accept either of these:
-
-1. [Offset coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-offset), e.g.: `{ col: 1, row: 2 }`
-2. [Axial coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-axial), e.g.: `{ q: 1, r: 2 }`
-3. [Cube coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-cube), e.g.: `{ q: 1, r: 2, s: -3 }` (the sum of all three coordinates must always be 0)
-
-You may also find points (e.g.: `{ x: 1, r: 2 }`) in the library. For example, a hex's `corners` property returns an array of the hex's six corner points.
-
-There are some functions for converting between types of coordinates:
+Whenever Honeycomb creates or clones a hex, the `clone()` method on the hex prototype is called. So by implementing your own version you can control how hexes are created:
 
 ```typescript
-offsetToCube(OffsetCoordinates, HexPrototype): CubeCoordinates
-pointToCube(Point, HexPrototype): CubeCoordinates
+import { cloneHex, createHexPrototype, Grid } from 'honeycomb-grid'
 
-hexToOffset(Hex): OffsetCoordinates
-hexToPoint(Hex): Point
+const hexPrototype = createHexPrototype({
+  // `newProps` can be undefined(!), coordinates (offset, axial or cube) or a hex
+  clone(newProps) {
+    // you can run side-effects here for example
+    console.log('Hi there 👋')
+    // `this` is set to the hex that's being cloned
+    return cloneHex(this, newProps)
+  }
+})
+const grid = new Grid(hexPrototype)
+
+// the following creates a new hex and then calls its clone() method
+const hex = grid.getHex({ q: 1, r: 2 }) // logs: Hi there 👋
 ```
 
-### Odd or even hex offsets
+If you want to update hexes in a grid, use Grid's `map()` method:
 
-In a grid with pointy hexes, each row is offsetted half a hex relative to the previous row. In grids with flat hexes, this applies to the columns. Redblobgames.com has a [visual example](https://www.redblobgames.com/grids/hexagons/#coordinates-offset).
+```typescript
+import { at, createHexPrototype, Grid } from 'honeycomb-grid'
 
-Set the offset property to 1 or -1 (default) to control whether the even or odd rows/columns are offsetted.
+const hexPrototype = createHexPrototype(/* ... */)
+const grid = new Grid(hexPrototype, at({ q: 1, r: 2 })) // create a grid with a single hex
+const mappedGrid = grid
+  .map((hex) => {
+    // hex is already cloned, so you can mutate it in-place
+    hex.custom = 'custom'
+    // you don't even have to return the hex (the cloned hex is used)
+  })
+  .run()
+
+// the hex in the original grid is unaffected:
+grid.getHex({ q: 1, r: 2 })       // Hex {q: 1, r: 2}
+mappedGrid.getHex({ q: 1, r: 2 }) // Hex {q: 1, r: 2, custom: 'custom'}
+```
 
 ## Playground
 
@@ -405,7 +451,6 @@ These methods exist in v3 and they need to be considered for v4.
       customMethod(): void
     }
     // the properties of CustomHex are available to all hexes (because they're added to the prototype)
-    // todo: rename `createHexPrototype()` to `defineHex()`?
     const hexPrototype = createHexPrototype<CustomHex>({ size: 20, customProp: 'custom', customMethod() {} })
     ```
   - [x] how can you type functions that accept hexes? RxJS operators seem to be able to fix this.
