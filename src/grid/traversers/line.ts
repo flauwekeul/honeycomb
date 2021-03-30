@@ -3,12 +3,12 @@ import { Hex } from '../../hex'
 import { neighborOf } from '../functions'
 import { Traverser } from '../types'
 
-export const move = <T extends Hex>(direction: CompassDirection, times = 1): Traverser<T> => {
+export const line = <T extends Hex>(direction: CompassDirection, length = 1): Traverser<T> => {
   return (cursor, getHex) => {
     const result: T[] = []
     let _cursor = cursor
 
-    for (let i = 1; i <= times; i++) {
+    for (let i = 1; i <= length; i++) {
       _cursor = getHex(neighborOf(_cursor, direction))
       result.push(_cursor)
     }
@@ -16,3 +16,5 @@ export const move = <T extends Hex>(direction: CompassDirection, times = 1): Tra
     return result
   }
 }
+
+export const move = line

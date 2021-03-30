@@ -162,15 +162,15 @@ document.addEventListener('click', ({ offsetX, offsetY }) => {
 ### Traversing
 
 ```typescript
-import { at, Compass, move } from 'honeycomb-grid'
+import { start, Compass, line } from 'honeycomb-grid'
 
 // This traverses ("walks") over a grid following a triangular path:
 grid
   .traverse([
-    at({ q: 0, r: 0 }),   // start at the hex with coordinates { q: 0, r: 0 }
-    move(Compass.E, 4),   // move 4 hexes East
-    move(Compass.SW, 4),  // move 4 hexes Southwest
-    move(Compass.NW, 3),  // move 3 hexes Northwest to close the triangle
+    start({ q: 0, r: 0 }),  // start at the hex with coordinates { q: 0, r: 0 }
+    line(Compass.E, 4),     // move 4 hexes East
+    line(Compass.SW, 4),    // move 4 hexes Southwest
+    line(Compass.NW, 3),    // move 3 hexes Northwest to close the triangle
   ])
   .each((hex) => console.log(hex))
   .run()                  // logs: Hex {q: 0, r: 0}, Hex {q: 1, r: 0}, Hex {q: 2, r: 0}, …
@@ -325,7 +325,7 @@ These methods exist in v3 and they need to be considered for v4.
     - [ ] `ring()` traverser (always 1 hex thick)
     - [ ] `spiral()` traverser (uses `ring()` internally and offers an API to skip to the next ring)?
     - [ ] `rays()` traverser (produces hexes in straight lines from the start hex)
-  - [ ] line (can be infinite): `move()` traverser. TODO: rename move() to line()?
+  - [x] line (can be infinite): `line()` traverser (aliased to `move()`)
   - [x] ~~neighborsOf~~ replaced with `neighborOf()` (singular)
   - [ ] pointHeight
   - [ ] pointWidth
@@ -363,7 +363,7 @@ These methods exist in v3 and they need to be considered for v4.
   - [ ] ~~`grid.parallelogram(options)`~~ add if requested
   - [ ] ~~`grid.triangle(options)`~~ add if requested
   - [ ] `grid.spiral(options)` (`grid.ring(options)` would be a spiral that stops)
-  - [x] ~~`grid.line(options)`~~ see the `move()` traverser
+  - [x] ~~`grid.line(options)`~~ see the `line()` traverser
   - [ ] ~~`grid.zigzag(options)`?~~ add if requested
   - [ ] something that uses path finding algorithms like A*?
   - [x] ~~`grid.createTraverser(function* customTraverser(options) {})(options)`~~
@@ -372,7 +372,7 @@ These methods exist in v3 and they need to be considered for v4.
     // this creates a ring around startCoordinates
     grid
       .traverse((
-        at(startCoordinates),
+        start(startCoordinates),
         move(Compass.E),
         // use repeat() somehow:
         // repeat.withIndex(5, (i) => move(i + 1))

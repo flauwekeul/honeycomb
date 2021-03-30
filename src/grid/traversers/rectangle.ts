@@ -4,7 +4,7 @@ import { isOffset } from '../../utils'
 import { Traverser } from '../types'
 import { at } from './at'
 import { branch } from './branch'
-import { move } from './move'
+import { line } from './line'
 
 // todo: add in docs: only 90° corners for cardinal directions
 // todo: when passed opposing corners: maybe add option to determine if row or col is traversed first
@@ -19,7 +19,7 @@ export function rectangle<T extends Hex>(
       ? optionsFromOpposingCorners(optionsOrCornerA as HexCoordinates, cornerB, cursor.isPointy, cursor.offset)
       : (optionsOrCornerA as RectangleOptions)
 
-    return branch<T>([at(start), move(Compass.rotate(direction, 2), height - 1)], move(direction, width - 1))(
+    return branch<T>([at(start), line(Compass.rotate(direction, 2), height - 1)], line(direction, width - 1))(
       cursor,
       getHex,
     )
