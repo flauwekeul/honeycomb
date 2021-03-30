@@ -4,8 +4,8 @@ import { round } from './round'
 // inspired by https://github.com/gojuno/hexgrid-py
 // and simplified by https://www.symbolab.com/solver/simplify-calculator/simplify
 export const pointToCube = (
-  { dimensions: { xRadius, yRadius }, origin, isPointy }: Pick<HexPrototype, 'dimensions' | 'origin' | 'isPointy'>,
   { x, y }: Point,
+  { dimensions: { xRadius, yRadius }, origin, isPointy }: Pick<HexPrototype, 'dimensions' | 'origin' | 'isPointy'>,
 ) => {
   x += origin.x
   y += origin.y

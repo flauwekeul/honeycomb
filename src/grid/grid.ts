@@ -58,7 +58,7 @@ export class Grid<T extends Hex> {
   }
 
   pointToHex(point: Point): T {
-    return this.getHex(pointToCube(this.hexPrototype, point))
+    return this.getHex(pointToCube(point, this.hexPrototype))
   }
 
   each(callback: Callback<T, void>) {
