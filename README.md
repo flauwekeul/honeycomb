@@ -351,7 +351,7 @@ These methods exist in v3 and they need to be considered for v4.
 - [ ] **Assertion**:
   - [ ] ? grid.some() whether any hex passes predicate
   - [ ] ? grid.every() whether all hexes pass predicate
-- [ ] **Mutation/reduction**?:
+- [ ] **Mutation/reduction**:
   - [ ] `grid.update((grid) => void)`
     ```typescript
     // the passed grid is already a clone, similar to Immer
@@ -360,10 +360,10 @@ These methods exist in v3 and they need to be considered for v4.
       grid.store = new Map(grid.hexes().map((hex) => [hex.toString(), hex]))
     })
     ```
-  - [ ] `grid.reduce<T>((T, hex, grid) => T, T)`
-  - [ ] `grid.toArray()`
-  - [ ] `grid.toJSON()`
-  - [ ] `grid.toString()` / `grid.serialize()`
+  - [ ] `grid.reduce<R>((R, hex, grid) => R, R): R`
+  - [ ] `grid.toArray(): T[]`
+  - [ ] ~~`grid.toJSON()`~~
+  - [ ] ~~`grid.toString()` / `grid.serialize()`~~
   - [ ] ~~`grid.toLinkedList()`~~
   - [ ] ~~`grid.toRecord()`~~
   - [ ] ~~`grid.toMap()`~~ (just use `grid.store`)
