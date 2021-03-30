@@ -27,7 +27,7 @@ Yarn:
 yarn add honeycomb-grid@4.0.0-alpha
 ```
 
-Or download the distribution from [unpkg.com](https://unpkg.com/honeycomb-grid@4.0.0-alpha.1).
+Or download the distribution from [unpkg.com](https://unpkg.com/honeycomb-grid@4.0.0-alpha.2).
 
 ## Examples
 
