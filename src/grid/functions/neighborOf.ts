@@ -1,5 +1,5 @@
 import { CompassDirection } from '../../compass'
-import { AxialCoordinates, Hex, offsetToAxialFlat, offsetToAxialPointy } from '../../hex'
+import { AxialCoordinates, Hex, offsetToCubeFlat, offsetToCubePointy } from '../../hex'
 
 const DIRECTIONS_POINTY = [
   null, // ambiguous
@@ -25,7 +25,7 @@ const DIRECTIONS_FLAT = [
 export const neighborOfPointy = <T extends Hex>({ offset, q, r, col, row }: T, direction: CompassDirection) => {
   if (direction === CompassDirection.S || direction === CompassDirection.N) {
     const nextRow = direction === CompassDirection.S ? row + 1 : row - 1
-    return offsetToAxialPointy(col, nextRow, offset)
+    return offsetToCubePointy(col, nextRow, offset)
   }
   const neighbor = DIRECTIONS_POINTY[direction]
   return { q: q + neighbor.q, r: r + neighbor.r }
@@ -34,7 +34,7 @@ export const neighborOfPointy = <T extends Hex>({ offset, q, r, col, row }: T, d
 export const neighborOfFlat = <T extends Hex>({ offset, q, r, col, row }: T, direction: CompassDirection) => {
   if (direction === CompassDirection.E || direction === CompassDirection.W) {
     const nextCol = direction === CompassDirection.E ? col + 1 : col - 1
-    return offsetToAxialFlat(nextCol, row, offset)
+    return offsetToCubeFlat(nextCol, row, offset)
   }
   const neighbor = DIRECTIONS_FLAT[direction]
   return { q: q + neighbor.q, r: r + neighbor.r }
