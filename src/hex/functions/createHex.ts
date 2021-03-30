@@ -1,7 +1,7 @@
 import { isOffset } from '../../utils'
 import { Hex, HexCoordinates } from '../types'
 import { isHex } from './isHex'
-import { offsetToAxial } from './offsetToAxial'
+import { offsetToCube } from './offsetToCube'
 
 export const createHex = <T extends Hex>(prototypeOrHex: T, props: Partial<T> | HexCoordinates = { q: 0, r: 0 }): T => {
   if (isHex(prototypeOrHex)) {
@@ -10,7 +10,7 @@ export const createHex = <T extends Hex>(prototypeOrHex: T, props: Partial<T> | 
 
   if (isOffset(props)) {
     const { col, row, ...otherProps } = props
-    const coordinates = offsetToAxial({ col, row }, prototypeOrHex)
+    const coordinates = offsetToCube({ col, row }, prototypeOrHex)
     return Object.assign(Object.create(prototypeOrHex), coordinates, otherProps)
   }
 
