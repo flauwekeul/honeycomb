@@ -40,5 +40,5 @@ export const neighborOfFlat = <T extends Hex>({ offset, q, r, col, row }: T, dir
   return { q: q + neighbor.q, r: r + neighbor.r }
 }
 
-export const neighborOf = <T extends Hex>(hex: T, direction: CompassDirection) =>
+export const neighborOf = <T extends Hex>(hex: T, direction: CompassDirection): AxialCoordinates =>
   hex.isPointy ? neighborOfPointy(hex, direction) : neighborOfFlat(hex, direction)

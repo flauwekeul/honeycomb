@@ -1,7 +1,6 @@
 import { Hex, HexCoordinates } from '../../hex'
 import { Traverser } from '../types'
 
-// todo: rename?
 export const flatTraverse = <T extends Hex>(traversers: Traverser<T> | Traverser<T>[]) => (
   cursor: T,
   getHex: (coordinates: HexCoordinates) => T,
