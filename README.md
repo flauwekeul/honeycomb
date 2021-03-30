@@ -199,6 +199,16 @@ There are three types of coordinates and most functions/methods that accept coor
 
 You may also find points (e.g.: `{ x: 1, r: 2 }`) in the library. For example, a hex's `corners` property returns an array of the hex's six corner points.
 
+There are some functions for converting between types of coordinates:
+
+```typescript
+offsetToCube(OffsetCoordinates, HexPrototype): CubeCoordinates
+pointToCube(Point, HexPrototype): CubeCoordinates
+
+hexToOffset(Hex): OffsetCoordinates
+hexToPoint(Hex): Point
+```
+
 ### Odd or even hex offsets
 
 In a grid with pointy hexes, each row is offsetted half a hex relative to the previous row. In grids with flat hexes, this applies to the columns. Redblobgames.com has a [visual example](https://www.redblobgames.com/grids/hexagons/#coordinates-offset).
