@@ -1,3 +1,3 @@
-import { AxialCoordinates } from '../types'
+import { PartialCubeCoordinates } from '../types'
 
-export const toString = ({ q, r }: AxialCoordinates) => `${q},${r}`
+export const toString = ({ q, r }: PartialCubeCoordinates) => `${q},${r}`
