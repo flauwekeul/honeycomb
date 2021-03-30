@@ -51,10 +51,12 @@ export class Grid<T extends Hex> {
     }
   }
 
-  *[Symbol.iterator]() {
-    for (const hex of this._getPrevHexState(this).hexes) {
-      yield hex
-    }
+  hexes() {
+    return this._getPrevHexState(this).hexes
+  }
+
+  cursor() {
+    return this._getPrevHexState(this).cursor
   }
 
   pointToHex(point: Point): T {
@@ -128,7 +130,7 @@ export class Grid<T extends Hex> {
   }
 
   run(callback?: Callback<T, void>) {
-    for (const hex of this._getPrevHexState(this).hexes) {
+    for (const hex of this.hexes()) {
       callback && callback(hex, this)
     }
     return this

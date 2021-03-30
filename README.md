@@ -45,7 +45,7 @@ let grid = new Grid(hexPrototype, rectangle({ width: 10, height: 10 }))
 // 3. Iterate over the grid to log each hex (notice a new grid instance is returned):
 grid = grid.each((hex) => console.log(hex))
 
-// 4. The above won't do anything yet, that's because grid methods are executed lazily.
+// 4. The above won't do anything yet, that's because the "iterative" grid methods are executed lazily.
 //    You need to call its run() method in order to execute the each() call (and most other method calls):
 grid.run()
 ```
