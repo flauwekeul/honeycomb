@@ -64,9 +64,7 @@ export class Grid<T extends Hex> {
   each(callback: Callback<T, void>) {
     const each: GetHexState<T> = (currentGrid) => {
       const prevHexState = this._getPrevHexState(currentGrid)
-      for (const hex of prevHexState.hexes) {
-        callback(hex, currentGrid)
-      }
+      prevHexState.hexes.forEach((hex) => callback(hex, currentGrid))
       return prevHexState
     }
 
@@ -75,16 +73,14 @@ export class Grid<T extends Hex> {
 
   map(callback: Callback<T, T | void>) {
     const map: GetHexState<T> = (currentGrid) => {
-      const nextHexes: T[] = []
       const prevHexState = this._getPrevHexState(currentGrid)
       let cursor = prevHexState.cursor
-
-      for (const hex of prevHexState.hexes) {
+      const hexes = prevHexState.hexes.map((hex) => {
         cursor = hex.clone()
-        nextHexes.push(callback(cursor, currentGrid) || cursor)
-      }
+        return callback(cursor, currentGrid) || cursor
+      })
 
-      return { hexes: nextHexes, cursor }
+      return { hexes, cursor: hexes[hexes.length - 1] }
     }
 
     return this._clone(map)
@@ -92,18 +88,10 @@ export class Grid<T extends Hex> {
 
   filter(predicate: Callback<T, boolean>) {
     const filter: GetHexState<T> = (currentGrid) => {
-      const nextHexes: T[] = []
       const prevHexState = this._getPrevHexState(currentGrid)
-      let cursor = prevHexState.cursor
+      const hexes = prevHexState.hexes.filter((hex) => predicate(hex, currentGrid))
 
-      for (const hex of prevHexState.hexes) {
-        if (predicate(hex, currentGrid)) {
-          cursor = hex
-          nextHexes.push(cursor)
-        }
-      }
-
-      return { hexes: nextHexes, cursor }
+      return { hexes, cursor: hexes[hexes.length - 1] }
     }
 
     return this._clone(filter)
@@ -111,19 +99,19 @@ export class Grid<T extends Hex> {
 
   takeWhile(predicate: Callback<T, boolean>) {
     const takeWhile: GetHexState<T> = (currentGrid) => {
-      const nextHexes: T[] = []
+      const hexes: T[] = []
       const prevHexState = this._getPrevHexState(currentGrid)
       let cursor = prevHexState.cursor
 
       for (const hex of prevHexState.hexes) {
         if (!predicate(hex, currentGrid)) {
-          return { hexes: nextHexes, cursor }
+          return { hexes, cursor }
         }
         cursor = hex
-        nextHexes.push(cursor)
+        hexes.push(cursor)
       }
 
-      return { hexes: nextHexes, cursor }
+      return { hexes, cursor }
     }
 
     return this._clone(takeWhile)
@@ -131,15 +119,9 @@ export class Grid<T extends Hex> {
 
   traverse(traversers: Traverser<T>[] | Traverser<T>) {
     const traverse: GetHexState<T> = (currentGrid) => {
-      const nextHexes: T[] = []
-      let cursor = this._getPrevHexState(currentGrid).cursor ?? this.getHex()
-
-      for (const nextCursor of flatTraverse(traversers)(cursor, this.getHex)) {
-        cursor = nextCursor
-        nextHexes.push(cursor)
-      }
-
-      return { hexes: nextHexes, cursor }
+      const cursor = this._getPrevHexState(currentGrid).cursor ?? this.getHex()
+      const hexes = flatTraverse(traversers)(cursor, this.getHex)
+      return { hexes, cursor: hexes[hexes.length - 1] }
     }
 
     return this._clone(traverse)

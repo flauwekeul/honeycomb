@@ -217,7 +217,7 @@ describe('each()', () => {
 
 describe('map()', () => {
   interface TestHex extends Hex {
-    a: number
+    test: number
   }
 
   test('returns a new grid', () => {
@@ -229,7 +229,7 @@ describe('map()', () => {
 
   test('creates a clone of each hex and passes it to the callback', () => {
     const hexPrototype = createHexPrototype<TestHex>()
-    const mapCallback = jest.fn((hex) => hex.clone({ a: 1 }))
+    const mapCallback = jest.fn((hex) => hex.clone({ test: 1 }))
     const runCallback = jest.fn()
     const hex = createHex(hexPrototype, { q: 1, r: 2 })
     const grid = new Grid(hexPrototype, () => [hex]).map(mapCallback)
@@ -237,13 +237,13 @@ describe('map()', () => {
 
     expect(mapCallback.mock.calls).toEqual([[hex, grid]])
     expect(runCallback.mock.calls[0][0]).not.toBe(hex)
-    expect(runCallback.mock.calls).toEqual([[createHex(hexPrototype, { q: 1, r: 2, a: 1 }), runGrid]])
+    expect(runCallback.mock.calls).toEqual([[createHex(hexPrototype, { q: 1, r: 2, test: 1 }), runGrid]])
   })
 
   test(`the passed callback doesn't have to return a hex`, () => {
     const hexPrototype = createHexPrototype<TestHex>()
     const mapCallback = jest.fn((hex) => {
-      hex.a = 2
+      hex.test = 2
     })
     const runCallback = jest.fn()
     const hex = createHex(hexPrototype, { q: 1, r: 2 })
@@ -251,8 +251,17 @@ describe('map()', () => {
 
     grid.run(runCallback)
 
-    expect(mapCallback.mock.calls[0][0]).toEqual(createHex(hexPrototype, { q: 1, r: 2, a: 2 })) // hex is mutated
-    expect(runCallback.mock.calls[0][0]).toEqual(createHex(hexPrototype, { q: 1, r: 2, a: 2 }))
+    expect(mapCallback.mock.calls[0][0]).toEqual(createHex(hexPrototype, { q: 1, r: 2, test: 2 })) // hex is mutated
+    expect(runCallback.mock.calls[0][0]).toEqual(createHex(hexPrototype, { q: 1, r: 2, test: 2 }))
+  })
+
+  test('updates cursor to last hex', () => {
+    const hexPrototype = createHexPrototype<TestHex>()
+    const callback = jest.fn((hex) => hex.clone({ test: 3 }))
+    const hex = createHex(hexPrototype, { q: 1, r: 2 })
+    const grid = new Grid(hexPrototype, () => [hex]).map(callback)
+
+    expect(grid['_getPrevHexState'](grid).cursor).toMatchObject({ q: 1, r: 2, test: 3 })
   })
 })
 
@@ -275,6 +284,14 @@ describe('filter()', () => {
       [createHex(hexPrototype, { q: 3, r: 3 }), grid],
     ])
   })
+
+  test('updates cursor to last hex', () => {
+    const grid = new Grid(hexPrototype, [at({ q: 1, r: 1 }), at({ q: 2, r: 2 }), at({ q: 3, r: 3 })]).filter(
+      (hex) => hex.q < 2,
+    )
+
+    expect(grid['_getPrevHexState'](grid).cursor).toMatchObject({ q: 1, r: 1 })
+  })
 })
 
 describe('takeWhile()', () => {
@@ -292,6 +309,13 @@ describe('takeWhile()', () => {
       .run(callback)
 
     expect(callback.mock.calls).toEqual([[createHex(hexPrototype, { q: 1, r: 1 }), grid]])
+  })
+
+  test('updates cursor to last hex', () => {
+    const grid = new Grid(hexPrototype, [at({ q: 1, r: 1 }), at({ q: 2, r: 2 }), at({ q: 3, r: 3 })]).takeWhile(
+      (hex) => hex.q !== 2,
+    )
+    expect(grid['_getPrevHexState'](grid).cursor).toMatchObject({ q: 1, r: 1 })
   })
 })
 
@@ -324,7 +348,7 @@ describe('traverse()', () => {
   })
 
   test('accepts a generator', () => {
-    const traverser: Traverser<Hex> = function* traverser() {
+    function* traverser() {
       yield createHex(hexPrototype, { q: 1, r: 2 })
       yield createHex(hexPrototype, { q: 3, r: 4 })
     }
@@ -347,7 +371,7 @@ describe('traverse()', () => {
 
     grid.traverse([traverser1, traverser2]).run()
 
-    expect(traverser2).toBeCalledWith(hexesFrom1stTraverser[hexesFrom1stTraverser.length - 1], grid.getHex)
+    expect(traverser2).toBeCalledWith(createHex(hexPrototype, { q: 3, r: 4 }), grid.getHex)
   })
 
   test('gets hexes from a store if the grid has one', () => {
@@ -360,6 +384,15 @@ describe('traverse()', () => {
     grid.traverse(traverser).run(callback)
 
     expect(callback.mock.calls[0][0]).toBe(hexInStore)
+  })
+
+  test('updates cursor to last hex', () => {
+    const grid = new Grid(hexPrototype).traverse(function* traverser() {
+      yield createHex(hexPrototype, { q: 1, r: 2 })
+      yield createHex(hexPrototype, { q: 3, r: 4 })
+    })
+
+    expect(grid['_getPrevHexState'](grid).cursor).toMatchObject({ q: 3, r: 4 })
   })
 })
 
