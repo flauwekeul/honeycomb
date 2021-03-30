@@ -1,3 +1,5 @@
+import { signedModulo } from '../utils'
+
 export enum CardinalCompassDirection {
   N = 0,
   E = 2,
@@ -70,9 +72,4 @@ export class Compass {
   rotate(steps: number) {
     return Compass.rotate(this.direction, steps)
   }
-}
-
-// todo: move to utils?
-function signedModulo(dividend: number, divisor: number) {
-  return ((dividend % divisor) + divisor) % divisor
 }

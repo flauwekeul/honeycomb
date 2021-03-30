@@ -286,8 +286,8 @@ Features that are crossed out are not going to be added. Checked features are im
 - [x] ~~Do something with this: [https://www.redblobgames.com/grids/hexagons/#map-storage](https://www.redblobgames.com/grids/hexagons/#map-storage)?~~ A `Map` works fine
 - [x] There should be a way to loop over hexes in a grid with **transducers**? Experimented with this and I couldn't get it to work when a grid was traversed multiple times before being run (triggering the transducer). Surprisingly, it had a significant performance drop (more than 50%). Don't know what caused it though, probably the combination of transducers and traversers that don't fit well together. Might investigate more in the future.
 - [ ] Add functionality related to [edges](https://github.com/flauwekeul/honeycomb/issues/58#issuecomment-642099947)
-- [ ] Do something with matrices?
-- [ ] Add some generic rendering helpers (a "pen" that "draws" hex edges (for canvas) or a single hex (for SVG))
+- [x] ~~Do something with matrices?~~ Nah, no need
+- [x] ~~Add some generic rendering helpers (a "pen" that "draws" hex edges (for canvas) or a single hex (for SVG))~~ No need: one only needs to map a hex's corners to render a hex. Nearly all code is specific to the render lib.
 - [ ] Make sure the lib can be imported as a module (e.g.: `<script type="module" src="https://unpkg.com/honeycomb-grid/dist/honeycomb.mjs"></script>`). Probably use [microbundle](https://github.com/developit/microbundle) or [snowpack](https://snowpack.dev).
 - [ ] Switch to [np](https://github.com/sindresorhus/np) for publishing releases
 
@@ -317,7 +317,7 @@ These methods exist in v3 and they need to be considered for v4.
   - [ ] thirdCoordinate
   - [x] toString
   - [x] width
-- [ ] grid functions (apply to multiple hexes):
+- [ ] grid functions (these should apply to multiple hexes):
   - [ ] ?   distance
   - [x] hexToPoint
   - [x] pointToHex
@@ -333,11 +333,11 @@ These methods exist in v3 and they need to be considered for v4.
   - [ ] pointWidth
   - [ ] ?   set
   - [ ] parallelogram
-  - [ ] triangle (can be infinite?)
-  - [ ] hexagon (can be infinite?)
+  - [ ] triangle
+  - [ ] hexagon
   - [x] rectangle
-  - [ ] ring (can be infinite?)
-  - [ ] spiral (can be infinite)
+  - [ ] ring
+  - [ ] spiral
 
 ### Grid
 
@@ -367,7 +367,7 @@ These methods exist in v3 and they need to be considered for v4.
   - [ ] `grid.spiral(options)` (`grid.ring(options)` would be a spiral that stops)
   - [x] ~~`grid.line(options)`~~ see the `move()` traverser
   - [ ] ~~`grid.zigzag(options)`?~~ add if requested
-  - [ ] todo: methods that use path finding algorithms like A*?
+  - [ ] something that uses path finding algorithms like A*?
   - [x] ~~`grid.createTraverser(function* customTraverser(options) {})(options)`~~
   - [x] 👉 Make traversers even more fine-grained (~~seems very complex~~ it is, but worth it!)
     ```ts
@@ -376,7 +376,7 @@ These methods exist in v3 and they need to be considered for v4.
       .traverse((
         at(startCoordinates),
         move(Compass.E),
-        // todo: use repeat() somehow:
+        // use repeat() somehow:
         // repeat.withIndex(5, (i) => move(i + 1))
         // or:
         // withIndex((i) => repeat(5, move(i + 1)))

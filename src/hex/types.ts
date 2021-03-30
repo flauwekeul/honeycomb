@@ -66,7 +66,6 @@ export interface HexPrototype extends HexSettings {
   s: number
 
   equals(this: this, coordinates: HexCoordinates): boolean
-  // todo: about 80% sure the newProps type works (it's used in more places, if it works: maybe make it a separate type?)
   clone(this: this, newProps?: Partial<this> | HexCoordinates): this
   toString(this: this): string
 }
