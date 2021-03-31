@@ -33,7 +33,7 @@ export class Grid<T extends Hex> {
     return this.store.get(hex.toString()) ?? hex
   }
 
-  private _getPrevHexState: GetHexState<T> = () => ({ hexes: [], cursor: null })
+  private _getPrevHexState: GetHexStateFn<T> = getEmptyHexState
 
   constructor(hexPrototype: T, traversers?: Traverser<T> | Traverser<T>[])
   constructor(hexPrototype: T, store?: Map<string, T>)
@@ -64,7 +64,7 @@ export class Grid<T extends Hex> {
   }
 
   each(callback: Callback<T, void>) {
-    const each: GetHexState<T> = (currentGrid) => {
+    const each: GetHexStateFn<T> = (currentGrid) => {
       const prevHexState = this._getPrevHexState(currentGrid)
       prevHexState.hexes.forEach((hex) => callback(hex, currentGrid))
       return prevHexState
@@ -74,7 +74,7 @@ export class Grid<T extends Hex> {
   }
 
   map(callback: Callback<T, T | void>) {
-    const map: GetHexState<T> = (currentGrid) => {
+    const map: GetHexStateFn<T> = (currentGrid) => {
       const prevHexState = this._getPrevHexState(currentGrid)
       let cursor = prevHexState.cursor
       const hexes = prevHexState.hexes.map((hex) => {
@@ -89,7 +89,7 @@ export class Grid<T extends Hex> {
   }
 
   filter(predicate: Callback<T, boolean>) {
-    const filter: GetHexState<T> = (currentGrid) => {
+    const filter: GetHexStateFn<T> = (currentGrid) => {
       const prevHexState = this._getPrevHexState(currentGrid)
       const hexes = prevHexState.hexes.filter((hex) => predicate(hex, currentGrid))
 
@@ -100,7 +100,7 @@ export class Grid<T extends Hex> {
   }
 
   takeWhile(predicate: Callback<T, boolean>) {
-    const takeWhile: GetHexState<T> = (currentGrid) => {
+    const takeWhile: GetHexStateFn<T> = (currentGrid) => {
       const hexes: T[] = []
       const prevHexState = this._getPrevHexState(currentGrid)
       let cursor = prevHexState.cursor
@@ -120,7 +120,7 @@ export class Grid<T extends Hex> {
   }
 
   traverse(traversers: Traverser<T>[] | Traverser<T>) {
-    const traverse: GetHexState<T> = (currentGrid) => {
+    const traverse: GetHexStateFn<T> = (currentGrid) => {
       const cursor = this._getPrevHexState(currentGrid).cursor ?? this.getHex()
       const hexes = flatTraverse(traversers)(cursor, this.getHex)
       return { hexes, cursor: hexes[hexes.length - 1] }
@@ -130,24 +130,26 @@ export class Grid<T extends Hex> {
   }
 
   run(callback?: Callback<T, void>) {
-    for (const hex of this.hexes()) {
-      callback && callback(hex, this)
-    }
-    return this
+    this.hexes().forEach((hex) => callback && callback(hex, this))
+    return this._clone(getEmptyHexState)
   }
 
-  private _clone(getHexState: GetHexState<T>) {
+  private _clone(getHexState: GetHexStateFn<T>) {
     const newGrid = new Grid(this.hexPrototype, this.store)
     newGrid._getPrevHexState = getHexState
     return newGrid
   }
 }
 
-interface GetHexState<T extends Hex> {
+interface GetHexStateFn<T extends Hex> {
   (grid: Grid<T>): HexState<T>
 }
 
 interface HexState<T extends Hex> {
   hexes: T[]
   cursor: T | null
+}
+
+function getEmptyHexState() {
+  return { hexes: [], cursor: null }
 }
