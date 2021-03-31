@@ -180,7 +180,9 @@ describe('each()', () => {
 
   test('iterates over each hex from the previous iterator/traverser', () => {
     const callback = jest.fn()
-    const grid1 = new Grid(hexPrototype, [at({ q: 1, r: 2 }), at({ q: 3, r: 4 })]).each(callback).run()
+    const grid1 = new Grid(hexPrototype, [at({ q: 1, r: 2 }), at({ q: 3, r: 4 })]).each(callback)
+    // call run() separately to test that callback is called with the grid returned by each()
+    grid1.run()
     expect(callback.mock.calls).toEqual([
       [createHex(hexPrototype, { q: 1, r: 2 }), grid1],
       [createHex(hexPrototype, { q: 3, r: 4 }), grid1],
@@ -191,7 +193,7 @@ describe('each()', () => {
     const grid2 = new Grid(hexPrototype, [at({ q: 1, r: 2 }), at({ q: 3, r: 4 })])
       .traverse([at({ q: 5, r: 6 })]) // 👈 now the last traverser
       .each(callback)
-      .run()
+    grid2.run()
     expect(callback.mock.calls).toEqual([[createHex(hexPrototype, { q: 5, r: 6 }), grid2]])
   })
 })
@@ -216,6 +218,7 @@ describe('map()', () => {
     const hexes = grid.hexes()
 
     expect(mapCallback.mock.calls).toEqual([[hex, grid]])
+    expect(mapCallback.mock.calls[0][0]).not.toBe(hex)
     expect(hexes).toEqual([createHex(hexPrototype, { q: 1, r: 2, test: 1 })])
     expect(hexes[0]).not.toBe(hex)
   })
@@ -363,7 +366,7 @@ describe('run()', () => {
     const grid = new Grid(hexPrototype)
     const result = grid.run()
 
-    expect(result).toBe(grid)
+    expect(result).not.toBe(grid)
   })
 
   test('runs all iterators recursively', () => {
@@ -383,5 +386,15 @@ describe('run()', () => {
       [createHex(hexPrototype, { q: 3, r: 4 }), grid],
     ])
     expect(runCallback.mock.calls).toEqual([[createHex(hexPrototype, { q: 3, r: 4 }), grid]])
+  })
+
+  test(`doesn't run iterators again once run`, () => {
+    const eachCallback = jest.fn()
+    const runGrid = new Grid(hexPrototype, at({ q: 1, r: 2 })).each(eachCallback).run()
+
+    runGrid.run()
+
+    expect(runGrid.hexes()).toEqual([])
+    expect(eachCallback).toBeCalledTimes(1)
   })
 })
