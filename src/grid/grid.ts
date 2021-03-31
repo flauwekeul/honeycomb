@@ -52,6 +52,11 @@ export class Grid<T extends Hex> {
     return this.getHex(pointToCube(point, this.hexPrototype))
   }
 
+  update(callback: (grid: Grid<T>) => Grid<T> | void) {
+    const nextGrid = this._clone(this._getPrevHexes)
+    return callback(nextGrid) || nextGrid
+  }
+
   each(callback: Callback<T, void>) {
     const each: GetHexesFn<T> = (currentGrid) => {
       const hexes = this._getPrevHexes(currentGrid)

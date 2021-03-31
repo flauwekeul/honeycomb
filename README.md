@@ -1,6 +1,6 @@
 # Honeycomb
 
-**⚠️ This is an experimental version and the API is likely to change. I encourage anyone to try out the API and open any [issues/questions](https://github.com/flauwekeul/honeycomb/issues/new) ⚠️**
+**⚠️ This is an experimental version and the API is likely to change. I encourage anyone to try out the API and open an [issues](https://github.com/flauwekeul/honeycomb/issues/new) if you have any suggestions or questions ⚠️**
 
 [![Gitter](https://img.shields.io/gitter/room/flauwekeul/honeycomb.svg)](https://gitter.im/honeycomb-grid)
 [![NPM version](https://badge.fury.io/js/honeycomb-grid.svg)](https://www.npmjs.com/package/honeycomb-grid)
@@ -13,7 +13,7 @@
 
 Another hex grid library made in ~~JavaScript~~[TypeScript](https://www.typescriptlang.org/), heavily inspired by [Red Blob Games'](http://www.redblobgames.com/grids/hexagons/) blog posts and code samples.
 
-Honeycomb works in recent versions of the Chrome, Firefox, Edge and Safari. It's recommended to use Honeycomb with TypeScript, but not required.
+Honeycomb works in recent versions of Chrome, Firefox, Edge and Safari. It's recommended to use Honeycomb with TypeScript, but not required.
 
 ## Installation
 
@@ -201,22 +201,36 @@ import { Grid, rectangle } from 'honeycomb-grid'
 const statefulGrid = new Grid(hexPrototype, rectangle({ width: 2, height: 2 }))
 // …all hexes produced by the traverser are added to a store (a JS Map):
 statefulGrid.store  // Map(4) {"0,0" => Hex, "1,0" => Hex, "0,1" => Hex, "1,1" => Hex}
-// This is a stateful grid (it has a store) and it can be iterated:
+// A grid with a store is a stateful grid and it can be iterated:
 statefulGrid
   .filter((hex) => hex.q === 1)
   .each((hex) => console.log(hex))
   .run()  // logs: Hex {q: 1, r: 0}, Hex {q: 1, r: 1}
 
 // If you don't need state and/or want a performance gain, create a stateless grid:
-const statelessGrid = new Grid(hexPrototype)  // don't pass a 2nd argument
+const statelessGrid = new Grid(hexPrototype) // don't pass a 2nd argument
 statelessGrid.store // Map(0) {}
 // This grid can't be iterated (what hexes and in what order?)
 statelessGrid.each((hex) => console.log(hex)).run() // logs nothing
-// However, traversal is always possible:
+// However, stateless grids can always be traversed:
 statelessGrid
-  .traverse(at({ q: 1, r: 1 }))     // traverse a single hex
+  .traverse(at({ q: 1, r: 1 })) // traverse a single hex
   .each((hex) => console.log(hex))
   .run()  // logs: Hex {q: 1, r: 1}
+
+// To update a grid's store (add/remove/change hexes), you could do this manually:
+const hexToAdd = statefulGrid.getHex({ q: 2, r: 2 })
+statefulGrid.store.set(hexToAdd.toString(), hexToAdd)
+// But this mutates the grid (possibly introducing bugs). Use update() instead:
+const anotherHex = statefulGrid.getHex({ q: 3, r: 3 })
+const updatedGrid = statefulGrid.update((grid) => {
+  // grid is a clone of the source grid (statefulGrid), so you can mutate it in-place
+  grid.store.set(anotherHex.toString(), anotherHex)
+  // you don't have to return the grid
+})
+statefulGrid.store.get(anotherHex.toString()) // undefined
+updatedGrid.store.get(anotherHex.toString()) // Hex {q: 3, r: 3}
+
 ```
 
 ### Controlling how hexes are created
@@ -285,6 +299,7 @@ Features that are crossed out are not going to be added. Checked features are im
 
 - [x] ~~Do something with this: [https://www.redblobgames.com/grids/hexagons/#map-storage](https://www.redblobgames.com/grids/hexagons/#map-storage)?~~ A `Map` works fine
 - [x] There should be a way to loop over hexes in a grid with **transducers**? Experimented with this and I couldn't get it to work when a grid was traversed multiple times before being run (triggering the transducer). Surprisingly, it had a significant performance drop (more than 50%). Don't know what caused it though, probably the combination of transducers and traversers that don't fit well together. Might investigate more in the future.
+- [ ] Add an abstraction for the grid store (currently a plain `Map`). So that instead of doing this: `grid.store.set(someHex.toString(), someHex)`, one can do this: `grid.store.set(someHex)`. Or maybe even separate methods for adding hexes (that throws when the hex is already present), updating hexes (that throws when the hex isn't present) and setting hexes (that doesn't throw when the hex is already present).
 - [ ] Add functionality related to [edges](https://github.com/flauwekeul/honeycomb/issues/58#issuecomment-642099947)
 - [x] ~~Do something with matrices?~~ Nah, no need
 - [x] ~~Add some generic rendering helpers (a "pen" that "draws" hex edges (for canvas) or a single hex (for SVG))~~ No need: one only needs to map a hex's corners to render a hex. Nearly all code is specific to the render lib.
@@ -398,7 +413,7 @@ These methods exist in v3 and they need to be considered for v4.
   - [ ] ? grid.some() whether any hex passes predicate
   - [ ] ? grid.every() whether all hexes pass predicate
 - [ ] **Mutation/reduction**:
-  - [ ] `grid.update((grid) => void)`
+  - [x] `grid.update((grid) => void)`
     ```typescript
     // the passed grid is already a clone, similar to Immer
     grid.update((grid) => {
@@ -407,13 +422,13 @@ These methods exist in v3 and they need to be considered for v4.
     })
     ```
   - [ ] `grid.reduce<R>((R, hex, grid) => R, R): R`
-  - [ ] `grid.toArray(): T[]`
-  - [ ] ~~`grid.toJSON()`~~
-  - [ ] ~~`grid.toString()` / `grid.serialize()`~~
-  - [ ] ~~`grid.toLinkedList()`~~
-  - [ ] ~~`grid.toRecord()`~~
-  - [ ] ~~`grid.toMap()`~~ (just use `grid.store`)
-  - [ ] ~~`grid.toSet()`~~
+  - [x] ~~`grid.toArray(): T[]`~~ see grid's `hexes()` method
+  - [x] ~~`grid.toJSON()`~~
+  - [x] ~~`grid.toString()` / `grid.serialize()`~~
+  - [x] ~~`grid.toLinkedList()`~~
+  - [x] ~~`grid.toRecord()`~~
+  - [x] ~~`grid.toMap()`~~ (just use `grid.store`)
+  - [x] ~~`grid.toSet()`~~
 
 ### ✅ Coordinates
 
