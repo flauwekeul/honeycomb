@@ -158,6 +158,43 @@ test('has a hexes() method that returns the hexes from the last iteration', () =
   expect(grid2.hexes()).toEqual([createHex(hexPrototype, { q: 1, r: 2 })])
 })
 
+describe('update()', () => {
+  test('returns a new grid', () => {
+    const grid = new Grid(hexPrototype)
+    const result = grid.update(jest.fn())
+
+    expect(result).not.toBe(grid)
+  })
+
+  test('creates a clone of the grid and passes it to the callback', () => {
+    const newStore = new Map()
+    const callback = jest.fn((grid) => {
+      grid.store = newStore
+      return grid
+    })
+    const grid = new Grid(hexPrototype, [at({ q: 1, r: 2 }), at({ q: 3, r: 4 })])
+    const result = grid.update(callback)
+
+    expect(callback).toBeCalledWith(expect.any(Grid))
+    expect(callback.mock.calls[0][0]).not.toBe(grid)
+    expect(result.hexes()).toEqual(grid.hexes())
+    expect(result.store).not.toBe(grid.store)
+    expect(result.store).toBe(newStore)
+    expect(result).not.toBe(grid)
+  })
+
+  test(`the passed callback doesn't have to return a grid`, () => {
+    const newStore = new Map()
+    const callback = jest.fn((grid) => {
+      grid.store = newStore
+    })
+    const grid = new Grid(hexPrototype)
+    const result = grid.update(callback)
+
+    expect(result.store).toBe(newStore)
+    expect(result).not.toBe(grid)
+  })
+})
 
 describe('each()', () => {
   test('returns a new grid', () => {
