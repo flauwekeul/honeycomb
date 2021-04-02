@@ -114,8 +114,9 @@ export class Grid<T extends Hex> {
   }
 
   run(callback?: Callback<T, void>) {
-    this.hexes().forEach((hex) => callback && callback(hex, this))
-    return this._clone(() => [])
+    const hexes = this._getPrevHexes(this)
+    hexes.forEach((hex) => callback && callback(hex, this))
+    return this._clone(() => hexes)
   }
 
   private _clone(getHexState: GetHexesFn<T>) {

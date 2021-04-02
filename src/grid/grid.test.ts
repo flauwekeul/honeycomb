@@ -390,13 +390,15 @@ describe('run()', () => {
     expect(runCallback.mock.calls).toEqual([[createHex(hexPrototype, { q: 3, r: 4 }), grid]])
   })
 
-  test(`doesn't run iterators again once run`, () => {
+  test(`doesn't run iterators again once run, but doesn't clear internal hexes either`, () => {
     const eachCallback = jest.fn()
-    const runGrid = new Grid(hexPrototype, at({ q: 1, r: 2 })).each(eachCallback).run()
+    const hex = createHex(hexPrototype, { q: 1, r: 2 })
+    const runGrid = new Grid(hexPrototype, () => [hex]).each(eachCallback).run()
 
-    runGrid.run()
+    const twiceRunGrid = runGrid.run()
 
-    expect(runGrid.hexes()).toEqual([])
     expect(eachCallback).toBeCalledTimes(1)
+    expect(runGrid.hexes()).toEqual([hex])
+    expect(twiceRunGrid.hexes()).toEqual([hex])
   })
 })
