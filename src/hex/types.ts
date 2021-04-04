@@ -53,6 +53,7 @@ export interface HexSettings {
 export interface HexPrototype extends HexSettings {
   readonly __isHoneycombHex: true
   readonly [Symbol.toStringTag]: 'Hex'
+  readonly center: Point
   readonly col: number
   readonly corners: Point[]
   readonly height: number

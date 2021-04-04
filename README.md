@@ -312,7 +312,7 @@ These methods exist in v3 and they need to be considered for v4.
   - [ ] ?   add
   - [x] ~~cartesian~~ replaced with `row` and `col` props
   - [x] ~~cartesianToCube (alias: toCube)~~ replaced with `offsetToAxial()`
-  - [ ] center
+  - [x] center
   - [x] ~~coordinates (returns cube by default?)~~ considered obsolete
   - [x] corners
   - [x] ~~cube~~ considered obsolete
@@ -428,7 +428,7 @@ These methods exist in v3 and they need to be considered for v4.
   - [x] ~~`grid.toMap()`~~ (just use `grid.store`)
   - [x] ~~`grid.toSet()`~~
 
-### ✅ Coordinates
+### Coordinates
 
 - [x] Store coordinates as ~~"tuples" (arrays)~~ simple 3D objects. ~~Investigate whether arrays or objects (without prototype?) (maybe even strings, ArrayBuffer?) are more performant.~~
 - [x] Take [Amit's advice](https://www.redblobgames.com/grids/hexagons/#coordinates-comparison) and use axial coordinates by default.
