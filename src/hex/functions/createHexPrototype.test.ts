@@ -38,6 +38,12 @@ test('returns the default hex prototype when no options are passed', () => {
       enumerable: true,
       configurable: true,
     },
+    center: {
+      get: expect.any(Function),
+      set: undefined,
+      enumerable: false,
+      configurable: false,
+    },
     clone: {
       value: expect.any(Function),
       writable: true,

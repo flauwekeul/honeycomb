@@ -1,3 +1,4 @@
+export * from './center'
 export * from './cloneHex'
 export * from './corners'
 export * from './createHex'

@@ -1,5 +1,6 @@
 import { isFunction, isObject, isPoint } from '../../utils'
 import { BoundingBox, Ellipse, Hex, HexPrototype, HexSettings, Orientation, Point } from '../types'
+import { center } from './center'
 import { cloneHex } from './cloneHex'
 import { corners } from './corners'
 import { equals } from './equals'
@@ -46,6 +47,11 @@ export const createHexPrototype = <T extends Hex>(
     __isHoneycombHex: { value: true, writable: false },
     // todo: all props set with `value` are writable (somehow the default `writable: false` doesn't apply). Not sure if this is a problem though
     // see: Object.getOwnPropertyDescriptors(hexPrototype)
+    center: {
+      get() {
+        return center(this)
+      },
+    },
     col: {
       get() {
         return hexToOffset(this).col
