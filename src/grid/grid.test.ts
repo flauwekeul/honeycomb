@@ -167,17 +167,19 @@ describe('update()', () => {
   })
 
   test('creates a clone of the grid and passes it to the callback', () => {
+    const hexes = [createHex(hexPrototype, { q: 1, r: 2 }), createHex(hexPrototype, { q: 3, r: 4 })]
     const newStore = new Map()
     const callback = jest.fn((grid) => {
+      expect(grid.hexes()).toEqual(hexes)
       grid.store = newStore
       return grid
     })
-    const grid = new Grid(hexPrototype, [at({ q: 1, r: 2 }), at({ q: 3, r: 4 })])
+    const grid = new Grid(hexPrototype, () => hexes)
     const result = grid.update(callback)
 
     expect(callback).toBeCalledWith(expect.any(Grid))
     expect(callback.mock.calls[0][0]).not.toBe(grid)
-    expect(result.hexes()).toEqual(grid.hexes())
+    expect(result.hexes()).toEqual([])
     expect(result.store).not.toBe(grid.store)
     expect(result.store).toBe(newStore)
     expect(result).not.toBe(grid)
@@ -193,6 +195,26 @@ describe('update()', () => {
 
     expect(result.store).toBe(newStore)
     expect(result).not.toBe(grid)
+  })
+
+  test('iterates over the hexes *in the store* of the cloned grid', () => {
+    interface TestHex extends Hex {
+      test: number
+    }
+    const hexPrototype = createHexPrototype<TestHex>()
+    const hex1 = createHex(hexPrototype, { q: 0, r: 0, test: 1 })
+    const hex2 = hex1.clone({ test: 2 })
+    const grid1 = new Grid(hexPrototype, () => [hex1]).filter((hex) => hex.test === 0)
+
+    const grid2 = grid1.update((grid) => {
+      grid.store.set(hex2.toString(), hex2)
+    })
+
+    grid2
+      .each((hex) => {
+        expect(hex).toEqual(hex2)
+      })
+      .run()
   })
 })
 
