@@ -53,8 +53,11 @@ export class Grid<T extends Hex> {
   }
 
   update(callback: (grid: Grid<T>) => Grid<T> | void) {
-    const nextGrid = this._clone(this._getPrevHexes)
-    return callback(nextGrid) || nextGrid
+    let nextGrid = this._clone(this._getPrevHexes)
+    nextGrid = callback(nextGrid) || nextGrid
+    // reset hex state to iterate over nextGrid's store (fixes issue #68)
+    nextGrid._getPrevHexes = () => Array.from(nextGrid.store.values())
+    return nextGrid
   }
 
   each(callback: Callback<T, void>) {
