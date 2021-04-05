@@ -1,5 +1,5 @@
 import { createHex, Hex, HexCoordinates, Point, pointToCube } from '../hex'
-import { flatTraverse } from './functions'
+import { distance, flatTraverse } from './functions'
 import { Callback, Traverser } from './types'
 
 export class Grid<T extends Hex> {
@@ -50,6 +50,10 @@ export class Grid<T extends Hex> {
 
   pointToHex(point: Point): T {
     return this.getHex(pointToCube(point, this.hexPrototype))
+  }
+
+  distance(from: HexCoordinates, to: HexCoordinates) {
+    return distance(this.hexPrototype, from, to)
   }
 
   update(callback: (grid: Grid<T>) => Grid<T> | void) {

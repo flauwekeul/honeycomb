@@ -104,6 +104,15 @@ describe('pointToHex()', () => {
   })
 })
 
+describe('distance()', () => {
+  test('returns the distance between the passed 2 hexes', () => {
+    const grid = new Grid(hexPrototype)
+    const result = grid.distance({ q: -3, r: 11 }, { q: 15, r: 1 })
+
+    expect(result).toBe(18)
+  })
+})
+
 describe('getHex()', () => {
   test('returns a hex from the store when present in the store', () => {
     const coordinates = { q: 1, r: 2 }
