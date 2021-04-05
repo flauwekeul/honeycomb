@@ -333,7 +333,7 @@ These methods exist in v3 and they need to be considered for v4.
   - [x] toString
   - [x] width
 - [ ] grid functions (these should apply to multiple hexes):
-  - [ ] ?   distance
+  - [x] distance
   - [x] hexToPoint
   - [x] pointToHex
   - [x] get
