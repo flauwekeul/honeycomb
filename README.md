@@ -295,6 +295,7 @@ Features that are crossed out are not going to be added. Checked features are im
 
 ### General
 
+- [ ] Functions/methods should also accept strings for compass directions.
 - [x] ~~Do something with this: [https://www.redblobgames.com/grids/hexagons/#map-storage](https://www.redblobgames.com/grids/hexagons/#map-storage)?~~ A `Map` works fine
 - [x] There should be a way to loop over hexes in a grid with **transducers**? Experimented with this and I couldn't get it to work when a grid was traversed multiple times before being run (triggering the transducer). Surprisingly, it had a significant performance drop (more than 50%). Don't know what caused it though, probably the combination of transducers and traversers that don't fit well together. Might investigate more in the future.
 - [ ] Add an abstraction for the grid store (currently a plain `Map`). So that instead of doing this: `grid.store.set(someHex.toString(), someHex)`, one can do this: `grid.store.set(someHex)`. Or maybe even separate methods for adding hexes (that throws when the hex is already present), updating hexes (that throws when the hex isn't present) and setting hexes (that doesn't throw when the hex is already present).
@@ -337,7 +338,7 @@ These methods exist in v3 and they need to be considered for v4.
   - [x] get
   - [ ] hexesBetween: `between()` traverser
   - [ ] hexesInRange:
-    - [ ] `ring()` traverser (always 1 hex thick)
+    - [x] `ring()` traverser (always 1 hex thick)
     - [ ] `spiral()` traverser (uses `ring()` internally and offers an API to skip to the next ring)?
     - [ ] `rays()` traverser (produces hexes in straight lines from the start hex)
   - [x] line (can be infinite): `line()` traverser (aliased to `move()`)
@@ -430,6 +431,8 @@ These methods exist in v3 and they need to be considered for v4.
 
 ### Coordinates
 
+- [ ] Also accept tuples (e.g. `[1, 2]`). These correspond to offset coordinates (e.g. `{ col: 1, row: 2 }`).
+- [ ] Also accept strings? These strings should be the same as what `hex.toString()` produces (by default separated by a comma `1,2`). But if user overrides `toString()` (and using a different separator, e.g. a pipe: `1|2`), then user is responsible for using the correct separator when they use strings as coordinates.
 - [x] Store coordinates as ~~"tuples" (arrays)~~ simple 3D objects. ~~Investigate whether arrays or objects (without prototype?) (maybe even strings, ArrayBuffer?) are more performant.~~
 - [x] Take [Amit's advice](https://www.redblobgames.com/grids/hexagons/#coordinates-comparison) and use axial coordinates by default.
   - [x] ~~Use `x`, `y` and `z` for cube coordinates?~~
