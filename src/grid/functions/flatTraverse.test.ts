@@ -1,6 +1,6 @@
 import { CompassDirection } from '../../compass'
 import { createHex, createHexPrototype } from '../../hex'
-import { at, move } from '../traversers'
+import { add, move } from '../traversers'
 import { flatTraverse } from './flatTraverse'
 
 const hexPrototype = createHexPrototype()
@@ -14,7 +14,7 @@ test('returns an array of hexes if only a single traverser is passed', () => {
 })
 
 test('flattens the passed traversers into a single traverser and returns it', () => {
-  const traversers = [at({ q: 1, r: 2 }), move(CompassDirection.S, 2)]
+  const traversers = [add({ q: 1, r: 2 }), move(CompassDirection.S, 2)]
   const result = flatTraverse(traversers)(cursor, (coordinates) => createHex(hexPrototype, coordinates))
 
   expect(result).toEqual([

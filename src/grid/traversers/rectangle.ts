@@ -2,7 +2,7 @@ import { Compass, CompassDirection } from '../../compass'
 import { Hex, HexCoordinates, hexToOffset, OffsetCoordinates } from '../../hex'
 import { isOffset } from '../../utils'
 import { Traverser } from '../types'
-import { at } from './at'
+import { add } from './add'
 import { branch } from './branch'
 import { line } from './line'
 
@@ -19,7 +19,7 @@ export function rectangle<T extends Hex>(
       ? optionsFromOpposingCorners(optionsOrCornerA as HexCoordinates, cornerB, cursor.isPointy, cursor.offset)
       : (optionsOrCornerA as RectangleOptions)
 
-    return branch<T>([at(start), line(Compass.rotate(direction, 2), height - 1)], line(direction, width - 1))(
+    return branch<T>([add(start), line(Compass.rotate(direction, 2), height - 1)], line(direction, width - 1))(
       cursor,
       getHex,
     )
