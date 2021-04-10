@@ -1,20 +1,29 @@
 import { CompassDirection } from '../../compass'
-import { Hex } from '../../hex'
+import { Hex, HexCoordinates } from '../../hex'
 import { neighborOf } from '../functions'
 import { Traverser } from '../types'
 
-export const line = <T extends Hex>(direction: CompassDirection, length = 1): Traverser<T> => {
+export const line = <T extends Hex>({ direction, start, at, length = 1 }: LineOptions): Traverser<T> => {
   return (cursor, getHex) => {
-    const result: T[] = []
-    let _cursor = cursor
+    // todo: these 3 lines should be moved to a helper? e.g.: `const { hexes, cursor } = getInitialTraverserState(options)`
+    const startHex = start ? getHex(start) : null
+    const hexes: T[] = startHex ? [startHex] : []
+    let _cursor = startHex ?? (at ? getHex(at) : cursor)
 
     for (let i = 1; i <= length; i++) {
       _cursor = getHex(neighborOf(_cursor, direction))
-      result.push(_cursor)
+      hexes.push(_cursor)
     }
 
-    return result
+    return hexes
   }
 }
 
-export const move = line
+// todo: probably extend from something that has `start` or `at` or neither (XOR)
+//       https://stackoverflow.com/a/53229567/660260
+export interface LineOptions {
+  direction: CompassDirection
+  start?: HexCoordinates
+  at?: HexCoordinates
+  length?: number
+}
