@@ -169,13 +169,15 @@ import { start, Compass, line } from 'honeycomb-grid'
 // This traverses ("walks") over a grid following a triangular path:
 grid
   .traverse([
-    start({ q: 0, r: 0 }),  // start at the hex with coordinates { q: 0, r: 0 }
-    line(Compass.E, 4),     // move 4 hexes East
-    line(Compass.SW, 4),    // move 4 hexes Southwest
-    line(Compass.NW, 3),    // move 3 hexes Northwest to close the triangle
+    // start at the hex with coordinates { q: 0, r: 0 } and move 4 hexes East
+    line({ start: { q: 0, r: 0 }, direction: Compass.E, length: 4 }),
+    // then move 4 hexes Southwest
+    line({ direction: Compass.SW, length: 4 }),
+    // finally move 3 hexes Northwest to close the triangle
+    line({ direction: Compass.NW, length: 3 }),
   ])
   .each((hex) => console.log(hex))
-  .run()                  // logs: Hex {q: 0, r: 0}, Hex {q: 1, r: 0}, Hex {q: 2, r: 0}, …
+  .run() // logs: Hex {q: 0, r: 0}, Hex {q: 1, r: 0}, Hex {q: 2, r: 0}, …
 
 // You can also supply a custom traverser.
 // It's called with:
@@ -343,7 +345,7 @@ These methods exist in v3 and they need to be considered for v4.
     - [x] `ring()` traverser (always 1 hex thick)
     - [ ] `spiral()` traverser (uses `ring()` internally and offers an API to skip to the next ring)?
     - [ ] `rays()` traverser (produces hexes in straight lines from the start hex)
-  - [x] line (can be infinite): `line()` traverser (aliased to `move()`)
+  - [x] line: `line()` traverser ~~(aliased to `move()`)~~
   - [x] ~~neighborsOf~~ replaced with `neighborOf()` (singular)
   - [ ] pointHeight
   - [ ] pointWidth
@@ -386,24 +388,6 @@ These methods exist in v3 and they need to be considered for v4.
   - [ ] something that uses path finding algorithms like A*?
   - [x] ~~`grid.createTraverser(function* customTraverser(options) {})(options)`~~
   - [x] 👉 Make traversers even more fine-grained (~~seems very complex~~ it is, but worth it!)
-    ```ts
-    // this creates a ring around startCoordinates
-    grid
-      .traverse((
-        start(startCoordinates),
-        move(Compass.E),
-        // use repeat() somehow:
-        // repeat.withIndex(5, (i) => move(i + 1))
-        // or:
-        // withIndex((i) => repeat(5, move(i + 1)))
-        move(Compass.SW),
-        move(Compass.W),
-        move(Compass.NW),
-        move(Compass.NE),
-        move(Compass.E),
-      )
-      .run()
-    ```
 - [ ] **Combination**:
   - [ ] `grid.add(otherGrid)` / `grid.union(otherGrid)`
   - [ ] `grid.subtract(otherGrid)`
