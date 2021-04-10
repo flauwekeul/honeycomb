@@ -214,7 +214,7 @@ statelessGrid.store // Map(0) {}
 statelessGrid.each((hex) => console.log(hex)).run() // logs nothing
 // However, stateless grids can always be traversed:
 statelessGrid
-  .traverse(at({ q: 1, r: 1 })) // traverse a single hex
+  .traverse(add({ q: 1, r: 1 })) // traverse a single hex
   .each((hex) => console.log(hex))
   .run()  // logs: Hex {q: 1, r: 1}
 
@@ -258,10 +258,10 @@ const hex = grid.getHex({ q: 1, r: 2 }) // logs: Hi there 👋
 If you want to update hexes in a grid, use Grid's `map()` method:
 
 ```typescript
-import { at, createHexPrototype, Grid } from 'honeycomb-grid'
+import { add, createHexPrototype, Grid } from 'honeycomb-grid'
 
 const hexPrototype = createHexPrototype(/* ... */)
-const grid = new Grid(hexPrototype, at({ q: 1, r: 2 })) // create a grid with a single hex
+const grid = new Grid(hexPrototype, add({ q: 1, r: 2 })) // create a grid with a single hex
 const mappedGrid = grid
   .map((hex) => {
     // hex is already cloned, so you can mutate it in-place

@@ -12,16 +12,16 @@ export const branch = <T extends Hex>(
   branch: Traverser<T> | Traverser<T>[],
 ): Traverser<T> => (cursor, getHex) => {
   const flatBranch = flatTraverse(branch)
-  const result: T[] = []
+  const hexes: T[] = []
   let _cursor = cursor
 
   for (const sourceCursor of flatTraverse(source)(_cursor, getHex)) {
     _cursor = sourceCursor
-    result.push(_cursor)
+    hexes.push(_cursor)
     for (const branchCursor of flatBranch(_cursor, getHex)) {
-      result.push(branchCursor)
+      hexes.push(branchCursor)
     }
   }
 
-  return result
+  return hexes
 }

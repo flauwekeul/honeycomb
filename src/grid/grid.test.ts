@@ -1,6 +1,6 @@
 import { cloneHex, createHex, createHexPrototype, Hex, toString } from '../hex'
 import { Grid } from './grid'
-import { at } from './traversers'
+import { add } from './traversers'
 import { Traverser } from './types'
 
 const hexPrototype = createHexPrototype()
@@ -160,7 +160,7 @@ describe('getHex()', () => {
 })
 
 test('has a hexes() method that returns the hexes from the last iteration', () => {
-  const grid1 = new Grid(hexPrototype, [at({ q: 1, r: 2 }), at({ q: 3, r: 4 })])
+  const grid1 = new Grid(hexPrototype, [add({ q: 1, r: 2 }, { q: 3, r: 4 })])
   expect(grid1.hexes()).toEqual([createHex(hexPrototype, { q: 1, r: 2 }), createHex(hexPrototype, { q: 3, r: 4 })])
 
   const grid2 = grid1.filter((hex) => hex.q === 1)
@@ -237,7 +237,7 @@ describe('each()', () => {
 
   test('iterates over each hex from the previous iterator/traverser', () => {
     const callback = jest.fn()
-    const grid1 = new Grid(hexPrototype, [at({ q: 1, r: 2 }), at({ q: 3, r: 4 })]).each(callback)
+    const grid1 = new Grid(hexPrototype, [add({ q: 1, r: 2 }, { q: 3, r: 4 })]).each(callback)
     // call run() separately to test that callback is called with the grid returned by each()
     grid1.run()
     expect(callback.mock.calls).toEqual([
@@ -247,8 +247,8 @@ describe('each()', () => {
 
     callback.mockReset()
 
-    const grid2 = new Grid(hexPrototype, [at({ q: 1, r: 2 }), at({ q: 3, r: 4 })])
-      .traverse([at({ q: 5, r: 6 })]) // 👈 now the last traverser
+    const grid2 = new Grid(hexPrototype, [add({ q: 1, r: 2 }, { q: 3, r: 4 })])
+      .traverse([add({ q: 5, r: 6 })]) // 👈 now the last traverser
       .each(callback)
     grid2.run()
     expect(callback.mock.calls).toEqual([[createHex(hexPrototype, { q: 5, r: 6 }), grid2]])
@@ -303,7 +303,7 @@ describe('filter()', () => {
   })
 
   test('filters hexes', () => {
-    const grid = new Grid(hexPrototype, [at({ q: 1, r: 1 }), at({ q: 2, r: 2 }), at({ q: 3, r: 3 })]).filter(
+    const grid = new Grid(hexPrototype, [add({ q: 1, r: 1 }, { q: 2, r: 2 }, { q: 3, r: 3 })]).filter(
       (hex) => hex.q !== 2,
     )
     expect(grid.hexes()).toEqual([createHex(hexPrototype, { q: 1, r: 1 }), createHex(hexPrototype, { q: 3, r: 3 })])
@@ -319,7 +319,7 @@ describe('takeWhile()', () => {
   })
 
   test('stops when the passed predicate returns false', () => {
-    const grid = new Grid(hexPrototype, [at({ q: 1, r: 1 }), at({ q: 2, r: 2 }), at({ q: 3, r: 3 })]).takeWhile(
+    const grid = new Grid(hexPrototype, [add({ q: 1, r: 1 }, { q: 2, r: 2 }, { q: 3, r: 3 })]).takeWhile(
       (hex) => hex.q !== 2,
     )
     expect(grid.hexes()).toEqual([createHex(hexPrototype, { q: 1, r: 1 })])
@@ -386,7 +386,7 @@ describe('traverse()', () => {
 
   test('runs any previous iterators', () => {
     const callback = jest.fn()
-    const grid = new Grid(hexPrototype, at({ q: 1, r: 2 }))
+    const grid = new Grid(hexPrototype, add({ q: 1, r: 2 }))
 
     grid.each(callback).traverse([]).run()
 
@@ -406,9 +406,7 @@ describe('run()', () => {
     const eachCallback = jest.fn()
     const filterCallback = jest.fn((hex) => hex.q > 1)
     const runCallback = jest.fn()
-    const grid = new Grid(hexPrototype, [at({ q: 1, r: 2 }), at({ q: 3, r: 4 })])
-      .each(eachCallback)
-      .filter(filterCallback)
+    const grid = new Grid(hexPrototype, [add({ q: 1, r: 2 }, { q: 3, r: 4 })]).each(eachCallback).filter(filterCallback)
 
     expect(eachCallback).not.toBeCalled()
 
