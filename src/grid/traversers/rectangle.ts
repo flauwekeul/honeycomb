@@ -8,20 +8,34 @@ import { line } from './line'
 // todo: add in docs: only 90° corners for cardinal directions
 // todo: when passed opposing corners: maybe add option to determine if row or col is traversed first
 export function rectangle<T extends Hex>(options: RectangleOptions): Traverser<T>
-export function rectangle<T extends Hex>(cornerA: HexCoordinates, cornerB: HexCoordinates): Traverser<T>
+export function rectangle<T extends Hex>(
+  cornerA: HexCoordinates,
+  cornerB: HexCoordinates,
+  includeCornerA?: boolean,
+): Traverser<T>
 export function rectangle<T extends Hex>(
   optionsOrCornerA: RectangleOptions | HexCoordinates,
   cornerB?: HexCoordinates,
+  includeCornerA = true,
 ): Traverser<T> {
   return (cursor, getHex) => {
-    const { width, height, start = { q: 0, r: 0 }, direction = CompassDirection.E } = cornerB
-      ? optionsFromOpposingCorners(optionsOrCornerA as HexCoordinates, cornerB, cursor.isPointy, cursor.offset)
+    const { width, height, start, at, direction = CompassDirection.E } = cornerB
+      ? optionsFromOpposingCorners(
+          optionsOrCornerA as HexCoordinates,
+          cornerB,
+          cursor.isPointy,
+          cursor.offset,
+          includeCornerA,
+        )
       : (optionsOrCornerA as RectangleOptions)
-
-    return branch<T>(
-      line({ start, direction: Compass.rotate(direction, 2), length: height - 1 }),
+    const firstHex = start ? getHex(start) : at ? getHex(at) : cursor
+    const hexes = branch<T>(
+      line({ start: firstHex, direction: Compass.rotate(direction, 2), length: height - 1 }),
       line({ direction, length: width - 1 }),
-    )(cursor, getHex)
+    )(firstHex, getHex) as T[] // todo: internally, Traverser<T> always returns an array, maybe add a return type var
+
+    // leave out the start hex (traversers should never include their start hex to prevent duplicate hexes when they're chained)
+    return start ? hexes : hexes.slice(1)
   }
 }
 
@@ -29,6 +43,7 @@ export interface RectangleOptions {
   width: number
   height: number
   start?: HexCoordinates
+  at?: HexCoordinates
   direction?: CompassDirection
 }
 
@@ -37,6 +52,7 @@ function optionsFromOpposingCorners(
   cornerB: HexCoordinates,
   isPointy: boolean,
   offset: number,
+  includeCornerA: boolean,
 ): RectangleOptions {
   const { col: cornerACol, row: cornerARow } = assertOffsetCoordinates(cornerA, isPointy, offset)
   const { col: cornerBCol, row: cornerBRow } = assertOffsetCoordinates(cornerB, isPointy, offset)
@@ -50,7 +66,7 @@ function optionsFromOpposingCorners(
   return {
     width: swapWidthHeight ? height : width,
     height: swapWidthHeight ? width : height,
-    start: cornerA,
+    [includeCornerA ? 'start' : 'at']: cornerA,
     direction,
   }
 }

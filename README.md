@@ -42,7 +42,7 @@ import { createHexPrototype, Grid, rectangle } from 'honeycomb-grid'
 const hexPrototype = createHexPrototype({ dimensions: 30 })
 
 // 2. Create a grid with this hex prototype and also pass a "traverser" for a rectangular-shaped grid:
-let grid = new Grid(hexPrototype, rectangle({ width: 10, height: 10 }))
+let grid = new Grid(hexPrototype, rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 }))
 
 // 3. Iterate over the grid to log each hex (notice a new grid instance is returned):
 grid = grid.each((hex) => console.log(hex))
@@ -109,7 +109,7 @@ import { createHexPrototype, Grid, rectangle } from 'honeycomb-grid'
 // You may want the origin to be the top left corner of a hex's bounding box instead of its center (which is the default)
 const hexPrototype = createHexPrototype({ dimensions: 30, origin: 'topLeft' })
 
-new Grid(hexPrototype, rectangle({ width: 10, height: 10 }))
+new Grid(hexPrototype, rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 }))
   .each((hex) => renderSVG(hex)) // or: renderCanvas(hex)
   .run()
 ```
