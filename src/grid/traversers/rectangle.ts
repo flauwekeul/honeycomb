@@ -34,7 +34,6 @@ export function rectangle<T extends Hex>(
       line({ direction, length: width - 1 }),
     )(firstHex, getHex) as T[] // todo: internally, Traverser<T> always returns an array, maybe add a return type var
 
-    // leave out the start hex (traversers should never include their start hex to prevent duplicate hexes when they're chained)
     return start ? hexes : hexes.slice(1)
   }
 }
