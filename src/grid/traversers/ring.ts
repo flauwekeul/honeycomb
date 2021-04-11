@@ -3,40 +3,36 @@ import { assertCubeCoordinates } from '../../utils'
 import { distance } from '../functions'
 import { Traverser } from '../types'
 
-export const ring = <T extends Hex>({
-  center,
-  start,
-  rotation = Rotation.CLOCKWISE,
-}: RingOptions = {}): Traverser<T> => (cursor, getHex) => {
-  center ??= cursor
-  start ??= { q: cursor.q, r: cursor.r - 1, s: cursor.s + 1 }
-  rotation = rotation.toUpperCase() as Rotation
-
-  const radius = distance(cursor, center, start)
-  const { q, r, s } = assertCubeCoordinates(center, cursor)
+export const ring = <T extends Hex>({ start, at, center, rotation }: RingOptions): Traverser<T> => (cursor, getHex) => {
+  rotation = (rotation?.toUpperCase() as Rotation) ?? Rotation.CLOCKWISE
+  const firstHex = start ? getHex(start) : at ? getHex(at) : cursor
+  const radius = distance(cursor, center, firstHex)
   const hexes: T[] = []
+  // always start at coordinates radius away from the center, reorder the hexes later
+  const { q, r, s } = assertCubeCoordinates(center, cursor)
   let _cursor = getHex({ q, r: r - radius, s: s + radius })
 
   if (rotation === Rotation.CLOCKWISE) {
     for (let direction = 0; direction < 6; direction++) {
       for (let i = 0; i < radius; i++) {
-        hexes.push(_cursor)
         const { q, r } = DIRECTION_COORDINATES[direction]
         _cursor = getHex({ q: _cursor.q + q, r: _cursor.r + r })
+        hexes.push(_cursor)
       }
     }
   } else {
     for (let direction = 5; direction >= 0; direction--) {
       for (let i = 0; i < radius; i++) {
-        hexes.push(_cursor)
         const { q, r } = DIRECTION_COORDINATES[direction]
         _cursor = getHex({ q: _cursor.q - q, r: _cursor.r - r })
+        hexes.push(_cursor)
       }
     }
   }
 
-  const startIndex = hexes.findIndex((hex) => hex.equals(start as HexCoordinates))
-  return startIndex === 0 ? hexes : hexes.slice(startIndex).concat(hexes.slice(0, startIndex))
+  const startIndex = hexes.findIndex((hex) => hex.equals(firstHex))
+  // move part of hexes array to the front so that firstHex is actually the first hex
+  return hexes.slice(startIndex + (start ? 0 : 1)).concat(hexes.slice(0, startIndex))
 }
 
 export enum Rotation {
@@ -45,8 +41,9 @@ export enum Rotation {
 }
 
 export interface RingOptions {
-  center?: HexCoordinates
+  center: HexCoordinates
   start?: HexCoordinates
+  at?: HexCoordinates
   rotation?: Rotation | 'CLOCKWISE' | 'clockwise' | 'COUNTERCLOCKWISE' | 'counterclockwise'
 }
 

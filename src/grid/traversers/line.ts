@@ -5,8 +5,7 @@ import { Traverser } from '../types'
 
 export const line = <T extends Hex>({ direction, start, at, length = 1 }: LineOptions): Traverser<T> => {
   return (cursor, getHex) => {
-    // todo: these 3 lines should be moved to a helper? e.g.: `const { hexes, cursor } = getInitialTraverserState(options)`
-    const startHex = start ? getHex(start) : null
+    const startHex = start && getHex(start)
     const hexes: T[] = startHex ? [startHex] : []
     let _cursor = startHex ?? (at ? getHex(at) : cursor)
 
