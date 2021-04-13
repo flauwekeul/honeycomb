@@ -3,7 +3,7 @@ import { Hex, HexCoordinates } from '../../hex'
 import { neighborOf } from '../functions'
 import { Traverser } from '../types'
 
-export const line = <T extends Hex>({ direction, start, at, length = 1 }: LineOptions): Traverser<T> => {
+export const line = <T extends Hex>({ direction, start, at, length = 1 }: LineOptions): Traverser<T, T[]> => {
   return (cursor, getHex) => {
     const startHex = start && getHex(start)
     const hexes: T[] = startHex ? [startHex] : []

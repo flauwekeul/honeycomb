@@ -1,8 +1,8 @@
 import { Hex, HexCoordinates } from '../hex'
 import { Grid } from './grid'
 
-export interface Traverser<T extends Hex> {
-  (cursor: T, getHex: (coordinates: HexCoordinates) => T): Iterable<T>
+export interface Traverser<T extends Hex, R extends Iterable<T> = Iterable<T>> {
+  (cursor: T, getHex: (coordinates: HexCoordinates) => T): R
 }
 
 export interface Callback<T extends Hex, R> {
