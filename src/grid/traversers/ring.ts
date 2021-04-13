@@ -1,7 +1,7 @@
 import { Hex, HexCoordinates } from '../../hex'
 import { assertCubeCoordinates } from '../../utils'
 import { distance } from '../functions'
-import { Traverser } from '../types'
+import { Rotation, Traverser } from '../types'
 
 export const ring = <T extends Hex>({ start, at, center, rotation }: RingOptions): Traverser<T, T[]> => (
   cursor,
@@ -36,11 +36,6 @@ export const ring = <T extends Hex>({ start, at, center, rotation }: RingOptions
   const startIndex = hexes.findIndex((hex) => hex.equals(firstHex))
   // move part of hexes array to the front so that firstHex is actually the first hex
   return hexes.slice(startIndex + (start ? 0 : 1)).concat(hexes.slice(0, startIndex))
-}
-
-export enum Rotation {
-  CLOCKWISE = 'CLOCKWISE',
-  COUNTERCLOCKWISE = 'COUNTERCLOCKWISE',
 }
 
 export interface RingOptions {

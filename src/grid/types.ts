@@ -8,3 +8,8 @@ export interface Traverser<T extends Hex, R extends Iterable<T> = Iterable<T>> {
 export interface Callback<T extends Hex, R> {
   (hex: T, grid: Grid<T>): R
 }
+
+export enum Rotation {
+  CLOCKWISE = 'CLOCKWISE',
+  COUNTERCLOCKWISE = 'COUNTERCLOCKWISE',
+}
