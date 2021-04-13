@@ -10,7 +10,7 @@ import { Traverser } from '../types'
 export const branch = <T extends Hex>(
   source: Traverser<T> | Traverser<T>[],
   branch: Traverser<T> | Traverser<T>[],
-): Traverser<T> => (cursor, getHex) => {
+): Traverser<T, T[]> => (cursor, getHex) => {
   const flatBranch = flatTraverse(branch)
   const hexes: T[] = []
   let _cursor = cursor

@@ -7,17 +7,17 @@ import { line } from './line'
 
 // todo: add in docs: only 90° corners for cardinal directions
 // todo: when passed opposing corners: maybe add option to determine if row or col is traversed first
-export function rectangle<T extends Hex>(options: RectangleOptions): Traverser<T>
+export function rectangle<T extends Hex>(options: RectangleOptions): Traverser<T, T[]>
 export function rectangle<T extends Hex>(
   cornerA: HexCoordinates,
   cornerB: HexCoordinates,
   includeCornerA?: boolean,
-): Traverser<T>
+): Traverser<T, T[]>
 export function rectangle<T extends Hex>(
   optionsOrCornerA: RectangleOptions | HexCoordinates,
   cornerB?: HexCoordinates,
   includeCornerA = true,
-): Traverser<T> {
+): Traverser<T, T[]> {
   return (cursor, getHex) => {
     const { width, height, start, at, direction = CompassDirection.E } = cornerB
       ? optionsFromOpposingCorners(
@@ -32,7 +32,7 @@ export function rectangle<T extends Hex>(
     const hexes = branch<T>(
       line({ start: firstHex, direction: Compass.rotate(direction, 2), length: height - 1 }),
       line({ direction, length: width - 1 }),
-    )(firstHex, getHex) as T[] // todo: internally, Traverser<T> always returns an array, maybe add a return type var
+    )(firstHex, getHex)
 
     return start ? hexes : hexes.slice(1)
   }

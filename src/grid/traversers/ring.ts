@@ -3,7 +3,10 @@ import { assertCubeCoordinates } from '../../utils'
 import { distance } from '../functions'
 import { Traverser } from '../types'
 
-export const ring = <T extends Hex>({ start, at, center, rotation }: RingOptions): Traverser<T> => (cursor, getHex) => {
+export const ring = <T extends Hex>({ start, at, center, rotation }: RingOptions): Traverser<T, T[]> => (
+  cursor,
+  getHex,
+) => {
   rotation = (rotation?.toUpperCase() as Rotation) ?? Rotation.CLOCKWISE
   const firstHex = start ? getHex(start) : at ? getHex(at) : cursor
   const radius = distance(cursor, center, firstHex)
