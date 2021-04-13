@@ -2,6 +2,46 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0-alpha.4](https://github.com/flauwekeul/honeycomb/compare/v4.0.0-alpha.1...v4.0.0-alpha.4) (2021-04-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* **grid:** When rectangle() isn't passed `start` coordinates it now excludes its first hex
+(the cursor, usually `{ q: 0, r: 0 }`). In other words: you probably want to pass `start`
+coordinates when using rectangle()
+* **grid:** Remove move() alias of line(). line() now accepts an object with options: `direction`, `length`, `at` and `start`.
+* **grid:** The at() traverser is renamed to add()
+* **hex:** offsetToAxial() is now offsetToCube()
+
+### Features
+
+* **grid:** add distance function and method that returns the amount of hexes between 2 hexes ([c650800](https://github.com/flauwekeul/honeycomb/commit/c650800b03cd3c798eff95c679a0eb8fa1e52515))
+* **grid:** add hexes() and cursor() methods to Grid ([40b022f](https://github.com/flauwekeul/honeycomb/commit/40b022f5f8e3d89f22fc19e726894e19dc146de2))
+* **grid:** add map() method to Grid ([5906cd7](https://github.com/flauwekeul/honeycomb/commit/5906cd72a7036dca8ba1ba55d87f3787fd5b55c0))
+* **grid:** add ring() traverser ([0fcdcca](https://github.com/flauwekeul/honeycomb/commit/0fcdcca7c281306496b99e7ff3ae0f03544d3b08))
+* **grid:** add spiral() traverser ([eee09c5](https://github.com/flauwekeul/honeycomb/commit/eee09c5c082bc777e431b1fb08e3c5b320ed20f7))
+* **grid:** add update() method to Grid ([8978e85](https://github.com/flauwekeul/honeycomb/commit/8978e855b5b181857442dbaec70d1242dcea07f0))
+* **grid:** prevent iterators to be run again when run() is called more than once ([ad2064c](https://github.com/flauwekeul/honeycomb/commit/ad2064c009abdf9ef50f59fa41f0fe28c64016d9))
+* **grid:** remove move() alias of line() and update signature of line() ([881f5ea](https://github.com/flauwekeul/honeycomb/commit/881f5ead15d0e862638e59087e776d122cae5c48))
+* **grid:** rename the move() traverser to line() and make move() an alias ([d19b38b](https://github.com/flauwekeul/honeycomb/commit/d19b38b177fe559914bb1b600a4926ffa8cb7f10))
+* **grid:** update rectangle() to behave as most traversers should ([33b6e21](https://github.com/flauwekeul/honeycomb/commit/33b6e211c59d97d2c738cea460defbdd2ac152a0))
+* **grid:** update ring() to behave as most traversers should ([be7c931](https://github.com/flauwekeul/honeycomb/commit/be7c9319a7f73ecc3be047cdbf98d9c85bf8c3bb))
+* **hex:** add center() function and method ([9ea84c3](https://github.com/flauwekeul/honeycomb/commit/9ea84c3e5b47af530a79440ebba0d47933f39559))
+* **hex:** rename offsetToAxial() to offsetToCube() and make it return cube coordinates ([c82fa6f](https://github.com/flauwekeul/honeycomb/commit/c82fa6fbb518028b14e8d7dd4514caaf898d4319))
+* **hex:** toString() now also accepts cube coordinates ([57a72bd](https://github.com/flauwekeul/honeycomb/commit/57a72bd08ce7fb786c77f586f8965fc73a233284))
+* **hex,grid:** add round() and pointToCube() functions and pointToHex() method to Grid ([b2ef3ae](https://github.com/flauwekeul/honeycomb/commit/b2ef3aed24e81e0ff2261e14e97be0890d53c1d0))
+
+
+### Bug Fixes
+
+* **grid:** fix bug where internal hexes were cleared after Grid run() was called ([19fdf2a](https://github.com/flauwekeul/honeycomb/commit/19fdf2a192abbcb7d41b94077754a9465c955cb8)), closes [#67](https://github.com/flauwekeul/honeycomb/issues/67)
+* **grid:** grid's update() now always returns a grid that iterates over hexes in its store ([7e256de](https://github.com/flauwekeul/honeycomb/commit/7e256de896123471661c4068c9f1478951517f0c)), closes [#68](https://github.com/flauwekeul/honeycomb/issues/68)
+* **hex:** fix typing issue for createHexPrototype() ([d4185ed](https://github.com/flauwekeul/honeycomb/commit/d4185edbef52010199b15188955c256c10852c4b))
+
+
+* **grid:** rename at() to add() and make it accept multiple coordinates ([07ec048](https://github.com/flauwekeul/honeycomb/commit/07ec048fa1fd880fdd90748b98bf0bdab7b55841))
+
 ## [4.0.0-alpha.3](https://github.com/flauwekeul/honeycomb/compare/v4.0.0-alpha.1...v4.0.0-alpha.3) (2021-03-31)
 
 
