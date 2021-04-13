@@ -163,13 +163,25 @@ document.addEventListener('click', ({ offsetX, offsetY }) => {
 
 ### Traversing
 
-```typescript
-import { start, Compass, line } from 'honeycomb-grid'
+In Honeycomb it's possible to *traverse* a grid: iterating over hexes in a specific order. You can then use other iterating methods like `each()`, `filter()` and `takeWhile()` to do whatever you want with those hexes.
 
-// This traverses ("walks") over a grid following a triangular path:
+Built-in traversers include: `rectangle()`, `ring()`, `spiral()`, `add()` and `line()`.
+
+```typescript
+// A traverser can be passed as the 2nd argument to the Grid constructor:
+const grid = new Grid(hexPrototype, rectangle({ start: { q: 0, r: 0 }, width: 4, height: 4 }))
+
+// or to the traverse() method:
+grid.traverse(spiral({ start: { q: 5, r: 5 }, radius: 3 }))
+```
+
+Traversers can be *chained* by wrapping them in an array. Each consecutive traverser receives the last traversed hex (*cursor*) of the previous traverser.
+
+```typescript
+// This traverses over a grid following a triangular path:
 grid
   .traverse([
-    // start at the hex with coordinates { q: 0, r: 0 } and move 4 hexes East
+    // Start at the hex with coordinates { q: 0, r: 0 } and move 4 hexes East
     line({ start: { q: 0, r: 0 }, direction: Compass.E, length: 4 }),
     // then move 4 hexes Southwest
     line({ direction: Compass.SW, length: 4 }),
@@ -178,13 +190,36 @@ grid
   ])
   .each((hex) => console.log(hex))
   .run() // logs: Hex {q: 0, r: 0}, Hex {q: 1, r: 0}, Hex {q: 2, r: 0}, …
+```
 
-// You can also supply a custom traverser.
-// It's called with:
-//   1. cursor: the hex where the previous traverser left off
-//   2. getHex: a function that either returns a hex from the grid's store (if present) or creates a new hex
-// It must return an iterable (usually an array) of hexes:
-grid.traverse((cursor, getHex) => [getHex(cursor)]) // this traverser isn't very useful 😬
+In order to prevent the same hexes are traversed multiple times, **traversers never traverse the cursor they receive from the previous traverser**. This means that when you call a traverser, the first hex will be missing (by default):
+
+```typescript
+// This produces a 10x10 grid with the hex in the top left corner missing ⚠️
+// (so actually a 9x10 grid)
+const grid = new Grid(hexPrototype, rectangle({ width: 10, height: 10 }))
+```
+
+This can be fixed by passing the `start` option that should be the hex coordinates the traverser should…well, *start*:
+
+```typescript
+// This produces a 10x10 grid as you might expect 😌
+const grid = new Grid(hexPrototype, rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 }))
+```
+
+Most traversers accept this `start` option as well as an `at` option. `at` behaves the same as `start` but doesn't include the hex at those coordinates. It should be used to make a traverser start *at* coordinates that aren't the cursor's.
+
+> **TL;DR** In most cases: only use `start` when creating a grid or for the first traverser in an array of traversers.
+
+Finally, you can also supply a custom traverser. It's called with:
+
+1. `cursor`: the hex where the previous traverser left off
+2. `getHex`: a function that either returns a hex from the grid's store (if present) or creates a new hex
+
+It must return an iterable (usually an array) of hexes:
+
+```typescript
+grid.traverse((cursor, getHex) => [getHex(cursor)]) // (this traverser isn't very useful 😬)
 
 // Because a traverser must return an iterable of hexes, generators can be traversers too:
 grid.traverse(function*(cursor, getHex) {
