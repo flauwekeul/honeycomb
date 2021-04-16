@@ -1,3 +1,4 @@
+export * from './assertCubeCoordinates'
 export * from './center'
 export * from './cloneHex'
 export * from './corners'

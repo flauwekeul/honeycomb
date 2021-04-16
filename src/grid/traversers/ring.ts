@@ -1,5 +1,4 @@
-import { Hex, HexCoordinates } from '../../hex'
-import { assertCubeCoordinates } from '../../utils'
+import { assertCubeCoordinates, Hex, HexCoordinates } from '../../hex'
 import { distance } from '../functions'
 import { Rotation, Traverser } from '../types'
 

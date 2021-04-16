@@ -1,4 +1,3 @@
-export * from './assertCubeCoordinates'
 export * from './isAxial'
 export * from './isFunction'
 export * from './isObject'

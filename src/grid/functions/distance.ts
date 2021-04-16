@@ -1,5 +1,4 @@
-import { HexCoordinates, HexPrototype } from '../../hex'
-import { assertCubeCoordinates } from '../../utils'
+import { assertCubeCoordinates, HexCoordinates, HexPrototype } from '../../hex'
 
 export function distance(
   hexPrototype: Pick<HexPrototype, 'offset' | 'isPointy'>,
