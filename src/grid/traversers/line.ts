@@ -1,7 +1,7 @@
 import { CompassDirection } from '../../compass'
-import { Hex, HexCoordinates } from '../../hex'
+import { Hex } from '../../hex'
 import { neighborOf } from '../functions'
-import { Traverser } from '../types'
+import { StartOrAt, Traverser } from '../types'
 
 export const line = <T extends Hex>({ direction, start, at, length = 1 }: LineOptions): Traverser<T, T[]> => {
   return (cursor, getHex) => {
@@ -18,11 +18,7 @@ export const line = <T extends Hex>({ direction, start, at, length = 1 }: LineOp
   }
 }
 
-// todo: probably extend from something that has `start` or `at` or neither (XOR)
-//       https://stackoverflow.com/a/53229567/660260
-export interface LineOptions {
+export type LineOptions = StartOrAt & {
   direction: CompassDirection
-  start?: HexCoordinates
-  at?: HexCoordinates
   length?: number
 }
