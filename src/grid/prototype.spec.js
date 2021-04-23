@@ -470,3 +470,51 @@ describe('pointHeight', () => {
     })
   })
 })
+
+
+describe('maxHorizontalDistance', () => {
+  describe('when the grid contains no hexes', () => {
+    it('returns 0', () => {
+      const grid = GridFactory()
+      expect(grid.maxHorizontalDistance()).to.equal(0)
+    })
+  })
+
+  describe('when the grid contains pointy hexes', () => {
+    let GridFactory,
+      options = { width: 4, height: 2 }
+
+    beforeEach(() => {
+      const Hex = extendHex({ orientation: 'pointy', size: 20 })
+      GridFactory = defineGridFactory({ extendHex, Grid, Point })(Hex)
+    })
+
+    it('returns max horizontal distance', () => {
+      expect(GridFactory.rectangle({ ...options, direction: 0 }).maxHorizontalDistance()).to.equal(4)
+      expect(GridFactory.rectangle({ ...options, direction: 1 }).maxHorizontalDistance()).to.equal(4)
+      expect(GridFactory.rectangle({ ...options, direction: 2 }).maxHorizontalDistance()).to.equal(4)
+      expect(GridFactory.rectangle({ ...options, direction: 3 }).maxHorizontalDistance()).to.equal(4)
+      expect(GridFactory.rectangle({ ...options, direction: 4 }).maxHorizontalDistance()).to.equal(3)
+      expect(GridFactory.rectangle({ ...options, direction: 5 }).maxHorizontalDistance()).to.equal(3)
+    })
+  })
+
+  describe('when the grid contains flat hexes', () => {
+    let GridFactory,
+      options = { width: 4, height: 2 }
+
+    beforeEach(() => {
+      const Hex = extendHex({ orientation: 'flat', size: 20 })
+      GridFactory = defineGridFactory({ extendHex, Grid, Point })(Hex)
+    })
+
+    it('returns max horizontal distance', () => {
+      expect(GridFactory.rectangle({ ...options, direction: 0 }).maxHorizontalDistance()).to.equal(2)
+      expect(GridFactory.rectangle({ ...options, direction: 1 }).maxHorizontalDistance()).to.equal(3)
+      expect(GridFactory.rectangle({ ...options, direction: 2 }).maxHorizontalDistance()).to.equal(3)
+      expect(GridFactory.rectangle({ ...options, direction: 3 }).maxHorizontalDistance()).to.equal(3)
+      expect(GridFactory.rectangle({ ...options, direction: 4 }).maxHorizontalDistance()).to.equal(3)
+      expect(GridFactory.rectangle({ ...options, direction: 5 }).maxHorizontalDistance()).to.equal(2)
+    })
+  })
+})

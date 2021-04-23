@@ -195,6 +195,92 @@ export function hexesInRangeFactory({ isValidHex }) {
   }
 }
 
+export function nearestMatchingHexesFactory({ isValidHex }) {
+  /**
+   * @memberof Grid#
+   * @instance
+   *
+   * @param {hex} centerHex                   A hex to search hexes nearest to.
+   * @param {number} maxDistance              The max distance (in hexes) from the center hex to search.
+   * @param {function} hexFilter              The function used to determine if a hex is a match.
+   *
+   * @returns {hex[]}             An array of hexes matching hexFilter at equal distances from center Hex.
+   *                              Only hexes that are present in the grid are returned.
+   *
+   * @throws {Error} When no valid hex is passed.
+   */
+  return function nearestMatchingHexes(centerHex, maxDistance, hexFilter) {
+    if (!isValidHex(centerHex)) {
+      throw new Error(`Invalid center hex: ${centerHex}.`)
+    }
+
+    if (!this.get(centerHex)) {
+      throw new Error(`Center hex with coordinates ${centerHex} not present in grid.`)
+    }
+
+    for (let i = 1; i <= maxDistance; i++) {
+      let ring = this.hexesInRing(centerHex, i)
+      let results = ring.filter(hexFilter);
+
+      if(results.length){
+        return results;
+      }
+    }
+    return []
+  }
+}
+
+export function hexesInRingFactory({ isValidHex }) {
+  /**
+   * @memberof Grid#
+   * @instance
+   * @see {@link https://www.redblobgames.com/grids/hexagons/#rings|redblobgames.com}
+   *
+   * @param {hex} centerHex                   A hex to get surrounding hexes from.
+   * @param {number} radius                   The radius (in hexes) from the center hex.
+   *
+   * @returns {hex[]}             An array of hexes in a ring arrangement centered on the passed center hex.
+   *                              Only hexes that are present in the grid are returned.
+   *
+   * @throws {Error} When no valid hex is passed.
+   */
+  return function hexesInRing(centerHex, radius) {
+    if (!isValidHex(centerHex)) {
+      throw new Error(`Invalid center hex: ${centerHex}.`)
+    }
+
+    if (!this.get(centerHex)) {
+      throw new Error(`Center hex with coordinates ${centerHex} not present in grid.`)
+    }
+
+    let hexes = []
+
+    const { q, r, s } = centerHex
+    let cube = {
+      q,
+      r: r - radius,
+      s: s + radius
+    }
+    for (let i = 0; i < 6; i++) {
+      for (let j = 0; j < radius; j++) {
+        let hex = this.get(centerHex.cubeToCartesian(cube))
+        if(hex){
+          hexes.push(hex)
+        }
+
+        const { q, r, s } = DIRECTION_COORDINATES[i]
+        cube = {
+          q: cube.q + q,
+          r: cube.r + r,
+          s: cube.s + s
+        }
+      }
+    }
+
+    return hexes
+  }
+}
+
 export function neighborsOfFactory({ isValidHex, signedModulo, compassToNumberDirection }) {
   /**
    * @memberof Grid#
@@ -290,11 +376,7 @@ export function pointWidth() {
     return 0
   }
 
-  // sort hexes from left to right and take the first and last
-  const { 0: mostLeft, length, [length - 1]: mostRight } = this[0].isPointy()
-    ? [...this].sort((a, b) => b.s - a.s || a.q - b.q)
-    : [...this].sort((a, b) => a.q - b.q)
-
+  const {mostLeft, mostRight} = this.horizontalBounds()
   return mostRight.toPoint().x - mostLeft.toPoint().x + this[0].width()
 }
 
@@ -309,10 +391,74 @@ export function pointHeight() {
     return 0
   }
 
+  const {mostDown, mostUp} = this.verticalBounds()
+  return mostDown.toPoint().y - mostUp.toPoint().y + this[0].height()
+}
+
+/**
+ * @memberof Grid#
+ * @instance
+ *
+ * @returns {number}    The distance between the most left and most right hexes.
+ */
+export function maxHorizontalDistance(){
+  if (this.length === 0) {
+    return 0
+  }
+  const {mostLeft, mostRight} = this.horizontalBounds()
+  return mostLeft.distance(mostRight)
+}
+
+/**
+ * @memberof Grid#
+ * @instance
+ *
+ * @returns {number}    The distance between the most left and most right hexes.
+ */
+export function maxVerticalDistance(){
+  if (this.length === 0) {
+    return 0
+  }
+  const {mostDown, mostUp} = this.verticalBounds()
+  return mostDown.distance(mostUp)
+}
+
+/**
+ * @memberof Grid#
+ * @instance
+ *
+ * @returns {mostLeft}    The most left hex in the grid.
+ * @returns {mostRight}   The most right hex in the grid.
+ */
+export function horizontalBounds() {
+
+  // sort hexes from left to right and take the first and last
+  const { 0: mostLeft, length, [length - 1]: mostRight } = this[0].isPointy()
+    ? [...this].sort((a, b) => b.s - a.s || a.q - b.q)
+    : [...this].sort((a, b) => a.q - b.q)
+
+  return {
+    mostLeft,
+    mostRight,
+  }
+}
+
+/**
+ * @memberof Grid#
+ * @instance
+ *
+ * @returns {mostDown}    The most down hex in the grid.
+ * @returns {mostUp}      The most up hex in the grid.
+ */
+export function verticalBounds() {
+
   // sort hexes from top to bottom and take the first and last
   const { 0: mostUp, length, [length - 1]: mostDown } = this[0].isPointy()
     ? [...this].sort((a, b) => a.r - b.r)
     : [...this].sort((a, b) => b.s - a.s || a.r - b.r)
 
-  return mostDown.toPoint().y - mostUp.toPoint().y + this[0].height()
+  return {
+    mostDown,
+    mostUp,
+  }
 }
