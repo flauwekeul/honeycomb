@@ -378,7 +378,7 @@ These methods exist in v3 and they need to be considered for v4.
   - [ ] hexesBetween: `between()` traverser
   - [ ] hexesInRange:
     - [x] `ring()` traverser (always 1 hex thick)
-    - [ ] `spiral()` traverser (uses `ring()` internally and offers an API to skip to the next ring)?
+    - [x] `spiral()` traverser (uses `ring()` internally and offers an API to skip to the next ring)?
     - [ ] `rays()` traverser (produces hexes in straight lines from the start hex)
   - [x] line: `line()` traverser ~~(aliased to `move()`)~~
   - [x] ~~neighborsOf~~ replaced with `neighborOf()` (singular)
@@ -389,8 +389,8 @@ These methods exist in v3 and they need to be considered for v4.
   - [ ] triangle
   - [ ] hexagon
   - [x] rectangle
-  - [ ] ring
-  - [ ] spiral
+  - [x] ring
+  - [x] spiral
 
 ### Grid
 
@@ -417,7 +417,7 @@ These methods exist in v3 and they need to be considered for v4.
   - [ ] `grid.hexagon(options)`
   - [ ] ~~`grid.parallelogram(options)`~~ add if requested
   - [ ] ~~`grid.triangle(options)`~~ add if requested
-  - [ ] `grid.spiral(options)` (`grid.ring(options)` would be a spiral that stops)
+  - [x] `grid.spiral(options)` (`grid.ring(options)` would be a spiral that stops)
   - [x] ~~`grid.line(options)`~~ see the `line()` traverser
   - [ ] ~~`grid.zigzag(options)`?~~ add if requested
   - [ ] something that uses path finding algorithms like A*?
