@@ -26,6 +26,11 @@ test('returns a clone of the passed hex with the passed properties containing of
   expect(cloneHex(hex, newProps)).toMatchObject({ q: 1, r: 4, custom: 'B' })
 })
 
+test('returns a clone of the passed hex with the passed tuple coordinates', () => {
+  const newProps = [3, 4]
+  expect(cloneHex(hex, newProps)).toMatchObject({ q: 3, r: 4 })
+})
+
 interface CustomHex extends Hex {
   custom: string
 }

@@ -1,6 +1,6 @@
 import { Compass, CompassDirection } from '../../compass'
 import { Hex, HexCoordinates, hexToOffset, OffsetCoordinates } from '../../hex'
-import { isOffset } from '../../utils'
+import { isOffset, isTuple, tupleToCube } from '../../utils'
 import { StartOrAt, Traverser } from '../types'
 import { branch } from './branch'
 import { line } from './line'
@@ -70,8 +70,12 @@ function optionsFromOpposingCorners(
   }
 }
 
-function assertOffsetCoordinates(cornerA: HexCoordinates, isPointy: boolean, offset: number): OffsetCoordinates {
-  return isOffset(cornerA) ? cornerA : hexToOffset({ q: cornerA.q, r: cornerA.r, isPointy, offset })
+function assertOffsetCoordinates(coordinates: HexCoordinates, isPointy: boolean, offset: number): OffsetCoordinates {
+  if (isOffset(coordinates)) {
+    return coordinates
+  }
+  const { q, r } = isTuple(coordinates) ? tupleToCube(coordinates) : coordinates
+  return hexToOffset({ q, r, isPointy, offset })
 }
 
 const RULES_FOR_SMALLEST_COL_ROW = {

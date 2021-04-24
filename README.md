@@ -42,7 +42,8 @@ import { createHexPrototype, Grid, rectangle } from 'honeycomb-grid'
 const hexPrototype = createHexPrototype({ dimensions: 30 })
 
 // 2. Create a grid with this hex prototype and also pass a "traverser" for a rectangular-shaped grid:
-let grid = new Grid(hexPrototype, rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 }))
+//    `start: [0, 0]` means to start the rectangle with "axial coordinates": 0,0 (see Coordinate system)
+let grid = new Grid(hexPrototype, rectangle({ start: [0, 0], width: 10, height: 10 }))
 
 // 3. Iterate over the grid to log each hex (notice a new grid instance is returned):
 grid = grid.each((hex) => console.log(hex))
@@ -109,8 +110,8 @@ import { createHexPrototype, Grid, rectangle } from 'honeycomb-grid'
 // You may want the origin to be the top left corner of a hex's bounding box instead of its center (which is the default)
 const hexPrototype = createHexPrototype({ dimensions: 30, origin: 'topLeft' })
 
-new Grid(hexPrototype, rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 }))
-  .each((hex) => renderSVG(hex)) // or: renderCanvas(hex)
+new Grid(hexPrototype, rectangle({ start: [0, 0], width: 10, height: 10 }))
+  .each(renderSVG) // or: .each(renderCanvas)
   .run()
 ```
 
@@ -119,8 +120,8 @@ new Grid(hexPrototype, rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 
 There are three types of coordinates and most functions/methods that accept coordinates accept either of these:
 
 1. [Offset coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-offset), e.g.: `{ col: 1, row: 2 }`
-2. [Axial coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-axial), e.g.: `{ q: 1, r: 2 }`
-3. [Cube coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-cube), e.g.: `{ q: 1, r: 2, s: -3 }` (the sum of all three coordinates must always be 0)
+2. [Axial coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-axial), e.g.: `{ q: 1, r: 2 }` or as a tuple: `[1, 2]`
+3. [Cube coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-cube), e.g.: `{ q: 1, r: 2, s: -3 }` (the sum of all three coordinates must always be 0) or as a tuple: `[1, 2, -3]`
 
 You may also find points (e.g.: `{ x: 1, r: 2 }`) in the library. For example, a hex's `corners` property returns an array of the hex's six corner points.
 
@@ -153,7 +154,7 @@ const hexPrototype = createHexPrototype({
   dimensions: { xRadius: 50, yRadius: 30 }, // wide hexes
   origin: 'topLeft'
 })
-const grid = new Grid(hexPrototype, rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 }))
+const grid = new Grid(hexPrototype, rectangle({ start: [0, 0], width: 10, height: 10 }))
 
 document.addEventListener('click', ({ offsetX, offsetY }) => {
   const hex = grid.pointToHex(point)
@@ -169,10 +170,10 @@ Built-in traversers include: `rectangle()`, `ring()`, `spiral()`, `add()` and `l
 
 ```typescript
 // A traverser can be passed as the 2nd argument to the Grid constructor:
-const grid = new Grid(hexPrototype, rectangle({ start: { q: 0, r: 0 }, width: 4, height: 4 }))
+const grid = new Grid(hexPrototype, rectangle({ start: [0, 0], width: 4, height: 4 }))
 
 // or to the traverse() method:
-grid.traverse(spiral({ start: { q: 5, r: 5 }, radius: 3 }))
+grid.traverse(spiral({ start: [5, 5], radius: 3 }))
 ```
 
 Traversers can be *chained* by wrapping them in an array. Each consecutive traverser receives the last traversed hex (*cursor*) of the previous traverser.
@@ -182,7 +183,7 @@ Traversers can be *chained* by wrapping them in an array. Each consecutive trave
 grid
   .traverse([
     // Start at the hex with coordinates { q: 0, r: 0 } and move 4 hexes East
-    line({ start: { q: 0, r: 0 }, direction: Compass.E, length: 4 }),
+    line({ start: [0, 0], direction: Compass.E, length: 4 }),
     // then move 4 hexes Southwest
     line({ direction: Compass.SW, length: 4 }),
     // finally move 3 hexes Northwest to close the triangle
@@ -204,7 +205,7 @@ This can be fixed by passing the `start` option that should be the hex coordinat
 
 ```typescript
 // This produces a 10x10 grid as you might expect 😌
-const grid = new Grid(hexPrototype, rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 }))
+const grid = new Grid(hexPrototype, rectangle({ start: [0, 0], width: 10, height: 10 }))
 ```
 
 Most traversers accept this `start` option as well as an `at` option. `at` behaves the same as `start` but doesn't include the hex at those coordinates. It should be used to make a traverser start *at* coordinates that aren't the cursor's.
@@ -223,9 +224,9 @@ grid.traverse((cursor, getHex) => [getHex(cursor)]) // (this traverser isn't ver
 
 // Because a traverser must return an iterable of hexes, generators can be traversers too:
 grid.traverse(function*(cursor, getHex) {
-  yield getHex({ q: 0, r: 0 })
-  yield getHex({ q: 1, r: 0 })
-  yield getHex({ q: 0, r: 1 })
+  yield getHex([0, 0])
+  yield getHex([1, 0])
+  yield getHex([0, 1])
 })
 ```
 
@@ -251,15 +252,15 @@ statelessGrid.store // Map(0) {}
 statelessGrid.each((hex) => console.log(hex)).run() // logs nothing
 // However, stateless grids can always be traversed:
 statelessGrid
-  .traverse(add({ q: 1, r: 1 })) // traverse a single hex
+  .traverse(add([1, 1])) // traverse a single hex
   .each((hex) => console.log(hex))
   .run()  // logs: Hex {q: 1, r: 1}
 
 // To update a grid's store (add/remove/change hexes), you could do this manually:
-const hexToAdd = statefulGrid.getHex({ q: 2, r: 2 })
+const hexToAdd = statefulGrid.getHex([2, 2])
 statefulGrid.store.set(hexToAdd.toString(), hexToAdd)
 // But this mutates the grid (possibly introducing bugs). Use update() instead:
-const anotherHex = statefulGrid.getHex({ q: 3, r: 3 })
+const anotherHex = statefulGrid.getHex([3, 3])
 const updatedGrid = statefulGrid.update((grid) => {
   // grid is a clone of the source grid (statefulGrid), so you can mutate it in-place
   grid.store.set(anotherHex.toString(), anotherHex)
@@ -289,7 +290,7 @@ const hexPrototype = createHexPrototype({
 const grid = new Grid(hexPrototype)
 
 // the following creates a new hex and then calls its clone() method
-const hex = grid.getHex({ q: 1, r: 2 }) // logs: Hi there 👋
+const hex = grid.getHex([1, 2]) // logs: Hi there 👋
 ```
 
 If you want to update hexes in a grid, use Grid's `map()` method:
@@ -298,7 +299,7 @@ If you want to update hexes in a grid, use Grid's `map()` method:
 import { add, createHexPrototype, Grid } from 'honeycomb-grid'
 
 const hexPrototype = createHexPrototype(/* ... */)
-const grid = new Grid(hexPrototype, add({ q: 1, r: 2 })) // create a grid with a single hex
+const grid = new Grid(hexPrototype, add([1, 2])) // create a grid with a single hex
 const mappedGrid = grid
   .map((hex) => {
     // hex is already cloned, so you can mutate it in-place
@@ -308,8 +309,8 @@ const mappedGrid = grid
   .run()
 
 // the hex in the original grid is unaffected:
-grid.getHex({ q: 1, r: 2 })       // Hex {q: 1, r: 2}
-mappedGrid.getHex({ q: 1, r: 2 }) // Hex {q: 1, r: 2, custom: 'custom'}
+grid.getHex([1, 2])       // Hex {q: 1, r: 2}
+mappedGrid.getHex([1, 2]) // Hex {q: 1, r: 2, custom: 'custom'}
 ```
 
 ## Playground
@@ -414,12 +415,12 @@ These methods exist in v3 and they need to be considered for v4.
   - [x] `Grid.from<T extends Hex>(iterable: Iterable<T>)`
 - [ ] **Traversal**:
   - [x] `grid.rectangle(options)`
-  - [ ] `grid.hexagon(options)`
-  - [ ] ~~`grid.parallelogram(options)`~~ add if requested
-  - [ ] ~~`grid.triangle(options)`~~ add if requested
+  - [x] ~~`grid.hexagon(options)`~~ see: the `spiral()` traverser
+  - [x] ~~`grid.parallelogram(options)`~~ add if requested
+  - [x] ~~`grid.triangle(options)`~~ add if requested
   - [x] `grid.spiral(options)` (`grid.ring(options)` would be a spiral that stops)
   - [x] ~~`grid.line(options)`~~ see the `line()` traverser
-  - [ ] ~~`grid.zigzag(options)`?~~ add if requested
+  - [x] ~~`grid.zigzag(options)`?~~ add if requested
   - [ ] something that uses path finding algorithms like A*?
   - [x] ~~`grid.createTraverser(function* customTraverser(options) {})(options)`~~
   - [x] 👉 Make traversers even more fine-grained (~~seems very complex~~ it is, but worth it!)
@@ -452,7 +453,7 @@ These methods exist in v3 and they need to be considered for v4.
 
 ### Coordinates
 
-- [ ] Also accept tuples (e.g. `[1, 2]`). These correspond to offset coordinates (e.g. `{ col: 1, row: 2 }`).
+- [x] Also accept tuples (e.g. `[1, 2]`). These correspond to ~~offset~~ axial coordinates (e.g. `{ q: 1, r: 2 }`).
 - [ ] Also accept strings? These strings should be the same as what `hex.toString()` produces (by default separated by a comma `1,2`). But if user overrides `toString()` (and using a different separator, e.g. a pipe: `1|2`), then user is responsible for using the correct separator when they use strings as coordinates.
 - [x] Store coordinates as ~~"tuples" (arrays)~~ simple 3D objects. ~~Investigate whether arrays or objects (without prototype?) (maybe even strings, ArrayBuffer?) are more performant.~~
 - [x] Take [Amit's advice](https://www.redblobgames.com/grids/hexagons/#coordinates-comparison) and use axial coordinates by default.
