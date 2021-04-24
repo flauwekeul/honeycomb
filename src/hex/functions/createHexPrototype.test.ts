@@ -1,14 +1,12 @@
 import { Ellipse } from '../../../dist'
-import { BoundingBox, HexCoordinates, HexPrototype, Orientation } from '../types'
+import { BoundingBox, Hex, HexPrototype, Orientation } from '../types'
 import { cloneHex } from './cloneHex'
 import { corners } from './corners'
 import { createHex } from './createHex'
 import { createHexPrototype } from './createHexPrototype'
-import { equals } from './equals'
 
 jest.mock('./cloneHex')
 jest.mock('./corners')
-jest.mock('./equals')
 
 test('returns the default hex prototype when no options are passed', () => {
   const prototype = createHexPrototype()
@@ -146,12 +144,16 @@ test('returns the hex prototype with corners getter', () => {
   expect(corners).toBeCalledWith(prototype)
 })
 
-test('returns the hex prototype with equals method', () => {
-  const prototype = createHexPrototype()
-  const coordinates: HexCoordinates = { q: 1, r: 2 }
-  prototype.equals(coordinates)
+describe('equals()', () => {
+  test('returns the hex prototype with equals method', () => {
+    const prototype = createHexPrototype()
+    expect(prototype.equals.call({ q: 1, r: 2 } as Hex, { q: 1, r: 2 })).toBe(true)
+  })
 
-  expect(equals).toBeCalledWith(prototype, coordinates)
+  test('accepts offset coordinates', () => {
+    const prototype = createHexPrototype()
+    expect(prototype.equals.call({ q: 1, r: 2 } as Hex, { col: 1, row: 2 })).toBe(true)
+  })
 })
 
 test('returns the hex prototype with toString method', () => {

@@ -1,24 +1,26 @@
-import { isAxial, isTuple } from '../../utils'
-import { AxialCoordinates, HexCoordinates, OffsetCoordinates, TupleCoordinates } from '../types'
+import { isOffset, isTuple, tupleToCube } from '../../utils'
+import { CubeCoordinates, HexCoordinates, OffsetCoordinates } from '../types'
 
-// todo: a and b shouldn't have to be the same kind of coordinates
-export const equals = (a: HexCoordinates, b: HexCoordinates) =>
-  // when the 2nd coordinates is axial, assume the first is too
-  // when equals() is used as a hex method, the 1st coordinates is that of the hex itself which is always axial
-  isAxial(b)
-    ? equalsAxial(a as AxialCoordinates, b)
-    : isTuple(a)
-    ? equalsTuple(a, b as TupleCoordinates)
-    : equalsOffset(a as OffsetCoordinates, b as OffsetCoordinates)
+export function equals(
+  a: Exclude<HexCoordinates, OffsetCoordinates>,
+  b: Exclude<HexCoordinates, OffsetCoordinates>,
+): boolean
+export function equals(a: OffsetCoordinates, b: OffsetCoordinates): boolean
+export function equals(a: HexCoordinates, b: HexCoordinates) {
+  if (isOffset(a) && isOffset(b)) {
+    return a.col === b.col && a.row === b.row
+  }
 
-function equalsAxial(a: AxialCoordinates, b: AxialCoordinates) {
-  return a.q === b.q && a.r === b.r
-}
+  // can't use isOffset() because that also checks in the prototype chain and that would always return true for hexes
+  if (Object.prototype.hasOwnProperty.call(a, 'col') || Object.prototype.hasOwnProperty.call(b, 'col')) {
+    throw new Error(
+      `Can't compare coordinates where one are offset coordinates. Either pass two offset coordinates or two axial/cube coordinates. Received: ${JSON.stringify(
+        a,
+      )} and ${JSON.stringify(b)}`,
+    )
+  }
 
-function equalsOffset(a: OffsetCoordinates, b: OffsetCoordinates) {
-  return a.col === b.col && a.row === b.row
-}
-
-function equalsTuple(a: TupleCoordinates, b: TupleCoordinates) {
-  return a[0] === b[0] && a[1] === b[1]
+  const cubeA = (isTuple(a) ? tupleToCube(a) : a) as CubeCoordinates
+  const cubeB = (isTuple(b) ? tupleToCube(b) : b) as CubeCoordinates
+  return cubeA.q === cubeB.q && cubeA.r === cubeB.r
 }

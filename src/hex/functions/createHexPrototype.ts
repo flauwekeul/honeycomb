@@ -1,4 +1,4 @@
-import { isFunction, isObject, isPoint } from '../../utils'
+import { isFunction, isObject, isOffset, isPoint } from '../../utils'
 import { BoundingBox, Ellipse, Hex, HexPrototype, HexSettings, Orientation, Point } from '../types'
 import { center } from './center'
 import { cloneHex } from './cloneHex'
@@ -9,6 +9,7 @@ import { hexToOffset } from './hexToOffset'
 import { hexToPoint } from './hexToPoint'
 import { isFlat } from './isFlat'
 import { isPointy } from './isPointy'
+import { offsetToCube } from './offsetToCube'
 import { toString } from './toString'
 import { width } from './width'
 
@@ -31,7 +32,7 @@ export const createHexPrototype = <T extends Hex>(
       return cloneHex(this, newProps)
     },
     equals(coordinates) {
-      return equals(this, coordinates)
+      return equals(this, isOffset(coordinates) ? offsetToCube(coordinates, this) : coordinates)
     },
     toString() {
       return toString(this)
