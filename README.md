@@ -363,8 +363,8 @@ These methods exist in v3 and they need to be considered for v4.
   - [x] height
   - [x] isFlat
   - [x] isPointy
-  - [ ] lerp
-  - [ ] nudge
+  - [x] lerp (not public)
+  - [x] nudge (not public)
   - [x] round
   - [ ] ?   set
   - [ ] ?   subtract
@@ -376,7 +376,7 @@ These methods exist in v3 and they need to be considered for v4.
   - [x] hexToPoint
   - [x] pointToHex
   - [x] get
-  - [ ] hexesBetween: `between()` traverser
+  - [x] hexesBetween: see `line()` traverser
   - [ ] hexesInRange:
     - [x] `ring()` traverser (always 1 hex thick)
     - [x] `spiral()` traverser (uses `ring()` internally and offers an API to skip to the next ring)?
