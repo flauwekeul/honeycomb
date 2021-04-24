@@ -124,17 +124,14 @@ describe('getHex()', () => {
   })
 
   test('calls toString() on the hex prototype so that the user can control how a hex is looked up in the store', () => {
-    const customPrototype = createHexPrototype({
-      toString() {
-        return `${this.q}|${this.r}`
-      },
-    })
+    const toStringSpy = jest.spyOn(hexPrototype, 'toString')
     const coordinates = { q: 1, r: 2 }
-    const hex = createHex(customPrototype, coordinates)
-    const store = new Map([['1|2', hex]])
-    const grid = new Grid(customPrototype, store)
+    const hex = createHex(hexPrototype, coordinates)
+    const store = new Map([['1,2', hex]])
+    const grid = new Grid(hexPrototype, store)
 
     expect(grid.getHex(coordinates)).toBe(hex)
+    expect(toStringSpy).toBeCalled()
   })
 
   test('returns a new hex when not present in the store', () => {
