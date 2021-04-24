@@ -6,7 +6,9 @@ import { branch } from './branch'
 import { line } from './line'
 
 // todo: add in docs: only 90° corners for cardinal directions
-// todo: when passed opposing corners: maybe add option to determine if row or col is traversed first
+// todo: when passed opposing corners:
+//       maybe add option to determine if row or col is traversed first
+//       maybe accept an object: { at, start, until, through }, similar to line()
 export function rectangle<T extends Hex>(options: RectangleOptions): Traverser<T, T[]>
 export function rectangle<T extends Hex>(
   cornerA: HexCoordinates,
