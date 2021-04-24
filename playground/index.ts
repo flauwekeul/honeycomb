@@ -1,4 +1,4 @@
-import { Compass, createHexPrototype, Grid, Hex, inStore, line, rectangle, start } from '../dist'
+import { Compass, createHexPrototype, Grid, Hex, inStore, line, rectangle } from '../dist'
 import { createSuite } from './benchmark'
 import { render } from './render'
 
@@ -15,7 +15,7 @@ const hexPrototype = createHexPrototype<CustomHex>({
 // const hex = createHex(hexPrototype, { q: 4, r: 3 })
 
 const grid = new Grid(hexPrototype, rectangle({ start: { q: 0, r: 0 }, width: 10, height: 10 }))
-  .traverse([start({ q: 9, r: 0 }), line(Compass.SE, 4), line(Compass.SW, 4)])
+  .traverse([line({ start: [9, 0], direction: Compass.SE, length: 4 }), line({ direction: Compass.SW, length: 4 })])
   .filter(inStore)
   .each((hex) => {
     hex.svg = render(hex)
