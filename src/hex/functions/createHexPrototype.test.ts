@@ -1,5 +1,4 @@
-import { Ellipse } from '../../../dist'
-import { BoundingBox, Hex, HexPrototype, Orientation } from '../types'
+import { BoundingBox, Ellipse, Hex, HexPrototype, Orientation } from '../types'
 import { cloneHex } from './cloneHex'
 import { corners } from './corners'
 import { createHex } from './createHex'

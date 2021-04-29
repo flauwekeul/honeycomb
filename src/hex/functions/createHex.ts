@@ -1,4 +1,4 @@
-import { isOffset } from '../../utils'
+import { isOffset, isTuple, tupleToCube } from '../../utils'
 import { Hex, HexCoordinates } from '../types'
 import { isHex } from './isHex'
 import { offsetToCube } from './offsetToCube'
@@ -14,5 +14,6 @@ export const createHex = <T extends Hex>(prototypeOrHex: T, props: Partial<T> | 
     return Object.assign(Object.create(prototypeOrHex), coordinates, otherProps)
   }
 
+  props = isTuple(props) ? tupleToCube(props) : props
   return Object.assign(Object.create(prototypeOrHex), props)
 }

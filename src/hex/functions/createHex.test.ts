@@ -25,6 +25,13 @@ test('returns a new hex from the passed properties containing offset coordinates
   expect(result).toMatchObject({ q: 0, r: 2, custom: 'B' })
 })
 
+test('returns a new hex from the passed tuple coordinates', () => {
+  const hexPrototype = createHexPrototype<CustomHex>()
+  const result = createHex(hexPrototype, [1, 2])
+
+  expect(result).toMatchObject({ q: 1, r: 2 })
+})
+
 test('returns a clone when a hex (instance) is passed', () => {
   const hexPrototype = createHexPrototype<CustomHex>()
   const hex = createHex(hexPrototype)
