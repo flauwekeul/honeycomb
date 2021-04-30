@@ -2,7 +2,7 @@ import { Hex } from 'honeycomb-grid'
 import { BUILDING, FIELD, ROAD, TREES, WATER } from './terrain'
 import { BaseTile } from './types'
 
-export const TILES: Array<BaseTile & Pick<Hex, 'q' | 'r'>> = [
+export const TILES: Array<Pick<BaseTile, 'terrain'> & Pick<Hex, 'q' | 'r'>> = [
   { q: 0, r: 0, terrain: TREES },
   { q: 1, r: 0, terrain: TREES },
   { q: 2, r: 0, terrain: TREES },

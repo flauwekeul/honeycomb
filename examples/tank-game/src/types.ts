@@ -1,7 +1,9 @@
-import { Hex } from 'honeycomb-grid'
+import { G } from '@svgdotjs/svg.js'
+import { Hex, HexCoordinates } from 'honeycomb-grid'
 
 export interface BaseTile {
   terrain: Terrain
+  element: G
 }
 
 export type Tile = BaseTile & Hex
@@ -19,4 +21,8 @@ export enum TerrainType {
   Trees = 'Trees',
   Building = 'Building',
   Road = 'Road',
+}
+
+export interface GameState {
+  playerCoordinates: HexCoordinates
 }
