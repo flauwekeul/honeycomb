@@ -12,7 +12,7 @@ export interface Terrain {
   type: TerrainType
   backgroundColor: string
   passable: boolean
-  obscurity: number
+  opaque: boolean
 }
 
 export enum TerrainType {
