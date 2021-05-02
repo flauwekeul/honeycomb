@@ -1,9 +1,7 @@
-import { SVG } from '@svgdotjs/svg.js'
+import { Svg } from '@svgdotjs/svg.js'
 import { Tile } from './types'
 
-const draw = SVG().addTo('body').size('100%', '100%').id('container')
-
-export function renderTile(tile: Tile) {
+export function renderTile(draw: Svg, tile: Tile) {
   const polygon = draw.polygon(tile.corners.map(({ x, y }) => `${x},${y}`).join(',')).fill(tile.terrain.backgroundColor)
   const text = draw
     .text(`${tile.q},${tile.r}`)
@@ -15,10 +13,10 @@ export function renderTile(tile: Tile) {
     })
     .translate(tile.x, tile.y)
 
-  return draw.group().add(polygon).add(text)
+  return draw.group().data({ id: tile.toString() }).add(polygon).add(text)
 }
 
-export function renderPlayer(width: number, height: number) {
+export function renderPlayer(draw: Svg, width: number, height: number) {
   const size = 0.8
   return draw
     .image('/tank.svg')
