@@ -15,6 +15,8 @@ export enum Rotation {
   COUNTERCLOCKWISE = 'COUNTERCLOCKWISE',
 }
 
+export type RotationLike = Rotation | 'CLOCKWISE' | 'clockwise' | 'COUNTERCLOCKWISE' | 'counterclockwise'
+
 export type StartOrAt = XOR<{ start?: HexCoordinates }, { at?: HexCoordinates }>
 
 // borrowed from https://github.com/Microsoft/TypeScript/issues/14094#issuecomment-373782604

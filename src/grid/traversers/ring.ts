@@ -1,6 +1,6 @@
 import { assertCubeCoordinates, Hex, HexCoordinates } from '../../hex'
 import { distance } from '../functions'
-import { Rotation, StartOrAt, Traverser } from '../types'
+import { Rotation, RotationLike, StartOrAt, Traverser } from '../types'
 
 export const ring = <T extends Hex>({ start, at, center, rotation }: RingOptions): Traverser<T, T[]> => (
   cursor,
@@ -39,7 +39,7 @@ export const ring = <T extends Hex>({ start, at, center, rotation }: RingOptions
 
 export type RingOptions = StartOrAt & {
   center: HexCoordinates
-  rotation?: Rotation | 'CLOCKWISE' | 'clockwise' | 'COUNTERCLOCKWISE' | 'counterclockwise'
+  rotation?: RotationLike
 }
 
 const DIRECTION_COORDINATES = [

@@ -1,6 +1,6 @@
 import { CompassDirection } from '../../compass'
 import { Hex } from '../../hex'
-import { Rotation, StartOrAt, Traverser } from '../types'
+import { RotationLike, StartOrAt, Traverser } from '../types'
 import { branch } from './branch'
 import { line, LineAsVectorOptions } from './line'
 import { ring } from './ring'
@@ -18,5 +18,5 @@ export const spiral = <T extends Hex>({ radius, start, at, rotation }: SpiralOpt
 
 export type SpiralOptions = StartOrAt & {
   radius: number
-  rotation?: Rotation | 'CLOCKWISE' | 'clockwise' | 'COUNTERCLOCKWISE' | 'counterclockwise'
+  rotation?: RotationLike
 }
