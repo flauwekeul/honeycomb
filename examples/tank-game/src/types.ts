@@ -3,14 +3,16 @@ import { Hex, HexCoordinates } from 'honeycomb-grid'
 
 export interface BaseTile {
   terrain: Terrain
+  visibility: tileVisibility
   element: G
 }
 
 export type Tile = BaseTile & Hex
 
+export type tileVisibility = 'undiscovered' | 'discovered' | 'visible'
+
 export interface Terrain {
   type: TerrainType
-  backgroundColor: string
   passable: boolean
   opaque: boolean
 }

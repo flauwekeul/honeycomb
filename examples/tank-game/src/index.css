@@ -4,7 +4,7 @@ body {
 }
 
 body {
-  background-color: #222;
+  background-color: #000;
   font-family: sans-serif;
   margin: 5vmin;
 }
@@ -12,4 +12,26 @@ body {
 #container {
   display: block;
   overflow: visible;
+}
+
+.tile.field {
+  fill: #2ecc40;
+}
+.tile.water {
+  fill: #0074d9;
+}
+.tile.trees {
+  fill: #3d9970;
+}
+.tile.building {
+  fill: #999;
+}
+.tile.road {
+  fill: #666;
+}
+.tile.undiscovered {
+  opacity: 0;
+}
+.tile.discovered {
+  opacity: 0.5;
 }
