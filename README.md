@@ -50,7 +50,7 @@ grid = grid.each((hex) => console.log(hex))
 
 // 4. The above won't do anything yet, that's because the "iterative" grid methods are executed lazily.
 //    You need to call its run() method in order to execute the each() call (and most other method calls):
-grid.run()
+grid = grid.run()
 ```
 
 ### Rendering
@@ -157,7 +157,7 @@ const hexPrototype = createHexPrototype({
 const grid = new Grid(hexPrototype, rectangle({ start: [0, 0], width: 10, height: 10 }))
 
 document.addEventListener('click', ({ offsetX, offsetY }) => {
-  const hex = grid.pointToHex(point)
+  const hex = grid.pointToHex({ x: offsetX, y: offsetY })
   console.log(hex)
 })
 ```
@@ -335,7 +335,35 @@ Features that are crossed out are not going to be added. Checked features are im
 
 ### General
 
+- [ ] Add a helper to manage grid state better (and remove the "need" to override a global variable to keep track of the grid state). It's probably better to remove the store for now, leave that to the user.
+      Something like this:
+      ```typescript
+      // this helper is supplied by Honeycomb:
+      const getGrid = (initialGrid: Grid) => {
+        let grid = initialGrid || new Grid();
+        // action must have this signature: (grid: Grid) => Grid
+        return (...actions) => actions.reduce((grid, action) => action(grid), grid)
+      }
+
+      const updateGrid = getGrid()
+
+      document.querySelector('#grid').addEventListener('click', (event) => {
+        const updatedGrid = updateGrid(
+          traverse(/* traversers */),
+          filter(/* some filter */),
+          map(/* some mapper */),
+        )
+        // the updated grid can then be used:
+        doSomething(updatedGrid)
+      });
+      ```
+- [ ] Rename `each()` to `peak()` or `tap()`, because `each` suggests that it returns nothing.
+- [ ] Replace compass class with util functions:
+  - [ ]  `vector()`: accepts start coordinates, a direction and length and returns coordinates (`length` can also be a function?)
+  - [ ]  `turn()`: accepts start coordinates, a direction and an amount to turn (in degrees or "compass steps"?)
+  - [ ]  functions to convert between degrees and compass directions
 - [ ] Functions/methods should also accept strings for compass directions.
+- [ ] Directions should also be given in degrees (in steps of 30°)?
 - [x] ~~Do something with this: [https://www.redblobgames.com/grids/hexagons/#map-storage](https://www.redblobgames.com/grids/hexagons/#map-storage)?~~ A `Map` works fine
 - [x] There should be a way to loop over hexes in a grid with **transducers**? Experimented with this and I couldn't get it to work when a grid was traversed multiple times before being run (triggering the transducer). Surprisingly, it had a significant performance drop (more than 50%). Don't know what caused it though, probably the combination of transducers and traversers that don't fit well together. Might investigate more in the future.
 - [ ] Add an abstraction for the grid store (currently a plain `Map`). So that instead of doing this: `grid.store.set(someHex.toString(), someHex)`, one can do this: `grid.store.set(someHex)`. Or maybe even separate methods for adding hexes (that throws when the hex is already present), updating hexes (that throws when the hex isn't present) and setting hexes (that doesn't throw when the hex is already present).
