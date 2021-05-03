@@ -10,16 +10,13 @@ import {
   toString,
   TupleCoordinates,
 } from 'honeycomb-grid'
+import { initialGameState, onUpdate, updateGameState } from './gameState'
 import { renderPlayer, renderTile } from './render'
 import { TILES } from './tiles'
-import { GameState, Tile } from './types'
+import { Tile } from './types'
 
 const config = {
   viewDistanceInTiles: 3,
-}
-
-const gameState: GameState = {
-  playerCoordinates: [-1, 2],
 }
 
 const draw = SVG().addTo('body').size('100%', '100%').id('container')
@@ -31,7 +28,7 @@ const tiles = new Map(TILES.map((tile) => [toString(tile), createHex(hexPrototyp
 new Grid(hexPrototype, tiles)
   .traverse(
     rays({
-      start: gameState.playerCoordinates,
+      start: initialGameState.playerCoordinates,
       length: config.viewDistanceInTiles,
       updateRay: (ray) => {
         // todo: make this a helper in Honeycomb?
@@ -58,12 +55,18 @@ new Grid(hexPrototype, tiles)
 
 const playerElement = renderPlayer(draw, hexPrototype.width, hexPrototype.height)
 
-movePlayer(playerElement, gameState.playerCoordinates)
+onUpdate(['playerCoordinates'], ({ playerCoordinates }) => {
+  movePlayer(playerElement, playerCoordinates)
+})
 
 draw.click((event: MouseEvent) => {
   const coordinates = tileCoordinatesFromTarget(event.target)
-  coordinates && movePlayer(playerElement, coordinates)
+  if (coordinates) {
+    updateGameState({ playerCoordinates: coordinates })
+  }
 })
+
+updateGameState(initialGameState)
 
 function movePlayer(element: Image, playerCoordinates: HexCoordinates) {
   const { x, y } = hexToPoint(createHex(hexPrototype, playerCoordinates))
