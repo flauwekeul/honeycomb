@@ -20,7 +20,7 @@ Honeycomb works in recent versions of Chrome, Firefox, Edge and Safari. It's rec
 NPM:
 
 ```bash
-npm i honeycomb-grid@4.0.0-alpha
+npm i honeycomb-grid@alpha
 ```
 
 Yarn:
