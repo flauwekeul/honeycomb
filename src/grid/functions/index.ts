@@ -1,4 +1,4 @@
+export * from './concat'
 export * from './distance'
-export * from './flatTraverse'
-export * from './inStore'
 export * from './neighborOf'
+export * from './repeat'

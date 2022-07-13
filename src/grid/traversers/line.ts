@@ -1,57 +1,53 @@
 import { CompassDirection } from '../../compass'
-import {
-  assertCubeCoordinates,
-  AxialCoordinates,
-  CubeCoordinates,
-  Hex,
-  HexCoordinates,
-  PartialCubeCoordinates,
-  round,
-} from '../../hex'
-import { distance, neighborOf } from '../functions'
-import { StartOrAt, Traverser, XOR } from '../types'
+import { AxialCoordinates, CubeCoordinates, Hex, HexCoordinates, PartialCubeCoordinates } from '../../hex'
+import { neighborOf } from '../functions'
+import { HexGenerator, Traverser, TraverserOptions, XOR } from '../types'
 
-export function line<T extends Hex>(options: LineAsVectorOptions): Traverser<T, T[]>
-export function line<T extends Hex>(options: LineBetweenOptions): Traverser<T, T[]>
-export function line<T extends Hex>(options: LineAsVectorOptions | LineBetweenOptions): Traverser<T, T[]> {
-  return (cursor, getHex) => {
-    const { start, at } = options
-    const startHex = start && getHex(start)
-    const hexes: T[] = startHex ? [startHex] : []
+export function line<T extends Hex>(options: LineAsVectorOptions): Traverser<T, HexGenerator<T>>
+export function line<T extends Hex>(options: LineBetweenOptions): Traverser<T, HexGenerator<T>>
+export function line<T extends Hex>(options: LineAsVectorOptions | LineBetweenOptions): Traverser<T, HexGenerator<T>> {
+  return function* lineTraverser(createHex, cursor) {
+    const { start } = options
 
     if ((options as LineAsVectorOptions).direction in CompassDirection) {
-      const { direction, length = 1 } = options as LineAsVectorOptions
-      let _cursor = startHex ?? (at ? getHex(at) : cursor)
+      const { direction, length } = options as LineAsVectorOptions
+      let _cursor: T | undefined
+      let _length = length
 
-      for (let i = 1; i <= length; i++) {
-        _cursor = getHex(neighborOf(_cursor, direction))
-        hexes.push(_cursor)
+      // todo: maybe abstract this to a util?
+      if (start || (!start && !cursor)) {
+        _cursor = createHex(start)
+        _length = length - 1
+        yield _cursor
+      } else {
+        _cursor = createHex(cursor)
+      }
+
+      for (let i = 0; i < _length; i++) {
+        yield (_cursor = createHex(neighborOf(_cursor, direction)))
       }
     } else {
-      const { until, through } = options as LineBetweenOptions
-      const _start = start ?? at ?? cursor
-      const _through = until ?? (through as HexCoordinates)
-      const startCube = assertCubeCoordinates(_start, cursor)
-      const throughCube = assertCubeCoordinates(_through, cursor)
-      const length = distance(cursor, _start, _through)
-      const step = 1.0 / Math.max(length, 1)
-
-      for (let i = 1; until ? i < length : i <= length; i++) {
-        const coordinates = round(lerp(nudge(startCube), nudge(throughCube), step * i))
-        hexes.push(getHex(coordinates))
-      }
+      // const { until, through } = options as LineBetweenOptions
+      // const _start = start ?? at ?? cursor
+      // const _through = until ?? (through as HexCoordinates)
+      // const startCube = assertCubeCoordinates(_start, cursor)
+      // const throughCube = assertCubeCoordinates(_through, cursor)
+      // const length = distance(cursor, _start, _through)
+      // const step = 1.0 / Math.max(length, 1)
+      // for (let i = 1; until ? i < length : i <= length; i++) {
+      //   const coordinates = round(lerp(nudge(startCube), nudge(throughCube), step * i))
+      //   hexes.push(createHex(coordinates))
+      // }
     }
-
-    return hexes
   }
 }
 
-export type LineAsVectorOptions = StartOrAt & {
+export interface LineAsVectorOptions extends TraverserOptions {
   direction: CompassDirection
-  length?: number
+  length: number
 }
 
-export type LineBetweenOptions = StartOrAt & XOR<{ until: HexCoordinates }, { through: HexCoordinates }>
+export type LineBetweenOptions = TraverserOptions & XOR<{ until: HexCoordinates }, { through: HexCoordinates }>
 
 function nudge({ q, r, s }: CubeCoordinates): CubeCoordinates {
   return { q: q + 1e-6, r: r + 1e-6, s: s + -2e-6 }

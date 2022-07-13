@@ -1,14 +1,10 @@
 import { Hex, HexCoordinates } from '../hex'
-import { Grid } from './grid'
 
 export interface Traverser<T extends Hex, R extends Iterable<T> = Iterable<T>> {
-  (cursor: T, getHex: (coordinates: HexCoordinates) => T): R
+  (createHex: (coordinates?: HexCoordinates) => T, cursor?: HexCoordinates): R
 }
 
-// todo: don't use this, just use a simple function type (e.g.: `(hex: T, grid: Grid<T>) => void`) at the places this is used
-export interface Callback<T extends Hex, R> {
-  (hex: T, grid: Grid<T>): R
-}
+export type HexGenerator<T extends Hex> = Generator<T, void, void>
 
 export enum Rotation {
   CLOCKWISE = 'CLOCKWISE',
@@ -17,7 +13,9 @@ export enum Rotation {
 
 export type RotationLike = Rotation | 'CLOCKWISE' | 'clockwise' | 'COUNTERCLOCKWISE' | 'counterclockwise'
 
-export type StartOrAt = XOR<{ start?: HexCoordinates }, { at?: HexCoordinates }>
+export interface TraverserOptions {
+  start?: HexCoordinates
+}
 
 // borrowed from https://github.com/Microsoft/TypeScript/issues/14094#issuecomment-373782604
 export type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never }

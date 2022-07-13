@@ -1,22 +1,17 @@
-import { CompassDirection } from '../../compass'
-import { Hex } from '../../hex'
-import { RotationLike, StartOrAt, Traverser } from '../types'
-import { branch } from './branch'
-import { line, LineAsVectorOptions } from './line'
-import { ring } from './ring'
+import { RotationLike, TraverserOptions } from '../types'
 
-export const spiral = <T extends Hex>({ radius, start, at, rotation }: SpiralOptions): Traverser<T, T[]> => (
-  cursor,
-  getHex,
-) => {
-  const center = start ? getHex(start) : at ? getHex(at) : cursor
-  return branch<T>(
-    line({ start, at, direction: CompassDirection.N, length: radius } as LineAsVectorOptions),
-    ring({ center, rotation }),
-  )(getHex(center), getHex)
-}
+// export const spiral = <T extends Hex>({ radius, start, at, rotation }: SpiralOptions): Traverser<T, T[]> => (
+//   cursor,
+//   createHex,
+// ) => {
+//   const center = start ? createHex(start) : at ? createHex(at) : cursor
+//   return branch<T>(
+//     line({ start, at, direction: CompassDirection.N, length: radius } as LineAsVectorOptions),
+//     ring({ center, rotation }),
+//   )(createHex(center), createHex)
+// }
 
-export type SpiralOptions = StartOrAt & {
+export interface SpiralOptions extends TraverserOptions {
   radius: number
   rotation?: RotationLike
 }

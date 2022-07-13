@@ -25,6 +25,8 @@ export enum CompassDirection {
   NW,
 }
 
+// todo: add lowercase strings to this type
+// todo: use CompassDirectionLike as much as possible (instead of regular CompassDirection), this requires a util to convert this type to CompassDirection
 export type CompassDirectionLike = keyof typeof CompassDirection | number
 
 export class Compass {

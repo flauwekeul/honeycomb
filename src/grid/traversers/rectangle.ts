@@ -1,46 +1,51 @@
 import { Compass, CompassDirection } from '../../compass'
-import { Hex, HexCoordinates, hexToOffset, OffsetCoordinates } from '../../hex'
+import { createHex, Hex, HexCoordinates, hexToOffset, OffsetCoordinates } from '../../hex'
 import { isOffset, isTuple, tupleToCube } from '../../utils'
-import { StartOrAt, Traverser } from '../types'
-import { branch } from './branch'
-import { line } from './line'
+import { TraverserOptions } from '../types'
+import { lineGenerator } from './line'
 
 // todo: add in docs: only 90° corners for cardinal directions
 // todo: when passed opposing corners:
 //       maybe add option to determine if row or col is traversed first
 //       maybe accept an object: { at, start, until, through }, similar to line()
-export function rectangle<T extends Hex>(options: RectangleOptions): Traverser<T, T[]>
-export function rectangle<T extends Hex>(
-  cornerA: HexCoordinates,
-  cornerB: HexCoordinates,
-  includeCornerA?: boolean,
-): Traverser<T, T[]>
-export function rectangle<T extends Hex>(
-  optionsOrCornerA: RectangleOptions | HexCoordinates,
-  cornerB?: HexCoordinates,
-  includeCornerA = true,
-): Traverser<T, T[]> {
-  return (cursor, getHex) => {
-    const { width, height, start, at, direction = CompassDirection.E } = cornerB
-      ? optionsFromOpposingCorners(
-          optionsOrCornerA as HexCoordinates,
-          cornerB,
-          cursor.isPointy,
-          cursor.offset,
-          includeCornerA,
-        )
-      : (optionsOrCornerA as RectangleOptions)
-    const firstHex = start ? getHex(start) : at ? getHex(at) : cursor
-    const hexes = branch<T>(
-      line({ start: firstHex, direction: Compass.rotate(direction, 2), length: height - 1 }),
-      line({ direction, length: width - 1 }),
-    )(firstHex, getHex)
+// export function rectangle<T extends Hex>(options: RectangleOptions): Traverser<T, T[]>
+// export function rectangle<T extends Hex>(
+//   cornerA: HexCoordinates,
+//   cornerB: HexCoordinates,
+//   includeCornerA?: boolean,
+// ): Traverser<T, T[]>
+// export function rectangle<T extends Hex>(
+//   optionsOrCornerA: RectangleOptions | HexCoordinates,
+//   cornerB?: HexCoordinates,
+//   includeCornerA = true,
+// ): Traverser<T, T[]> {
+//   return (cursor, createHex) => {
+//     const {
+//       width,
+//       height,
+//       start,
+//       at,
+//       direction = CompassDirection.E,
+//     } = cornerB
+//       ? optionsFromOpposingCorners(
+//           optionsOrCornerA as HexCoordinates,
+//           cornerB,
+//           cursor.isPointy,
+//           cursor.offset,
+//           includeCornerA,
+//         )
+//       : (optionsOrCornerA as RectangleOptions)
+//     const firstHex = start ? createHex(start) : at ? createHex(at) : cursor
+//     const hexes = branch<T>(
+//       line({ start: firstHex, direction: Compass.rotate(direction, 2), length: height - 1 }),
+//       line({ direction, length: width - 1 }),
+//     )(firstHex, createHex)
 
-    return start ? hexes : hexes.slice(1)
-  }
-}
+//     return start ? hexes : hexes.slice(1)
+//   }
+// }
 
-export type RectangleOptions = StartOrAt & {
+export interface RectangleOptions extends TraverserOptions {
   width: number
   height: number
   direction?: CompassDirection
@@ -95,6 +100,51 @@ const RULES_FOR_SMALLEST_COL_ROW = {
     swapWidthHeight: false,
     direction: CompassDirection.W,
   },
+}
+
+export function rectangleGenerator<T extends Hex>(
+  hexPrototype: T,
+  options: RectangleOptions,
+): Generator<T, T | undefined, void>
+export function rectangleGenerator<T extends Hex>(
+  hexPrototype: T,
+  cornerA: HexCoordinates,
+  cornerB: HexCoordinates,
+  includeCornerA?: boolean,
+): Generator<T, T | undefined, void>
+export function* rectangleGenerator<T extends Hex>(
+  hexPrototype: T,
+  optionsOrCornerA: RectangleOptions | HexCoordinates,
+  cornerB?: HexCoordinates,
+  includeCornerA = true,
+): Generator<T, T | undefined, void> {
+  const {
+    width,
+    height,
+    start,
+    at,
+    direction = CompassDirection.E,
+  } = cornerB
+    ? optionsFromOpposingCorners(
+        optionsOrCornerA as HexCoordinates,
+        cornerB,
+        hexPrototype.isPointy,
+        hexPrototype.offset,
+        includeCornerA,
+      )
+    : (optionsOrCornerA as RectangleOptions)
+  const verticalLine = lineGenerator(hexPrototype, {
+    start: createHex(hexPrototype, start ?? at),
+    direction: Compass.rotate(direction, 2),
+    length: height,
+  })
+  let lastHex: T | undefined
+
+  for (const verticalHex of verticalLine) {
+    lastHex = yield* lineGenerator(hexPrototype, { start: verticalHex, direction, length: width })
+  }
+
+  return lastHex
 }
 
 /**
