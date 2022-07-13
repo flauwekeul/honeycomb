@@ -10,21 +10,8 @@ module.exports = {
     'prettier',
   ],
   env: {
-    es2021: true,
+    es2022: true,
     browser: true,
     node: true,
-  },
-  rules: {
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/naming-convention': [
-      'error',
-      {
-        selector: 'memberLike',
-        modifiers: ['private'],
-        format: ['camelCase'],
-        leadingUnderscore: 'require',
-      },
-    ],
   },
 }
