@@ -8,10 +8,14 @@ import { offsetToCube } from './offsetToCube'
  * @private
  */
 export function assertCubeCoordinates(
-  coordinates: HexCoordinates,
   hexPrototype: Pick<HexPrototype, 'offset' | 'isPointy'>,
+  coordinates: HexCoordinates,
 ): CubeCoordinates {
-  const { q, r, s = -q - r } = isOffset(coordinates)
+  const {
+    q,
+    r,
+    s = -q - r,
+  } = isOffset(coordinates)
     ? offsetToCube(coordinates, hexPrototype)
     : isTuple(coordinates)
     ? tupleToCube(coordinates)

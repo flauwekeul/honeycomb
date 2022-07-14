@@ -5,7 +5,7 @@ export function distance(
   from: HexCoordinates,
   to: HexCoordinates,
 ) {
-  const { q: fromQ, r: fromR, s: fromS = -fromQ - fromR } = assertCubeCoordinates(from, hexPrototype)
-  const { q: toQ, r: toR, s: toS = -toQ - toR } = assertCubeCoordinates(to, hexPrototype)
+  const { q: fromQ, r: fromR, s: fromS = -fromQ - fromR } = assertCubeCoordinates(hexPrototype, from)
+  const { q: toQ, r: toR, s: toS = -toQ - toR } = assertCubeCoordinates(hexPrototype, to)
   return Math.max(Math.abs(fromQ - toQ), Math.abs(fromR - toR), Math.abs(fromS - toS))
 }

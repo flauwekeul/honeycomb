@@ -1,7 +1,15 @@
 import { CompassDirection } from '../../compass'
-import { AxialCoordinates, CubeCoordinates, Hex, HexCoordinates, PartialCubeCoordinates } from '../../hex'
-import { neighborOf } from '../functions'
-import { HexGenerator, Traverser, TraverserOptions, XOR } from '../types'
+import {
+  assertCubeCoordinates,
+  AxialCoordinates,
+  CubeCoordinates,
+  Hex,
+  HexCoordinates,
+  PartialCubeCoordinates,
+  round,
+} from '../../hex'
+import { distance, neighborOf } from '../functions'
+import { HexGenerator, Traverser, TraverserOptions } from '../types'
 
 export function line<T extends Hex>(options: LineAsVectorOptions): Traverser<T, HexGenerator<T>>
 export function line<T extends Hex>(options: LineBetweenOptions): Traverser<T, HexGenerator<T>>
@@ -14,30 +22,35 @@ export function line<T extends Hex>(options: LineAsVectorOptions | LineBetweenOp
       let _cursor: T | undefined
       let _length = length
 
-      // todo: maybe abstract this to a util?
-      if (start || (!start && !cursor)) {
-        _cursor = createHex(start)
-        _length = length - 1
-        yield _cursor
-      } else {
+      // todo: refactor
+      if (!start && cursor) {
         _cursor = createHex(cursor)
+      } else {
+        yield (_cursor = createHex(start))
+        _length = length - 1
       }
 
       for (let i = 0; i < _length; i++) {
         yield (_cursor = createHex(neighborOf(_cursor, direction)))
       }
     } else {
-      // const { until, through } = options as LineBetweenOptions
-      // const _start = start ?? at ?? cursor
-      // const _through = until ?? (through as HexCoordinates)
-      // const startCube = assertCubeCoordinates(_start, cursor)
-      // const throughCube = assertCubeCoordinates(_through, cursor)
-      // const length = distance(cursor, _start, _through)
-      // const step = 1.0 / Math.max(length, 1)
-      // for (let i = 1; until ? i < length : i <= length; i++) {
-      //   const coordinates = round(lerp(nudge(startCube), nudge(throughCube), step * i))
-      //   hexes.push(createHex(coordinates))
-      // }
+      const { stop } = options as LineBetweenOptions
+      let skipFirst = !start && cursor
+      let _cursor = createHex(start ?? cursor)
+      const startCube = assertCubeCoordinates(_cursor, _cursor)
+      const stopCube = assertCubeCoordinates(_cursor, stop)
+      const length = distance(_cursor, _cursor, stop)
+      const step = 1.0 / Math.max(length, 1)
+
+      for (let i = 0; i <= length; i++) {
+        // todo: refactor
+        if (skipFirst) {
+          skipFirst = false
+          continue
+        }
+        const approximateHex = lerp(nudge(startCube), nudge(stopCube), step * i)
+        yield (_cursor = createHex(round(approximateHex)))
+      }
     }
   }
 }
@@ -47,7 +60,12 @@ export interface LineAsVectorOptions extends TraverserOptions {
   length: number
 }
 
-export type LineBetweenOptions = TraverserOptions & XOR<{ until: HexCoordinates }, { through: HexCoordinates }>
+export interface LineBetweenOptions extends TraverserOptions {
+  /**
+   * These coordinates are included in the line.
+   */
+  stop: HexCoordinates
+}
 
 function nudge({ q, r, s }: CubeCoordinates): CubeCoordinates {
   return { q: q + 1e-6, r: r + 1e-6, s: s + -2e-6 }
