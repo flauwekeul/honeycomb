@@ -1,5 +1,4 @@
-import { isTuple, tupleToCube } from '../../utils'
-import { isOffset } from '../../utils/isOffset'
+import { isOffset, isTuple, tupleToCube } from '../../utils'
 import { CubeCoordinates, HexCoordinates, HexPrototype } from '../types'
 import { offsetToCube } from './offsetToCube'
 

@@ -1,5 +1,5 @@
-import { map } from 'transducist'
-import { Compass, concat, createHexPrototype, fromCoordinates, Grid, Hex, line, move, repeat } from '../src'
+// don't import from '../src' because it's not optimized for performance
+import { createHex, createHexPrototype, Hex, HexCoordinates, rectangle } from '../dist'
 import { createSuite } from './benchmark'
 import { render } from './render'
 
@@ -14,49 +14,21 @@ const hexPrototype = createHexPrototype<CustomHex>({
 })
 // const hex = createHex(hexPrototype, { q: 4, r: 3 })
 
-const grid = new Grid(hexPrototype, [
-  fromCoordinates([2, 0]),
-  repeat(
-    2,
-    concat(
-      line({ length: 4, direction: Compass.E }),
-      move(Compass.S),
-      line({ length: 4, direction: Compass.W }),
-      move(Compass.S),
-    ),
-  ),
-  line({ length: 4, direction: Compass.E }),
-])
+const start: HexCoordinates = [0, 2]
+const cursor: HexCoordinates = [0, 0]
+// const grid = line({ stop: [3, 3] })((c) => createHex(hexPrototype, c))
+const grid = rectangle({ start, width: 10, height: 10 })((c) => createHex(hexPrototype, c))
 
 /**
- * todo: decide between update(grid.traverse(), transformer) and grid.update(transformer, grid.traverse()?)
+ * todo: add integration tests for concatenating traversers
  * todo: traverser should adhere to rules:
+ * - when a cursor is passed, but no start: skip the first hex (doesn't apply to all traversers)
  * - max iteration (with sensible default) to prevent infinite loops
  *
- * update(grid, transformer): void                          -> transduce(grid, transformer, grid)
- * update(grid.traverse(), transformer): void
- * clone(grid, transformer?): newGrid                       -> transduce(grid, transformer, toGrid)
- * clone(grid.traverse(), transformer?): newGrid
- * ?? merge(grid, otherGrid, transformer?): void            -> transduce(otherGrid, transformer, grid)
- * ?? merge(grid.traverse(), otherGrid, transformer?): void
- *
- * or:
- * grid.update(transformer, traverser?): grid
- * grid.clone(transformer, traverser?): newGrid -> grid.clone() only clones the grid, a transformer like map(cloneHex) is needed to also clone the hexes
- * ?? merge(grid, otherGrid): grid
- * ?? add to grid
+ * grid.clone(transformer, grid.traverse()?): newGrid -> grid.clone() only clones the grid, a transformer like map(cloneHex) is needed to also clone the hexes
+ * ?? add to grid (ignore existing hexes, this should be able with grid.update(reject(h => grid.has(h))), otherGrid)
  * ?? subtract from grid
  */
-
-grid.update(
-  map((h) => {
-    const c = h.clone()
-    c.custom = 'custom'
-    return c
-  }),
-  grid.traverse(line({ length: 10, direction: Compass.E })),
-)
-// grid.toArray().forEach((h) => console.log(h))
 
 for (const hex of grid) {
   render(hex)

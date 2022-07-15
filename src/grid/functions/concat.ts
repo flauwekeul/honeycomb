@@ -1,15 +1,21 @@
 import { Hex } from '../../hex'
-import { HexGenerator, Traverser } from '../types'
+import { Traverser } from '../types'
 
-export function concat<T extends Hex>(...traversers: Traverser<T>[]): Traverser<T, HexGenerator<T>> {
-  return function* concatTraverser(createHex, cursor) {
+export function concat<T extends Hex>(traversers: Traverser<T> | Traverser<T>[]): Traverser<T, Iterable<T>> {
+  if (!Array.isArray(traversers)) {
+    return traversers
+  }
+
+  return function concatTraverser(createHex, cursor) {
+    const hexes: T[] = []
     let _cursor = cursor
+
     for (const traverser of traversers) {
-      // don't use `_cursor = yield* traverser(createHex, _cursor)` doesn't work if `traverser()` returns an array,
-      // because arrays always return `{ value: undefined, done: true }` when iterated
-      for (const hex of traverser(createHex, _cursor)) {
-        yield (_cursor = hex)
+      for (const nextCursor of traverser(createHex, _cursor)) {
+        hexes.push((_cursor = nextCursor))
       }
     }
+
+    return hexes
   }
 }
