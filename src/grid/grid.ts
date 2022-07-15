@@ -93,18 +93,21 @@ export class Grid<T extends Hex> implements Iterable<T> {
     return obj
   }
 
-  // todo: implement without using generator (probably?)
-  // *traverse(traversers: Traverser<T> | Traverser<T>[]): HexGenerator<T> {
-  //   // todo: add to docs that this function starts at the first hex in grid.#hexes
-  //   // todo: not sure about this though
-  //   const [cursor] = this.#hexes.values()
-  //   yield cursor
+  // enabling stopWhenOutOfBounds can improve performance significantly
+  traverse(traversers: Traverser<T> | Traverser<T>[], { stopWhenOutOfBounds = false } = {}): T[] {
+    const hexes: T[] = []
 
-  //   for (const hex of concat(traversers)(this.createHex, cursor)) {
-  //     const existingHex = this.getHex(hex)
-  //     if (existingHex) yield existingHex
-  //   }
-  // }
+    for (const hex of concat(traversers)(this.createHex)) {
+      const existingHex = this.getHex(hex)
+      if (existingHex) {
+        hexes.push(existingHex)
+      } else if (stopWhenOutOfBounds) {
+        return hexes
+      }
+    }
+
+    return hexes
+  }
 
   clone(): Grid<T> {
     const clonedHexes = new Map<string, T>()

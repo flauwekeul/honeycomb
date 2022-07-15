@@ -4,8 +4,6 @@ export interface Traverser<T extends Hex, R extends Iterable<T> = Iterable<T>> {
   (createHex: (coordinates?: HexCoordinates) => T, cursor?: HexCoordinates): R
 }
 
-export type HexGenerator<T extends Hex> = Generator<T, void, void>
-
 export enum Rotation {
   CLOCKWISE = 'CLOCKWISE',
   COUNTERCLOCKWISE = 'COUNTERCLOCKWISE',
