@@ -9,7 +9,7 @@ import {
   round,
 } from '../../hex'
 import { distance, neighborOf } from '../functions'
-import { Traverser, TraverserOptions } from '../types'
+import { Traverser } from '../types'
 
 export function line<T extends Hex>(options: LineAsVectorOptions): Traverser<T, T[]>
 export function line<T extends Hex>(options: LineBetweenOptions): Traverser<T, T[]>
@@ -17,12 +17,14 @@ export function line<T extends Hex>(options: LineAsVectorOptions | LineBetweenOp
   return isLineVectorOptions(options) ? lineFromVectorOptions(options) : lineFromBetweenOptions(options)
 }
 
-export interface LineAsVectorOptions extends TraverserOptions {
+export interface LineAsVectorOptions {
+  start?: HexCoordinates
   direction: CompassDirection
   length: number
 }
 
-export interface LineBetweenOptions extends TraverserOptions {
+export interface LineBetweenOptions {
+  start?: HexCoordinates
   /**
    * These coordinates are included in the line.
    */
@@ -36,8 +38,8 @@ function isLineVectorOptions(value: unknown): value is LineAsVectorOptions {
 function lineFromVectorOptions<T extends Hex>({ start, direction, length }: LineAsVectorOptions): Traverser<T, T[]> {
   return function lineTraverser(createHex, cursor) {
     const hexes: T[] = []
-    const startHex = createHex(start ?? cursor)
-    let _cursor = startHex
+    const firstHex = createHex(start ?? cursor)
+    let _cursor = firstHex
 
     if (!start && cursor) {
       // skip the first hex by "shifting" the cursor to the next hex
@@ -56,11 +58,11 @@ function lineFromVectorOptions<T extends Hex>({ start, direction, length }: Line
 function lineFromBetweenOptions<T extends Hex>({ start, stop }: LineBetweenOptions): Traverser<T, T[]> {
   return function lineTraverser(createHex, cursor) {
     const hexes: T[] = []
-    const startHex = createHex(start ?? cursor)
-    const nudgedStart = nudge(startHex)
-    const nudgedStop = nudge(assertCubeCoordinates(startHex, stop))
+    const firstHex = createHex(start ?? cursor)
+    const nudgedStart = nudge(firstHex)
+    const nudgedStop = nudge(assertCubeCoordinates(firstHex, stop))
     const interpolate = lerp(nudgedStart, nudgedStop)
-    const length = distance(startHex, startHex, stop)
+    const length = distance(firstHex, firstHex, stop)
     const step = 1.0 / Math.max(length, 1)
     // skip the first hex by starting an iteration later
     let i = !start && cursor ? 1 : 0

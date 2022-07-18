@@ -1,7 +1,7 @@
 import { Compass, CompassDirection } from '../../compass'
 import { Hex, HexCoordinates, hexToOffset, OffsetCoordinates } from '../../hex'
 import { isOffset, isTuple, tupleToCube } from '../../utils'
-import { Traverser, TraverserOptions } from '../types'
+import { Traverser } from '../types'
 import { branch } from './branch'
 import { line } from './line'
 
@@ -34,7 +34,8 @@ export function rectangle<T extends Hex>(
   }
 }
 
-export interface RectangleOptions extends TraverserOptions {
+export interface RectangleOptions {
+  start?: HexCoordinates
   width: number
   height: number
   direction?: CompassDirection
