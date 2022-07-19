@@ -1,34 +1,39 @@
-import { Hex } from '../../hex'
-import { RotationLike, TraverserOptions } from '../types'
+import { assertCubeCoordinates, Hex, HexCoordinates } from '../../hex'
+import { RotationLike, Traverser } from '../types'
+import { line } from './line'
+import { ring } from './ring'
 
 // todo:
-// - add option for first ray ()
-// export const rays = <T extends Hex>({
-//   at,
-//   start,
-//   length,
-//   rotation,
-//   updateRay = (_) => _,
-// }: RaysOptions<T>): Traverser<T> => {
-//   return (cursor, createHex) => {
-//     const firstCoordinates = at ?? start ?? cursor
-//     const { q, r, s } = assertCubeCoordinates(firstCoordinates, cursor)
-//     // todo: make this configurable: either a direction or end of line?
-//     const ringStart: CubeCoordinates = { q, r: r - length, s: s + length }
+// - add option for arc in degrees?
+// - add to docs that duplicate hexes are returned (or make this configurable? Or add transformer that dedupes?)
+export function rays<T extends Hex>(options: RaysWithLengthOptions): Traverser<T, T[]>
+export function rays<T extends Hex>(options: RaysToHexOptions): Traverser<T, T[]>
+export function rays<T extends Hex>({
+  start,
+  rotation,
+  ...options
+}: RaysToHexOptions | RaysWithLengthOptions): Traverser<T, T[]> {
+  const { length } = options as RaysWithLengthOptions
 
-//     return ring<T>({ center: firstCoordinates, start: ringStart, rotation })(cursor, createHex)
-//       .reduce((uniqueHexes, through) => {
-//         const ray = line<T>({ at, start, through } as LineBetweenOptions)(cursor, createHex)
-//         updateRay(ray).forEach((hex) => uniqueHexes.set(hex.toString(), hex))
-//         return uniqueHexes
-//       }, new Map<string, T>())
-//       .values()
-//   }
-// }
+  return function raysTraverser(createHex, cursor) {
+    const firstHex = createHex(start ?? cursor)
+    const { q, r, s } = assertCubeCoordinates(firstHex, firstHex)
+    const firstStop = (options as RaysToHexOptions).firstStop ?? { q, r: r - length, s: s + length }
 
-export interface RaysOptions<T extends Hex> extends TraverserOptions {
-  length: number
-  // todo: add arc option
+    return ring({ center: firstHex, start: firstStop, rotation })(createHex, cursor).flatMap((stop) =>
+      line<T>({ start: firstHex, stop })(createHex, cursor),
+    )
+  }
+}
+
+export interface RaysToHexOptions {
+  start?: HexCoordinates
+  firstStop: HexCoordinates
   rotation?: RotationLike
-  updateRay?: (hexesInRay: T[]) => T[]
+}
+
+export interface RaysWithLengthOptions {
+  start?: HexCoordinates
+  length: number
+  rotation?: RotationLike
 }
