@@ -4,14 +4,24 @@ declare const SVG: any
 
 const draw = SVG().addTo('body').size('100%', '100%')
 
-export const render = (hex: Hex) => {
+export const render = (hex: Hex, index?: number) => {
   const polygon = draw
     .polygon(hex.corners.map(({ x, y }) => `${x},${y}`))
-    .fill('none')
+    .fill('#fff')
     .stroke({ width: 1, color: '#999' })
   const text = draw
-    .text(`${hex.q},${hex.r},${hex.s}`)
-    // .text(`${hex.col},${hex.row}`)
+    .text((add) => {
+      const coordinates = add.tspan(`${hex.q},${hex.r},${hex.s}`)
+      // const coordinates = add.tspan(`${hex.col},${hex.row}`)
+      if (Number.isFinite(index)) {
+        coordinates.y(-20)
+        add
+          .tspan(index)
+          .x(hex.width - 3)
+          .y(-10)
+          .fill('#999')
+      }
+    })
     .font({
       size: hex.width * 0.25,
       anchor: 'middle',
@@ -19,6 +29,14 @@ export const render = (hex: Hex) => {
       leading: 0,
     })
     .translate(hex.x, hex.y)
+
+  if (Number.isFinite(index)) {
+    polygon
+      .animate({ delay: (index as number) * 100 })
+      .fill('#fe9')
+      .animate()
+      .fill('#fff')
+  }
 
   return draw.group().add(polygon).add(text)
 }
