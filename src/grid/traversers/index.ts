@@ -1,4 +1,3 @@
-export * from './branch'
 export * from './fromCoordinates'
 export * from './line'
 export * from './move'

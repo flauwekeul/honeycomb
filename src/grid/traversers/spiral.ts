@@ -1,7 +1,7 @@
 import { CompassDirection } from '../../compass'
 import { Hex, HexCoordinates } from '../../hex'
+import { branch } from '../functions'
 import { RotationLike, Traverser } from '../types'
-import { branch } from './branch'
 import { line } from './line'
 import { ring } from './ring'
 

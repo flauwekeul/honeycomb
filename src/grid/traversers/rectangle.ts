@@ -1,8 +1,8 @@
 import { Compass, CompassDirection } from '../../compass'
 import { Hex, HexCoordinates, hexToOffset, OffsetCoordinates } from '../../hex'
 import { isOffset, isTuple, tupleToCube } from '../../utils'
+import { branch } from '../functions'
 import { Traverser } from '../types'
-import { branch } from './branch'
 import { line } from './line'
 
 // todo: add in docs: only 90° corners for cardinal directions
