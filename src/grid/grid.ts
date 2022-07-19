@@ -74,7 +74,7 @@ export class Grid<T extends Hex> implements Iterable<T> {
   }
 
   toArray(): T[] {
-    return [...this]
+    return Array.from(this)
   }
 
   // todo: implement like so:
