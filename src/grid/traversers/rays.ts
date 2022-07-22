@@ -4,8 +4,9 @@ import { line } from './line'
 import { ring } from './ring'
 
 // todo:
+// - remove this file? If not: refactor to use repeatWith()?
 // - add option for arc in degrees?
-// - add to docs that duplicate hexes are returned (or make this configurable? Or add transformer that dedupes?)
+// - add to docs that duplicate hexes are returned (or make this configurable? Or add transducer that dedupes?)
 export function rays<T extends Hex>(options: RaysWithLengthOptions): Traverser<T, T[]>
 export function rays<T extends Hex>(options: RaysToHexOptions): Traverser<T, T[]>
 export function rays<T extends Hex>({

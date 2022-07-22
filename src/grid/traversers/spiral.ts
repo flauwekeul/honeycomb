@@ -1,6 +1,6 @@
 import { CompassDirection } from '../../compass'
 import { Hex, HexCoordinates } from '../../hex'
-import { branch } from '../functions'
+import { repeatWith } from '../functions'
 import { RotationLike, Traverser } from '../types'
 import { line } from './line'
 import { ring } from './ring'
@@ -8,7 +8,7 @@ import { ring } from './ring'
 export function spiral<T extends Hex>({ radius, start, rotation }: SpiralOptions): Traverser<T, T[]> {
   return function spiralTraverser(createHex, cursor) {
     const center = createHex(start ?? cursor)
-    return branch<T>(line({ start, direction: CompassDirection.N, length: radius }), ring({ center, rotation }))(
+    return repeatWith<T>(line({ start, direction: CompassDirection.N, length: radius }), ring({ center, rotation }))(
       createHex,
       cursor,
     )

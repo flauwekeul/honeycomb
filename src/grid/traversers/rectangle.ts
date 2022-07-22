@@ -1,7 +1,7 @@
 import { Compass, CompassDirection } from '../../compass'
 import { Hex, HexCoordinates, hexToOffset, OffsetCoordinates } from '../../hex'
 import { isOffset, isTuple, tupleToCube } from '../../utils'
-import { branch } from '../functions'
+import { repeatWith } from '../functions'
 import { Traverser } from '../types'
 import { line } from './line'
 
@@ -25,7 +25,7 @@ export function rectangle<T extends Hex>(
       ? optionsFromOpposingCorners(optionsOrCornerA as HexCoordinates, cornerB, createHex())
       : (optionsOrCornerA as RectangleOptions)
     const firstHex = createHex(start ?? cursor)
-    const hexes = branch<T>(
+    const hexes = repeatWith<T>(
       line({ start: firstHex, direction: Compass.rotate(direction, 2), length: height }),
       line({ direction, length: width - 1 }),
     )(createHex, firstHex)
