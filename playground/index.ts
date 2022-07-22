@@ -1,5 +1,5 @@
 // don't import from '../src' because it's not optimized for performance
-import { createHexPrototype, Grid, Hex, rays } from '../dist'
+import { createHexPrototype, Grid, Hex, rectangle } from '../dist'
 import { createSuite } from './benchmark'
 import { render } from './render'
 
@@ -12,7 +12,7 @@ const hexPrototype = createHexPrototype<CustomHex>({
   orientation: 'pointy',
   origin: 'topLeft',
 })
-const grid = new Grid(hexPrototype, rays({ start: [7, 4], firstStop: [4, 7] }))
+const grid = new Grid(hexPrototype, rectangle({ width: 10, height: 10 }))
 
 /**
  * todo: change how directions work: with degrees by default? Compass direction converts to degrees, or maybe drop compass direction altogether?
@@ -22,12 +22,8 @@ const grid = new Grid(hexPrototype, rays({ start: [7, 4], firstStop: [4, 7] }))
  * todo: traverser should adhere to rules:
  * - when a cursor is passed, but no start: skip the first hex (doesn't apply to all traversers)
  *
- * Transforms that make sense: drop(), dropWhile(), filter(), map(), remove(), take(), takeWhile()
+ * Transducers that make sense: drop(), dropWhile(), filter(), map(), remove(), take(), takeWhile()
  * Reducers that make sense: every(), find(), forEach()?, some(), reduce()
- *
- * grid.clone(transformer, grid.traverse()?): newGrid -> grid.clone() only clones the grid, a transformer like map(cloneHex) is needed to also clone the hexes
- * ?? add to grid (ignore existing hexes, this should be able with grid.update(reject(h => grid.has(h))), otherGrid)
- * ?? subtract from grid
  */
 
 let i = 0

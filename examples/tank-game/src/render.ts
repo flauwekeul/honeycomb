@@ -1,21 +1,15 @@
 import { Svg } from '@svgdotjs/svg.js'
-import { Grid, inStore } from 'honeycomb-grid'
+import { Grid } from 'honeycomb-grid'
+import { map } from 'transducist'
 import { Tile } from './types'
 
-export function renderMap(draw: Svg, map: Grid<Tile>) {
-  return (
-    map
-      .filter(inStore)
-      .map((tile) => {
-        tile.element = renderTile(draw, tile)
-      })
-      // fixme: this sucks
-      .update((grid) => {
-        grid.hexes().forEach((hex) => {
-          grid.store.set(hex.toString(), hex)
-        })
-      })
-      .run()
+export function renderMap(draw: Svg, grid: Grid<Tile>) {
+  grid.update(
+    // todo: expose map() via honeycomb
+    map((tile) => {
+      tile.element = renderTile(draw, tile)
+      return tile
+    }),
   )
 }
 
