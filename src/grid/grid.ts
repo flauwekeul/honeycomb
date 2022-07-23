@@ -1,9 +1,10 @@
-import { filter, map, toArray, Transducer, Transformer } from 'transducist'
+import { toArray, Transducer, Transformer } from 'transducist'
 import { createHex, Hex, HexCoordinates, Point, pointToCube } from '../hex'
 import { isFunction } from '../utils'
 import { INIT, RESULT, STEP } from './constants'
 import { concat, distance } from './functions'
 import { transduce } from './transduce'
+import { inGrid } from './transducers'
 import { Traverser } from './types'
 
 export class Grid<T extends Hex> implements Iterable<T> {
@@ -104,12 +105,7 @@ export class Grid<T extends Hex> implements Iterable<T> {
 
   // todo: should probably be a generator, because it's output will be used for transducing
   traverse(traversers: Traverser<T> | Traverser<T>[]): T[] {
-    return transduce<T, T[]>(
-      concat(traversers)(this.createHex),
-      // todo: move to grid/transformers
-      [map((hex) => this.getHex(hex)), filter(Boolean)],
-      toArray(),
-    )
+    return transduce(concat(traversers)(this.createHex), inGrid(this), toArray())
   }
 
   clone(): Grid<T> {
@@ -131,8 +127,7 @@ export class Grid<T extends Hex> implements Iterable<T> {
     transduce(
       this.#getHexesFromIterableOrTraversers(hexesOrTraversers),
       // automatically limit to hexes in grid (unless hexes is already those in the grid)
-      // todo: move to grid/transformers
-      [map<T, T | undefined>((hex) => this.getHex(hex)), filter<T>(Boolean)].concat(transformers),
+      [inGrid(this)].concat(transformers),
       this.#toGridReducer,
     )
 
