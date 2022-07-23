@@ -2,6 +2,14 @@ import { CompassDirection } from '../../compass'
 import { createHex, createHexPrototype } from '../../hex'
 import { neighborOf } from './neighborOf'
 
+test('returns a hex', () => {
+  const hexPrototype = createHexPrototype()
+  const hex = createHex(hexPrototype)
+  const result = neighborOf(hex, CompassDirection.E)
+
+  expect(Object.getPrototypeOf(result)).toBe(hexPrototype)
+})
+
 describe('pointy hexes', () => {
   test(`returns the neighboring hex in unambiguous directions (bordering on the hex's side)`, () => {
     const hexPrototype = createHexPrototype({ orientation: 'pointy' })

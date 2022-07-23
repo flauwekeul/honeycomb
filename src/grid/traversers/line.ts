@@ -43,12 +43,12 @@ function lineFromVectorOptions<T extends Hex>({ start, direction, length }: Line
 
     if (!start && cursor) {
       // skip the first hex by "shifting" the cursor to the next hex
-      _cursor = createHex(neighborOf(_cursor, direction))
+      _cursor = neighborOf(_cursor, direction)
     }
 
     for (let i = 0; i < length; i++) {
       hexes.push(_cursor)
-      _cursor = createHex(neighborOf(_cursor, direction))
+      _cursor = neighborOf(_cursor, direction)
     }
 
     return hexes

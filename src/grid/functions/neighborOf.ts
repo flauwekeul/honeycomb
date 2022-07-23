@@ -1,5 +1,5 @@
 import { CompassDirection } from '../../compass'
-import { AxialCoordinates, Hex, offsetToCubeFlat, offsetToCubePointy } from '../../hex'
+import { AxialCoordinates, Hex, offsetToCubeFlat, offsetToCubePointy, PartialCubeCoordinates } from '../../hex'
 
 const DIRECTIONS_POINTY = [
   null, // ambiguous
@@ -22,7 +22,10 @@ const DIRECTIONS_FLAT = [
   { q: -1, r: 0 }, // NW
 ] as AxialCoordinates[]
 
-export const neighborOfPointy = <T extends Hex>({ offset, q, r, col, row }: T, direction: CompassDirection) => {
+export const neighborOfPointy = <T extends Hex>(
+  { offset, q, r, col, row }: T,
+  direction: CompassDirection,
+): PartialCubeCoordinates => {
   if (direction === CompassDirection.S || direction === CompassDirection.N) {
     const nextRow = direction === CompassDirection.S ? row + 1 : row - 1
     return offsetToCubePointy(col, nextRow, offset)
@@ -31,7 +34,10 @@ export const neighborOfPointy = <T extends Hex>({ offset, q, r, col, row }: T, d
   return { q: q + neighbor.q, r: r + neighbor.r }
 }
 
-export const neighborOfFlat = <T extends Hex>({ offset, q, r, col, row }: T, direction: CompassDirection) => {
+export const neighborOfFlat = <T extends Hex>(
+  { offset, q, r, col, row }: T,
+  direction: CompassDirection,
+): PartialCubeCoordinates => {
   if (direction === CompassDirection.E || direction === CompassDirection.W) {
     const nextCol = direction === CompassDirection.E ? col + 1 : col - 1
     return offsetToCubeFlat(nextCol, row, offset)
@@ -40,6 +46,5 @@ export const neighborOfFlat = <T extends Hex>({ offset, q, r, col, row }: T, dir
   return { q: q + neighbor.q, r: r + neighbor.r }
 }
 
-// todo: shouldn't it just return a hex? If not: rename to `neighborCoordinates` or `adjacentCoordinates`?
-export const neighborOf = <T extends Hex>(hex: T, direction: CompassDirection): AxialCoordinates =>
-  hex.isPointy ? neighborOfPointy(hex, direction) : neighborOfFlat(hex, direction)
+export const neighborOf = <T extends Hex>(hex: T, direction: CompassDirection): T =>
+  hex.clone(hex.isPointy ? neighborOfPointy(hex, direction) : neighborOfFlat(hex, direction))
