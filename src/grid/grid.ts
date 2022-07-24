@@ -112,22 +112,22 @@ export class Grid<T extends Hex> implements Iterable<T> {
     return new Grid(this)
   }
 
-  update(transformers: Transducer<T, T> | Transducer<T, T>[]): this
-  update(transformers: Transducer<T, T> | Transducer<T, T>[], hexes: Iterable<HexCoordinates | T>): this
-  update(transformers: Transducer<T, T> | Transducer<T, T>[], traversers: Traverser<T> | Traverser<T>[]): this
+  update(transducers: Transducer<T, T> | Transducer<T, T>[]): this
+  update(transducers: Transducer<T, T> | Transducer<T, T>[], hexes: Iterable<HexCoordinates | T>): this
+  update(transducers: Transducer<T, T> | Transducer<T, T>[], traversers: Traverser<T> | Traverser<T>[]): this
   update(
-    transformers: Transducer<T, T> | Transducer<T, T>[],
+    transducers: Transducer<T, T> | Transducer<T, T>[],
     hexesOrTraversers: Grid<T> | Iterable<HexCoordinates | T> | Traverser<T> | Traverser<T>[] = this,
   ): this {
     if (hexesOrTraversers === this) {
-      transduce(hexesOrTraversers as Grid<T>, transformers, this.#toGridReducer)
+      transduce(hexesOrTraversers as Grid<T>, transducers, this.#toGridReducer)
       return this
     }
 
     transduce(
       this.#getHexesFromIterableOrTraversers(hexesOrTraversers),
       // automatically limit to hexes in grid (unless hexes is already those in the grid)
-      [inGrid(this)].concat(transformers),
+      [inGrid(this)].concat(transducers),
       this.#toGridReducer,
     )
 
