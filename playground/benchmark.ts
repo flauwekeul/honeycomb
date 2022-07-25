@@ -1,5 +1,6 @@
 declare const Benchmark: any
 
+// todo: use benny https://caderek.github.io/benny/
 export const createSuite = () => {
   const suite = new Benchmark.Suite()
   const runButton = document.createElement('button')

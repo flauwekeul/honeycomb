@@ -23,6 +23,7 @@
   "author": "Abbe Keultjes <flauwekeul@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@svgdotjs/svg.js": "3.1.2",
     "@types/jest": "28.1.5",
     "@types/node": "~16.11.43",
     "@typescript-eslint/eslint-plugin": "5.30.6",

@@ -1,6 +1,5 @@
 // don't import from '../src' because it's not optimized for performance
 import { createHexPrototype, Grid, Hex, rectangle } from '../dist'
-import { createSuite } from './benchmark'
 import { render } from './render'
 
 interface CustomHex extends Hex {
@@ -31,6 +30,3 @@ for (const hex of grid) {
   render(hex, i++)
 }
 
-createSuite().add('', function () {
-  /* */
-})

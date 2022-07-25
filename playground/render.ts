@@ -1,12 +1,11 @@
+import { SVG } from '@svgdotjs/svg.js'
 import { Hex } from '../dist'
-
-declare const SVG: any
 
 const draw = SVG().addTo('body').size('100%', '100%')
 
 export const render = (hex: Hex, index?: number) => {
   const polygon = draw
-    .polygon(hex.corners.map(({ x, y }) => `${x},${y}`))
+    .polygon(hex.corners.map(({ x, y }) => `${x},${y}`).join(' '))
     .fill('#fff')
     .stroke({ width: 1, color: '#999' })
   const text = draw
@@ -16,7 +15,7 @@ export const render = (hex: Hex, index?: number) => {
       if (Number.isFinite(index)) {
         coordinates.y(-20)
         add
-          .tspan(index)
+          .tspan(`${index}`)
           .x(hex.width - 3)
           .y(-10)
           .fill('#999')
@@ -31,8 +30,9 @@ export const render = (hex: Hex, index?: number) => {
     .translate(hex.x, hex.y)
 
   if (Number.isFinite(index)) {
-    polygon
-      .animate({ delay: (index as number) * 100 })
+    // todo: look for SVG lib with better typescript support
+    ;(polygon as any)
+      .animate(undefined, (index as number) * 100)
       .fill('#fe9')
       .animate()
       .fill('#fff')
