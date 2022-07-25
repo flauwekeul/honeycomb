@@ -1,33 +1,24 @@
-declare const Benchmark: any
+import { add, complete, cycle, suite } from 'benny'
+import { createHexPrototype, Grid, rectangle } from '../dist'
 
-// todo: use benny https://caderek.github.io/benny/
-export const createSuite = () => {
-  const suite = new Benchmark.Suite()
-  const runButton = document.createElement('button')
+const hexPrototype = createHexPrototype({
+  dimensions: 30,
+  orientation: 'pointy',
+  origin: 'topLeft',
+})
+// const grid = new Grid(hexPrototype, rectangle({ width: 10, height: 10 }))
 
-  suite.on('start', function () {
-    console.clear()
-  })
-  suite.on('cycle', function (event) {
-    console.log(`${event.target}`)
-  })
-  suite.on('complete', function () {
-    console.log(`Fastest: ${this.filter('fastest').map('name')}`)
-  })
-
-  runButton.type = 'button'
-  runButton.innerHTML = 'Run benchmark'
-  runButton.style.margin = '20px 0'
-  runButton.addEventListener('click', () => {
-    runButton.disabled = true
-    runButton.innerHTML = 'Running benchmark…'
-    suite.run({ async: true })
-    suite.on('complete', function () {
-      runButton.disabled = false
-      runButton.innerHTML = 'Run benchmark'
-    })
-  })
-  document.body.prepend(runButton)
-
-  return suite
-}
+suite(
+  'creating',
+  add('s', () => {
+    new Grid(hexPrototype, rectangle({ start: [4, 7], width: 10, height: 10 }))
+  }),
+  add('m', () => {
+    new Grid(hexPrototype, rectangle({ start: [4, 7], width: 100, height: 100 }))
+  }),
+  add('l', () => {
+    new Grid(hexPrototype, rectangle({ start: [4, 7], width: 1000, height: 1000 }))
+  }),
+  cycle(),
+  complete(),
+)

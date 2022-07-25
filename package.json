@@ -8,6 +8,7 @@
   "jsnext:main": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "benchmark": "ts-node --project tsconfig.node.json playground/benchmark",
     "build": "npm run clean && rollup --config",
     "clean": "rm -rf dist && mkdir dist",
     "dev": "npm run clean && rollup --config --watch",
@@ -28,6 +29,7 @@
     "@types/node": "~16.11.43",
     "@typescript-eslint/eslint-plugin": "5.30.6",
     "@typescript-eslint/parser": "5.30.6",
+    "benny": "3.7.1",
     "commitizen": "4.2.4",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "8.19.0",
@@ -42,6 +44,7 @@
     "rollup-plugin-typescript2": "0.32.1",
     "standard-version": "9.5.0",
     "ts-jest": "28.0.6",
+    "ts-node": "10.9.1",
     "tslib": "2.4.0",
     "typescript": "4.7.4"
   },
