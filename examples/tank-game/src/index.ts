@@ -4,6 +4,7 @@ import {
   createHex,
   createHexPrototype,
   CubeCoordinates,
+  fromCoordinates,
   Grid,
   HexCoordinates,
   hexToPoint,
@@ -28,7 +29,7 @@ const config = {
 const draw = SVG().addTo('body').size('100%', '100%').id('container')
 
 const hexPrototype = createHexPrototype<Tile>({ dimensions: 50, origin: 'topLeft', visibility: 'undiscovered' })
-const grid = new Grid<Tile>(hexPrototype, TILES)
+const grid = new Grid<Tile>(hexPrototype, fromCoordinates(...TILES))
 
 renderMap(draw, grid)
 

@@ -33,12 +33,9 @@ export class Grid<T extends Hex> implements Iterable<T> {
 
   constructor(hexPrototype: T)
   constructor(hexPrototype: T, traversers: Traverser<T> | Traverser<T>[])
-  constructor(hexPrototype: T, hexLikes: Iterable<HexCoordinates | T>)
+  constructor(hexPrototype: T, hexes: Iterable<T>)
   constructor(grid: Grid<T>)
-  constructor(
-    hexPrototypeOrGrid: T | Grid<T>,
-    input: Traverser<T> | Traverser<T>[] | Iterable<HexCoordinates | T> = [],
-  ) {
+  constructor(hexPrototypeOrGrid: T | Grid<T>, input: Traverser<T> | Traverser<T>[] | Iterable<T> = []) {
     if (hexPrototypeOrGrid instanceof Grid<T>) {
       this.hexPrototype = hexPrototypeOrGrid.hexPrototype
       this.setHexes(hexPrototypeOrGrid)
@@ -113,11 +110,11 @@ export class Grid<T extends Hex> implements Iterable<T> {
   }
 
   update(transducers: Transducer<T, T> | Transducer<T, T>[]): this
-  update(transducers: Transducer<T, T> | Transducer<T, T>[], hexes: Iterable<HexCoordinates | T>): this
+  update(transducers: Transducer<T, T> | Transducer<T, T>[], hexes: Iterable<T>): this
   update(transducers: Transducer<T, T> | Transducer<T, T>[], traversers: Traverser<T> | Traverser<T>[]): this
   update(
     transducers: Transducer<T, T> | Transducer<T, T>[],
-    hexesOrTraversers: Grid<T> | Iterable<HexCoordinates | T> | Traverser<T> | Traverser<T>[] = this,
+    hexesOrTraversers: Grid<T> | Iterable<T> | Traverser<T> | Traverser<T>[] = this,
   ): this {
     if (hexesOrTraversers === this) {
       transduce(hexesOrTraversers as Grid<T>, transducers, this.#toGridReducer)
@@ -125,6 +122,7 @@ export class Grid<T extends Hex> implements Iterable<T> {
     }
 
     transduce(
+      // todo: wrapping this in a generator/iterator might improve performance
       this.#getHexesFromIterableOrTraversers(hexesOrTraversers),
       // automatically limit to hexes in grid (unless hexes is already those in the grid)
       [inGrid(this)].concat(transducers),
@@ -142,18 +140,12 @@ export class Grid<T extends Hex> implements Iterable<T> {
     return distance(this.hexPrototype, from, to)
   }
 
-  *#getHexesFromIterableOrTraversers(
-    input: Iterable<HexCoordinates | T> | Traverser<T> | Traverser<T>[],
-  ): Generator<T, void, void> {
-    const hexLikes = this.#isTraverser(input)
+  #getHexesFromIterableOrTraversers(input: Iterable<T> | Traverser<T> | Traverser<T>[]): Iterable<T> {
+    return this.#isTraverser(input)
       ? input(this.createHex)
       : Array.isArray(input) && this.#isTraverser(input[0])
       ? concat(input)(this.createHex)
-      : (input as Iterable<HexCoordinates | T>)
-
-    for (const hexLike of hexLikes) {
-      yield this.createHex(hexLike)
-    }
+      : (input as Iterable<T>)
   }
 
   #isTraverser(value: unknown): value is Traverser<T> {
