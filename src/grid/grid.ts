@@ -22,6 +22,10 @@ export class Grid<T extends Hex> implements Iterable<T> {
     return 'Grid'
   }
 
+  get size() {
+    return this.hexes.size
+  }
+
   [Symbol.iterator]() {
     return this.hexes.values()
   }
@@ -49,6 +53,10 @@ export class Grid<T extends Hex> implements Iterable<T> {
   getHex(coordinates: HexCoordinates): T | undefined {
     const hex = this.createHex(coordinates)
     return this.hexes.get(hex.toString())
+  }
+
+  hasHex(hex: T): boolean {
+    return this.hexes.has(hex.toString())
   }
 
   setHexes(hexes: Iterable<T>): this {
