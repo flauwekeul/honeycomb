@@ -23,17 +23,16 @@ export class Grid<T extends Hex> implements Iterable<T> {
   }
 
   get size() {
-    return this.hexes.size
+    return this.#hexes.size
   }
 
   [Symbol.iterator]() {
-    return this.hexes.values()
+    return this.#hexes.values()
   }
 
   readonly hexPrototype: T
-  readonly hexes = new Map<string, T>()
-  // arrow function to avoid having to call it like so: this.createHex.bind(this)
-  readonly createHex = (coordinates?: HexCoordinates): T => createHex<T>(this.hexPrototype, coordinates)
+
+  #hexes = new Map<string, T>()
 
   constructor(hexPrototype: T)
   constructor(hexPrototype: T, traversers: Traverser<T> | Traverser<T>[])
@@ -50,18 +49,22 @@ export class Grid<T extends Hex> implements Iterable<T> {
     this.setHexes(this.#getHexesFromIterableOrTraversers(input))
   }
 
+  createHex(coordinates?: HexCoordinates): T {
+    return createHex<T>(this.hexPrototype, coordinates)
+  }
+
   getHex(coordinates: HexCoordinates): T | undefined {
     const hex = this.createHex(coordinates)
-    return this.hexes.get(hex.toString())
+    return this.#hexes.get(hex.toString())
   }
 
   hasHex(hex: T): boolean {
-    return this.hexes.has(hex.toString())
+    return this.#hexes.has(hex.toString())
   }
 
   setHexes(hexes: Iterable<T>): this {
     for (const hex of hexes) {
-      this.hexes.set(hex.toString(), hex)
+      this.#hexes.set(hex.toString(), hex)
     }
     return this
   }
@@ -97,7 +100,7 @@ export class Grid<T extends Hex> implements Iterable<T> {
   //   return new Map(this.#hexes)
   // }
   toMap(): Map<string, T> {
-    return new Map(this.hexes)
+    return new Map(this.#hexes)
   }
 
   toObject(): Record<string, T> {
@@ -108,9 +111,14 @@ export class Grid<T extends Hex> implements Iterable<T> {
     return obj
   }
 
-  // todo: should probably be a generator, because it's output will be used for transducing
-  traverse(traversers: Traverser<T> | Traverser<T>[]): T[] {
-    return transduce(concat(traversers)(this.createHex), inGrid(this), toArray())
+  traverse(traversers: Traverser<T> | Traverser<T>[], transducers: Transducer<T, T> | Transducer<T, T>[] = []): T[] {
+    return transduce(
+      // todo: somehow make sure this uses a generator (for performance)
+      this.#callTraverser(concat(traversers)),
+      // automatically limit to hexes in grid
+      [inGrid(this)].concat(transducers),
+      toArray(),
+    )
   }
 
   clone(): Grid<T> {
@@ -150,9 +158,9 @@ export class Grid<T extends Hex> implements Iterable<T> {
 
   #getHexesFromIterableOrTraversers(input: Iterable<T> | Traverser<T> | Traverser<T>[]): Iterable<T> {
     return this.#isTraverser(input)
-      ? input(this.createHex)
+      ? this.#callTraverser(input)
       : Array.isArray(input) && this.#isTraverser(input[0])
-      ? concat(input)(this.createHex)
+      ? this.#callTraverser(concat(input))
       : (input as Iterable<T>)
   }
 
@@ -160,11 +168,15 @@ export class Grid<T extends Hex> implements Iterable<T> {
     return isFunction<Traverser<T>>(value)
   }
 
+  #callTraverser(traverser: Traverser<T>): Iterable<T> {
+    return traverser(this.createHex.bind(this))
+  }
+
   readonly #toGridReducer: Transformer<this, T> = {
     [INIT]: () => this,
     [RESULT]: () => this,
     [STEP]: (_, hex) => {
-      this.hexes.set(hex.toString(), hex)
+      this.#hexes.set(hex.toString(), hex)
       return this
     },
   }
