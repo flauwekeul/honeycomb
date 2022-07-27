@@ -2,12 +2,25 @@ import { assertCubeCoordinates, Hex, HexCoordinates } from '../../hex'
 import { distance } from '../functions'
 import { Rotation, RotationLike, Traverser } from '../types'
 
-export function ring<T extends Hex>({ start, center, rotation = Rotation.CLOCKWISE }: RingOptions): Traverser<T, T[]> {
+export function ring<T extends Hex>(options: RingOptions): Traverser<T, T[]>
+export function ring<T extends Hex>(options: RingFromRadiusOptions): Traverser<T, T[]>
+export function ring<T extends Hex>(options: RingOptions | RingFromRadiusOptions): Traverser<T, T[]> {
+  const { center, rotation = Rotation.CLOCKWISE } = options
+
   return function ringTraverser(createHex, cursor) {
     const _rotation = rotation?.toUpperCase() as Rotation
-    const firstHex = createHex(start ?? cursor)
-    const radius = distance(firstHex, center, firstHex)
     const hexes: T[] = []
+    let { radius } = options as RingFromRadiusOptions
+    let firstHex: T
+
+    if (Number.isFinite(radius)) {
+      firstHex = createHex(center)
+      firstHex.q += radius
+    } else {
+      firstHex = createHex((options as RingOptions).start ?? cursor)
+      radius = distance(firstHex, center, firstHex)
+    }
+
     // always start at coordinates radius away from the center, reorder the hexes later
     const { q, r, s } = assertCubeCoordinates(firstHex, center)
     let _cursor = createHex({ q, r: r - radius, s: s + radius })
@@ -30,15 +43,22 @@ export function ring<T extends Hex>({ start, center, rotation = Rotation.CLOCKWI
       }
     }
 
+    const skipFirstHex = !(options as RingOptions).start && cursor
     const startIndex = hexes.findIndex((hex) => hex.equals(firstHex))
     // move part of hexes array to the front so that firstHex is actually the first hex
-    return hexes.slice(startIndex + (start ? 0 : 1)).concat(hexes.slice(0, startIndex))
+    return hexes.slice(startIndex + (skipFirstHex ? 1 : 0)).concat(hexes.slice(0, startIndex))
   }
 }
 
 export interface RingOptions {
   start?: HexCoordinates
   center: HexCoordinates
+  rotation?: RotationLike
+}
+
+export interface RingFromRadiusOptions {
+  center: HexCoordinates
+  radius: number
   rotation?: RotationLike
 }
 
