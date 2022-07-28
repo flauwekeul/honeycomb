@@ -8,7 +8,7 @@
   "jsnext:main": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "benchmark": "ts-node --project tsconfig.node.json playground/benchmark",
+    "benchmark": "ts-node --project tsconfig.node.json benchmarks",
     "build": "npm run clean && rollup --config",
     "clean": "rm -rf dist && mkdir dist",
     "dev": "npm run clean && rollup --config --watch",
@@ -18,8 +18,8 @@
     "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",
     "release": "git add --patch && standard-version --commit-all",
     "start": "npm run build && node --require dist/index.js",
-    "test:watch": "npm test -- --watch",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "npm test -- --watch"
   },
   "author": "Abbe Keultjes <flauwekeul@gmail.com>",
   "license": "MIT",
