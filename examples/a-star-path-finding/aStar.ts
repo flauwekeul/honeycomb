@@ -1,4 +1,4 @@
-import { assertCubeCoordinates, AxialCoordinates, equals, Grid, Hex, HexCoordinates, ring } from 'honeycomb-grid'
+import { assertCubeCoordinates, AxialCoordinates, equals, Grid, Hex, HexCoordinates, ring, tap } from 'honeycomb-grid'
 import { filter, remove } from 'transducist'
 import { TARGET_COORDINATES } from './index'
 import { AStarOptions, PathData } from './types'
@@ -30,15 +30,12 @@ export function aStar<T extends Hex>({
     targetFound = equals(current.coordinates, TARGET_COORDINATES)
     if (targetFound) return backtrack(closed, grid)
 
-    grid
-      .traverse(ring({ center: current.coordinates, radius: 1 }), [
-        filter(isPassable),
-        remove((hex) => isInList(closed, hex)),
-        // todo: this isn't allowed, because a transducer must always return T, but is that reasonable?
-        // map(tile => createPathData(tile))
-      ])
-      // todo: use forEach() transducer once it exists
-      .forEach((neighbor) => {
+    grid.traverse(ring({ center: current.coordinates, radius: 1 }), [
+      filter(isPassable),
+      remove((hex) => isInList(closed, hex)),
+      // todo: this isn't allowed, because a transducer must always return T, but is that reasonable?
+      // map(tile => createPathData(tile))
+      tap((neighbor) => {
         if (!isInList(open, neighbor)) {
           const neighborPathData = createPathData(neighbor)
           const nextG = current.g + neighborPathData.g
@@ -48,7 +45,8 @@ export function aStar<T extends Hex>({
           }
           open.push(neighborPathData)
         }
-      })
+      }),
+    ])
   }
 
   // no path found

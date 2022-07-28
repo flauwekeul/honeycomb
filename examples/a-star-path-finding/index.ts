@@ -1,6 +1,6 @@
 import { Color, Polygon } from '@svgdotjs/svg.js'
-import { createHexPrototype, Grid, rectangle } from 'honeycomb-grid'
-import { map, mapIndexed, remove } from 'transducist'
+import { createHexPrototype, Grid, rectangle, tap } from 'honeycomb-grid'
+import { mapIndexed, remove } from 'transducist'
 import { aStar } from './aStar'
 import { getTileFill, render } from './render'
 import { Tile } from './types'
@@ -20,18 +20,16 @@ const hexPrototype = createHexPrototype<Tile>({
   },
 })
 const grid = new Grid(hexPrototype, rectangle({ width: 24, height: 12 })).update([
-  map((tile) => {
+  tap((tile) => {
     if (tile.equals(START_COORDINATES) || tile.equals(TARGET_COORDINATES)) {
       tile.cost = 1
-      return tile
+      return
     }
 
     tile.cost = Math.random() > IMPASSABLE_CHANCE ? Math.floor(Math.random() * MAX_COST) : IMPASSABLE_COST
-    return tile
   }),
-  map((tile) => {
+  tap((tile) => {
     tile.svg = render(tile)
-    return tile
   }),
 ])
 const shortestPath = aStar<Tile>({

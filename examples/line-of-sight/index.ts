@@ -12,11 +12,12 @@ import {
   PartialCubeCoordinates,
   repeatWith,
   ring,
+  tap,
   transduce,
   Traverser,
   TupleCoordinates,
 } from 'honeycomb-grid'
-import { filter, map, takeWhile, toArray } from 'transducist'
+import { filter, takeWhile, toArray } from 'transducist'
 import { initialGameState, onUpdate, updateGameState } from './gameState'
 import { renderMap, renderPlayer } from './render'
 import { TILES } from './tiles'
@@ -53,10 +54,8 @@ updateGameState(initialGameState)
 function updateDiscoveredHexes(grid: Grid<Tile>) {
   grid.update([
     filter((tile) => tile.visibility === 'visible'),
-    // todo: create each() transducer for these things?
-    map((tile) => {
+    tap((tile) => {
       tile.element.first().addClass('discovered')
-      return tile
     }),
   ])
 }
@@ -64,11 +63,10 @@ function updateDiscoveredHexes(grid: Grid<Tile>) {
 function updateFieldOfView(grid: Grid<Tile>, start: HexCoordinates) {
   grid.update(
     [
-      map((tile) => {
+      tap((tile) => {
         tile.visibility = 'visible'
         tile.element.first().removeClass('discovered')
         tile.element.first().removeClass('undiscovered')
-        return tile
       }),
     ],
     fieldOfView(start),
@@ -96,9 +94,8 @@ function lineOfSight(start: HexCoordinates): Traverser<Tile> {
       // todo: instead of keeping state like this, try making a reduce() transducer?
       [
         takeWhile(() => !foundOpaqueTerrain),
-        map((tile) => {
+        tap((tile) => {
           foundOpaqueTerrain = tile.terrain.opaque
-          return tile
         }),
       ],
       toArray(),

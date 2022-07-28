@@ -1,14 +1,11 @@
 import { Svg } from '@svgdotjs/svg.js'
-import { Grid } from 'honeycomb-grid'
-import { map } from 'transducist'
+import { Grid, tap } from 'honeycomb-grid'
 import { Tile } from './types'
 
 export function renderMap(draw: Svg, grid: Grid<Tile>) {
   grid.update(
-    // todo: expose map() via honeycomb
-    map((tile) => {
+    tap((tile) => {
       tile.element = renderTile(draw, tile)
-      return tile
     }),
   )
 }
