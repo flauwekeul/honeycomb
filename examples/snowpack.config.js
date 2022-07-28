@@ -8,5 +8,6 @@ module.exports = {
     public: { url: '/', static: true },
     root: '/',
     'line-of-sight': '/line-of-sight',
+    'a-star-path-finding': '/a*-path-finding',
   },
 }
