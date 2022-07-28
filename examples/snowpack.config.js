@@ -6,6 +6,7 @@ module.exports = {
   workspaceRoot: '../..',
   mount: {
     public: { url: '/', static: true },
-    src: '/',
+    root: '/',
+    'line-of-sight': '/line-of-sight',
   },
 }

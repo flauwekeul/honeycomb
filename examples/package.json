@@ -1,5 +1,5 @@
 {
-  "name": "tank-game",
+  "name": "line-of-sight",
   "version": "0.0.1",
   "description": "",
   "main": "index.ts",
@@ -15,6 +15,6 @@
   },
   "dependencies": {
     "@svgdotjs/svg.js": "3.1.2",
-    "honeycomb-grid": "file:../.."
+    "honeycomb-grid": "file:../"
   }
 }
