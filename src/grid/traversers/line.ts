@@ -11,9 +11,9 @@ import {
 import { distance, neighborOf } from '../functions'
 import { Traverser } from '../types'
 
-export function line<T extends Hex>(options: LineAsVectorOptions): Traverser<T, T[]>
-export function line<T extends Hex>(options: LineBetweenOptions): Traverser<T, T[]>
-export function line<T extends Hex>(options: LineAsVectorOptions | LineBetweenOptions): Traverser<T, T[]> {
+export function line<T extends Hex>(options: LineAsVectorOptions): Traverser<T>
+export function line<T extends Hex>(options: LineBetweenOptions): Traverser<T>
+export function line<T extends Hex>(options: LineAsVectorOptions | LineBetweenOptions): Traverser<T> {
   return isLineVectorOptions(options) ? lineFromVectorOptions(options) : lineFromBetweenOptions(options)
 }
 
@@ -35,7 +35,7 @@ function isLineVectorOptions(value: unknown): value is LineAsVectorOptions {
   return (value as LineAsVectorOptions).direction in CompassDirection
 }
 
-function lineFromVectorOptions<T extends Hex>({ start, direction, length }: LineAsVectorOptions): Traverser<T, T[]> {
+function lineFromVectorOptions<T extends Hex>({ start, direction, length }: LineAsVectorOptions): Traverser<T> {
   return function lineTraverser(createHex, cursor) {
     const hexes: T[] = []
     const firstHex = createHex(start ?? cursor)
@@ -55,7 +55,7 @@ function lineFromVectorOptions<T extends Hex>({ start, direction, length }: Line
   }
 }
 
-function lineFromBetweenOptions<T extends Hex>({ start, stop }: LineBetweenOptions): Traverser<T, T[]> {
+function lineFromBetweenOptions<T extends Hex>({ start, stop }: LineBetweenOptions): Traverser<T> {
   return function lineTraverser(createHex, cursor) {
     const hexes: T[] = []
     const firstHex = createHex(start ?? cursor)

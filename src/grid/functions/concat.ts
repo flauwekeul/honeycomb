@@ -1,7 +1,7 @@
 import { Hex } from '../../hex'
 import { Traverser } from '../types'
 
-export function concat<T extends Hex>(traversers: Traverser<T> | Traverser<T>[]): Traverser<T, Iterable<T>> {
+export function concat<T extends Hex>(traversers: Traverser<T> | Traverser<T>[]): Traverser<T> {
   if (!Array.isArray(traversers)) {
     return traversers
   }

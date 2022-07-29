@@ -1,7 +1,6 @@
 export * from './fromCoordinates'
 export * from './line'
 export * from './move'
-export * from './rays'
 export * from './rectangle'
 export * from './ring'
 export * from './spiral'

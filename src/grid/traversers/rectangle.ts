@@ -9,12 +9,12 @@ import { line } from './line'
 // todo: when passed opposing corners:
 //       maybe add option to determine if row or col is traversed first
 //       maybe accept an object: { start, stop }, similar to line()
-export function rectangle<T extends Hex>(options: RectangleOptions): Traverser<T, T[]>
-export function rectangle<T extends Hex>(cornerA: HexCoordinates, cornerB: HexCoordinates): Traverser<T, T[]>
+export function rectangle<T extends Hex>(options: RectangleOptions): Traverser<T>
+export function rectangle<T extends Hex>(cornerA: HexCoordinates, cornerB: HexCoordinates): Traverser<T>
 export function rectangle<T extends Hex>(
   optionsOrCornerA: RectangleOptions | HexCoordinates,
   cornerB?: HexCoordinates,
-): Traverser<T, T[]> {
+): Traverser<T> {
   return function rectangleTraverser(createHex, cursor) {
     const {
       width,

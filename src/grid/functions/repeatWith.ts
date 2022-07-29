@@ -9,7 +9,7 @@ export function repeatWith<T extends Hex>(
   targets: Traverser<T> | Traverser<T>[],
   // todo: isn't there a more elegant way than a config?
   { includeSource = true } = {},
-): Traverser<T, T[]> {
+): Traverser<T> {
   return function repeatWithTraverser(createHex, cursor) {
     const hexes: T[] = []
 

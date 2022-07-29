@@ -1,6 +1,4 @@
 export * from './functions'
 export * from './grid'
-export * from './transduce'
-export * from './transducers'
 export * from './traversers'
 export * from './types'

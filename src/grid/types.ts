@@ -1,7 +1,6 @@
 import { Hex, HexCoordinates } from '../hex'
 
-// todo: rename to Producer / HexGenerator / ...?
-export interface Traverser<T extends Hex, R extends Iterable<T> = Iterable<T>> {
+export interface Traverser<T extends Hex, R extends Iterable<T> = T[]> {
   (createHex: (coordinates?: HexCoordinates) => T, cursor?: HexCoordinates): R
 }
 

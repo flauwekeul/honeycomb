@@ -46,5 +46,6 @@ export const neighborOfFlat = <T extends Hex>(
   return { q: q + neighbor.q, r: r + neighbor.r }
 }
 
+// todo: add option that makes it possible to return 2 hexes for ambiguous directions
 export const neighborOf = <T extends Hex>(hex: T, direction: CompassDirection): T =>
   hex.clone(hex.isPointy ? neighborOfPointy(hex, direction) : neighborOfFlat(hex, direction))

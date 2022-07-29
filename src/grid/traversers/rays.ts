@@ -7,13 +7,13 @@ import { ring } from './ring'
 // - remove this file? If not: refactor to use repeatWith()?
 // - add option for arc in degrees?
 // - add to docs that duplicate hexes are returned (or make this configurable? Or add transducer that dedupes?)
-export function rays<T extends Hex>(options: RaysWithLengthOptions): Traverser<T, T[]>
-export function rays<T extends Hex>(options: RaysToHexOptions): Traverser<T, T[]>
+export function rays<T extends Hex>(options: RaysWithLengthOptions): Traverser<T>
+export function rays<T extends Hex>(options: RaysToHexOptions): Traverser<T>
 export function rays<T extends Hex>({
   start,
   rotation,
   ...options
-}: RaysToHexOptions | RaysWithLengthOptions): Traverser<T, T[]> {
+}: RaysToHexOptions | RaysWithLengthOptions): Traverser<T> {
   const { length } = options as RaysWithLengthOptions
 
   return function raysTraverser(createHex, cursor) {

@@ -2,9 +2,9 @@ import { assertCubeCoordinates, Hex, HexCoordinates } from '../../hex'
 import { distance } from '../functions'
 import { Rotation, RotationLike, Traverser } from '../types'
 
-export function ring<T extends Hex>(options: RingOptions): Traverser<T, T[]>
-export function ring<T extends Hex>(options: RingFromRadiusOptions): Traverser<T, T[]>
-export function ring<T extends Hex>(options: RingOptions | RingFromRadiusOptions): Traverser<T, T[]> {
+export function ring<T extends Hex>(options: RingOptions): Traverser<T>
+export function ring<T extends Hex>(options: RingFromRadiusOptions): Traverser<T>
+export function ring<T extends Hex>(options: RingOptions | RingFromRadiusOptions): Traverser<T> {
   const { center, rotation = Rotation.CLOCKWISE } = options
 
   return function ringTraverser(createHex, cursor) {

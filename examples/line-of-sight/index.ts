@@ -12,12 +12,9 @@ import {
   PartialCubeCoordinates,
   repeatWith,
   ring,
-  tap,
-  transduce,
   Traverser,
   TupleCoordinates,
 } from 'honeycomb-grid'
-import { filter, takeWhile, toArray } from 'transducist'
 import { initialGameState, onUpdate, updateGameState } from './gameState'
 import { renderMap, renderPlayer } from './render'
 import { TILES } from './tiles'
@@ -38,7 +35,7 @@ const playerElement = renderPlayer(draw, hexPrototype.width, hexPrototype.height
 
 onUpdate(['playerCoordinates'], ({ playerCoordinates }) => {
   movePlayer(playerElement, playerCoordinates)
-  updateDiscoveredHexes(grid)
+  updateDiscoveredTiles(grid)
   updateFieldOfView(grid, playerCoordinates)
 })
 
@@ -51,34 +48,36 @@ draw.click((event: MouseEvent) => {
 
 updateGameState(initialGameState)
 
-function updateDiscoveredHexes(grid: Grid<Tile>) {
-  grid.update([
-    filter((tile) => tile.visibility === 'visible'),
-    tap((tile) => {
-      tile.element.first().addClass('discovered')
-    }),
-  ])
+function updateDiscoveredTiles(grid: Grid<Tile>) {
+  grid.update((tiles) =>
+    tiles
+      .filter((tile) => tile.visibility === 'visible')
+      .map((tile) => {
+        tile.element.first().addClass('discovered')
+        return tile
+      }),
+  )
 }
 
 function updateFieldOfView(grid: Grid<Tile>, start: HexCoordinates) {
   grid.update(
-    [
-      tap((tile) => {
+    (tiles) =>
+      tiles.map((tile) => {
         tile.visibility = 'visible'
         tile.element.first().removeClass('discovered')
         tile.element.first().removeClass('undiscovered')
+        return tile
       }),
-    ],
     fieldOfView(start),
   )
 }
 
 function fieldOfView(start: HexCoordinates): Traverser<Tile> {
-  const startHex = assertCubeCoordinates(grid.hexPrototype, start)
+  const startTile = assertCubeCoordinates(grid.hexPrototype, start)
   return repeatWith(
     ring({
       center: start,
-      start: translate(startHex, { r: -config.viewDistanceInTiles }),
+      start: translate(startTile, { r: -config.viewDistanceInTiles }),
     }),
     lineOfSight(start),
     { includeSource: false },
@@ -87,19 +86,16 @@ function fieldOfView(start: HexCoordinates): Traverser<Tile> {
 
 function lineOfSight(start: HexCoordinates): Traverser<Tile> {
   return (_, stop) => {
-    // this state is needed to stop the ray *after* the tile with opaque terrain is found
-    let foundOpaqueTerrain = false
-    return transduce(
-      grid.traverse(line<Tile>({ start, stop })),
-      // todo: instead of keeping state like this, try making a reduce() transducer?
-      [
-        takeWhile(() => !foundOpaqueTerrain),
-        tap((tile) => {
-          foundOpaqueTerrain = tile.terrain.opaque
-        }),
-      ],
-      toArray(),
-    )
+    const result: Tile[] = []
+    const sightLine = grid.traverse(line<Tile>({ start, stop }))
+
+    for (const tile of sightLine) {
+      result.push(tile)
+      // make sure the last tile is the opaque one
+      if (tile.terrain.opaque) return result
+    }
+
+    return result
   }
 }
 
