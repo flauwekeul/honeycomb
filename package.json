@@ -55,11 +55,12 @@
     "url": "git+https://github.com/flauwekeul/honeycomb.git"
   },
   "keywords": [
-    "es2015",
     "grid",
     "hex",
     "hex-grid",
     "hexagon",
+    "hexagon-grid",
+    "tiles",
     "node"
   ],
   "bugs": {
