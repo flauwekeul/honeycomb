@@ -1,4 +1,4 @@
 #!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
-exec < /dev/tty && npx --no-install git-cz --hook || true
+# gitmoji as a commit hook
+exec < /dev/tty
+npx --no -- gitmoji --hook $1 $2

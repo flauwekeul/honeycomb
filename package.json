@@ -30,11 +30,10 @@
     "@typescript-eslint/eslint-plugin": "5.30.6",
     "@typescript-eslint/parser": "5.30.6",
     "benny": "3.7.1",
-    "commitizen": "4.2.4",
-    "cz-conventional-changelog": "3.3.0",
     "eslint": "8.19.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-jest": "26.5.3",
+    "gitmoji-cli": "5.0.3",
     "husky": "8.0.1",
     "jest": "28.1.3",
     "parcel": "2.6.2",
@@ -67,11 +66,6 @@
     "url": "https://github.com/flauwekeul/honeycomb/issues"
   },
   "homepage": "http://abbekeultjes.nl/honeycomb",
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
-  },
   "engines": {
     "node": ">=16"
   }
