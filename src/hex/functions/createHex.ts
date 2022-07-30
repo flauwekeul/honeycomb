@@ -11,9 +11,9 @@ export const createHex = <T extends Hex>(prototypeOrHex: T, props: Partial<T> | 
   if (isOffset(props)) {
     const { col, row, ...otherProps } = props
     const coordinates = offsetToCube({ col, row }, prototypeOrHex)
-    return Object.assign(Object.create(prototypeOrHex), coordinates, otherProps)
+    return Object.assign(Object.create(prototypeOrHex) as T, coordinates, otherProps)
   }
 
   props = isTuple(props) ? tupleToCube(props) : props
-  return Object.assign(Object.create(prototypeOrHex), props)
+  return Object.assign(Object.create(prototypeOrHex) as T, props)
 }

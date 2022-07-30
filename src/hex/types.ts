@@ -11,7 +11,7 @@ export enum Orientation {
   POINTY = 'POINTY',
 }
 
-export type OffsetCoordinates = {
+export interface OffsetCoordinates {
   col: number
   row: number
 }

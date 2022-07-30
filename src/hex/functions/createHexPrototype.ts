@@ -24,7 +24,7 @@ export const createHexPrototype = <T extends Hex>(
   options?: Partial<Omit<T, 'dimensions' | 'orientation' | 'origin' | 'offset'> | HexPrototypeOptions>,
 ): T => {
   // pseudo private property
-  const s = new WeakMap()
+  const s = new WeakMap<T, number>()
 
   const prototype = {
     ...defaultHexSettings,
@@ -116,9 +116,7 @@ export const createHexPrototype = <T extends Hex>(
   })
 }
 
-export interface OriginFn {
-  <T extends Omit<HexPrototype, 'origin'>>(prototype: T): Point
-}
+export type OriginFn = <T extends Omit<HexPrototype, 'origin'>>(prototype: T) => Point
 
 export interface HexPrototypeOptions {
   dimensions: Ellipse | BoundingBox | number
@@ -148,18 +146,14 @@ function normalizeDimensions(prototype: HexPrototypeOptions) {
   }
 
   throw new TypeError(
-    `Invalid dimensions: ${dimensions}. Dimensions must be expressed as an Ellipse ({ xRadius: number, yRadius: number }), a Rectangle ({ width: number, height: number }) or a number.`,
+    `Invalid dimensions: ${JSON.stringify(
+      dimensions,
+    )}. Dimensions must be expressed as an Ellipse ({ xRadius: number, yRadius: number }), a Rectangle ({ width: number, height: number }) or a number.`,
   )
 }
 
 function normalizeOrientation({ orientation }: HexPrototypeOptions) {
-  orientation = orientation.toUpperCase() as Orientation
-
-  if (orientation === Orientation.POINTY || orientation === Orientation.FLAT) {
-    return orientation
-  }
-
-  throw new TypeError(`Invalid orientation: ${orientation}. Orientation must be either 'POINTY' or 'FLAT'.`)
+  return orientation.toUpperCase() as Orientation
 }
 
 function assertOffset({ offset }: HexPrototypeOptions) {
@@ -189,6 +183,8 @@ function normalizeOrigin<T extends HexPrototype>(
   }
 
   throw new TypeError(
-    `Invalid origin: ${origin}. Origin must be expressed as a Point ({ x: number, y: number }), 'topLeft' or a function that returns a Point.`,
+    `Invalid origin: ${JSON.stringify(
+      origin,
+    )}. Origin must be expressed as a Point ({ x: number, y: number }), 'topLeft' or a function that returns a Point.`,
   )
 }

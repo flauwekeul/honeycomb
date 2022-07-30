@@ -32,7 +32,7 @@ export const render = (hex: Hex, index?: number) => {
   if (Number.isFinite(index)) {
     // todo: look for SVG lib with better typescript support
     ;(polygon as any)
-      .animate(undefined, (index as number) * 100)
+      .animate(undefined, index! * 100)
       .fill('#fe9')
       .animate()
       .fill('#fff')

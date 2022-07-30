@@ -40,7 +40,7 @@ const shortestPath = aStar<Tile>({
   target: TARGET_COORDINATES,
   isPassable: (tile) => tile.isPassable(),
   // todo: remove type cast somehow
-  getCost: (coordinates) => (grid.getHex(coordinates) as Tile).cost,
+  getCost: (coordinates) => grid.getHex(coordinates)!.cost,
 })
 const pathColor = new Color('#ff9').to('#993')
 

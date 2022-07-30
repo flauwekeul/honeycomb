@@ -8,7 +8,7 @@ export function ring<T extends Hex>(options: RingOptions | RingFromRadiusOptions
   const { center, rotation = Rotation.CLOCKWISE } = options
 
   return function ringTraverser(createHex, cursor) {
-    const _rotation = rotation?.toUpperCase() as Rotation
+    const _rotation = rotation.toUpperCase() as Rotation
     const hexes: T[] = []
     let { radius } = options as RingFromRadiusOptions
     let firstHex: T

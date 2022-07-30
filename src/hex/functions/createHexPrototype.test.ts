@@ -185,17 +185,23 @@ describe('dimensions', () => {
   test('throws for invalid dimensions', () => {
     const invalidEllipse: Ellipse = { xRadius: -1, yRadius: -2 }
     expect(() => createHexPrototype({ dimensions: invalidEllipse })).toThrow(
-      `Invalid dimensions: ${invalidEllipse}. Dimensions must be expressed as an Ellipse ({ xRadius: number, yRadius: number }), a Rectangle ({ width: number, height: number }) or a number.`,
+      `Invalid dimensions: ${JSON.stringify(
+        invalidEllipse,
+      )}. Dimensions must be expressed as an Ellipse ({ xRadius: number, yRadius: number }), a Rectangle ({ width: number, height: number }) or a number.`,
     )
 
     const invalidBoundingBox: BoundingBox = { width: -1, height: -2 }
     expect(() => createHexPrototype({ dimensions: invalidBoundingBox })).toThrow(
-      `Invalid dimensions: ${invalidBoundingBox}. Dimensions must be expressed as an Ellipse ({ xRadius: number, yRadius: number }), a Rectangle ({ width: number, height: number }) or a number.`,
+      `Invalid dimensions: ${JSON.stringify(
+        invalidBoundingBox,
+      )}. Dimensions must be expressed as an Ellipse ({ xRadius: number, yRadius: number }), a Rectangle ({ width: number, height: number }) or a number.`,
     )
 
     const invalidRadius = -1
     expect(() => createHexPrototype({ dimensions: invalidRadius })).toThrow(
-      `Invalid dimensions: ${invalidRadius}. Dimensions must be expressed as an Ellipse ({ xRadius: number, yRadius: number }), a Rectangle ({ width: number, height: number }) or a number.`,
+      `Invalid dimensions: ${JSON.stringify(
+        invalidRadius,
+      )}. Dimensions must be expressed as an Ellipse ({ xRadius: number, yRadius: number }), a Rectangle ({ width: number, height: number }) or a number.`,
     )
   })
 })

@@ -1,8 +1,9 @@
 import { Hex, HexCoordinates } from '../hex'
 
-export interface Traverser<T extends Hex, R extends Iterable<T> = T[]> {
-  (createHex: (coordinates?: HexCoordinates) => T, cursor?: HexCoordinates): R
-}
+export type Traverser<T extends Hex, R extends Iterable<T> = T[]> = (
+  createHex: (coordinates?: HexCoordinates) => T,
+  cursor?: HexCoordinates,
+) => R
 
 export enum Rotation {
   CLOCKWISE = 'CLOCKWISE',

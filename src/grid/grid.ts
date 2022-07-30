@@ -5,18 +5,16 @@ import { Traverser } from './types'
 
 export class Grid<T extends Hex> implements Iterable<T> {
   static fromIterable<T extends Hex>(hexes: Iterable<T>): Grid<T> {
-    const firstHex: T = hexes[Symbol.iterator]().next().value
+    const firstHex = hexes[Symbol.iterator]().next().value as T | undefined
 
     if (!firstHex) {
-      throw new Error(`Can't create grid from empty iterable: ${hexes}`)
+      throw new Error(`Can't create grid from empty iterable: ${JSON.stringify(hexes)}`)
     }
 
-    return new Grid(Object.getPrototypeOf(firstHex), hexes)
+    return new Grid(Object.getPrototypeOf(firstHex) as T, hexes)
   }
 
-  get [Symbol.toStringTag]() {
-    return 'Grid'
-  }
+  readonly [Symbol.toStringTag] = 'Grid'
 
   get size() {
     return this.#hexes.size

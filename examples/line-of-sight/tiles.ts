@@ -2,7 +2,7 @@ import { AxialCoordinates } from 'honeycomb-grid'
 import { BUILDING, FIELD, ROAD, TREES, WATER } from './terrain'
 import { BaseTile } from './types'
 
-export const TILES: Array<Pick<BaseTile, 'terrain'> & AxialCoordinates> = [
+export const TILES: (Pick<BaseTile, 'terrain'> & AxialCoordinates)[] = [
   { q: 0, r: 0, terrain: TREES },
   { q: 1, r: 0, terrain: TREES },
   { q: 2, r: 0, terrain: TREES },

@@ -22,7 +22,7 @@ export function aStar<T extends Hex>({
   open.push(createPathData(_start))
 
   while (open.length > 0 && !targetFound) {
-    const current = open.sort((a, b) => a.f - b.f).shift() as PathData
+    const current = open.sort((a, b) => a.f - b.f).shift()!
 
     closed.unshift(current)
 
