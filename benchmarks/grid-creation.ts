@@ -1,5 +1,6 @@
 import { add, cycle, suite } from 'benny'
-import { createHexPrototype, Grid, rectangle } from '../dist'
+// import from the root module, which points to /dist
+import { createHexPrototype, Grid, rectangle } from '../'
 
 const hexPrototype = createHexPrototype({
   dimensions: 30,

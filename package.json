@@ -13,7 +13,7 @@
     }
   },
   "scripts": {
-    "benchmark": "ts-node --project tsconfig.node.json benchmarks",
+    "benchmark": "npm run build && ts-node --project tsconfig.node.json benchmarks",
     "build": "tsc && vite build",
     "dev": "vite",
     "lint": "eslint . --fix",
