@@ -1,20 +1,23 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "ESNext",
     "useDefineForClassFields": true,
-    "module": "ES2022",
-    "lib": ["ES2022", "DOM"],
+    "module": "ESNext",
+    "lib": ["ESNext", "DOM"],
     "moduleResolution": "Node",
+    "outDir": "dist",
+    "declaration": true,
     "strict": true,
     "sourceMap": true,
     "isolatedModules": true,
     "esModuleInterop": true,
-    "noEmit": true,
+    "emitDeclarationOnly": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*", "benchmarks/**/*", "examples/**/*", "playground/**/*"]
+  "include": ["vite.config.ts", "src/**/*"],
+  "exclude": ["src/**/*.test.ts"]
 }
