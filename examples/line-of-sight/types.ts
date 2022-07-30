@@ -1,5 +1,5 @@
 import { G } from '@svgdotjs/svg.js'
-import { Hex, HexCoordinates } from 'honeycomb-grid'
+import { Hex, HexCoordinates } from '../../src'
 
 export interface BaseTile {
   terrain: Terrain

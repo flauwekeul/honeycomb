@@ -1,9 +1,9 @@
 import { G } from '@svgdotjs/svg.js'
-import { AxialCoordinates, Grid, Hex, HexCoordinates } from 'honeycomb-grid'
+import { AxialCoordinates, Grid, Hex, HexCoordinates } from '../../src'
 
 export interface Tile extends Hex {
   cost: number // when 999, the tile is impassable
-  isPassable(): boolean
+  isPassable(this: this): boolean
   svg: G
 }
 

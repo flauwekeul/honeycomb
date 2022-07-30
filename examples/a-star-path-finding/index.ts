@@ -1,5 +1,5 @@
 import { Color, Polygon } from '@svgdotjs/svg.js'
-import { createHexPrototype, Grid, rectangle } from 'honeycomb-grid'
+import { createHexPrototype, Grid, rectangle } from '../../src'
 import { aStar } from './aStar'
 import { getTileFill, render } from './render'
 import { Tile } from './types'

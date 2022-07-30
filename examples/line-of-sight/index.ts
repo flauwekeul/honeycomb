@@ -14,7 +14,7 @@ import {
   ring,
   Traverser,
   TupleCoordinates,
-} from 'honeycomb-grid'
+} from '../../src'
 import { initialGameState, onUpdate, updateGameState } from './gameState'
 import { renderMap, renderPlayer } from './render'
 import { TILES } from './tiles'
@@ -40,7 +40,7 @@ onUpdate(['playerCoordinates'], ({ playerCoordinates }) => {
 })
 
 draw.click((event: MouseEvent) => {
-  const coordinates = coordinatesFromTarget(event.target)
+  const coordinates = coordinatesFromTarget(event.target!)
   if (coordinates) {
     updateGameState({ playerCoordinates: coordinates })
   }
@@ -87,7 +87,7 @@ function fieldOfView(start: HexCoordinates): Traverser<Tile> {
 function lineOfSight(start: HexCoordinates): Traverser<Tile> {
   return (_, stop) => {
     const result: Tile[] = []
-    const sightLine = grid.traverse(line<Tile>({ start, stop }))
+    const sightLine = grid.traverse(line<Tile>({ start, stop: stop! }))
 
     for (const tile of sightLine) {
       result.push(tile)

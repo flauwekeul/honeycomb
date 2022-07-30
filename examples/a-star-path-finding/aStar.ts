@@ -1,4 +1,4 @@
-import { assertCubeCoordinates, AxialCoordinates, equals, Grid, Hex, HexCoordinates, ring } from 'honeycomb-grid'
+import { assertCubeCoordinates, AxialCoordinates, equals, Grid, Hex, HexCoordinates, ring } from '../../src'
 import { TARGET_COORDINATES } from './index'
 import { AStarOptions, PathData } from './types'
 

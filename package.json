@@ -2,6 +2,7 @@
   "name": "honeycomb-grid",
   "version": "4.0.0-alpha.5",
   "description": "Create hexagon grids easily",
+  "type": "module",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -9,17 +10,15 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "benchmark": "ts-node --project tsconfig.node.json benchmarks",
-    "build": "npm run clean && rollup --config",
-    "clean": "rm -rf dist && mkdir dist",
-    "dev": "npm run clean && rollup --config --watch",
+    "build": "tsc && vite build",
+    "dev": "vite",
     "lint": "eslint . --fix",
-    "playground": "parcel playground/index.html --dist-dir playground/dist --cache-dir playground/.cache",
     "postinstall": "husky install",
     "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",
+    "preview": "vite preview",
     "release": "git add --patch && standard-version --commit-all",
-    "start": "npm run build && node --require dist/index.js",
-    "test": "jest",
-    "test:watch": "npm test -- --watch"
+    "test:watch": "npm test -- --watch",
+    "test": "jest"
   },
   "author": "Abbe Keultjes <flauwekeul@gmail.com>",
   "license": "MIT",
@@ -36,16 +35,14 @@
     "gitmoji-cli": "5.0.3",
     "husky": "8.0.1",
     "jest": "28.1.3",
-    "parcel": "2.6.2",
     "precise-commits": "1.0.2",
     "prettier": "2.7.1",
-    "rollup": "2.76.0",
-    "rollup-plugin-typescript2": "0.32.1",
     "standard-version": "9.5.0",
     "ts-jest": "28.0.6",
     "ts-node": "10.9.1",
     "tslib": "2.4.0",
-    "typescript": "4.7.4"
+    "typescript": "4.7.4",
+    "vite": "3.0.4"
   },
   "directories": {
     "test": "test"

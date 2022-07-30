@@ -1,5 +1,4 @@
-// don't import from '../src' because it's not optimized for performance
-import { createHexPrototype, Grid, Hex, rectangle } from '../dist'
+import { createHexPrototype, Grid, Hex, rectangle } from '../src'
 import { render } from './render'
 
 interface CustomHex extends Hex {

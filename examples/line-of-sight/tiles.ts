@@ -1,4 +1,4 @@
-import { AxialCoordinates } from 'honeycomb-grid'
+import { AxialCoordinates } from '../../src'
 import { BUILDING, FIELD, ROAD, TREES, WATER } from './terrain'
 import { BaseTile } from './types'
 
