@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { Hex } from '../types'
 import { createHex } from './createHex'
 import { createHexPrototype } from './createHexPrototype'

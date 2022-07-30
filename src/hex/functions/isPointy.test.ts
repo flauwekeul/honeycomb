@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { createHex } from './createHex'
 import { createHexPrototype } from './createHexPrototype'
 import { isPointy } from './isPointy'

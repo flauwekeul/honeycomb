@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { Orientation } from '../types'
 import { corners } from './corners'
 import { createHex } from './createHex'

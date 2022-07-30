@@ -1,10 +1,11 @@
+import { describe, expect, test, vi } from 'vitest'
 import { CompassDirection } from '../../compass'
 import { createHex, createHexPrototype } from '../../hex'
 import { line } from './line'
 
 const hexPrototype = createHexPrototype()
 const cursor = createHex(hexPrototype, { q: 1, r: 2 })
-const _createHex = jest.fn((coordinates) => createHex(hexPrototype, coordinates))
+const _createHex = vi.fn((coordinates) => createHex(hexPrototype, coordinates))
 
 describe('when called with a direction and length', () => {
   describe('without cursor', () => {

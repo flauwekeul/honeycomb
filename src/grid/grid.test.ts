@@ -1,3 +1,4 @@
+import { describe, expect, test, vi } from 'vitest'
 import { cloneHex, createHex, createHexPrototype, Hex, toString } from '../hex'
 import { Grid } from './grid'
 import { add } from './traversers'
@@ -9,7 +10,7 @@ describe('creation', () => {
   test(`accepts a single traverser that's called eagerly to set store`, () => {
     const hex1 = createHex(hexPrototype, { q: 1, r: 2 })
     const hex2 = createHex(hexPrototype, { q: 3, r: 4 })
-    const traverser = jest.fn(() => [hex1, hex2])
+    const traverser = vi.fn(() => [hex1, hex2])
     const grid = new Grid(hexPrototype, traverser) /* don't call run() */
 
     expect(traverser).toBeCalledWith(createHex(hexPrototype), grid.getHex)
@@ -25,8 +26,8 @@ describe('creation', () => {
   test('accepts multiple traversers that are called eagerly to set store', () => {
     const hex1 = createHex(hexPrototype, { q: 1, r: 2 })
     const hex2 = createHex(hexPrototype, { q: 3, r: 4 })
-    const traverser1 = jest.fn(() => [hex1])
-    const traverser2 = jest.fn(() => [hex2])
+    const traverser1 = vi.fn(() => [hex1])
+    const traverser2 = vi.fn(() => [hex2])
     const traversers: Traverser<Hex>[] = [traverser1, traverser2]
     const grid = new Grid(hexPrototype, traversers) /* don't call run() */
 
@@ -94,7 +95,7 @@ describe('pointToHex()', () => {
   test('converts a point to a hex', () => {
     const grid = new Grid(hexPrototype)
     const hex = {} as Hex
-    const getHex = jest.spyOn(grid, 'getHex').mockReturnValue(hex)
+    const getHex = vi.spyOn(grid, 'getHex').mockReturnValue(hex)
     const point = { x: 1, y: 2 }
 
     const result = grid.pointToHex(point)
@@ -124,7 +125,7 @@ describe('getHex()', () => {
   })
 
   test('calls toString() on the hex prototype so that the user can control how a hex is looked up in the store', () => {
-    const toStringSpy = jest.spyOn(hexPrototype, 'toString')
+    const toStringSpy = vi.spyOn(hexPrototype, 'toString')
     const coordinates = { q: 1, r: 2 }
     const hex = createHex(hexPrototype, coordinates)
     const store = new Map([['1,2', hex]])
@@ -167,7 +168,7 @@ test('has a hexes() method that returns the hexes from the last iteration', () =
 describe('update()', () => {
   test('returns a new grid', () => {
     const grid = new Grid(hexPrototype)
-    const result = grid.update(jest.fn())
+    const result = grid.update(vi.fn())
 
     expect(result).not.toBe(grid)
   })
@@ -175,7 +176,7 @@ describe('update()', () => {
   test('creates a clone of the grid and passes it to the callback', () => {
     const hexes = [createHex(hexPrototype, { q: 1, r: 2 }), createHex(hexPrototype, { q: 3, r: 4 })]
     const newStore = new Map()
-    const callback = jest.fn((grid) => {
+    const callback = vi.fn((grid) => {
       expect(grid.hexes()).toEqual(hexes)
       grid.store = newStore
       return grid
@@ -193,7 +194,7 @@ describe('update()', () => {
 
   test(`the passed callback doesn't have to return a grid`, () => {
     const newStore = new Map()
-    const callback = jest.fn((grid) => {
+    const callback = vi.fn((grid) => {
       grid.store = newStore
     })
     const grid = new Grid(hexPrototype)
@@ -227,13 +228,13 @@ describe('update()', () => {
 describe('each()', () => {
   test('returns a new grid', () => {
     const grid = new Grid(hexPrototype)
-    const result = grid.each(jest.fn())
+    const result = grid.each(vi.fn())
 
     expect(result).not.toBe(grid)
   })
 
   test('iterates over each hex from the previous iterator/traverser', () => {
-    const callback = jest.fn()
+    const callback = vi.fn()
     const grid1 = new Grid(hexPrototype, [add({ q: 1, r: 2 }, { q: 3, r: 4 })]).each(callback)
     // call run() separately to test that callback is called with the grid returned by each()
     grid1.run()
@@ -259,14 +260,14 @@ describe('map()', () => {
 
   test('returns a new grid', () => {
     const grid = new Grid(hexPrototype)
-    const result = grid.map(jest.fn())
+    const result = grid.map(vi.fn())
 
     expect(result).not.toBe(grid)
   })
 
   test('creates a clone of each hex and passes it to the callback', () => {
     const hexPrototype = createHexPrototype<TestHex>()
-    const mapCallback = jest.fn((hex) => hex.clone({ test: 1 }))
+    const mapCallback = vi.fn((hex) => hex.clone({ test: 1 }))
     const hex = createHex(hexPrototype, { q: 1, r: 2 })
     const grid = new Grid(hexPrototype, () => [hex]).map(mapCallback)
     const hexes = grid.hexes()
@@ -279,7 +280,7 @@ describe('map()', () => {
 
   test(`the passed callback doesn't have to return a hex`, () => {
     const hexPrototype = createHexPrototype<TestHex>()
-    const mapCallback = jest.fn((hex) => {
+    const mapCallback = vi.fn((hex) => {
       hex.test = 2
     })
     const hex = createHex(hexPrototype, { q: 1, r: 2 })
@@ -294,7 +295,7 @@ describe('map()', () => {
 describe('filter()', () => {
   test('returns a new grid', () => {
     const grid = new Grid(hexPrototype)
-    const result = grid.filter(jest.fn())
+    const result = grid.filter(vi.fn())
 
     expect(result).not.toBe(grid)
   })
@@ -310,7 +311,7 @@ describe('filter()', () => {
 describe('takeWhile()', () => {
   test('returns a new grid', () => {
     const grid = new Grid(hexPrototype)
-    const result = grid.takeWhile(jest.fn())
+    const result = grid.takeWhile(vi.fn())
 
     expect(result).not.toBe(grid)
   })
@@ -332,7 +333,7 @@ describe('traverse()', () => {
   })
 
   test('accepts a single traverser', () => {
-    const traverser = jest.fn(() => [])
+    const traverser = vi.fn(() => [])
     const grid = new Grid(hexPrototype)
 
     grid.traverse(traverser).run()
@@ -341,8 +342,8 @@ describe('traverse()', () => {
   })
 
   test('accepts an array of traversers', () => {
-    const traverser1 = jest.fn(() => [])
-    const traverser2 = jest.fn(() => [])
+    const traverser1 = vi.fn(() => [])
+    const traverser2 = vi.fn(() => [])
     const grid = new Grid(hexPrototype)
 
     grid.traverse([traverser1, traverser2]).run()
@@ -363,8 +364,8 @@ describe('traverse()', () => {
 
   test('continues where a previous traverser stopped', () => {
     const hexesFrom1stTraverser = [createHex(hexPrototype, { q: 1, r: 2 }), createHex(hexPrototype, { q: 3, r: 4 })]
-    const traverser1 = jest.fn(() => hexesFrom1stTraverser)
-    const traverser2 = jest.fn(() => [])
+    const traverser1 = vi.fn(() => hexesFrom1stTraverser)
+    const traverser2 = vi.fn(() => [])
     const grid = new Grid(hexPrototype)
 
     grid.traverse([traverser1, traverser2]).run()
@@ -382,7 +383,7 @@ describe('traverse()', () => {
   })
 
   test('runs any previous iterators', () => {
-    const callback = jest.fn()
+    const callback = vi.fn()
     const grid = new Grid(hexPrototype, add({ q: 1, r: 2 }))
 
     grid.each(callback).traverse([]).run()
@@ -400,9 +401,9 @@ describe('run()', () => {
   })
 
   test('runs all iterators recursively', () => {
-    const eachCallback = jest.fn()
-    const filterCallback = jest.fn((hex) => hex.q > 1)
-    const runCallback = jest.fn()
+    const eachCallback = vi.fn()
+    const filterCallback = vi.fn((hex) => hex.q > 1)
+    const runCallback = vi.fn()
     const grid = new Grid(hexPrototype, [add({ q: 1, r: 2 }, { q: 3, r: 4 })]).each(eachCallback).filter(filterCallback)
 
     expect(eachCallback).not.toBeCalled()
@@ -417,7 +418,7 @@ describe('run()', () => {
   })
 
   test(`doesn't run iterators again once run, but doesn't clear internal hexes either`, () => {
-    const eachCallback = jest.fn()
+    const eachCallback = vi.fn()
     const hex = createHex(hexPrototype, { q: 1, r: 2 })
     const runGrid = new Grid(hexPrototype, () => [hex]).each(eachCallback).run()
 

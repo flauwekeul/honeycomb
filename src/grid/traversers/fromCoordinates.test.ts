@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { createHexPrototype, Hex } from '../../hex'
 import { Grid } from '../grid'
 import { fromCoordinates } from './fromCoordinates'

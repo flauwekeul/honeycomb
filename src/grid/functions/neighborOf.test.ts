@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest'
 import { CompassDirection } from '../../compass'
 import { createHex, createHexPrototype } from '../../hex'
 import { neighborOf } from './neighborOf'

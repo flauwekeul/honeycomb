@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { toString } from './toString'
 
 test('returns a string representation of the hex coordinates', () => {

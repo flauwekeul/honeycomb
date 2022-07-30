@@ -1,8 +1,9 @@
+import { describe, expect, test, vi } from 'vitest'
 import { createHex, createHexPrototype } from '../../hex'
 import { ring } from './ring'
 
 const hexPrototype = createHexPrototype()
-const getHex = jest.fn((coordinates) => createHex(hexPrototype, coordinates))
+const getHex = vi.fn((coordinates) => createHex(hexPrototype, coordinates))
 const cursor = createHex(hexPrototype, { q: 1, r: 2 })
 
 describe('when called with center coordinates', () => {

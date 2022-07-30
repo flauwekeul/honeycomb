@@ -1,10 +1,11 @@
+import { describe, expect, test, vi } from 'vitest'
 import { CompassDirection } from '../../compass'
 import { createHex, createHexPrototype } from '../../hex'
 import { rectangle } from './rectangle'
 
 const hexPrototype = createHexPrototype()
 const cursor = createHex(hexPrototype, { q: 1, r: 2 })
-const getHex = jest.fn((coordinates) => createHex(hexPrototype, coordinates))
+const getHex = vi.fn((coordinates) => createHex(hexPrototype, coordinates))
 
 describe('when only passed width and height', () => {
   test('returns a traverser that returns hexes in a rectangular shape without the cursor', () => {

@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { center } from './center'
 import { createHex } from './createHex'
 import { createHexPrototype } from './createHexPrototype'

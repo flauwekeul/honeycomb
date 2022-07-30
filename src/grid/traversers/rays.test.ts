@@ -1,9 +1,10 @@
+import { describe, expect, test, vi } from 'vitest'
 import { createHex, createHexPrototype, Hex } from '../../hex'
 import { rays } from './rays'
 
 const hexPrototype = createHexPrototype()
 const cursor = createHex(hexPrototype, { q: 1, r: 2 })
-const getHex = jest.fn((coordinates) => createHex(hexPrototype, coordinates))
+const getHex = vi.fn((coordinates) => createHex(hexPrototype, coordinates))
 
 describe('when called with only length', () => {
   test('returns a traverser that returns all (unique) hexes around the cursor with radius length', () => {
@@ -86,7 +87,7 @@ describe('when called with at and length', () => {
 
 describe('updateRay callback', () => {
   test('is called with each ray', () => {
-    const updateRay = jest.fn<Hex[], [Hex[]]>((ray) => ray.filter((hex) => hex.q < 1))
+    const updateRay = vi.fn<Hex[], [Hex[]]>((ray) => ray.filter((hex) => hex.q < 1))
     const result = [...rays({ length: 2, updateRay })(cursor, getHex)]
 
     expect(updateRay.mock.calls).toMatchObject([

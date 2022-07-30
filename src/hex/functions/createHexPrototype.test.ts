@@ -1,11 +1,12 @@
+import { describe, expect, test, vi } from 'vitest'
 import { BoundingBox, Ellipse, Hex, HexPrototype, Orientation } from '../types'
 import { cloneHex } from './cloneHex'
 import { corners } from './corners'
 import { createHex } from './createHex'
 import { createHexPrototype } from './createHexPrototype'
 
-jest.mock('./cloneHex')
-jest.mock('./corners')
+vi.mock('./cloneHex')
+vi.mock('./corners')
 
 test('returns the default hex prototype when no options are passed', () => {
   const prototype = createHexPrototype()
@@ -226,7 +227,7 @@ describe('origin', () => {
   })
 
   test('accepts a function', () => {
-    const callback = jest.fn(() => ({ x: 1, y: 2 }))
+    const callback = vi.fn(() => ({ x: 1, y: 2 }))
     const prototype = createHexPrototype({ origin: callback })
 
     expect(callback).toBeCalledWith(prototype)

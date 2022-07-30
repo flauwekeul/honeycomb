@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { equals } from './equals'
 
 test('returns whether the 2 passed offset coordinates are the same', () => {

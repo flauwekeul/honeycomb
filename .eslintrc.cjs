@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'jest'],
+  plugins: ['@typescript-eslint'],
   overrides: [
     {
       files: ['*.ts'],
@@ -17,10 +17,6 @@ module.exports = {
         '@typescript-eslint/unified-signatures': ['off'],
         '@typescript-eslint/no-unnecessary-condition': ['off'],
       },
-    },
-    {
-      files: ['*.test.ts'],
-      extends: ['plugin:jest/recommended'],
     },
   ],
   extends: ['eslint:recommended', 'prettier'],

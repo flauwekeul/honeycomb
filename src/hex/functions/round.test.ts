@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { round } from './round'
 
 test('rounds the passed axial or cube coordinates', () => {

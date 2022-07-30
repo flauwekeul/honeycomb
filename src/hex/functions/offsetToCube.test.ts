@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { offsetToCube } from './offsetToCube'
 
 test('returns axial coordinates bases on the passed offset coordinates', () => {

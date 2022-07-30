@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { createHexPrototype } from '../../hex'
 import { distance } from './distance'
 
