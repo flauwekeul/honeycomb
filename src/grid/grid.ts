@@ -1,6 +1,7 @@
+import { CompassDirection } from '../compass'
 import { createHex, Hex, HexCoordinates, Point, pointToCube } from '../hex'
 import { isFunction } from '../utils'
-import { concat, distance } from './functions'
+import { concat, distance, neighborOf } from './functions'
 import { Traverser } from './types'
 
 export class Grid<T extends Hex> implements Iterable<T> {
@@ -58,7 +59,53 @@ export class Grid<T extends Hex> implements Iterable<T> {
 
   setHexes(hexes: Iterable<T>): this {
     for (const hex of hexes) {
-      this.#hexes.set(hex.toString(), hex)
+      this.#setHex(hex)
+    }
+    return this
+  }
+
+  filter(predicate: (hex: T) => boolean): Grid<T> {
+    const result = new Grid(this.hexPrototype)
+
+    for (const hex of this) {
+      if (predicate(hex)) result.#setHex(hex)
+    }
+
+    return result
+  }
+
+  map(fn: (hex: T) => T): Grid<T> {
+    const result = new Grid(this.hexPrototype)
+
+    for (const hex of this) {
+      result.#setHex(fn(hex))
+    }
+
+    return result
+  }
+
+  traverse(traversers: Traverser<T> | Traverser<T>[], options?: { bail?: boolean }): Grid<T>
+  traverse(hexes: Iterable<T>, options?: { bail?: boolean }): Grid<T>
+  traverse(grid: Grid<T>, options?: { bail?: boolean }): Grid<T>
+  traverse(input: Traverser<T> | Traverser<T>[] | Iterable<T> | Grid<T>, options?: { bail?: boolean }): Grid<T>
+  traverse(input: Traverser<T> | Traverser<T>[] | Iterable<T> | Grid<T>, { bail = false } = {}): Grid<T> {
+    const result = new Grid(this.hexPrototype)
+
+    for (const hex of this.#createHexesFromIterableOrTraversers(input)) {
+      const foundHex = this.getHex(hex)
+      if (foundHex) {
+        result.#setHex(foundHex)
+      } else if (!bail) {
+        return result
+      }
+    }
+
+    return result
+  }
+
+  forEach(fn: (hex: T) => void): this {
+    for (const hex of this) {
+      fn(hex)
     }
     return this
   }
@@ -89,61 +136,46 @@ export class Grid<T extends Hex> implements Iterable<T> {
     return Array.from(this)
   }
 
-  // todo: implement like so:
-  // toMap<K = string>(createKey?: (hex: T) => K): Map<K, T> {
-  //   return new Map(this.#hexes)
-  // }
-  toMap(): Map<string, T> {
-    return new Map(this.#hexes)
-  }
+  // todo: find a way to make the return type depend on the value of allowOutside
+  pointToHex(point: Point, { allowOutside = true } = {}): T | null {
+    const coordinates = pointToCube(point, this.hexPrototype)
 
-  toObject(): Record<string, T> {
-    const obj: Record<string, T> = {}
-    for (const hex of this) {
-      obj[hex.toString()] = hex
-    }
-    return obj
-  }
+    if (allowOutside) return this.createHex(coordinates)
 
-  traverse(traversers: Traverser<T> | Traverser<T>[], bailOption?: { bail?: boolean }): T[]
-  traverse(hexes: Iterable<T>, bailOption?: { bail?: boolean }): T[]
-  traverse(grid: Grid<T>, bailOption?: { bail?: boolean }): T[]
-  traverse(input: Traverser<T> | Traverser<T>[] | Iterable<T> | Grid<T>, bailOption?: { bail?: boolean }): T[]
-  traverse(input: Traverser<T> | Traverser<T>[] | Iterable<T> | Grid<T>, { bail = false } = {}): T[] {
-    const result: T[] = []
-    const hexes = input instanceof Grid ? this : this.#createHexesFromIterableOrTraversers(input)
-
-    for (const hex of hexes) {
-      const hexInGrid = this.getHex(hex)
-      if (hexInGrid) {
-        result.push(hexInGrid)
-      } else if (bail) {
-        return result
-      }
+    const hex = this.getHex(coordinates)
+    if (!hex) {
+      return null
     }
 
-    return result
+    return hex
   }
 
-  clone(): Grid<T> {
-    return new Grid(this)
+  distance(from: HexCoordinates, to: HexCoordinates, { allowOutside = true } = {}): number | null {
+    if (allowOutside) return distance(this.hexPrototype, from, to)
+
+    const fromHex = this.getHex(from)
+    const toHex = this.getHex(to)
+    if (!fromHex || !toHex) {
+      return null
+    }
+
+    return distance(this.hexPrototype, fromHex, toHex)
   }
 
-  update(transform: (hexes: T[]) => T[]): this
-  update(transform: (hexes: T[]) => T[], traversers: Traverser<T> | Traverser<T>[]): this
-  update(transform: (hexes: T[]) => T[], hexes: Iterable<T>): this
-  update(transform: (hexes: T[]) => T[], grid: Grid<T>): this
-  update(transform: (hexes: T[]) => T[], input: Traverser<T> | Traverser<T>[] | Iterable<T> | Grid<T> = this): this {
-    const hexes = input instanceof Grid ? input.toArray() : this.traverse(input)
-    return this.setHexes(transform(hexes))
+  neighborOf(hex: T, direction: CompassDirection, { allowOutside = true } = {}): T | null {
+    if (allowOutside) return neighborOf(hex, direction)
+
+    const foundHex = this.getHex(hex)
+    const neighbor = neighborOf(hex, direction)
+    if (!foundHex || !neighbor) {
+      return null
+    }
+
+    return neighborOf(hex, direction)
   }
 
-  pointToHex(point: Point): T | undefined {
-    return this.getHex(pointToCube(point, this.hexPrototype))
-  }
-
-  distance(from: HexCoordinates, to: HexCoordinates): number {
-    return distance(this.hexPrototype, from, to)
+  #setHex(hex: T): void {
+    this.#hexes.set(hex.toString(), hex)
   }
 
   #createHexesFromIterableOrTraversers(input: Traverser<T> | Traverser<T>[] | Iterable<T>): Iterable<T> {
