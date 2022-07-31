@@ -1,7 +1,8 @@
 import { CompassDirection } from '../compass'
 import { createHex, createHexPrototype, Hex, HexCoordinates, Point, pointToCube } from '../hex'
 import { isFunction } from '../utils'
-import { concat, distance, neighborOf } from './functions'
+import { distance, neighborOf } from './functions'
+import { concat } from './traversers'
 import { GridAsJSON, Traverser } from './types'
 
 export class Grid<T extends Hex> implements Iterable<T> {
