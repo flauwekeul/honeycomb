@@ -1,8 +1,8 @@
 import { CompassDirection } from '../compass'
-import { createHex, Hex, HexCoordinates, Point, pointToCube } from '../hex'
+import { createHex, createHexPrototype, Hex, HexCoordinates, Point, pointToCube } from '../hex'
 import { isFunction } from '../utils'
 import { concat, distance, neighborOf } from './functions'
-import { Traverser } from './types'
+import { GridAsJSON, Traverser } from './types'
 
 export class Grid<T extends Hex> implements Iterable<T> {
   static fromIterable<T extends Hex>(hexes: Iterable<T>): Grid<T> {
@@ -13,6 +13,14 @@ export class Grid<T extends Hex> implements Iterable<T> {
     }
 
     return new Grid(Object.getPrototypeOf(firstHex) as T, hexes)
+  }
+
+  static fromJSON<T extends Hex>({ hexSettings, coordinates }: GridAsJSON<T>) {
+    const hexPrototype = createHexPrototype(hexSettings)
+    return new Grid(
+      hexPrototype,
+      coordinates.map((_coordinates) => createHex(hexPrototype, _coordinates)),
+    )
   }
 
   readonly [Symbol.toStringTag] = 'Grid'
@@ -134,6 +142,14 @@ export class Grid<T extends Hex> implements Iterable<T> {
 
   toArray(): T[] {
     return Array.from(this)
+  }
+
+  toJSON(): GridAsJSON<T> {
+    return { hexSettings: this.hexPrototype, coordinates: this.toArray() }
+  }
+
+  toString(): string {
+    return `Grid(${this.size})`
   }
 
   pointToHex(point: Point, options?: { allowOutside: true }): T

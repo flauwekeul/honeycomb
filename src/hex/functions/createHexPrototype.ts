@@ -21,7 +21,7 @@ export const defaultHexSettings: HexSettings = {
 }
 
 export const createHexPrototype = <T extends Hex>(
-  options?: Partial<Omit<T, 'dimensions' | 'orientation' | 'origin' | 'offset'> | HexPrototypeOptions>,
+  options?: Partial<Omit<T, keyof HexPrototypeOptions> | HexPrototypeOptions>,
 ): T => {
   // pseudo private property
   const s = new WeakMap<T, number>()
@@ -88,7 +88,8 @@ export const createHexPrototype = <T extends Hex>(
     },
     s: {
       get() {
-        return Number.isFinite(s.get(this)) ? s.get(this) : -this.q - this.r
+        const _s = s.get(this)
+        return Number.isFinite(_s) ? _s : -this.q - this.r
       },
       set(_s: number) {
         s.set(this, _s)
