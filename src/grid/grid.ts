@@ -136,7 +136,8 @@ export class Grid<T extends Hex> implements Iterable<T> {
     return Array.from(this)
   }
 
-  // todo: find a way to make the return type depend on the value of allowOutside
+  pointToHex(point: Point, options?: { allowOutside: true }): T
+  pointToHex(point: Point, options: { allowOutside: false }): T | null
   pointToHex(point: Point, { allowOutside = true } = {}): T | null {
     const coordinates = pointToCube(point, this.hexPrototype)
 
@@ -150,6 +151,8 @@ export class Grid<T extends Hex> implements Iterable<T> {
     return hex
   }
 
+  distance(from: HexCoordinates, to: HexCoordinates, options?: { allowOutside: true }): number
+  distance(from: HexCoordinates, to: HexCoordinates, options: { allowOutside: false }): number | null
   distance(from: HexCoordinates, to: HexCoordinates, { allowOutside = true } = {}): number | null {
     if (allowOutside) return distance(this.hexPrototype, from, to)
 
@@ -162,6 +165,8 @@ export class Grid<T extends Hex> implements Iterable<T> {
     return distance(this.hexPrototype, fromHex, toHex)
   }
 
+  neighborOf(hex: T, direction: CompassDirection, options?: { allowOutside: true }): T
+  neighborOf(hex: T, direction: CompassDirection, options: { allowOutside: false }): T | null
   neighborOf(hex: T, direction: CompassDirection, { allowOutside = true } = {}): T | null {
     if (allowOutside) return neighborOf(hex, direction)
 
