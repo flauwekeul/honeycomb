@@ -1,56 +1,50 @@
 # Honeycomb
 
-**⚠️ This is an experimental version and the API is likely to change. I encourage anyone to try out the API and open an [issues](https://github.com/flauwekeul/honeycomb/issues/new) if you have any suggestions or questions ⚠️**
+**⚠️ This is an experimental version and the API ~~is likely to~~ may change. I encourage anyone to try it out and open an [issues](https://github.com/flauwekeul/honeycomb/issues/new) if you have any suggestions or questions ⚠️**
 
 [![Gitter](https://img.shields.io/gitter/room/flauwekeul/honeycomb.svg)](https://gitter.im/honeycomb-grid)
 [![NPM version](https://badge.fury.io/js/honeycomb-grid.svg)](https://www.npmjs.com/package/honeycomb-grid)
 [![dependencies](https://david-dm.org/flauwekeul/honeycomb.svg)](https://david-dm.org/flauwekeul/honeycomb)
 [![devDependencies](https://david-dm.org/flauwekeul/honeycomb/dev-status.svg)](https://david-dm.org/flauwekeul/honeycomb?type=dev)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/flauwekeul/honeycomb/blob/master/LICENSE)
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I2I24E3QI)
 
-Another hex grid library made in ~~JavaScript~~[TypeScript](https://www.typescriptlang.org/), heavily inspired by [Red Blob Games'](http://www.redblobgames.com/grids/hexagons/) blog posts and code samples.
+A hexagon grid library made in ~~JavaScript~~[TypeScript](https://www.typescriptlang.org/), heavily inspired by [Red Blob Games'](http://www.redblobgames.com/grids/hexagons/) blog posts and code samples.
 
-Honeycomb works in recent versions of Chrome, Firefox, Edge and Safari. It's recommended to use Honeycomb with TypeScript, but not required.
+Honeycomb works in modern browsers and Node (>=16). It's recommended to use Honeycomb with TypeScript, but not required.
 
 ## Installation
 
 NPM:
 
 ```bash
-npm i honeycomb-grid@4.0.0-alpha
+npm i honeycomb-grid@alpha
 ```
 
 Yarn:
 
 ```bash
-yarn add honeycomb-grid@4.0.0-alpha
+yarn add honeycomb-grid@alpha
 ```
 
-Or download the distribution from [unpkg.com](https://unpkg.com/honeycomb-grid@4.0.0-alpha.5).
+Or download the distribution from [unpkg.com](https://unpkg.com/honeycomb-grid@alpha).
 
-## Examples
+## Basic example
 
 Create a rectangular grid of 10 by 10 hexes and log each hex:
 
-```typescript
+```javascript
 import { createHexPrototype, Grid, rectangle } from 'honeycomb-grid'
 
-// 1. Create a hex prototype. This is an object (literally as a JS prototype) that's used by all hexes in the grid:
+// 1. Create a hex prototype. All hexes will have this object as their prototype:
 const hexPrototype = createHexPrototype({ dimensions: 30 })
 
-// 2. Create a grid with this hex prototype and also pass a "traverser" for a rectangular-shaped grid:
-//    `start: [0, 0]` means to start the rectangle with "axial coordinates": 0,0 (see Coordinate system)
-let grid = new Grid(hexPrototype, rectangle({ start: [0, 0], width: 10, height: 10 }))
+// 2. Create a grid by passing the prototype and a "traverser" for a rectangular-shaped grid:
+const grid = new Grid(hexPrototype, rectangle({ width: 10, height: 10 }))
 
-// 3. Iterate over the grid to log each hex (notice a new grid instance is returned):
-grid = grid.each((hex) => console.log(hex))
-
-// 4. The above won't do anything yet, that's because the "iterative" grid methods are executed lazily.
-//    You need to call its run() method in order to execute the each() call (and most other method calls):
-grid = grid.run()
+// 3. Iterate over the grid to log each hex:
+grid.forEach(console.log)
 ```
 
 ### Rendering
@@ -60,9 +54,9 @@ Honeycomb comes without the ability to render hexes to screen. Fortunately, it i
 Using [SVG.js](http://svgjs.com/):
 
 ```typescript
+import { SVG } from '@svgdotjs/svg.js'
 import { Hex } from 'honeycomb-grid'
 
-// it's assumed SVG is present on the window object
 const draw = SVG().addTo('body').size('100%', '100%')
 
 function renderSVG(hex: Hex) {
@@ -79,10 +73,10 @@ function renderSVG(hex: Hex) {
 Using [PixiJS](http://www.pixijs.com/):
 
 ```typescript
+import * as PIXI from 'pixi.js';
 import { Hex } from 'honeycomb-grid'
 
-// it's assumed PIXI is present on the window object
-const app = new PIXI.Application({ transparent: true })
+const app = new PIXI.Application({ backgroundAlpha: 0 })
 const graphics = new PIXI.Graphics()
 
 document.body.appendChild(app.view)
@@ -110,31 +104,37 @@ import { createHexPrototype, Grid, rectangle } from 'honeycomb-grid'
 // You may want the origin to be the top left corner of a hex's bounding box instead of its center (which is the default)
 const hexPrototype = createHexPrototype({ dimensions: 30, origin: 'topLeft' })
 
-new Grid(hexPrototype, rectangle({ start: [0, 0], width: 10, height: 10 }))
-  .each(renderSVG) // or: .each(renderCanvas)
-  .run()
+new Grid(hexPrototype, rectangle({ width: 10, height: 10 }))
+  .forEach(renderSVG) // or: .forEach(renderCanvas)
 ```
 
 ### Coordinate system
 
-There are three types of coordinates and most functions/methods that accept coordinates accept either of these:
+There are four types of coordinates:
 
 1. [Offset coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-offset), e.g.: `{ col: 1, row: 2 }`
-2. [Axial coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-axial), e.g.: `{ q: 1, r: 2 }` or as a tuple: `[1, 2]`
-3. [Cube coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-cube), e.g.: `{ q: 1, r: 2, s: -3 }` (the sum of all three coordinates must always be 0) or as a tuple: `[1, 2, -3]`
+2. [Axial coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-axial), e.g.: `{ q: 1, r: 2 }`
+3. [Cube coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-cube), e.g.: `{ q: 1, r: 2, s: -3 }` (the sum of all three coordinates must always be 0)
+4. Tuple coordinates, e.g.: `[1, 2]` or `[1, 2, -3]` which is an array of length 2 (axial coordinates) or 3 (cube coordinates)
+
+Most functions/methods that accept coordinates accept `HexCoordinates`, which is a [union type](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#union-types) of these four coordinate types.
 
 You may also find points (e.g.: `{ x: 1, r: 2 }`) in the library. For example, a hex's `corners` property returns an array of the hex's six corner points.
 
 There are some functions for converting between types of coordinates:
 
 ```typescript
-import { hexToOffset, hexToPoint, offsetToCube, pointToCube } from 'honeycomb-grid'
+import { assertCubeCoordinates, hexToOffset, hexToPoint, offsetToCube, pointToCube, tupleToCube } from 'honeycomb-grid'
 
-offsetToCube(OffsetCoordinates, HexPrototype): CubeCoordinates
-pointToCube(Point, HexPrototype): CubeCoordinates
+offsetToCube(HexPrototype, OffsetCoordinates): CubeCoordinates
+pointToCube(HexPrototype, Point): CubeCoordinates
+tupleToCube(TupleCoordinates): CubeCoordinates
 
 hexToOffset(Hex): OffsetCoordinates
 hexToPoint(Hex): Point
+
+// HexCoordinates could be any of the four types, use this to convert them to CubeCoordinates
+assertCubeCoordinates(HexPrototype, HexCoordinates): CubeCoordinates
 ```
 
 ### Odd or even hex offsets

@@ -43,7 +43,7 @@ export const render = (hex: Hex, index?: number) => {
 
 // declare const PIXI: any
 
-// const app = new PIXI.Application({ transparent: true })
+// const app = new PIXI.Application({ backgroundAlpha: 0 })
 // const graphics = new PIXI.Graphics()
 
 // document.body.appendChild(app.view)
