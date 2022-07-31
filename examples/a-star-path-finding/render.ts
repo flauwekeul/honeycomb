@@ -18,7 +18,8 @@ export function render(tile: Tile) {
     .fill(fill)
     .stroke({ width: 1, color: '#999' })
   const text = draw
-    .text(`${tile.q},${tile.r},${tile.s}`)
+    .text(`${tile.isPassable() ? tile.cost : 'wall'}`)
+    // .text(`${tile.q},${tile.r},${tile.s}`)
     // .text(`${tile.col},${tile.row}`)
     .font({
       size: tile.width * 0.2,

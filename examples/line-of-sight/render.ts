@@ -3,10 +3,9 @@ import { Grid } from '../../src'
 import { Tile } from './types'
 
 export function renderMap(draw: Svg, grid: Grid<Tile>) {
-  grid.update((tiles) =>
-    tiles.map((tile) => {
+  grid.setHexes(
+    grid.forEach((tile) => {
       tile.element = renderTile(draw, tile)
-      return tile
     }),
   )
 }

@@ -18,22 +18,14 @@ const hexPrototype = createHexPrototype<Tile>({
     return this.cost !== IMPASSABLE_COST
   },
 })
-const grid = new Grid(hexPrototype, rectangle({ width: 24, height: 12 })).update((tiles) =>
-  tiles
-    .map((tile) => {
-      if (tile.equals(START_COORDINATES) || tile.equals(TARGET_COORDINATES)) {
-        tile.cost = 1
-        return tile
-      }
-
-      tile.cost = Math.random() > IMPASSABLE_CHANCE ? Math.floor(Math.random() * MAX_COST) : IMPASSABLE_COST
-      return tile
-    })
-    .map((tile) => {
-      tile.svg = render(tile)
-      return tile
-    }),
-)
+const grid = new Grid(hexPrototype, rectangle({ width: 24, height: 12 })).forEach((tile) => {
+  if (tile.equals(START_COORDINATES) || tile.equals(TARGET_COORDINATES)) {
+    tile.cost = 0
+  } else {
+    tile.cost = Math.random() > IMPASSABLE_CHANCE ? Math.floor(Math.random() * MAX_COST) : IMPASSABLE_COST
+  }
+  tile.svg = render(tile)
+})
 const shortestPath = aStar<Tile>({
   grid,
   start: START_COORDINATES,
@@ -44,15 +36,13 @@ const shortestPath = aStar<Tile>({
 })
 const pathColor = new Color('#ff9').to('#993')
 
-grid.update(
-  (tiles) =>
-    tiles
-      .filter((tile) => !tile.equals(START_COORDINATES) && !tile.equals(TARGET_COORDINATES))
-      .map((tile, i) => {
-        const polygon = tile.svg.findOne('polygon') as Polygon
-        const fill = getTileFill(tile, pathColor)
-        ;(polygon.animate(undefined, i * 100) as any).fill(fill)
-        return tile
-      }),
-  shortestPath,
-)
+let index = 0
+grid
+  .traverse(shortestPath)
+  .filter((tile) => !tile.equals(START_COORDINATES) && !tile.equals(TARGET_COORDINATES))
+  .forEach((tile) => {
+    const polygon = tile.svg.findOne('polygon') as Polygon
+    const fill = getTileFill(tile, pathColor)
+    ;(polygon.animate(undefined, index++ * 100) as any).fill(fill)
+    return tile
+  })
