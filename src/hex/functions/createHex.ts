@@ -10,7 +10,7 @@ export const createHex = <T extends Hex>(prototypeOrHex: T, props: Partial<T> | 
 
   if (isOffset(props)) {
     const { col, row, ...otherProps } = props
-    const coordinates = offsetToCube({ col, row }, prototypeOrHex)
+    const coordinates = offsetToCube(prototypeOrHex, { col, row })
     return Object.assign(Object.create(prototypeOrHex) as T, coordinates, otherProps)
   }
 

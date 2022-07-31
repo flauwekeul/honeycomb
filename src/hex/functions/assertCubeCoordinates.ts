@@ -15,7 +15,7 @@ export function assertCubeCoordinates(
     r,
     s = -q - r,
   } = isOffset(coordinates)
-    ? offsetToCube(coordinates, hexPrototype)
+    ? offsetToCube(hexPrototype, coordinates)
     : isTuple(coordinates)
     ? tupleToCube(coordinates)
     : coordinates

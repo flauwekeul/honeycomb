@@ -139,7 +139,7 @@ export class Grid<T extends Hex> implements Iterable<T> {
   pointToHex(point: Point, options?: { allowOutside: true }): T
   pointToHex(point: Point, options: { allowOutside: false }): T | null
   pointToHex(point: Point, { allowOutside = true } = {}): T | null {
-    const coordinates = pointToCube(point, this.hexPrototype)
+    const coordinates = pointToCube(this.hexPrototype, point)
 
     if (allowOutside) return this.createHex(coordinates)
 

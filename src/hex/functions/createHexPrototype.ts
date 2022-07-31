@@ -32,7 +32,7 @@ export const createHexPrototype = <T extends Hex>(
       return cloneHex(this, newProps)
     },
     equals(coordinates) {
-      return equals(this, isOffset(coordinates) ? offsetToCube(coordinates, this) : coordinates)
+      return equals(this, isOffset(coordinates) ? offsetToCube(this, coordinates) : coordinates)
     },
     toString() {
       return toString(this)

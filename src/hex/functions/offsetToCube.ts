@@ -16,6 +16,6 @@ export const offsetToCubeFlat = (col: number, row: number, offset: number): Cube
 }
 
 export const offsetToCube = (
-  { col, row }: OffsetCoordinates,
   { offset, isPointy }: Pick<HexPrototype, 'offset' | 'isPointy'>,
+  { col, row }: OffsetCoordinates,
 ) => (isPointy ? offsetToCubePointy(col, row, offset) : offsetToCubeFlat(col, row, offset))
