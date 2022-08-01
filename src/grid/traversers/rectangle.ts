@@ -5,10 +5,13 @@ import { Traverser } from '../types'
 import { line } from './line'
 import { repeatWith } from './repeatWith'
 
-// todo: add in docs: only 90° corners for cardinal directions
 // todo: when passed opposing corners:
 //       maybe add option to determine if row or col is traversed first
 //       maybe accept an object: { start, stop }, similar to line()
+/**
+ * @category Traverser
+ * @remarks The rectangle will only have 90° corners for the directions North, East, South and West.
+ */
 export function rectangle<T extends Hex>(options: RectangleOptions): Traverser<T>
 export function rectangle<T extends Hex>(cornerA: HexCoordinates, cornerB: HexCoordinates): Traverser<T>
 export function rectangle<T extends Hex>(
@@ -34,6 +37,10 @@ export function rectangle<T extends Hex>(
   }
 }
 
+/**
+ * @category Traverser
+ * @remarks The rectangle will only have 90° corners for the directions North, East, South and West.
+ */
 export interface RectangleOptions {
   start?: HexCoordinates
   width: number

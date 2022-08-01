@@ -4,12 +4,10 @@
 
 ### Properties
 
-- [Cardinal](Compass.md#Cardinal)
 - [E](Compass.md#E)
 - [N](Compass.md#N)
 - [NE](Compass.md#NE)
 - [NW](Compass.md#NW)
-- [Ordinal](Compass.md#Ordinal)
 - [S](Compass.md#S)
 - [SE](Compass.md#SE)
 - [SW](Compass.md#SW)
@@ -22,25 +20,11 @@
 
 ### Methods
 
-- [isCardinal](Compass.md#isCardinal)
-- [isCardinal](Compass.md#isCardinal-1)
-- [isOrdinal](Compass.md#isOrdinal)
-- [isOrdinal](Compass.md#isOrdinal-1)
 - [of](Compass.md#of)
 - [rotate](Compass.md#rotate)
 - [rotate](Compass.md#rotate-1)
 
 ## Properties
-
-### <a id="Cardinal" name="Cardinal"></a> Cardinal
-
- `Static` **Cardinal**: [`CardinalCompassDirection`](../enums/CardinalCompassDirection.md)
-
-#### Defined in
-
-[compass/compass.ts:41](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L41)
-
-___
 
 ### <a id="E" name="E"></a> E
 
@@ -48,7 +32,7 @@ ___
 
 #### Defined in
 
-[compass/compass.ts:35](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L35)
+[compass/compass.ts:21](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L21)
 
 ___
 
@@ -58,7 +42,7 @@ ___
 
 #### Defined in
 
-[compass/compass.ts:33](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L33)
+[compass/compass.ts:19](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L19)
 
 ___
 
@@ -68,7 +52,7 @@ ___
 
 #### Defined in
 
-[compass/compass.ts:34](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L34)
+[compass/compass.ts:20](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L20)
 
 ___
 
@@ -78,17 +62,7 @@ ___
 
 #### Defined in
 
-[compass/compass.ts:40](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L40)
-
-___
-
-### <a id="Ordinal" name="Ordinal"></a> Ordinal
-
- `Static` **Ordinal**: [`OrdinalCompassDirection`](../enums/OrdinalCompassDirection.md)
-
-#### Defined in
-
-[compass/compass.ts:42](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L42)
+[compass/compass.ts:26](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L26)
 
 ___
 
@@ -98,7 +72,7 @@ ___
 
 #### Defined in
 
-[compass/compass.ts:37](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L37)
+[compass/compass.ts:23](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L23)
 
 ___
 
@@ -108,7 +82,7 @@ ___
 
 #### Defined in
 
-[compass/compass.ts:36](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L36)
+[compass/compass.ts:22](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L22)
 
 ___
 
@@ -118,7 +92,7 @@ ___
 
 #### Defined in
 
-[compass/compass.ts:38](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L38)
+[compass/compass.ts:24](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L24)
 
 ___
 
@@ -128,7 +102,7 @@ ___
 
 #### Defined in
 
-[compass/compass.ts:39](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L39)
+[compass/compass.ts:25](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L25)
 
 ___
 
@@ -138,7 +112,7 @@ ___
 
 #### Defined in
 
-[compass/compass.ts:60](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L60)
+[compass/compass.ts:36](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L36)
 
 ## Constructors
 
@@ -154,77 +128,9 @@ ___
 
 #### Defined in
 
-[compass/compass.ts:62](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L62)
+[compass/compass.ts:38](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L38)
 
 ## Methods
-
-### <a id="isCardinal" name="isCardinal"></a> isCardinal
-
-`Static` **isCardinal**(`direction`): `boolean`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `direction` | [`CompassDirection`](../enums/CompassDirection.md) |
-
-#### Returns
-
-`boolean`
-
-#### Defined in
-
-[compass/compass.ts:48](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L48)
-
-___
-
-### <a id="isCardinal-1" name="isCardinal-1"></a> isCardinal
-
-**isCardinal**(): `boolean`
-
-#### Returns
-
-`boolean`
-
-#### Defined in
-
-[compass/compass.ts:66](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L66)
-
-___
-
-### <a id="isOrdinal" name="isOrdinal"></a> isOrdinal
-
-`Static` **isOrdinal**(`direction`): `boolean`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `direction` | [`CompassDirection`](../enums/CompassDirection.md) |
-
-#### Returns
-
-`boolean`
-
-#### Defined in
-
-[compass/compass.ts:52](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L52)
-
-___
-
-### <a id="isOrdinal-1" name="isOrdinal-1"></a> isOrdinal
-
-**isOrdinal**(): `boolean`
-
-#### Returns
-
-`boolean`
-
-#### Defined in
-
-[compass/compass.ts:70](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L70)
-
-___
 
 ### <a id="of" name="of"></a> of
 
@@ -242,7 +148,7 @@ ___
 
 #### Defined in
 
-[compass/compass.ts:44](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L44)
+[compass/compass.ts:28](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L28)
 
 ___
 
@@ -263,7 +169,7 @@ ___
 
 #### Defined in
 
-[compass/compass.ts:56](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L56)
+[compass/compass.ts:32](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L32)
 
 ___
 
@@ -283,4 +189,4 @@ ___
 
 #### Defined in
 
-[compass/compass.ts:74](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L74)
+[compass/compass.ts:42](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L42)

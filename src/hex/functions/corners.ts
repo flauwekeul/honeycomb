@@ -22,8 +22,13 @@ export const cornersFlat = (width: number, height: number, { x, y }: Point) => [
   { x: x - width * 0.25, y: y - height * 0.5 },
 ]
 
-// todo: add to docs that when passed a hex, its corners relative to the "origin hex" are returned (different per hex coordinates)
-// and when passed hexSettings, corners relative to any hex's origin are returned (always the same)
+/**
+ * When passed a **{@link Hex}**, its corners relative to the **"origin hex"** (with coordinates `[0, 0]`) is returned. This is different for every hex.
+ *
+ * When passed **{@link HexSettings}**, the corners relative to its **own origin** is returned. This is the same for every hex.
+ *
+ * @category Hex
+ */
 export function corners(hex: Hex): Point[]
 export function corners(hexSettings: Omit<HexSettings, 'offset'>): Point[]
 export function corners(hexOrHexSettings: Omit<HexSettings, 'offset'>): Point[] {

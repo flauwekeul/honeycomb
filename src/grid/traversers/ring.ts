@@ -2,6 +2,9 @@ import { assertCubeCoordinates, Hex, HexCoordinates } from '../../hex'
 import { distance } from '../functions'
 import { Rotation, RotationLike, Traverser } from '../types'
 
+/**
+ * @category Traverser
+ */
 export function ring<T extends Hex>(options: RingOptions): Traverser<T>
 export function ring<T extends Hex>(options: RingFromRadiusOptions): Traverser<T>
 export function ring<T extends Hex>(options: RingOptions | RingFromRadiusOptions): Traverser<T> {
@@ -50,12 +53,18 @@ export function ring<T extends Hex>(options: RingOptions | RingFromRadiusOptions
   }
 }
 
+/**
+ * @category Traverser
+ */
 export interface RingOptions {
   start?: HexCoordinates
   center: HexCoordinates
   rotation?: RotationLike
 }
 
+/**
+ * @category Traverser
+ */
 export interface RingFromRadiusOptions {
   center: HexCoordinates
   radius: number

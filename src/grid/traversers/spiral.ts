@@ -5,6 +5,9 @@ import { line } from './line'
 import { repeatWith } from './repeatWith'
 import { ring } from './ring'
 
+/**
+ * @category Traverser
+ */
 export function spiral<T extends Hex>({ radius, start, rotation }: SpiralOptions): Traverser<T> {
   return function spiralTraverser(createHex, cursor) {
     const center = createHex(start ?? cursor)
@@ -15,6 +18,9 @@ export function spiral<T extends Hex>({ radius, start, rotation }: SpiralOptions
   }
 }
 
+/**
+ * @category Traverser
+ */
 export interface SpiralOptions {
   start?: HexCoordinates
   radius: number

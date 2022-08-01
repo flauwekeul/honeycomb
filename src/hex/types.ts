@@ -1,38 +1,56 @@
-// todo: move types to single file in /src
-// tried it and somehow typescript can't call origin as a function anymore in createHexPrototype.ts normalizeOrigin()
-
 export interface Point {
   x: number
   y: number
 }
 
+/**
+ * @category Hex
+ */
 export enum Orientation {
   FLAT = 'FLAT',
   POINTY = 'POINTY',
 }
 
+/**
+ * @category Coordinates
+ */
 export interface OffsetCoordinates {
   col: number
   row: number
 }
 
+/**
+ * @category Coordinates
+ */
 export interface AxialCoordinates {
   q: number
   r: number
 }
 
 // todo: Try to use template literal tags to enforce q, r and s sum to 0: https://stackoverflow.com/a/69413070/660260
+/**
+ * @category Coordinates
+ */
 export interface CubeCoordinates extends AxialCoordinates {
   s: number
 }
 
+/**
+ * @category Coordinates
+ */
 export type PartialCubeCoordinates =
   | { q?: number; r: number; s: number }
   | { q: number; r?: number; s: number }
   | { q: number; r: number; s?: number }
 
+/**
+ * @category Coordinates
+ */
 export type TupleCoordinates = [q: number, r: number, s?: number]
 
+/**
+ * @category Coordinates
+ */
 export type HexCoordinates = PartialCubeCoordinates | OffsetCoordinates | TupleCoordinates
 
 export interface Ellipse {
@@ -45,8 +63,14 @@ export interface BoundingBox {
   height: number
 }
 
+/**
+ * @category Hex
+ */
 export type hexDimensions = Ellipse | BoundingBox | number
 
+/**
+ * @category Hex
+ */
 export interface HexSettings {
   dimensions: Ellipse
   orientation: Orientation
@@ -54,6 +78,9 @@ export interface HexSettings {
   offset: number
 }
 
+/**
+ * @category Hex
+ */
 export interface HexPrototype extends HexSettings {
   readonly __isHoneycombHex: true
   readonly [Symbol.toStringTag]: 'Hex'
@@ -75,4 +102,7 @@ export interface HexPrototype extends HexSettings {
   toString(this: this): string
 }
 
+/**
+ * @category Hex
+ */
 export interface Hex extends HexPrototype, AxialCoordinates {}

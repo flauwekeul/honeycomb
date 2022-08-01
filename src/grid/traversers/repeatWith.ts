@@ -3,7 +3,9 @@ import { Traverser } from '../types'
 import { concat } from './concat'
 
 // todo: use in rays (if it still has right to exist)
-// todo: probably move repeatWith, repeat and concat to grid/traversers/
+/**
+ * @category Traverser
+ */
 export function repeatWith<T extends Hex>(
   sources: Traverser<T> | Traverser<T>[],
   targets: Traverser<T> | Traverser<T>[],

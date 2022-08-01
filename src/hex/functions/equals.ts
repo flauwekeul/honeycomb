@@ -1,6 +1,9 @@
 import { isOffset, isTuple, tupleToCube } from '../../utils'
 import { CubeCoordinates, HexCoordinates, OffsetCoordinates } from '../types'
 
+/**
+ * @category Hex
+ */
 export function equals(
   a: Exclude<HexCoordinates, OffsetCoordinates>,
   b: Exclude<HexCoordinates, OffsetCoordinates>,

@@ -15,7 +15,7 @@
 
 #### Defined in
 
-[hex/types.ts:37](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L37)
+[hex/types.ts:55](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L55)
 
 ___
 
@@ -25,4 +25,4 @@ ___
 
 #### Defined in
 
-[hex/types.ts:38](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L38)
+[hex/types.ts:56](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L56)

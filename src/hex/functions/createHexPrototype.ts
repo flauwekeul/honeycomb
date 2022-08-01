@@ -12,6 +12,10 @@ import { isPointy } from './isPointy'
 import { offsetToCube } from './offsetToCube'
 import { width } from './width'
 
+/**
+ * @hidden
+ * @category Hex
+ */
 export const defaultHexSettings: HexSettings = {
   dimensions: { xRadius: 1, yRadius: 1 },
   orientation: Orientation.POINTY,
@@ -19,6 +23,11 @@ export const defaultHexSettings: HexSettings = {
   offset: -1,
 }
 
+/**
+ * @category Hex
+ * @remarks ⚠️ The methods `clone()`, `equals()` and `toString()` are "protected".
+ * If you custom hex prototype overwrites these methods, things may break unexpectedly.
+ */
 export const createHexPrototype = <T extends Hex>(
   options?: Partial<Omit<T, keyof HexPrototypeOptions> | HexPrototypeOptions>,
 ): T => {
@@ -36,7 +45,6 @@ export const createHexPrototype = <T extends Hex>(
     toString() {
       return `${this.q},${this.r}`
     },
-    // todo: add to docs that any of the above methods will be overwritten when present in customPrototype
     ...options,
   } as T & HexPrototypeOptions
 
@@ -116,8 +124,15 @@ export const createHexPrototype = <T extends Hex>(
   })
 }
 
+/**
+ * @hidden
+ * @category Hex
+ */
 export type OriginFn = <T extends Omit<HexPrototype, 'origin'>>(prototype: T) => Point
 
+/**
+ * @category Hex
+ */
 export interface HexPrototypeOptions {
   dimensions: Ellipse | BoundingBox | number
   orientation: Orientation | 'pointy' | 'flat'

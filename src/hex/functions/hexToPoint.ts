@@ -1,5 +1,8 @@
 import { Hex, Orientation, Point } from '../types'
 
+/**
+ * @category Hex
+ */
 export const hexToPoint = ({ orientation, dimensions: { xRadius, yRadius }, origin: { x, y }, q, r }: Hex): Point =>
   orientation === Orientation.POINTY
     ? {

@@ -16,7 +16,7 @@
 
 #### Defined in
 
-[grid/traversers/spiral.ts:20](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/spiral.ts#L20)
+[grid/traversers/spiral.ts:26](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/spiral.ts#L26)
 
 ___
 
@@ -26,7 +26,7 @@ ___
 
 #### Defined in
 
-[grid/traversers/spiral.ts:21](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/spiral.ts#L21)
+[grid/traversers/spiral.ts:27](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/spiral.ts#L27)
 
 ___
 
@@ -36,4 +36,4 @@ ___
 
 #### Defined in
 
-[grid/traversers/spiral.ts:19](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/spiral.ts#L19)
+[grid/traversers/spiral.ts:25](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/spiral.ts#L25)

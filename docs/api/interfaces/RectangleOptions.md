@@ -1,5 +1,9 @@
 # Interface: RectangleOptions
 
+**`Remarks`**
+
+The rectangle will only have 90° corners for the directions North, East, South and West.
+
 ## Table of contents
 
 ### Properties
@@ -17,7 +21,7 @@
 
 #### Defined in
 
-[grid/traversers/rectangle.ts:41](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/rectangle.ts#L41)
+[grid/traversers/rectangle.ts:48](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/rectangle.ts#L48)
 
 ___
 
@@ -27,7 +31,7 @@ ___
 
 #### Defined in
 
-[grid/traversers/rectangle.ts:40](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/rectangle.ts#L40)
+[grid/traversers/rectangle.ts:47](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/rectangle.ts#L47)
 
 ___
 
@@ -37,7 +41,7 @@ ___
 
 #### Defined in
 
-[grid/traversers/rectangle.ts:38](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/rectangle.ts#L38)
+[grid/traversers/rectangle.ts:45](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/rectangle.ts#L45)
 
 ___
 
@@ -47,4 +51,4 @@ ___
 
 #### Defined in
 
-[grid/traversers/rectangle.ts:39](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/rectangle.ts#L39)
+[grid/traversers/rectangle.ts:46](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/rectangle.ts#L46)

@@ -3,18 +3,27 @@ import { assertCubeCoordinates, AxialCoordinates, CubeCoordinates, Hex, HexCoord
 import { distance, neighborOf } from '../functions'
 import { Traverser } from '../types'
 
+/**
+ * @category Traverser
+ */
 export function line<T extends Hex>(options: LineAsVectorOptions): Traverser<T>
 export function line<T extends Hex>(options: LineBetweenOptions): Traverser<T>
 export function line<T extends Hex>(options: LineAsVectorOptions | LineBetweenOptions): Traverser<T> {
   return isLineVectorOptions(options) ? lineFromVectorOptions(options) : lineFromBetweenOptions(options)
 }
 
+/**
+ * @category Traverser
+ */
 export interface LineAsVectorOptions {
   start?: HexCoordinates
   direction: CompassDirection
   length: number
 }
 
+/**
+ * @category Traverser
+ */
 export interface LineBetweenOptions {
   start?: HexCoordinates
   /**

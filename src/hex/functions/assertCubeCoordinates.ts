@@ -4,8 +4,9 @@ import { completeCubeCoordinates } from './completeCubeCoordinates'
 import { offsetToCube } from './offsetToCube'
 
 /**
- * Util for converting offset/axial/cube/tuple coordinates to cube coordinates. It's not placed in /src/utils because that causes circular dependencies.
- * @private
+ * Util for converting offset/axial/cube/tuple coordinates to cube coordinates.
+ * @category Coordinates
+ * @privateRemarks It's not placed in /src/utils because that causes circular dependencies.
  */
 export function assertCubeCoordinates(
   hexPrototype: Pick<HexPrototype, 'offset' | 'isPointy'>,

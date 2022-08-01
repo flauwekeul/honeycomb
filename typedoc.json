@@ -7,6 +7,7 @@
   "githubPages": false,
   "excludePrivate": true,
   "gitRevision": "next", // todo: remove this once merged to master
+  "categoryOrder": ["Coordinates", "Hex", "Traverser", "*"],
   "sort": ["alphabetical"],
 
   "plugin": ["typedoc-plugin-markdown"],

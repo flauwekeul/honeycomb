@@ -1,6 +1,9 @@
 import { CubeCoordinates, PartialCubeCoordinates } from '../types'
 import { completeCubeCoordinates } from './completeCubeCoordinates'
 
+/**
+ * @category Hex
+ */
 export const round = (coordinates: PartialCubeCoordinates): CubeCoordinates => {
   const { q, r, s } = completeCubeCoordinates(coordinates)
   let roundedQ = Math.round(q)

@@ -3,6 +3,10 @@ import { round } from './round'
 
 // inspired by https://github.com/gojuno/hexgrid-py
 // and simplified by https://www.symbolab.com/solver/simplify-calculator/simplify
+
+/**
+ * @category Hex
+ */
 export const pointToCube = (
   { dimensions: { xRadius, yRadius }, origin, isPointy }: Pick<HexPrototype, 'dimensions' | 'origin' | 'isPointy'>,
   { x, y }: Point,

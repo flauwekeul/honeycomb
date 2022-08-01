@@ -3,6 +3,9 @@ import { Hex, HexCoordinates } from '../types'
 import { isHex } from './isHex'
 import { offsetToCube } from './offsetToCube'
 
+/**
+ * @category Hex
+ */
 export const createHex = <T extends Hex>(prototypeOrHex: T, props: Partial<T> | HexCoordinates = { q: 0, r: 0 }): T => {
   if (isHex(prototypeOrHex)) {
     return prototypeOrHex.clone(props)

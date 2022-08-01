@@ -22,7 +22,7 @@ const DIRECTIONS_FLAT = [
   { q: -1, r: 0 }, // NW
 ] as AxialCoordinates[]
 
-export const neighborOfPointy = <T extends Hex>(
+const neighborOfPointy = <T extends Hex>(
   { offset, q, r, col, row }: T,
   direction: CompassDirection,
 ): PartialCubeCoordinates => {
@@ -34,7 +34,7 @@ export const neighborOfPointy = <T extends Hex>(
   return { q: q + neighbor.q, r: r + neighbor.r }
 }
 
-export const neighborOfFlat = <T extends Hex>(
+const neighborOfFlat = <T extends Hex>(
   { offset, q, r, col, row }: T,
   direction: CompassDirection,
 ): PartialCubeCoordinates => {
