@@ -7,7 +7,10 @@ export default defineConfig({
 
   themeConfig: {
     socialLinks: [{ icon: 'github', link: 'https://github.com/flauwekeul/honeycomb' }],
-    nav: [{ text: 'Guide', link: '/guide/getting-started', activeMatch: '/guide/' }],
+    nav: [
+      { text: 'Guide', link: '/guide/getting-started', activeMatch: '/guide/' },
+      { text: 'API', link: '/api/index', activeMatch: '/api/' },
+    ],
     sidebar: {
       '/guide/': [
         {
@@ -47,6 +50,50 @@ export default defineConfig({
             { text: 'Hex → pixel', link: '/guide/hex-to-pixel' },
             { text: '(De)serializing', link: '/guide/serializing' },
             { text: 'Custom traverser', link: '/guide/custom-traverser' },
+          ],
+        },
+      ],
+      '/api/': [
+        {
+          items: [{ text: 'Table of contents', link: '/api/#table-of-contents' }],
+        },
+        {
+          text: 'Hex',
+          collapsible: true,
+          items: [
+            { text: 'Hex interface', link: '/api/interfaces/Hex' },
+            { text: 'createHexPrototype', link: '/api/#createHexPrototype' },
+          ],
+        },
+        {
+          text: 'Coordinates',
+          collapsible: true,
+          items: [
+            { text: 'Axial', link: '/api/interfaces/AxialCoordinates' },
+            { text: 'Cube', link: '/api/interfaces/CubeCoordinates' },
+            { text: 'Offset', link: '/api/interfaces/OffsetCoordinates' },
+            { text: 'Tuple', link: '/api/#TupleCoordinates' },
+            { text: 'HexCoordinates', link: '/api/#HexCoordinates' },
+          ],
+        },
+        {
+          text: 'Grid',
+          collapsible: true,
+          items: [{ text: 'Grid class', link: '/api/classes/Grid' }],
+        },
+        {
+          text: 'Traversers',
+          collapsible: true,
+          items: [
+            { text: 'concat', link: '/api/#concat' },
+            { text: 'fromCoordinates', link: '/api/#fromCoordinates' },
+            { text: 'line', link: '/api/#line' },
+            { text: 'move', link: '/api/#move' },
+            { text: 'rectangle', link: '/api/#rectangle' },
+            { text: 'repeat', link: '/api/#repeat' },
+            { text: 'repeatWith', link: '/api/#repeatWith' },
+            { text: 'ring', link: '/api/#ring' },
+            { text: 'spiral', link: '/api/#spiral' },
           ],
         },
       ],
