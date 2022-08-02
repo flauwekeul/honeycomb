@@ -1,7 +1,7 @@
-# Pixel → hex
+# Point → hex
 
 <!-- todo: link "irregularly shaped hexes" to page about hex dimensions -->
-Translating a screen pixel to the corresponding hex in a grid is possible with `Grid`'s `pointToHex()` method. It also works with irregularly shaped hexes.
+Translating a point (e.g. screen pixel) to the corresponding hex in a grid is possible with `Grid`'s `pointToHex()` method. It also works with irregularly shaped hexes.
 
 ```typescript
 import { createHexPrototype, Grid, rectangle } from 'honeycomb-grid'

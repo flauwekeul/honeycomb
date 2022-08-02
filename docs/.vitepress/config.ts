@@ -46,8 +46,8 @@ export default defineConfig({
           collapsible: true,
           items: [
             { text: 'Rendering', link: '/guide/rendering' },
-            { text: 'Pixel → hex', link: '/guide/pixel-to-hex' },
-            { text: 'Hex → pixel', link: '/guide/hex-to-pixel' },
+            { text: 'Point → hex', link: '/guide/point-to-hex' },
+            { text: 'Hex → point', link: '/guide/hex-to-point' },
             { text: '(De)serializing', link: '/guide/serializing' },
             { text: 'Custom traverser', link: '/guide/custom-traverser' },
           ],
