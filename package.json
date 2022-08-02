@@ -19,7 +19,7 @@
     "dev": "vite",
     "docs:build": "concurrently -n typedoc,vitepress \"typedoc\" \"vitepress build docs\"",
     "docs:dev": "concurrently -n typedoc,vitepress \"typedoc --watch\" \"vitepress dev docs\"",
-    "docs:serve": "vitepress serve docs",
+    "docs:serve": "vitepress serve docs --port 5001",
     "lint": "eslint . --fix",
     "postinstall": "husky install",
     "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",

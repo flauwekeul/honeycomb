@@ -4,6 +4,7 @@ export default defineConfig({
   title: 'Honeycomb',
   description: `A hexagon grid library made in TypeScript.`,
   lastUpdated: true,
+  base: '/honeycomb/',
 
   themeConfig: {
     socialLinks: [{ icon: 'github', link: 'https://github.com/flauwekeul/honeycomb' }],
