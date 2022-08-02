@@ -3,15 +3,14 @@ import {
   assertCubeCoordinates,
   createHex,
   createHexPrototype,
-  CubeCoordinates,
   fromCoordinates,
   Grid,
   HexCoordinates,
   hexToPoint,
   line,
-  PartialCubeCoordinates,
   repeatWith,
   ring,
+  translate,
   Traverser,
   TupleCoordinates,
 } from '../../src'
@@ -73,7 +72,7 @@ function fieldOfView(start: HexCoordinates): Traverser<Tile> {
   return repeatWith(
     ring({
       center: start,
-      start: translate(startTile, { r: -config.viewDistanceInTiles }),
+      start: translate(startTile, { q: startTile.q, r: -config.viewDistanceInTiles }),
     }),
     lineOfSight(start),
     { includeSource: false },
@@ -103,12 +102,4 @@ function movePlayer(element: Image, playerCoordinates: HexCoordinates) {
 function coordinatesFromTarget(target: EventTarget) {
   const id = SVG(target).parent('[data-id]')?.data('id')
   return typeof id === 'string' ? (id.split(',').map(Number) as TupleCoordinates) : null
-}
-
-// todo: move to honeycomb
-// todo: rename to add?
-function translate(hex: PartialCubeCoordinates, delta: Partial<CubeCoordinates>) {
-  const { q = 0, r = 0, s = 0 } = delta
-  const hexS = hex.s ?? -hex.q - hex.r
-  return { q: hex.q + q, r: hex.r + r, s: hexS + s }
 }
