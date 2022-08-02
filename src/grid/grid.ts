@@ -30,6 +30,36 @@ export class Grid<T extends Hex> implements Iterable<T> {
     return this.#hexes.size
   }
 
+  get pixelWidth() {
+    if (this.size === 0) return 0
+
+    const { isPointy, width } = this.hexPrototype
+    const hexes = this.toArray()
+    // sort hexes from left to right and take the first and last
+    const {
+      0: mostLeft,
+      length,
+      [length - 1]: mostRight,
+    } = isPointy ? hexes.sort((a, b) => b.s - a.s || a.q - b.q) : hexes.sort((a, b) => a.q - b.q)
+
+    return mostRight.x - mostLeft.x + width
+  }
+
+  get pixelHeight() {
+    if (this.size === 0) return 0
+
+    const { isPointy, height } = this.hexPrototype
+    const hexes = this.toArray()
+    // sort hexes from left to right and take the first and last
+    const {
+      0: mostTop,
+      length,
+      [length - 1]: mostBottom,
+    } = isPointy ? hexes.sort((a, b) => a.r - b.r) : hexes.sort((a, b) => b.s - a.s || a.r - b.r)
+
+    return mostBottom.y - mostTop.y + height
+  }
+
   [Symbol.iterator]() {
     return this.#hexes.values()
   }
