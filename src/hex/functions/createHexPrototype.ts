@@ -10,7 +10,6 @@ import { hexToPoint } from './hexToPoint'
 import { isFlat } from './isFlat'
 import { isPointy } from './isPointy'
 import { offsetToCube } from './offsetToCube'
-import { toString } from './toString'
 import { width } from './width'
 
 export const defaultHexSettings: HexSettings = {
@@ -35,7 +34,7 @@ export const createHexPrototype = <T extends Hex>(
       return equals(this, isOffset(coordinates) ? offsetToCube(this, coordinates) : coordinates)
     },
     toString() {
-      return toString(this)
+      return `${this.q},${this.r}`
     },
     // todo: add to docs that any of the above methods will be overwritten when present in customPrototype
     ...options,
