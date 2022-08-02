@@ -1,5 +1,5 @@
 import { Compass, CompassDirection } from '../../compass'
-import { Hex, HexCoordinates, hexToOffset, OffsetCoordinates } from '../../hex'
+import { completeCubeCoordinates, Hex, HexCoordinates, hexToOffset, OffsetCoordinates } from '../../hex'
 import { isOffset, isTuple, tupleToCube } from '../../utils'
 import { Traverser } from '../types'
 import { line } from './line'
@@ -63,11 +63,11 @@ function optionsFromOpposingCorners(
   }
 }
 
+// todo: move to util?
 function assertOffsetCoordinates(coordinates: HexCoordinates, isPointy: boolean, offset: number): OffsetCoordinates {
-  if (isOffset(coordinates)) {
-    return coordinates
-  }
-  const { q, r } = isTuple(coordinates) ? tupleToCube(coordinates) : coordinates
+  if (isOffset(coordinates)) return coordinates
+
+  const { q, r } = isTuple(coordinates) ? tupleToCube(coordinates) : completeCubeCoordinates(coordinates)
   return hexToOffset({ q, r, isPointy, offset })
 }
 

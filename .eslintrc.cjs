@@ -16,6 +16,7 @@ module.exports = {
       rules: {
         '@typescript-eslint/unified-signatures': ['off'],
         '@typescript-eslint/no-unnecessary-condition': ['off'],
+        '@typescript-eslint/restrict-template-expressions': ['error', { allowBoolean: true, allowNullish: true }],
       },
     },
   ],

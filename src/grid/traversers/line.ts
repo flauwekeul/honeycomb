@@ -1,13 +1,5 @@
 import { CompassDirection } from '../../compass'
-import {
-  assertCubeCoordinates,
-  AxialCoordinates,
-  CubeCoordinates,
-  Hex,
-  HexCoordinates,
-  PartialCubeCoordinates,
-  round,
-} from '../../hex'
+import { assertCubeCoordinates, AxialCoordinates, CubeCoordinates, Hex, HexCoordinates, round } from '../../hex'
 import { distance, neighborOf } from '../functions'
 import { Traverser } from '../types'
 
@@ -81,7 +73,7 @@ function nudge({ q, r, s }: CubeCoordinates): CubeCoordinates {
 }
 
 // linear interpolation
-function lerp(a: PartialCubeCoordinates, b: PartialCubeCoordinates) {
+function lerp(a: CubeCoordinates, b: CubeCoordinates) {
   return (t: number): AxialCoordinates => {
     const q = a.q * (1 - t) + b.q * t
     const r = a.r * (1 - t) + b.r * t

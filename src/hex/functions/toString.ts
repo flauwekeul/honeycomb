@@ -1,3 +1,4 @@
-import { PartialCubeCoordinates } from '../types'
+import { AxialCoordinates } from '../types'
 
-export const toString = ({ q, r }: PartialCubeCoordinates) => `${q},${r}`
+// todo: move this into hex prototype, no need for separate function
+export const toString = ({ q, r }: AxialCoordinates) => `${q},${r}`

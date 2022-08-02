@@ -1,6 +1,7 @@
 export * from './assertCubeCoordinates'
 export * from './center'
 export * from './cloneHex'
+export * from './completeCubeCoordinates'
 export * from './corners'
 export * from './createHex'
 export * from './createHexPrototype'

@@ -21,13 +21,15 @@ export interface AxialCoordinates {
   r: number
 }
 
+// todo: Try to use template literal tags to enforce q, r and s sum to 0: https://stackoverflow.com/a/69413070/660260
 export interface CubeCoordinates extends AxialCoordinates {
   s: number
 }
 
-export interface PartialCubeCoordinates extends AxialCoordinates {
-  s?: number
-}
+export type PartialCubeCoordinates =
+  | { q?: number; r: number; s: number }
+  | { q: number; r?: number; s: number }
+  | { q: number; r: number; s?: number }
 
 export type TupleCoordinates = [q: number, r: number, s?: number]
 
