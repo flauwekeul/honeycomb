@@ -104,7 +104,7 @@ export class Grid<T extends Hex> implements Iterable<T> {
       const foundHex = this.getHex(hex)
       if (foundHex) {
         result.#setHex(foundHex)
-      } else if (!bail) {
+      } else if (bail) {
         return result
       }
     }
