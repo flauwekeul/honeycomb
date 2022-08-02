@@ -50,4 +50,4 @@ ___
 
 #### Defined in
 
-[hex/types.ts:34](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L34)
+[hex/types.ts:35](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L35)

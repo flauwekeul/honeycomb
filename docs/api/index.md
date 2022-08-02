@@ -7,7 +7,6 @@
 - [AxialCoordinates](interfaces/AxialCoordinates.md)
 - [CubeCoordinates](interfaces/CubeCoordinates.md)
 - [OffsetCoordinates](interfaces/OffsetCoordinates.md)
-- [PartialCubeCoordinates](interfaces/PartialCubeCoordinates.md)
 
 ### Hex Interfaces
 
@@ -49,10 +48,12 @@
 ### Coordinates Type Aliases
 
 - [HexCoordinates](index.md#HexCoordinates)
+- [PartialCubeCoordinates](index.md#PartialCubeCoordinates)
 - [TupleCoordinates](index.md#TupleCoordinates)
 
 ### Hex Type Aliases
 
+- [OriginFn](index.md#OriginFn)
 - [hexDimensions](index.md#hexDimensions)
 
 ### Traverser Type Aliases
@@ -67,6 +68,7 @@
 ### Coordinates Functions
 
 - [assertCubeCoordinates](index.md#assertCubeCoordinates)
+- [completeCubeCoordinates](index.md#completeCubeCoordinates)
 - [isAxial](index.md#isAxial)
 - [isOffset](index.md#isOffset)
 - [isTuple](index.md#isTuple)
@@ -89,7 +91,7 @@
 - [offsetToCube](index.md#offsetToCube)
 - [pointToCube](index.md#pointToCube)
 - [round](index.md#round)
-- [toString](index.md#toString)
+- [translate](index.md#translate)
 - [width](index.md#width)
 
 ### Traverser Functions
@@ -117,11 +119,21 @@
 
 ### <a id="HexCoordinates" name="HexCoordinates"></a> HexCoordinates
 
- **HexCoordinates**: [`PartialCubeCoordinates`](interfaces/PartialCubeCoordinates.md) \| [`OffsetCoordinates`](interfaces/OffsetCoordinates.md) \| [`TupleCoordinates`](index.md#TupleCoordinates)
+ **HexCoordinates**: [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) \| [`OffsetCoordinates`](interfaces/OffsetCoordinates.md) \| [`TupleCoordinates`](index.md#TupleCoordinates)
 
 #### Defined in
 
-[hex/types.ts:52](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L52)
+[hex/types.ts:54](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L54)
+
+___
+
+### <a id="PartialCubeCoordinates" name="PartialCubeCoordinates"></a> PartialCubeCoordinates
+
+ **PartialCubeCoordinates**: { `q?`: `number` ; `r`: `number` ; `s`: `number`  } \| { `q`: `number` ; `r?`: `number` ; `s`: `number`  } \| { `q`: `number` ; `r`: `number` ; `s?`: `number`  }
+
+#### Defined in
+
+[hex/types.ts:41](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L41)
 
 ___
 
@@ -131,11 +143,41 @@ ___
 
 #### Defined in
 
-[hex/types.ts:47](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L47)
+[hex/types.ts:49](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L49)
 
 ___
 
 ## Hex Type Aliases
+
+### <a id="OriginFn" name="OriginFn"></a> OriginFn
+
+ **OriginFn**: <T\>(`prototype`: `T`) => [`Point`](interfaces/Point.md)
+
+#### Type declaration
+
+<`T`\>(`prototype`): [`Point`](interfaces/Point.md)
+
+##### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends `Omit`<[`HexPrototype`](interfaces/HexPrototype.md), ``"origin"``\> |
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `prototype` | `T` |
+
+##### Returns
+
+[`Point`](interfaces/Point.md)
+
+#### Defined in
+
+[hex/functions/createHexPrototype.ts:130](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/createHexPrototype.ts#L130)
+
+___
 
 ### <a id="hexDimensions" name="hexDimensions"></a> hexDimensions
 
@@ -143,7 +185,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:67](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L67)
+[hex/types.ts:69](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L69)
 
 ___
 
@@ -222,7 +264,27 @@ Util for converting offset/axial/cube/tuple coordinates to cube coordinates.
 
 #### Defined in
 
-[hex/functions/assertCubeCoordinates.ts:10](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/assertCubeCoordinates.ts#L10)
+[hex/functions/assertCubeCoordinates.ts:11](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/assertCubeCoordinates.ts#L11)
+
+___
+
+### <a id="completeCubeCoordinates" name="completeCubeCoordinates"></a> completeCubeCoordinates
+
+**completeCubeCoordinates**(`__namedParameters`): [`CubeCoordinates`](interfaces/CubeCoordinates.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `__namedParameters` | [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) |
+
+#### Returns
+
+[`CubeCoordinates`](interfaces/CubeCoordinates.md)
+
+#### Defined in
+
+[hex/functions/completeCubeCoordinates.ts:6](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/completeCubeCoordinates.ts#L6)
 
 ___
 
@@ -459,7 +521,7 @@ If you custom hex prototype overwrites these methods, things may break unexpecte
 
 #### Defined in
 
-[hex/functions/createHexPrototype.ts:32](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/createHexPrototype.ts#L32)
+[hex/functions/createHexPrototype.ts:31](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/createHexPrototype.ts#L31)
 
 ___
 
@@ -471,8 +533,8 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `a` | [`PartialCubeCoordinates`](interfaces/PartialCubeCoordinates.md) \| [`TupleCoordinates`](index.md#TupleCoordinates) |
-| `b` | [`PartialCubeCoordinates`](interfaces/PartialCubeCoordinates.md) \| [`TupleCoordinates`](index.md#TupleCoordinates) |
+| `a` | [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) \| [`TupleCoordinates`](index.md#TupleCoordinates) |
+| `b` | [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) \| [`TupleCoordinates`](index.md#TupleCoordinates) |
 
 #### Returns
 
@@ -529,7 +591,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | `Pick`<[`Hex`](interfaces/Hex.md), ``"offset"`` \| ``"isPointy"`` \| ``"q"`` \| ``"r"``\> |
+| `__namedParameters` | `Pick`<[`Hex`](interfaces/Hex.md), ``"q"`` \| ``"r"`` \| ``"offset"`` \| ``"isPointy"``\> |
 
 #### Returns
 
@@ -665,13 +727,13 @@ ___
 
 ### <a id="round" name="round"></a> round
 
-**round**(`__namedParameters`): [`CubeCoordinates`](interfaces/CubeCoordinates.md)
+**round**(`coordinates`): [`CubeCoordinates`](interfaces/CubeCoordinates.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | [`PartialCubeCoordinates`](interfaces/PartialCubeCoordinates.md) |
+| `coordinates` | [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) |
 
 #### Returns
 
@@ -679,27 +741,51 @@ ___
 
 #### Defined in
 
-[hex/functions/round.ts:6](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/round.ts#L6)
+[hex/functions/round.ts:7](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/round.ts#L7)
 
 ___
 
-### <a id="toString" name="toString"></a> toString
+### <a id="translate" name="translate"></a> translate
 
-**toString**(`__namedParameters`): `string`
+**translate**<`T`\>(`hex`, `delta`): `T`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](interfaces/Hex.md)<`T`\> |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | [`PartialCubeCoordinates`](interfaces/PartialCubeCoordinates.md) |
+| `hex` | `T` |
+| `delta` | [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) |
 
 #### Returns
 
-`string`
+`T`
 
 #### Defined in
 
-[hex/functions/toString.ts:6](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/toString.ts#L6)
+[hex/functions/translate.ts:10](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/translate.ts#L10)
+
+**translate**(`coordinates`, `delta`): [`CubeCoordinates`](interfaces/CubeCoordinates.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `coordinates` | [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) |
+| `delta` | [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) |
+
+#### Returns
+
+[`CubeCoordinates`](interfaces/CubeCoordinates.md)
+
+#### Defined in
+
+[hex/functions/translate.ts:11](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/translate.ts#L11)
 
 ___
 
@@ -799,7 +885,7 @@ ___
 
 #### Defined in
 
-[grid/traversers/line.ts:17](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/line.ts#L17)
+[grid/traversers/line.ts:9](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/line.ts#L9)
 
 **line**<`T`\>(`options`): [`Traverser`](index.md#Traverser)<`T`\>
 
@@ -821,7 +907,7 @@ ___
 
 #### Defined in
 
-[grid/traversers/line.ts:18](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/line.ts#L18)
+[grid/traversers/line.ts:10](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/line.ts#L10)
 
 ___
 

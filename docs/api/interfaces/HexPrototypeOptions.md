@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[hex/functions/createHexPrototype.ts:138](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/createHexPrototype.ts#L138)
+[hex/functions/createHexPrototype.ts:136](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/createHexPrototype.ts#L136)
 
 ___
 
@@ -27,7 +27,7 @@ ___
 
 #### Defined in
 
-[hex/functions/createHexPrototype.ts:141](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/createHexPrototype.ts#L141)
+[hex/functions/createHexPrototype.ts:139](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/createHexPrototype.ts#L139)
 
 ___
 
@@ -37,14 +37,14 @@ ___
 
 #### Defined in
 
-[hex/functions/createHexPrototype.ts:139](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/createHexPrototype.ts#L139)
+[hex/functions/createHexPrototype.ts:137](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/createHexPrototype.ts#L137)
 
 ___
 
 ### <a id="origin" name="origin"></a> origin
 
- **origin**: [`Point`](Point.md) \| `OriginFn` \| ``"topLeft"``
+ **origin**: [`Point`](Point.md) \| [`OriginFn`](../index.md#OriginFn) \| ``"topLeft"``
 
 #### Defined in
 
-[hex/functions/createHexPrototype.ts:140](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/createHexPrototype.ts#L140)
+[hex/functions/createHexPrototype.ts:138](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/createHexPrototype.ts#L138)

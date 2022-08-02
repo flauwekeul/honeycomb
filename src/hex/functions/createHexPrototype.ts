@@ -125,7 +125,6 @@ export const createHexPrototype = <T extends Hex>(
 }
 
 /**
- * @hidden
  * @category Hex
  */
 export type OriginFn = <T extends Omit<HexPrototype, 'origin'>>(prototype: T) => Point

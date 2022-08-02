@@ -6,8 +6,6 @@
 
   ↳ [`CubeCoordinates`](CubeCoordinates.md)
 
-  ↳ [`PartialCubeCoordinates`](PartialCubeCoordinates.md)
-
   ↳ [`Hex`](Hex.md)
 
 ## Table of contents

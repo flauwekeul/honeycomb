@@ -23,7 +23,7 @@
 
 #### Defined in
 
-[hex/types.ts:73](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L73)
+[hex/types.ts:75](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L75)
 
 ___
 
@@ -33,7 +33,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:76](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L76)
+[hex/types.ts:78](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L78)
 
 ___
 
@@ -43,7 +43,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:74](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L74)
+[hex/types.ts:76](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L76)
 
 ___
 
@@ -53,4 +53,4 @@ ___
 
 #### Defined in
 
-[hex/types.ts:75](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L75)
+[hex/types.ts:77](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L77)
