@@ -44,7 +44,7 @@
 
 #### Defined in
 
-[hex/types.ts:86](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L86)
+[hex/types.ts:89](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L89)
 
 ___
 
@@ -54,7 +54,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:85](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L85)
+[hex/types.ts:88](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L88)
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:87](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L87)
+[hex/types.ts:90](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L90)
 
 ___
 
@@ -74,7 +74,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:88](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L88)
+[hex/types.ts:91](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L91)
 
 ___
 
@@ -84,7 +84,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:89](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L89)
+[hex/types.ts:92](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L92)
 
 ___
 
@@ -98,7 +98,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:75](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L75)
+[hex/types.ts:78](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L78)
 
 ___
 
@@ -108,7 +108,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:90](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L90)
+[hex/types.ts:93](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L93)
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:91](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L91)
+[hex/types.ts:94](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L94)
 
 ___
 
@@ -128,7 +128,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:92](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L92)
+[hex/types.ts:95](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L95)
 
 ___
 
@@ -142,7 +142,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:78](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L78)
+[hex/types.ts:81](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L81)
 
 ___
 
@@ -156,7 +156,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:76](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L76)
+[hex/types.ts:79](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L79)
 
 ___
 
@@ -170,7 +170,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:77](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L77)
+[hex/types.ts:80](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L80)
 
 ___
 
@@ -180,7 +180,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:93](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L93)
+[hex/types.ts:96](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L96)
 
 ___
 
@@ -190,7 +190,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:98](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L98)
+[hex/types.ts:101](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L101)
 
 ___
 
@@ -200,7 +200,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:94](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L94)
+[hex/types.ts:97](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L97)
 
 ___
 
@@ -210,7 +210,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:95](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L95)
+[hex/types.ts:98](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L98)
 
 ___
 
@@ -220,7 +220,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:96](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L96)
+[hex/types.ts:99](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L99)
 
 ## Methods
 
@@ -241,7 +241,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:101](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L101)
+[hex/types.ts:104](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L104)
 
 ___
 
@@ -262,7 +262,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:100](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L100)
+[hex/types.ts:103](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L103)
 
 ___
 
@@ -282,4 +282,4 @@ ___
 
 #### Defined in
 
-[hex/types.ts:102](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L102)
+[hex/types.ts:105](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L105)

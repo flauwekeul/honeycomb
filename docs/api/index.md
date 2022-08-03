@@ -7,6 +7,7 @@
 - [AxialCoordinates](interfaces/AxialCoordinates.md)
 - [CubeCoordinates](interfaces/CubeCoordinates.md)
 - [OffsetCoordinates](interfaces/OffsetCoordinates.md)
+- [Point](interfaces/Point.md)
 
 ### Hex Interfaces
 
@@ -29,7 +30,6 @@
 - [BoundingBox](interfaces/BoundingBox.md)
 - [Ellipse](interfaces/Ellipse.md)
 - [GridAsJSON](interfaces/GridAsJSON.md)
-- [Point](interfaces/Point.md)
 
 ### Classes
 
@@ -123,7 +123,7 @@
 
 #### Defined in
 
-[hex/types.ts:54](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L54)
+[hex/types.ts:57](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L57)
 
 ___
 
@@ -133,7 +133,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:41](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L41)
+[hex/types.ts:44](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L44)
 
 ___
 
@@ -143,7 +143,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:49](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L49)
+[hex/types.ts:52](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L52)
 
 ___
 
@@ -185,7 +185,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:69](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L69)
+[hex/types.ts:72](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L72)
 
 ___
 

@@ -75,6 +75,7 @@ export default defineConfig({
             { text: 'Offset', link: '/api/interfaces/OffsetCoordinates' },
             { text: 'Tuple', link: '/api/#TupleCoordinates' },
             { text: 'HexCoordinates', link: '/api/#HexCoordinates' },
+            { text: 'Point', link: '/api/interfaces/Point' },
           ],
         },
         {
