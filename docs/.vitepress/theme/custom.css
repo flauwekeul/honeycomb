@@ -1,0 +1,24 @@
+:root {
+  /* borrowed from Tailwind CSS: https://tailwindcss.com/docs/background-color#class-reference */
+  --yellow-200: rgb(254 240 138);
+  --yellow-300: rgb(253 224 71);
+  --yellow-400: rgb(250 204 21);
+  --yellow-500: rgb(234 179 8);
+  --yellow-600: rgb(202 138 4);
+  --yellow-700: rgb(161 98 7);
+  --yellow-800: rgb(133 77 14);
+
+  --vp-c-brand-lighter: var(--yellow-400);
+  --vp-c-brand-light: var(--yellow-500);
+  --vp-c-brand: var(--yellow-600);
+  --vp-c-brand-dark: var(--yellow-700);
+  --vp-c-brand-darker: var(--yellow-800);
+}
+
+.dark {
+  --vp-c-brand-lighter: var(--yellow-200);
+  --vp-c-brand-light: var(--yellow-300);
+  --vp-c-brand: var(--yellow-400);
+  --vp-c-brand-dark: var(--yellow-500);
+  --vp-c-brand-darker: var(--yellow-600);
+}
