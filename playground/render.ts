@@ -1,5 +1,5 @@
 import { SVG } from '@svgdotjs/svg.js'
-import { Hex } from '../dist'
+import { Hex } from '../src'
 
 const draw = SVG().addTo('body').size('100%', '100%')
 

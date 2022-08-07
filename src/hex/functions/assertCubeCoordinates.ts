@@ -1,5 +1,6 @@
 import { isOffset, isTuple, tupleToCube } from '../../utils'
-import { CubeCoordinates, HexCoordinates, HexPrototype } from '../types'
+import { Hex } from '../hex'
+import { CubeCoordinates, HexCoordinates } from '../types'
 import { completeCubeCoordinates } from './completeCubeCoordinates'
 import { offsetToCube } from './offsetToCube'
 
@@ -9,11 +10,11 @@ import { offsetToCube } from './offsetToCube'
  * @privateRemarks It's not placed in /src/utils because that causes circular dependencies.
  */
 export function assertCubeCoordinates(
-  hexPrototype: Pick<HexPrototype, 'offset' | 'isPointy'>,
+  hex: Pick<Hex, 'offset' | 'isPointy'>,
   coordinates: HexCoordinates,
 ): CubeCoordinates {
   return isOffset(coordinates)
-    ? offsetToCube(hexPrototype, coordinates)
+    ? offsetToCube(hex, coordinates)
     : isTuple(coordinates)
     ? tupleToCube(coordinates)
     : completeCubeCoordinates(coordinates)

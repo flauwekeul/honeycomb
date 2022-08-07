@@ -1,12 +1,13 @@
 import { offsetFromZero } from '../../utils'
-import { Hex, OffsetCoordinates } from '../types'
+import { Hex } from '../hex'
+import { HexOffset, OffsetCoordinates } from '../types'
 
-const hexToOffsetPointy = (q: number, r: number, offset: number): OffsetCoordinates => ({
+const hexToOffsetPointy = (q: number, r: number, offset: HexOffset): OffsetCoordinates => ({
   col: q + offsetFromZero(offset, r),
   row: r,
 })
 
-const hexToOffsetFlat = (q: number, r: number, offset: number): OffsetCoordinates => ({
+const hexToOffsetFlat = (q: number, r: number, offset: HexOffset): OffsetCoordinates => ({
   col: q,
   row: r + offsetFromZero(offset, q),
 })

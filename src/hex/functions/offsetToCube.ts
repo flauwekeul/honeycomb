@@ -1,10 +1,11 @@
 import { offsetFromZero } from '../../utils'
-import { CubeCoordinates, HexPrototype, OffsetCoordinates } from '../types'
+import { Hex } from '../hex'
+import { CubeCoordinates, HexOffset, OffsetCoordinates } from '../types'
 
 /**
  * @hidden
  */
-export const offsetToCubePointy = (col: number, row: number, offset: number): CubeCoordinates => {
+export const offsetToCubePointy = (col: number, row: number, offset: HexOffset): CubeCoordinates => {
   const q = col - offsetFromZero(offset, row)
   const r = row
   const s = -q - r
@@ -14,7 +15,7 @@ export const offsetToCubePointy = (col: number, row: number, offset: number): Cu
 /**
  * @hidden
  */
-export const offsetToCubeFlat = (col: number, row: number, offset: number): CubeCoordinates => {
+export const offsetToCubeFlat = (col: number, row: number, offset: HexOffset): CubeCoordinates => {
   const q = col
   const r = row - offsetFromZero(offset, col)
   const s = -q - r
@@ -24,7 +25,5 @@ export const offsetToCubeFlat = (col: number, row: number, offset: number): Cube
 /**
  * @category Hex
  */
-export const offsetToCube = (
-  { offset, isPointy }: Pick<HexPrototype, 'offset' | 'isPointy'>,
-  { col, row }: OffsetCoordinates,
-) => (isPointy ? offsetToCubePointy(col, row, offset) : offsetToCubeFlat(col, row, offset))
+export const offsetToCube = ({ offset, isPointy }: Pick<Hex, 'offset' | 'isPointy'>, { col, row }: OffsetCoordinates) =>
+  isPointy ? offsetToCubePointy(col, row, offset) : offsetToCubeFlat(col, row, offset)

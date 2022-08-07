@@ -1,4 +1,5 @@
-import { Hex, Orientation, Point } from '../types'
+import { Hex } from '../hex'
+import { Orientation, Point } from '../types'
 
 /**
  * @category Hex

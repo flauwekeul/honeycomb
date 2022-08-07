@@ -1,4 +1,5 @@
-import { HexPrototype, Point } from '../types'
+import { Hex } from '../hex'
+import { Point } from '../types'
 import { round } from './round'
 
 // inspired by https://github.com/gojuno/hexgrid-py
@@ -8,7 +9,7 @@ import { round } from './round'
  * @category Hex
  */
 export const pointToCube = (
-  { dimensions: { xRadius, yRadius }, origin, isPointy }: Pick<HexPrototype, 'dimensions' | 'origin' | 'isPointy'>,
+  { dimensions: { xRadius, yRadius }, origin, isPointy }: Pick<Hex, 'dimensions' | 'origin' | 'isPointy'>,
   { x, y }: Point,
 ) => {
   x += origin.x

@@ -1,9 +1,8 @@
-import { CubeCoordinates, Hex, PartialCubeCoordinates } from '../types'
+import { Hex } from '../hex'
+import { CubeCoordinates, PartialCubeCoordinates } from '../types'
 import { assertCubeCoordinates } from './assertCubeCoordinates'
 import { completeCubeCoordinates } from './completeCubeCoordinates'
-import { isHex } from './isHex'
 
-// todo: add to hex prototype
 /**
  * @category Hex
  */
@@ -15,7 +14,7 @@ export function translate<T extends Hex>(
 ): T | CubeCoordinates {
   const { q: deltaQ, r: deltaR, s: deltaS } = completeCubeCoordinates(delta)
 
-  if (isHex(input)) {
+  if (input instanceof Hex) {
     const { q, r, s } = assertCubeCoordinates(input, input)
     return input.clone({ q: q + deltaQ, r: r + deltaR, s: s + deltaS })
   }

@@ -1,23 +1,28 @@
-import { createHexPrototype, Grid, Hex, rectangle } from '../src'
+import { defineHex, Grid, rectangle } from '../src'
 import { render } from './render'
 
-interface CustomHex extends Hex {
-  custom: string
+// interface CustomHex extends Hex {
+//   custom: string
+// }
+
+// this creates this prototype chain:
+// CustomHex -> class extends Hex -> Hex -> Object
+// while creating a class that extends Hex has this:
+// CustomHex -> Hex -> Object
+class CustomHex extends defineHex({ dimensions: 30, origin: 'topLeft' }) {
+  custom = 'test'
 }
+// class CustomHex extends Hex {
+//   get dimensions(): Ellipse {
+//     return createHexDimensions(30)
+//   }
+//   get origin(): Point {
+//     return createHexOrigin('topLeft', this)
+//   }
 
-const hexPrototype = createHexPrototype<CustomHex>({
-  dimensions: 30,
-  orientation: 'pointy',
-  origin: 'topLeft',
-})
-const grid = new Grid(hexPrototype, rectangle({ width: 10, height: 10 }))
-
-/**
- * todo: change how directions work: with degrees by default? Compass direction converts to degrees, or maybe drop compass direction altogether?
- * todo: add integration tests for concatenating traversers
- * todo: traverser should adhere to rules:
- * - when a cursor is passed, but no start: skip the first hex (doesn't apply to all traversers)
- */
+//   custom = 'test'
+// }
+const grid = new Grid(CustomHex, rectangle({ width: 10, height: 10 }))
 
 let i = 0
 for (const hex of grid) {

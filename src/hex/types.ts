@@ -1,3 +1,5 @@
+import { Hex } from './hex'
+
 /**
  * @category Coordinates
  */
@@ -34,7 +36,9 @@ export interface AxialCoordinates {
 /**
  * @category Coordinates
  */
-export interface CubeCoordinates extends AxialCoordinates {
+export interface CubeCoordinates {
+  q: number
+  r: number
   s: number
 }
 
@@ -69,7 +73,7 @@ export interface BoundingBox {
 /**
  * @category Hex
  */
-export type hexDimensions = Ellipse | BoundingBox | number
+export type HexOffset = 1 | -1
 
 /**
  * @category Hex
@@ -78,34 +82,20 @@ export interface HexSettings {
   dimensions: Ellipse
   orientation: Orientation
   origin: Point
-  offset: number
+  offset: HexOffset
 }
 
 /**
  * @category Hex
  */
-export interface HexPrototype extends HexSettings {
-  readonly __isHoneycombHex: true
-  readonly [Symbol.toStringTag]: 'Hex'
-  readonly center: Point
-  readonly col: number
-  readonly corners: Point[]
-  readonly height: number
-  readonly isFlat: boolean
-  readonly isPointy: boolean
-  readonly row: number
-  readonly width: number
-  readonly x: number
-  readonly y: number
-
-  s: number
-
-  equals(this: this, coordinates: HexCoordinates): boolean
-  clone(this: this, newProps?: Partial<this> | HexCoordinates): this
-  toString(this: this): string
+export interface HexOptions {
+  dimensions: Ellipse | BoundingBox | number
+  orientation: Orientation
+  origin: Point | 'topLeft'
+  offset: HexOffset
 }
 
 /**
  * @category Hex
  */
-export interface Hex extends HexPrototype, AxialCoordinates {}
+export type HexConstructor<T extends Hex> = new (coordinates?: HexCoordinates) => T
