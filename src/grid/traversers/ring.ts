@@ -17,8 +17,7 @@ export function ring<T extends Hex>(options: RingOptions | RingFromRadiusOptions
     let firstHex: T
 
     if (Number.isFinite(radius)) {
-      firstHex = createHex(center)
-      firstHex.q += radius
+      firstHex = createHex(center).translate({ q: radius, s: -radius })
     } else {
       firstHex = createHex((options as RingOptions).start ?? cursor)
       radius = distance(firstHex, center, firstHex)

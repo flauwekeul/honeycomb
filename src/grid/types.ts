@@ -8,14 +8,20 @@ export type Traverser<T extends Hex, R extends Iterable<T> = T[]> = (
   cursor?: HexCoordinates,
 ) => R
 
-export interface GridAsJSON<T extends Hex> {
-  hexSettings: HexSettings & Omit<T, keyof Hex>
+export interface GridAsJSON {
+  hexSettings: HexSettings
   coordinates: AxialCoordinates[]
 }
 
+/**
+ * @category Traverser
+ */
 export enum Rotation {
   CLOCKWISE = 'CLOCKWISE',
   COUNTERCLOCKWISE = 'COUNTERCLOCKWISE',
 }
 
+/**
+ * @category Traverser
+ */
 export type RotationLike = Rotation | 'CLOCKWISE' | 'clockwise' | 'COUNTERCLOCKWISE' | 'counterclockwise'

@@ -1,5 +1,5 @@
 import { CompassDirection } from '../compass'
-import { createHex, createHexPrototype, Hex, HexCoordinates, Point, pointToCube } from '../hex'
+import { defineHex, Hex, HexConstructor, HexCoordinates, Point, pointToCube } from '../hex'
 import { isFunction } from '../utils'
 import { distance, neighborOf } from './functions'
 import { concat } from './traversers'
@@ -13,18 +13,24 @@ export class Grid<T extends Hex> implements Iterable<T> {
       throw new Error(`Can't create grid from empty iterable: ${JSON.stringify(hexes)}`)
     }
 
-    return new Grid(Object.getPrototypeOf(firstHex) as T, hexes)
+    return new Grid(firstHex.constructor as HexConstructor<T>, hexes)
   }
 
-  static fromJSON<T extends Hex>({ hexSettings, coordinates }: GridAsJSON<T>) {
-    const hexPrototype = createHexPrototype(hexSettings)
+  static fromJSON({ hexSettings, coordinates }: GridAsJSON) {
+    const HexClass = defineHex(hexSettings)
     return new Grid(
-      hexPrototype,
-      coordinates.map((_coordinates) => createHex(hexPrototype, _coordinates)),
+      HexClass,
+      coordinates.map((_coordinates) => new HexClass(_coordinates)),
     )
   }
 
-  readonly [Symbol.toStringTag] = 'Grid'
+  get [Symbol.toStringTag]() {
+    return `Grid(${this.size})`
+  }
+
+  get hexPrototype() {
+    return this.#hexClass.prototype as T
+  }
 
   get size() {
     return this.#hexes.size
@@ -64,27 +70,27 @@ export class Grid<T extends Hex> implements Iterable<T> {
     return this.#hexes.values()
   }
 
-  readonly hexPrototype: T
+  readonly #hexClass: HexConstructor<T>
 
   #hexes = new Map<string, T>()
 
-  constructor(hexPrototype: T)
-  constructor(hexPrototype: T, traversers: Traverser<T> | Traverser<T>[])
-  constructor(hexPrototype: T, hexes: Iterable<T>)
+  constructor(hexClass: HexConstructor<T>)
+  constructor(hexClass: HexConstructor<T>, traversers: Traverser<T> | Traverser<T>[])
+  constructor(hexClass: HexConstructor<T>, hexes: Iterable<T>)
   constructor(grid: Grid<T>)
-  constructor(hexPrototypeOrGrid: T | Grid<T>, input: Traverser<T> | Traverser<T>[] | Iterable<T> = []) {
-    if (hexPrototypeOrGrid instanceof Grid<T>) {
-      this.hexPrototype = hexPrototypeOrGrid.hexPrototype
-      this.setHexes(hexPrototypeOrGrid)
+  constructor(hexClassOrGrid: HexConstructor<T> | Grid<T>, input: Traverser<T> | Traverser<T>[] | Iterable<T> = []) {
+    if (hexClassOrGrid instanceof Grid<T>) {
+      this.#hexClass = hexClassOrGrid.#hexClass
+      this.setHexes(hexClassOrGrid)
       return
     }
 
-    this.hexPrototype = hexPrototypeOrGrid
+    this.#hexClass = hexClassOrGrid
     this.setHexes(this.#createHexesFromIterableOrTraversers(input))
   }
 
   createHex(coordinates?: HexCoordinates): T {
-    return createHex<T>(this.hexPrototype, coordinates)
+    return new this.#hexClass(coordinates)
   }
 
   getHex(coordinates: HexCoordinates): T | undefined {
@@ -104,7 +110,7 @@ export class Grid<T extends Hex> implements Iterable<T> {
   }
 
   filter(predicate: (hex: T) => boolean): Grid<T> {
-    const result = new Grid(this.hexPrototype)
+    const result = new Grid(this.#hexClass)
 
     for (const hex of this) {
       if (predicate(hex)) result.#setHex(hex)
@@ -114,7 +120,7 @@ export class Grid<T extends Hex> implements Iterable<T> {
   }
 
   map(fn: (hex: T) => T): Grid<T> {
-    const result = new Grid(this.hexPrototype)
+    const result = new Grid(this.#hexClass)
 
     for (const hex of this) {
       result.#setHex(fn(hex))
@@ -128,7 +134,7 @@ export class Grid<T extends Hex> implements Iterable<T> {
   traverse(grid: Grid<T>, options?: { bail?: boolean }): Grid<T>
   traverse(input: Traverser<T> | Traverser<T>[] | Iterable<T> | Grid<T>, options?: { bail?: boolean }): Grid<T>
   traverse(input: Traverser<T> | Traverser<T>[] | Iterable<T> | Grid<T>, { bail = false } = {}): Grid<T> {
-    const result = new Grid(this.hexPrototype)
+    const result = new Grid(this.#hexClass)
 
     for (const hex of this.#createHexesFromIterableOrTraversers(input)) {
       const foundHex = this.getHex(hex)
@@ -175,8 +181,12 @@ export class Grid<T extends Hex> implements Iterable<T> {
     return Array.from(this)
   }
 
-  toJSON(): GridAsJSON<T> {
-    return { hexSettings: this.hexPrototype, coordinates: this.toArray() }
+  // todo: add to docs that hexSettings don't include any custom properties
+  toJSON(): GridAsJSON {
+    // these four properties are getters that may be present further up the prototype chain
+    // JSON.stringify() ignores properties in the prototype chain
+    const { dimensions, orientation, origin, offset } = this.hexPrototype
+    return { hexSettings: { dimensions, orientation, origin, offset }, coordinates: this.toArray() }
   }
 
   toString(): string {
