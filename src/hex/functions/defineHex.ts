@@ -3,8 +3,11 @@ import { BoundingBox, Ellipse, HexOffset, HexOptions, Orientation, Point } from 
 import { createHexDimensions } from './createHexDimensions'
 import { createHexOrigin } from './createHexOrigin'
 
-export function defineHex(hexPrototypeOptions?: Partial<HexOptions>): typeof Hex {
-  const { dimensions, orientation, origin, offset } = { ...defaultHexSettings, ...hexPrototypeOptions }
+/**
+ * @category Hex
+ */
+export function defineHex(hexOptions?: Partial<HexOptions>): typeof Hex {
+  const { dimensions, orientation, origin, offset } = { ...defaultHexSettings, ...hexOptions }
 
   return class extends Hex {
     get dimensions(): Ellipse {

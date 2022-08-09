@@ -1,6 +1,9 @@
 import { isObject } from '../../utils'
 import { BoundingBox, Ellipse, Orientation } from '../types'
 
+/**
+ * @category Hex
+ */
 export function createHexDimensions(radius: number): Ellipse
 export function createHexDimensions(boundingBox: BoundingBox, orientation: Orientation): Ellipse
 export function createHexDimensions(ellipse: Ellipse): Ellipse
