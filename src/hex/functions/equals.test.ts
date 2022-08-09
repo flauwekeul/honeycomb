@@ -12,7 +12,7 @@ test('throws when offset coordinates and non-offset coordinates are passed', () 
   )
 })
 
-test('returns whether the 2 passed axial coordinates are the same', () => {
+test('returns whether the 2 passed axial or tuple coordinates are the same', () => {
   expect(equals({ q: 1, r: 2 }, { q: 1, r: 2 })).toBe(true)
   expect(equals({ q: 1, r: 2 }, { q: 3, r: 4 })).toBe(false)
 

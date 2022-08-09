@@ -15,7 +15,7 @@ export function equals(a: HexCoordinates, b: HexCoordinates) {
   }
 
   // can't use isOffset() because that also checks in the prototype chain and that would always return true for hexes
-  if (Object.prototype.hasOwnProperty.call(a, 'col') || Object.prototype.hasOwnProperty.call(b, 'col')) {
+  if (Object.hasOwn(a, 'col') || Object.hasOwn(b, 'col')) {
     throw new Error(
       `Can't compare coordinates where one are offset coordinates. Either pass two offset coordinates or two axial/cube coordinates. Received: ${JSON.stringify(
         a,
