@@ -174,7 +174,7 @@ describe('equals()', () => {
 
 describe('toString()', () => {
   test('returns the q and r coordinates', () => {
-    expect(`${new Hex([-2, 2])}`).toBe('-2,2')
+    expect(new Hex([-2, 2]).toString()).toBe('-2,2')
   })
 })
 

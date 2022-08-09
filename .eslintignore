@@ -1,7 +1,7 @@
 dist/
 node_modules/
 # todo: don't ignore tests
-*.test.ts
+src/grid/**/*.test.ts
 playground/
 examples/
 benchmark.ts
