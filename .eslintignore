@@ -1,6 +1,5 @@
 dist/
 node_modules/
-src-js
 # todo: don't ignore tests
 *.test.ts
 playground/
