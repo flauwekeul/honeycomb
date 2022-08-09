@@ -1,5 +1,5 @@
 import { CompassDirection } from '../../compass'
-import { assertCubeCoordinates, AxialCoordinates, CubeCoordinates, Hex, HexCoordinates, round } from '../../hex'
+import { AxialCoordinates, CubeCoordinates, Hex, HexCoordinates, round, toCube } from '../../hex'
 import { distance, neighborOf } from '../functions'
 import { Traverser } from '../types'
 
@@ -61,7 +61,7 @@ function lineFromBetweenOptions<T extends Hex>({ start, stop }: LineBetweenOptio
     const hexes: T[] = []
     const firstHex = createHex(start ?? cursor)
     const nudgedStart = nudge(firstHex)
-    const nudgedStop = nudge(assertCubeCoordinates(firstHex, stop))
+    const nudgedStop = nudge(toCube(firstHex, stop))
     const interpolate = lerp(nudgedStart, nudgedStop)
     const length = distance(firstHex, firstHex, stop)
     const step = 1.0 / Math.max(length, 1)

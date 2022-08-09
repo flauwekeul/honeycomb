@@ -1,4 +1,5 @@
-import { assertCubeCoordinates, Hex, HexCoordinates } from '../../hex'
+import { Hex, HexCoordinates, toCube } from '../../hex'
+import { isNumber } from '../../utils'
 import { distance } from '../functions'
 import { Rotation, RotationLike, Traverser } from '../types'
 
@@ -16,7 +17,7 @@ export function ring<T extends Hex>(options: RingOptions | RingFromRadiusOptions
     let { radius } = options as RingFromRadiusOptions
     let firstHex: T
 
-    if (Number.isFinite(radius)) {
+    if (isNumber(radius)) {
       firstHex = createHex(center).translate({ q: radius, s: -radius })
     } else {
       firstHex = createHex((options as RingOptions).start ?? cursor)
@@ -24,7 +25,7 @@ export function ring<T extends Hex>(options: RingOptions | RingFromRadiusOptions
     }
 
     // always start at coordinates radius away from the center, reorder the hexes later
-    const { q, r, s } = assertCubeCoordinates(firstHex, center)
+    const { q, r, s } = toCube(firstHex, center)
     let _cursor = createHex({ q, r: r - radius, s: s + radius })
 
     if (_rotation === Rotation.CLOCKWISE) {

@@ -1,7 +1,7 @@
 /* eslint @typescript-eslint/class-literal-property-style: ["error", "getters"] */
 
 import { isOffset } from '../utils'
-import { assertCubeCoordinates, equals, hexToOffset, hexToPoint, offsetToCube, translate } from './functions'
+import { equals, hexToOffset, hexToPoint, offsetToCube, toCube, translate } from './functions'
 import {
   BoundingBox,
   CubeCoordinates,
@@ -96,7 +96,7 @@ export class Hex
   readonly s: number
 
   constructor(coordinates: HexCoordinates = [0, 0]) {
-    const { q, r, s } = assertCubeCoordinates(this, coordinates)
+    const { q, r, s } = toCube(this, coordinates)
     this.q = q
     this.r = r
     this.s = s

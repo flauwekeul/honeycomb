@@ -46,14 +46,14 @@ hex.col = 2 // ❌ TypeError
 
 Most functions/methods that require coordinates accept `HexCoordinates`, which is a [union type](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#union-types) of the four coordinate types.
 
-Because `HexCoordinates` can be any of the four types, you may use `assertCubeCoordinates()` to convert `HexCoordinates` to `CubeCoordinates`:
+Because `HexCoordinates` can be any of the four types, you may use `toCube()` to convert `HexCoordinates` to `CubeCoordinates`:
 
 ```typescript
 const hexPrototype = createHexPrototype()
 
-assertCubeCoordinates(hexPrototype, [1, 2])             // { q: 1, r: 2, s: -3 }
-assertCubeCoordinates(hexPrototype, { col: 1, row: 2 }) // { q: 0, r: 2, s: -2 }
-assertCubeCoordinates(hexPrototype, { q: 3, r: 4 })     // { q: 3, r: 4, s: -7 }
+toCube(hexPrototype, [1, 2])             // { q: 1, r: 2, s: -3 }
+toCube(hexPrototype, { col: 1, row: 2 }) // { q: 0, r: 2, s: -2 }
+toCube(hexPrototype, { q: 3, r: 4 })     // { q: 3, r: 4, s: -7 }
 ```
 
 ## Converting

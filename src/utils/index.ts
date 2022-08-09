@@ -1,5 +1,6 @@
 export * from './isAxial'
 export * from './isFunction'
+export * from './isNumber'
 export * from './isObject'
 export * from './isOffset'
 export * from './isPoint'

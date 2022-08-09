@@ -1,4 +1,4 @@
-import { assertCubeCoordinates, Hex, HexCoordinates } from '../../hex'
+import { Hex, HexCoordinates, toCube } from '../../hex'
 import { RotationLike, Traverser } from '../types'
 import { line } from './line'
 import { ring } from './ring'
@@ -22,7 +22,7 @@ export function rays<T extends Hex>({
 
   return function raysTraverser(createHex, cursor) {
     const firstHex = createHex(start ?? cursor)
-    const { q, r, s } = assertCubeCoordinates(firstHex, firstHex)
+    const { q, r, s } = toCube(firstHex, firstHex)
     const firstStop = (options as RaysToHexOptions).firstStop ?? { q, r: r - length, s: s + length }
 
     return ring({ center: firstHex, start: firstStop, rotation })(createHex, cursor).flatMap((stop) =>
