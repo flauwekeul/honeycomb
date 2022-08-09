@@ -173,8 +173,11 @@ describe('equals()', () => {
 })
 
 describe('toString()', () => {
-  test('returns the q and r coordinates', () => {
-    expect(new Hex([-2, 2]).toString()).toBe('-2,2')
+  test('returns the constructor name and q and r coordinates', () => {
+    expect(new Hex([-2, 2]).toString()).toBe('Hex(-2,2)')
+
+    class CustomHex extends Hex {}
+    expect(new CustomHex([4, 0]).toString()).toBe('CustomHex(4,0)')
   })
 })
 

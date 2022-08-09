@@ -107,7 +107,7 @@ export class Hex
   }
 
   toString() {
-    return `${this.q},${this.r}`
+    return `${this.constructor.name}(${this.q},${this.r})`
   }
 
   translate(delta: PartialCubeCoordinates) {
