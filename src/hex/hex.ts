@@ -19,10 +19,6 @@ import {
 export class Hex
   implements Readonly<CubeCoordinates>, Readonly<OffsetCoordinates>, Readonly<Point>, Readonly<BoundingBox>
 {
-  get [Symbol.toStringTag](): string {
-    return `Hex(${this.toString()})`
-  }
-
   // todo: add to docs that this always returns a point relative to Hex(0, 0)
   get center(): Point {
     const { width, height, x, y } = this
@@ -102,8 +98,7 @@ export class Hex
     this.s = s
   }
 
-  // todo: test if this works intuitively when Hex is extended with custom props
-  clone<T extends Hex>(newProps?: HexCoordinates): T {
+  clone<T extends Hex>(newProps: HexCoordinates = this): T {
     return new (this.constructor as HexConstructor<T>)(newProps)
   }
 
