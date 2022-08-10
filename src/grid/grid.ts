@@ -10,7 +10,7 @@ export class Grid<T extends Hex> implements Iterable<T> {
     const firstHex = hexes[Symbol.iterator]().next().value as T | undefined
 
     if (!firstHex) {
-      throw new Error(`Can't create grid from empty iterable: ${JSON.stringify(hexes)}`)
+      throw new TypeError(`Can't create grid from empty iterable: ${JSON.stringify(hexes)}`)
     }
 
     return new Grid(firstHex.constructor as HexConstructor<T>, hexes)
@@ -24,14 +24,6 @@ export class Grid<T extends Hex> implements Iterable<T> {
     )
   }
 
-  get [Symbol.toStringTag]() {
-    return `Grid(${this.size})`
-  }
-
-  get hexPrototype() {
-    return this.#hexClass.prototype as T
-  }
-
   get size() {
     return this.#hexes.size
   }
@@ -39,7 +31,7 @@ export class Grid<T extends Hex> implements Iterable<T> {
   get pixelWidth() {
     if (this.size === 0) return 0
 
-    const { isPointy, width } = this.hexPrototype
+    const { isPointy, width } = this.#hexPrototype
     const hexes = this.toArray()
     // sort hexes from left to right and take the first and last
     const {
@@ -54,7 +46,7 @@ export class Grid<T extends Hex> implements Iterable<T> {
   get pixelHeight() {
     if (this.size === 0) return 0
 
-    const { isPointy, height } = this.hexPrototype
+    const { isPointy, height } = this.#hexPrototype
     const hexes = this.toArray()
     // sort hexes from left to right and take the first and last
     const {
@@ -68,6 +60,10 @@ export class Grid<T extends Hex> implements Iterable<T> {
 
   [Symbol.iterator]() {
     return this.#hexes.values()
+  }
+
+  get #hexPrototype() {
+    return this.#hexClass.prototype as T
   }
 
   readonly #hexClass: HexConstructor<T>
@@ -132,7 +128,6 @@ export class Grid<T extends Hex> implements Iterable<T> {
   traverse(traversers: Traverser<T> | Traverser<T>[], options?: { bail?: boolean }): Grid<T>
   traverse(hexes: Iterable<T>, options?: { bail?: boolean }): Grid<T>
   traverse(grid: Grid<T>, options?: { bail?: boolean }): Grid<T>
-  traverse(input: Traverser<T> | Traverser<T>[] | Iterable<T> | Grid<T>, options?: { bail?: boolean }): Grid<T>
   traverse(input: Traverser<T> | Traverser<T>[] | Iterable<T> | Grid<T>, { bail = false } = {}): Grid<T> {
     const result = new Grid(this.#hexClass)
 
@@ -185,55 +180,45 @@ export class Grid<T extends Hex> implements Iterable<T> {
   toJSON(): GridAsJSON {
     // these four properties are getters that may be present further up the prototype chain
     // JSON.stringify() ignores properties in the prototype chain
-    const { dimensions, orientation, origin, offset } = this.hexPrototype
+    const { dimensions, orientation, origin, offset } = this.#hexPrototype
     return { hexSettings: { dimensions, orientation, origin, offset }, coordinates: this.toArray() }
   }
 
   toString(): string {
-    return `Grid(${this.size})`
+    return `${this.constructor.name}(${this.size})`
   }
 
   pointToHex(point: Point, options?: { allowOutside: true }): T
-  pointToHex(point: Point, options: { allowOutside: false }): T | null
-  pointToHex(point: Point, { allowOutside = true } = {}): T | null {
-    const coordinates = pointToCube(this.hexPrototype, point)
+  pointToHex(point: Point, options: { allowOutside: false }): T | undefined
+  pointToHex(point: Point, { allowOutside = true } = {}): T | undefined {
+    const coordinates = pointToCube(this.#hexPrototype, point)
 
     if (allowOutside) return this.createHex(coordinates)
 
-    const hex = this.getHex(coordinates)
-    if (!hex) {
-      return null
-    }
-
-    return hex
+    return this.getHex(coordinates)
   }
 
   distance(from: HexCoordinates, to: HexCoordinates, options?: { allowOutside: true }): number
-  distance(from: HexCoordinates, to: HexCoordinates, options: { allowOutside: false }): number | null
-  distance(from: HexCoordinates, to: HexCoordinates, { allowOutside = true } = {}): number | null {
-    if (allowOutside) return distance(this.hexPrototype, from, to)
+  distance(from: HexCoordinates, to: HexCoordinates, options: { allowOutside: false }): number | undefined
+  distance(from: HexCoordinates, to: HexCoordinates, { allowOutside = true } = {}): number | undefined {
+    if (allowOutside) return distance(this.#hexPrototype, from, to)
 
     const fromHex = this.getHex(from)
     const toHex = this.getHex(to)
-    if (!fromHex || !toHex) {
-      return null
-    }
+    if (!fromHex || !toHex) return
 
-    return distance(this.hexPrototype, fromHex, toHex)
+    return distance(this.#hexPrototype, fromHex, toHex)
   }
 
-  neighborOf(hex: T, direction: CompassDirection, options?: { allowOutside: true }): T
-  neighborOf(hex: T, direction: CompassDirection, options: { allowOutside: false }): T | null
-  neighborOf(hex: T, direction: CompassDirection, { allowOutside = true } = {}): T | null {
-    if (allowOutside) return neighborOf(hex, direction)
+  neighborOf(coordinates: HexCoordinates, direction: CompassDirection, options?: { allowOutside: true }): T
+  neighborOf(coordinates: HexCoordinates, direction: CompassDirection, options: { allowOutside: false }): T | undefined
+  neighborOf(coordinates: HexCoordinates, direction: CompassDirection, { allowOutside = true } = {}): T | undefined {
+    if (allowOutside) return neighborOf(this.createHex(coordinates), direction)
 
-    const foundHex = this.getHex(hex)
-    const neighbor = neighborOf(hex, direction)
-    if (!foundHex || !neighbor) {
-      return null
-    }
+    const foundHex = this.getHex(coordinates)
+    if (!foundHex) return
 
-    return neighborOf(hex, direction)
+    return this.getHex(neighborOf(foundHex, direction))
   }
 
   #setHex(hex: T): void {

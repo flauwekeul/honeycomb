@@ -33,7 +33,7 @@ test('implements offset coordinates in the prototype', () => {
 test('has corners property relative to Hex(0,0) in the prototype', () => {
   const hex = new Hex()
 
-  expect(hex.corners).toEqual<Point[]>([
+  expect(hex.corners).toStrictEqual<Point[]>([
     { x: 0.8660254037844386, y: -0.5 },
     { x: 0.8660254037844386, y: 0.5 },
     { x: 0, y: 1 },
@@ -41,7 +41,7 @@ test('has corners property relative to Hex(0,0) in the prototype', () => {
     { x: -0.8660254037844386, y: -0.5 },
     { x: 0, y: -1 },
   ])
-  expect(new Hex([3, 4]).corners).toEqual<Point[]>([
+  expect(new Hex([3, 4]).corners).toStrictEqual<Point[]>([
     { x: 9.526279441628825, y: 5.5 },
     { x: 9.526279441628825, y: 6.5 },
     { x: 8.660254037844386, y: 7 },
@@ -174,7 +174,11 @@ describe('equals()', () => {
 
 describe('toString()', () => {
   test('returns the constructor name and q and r coordinates', () => {
-    expect(new Hex([-2, 2]).toString()).toBe('Hex(-2,2)')
+    const hex = new Hex([-2, 2])
+
+    expect(hex.toString()).toBe('Hex(-2,2)')
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    expect(`${hex}`).toBe('Hex(-2,2)')
 
     class CustomHex extends Hex {}
     expect(new CustomHex([4, 0]).toString()).toBe('CustomHex(4,0)')
@@ -184,6 +188,6 @@ describe('toString()', () => {
 describe('translate', () => {
   test('returns a clone of the instance with the delta partial cube coordinates', () => {
     const hex = new Hex([3, 0])
-    expect(hex.translate({ q: -2, r: 1 })).toContain({ q: 1, r: 1, s: -2 })
+    expect(hex.translate({ q: -2, r: 1 })).toContain<CubeCoordinates>({ q: 1, r: 1, s: -2 })
   })
 })

@@ -1,431 +1,388 @@
-import { describe, expect, test, vi } from 'vitest'
-import { cloneHex, createHex, createHexPrototype, Hex, toString } from '../hex'
+import { describe, expect, Mock, test, vi } from 'vitest'
+import { CompassDirection } from '../compass'
+import { AxialCoordinates, defineHex, Hex, HexSettings, Orientation } from '../hex'
 import { Grid } from './grid'
-import { add } from './traversers'
-import { Traverser } from './types'
-
-const hexPrototype = createHexPrototype()
+import { fromCoordinates, rectangle } from './traversers'
 
 describe('creation', () => {
-  test(`accepts a single traverser that's called eagerly to set store`, () => {
-    const hex1 = createHex(hexPrototype, { q: 1, r: 2 })
-    const hex2 = createHex(hexPrototype, { q: 3, r: 4 })
-    const traverser = vi.fn(() => [hex1, hex2])
-    const grid = new Grid(hexPrototype, traverser) /* don't call run() */
+  test('creates a grid from a hex constructor', () => {
+    const grid = new Grid(Hex)
 
-    expect(traverser).toBeCalledWith(createHex(hexPrototype), grid.getHex)
-    expect(grid.store).toEqual(
-      new Map([
-        ['1,2', hex1],
-        ['3,4', hex2],
-      ]),
+    expect(grid).toBeInstanceOf(Grid)
+    expect(grid.size).toBe(0)
+  })
+
+  test('creates a grid from a hex constructor and one or more traversers', () => {
+    const singleTraverserGrid = new Grid(Hex, fromCoordinates([1, 2]))
+    const multiTraverserGrid = new Grid(Hex, [fromCoordinates([1, 2]), fromCoordinates([3, 4])])
+
+    expect(singleTraverserGrid).toBeInstanceOf(Grid)
+    expect(singleTraverserGrid.size).toBe(1)
+
+    expect(multiTraverserGrid).toBeInstanceOf(Grid)
+    expect(multiTraverserGrid.size).toBe(2)
+  })
+
+  test('creates a grid from an iterable of hexes', () => {
+    const generator = function* () {
+      yield new Hex()
+    }
+    const gridFromArray = new Grid(Hex, [new Hex()])
+    const gridFromSet = new Grid(Hex, new Set([new Hex()]))
+    const gridFromGenerator = new Grid(Hex, generator())
+
+    expect(gridFromArray).toBeInstanceOf(Grid)
+    expect(gridFromArray.size).toBe(1)
+
+    expect(gridFromSet).toBeInstanceOf(Grid)
+    expect(gridFromSet.size).toBe(1)
+
+    expect(gridFromGenerator).toBeInstanceOf(Grid)
+    expect(gridFromGenerator.size).toBe(1)
+  })
+
+  test('creates a grid from another grid', () => {
+    const grid = new Grid(Hex)
+    const result = new Grid(grid)
+
+    expect(result).toBeInstanceOf(Grid)
+    expect(result).not.toBe(grid)
+    expect(result.size).toBe(0)
+  })
+})
+
+describe('static fromIterable()', () => {
+  test('creates a grid from an iterable of hexes', () => {
+    const result = Grid.fromIterable([new Hex()])
+
+    expect(result).toBeInstanceOf(Grid)
+    expect(result.size).toBe(1)
+  })
+
+  test('throws when an empty iterable is passed', () => {
+    expect(() => Grid.fromIterable([])).toThrowError(TypeError(`Can't create grid from empty iterable: []`))
+  })
+})
+
+describe('static fromJSON()', () => {
+  test('creates a grid from an object containing hex settings and coordinates', () => {
+    const hexSettings: HexSettings = {
+      dimensions: { xRadius: 10, yRadius: 10 },
+      orientation: Orientation.FLAT,
+      origin: { x: 0, y: 0 },
+      offset: 1,
+    }
+    const coordinates: AxialCoordinates[] = [
+      { q: 0, r: 0 },
+      { q: 1, r: 0 },
+    ]
+    const result = Grid.fromJSON({ hexSettings, coordinates })
+
+    expect(result).toBeInstanceOf(Grid)
+    expect(result.createHex()).toContain(hexSettings)
+    expect(result).toStrictEqual(
+      new Grid(
+        Hex,
+        coordinates.map((c) => new Hex(c)),
+      ),
     )
-    expect(grid.hexes()).toEqual([hex1, hex2])
+  })
+})
+
+test('has size property that is the amount of hexes in the grid', () => {
+  expect(new Grid(Hex, rectangle({ width: 5, height: 5 })).size).toBe(25)
+})
+
+describe('pixelWidth property', () => {
+  test('return 0 when the grid has no hexes', () => {
+    expect(new Grid(Hex).pixelWidth).toBe(0)
   })
 
-  test('accepts multiple traversers that are called eagerly to set store', () => {
-    const hex1 = createHex(hexPrototype, { q: 1, r: 2 })
-    const hex2 = createHex(hexPrototype, { q: 3, r: 4 })
-    const traverser1 = vi.fn(() => [hex1])
-    const traverser2 = vi.fn(() => [hex2])
-    const traversers: Traverser<Hex>[] = [traverser1, traverser2]
-    const grid = new Grid(hexPrototype, traversers) /* don't call run() */
+  test('returns the width in pixels', () => {
+    const PointyHex = defineHex({ dimensions: 10, orientation: Orientation.POINTY })
+    const pointyHexWidth = PointyHex.prototype.width
+    const FlatHex = defineHex({ dimensions: 10, orientation: Orientation.FLAT })
+    const flatHexWidth = FlatHex.prototype.width
 
-    expect(traverser1).toBeCalledWith(createHex(hexPrototype), grid.getHex)
-    expect(traverser2).toBeCalledWith(hex1, grid.getHex)
-    expect(grid.store).toEqual(
-      new Map([
-        ['1,2', hex1],
-        ['3,4', hex2],
-      ]),
+    expect(new Grid(PointyHex, rectangle({ width: 5, height: 1 })).pixelWidth).toBe(5 * pointyHexWidth)
+    // flat hexes partially overlap in horizontal plane
+    expect(new Grid(FlatHex, rectangle({ width: 5, height: 1 })).pixelWidth).toBe(5 * flatHexWidth - flatHexWidth)
+  })
+})
+
+describe('pixelHeight property', () => {
+  test('return 0 when the grid has no hexes', () => {
+    expect(new Grid(Hex).pixelHeight).toBe(0)
+  })
+
+  test('returns the height in pixels', () => {
+    const PointyHex = defineHex({ dimensions: 10, orientation: Orientation.POINTY })
+    const pointyHexHeight = PointyHex.prototype.height
+    const FlatHex = defineHex({ dimensions: 10, orientation: Orientation.FLAT })
+    const flatHexHeight = FlatHex.prototype.height
+
+    // pointy hexes partially overlap in vertical plane
+    expect(new Grid(PointyHex, rectangle({ width: 1, height: 5 })).pixelHeight).toBe(
+      5 * pointyHexHeight - pointyHexHeight,
     )
-    expect(grid.hexes()).toEqual([hex1, hex2])
-  })
-
-  test(`accepts a store that's cloned and its hexes can be traversed`, () => {
-    const hex = createHex(hexPrototype)
-    const store = new Map([[hex.toString(), hex]])
-    const grid = new Grid(hexPrototype, store)
-
-    expect(grid.store).toEqual(store)
-    expect(grid.store).not.toBe(store)
-    expect(grid.hexes()).toEqual([hex])
-  })
-
-  test('creates a stateless grid when called with only a hex prototype', () => {
-    const grid = new Grid(hexPrototype)
-
-    expect(grid.store).toEqual(new Map())
-    expect(grid.hexes()).toEqual([])
-  })
-
-  describe('Grid.from()', () => {
-    const hex = createHex(hexPrototype)
-    const store = new Map([[hex.toString(), hex]])
-
-    test('accepts a store', () => {
-      const grid = Grid.from(store)
-
-      expect(grid.store).toEqual(store)
-      expect(grid.hexPrototype).toBe(hexPrototype)
-      expect(grid.hexes()).toEqual([hex])
-    })
-
-    test('accepts an iterable', () => {
-      const iterable = store.values()
-      const grid = Grid.from(iterable)
-
-      expect(grid.store).toEqual(store)
-      expect(grid.hexPrototype).toBe(hexPrototype)
-      expect(grid.hexes()).toEqual([hex])
-    })
-
-    test('throws an error when passed an empty store or iterable', () => {
-      expect(() => Grid.from(new Map())).toThrowError(`Can't create grid from empty iterable: ${new Map()}`)
-      expect(() => Grid.from([])).toThrowError(`Can't create grid from empty iterable: ${[]}`)
-    })
+    expect(new Grid(FlatHex, rectangle({ width: 1, height: 5 })).pixelHeight).toBe(5 * flatHexHeight)
   })
 })
 
-test('implements toStringTag', () => {
-  expect(`${new Grid(hexPrototype)}`).toBe('[object Grid]')
+test('iterable', () => {
+  const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
+
+  expect(grid[Symbol.iterator]).toBeTypeOf('function')
+  expect([...grid]).toStrictEqual([new Hex([0, 0]), new Hex([1, 0]), new Hex([0, 1]), new Hex([1, 1])])
 })
 
-describe('pointToHex()', () => {
-  test('converts a point to a hex', () => {
-    const grid = new Grid(hexPrototype)
-    const hex = {} as Hex
-    const getHex = vi.spyOn(grid, 'getHex').mockReturnValue(hex)
-    const point = { x: 1, y: 2 }
-
-    const result = grid.pointToHex(point)
-
-    expect(result).toBe(hex)
-    expect(getHex).toBeCalledWith({ q: -0, r: 1, s: -1 })
-  })
-})
-
-describe('distance()', () => {
-  test('returns the distance between the passed 2 hexes', () => {
-    const grid = new Grid(hexPrototype)
-    const result = grid.distance({ q: -3, r: 11 }, { q: 15, r: 1 })
-
-    expect(result).toBe(18)
+describe('createHex()', () => {
+  test(`uses the grid's hex constructor to create a hex`, () => {
+    expect(new Grid(Hex).createHex([5, 2])).toStrictEqual(new Hex([5, 2]))
   })
 })
 
 describe('getHex()', () => {
-  test('returns a hex from the store when present in the store', () => {
-    const coordinates = { q: 1, r: 2 }
-    const hex = createHex(hexPrototype, coordinates)
-    const store = new Map([[toString(hex), hex]])
-    const grid = new Grid(hexPrototype, store)
-
-    expect(grid.getHex(coordinates)).toBe(hex)
+  test('returns the hex with the passed coordinates when present in the grid', () => {
+    const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
+    expect(grid.getHex([1, 0])).toStrictEqual(new Hex([1, 0]))
   })
 
-  test('calls toString() on the hex prototype so that the user can control how a hex is looked up in the store', () => {
-    const toStringSpy = vi.spyOn(hexPrototype, 'toString')
-    const coordinates = { q: 1, r: 2 }
-    const hex = createHex(hexPrototype, coordinates)
-    const store = new Map([['1,2', hex]])
-    const grid = new Grid(hexPrototype, store)
-
-    expect(grid.getHex(coordinates)).toBe(hex)
-    expect(toStringSpy).toBeCalled()
-  })
-
-  test('returns a new hex when not present in the store', () => {
-    const coordinates = { q: 1, r: 2 }
-    const hex = createHex(hexPrototype, coordinates)
-    const grid = new Grid(hexPrototype)
-
-    expect(grid.getHex(coordinates)).toMatchObject(hex)
-    expect(grid.getHex(coordinates)).not.toBe(hex)
-  })
-
-  test('calls clone() on the hex prototype so that a user can control how a new hex is created', () => {
-    const customPrototype = createHexPrototype<{ custom: string } & Hex>({
-      clone(newProps) {
-        return cloneHex(this, { ...newProps, custom: 'custom' })
-      },
-    })
-    const grid = new Grid(customPrototype)
-    const hex = grid.getHex()
-
-    expect(hex.custom).toBe('custom')
+  test(`returns undefined when the hex with the passed coordinates doesn't exist in the grid`, () => {
+    const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
+    expect(grid.getHex([20, 40])).toBeUndefined()
   })
 })
 
-test('has a hexes() method that returns the hexes from the last iteration', () => {
-  const grid1 = new Grid(hexPrototype, [add({ q: 1, r: 2 }, { q: 3, r: 4 })])
-  expect(grid1.hexes()).toEqual([createHex(hexPrototype, { q: 1, r: 2 }), createHex(hexPrototype, { q: 3, r: 4 })])
+describe('hasHex()', () => {
+  test('returns whether the passed hex is present in the grid', () => {
+    const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
 
-  const grid2 = grid1.filter((hex) => hex.q === 1)
-  expect(grid2.hexes()).toEqual([createHex(hexPrototype, { q: 1, r: 2 })])
-})
-
-describe('update()', () => {
-  test('returns a new grid', () => {
-    const grid = new Grid(hexPrototype)
-    const result = grid.update(vi.fn())
-
-    expect(result).not.toBe(grid)
-  })
-
-  test('creates a clone of the grid and passes it to the callback', () => {
-    const hexes = [createHex(hexPrototype, { q: 1, r: 2 }), createHex(hexPrototype, { q: 3, r: 4 })]
-    const newStore = new Map()
-    const callback = vi.fn((grid) => {
-      expect(grid.hexes()).toEqual(hexes)
-      grid.store = newStore
-      return grid
-    })
-    const grid = new Grid(hexPrototype, () => hexes)
-    const result = grid.update(callback)
-
-    expect(callback).toBeCalledWith(expect.any(Grid))
-    expect(callback.mock.calls[0][0]).not.toBe(grid)
-    expect(result.hexes()).toEqual([])
-    expect(result.store).not.toBe(grid.store)
-    expect(result.store).toBe(newStore)
-    expect(result).not.toBe(grid)
-  })
-
-  test(`the passed callback doesn't have to return a grid`, () => {
-    const newStore = new Map()
-    const callback = vi.fn((grid) => {
-      grid.store = newStore
-    })
-    const grid = new Grid(hexPrototype)
-    const result = grid.update(callback)
-
-    expect(result.store).toBe(newStore)
-    expect(result).not.toBe(grid)
-  })
-
-  test('iterates over the hexes *in the store* of the cloned grid', () => {
-    interface TestHex extends Hex {
-      test: number
-    }
-    const hexPrototype = createHexPrototype<TestHex>()
-    const hex1 = createHex(hexPrototype, { q: 0, r: 0, test: 1 })
-    const hex2 = hex1.clone({ test: 2 })
-    const grid1 = new Grid(hexPrototype, () => [hex1]).filter((hex) => hex.test === 0)
-
-    const grid2 = grid1.update((grid) => {
-      grid.store.set(hex2.toString(), hex2)
-    })
-
-    grid2
-      .each((hex) => {
-        expect(hex).toEqual(hex2)
-      })
-      .run()
+    expect(grid.hasHex(new Hex([0, 1]))).toBe(true)
+    expect(grid.hasHex(new Hex([10, 30]))).toBe(false)
   })
 })
 
-describe('each()', () => {
-  test('returns a new grid', () => {
-    const grid = new Grid(hexPrototype)
-    const result = grid.each(vi.fn())
+describe('setHexes()', () => {
+  test('sets each hex of the passed iterable', () => {
+    const grid = new Grid(Hex)
+    expect(grid.size).toBe(0)
 
-    expect(result).not.toBe(grid)
-  })
-
-  test('iterates over each hex from the previous iterator/traverser', () => {
-    const callback = vi.fn()
-    const grid1 = new Grid(hexPrototype, [add({ q: 1, r: 2 }, { q: 3, r: 4 })]).each(callback)
-    // call run() separately to test that callback is called with the grid returned by each()
-    grid1.run()
-    expect(callback.mock.calls).toEqual([
-      [createHex(hexPrototype, { q: 1, r: 2 }), grid1],
-      [createHex(hexPrototype, { q: 3, r: 4 }), grid1],
-    ])
-
-    callback.mockReset()
-
-    const grid2 = new Grid(hexPrototype, [add({ q: 1, r: 2 }, { q: 3, r: 4 })])
-      .traverse([add({ q: 5, r: 6 })]) // 👈 now the last traverser
-      .each(callback)
-    grid2.run()
-    expect(callback.mock.calls).toEqual([[createHex(hexPrototype, { q: 5, r: 6 }), grid2]])
-  })
-})
-
-describe('map()', () => {
-  interface TestHex extends Hex {
-    test: number
-  }
-
-  test('returns a new grid', () => {
-    const grid = new Grid(hexPrototype)
-    const result = grid.map(vi.fn())
-
-    expect(result).not.toBe(grid)
-  })
-
-  test('creates a clone of each hex and passes it to the callback', () => {
-    const hexPrototype = createHexPrototype<TestHex>()
-    const mapCallback = vi.fn((hex) => hex.clone({ test: 1 }))
-    const hex = createHex(hexPrototype, { q: 1, r: 2 })
-    const grid = new Grid(hexPrototype, () => [hex]).map(mapCallback)
-    const hexes = grid.hexes()
-
-    expect(mapCallback.mock.calls).toEqual([[hex, grid]])
-    expect(mapCallback.mock.calls[0][0]).not.toBe(hex)
-    expect(hexes).toEqual([createHex(hexPrototype, { q: 1, r: 2, test: 1 })])
-    expect(hexes[0]).not.toBe(hex)
-  })
-
-  test(`the passed callback doesn't have to return a hex`, () => {
-    const hexPrototype = createHexPrototype<TestHex>()
-    const mapCallback = vi.fn((hex) => {
-      hex.test = 2
-    })
-    const hex = createHex(hexPrototype, { q: 1, r: 2 })
-    const grid = new Grid(hexPrototype, () => [hex]).map(mapCallback)
-    const hexes = grid.hexes()
-
-    expect(mapCallback.mock.calls[0][0]).toEqual(createHex(hexPrototype, { q: 1, r: 2, test: 2 })) // hex is mutated
-    expect(hexes[0]).toEqual(createHex(hexPrototype, { q: 1, r: 2, test: 2 }))
+    const hexes = [new Hex([2, 3]), new Hex([1, -4])]
+    const result = grid.setHexes(hexes)
+    expect(result).toStrictEqual(new Grid(Hex, hexes))
+    expect(result).toBe(grid)
   })
 })
 
 describe('filter()', () => {
-  test('returns a new grid', () => {
-    const grid = new Grid(hexPrototype)
-    const result = grid.filter(vi.fn())
+  test('returns a new grid with only the hexes for which the predicate function returns true', () => {
+    const grid = new Grid(Hex, rectangle({ width: 5, height: 5 }))
+    const predicate: Mock<[Hex], boolean> = vi.fn((hex) => hex.q < 0)
+    const result = grid.filter(predicate)
 
-    expect(result).not.toBe(grid)
-  })
-
-  test('filters hexes', () => {
-    const grid = new Grid(hexPrototype, [add({ q: 1, r: 1 }, { q: 2, r: 2 }, { q: 3, r: 3 })]).filter(
-      (hex) => hex.q !== 2,
+    expect(predicate).toBeCalledTimes(25)
+    expect(result).toStrictEqual(
+      new Grid(Hex, [new Hex([-1, 2]), new Hex([-1, 3]), new Hex([-2, 4]), new Hex([-1, 4])]),
     )
-    expect(grid.hexes()).toEqual([createHex(hexPrototype, { q: 1, r: 1 }), createHex(hexPrototype, { q: 3, r: 3 })])
+    expect(result).not.toBe(grid)
+    for (const hex of result) {
+      expect(hex).toBe(grid.getHex(hex))
+    }
   })
 })
 
-describe('takeWhile()', () => {
-  test('returns a new grid', () => {
-    const grid = new Grid(hexPrototype)
-    const result = grid.takeWhile(vi.fn())
+describe('map()', () => {
+  test('returns a new grid with each hex mapped by the passed function', () => {
+    const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
+    const fn: Mock<[Hex], Hex> = vi.fn((hex) => hex.clone({ q: hex.q + 1, s: hex.s - 1 }))
+    const result = grid.map(fn)
 
+    expect(fn).toBeCalledTimes(4)
+    expect(result).toStrictEqual(new Grid(Hex, [new Hex([1, 0]), new Hex([2, 0]), new Hex([1, 1]), new Hex([2, 1])]))
     expect(result).not.toBe(grid)
-  })
-
-  test('stops when the passed predicate returns false', () => {
-    const grid = new Grid(hexPrototype, [add({ q: 1, r: 1 }, { q: 2, r: 2 }, { q: 3, r: 3 })]).takeWhile(
-      (hex) => hex.q !== 2,
-    )
-    expect(grid.hexes()).toEqual([createHex(hexPrototype, { q: 1, r: 1 })])
+    for (const hex of result) {
+      expect(hex).not.toBe(grid.getHex(hex))
+    }
   })
 })
 
 describe('traverse()', () => {
-  test('returns a new grid', () => {
-    const grid = new Grid(hexPrototype)
-    const result = grid.traverse([])
+  test('iterates over the hexes from the passed traverser and returns a new grid with hexes present in the source grid', () => {
+    const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
+    const traverser = rectangle({ start: [1, 0], width: 2, height: 2 })
+    const getHex = vi.spyOn(grid, 'getHex')
+    const result = grid.traverse(traverser)
 
+    expect(getHex).toBeCalledTimes(4)
+    expect(result).toStrictEqual(new Grid(Hex, [new Hex([1, 0]), new Hex([1, 1])]))
     expect(result).not.toBe(grid)
-  })
-
-  test('accepts a single traverser', () => {
-    const traverser = vi.fn(() => [])
-    const grid = new Grid(hexPrototype)
-
-    grid.traverse(traverser).run()
-
-    expect(traverser).toBeCalledWith(createHex(hexPrototype), grid.getHex)
-  })
-
-  test('accepts an array of traversers', () => {
-    const traverser1 = vi.fn(() => [])
-    const traverser2 = vi.fn(() => [])
-    const grid = new Grid(hexPrototype)
-
-    grid.traverse([traverser1, traverser2]).run()
-
-    expect(traverser1).toBeCalledWith(createHex(hexPrototype), grid.getHex)
-    expect(traverser2).toBeCalledWith(createHex(hexPrototype), grid.getHex)
-  })
-
-  test('accepts a generator', () => {
-    function* traverser() {
-      yield createHex(hexPrototype, { q: 1, r: 2 })
-      yield createHex(hexPrototype, { q: 3, r: 4 })
+    for (const hex of result) {
+      expect(hex).toBe(grid.getHex(hex))
     }
-    const grid = new Grid(hexPrototype).traverse(traverser)
-
-    expect(grid.hexes()).toEqual([createHex(hexPrototype, { q: 1, r: 2 }), createHex(hexPrototype, { q: 3, r: 4 })])
   })
 
-  test('continues where a previous traverser stopped', () => {
-    const hexesFrom1stTraverser = [createHex(hexPrototype, { q: 1, r: 2 }), createHex(hexPrototype, { q: 3, r: 4 })]
-    const traverser1 = vi.fn(() => hexesFrom1stTraverser)
-    const traverser2 = vi.fn(() => [])
-    const grid = new Grid(hexPrototype)
+  test(`stops iteration early when bail is true and a hex isn't present in the source grid`, () => {
+    const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
+    const traverser = rectangle({ start: [1, 0], width: 100, height: 100 })
+    const getHex = vi.spyOn(grid, 'getHex')
+    const result = grid.traverse(traverser, { bail: true })
 
-    grid.traverse([traverser1, traverser2]).run()
-
-    expect(traverser2).toBeCalledWith(createHex(hexPrototype, { q: 3, r: 4 }), grid.getHex)
+    expect(getHex).toBeCalledTimes(2) // *after* getHex() returns undefined it can bail
+    expect(result).toStrictEqual(new Grid(Hex, [new Hex([1, 0])]))
   })
 
-  test('passes a getHex() function to the callback', () => {
-    const hexInStore = createHex(hexPrototype, { q: 1, r: 2 })
-    const store = new Map([[hexInStore.toString(), hexInStore]])
-    const traverser: Traverser<Hex> = (_, getHex) => [getHex({ q: 1, r: 2 })]
-    const grid = new Grid(hexPrototype, store).traverse(traverser)
+  test('iterates over the hexes from the passed iterable and returns a new grid with hexes present in the source grid', () => {
+    const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
+    const iterable = [new Hex([1, 0]), new Hex([0, 1])]
+    const result = grid.traverse(iterable)
 
-    expect(grid.hexes()[0]).toBe(hexInStore)
+    expect(result).toStrictEqual(new Grid(Hex, [new Hex([1, 0]), new Hex([0, 1])]))
+    for (const hex of result) {
+      expect(hex).toBe(grid.getHex(hex))
+    }
   })
 
-  test('runs any previous iterators', () => {
-    const callback = vi.fn()
-    const grid = new Grid(hexPrototype, add({ q: 1, r: 2 }))
+  test('iterates over the hexes from the passed grid and returns a new grid with hexes present in the source grid', () => {
+    const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
+    const otherGrid = new Grid(Hex, rectangle({ start: [0, 1], width: 2, height: 2 }))
+    const result = grid.traverse(otherGrid)
 
-    grid.each(callback).traverse([]).run()
-
-    expect(callback).toBeCalled()
+    expect(result).toStrictEqual(new Grid(Hex, [new Hex([0, 1]), new Hex([1, 1])]))
+    for (const hex of result) {
+      expect(hex).toBe(grid.getHex(hex))
+    }
   })
 })
 
-describe('run()', () => {
-  test('returns the same grid', () => {
-    const grid = new Grid(hexPrototype)
-    const result = grid.run()
+describe('forEach()', () => {
+  test('passes each hex to the provided callback and returns itself', () => {
+    const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
+    const fn: Mock<[Hex], void> = vi.fn()
+    const result = grid.forEach(fn)
 
-    expect(result).not.toBe(grid)
+    expect(fn).toBeCalledTimes(4)
+    expect(result).toBe(grid)
+    for (const hex of result) {
+      expect(hex).toBe(grid.getHex(hex))
+    }
+  })
+})
+
+describe('reduce()', () => {
+  test('passes the previous and current hex to the provided callback and returns the result', () => {
+    const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
+    const reducer: Mock<[Hex, Hex], Hex> = vi.fn((previousHex, hex) => previousHex.translate(hex))
+    const result = grid.reduce(reducer)
+
+    expect(reducer).toBeCalledTimes(3)
+    expect(result).toStrictEqual(new Hex([1, 2]))
   })
 
-  test('runs all iterators recursively', () => {
-    const eachCallback = vi.fn()
-    const filterCallback = vi.fn((hex) => hex.q > 1)
-    const runCallback = vi.fn()
-    const grid = new Grid(hexPrototype, [add({ q: 1, r: 2 }, { q: 3, r: 4 })]).each(eachCallback).filter(filterCallback)
+  test('passes the initial hex and current hex to the provided callback and returns the result', () => {
+    const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
+    const reducer: Mock<[Hex, Hex], Hex> = vi.fn((acc, hex) => acc.translate(hex))
+    const result = grid.reduce(reducer, new Hex([10, 10]))
 
-    expect(eachCallback).not.toBeCalled()
-
-    grid.run(runCallback)
-
-    expect(eachCallback.mock.calls).toEqual([
-      [createHex(hexPrototype, { q: 1, r: 2 }), grid],
-      [createHex(hexPrototype, { q: 3, r: 4 }), grid],
-    ])
-    expect(runCallback.mock.calls).toEqual([[createHex(hexPrototype, { q: 3, r: 4 }), grid]])
+    expect(reducer).toBeCalledTimes(4)
+    expect(result).toStrictEqual(new Hex([12, 12]))
   })
 
-  test(`doesn't run iterators again once run, but doesn't clear internal hexes either`, () => {
-    const eachCallback = vi.fn()
-    const hex = createHex(hexPrototype, { q: 1, r: 2 })
-    const runGrid = new Grid(hexPrototype, () => [hex]).each(eachCallback).run()
+  test('passes the initial value and current hex to the provided callback and returns the result', () => {
+    const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
+    const reducer: Mock<[number, Hex], number> = vi.fn((acc, hex) => acc + hex.q)
+    const result = grid.reduce(reducer, 0)
 
-    const twiceRunGrid = runGrid.run()
+    expect(reducer).toBeCalledTimes(4)
+    expect(result).toBe(2)
+  })
+})
 
-    expect(eachCallback).toBeCalledTimes(1)
-    expect(runGrid.hexes()).toEqual([hex])
-    expect(twiceRunGrid.hexes()).toEqual([hex])
+describe('toArray()', () => {
+  test('returns an array of the hexes in the grid', () => {
+    const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
+    const result = grid.toArray()
+
+    expect(result).toBeInstanceOf(Array)
+    expect(result).toStrictEqual([new Hex([0, 0]), new Hex([1, 0]), new Hex([0, 1]), new Hex([1, 1])])
+  })
+})
+
+describe('toJSON()', () => {
+  test('returns an object that can be used to serialize the grid', () => {
+    const hexSettings: HexSettings = {
+      dimensions: { xRadius: 10, yRadius: 10 },
+      orientation: Orientation.FLAT,
+      origin: { x: 0, y: 0 },
+      offset: 1,
+    }
+    const TestHex = defineHex(hexSettings)
+    const coordinates = [new TestHex([0, 0]), new TestHex([1, 0])]
+    const grid = new Grid(TestHex, coordinates)
+    const result = grid.toJSON()
+
+    expect(result).toStrictEqual({ hexSettings, coordinates })
+    expect(JSON.stringify(grid)).toBe(
+      '{"hexSettings":{"dimensions":{"xRadius":10,"yRadius":10},"orientation":"FLAT","origin":{"x":0,"y":0},"offset":1},"coordinates":[{"q":0,"r":0,"s":0},{"q":1,"r":0,"s":-1}]}',
+    )
+  })
+})
+
+describe('toString()', () => {
+  test('returns the constructor name and size', () => {
+    const grid = new Grid(Hex, rectangle({ width: 5, height: 5 }))
+
+    expect(grid.toString()).toBe('Grid(25)')
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    expect(`${grid}`).toBe('Grid(25)')
+  })
+})
+
+describe('pointToHex()', () => {
+  test('returns the hex that corresponds to the passed point, even outside the grid', () => {
+    const TestHex = defineHex({ dimensions: 10 })
+    const grid = new Grid(TestHex, rectangle({ width: 2, height: 2 }))
+
+    expect(grid.pointToHex({ x: 20, y: 20 })).toStrictEqual(new TestHex([1, 1]))
+    expect(grid.pointToHex({ x: 1000, y: 1000 })).toBeInstanceOf(TestHex)
+  })
+
+  test(`when allowOutside is false, returns the hex that corresponds to the point when it's present in the grid`, () => {
+    const TestHex = defineHex({ dimensions: 10 })
+    const grid = new Grid(TestHex, rectangle({ width: 2, height: 2 }))
+
+    expect(grid.pointToHex({ x: 1000, y: 1000 }, { allowOutside: false })).toBeUndefined()
+  })
+})
+
+describe('distance()', () => {
+  test('returns the distance in hexes between the passed two coordinates, even outside the grid', () => {
+    const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
+
+    expect(grid.distance([0, 0], [1, 1])).toBe(2)
+    expect(grid.distance([0, 0], [100, 100])).toBeTypeOf('number')
+  })
+
+  test(`when allowOutside is false, returns the distance in hexes between the passed two coordinates if they're present in the grid`, () => {
+    const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
+    expect(grid.distance([0, 0], [100, 100], { allowOutside: false })).toBeUndefined()
+  })
+})
+
+describe('neighborOf()', () => {
+  test('returns the neighbor of the hex with the given coordinates in the given direction, even outside the grid', () => {
+    const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
+
+    expect(grid.neighborOf([0, 0], CompassDirection.E)).toStrictEqual(new Hex([1, 0]))
+    expect(grid.neighborOf([100, 100], CompassDirection.E)).toStrictEqual(new Hex([101, 100]))
+  })
+
+  test(`when allowOutside is false, returns the neighbor of the hex with the given coordinates in the given direction if they're present in the grid`, () => {
+    const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
+
+    // hex with coordinates doesn't exist
+    expect(grid.neighborOf([100, 100], CompassDirection.E, { allowOutside: false })).toBeUndefined()
+    // neighbor doesn't exist
+    expect(grid.neighborOf([1, 1], CompassDirection.E, { allowOutside: false })).toBeUndefined()
   })
 })
