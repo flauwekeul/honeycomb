@@ -11,9 +11,7 @@
 
 ### Hex Interfaces
 
-- [Hex](interfaces/Hex.md)
-- [HexPrototype](interfaces/HexPrototype.md)
-- [HexPrototypeOptions](interfaces/HexPrototypeOptions.md)
+- [HexOptions](interfaces/HexOptions.md)
 - [HexSettings](interfaces/HexSettings.md)
 
 ### Traverser Interfaces
@@ -35,15 +33,19 @@
 
 - [Compass](classes/Compass.md)
 - [Grid](classes/Grid.md)
+- [Hex](classes/Hex.md)
 
 ### Hex Enumerations
 
 - [Orientation](enums/Orientation.md)
 
+### Traverser Enumerations
+
+- [Rotation](enums/Rotation.md)
+
 ### Other Enumerations
 
 - [CompassDirection](enums/CompassDirection.md)
-- [Rotation](enums/Rotation.md)
 
 ### Coordinates Type Aliases
 
@@ -53,46 +55,39 @@
 
 ### Hex Type Aliases
 
-- [OriginFn](index.md#OriginFn)
-- [hexDimensions](index.md#hexDimensions)
+- [HexConstructor](index.md#HexConstructor)
+- [HexOffset](index.md#HexOffset)
 
 ### Traverser Type Aliases
 
+- [RotationLike](index.md#RotationLike)
 - [Traverser](index.md#Traverser)
 
 ### Other Type Aliases
 
 - [CompassDirectionLike](index.md#CompassDirectionLike)
-- [RotationLike](index.md#RotationLike)
 
 ### Coordinates Functions
 
-- [assertCubeCoordinates](index.md#assertCubeCoordinates)
-- [completeCubeCoordinates](index.md#completeCubeCoordinates)
+- [completeCube](index.md#completeCube)
 - [isAxial](index.md#isAxial)
 - [isOffset](index.md#isOffset)
 - [isTuple](index.md#isTuple)
+- [toCube](index.md#toCube)
 - [tupleToCube](index.md#tupleToCube)
 
 ### Hex Functions
 
-- [center](index.md#center)
-- [cloneHex](index.md#cloneHex)
-- [corners](index.md#corners)
-- [createHex](index.md#createHex)
-- [createHexPrototype](index.md#createHexPrototype)
+- [createHexDimensions](index.md#createHexDimensions)
+- [createHexOrigin](index.md#createHexOrigin)
+- [defineHex](index.md#defineHex)
 - [equals](index.md#equals)
-- [height](index.md#height)
 - [hexToOffset](index.md#hexToOffset)
 - [hexToPoint](index.md#hexToPoint)
-- [isFlat](index.md#isFlat)
-- [isHex](index.md#isHex)
-- [isPointy](index.md#isPointy)
 - [offsetToCube](index.md#offsetToCube)
 - [pointToCube](index.md#pointToCube)
 - [round](index.md#round)
 - [translate](index.md#translate)
-- [width](index.md#width)
 
 ### Traverser Functions
 
@@ -108,12 +103,14 @@
 
 ### Other Functions
 
-- [cornersFlat](index.md#cornersFlat)
-- [cornersPointy](index.md#cornersPointy)
 - [distance](index.md#distance)
 - [isPoint](index.md#isPoint)
 - [neighborOf](index.md#neighborOf)
 - [offsetFromZero](index.md#offsetFromZero)
+
+### Hex Variables
+
+- [defaultHexSettings](index.md#defaultHexSettings)
 
 ## Coordinates Type Aliases
 
@@ -123,7 +120,7 @@
 
 #### Defined in
 
-[hex/types.ts:57](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L57)
+[hex/types.ts:61](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L61)
 
 ___
 
@@ -133,7 +130,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:44](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L44)
+[hex/types.ts:48](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L48)
 
 ___
 
@@ -143,53 +140,59 @@ ___
 
 #### Defined in
 
-[hex/types.ts:52](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L52)
+[hex/types.ts:56](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L56)
 
 ___
 
 ## Hex Type Aliases
 
-### <a id="OriginFn" name="OriginFn"></a> OriginFn
+### <a id="HexConstructor" name="HexConstructor"></a> HexConstructor
 
- **OriginFn**: <T\>(`prototype`: `T`) => [`Point`](interfaces/Point.md)
+ **HexConstructor**<`T`\>: (`coordinates?`: [`HexCoordinates`](index.md#HexCoordinates)) => `T`
 
-#### Type declaration
-
-<`T`\>(`prototype`): [`Point`](interfaces/Point.md)
-
-##### Type parameters
+#### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends `Omit`<[`HexPrototype`](interfaces/HexPrototype.md), ``"origin"``\> |
+| `T` | extends [`Hex`](classes/Hex.md) |
+
+#### Type declaration
+
+(`coordinates?`)
 
 ##### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `prototype` | `T` |
-
-##### Returns
-
-[`Point`](interfaces/Point.md)
+| `coordinates?` | [`HexCoordinates`](index.md#HexCoordinates) |
 
 #### Defined in
 
-[hex/functions/createHexPrototype.ts:130](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/createHexPrototype.ts#L130)
+[hex/types.ts:119](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L119)
 
 ___
 
-### <a id="hexDimensions" name="hexDimensions"></a> hexDimensions
+### <a id="HexOffset" name="HexOffset"></a> HexOffset
 
- **hexDimensions**: [`Ellipse`](interfaces/Ellipse.md) \| [`BoundingBox`](interfaces/BoundingBox.md) \| `number`
+ **HexOffset**: ``1`` \| ``-1``
 
 #### Defined in
 
-[hex/types.ts:72](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L72)
+[hex/types.ts:76](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L76)
 
 ___
 
 ## Traverser Type Aliases
+
+### <a id="RotationLike" name="RotationLike"></a> RotationLike
+
+ **RotationLike**: [`Rotation`](enums/Rotation.md) \| ``"CLOCKWISE"`` \| ``"clockwise"`` \| ``"COUNTERCLOCKWISE"`` \| ``"counterclockwise"``
+
+#### Defined in
+
+[grid/types.ts:27](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L27)
+
+___
 
 ### <a id="Traverser" name="Traverser"></a> Traverser
 
@@ -199,7 +202,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](interfaces/Hex.md) |
+| `T` | extends [`Hex`](classes/Hex.md) |
 | `R` | extends `Iterable`<`T`\> = `T`[] |
 
 #### Type declaration
@@ -233,44 +236,11 @@ ___
 
 [compass/compass.ts:16](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L16)
 
-___
-
-### <a id="RotationLike" name="RotationLike"></a> RotationLike
-
- **RotationLike**: [`Rotation`](enums/Rotation.md) \| ``"CLOCKWISE"`` \| ``"clockwise"`` \| ``"COUNTERCLOCKWISE"`` \| ``"counterclockwise"``
-
-#### Defined in
-
-[grid/types.ts:21](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L21)
-
 ## Coordinates Functions
 
-### <a id="assertCubeCoordinates" name="assertCubeCoordinates"></a> assertCubeCoordinates
+### <a id="completeCube" name="completeCube"></a> completeCube
 
-**assertCubeCoordinates**(`hexPrototype`, `coordinates`): [`CubeCoordinates`](interfaces/CubeCoordinates.md)
-
-Util for converting offset/axial/cube/tuple coordinates to cube coordinates.
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `hexPrototype` | `Pick`<[`HexPrototype`](interfaces/HexPrototype.md), ``"offset"`` \| ``"isPointy"``\> |
-| `coordinates` | [`HexCoordinates`](index.md#HexCoordinates) |
-
-#### Returns
-
-[`CubeCoordinates`](interfaces/CubeCoordinates.md)
-
-#### Defined in
-
-[hex/functions/assertCubeCoordinates.ts:11](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/assertCubeCoordinates.ts#L11)
-
-___
-
-### <a id="completeCubeCoordinates" name="completeCubeCoordinates"></a> completeCubeCoordinates
-
-**completeCubeCoordinates**(`__namedParameters`): [`CubeCoordinates`](interfaces/CubeCoordinates.md)
+**completeCube**(`__namedParameters`): [`CubeCoordinates`](interfaces/CubeCoordinates.md)
 
 #### Parameters
 
@@ -284,7 +254,7 @@ ___
 
 #### Defined in
 
-[hex/functions/completeCubeCoordinates.ts:6](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/completeCubeCoordinates.ts#L6)
+[hex/functions/completeCube.ts:7](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/completeCube.ts#L7)
 
 ___
 
@@ -304,7 +274,7 @@ value is AxialCoordinates
 
 #### Defined in
 
-[utils/isAxial.ts:7](https://github.com/flauwekeul/honeycomb/blob/next/src/utils/isAxial.ts#L7)
+[utils/isAxial.ts:8](https://github.com/flauwekeul/honeycomb/blob/next/src/utils/isAxial.ts#L8)
 
 ___
 
@@ -324,7 +294,7 @@ value is OffsetCoordinates
 
 #### Defined in
 
-[utils/isOffset.ts:7](https://github.com/flauwekeul/honeycomb/blob/next/src/utils/isOffset.ts#L7)
+[utils/isOffset.ts:8](https://github.com/flauwekeul/honeycomb/blob/next/src/utils/isOffset.ts#L8)
 
 ___
 
@@ -344,7 +314,30 @@ value is TupleCoordinates
 
 #### Defined in
 
-[utils/isTuple.ts:6](https://github.com/flauwekeul/honeycomb/blob/next/src/utils/isTuple.ts#L6)
+[utils/isTuple.ts:7](https://github.com/flauwekeul/honeycomb/blob/next/src/utils/isTuple.ts#L7)
+
+___
+
+### <a id="toCube" name="toCube"></a> toCube
+
+**toCube**(`hex`, `coordinates`): [`CubeCoordinates`](interfaces/CubeCoordinates.md)
+
+Util for converting offset/axial/cube/tuple coordinates to cube coordinates.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `hex` | `Pick`<[`Hex`](classes/Hex.md), ``"offset"`` \| ``"isPointy"``\> |
+| `coordinates` | [`HexCoordinates`](index.md#HexCoordinates) |
+
+#### Returns
+
+[`CubeCoordinates`](interfaces/CubeCoordinates.md)
+
+#### Defined in
+
+[hex/functions/toCube.ts:12](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/toCube.ts#L12)
 
 ___
 
@@ -376,19 +369,69 @@ ___
 
 ## Hex Functions
 
-### <a id="center" name="center"></a> center
+### <a id="createHexDimensions" name="createHexDimensions"></a> createHexDimensions
 
-**center**(`hexOrPrototype`): [`Point`](interfaces/Point.md)
-
-When passed a **[Hex](interfaces/Hex.md)**, its center relative to the **"origin hex"** (with coordinates `[0, 0]`) is returned. This is different for every hex.
-
-When passed a **[HexPrototype](interfaces/HexPrototype.md)**, the center relative to its **own origin** is returned. This is the same for every hex.
+**createHexDimensions**(`radius`): [`Ellipse`](interfaces/Ellipse.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `hexOrPrototype` | [`Hex`](interfaces/Hex.md) \| `Pick`<[`HexPrototype`](interfaces/HexPrototype.md), ``"height"`` \| ``"width"`` \| ``"origin"``\> |
+| `radius` | `number` |
+
+#### Returns
+
+[`Ellipse`](interfaces/Ellipse.md)
+
+#### Defined in
+
+[hex/functions/createHexDimensions.ts:7](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/createHexDimensions.ts#L7)
+
+**createHexDimensions**(`boundingBox`, `orientation`): [`Ellipse`](interfaces/Ellipse.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `boundingBox` | [`BoundingBox`](interfaces/BoundingBox.md) |
+| `orientation` | [`Orientation`](enums/Orientation.md) |
+
+#### Returns
+
+[`Ellipse`](interfaces/Ellipse.md)
+
+#### Defined in
+
+[hex/functions/createHexDimensions.ts:8](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/createHexDimensions.ts#L8)
+
+**createHexDimensions**(`ellipse`): [`Ellipse`](interfaces/Ellipse.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `ellipse` | [`Ellipse`](interfaces/Ellipse.md) |
+
+#### Returns
+
+[`Ellipse`](interfaces/Ellipse.md)
+
+#### Defined in
+
+[hex/functions/createHexDimensions.ts:9](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/createHexDimensions.ts#L9)
+
+___
+
+### <a id="createHexOrigin" name="createHexOrigin"></a> createHexOrigin
+
+**createHexOrigin**(`input`, `boundingBox`): [`Point`](interfaces/Point.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `input` | ``"topLeft"`` |
+| `boundingBox` | [`BoundingBox`](interfaces/BoundingBox.md) |
 
 #### Returns
 
@@ -396,132 +439,43 @@ When passed a **[HexPrototype](interfaces/HexPrototype.md)**, the center relativ
 
 #### Defined in
 
-[hex/functions/center.ts:11](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/center.ts#L11)
+[hex/functions/createHexOrigin.ts:7](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/createHexOrigin.ts#L7)
+
+**createHexOrigin**(`input`): [`Point`](interfaces/Point.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `input` | [`Point`](interfaces/Point.md) |
+
+#### Returns
+
+[`Point`](interfaces/Point.md)
+
+#### Defined in
+
+[hex/functions/createHexOrigin.ts:8](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/createHexOrigin.ts#L8)
 
 ___
 
-### <a id="cloneHex" name="cloneHex"></a> cloneHex
+### <a id="defineHex" name="defineHex"></a> defineHex
 
-**cloneHex**<`T`\>(`hex`, `newProps?`): `T`
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | extends [`Hex`](interfaces/Hex.md)<`T`\> |
+**defineHex**(`hexOptions?`): typeof [`Hex`](classes/Hex.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `hex` | `T` |
-| `newProps` | [`HexCoordinates`](index.md#HexCoordinates) \| `Partial`<`T`\> |
+| `hexOptions?` | `Partial`<[`HexOptions`](interfaces/HexOptions.md)\> |
 
 #### Returns
 
-`T`
+typeof [`Hex`](classes/Hex.md)
 
 #### Defined in
 
-[hex/functions/cloneHex.ts:8](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/cloneHex.ts#L8)
-
-___
-
-### <a id="corners" name="corners"></a> corners
-
-**corners**(`hex`): [`Point`](interfaces/Point.md)[]
-
-When passed a **[Hex](interfaces/Hex.md)**, its corners relative to the **"origin hex"** (with coordinates `[0, 0]`) is returned. This is different for every hex.
-
-When passed **[HexSettings](interfaces/HexSettings.md)**, the corners relative to its **own origin** is returned. This is the same for every hex.
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `hex` | [`Hex`](interfaces/Hex.md) |
-
-#### Returns
-
-[`Point`](interfaces/Point.md)[]
-
-#### Defined in
-
-[hex/functions/corners.ts:32](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/corners.ts#L32)
-
-**corners**(`hexSettings`): [`Point`](interfaces/Point.md)[]
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `hexSettings` | `Omit`<[`HexSettings`](interfaces/HexSettings.md), ``"offset"``\> |
-
-#### Returns
-
-[`Point`](interfaces/Point.md)[]
-
-#### Defined in
-
-[hex/functions/corners.ts:33](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/corners.ts#L33)
-
-___
-
-### <a id="createHex" name="createHex"></a> createHex
-
-**createHex**<`T`\>(`prototypeOrHex`, `props?`): `T`
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | extends [`Hex`](interfaces/Hex.md)<`T`\> |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `prototypeOrHex` | `T` |
-| `props` | [`HexCoordinates`](index.md#HexCoordinates) \| `Partial`<`T`\> |
-
-#### Returns
-
-`T`
-
-#### Defined in
-
-[hex/functions/createHex.ts:9](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/createHex.ts#L9)
-
-___
-
-### <a id="createHexPrototype" name="createHexPrototype"></a> createHexPrototype
-
-**createHexPrototype**<`T`\>(`options?`): `T`
-
-**`Remarks`**
-
-⚠️ The methods `clone()`, `equals()` and `toString()` are "protected".
-If you custom hex prototype overwrites these methods, things may break unexpectedly.
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | extends [`Hex`](interfaces/Hex.md)<`T`\> |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `options?` | `Partial`<[`HexPrototypeOptions`](interfaces/HexPrototypeOptions.md) \| `Omit`<`T`, keyof [`HexPrototypeOptions`](interfaces/HexPrototypeOptions.md)\>\> |
-
-#### Returns
-
-`T`
-
-#### Defined in
-
-[hex/functions/createHexPrototype.ts:31](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/createHexPrototype.ts#L31)
+[hex/functions/defineHex.ts:9](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/defineHex.ts#L9)
 
 ___
 
@@ -563,26 +517,6 @@ ___
 
 ___
 
-### <a id="height" name="height"></a> height
-
-**height**(`__namedParameters`): `number`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `__namedParameters` | [`HexSettings`](interfaces/HexSettings.md) |
-
-#### Returns
-
-`number`
-
-#### Defined in
-
-[hex/functions/height.ts:16](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/height.ts#L16)
-
-___
-
 ### <a id="hexToOffset" name="hexToOffset"></a> hexToOffset
 
 **hexToOffset**(`__namedParameters`): [`OffsetCoordinates`](interfaces/OffsetCoordinates.md)
@@ -591,7 +525,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | `Pick`<[`Hex`](interfaces/Hex.md), ``"q"`` \| ``"r"`` \| ``"offset"`` \| ``"isPointy"``\> |
+| `__namedParameters` | `Pick`<[`Hex`](classes/Hex.md), ``"q"`` \| ``"r"`` \| ``"offset"`` \| ``"isPointy"``\> |
 
 #### Returns
 
@@ -599,7 +533,7 @@ ___
 
 #### Defined in
 
-[hex/functions/hexToOffset.ts:17](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/hexToOffset.ts#L17)
+[hex/functions/hexToOffset.ts:18](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/hexToOffset.ts#L18)
 
 ___
 
@@ -611,7 +545,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | [`Hex`](interfaces/Hex.md) |
+| `__namedParameters` | [`Hex`](classes/Hex.md) |
 
 #### Returns
 
@@ -619,67 +553,7 @@ ___
 
 #### Defined in
 
-[hex/functions/hexToPoint.ts:6](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/hexToPoint.ts#L6)
-
-___
-
-### <a id="isFlat" name="isFlat"></a> isFlat
-
-**isFlat**(`__namedParameters`): `boolean`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `__namedParameters` | [`HexSettings`](interfaces/HexSettings.md) |
-
-#### Returns
-
-`boolean`
-
-#### Defined in
-
-[hex/functions/isFlat.ts:6](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/isFlat.ts#L6)
-
-___
-
-### <a id="isHex" name="isHex"></a> isHex
-
-**isHex**(`value`): value is Hex
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `value` | `unknown` |
-
-#### Returns
-
-value is Hex
-
-#### Defined in
-
-[hex/functions/isHex.ts:7](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/isHex.ts#L7)
-
-___
-
-### <a id="isPointy" name="isPointy"></a> isPointy
-
-**isPointy**(`__namedParameters`): `boolean`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `__namedParameters` | [`HexSettings`](interfaces/HexSettings.md) |
-
-#### Returns
-
-`boolean`
-
-#### Defined in
-
-[hex/functions/isPointy.ts:6](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/isPointy.ts#L6)
+[hex/functions/hexToPoint.ts:7](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/hexToPoint.ts#L7)
 
 ___
 
@@ -691,7 +565,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | `Pick`<[`HexPrototype`](interfaces/HexPrototype.md), ``"offset"`` \| ``"isPointy"``\> |
+| `__namedParameters` | `Pick`<[`Hex`](classes/Hex.md), ``"offset"`` \| ``"isPointy"``\> |
 | `__namedParameters` | [`OffsetCoordinates`](interfaces/OffsetCoordinates.md) |
 
 #### Returns
@@ -700,7 +574,7 @@ ___
 
 #### Defined in
 
-[hex/functions/offsetToCube.ts:27](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/offsetToCube.ts#L27)
+[hex/functions/offsetToCube.ts:28](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/offsetToCube.ts#L28)
 
 ___
 
@@ -712,7 +586,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | `Pick`<[`HexPrototype`](interfaces/HexPrototype.md), ``"isPointy"`` \| ``"dimensions"`` \| ``"origin"``\> |
+| `__namedParameters` | `Pick`<[`Hex`](classes/Hex.md), ``"isPointy"`` \| ``"dimensions"`` \| ``"origin"``\> |
 | `__namedParameters` | [`Point`](interfaces/Point.md) |
 
 #### Returns
@@ -721,7 +595,7 @@ ___
 
 #### Defined in
 
-[hex/functions/pointToCube.ts:10](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/pointToCube.ts#L10)
+[hex/functions/pointToCube.ts:11](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/pointToCube.ts#L11)
 
 ___
 
@@ -753,7 +627,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](interfaces/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
 
 #### Parameters
 
@@ -768,7 +642,7 @@ ___
 
 #### Defined in
 
-[hex/functions/translate.ts:10](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/translate.ts#L10)
+[hex/functions/translate.ts:8](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/translate.ts#L8)
 
 **translate**(`coordinates`, `delta`): [`CubeCoordinates`](interfaces/CubeCoordinates.md)
 
@@ -785,27 +659,7 @@ ___
 
 #### Defined in
 
-[hex/functions/translate.ts:11](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/translate.ts#L11)
-
-___
-
-### <a id="width" name="width"></a> width
-
-**width**(`__namedParameters`): `number`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `__namedParameters` | [`HexSettings`](interfaces/HexSettings.md) |
-
-#### Returns
-
-`number`
-
-#### Defined in
-
-[hex/functions/width.ts:16](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/width.ts#L16)
+[hex/functions/translate.ts:9](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/translate.ts#L9)
 
 ___
 
@@ -819,7 +673,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](interfaces/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
 
 #### Parameters
 
@@ -845,7 +699,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](interfaces/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
 
 #### Parameters
 
@@ -871,7 +725,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](interfaces/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
 
 #### Parameters
 
@@ -893,7 +747,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](interfaces/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
 
 #### Parameters
 
@@ -919,7 +773,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](interfaces/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
 
 #### Parameters
 
@@ -949,7 +803,7 @@ The rectangle will only have 90° corners for the directions North, East, South 
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](interfaces/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
 
 #### Parameters
 
@@ -971,7 +825,7 @@ The rectangle will only have 90° corners for the directions North, East, South 
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](interfaces/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
 
 #### Parameters
 
@@ -998,7 +852,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](interfaces/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
 
 #### Parameters
 
@@ -1025,7 +879,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](interfaces/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
 
 #### Parameters
 
@@ -1054,7 +908,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](interfaces/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
 
 #### Parameters
 
@@ -1068,7 +922,7 @@ ___
 
 #### Defined in
 
-[grid/traversers/ring.ts:8](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/ring.ts#L8)
+[grid/traversers/ring.ts:9](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/ring.ts#L9)
 
 **ring**<`T`\>(`options`): [`Traverser`](index.md#Traverser)<`T`\>
 
@@ -1076,7 +930,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](interfaces/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
 
 #### Parameters
 
@@ -1090,7 +944,7 @@ ___
 
 #### Defined in
 
-[grid/traversers/ring.ts:9](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/ring.ts#L9)
+[grid/traversers/ring.ts:10](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/ring.ts#L10)
 
 ___
 
@@ -1102,7 +956,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](interfaces/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
 
 #### Parameters
 
@@ -1122,59 +976,15 @@ ___
 
 ## Other Functions
 
-### <a id="cornersFlat" name="cornersFlat"></a> cornersFlat
-
-**cornersFlat**(`width`, `height`, `__namedParameters`): { `x`: `number` ; `y`: `number`  }[]
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `width` | `number` |
-| `height` | `number` |
-| `__namedParameters` | [`Point`](interfaces/Point.md) |
-
-#### Returns
-
-{ `x`: `number` ; `y`: `number`  }[]
-
-#### Defined in
-
-[hex/functions/corners.ts:16](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/corners.ts#L16)
-
-___
-
-### <a id="cornersPointy" name="cornersPointy"></a> cornersPointy
-
-**cornersPointy**(`width`, `height`, `__namedParameters`): { `x`: `number` ; `y`: `number`  }[]
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `width` | `number` |
-| `height` | `number` |
-| `__namedParameters` | [`Point`](interfaces/Point.md) |
-
-#### Returns
-
-{ `x`: `number` ; `y`: `number`  }[]
-
-#### Defined in
-
-[hex/functions/corners.ts:7](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/functions/corners.ts#L7)
-
-___
-
 ### <a id="distance" name="distance"></a> distance
 
-**distance**(`hexPrototype`, `from`, `to`): `number`
+**distance**(`hex`, `from`, `to`): `number`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `hexPrototype` | `Pick`<[`HexPrototype`](interfaces/HexPrototype.md), ``"offset"`` \| ``"isPointy"``\> |
+| `hex` | `Pick`<[`Hex`](classes/Hex.md), ``"offset"`` \| ``"isPointy"``\> |
 | `from` | [`HexCoordinates`](index.md#HexCoordinates) |
 | `to` | [`HexCoordinates`](index.md#HexCoordinates) |
 
@@ -1204,7 +1014,7 @@ value is Point
 
 #### Defined in
 
-[utils/isPoint.ts:4](https://github.com/flauwekeul/honeycomb/blob/next/src/utils/isPoint.ts#L4)
+[utils/isPoint.ts:5](https://github.com/flauwekeul/honeycomb/blob/next/src/utils/isPoint.ts#L5)
 
 ___
 
@@ -1216,7 +1026,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](interfaces/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
 
 #### Parameters
 
@@ -1243,7 +1053,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `offset` | `number` |
+| `offset` | [`HexOffset`](index.md#HexOffset) |
 | `distance` | `number` |
 
 #### Returns
@@ -1252,4 +1062,14 @@ ___
 
 #### Defined in
 
-[utils/offsetFromZero.ts:3](https://github.com/flauwekeul/honeycomb/blob/next/src/utils/offsetFromZero.ts#L3)
+[utils/offsetFromZero.ts:6](https://github.com/flauwekeul/honeycomb/blob/next/src/utils/offsetFromZero.ts#L6)
+
+## Hex Variables
+
+### <a id="defaultHexSettings" name="defaultHexSettings"></a> defaultHexSettings
+
+ `Const` **defaultHexSettings**: [`HexSettings`](interfaces/HexSettings.md)
+
+#### Defined in
+
+[hex/hex.ts:123](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/hex.ts#L123)

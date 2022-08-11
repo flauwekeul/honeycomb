@@ -1,13 +1,5 @@
 # Interface: AxialCoordinates
 
-## Hierarchy
-
-- **`AxialCoordinates`**
-
-  ↳ [`CubeCoordinates`](CubeCoordinates.md)
-
-  ↳ [`Hex`](Hex.md)
-
 ## Table of contents
 
 ### Properties
@@ -23,7 +15,7 @@
 
 #### Defined in
 
-[hex/types.ts:29](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L29)
+[hex/types.ts:31](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L31)
 
 ___
 
@@ -33,4 +25,4 @@ ___
 
 #### Defined in
 
-[hex/types.ts:30](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L30)
+[hex/types.ts:32](https://github.com/flauwekeul/honeycomb/blob/next/src/hex/types.ts#L32)

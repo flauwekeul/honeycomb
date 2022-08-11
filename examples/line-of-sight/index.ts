@@ -1,6 +1,6 @@
 import { G, Image, SVG } from '@svgdotjs/svg.js'
-import { AxialCoordinates } from '../../dist'
 import {
+  AxialCoordinates,
   defineHex,
   Grid,
   HexCoordinates,
@@ -23,7 +23,7 @@ const VIEW_DISTANCE_IN_TILES = 3
 const draw = SVG().addTo('body').size('100%', '100%').id('container')
 
 export class Tile extends defineHex({ dimensions: 50, origin: 'topLeft' }) {
-  static from(config: AxialCoordinates & { terrain: Terrain }) {
+  static create(config: AxialCoordinates & { terrain: Terrain }) {
     const tile = new Tile(config)
     tile.terrain = config.terrain
     return tile
@@ -34,7 +34,7 @@ export class Tile extends defineHex({ dimensions: 50, origin: 'topLeft' }) {
   element!: G
 }
 
-const grid = new Grid(Tile, TILES.map(Tile.from))
+const grid = new Grid(Tile, TILES.map(Tile.create))
 
 renderMap(draw, grid)
 

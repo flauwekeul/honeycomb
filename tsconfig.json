@@ -18,4 +18,5 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
+  "exclude": ["docs/api/**/*", "benchmark.ts"]
 }

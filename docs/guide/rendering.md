@@ -6,12 +6,12 @@ Honeycomb comes *without* the ability to render hexes to screen. Fortunately, it
 
 ```typescript
 import { SVG } from '@svgdotjs/svg.js'
-import { createHexPrototype, Grid, Hex, rectangle } from 'honeycomb-grid'
+import { defineHex, Grid, rectangle } from 'honeycomb-grid'
 
 // you may want the origin to be the top left corner of a hex's bounding box
 // instead of its center (which is the default)
-const hexPrototype = createHexPrototype({ dimensions: 30, origin: 'topLeft' })
-const grid = new Grid(hexPrototype, rectangle({ width: 10, height: 10 }))
+const Hex = defineHex({ dimensions: 30, origin: 'topLeft' })
+const grid = new Grid(Hex, rectangle({ width: 10, height: 10 }))
 
 const draw = SVG().addTo('body').size('100%', '100%')
 
@@ -32,12 +32,12 @@ function renderSVG(hex: Hex) {
 
 ```typescript
 import * as PIXI from 'pixi.js';
-import { createHexPrototype, Grid, Hex, rectangle } from 'honeycomb-grid'
+import { defineHex, Grid, rectangle } from 'honeycomb-grid'
 
 // you may want the origin to be the top left corner of a hex's bounding box
 // instead of its center (which is the default)
-const hexPrototype = createHexPrototype({ dimensions: 30, origin: 'topLeft' })
-const grid = new Grid(hexPrototype, rectangle({ width: 10, height: 10 }))
+const Hex = defineHex({ dimensions: 30, origin: 'topLeft' })
+const grid = new Grid(Hex, rectangle({ width: 10, height: 10 }))
 
 const app = new PIXI.Application({ backgroundAlpha: 0 })
 const graphics = new PIXI.Graphics()

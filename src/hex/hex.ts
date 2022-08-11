@@ -118,7 +118,7 @@ export class Hex
 }
 
 /**
- * @hidden
+ * @category Hex
  */
 export const defaultHexSettings: HexSettings = {
   dimensions: { xRadius: 1, yRadius: 1 },

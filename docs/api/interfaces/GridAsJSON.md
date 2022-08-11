@@ -1,10 +1,4 @@
-# Interface: GridAsJSON<T\>
-
-## Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | extends [`Hex`](Hex.md) |
+# Interface: GridAsJSON
 
 ## Table of contents
 
@@ -27,7 +21,7 @@ ___
 
 ### <a id="hexSettings" name="hexSettings"></a> hexSettings
 
- **hexSettings**: [`HexSettings`](HexSettings.md) & `Omit`<`T`, keyof [`Hex`](Hex.md)\>
+ **hexSettings**: [`HexSettings`](HexSettings.md)
 
 #### Defined in
 

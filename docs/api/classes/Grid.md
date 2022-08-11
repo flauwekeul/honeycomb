@@ -4,7 +4,7 @@
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](../interfaces/Hex.md) |
+| `T` | extends [`Hex`](Hex.md) |
 
 ## Implements
 
@@ -33,11 +33,6 @@
 - [toString](Grid.md#toString)
 - [traverse](Grid.md#traverse)
 
-### Properties
-
-- [[toStringTag]](Grid.md#[toStringTag])
-- [hexPrototype](Grid.md#hexPrototype)
-
 ### Constructors
 
 - [constructor](Grid.md#constructor)
@@ -60,11 +55,11 @@
 
 #### Implementation of
 
-Iterable.\_\_@iterator@100
+Iterable.\_\_@iterator@101
 
 #### Defined in
 
-[grid/grid.ts:63](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L63)
+[grid/grid.ts:61](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L61)
 
 ___
 
@@ -84,7 +79,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:86](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L86)
+[grid/grid.ts:88](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L88)
 
 ___
 
@@ -109,7 +104,7 @@ ___
 
 [grid/grid.ts:201](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L201)
 
-**distance**(`from`, `to`, `options`): ``null`` \| `number`
+**distance**(`from`, `to`, `options`): `undefined` \| `number`
 
 #### Parameters
 
@@ -122,7 +117,7 @@ ___
 
 #### Returns
 
-``null`` \| `number`
+`undefined` \| `number`
 
 #### Defined in
 
@@ -146,7 +141,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:106](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L106)
+[grid/grid.ts:108](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L108)
 
 ___
 
@@ -166,7 +161,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:145](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L145)
+[grid/grid.ts:146](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L146)
 
 ___
 
@@ -178,7 +173,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](../interfaces/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](Hex.md)<`T`\> |
 
 #### Parameters
 
@@ -198,23 +193,17 @@ ___
 
 ### <a id="fromJSON" name="fromJSON"></a> fromJSON
 
-`Static` **fromJSON**<`T`\>(`__namedParameters`): [`Grid`](Grid.md)<[`Hex`](../interfaces/Hex.md)\>
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | extends [`Hex`](../interfaces/Hex.md)<`T`\> |
+`Static` **fromJSON**(`__namedParameters`): [`Grid`](Grid.md)<[`Hex`](Hex.md)\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | [`GridAsJSON`](../interfaces/GridAsJSON.md)<`T`\> |
+| `__namedParameters` | [`GridAsJSON`](../interfaces/GridAsJSON.md) |
 
 #### Returns
 
-[`Grid`](Grid.md)<[`Hex`](../interfaces/Hex.md)\>
+[`Grid`](Grid.md)<[`Hex`](Hex.md)\>
 
 #### Defined in
 
@@ -238,7 +227,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:90](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L90)
+[grid/grid.ts:92](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L92)
 
 ___
 
@@ -258,7 +247,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:95](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L95)
+[grid/grid.ts:97](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L97)
 
 ___
 
@@ -278,19 +267,19 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:116](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L116)
+[grid/grid.ts:118](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L118)
 
 ___
 
 ### <a id="neighborOf" name="neighborOf"></a> neighborOf
 
-**neighborOf**(`hex`, `direction`, `options?`): `T`
+**neighborOf**(`coordinates`, `direction`, `options?`): `T`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `hex` | `T` |
+| `coordinates` | [`HexCoordinates`](../index.md#HexCoordinates) |
 | `direction` | [`CompassDirection`](../enums/CompassDirection.md) |
 | `options?` | `Object` |
 | `options.allowOutside` | ``true`` |
@@ -301,26 +290,26 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:215](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L215)
+[grid/grid.ts:213](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L213)
 
-**neighborOf**(`hex`, `direction`, `options`): ``null`` \| `T`
+**neighborOf**(`coordinates`, `direction`, `options`): `undefined` \| `T`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `hex` | `T` |
+| `coordinates` | [`HexCoordinates`](../index.md#HexCoordinates) |
 | `direction` | [`CompassDirection`](../enums/CompassDirection.md) |
 | `options` | `Object` |
 | `options.allowOutside` | ``false`` |
 
 #### Returns
 
-``null`` \| `T`
+`undefined` \| `T`
 
 #### Defined in
 
-[grid/grid.ts:216](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L216)
+[grid/grid.ts:214](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L214)
 
 ___
 
@@ -342,9 +331,9 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:186](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L186)
+[grid/grid.ts:191](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L191)
 
-**pointToHex**(`point`, `options`): ``null`` \| `T`
+**pointToHex**(`point`, `options`): `undefined` \| `T`
 
 #### Parameters
 
@@ -356,11 +345,11 @@ ___
 
 #### Returns
 
-``null`` \| `T`
+`undefined` \| `T`
 
 #### Defined in
 
-[grid/grid.ts:187](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L187)
+[grid/grid.ts:192](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L192)
 
 ___
 
@@ -380,7 +369,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:152](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L152)
+[grid/grid.ts:153](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L153)
 
 **reduce**(`reducer`, `initialValue`): `T`
 
@@ -397,7 +386,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:153](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L153)
+[grid/grid.ts:154](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L154)
 
 **reduce**<`R`\>(`reducer`, `initialValue`): `R`
 
@@ -420,7 +409,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:154](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L154)
+[grid/grid.ts:155](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L155)
 
 ___
 
@@ -440,7 +429,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:99](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L99)
+[grid/grid.ts:101](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L101)
 
 ___
 
@@ -454,21 +443,21 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:174](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L174)
+[grid/grid.ts:175](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L175)
 
 ___
 
 ### <a id="toJSON" name="toJSON"></a> toJSON
 
-**toJSON**(): [`GridAsJSON`](../interfaces/GridAsJSON.md)<`T`\>
+**toJSON**(): [`GridAsJSON`](../interfaces/GridAsJSON.md)
 
 #### Returns
 
-[`GridAsJSON`](../interfaces/GridAsJSON.md)<`T`\>
+[`GridAsJSON`](../interfaces/GridAsJSON.md)
 
 #### Defined in
 
-[grid/grid.ts:178](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L178)
+[grid/grid.ts:180](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L180)
 
 ___
 
@@ -482,7 +471,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:182](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L182)
+[grid/grid.ts:187](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L187)
 
 ___
 
@@ -504,7 +493,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:126](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L126)
+[grid/grid.ts:128](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L128)
 
 **traverse**(`hexes`, `options?`): [`Grid`](Grid.md)<`T`\>
 
@@ -522,7 +511,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:127](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L127)
+[grid/grid.ts:129](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L129)
 
 **traverse**(`grid`, `options?`): [`Grid`](Grid.md)<`T`\>
 
@@ -540,105 +529,67 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:128](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L128)
-
-**traverse**(`input`, `options?`): [`Grid`](Grid.md)<`T`\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `input` | [`Grid`](Grid.md)<`T`\> \| `Iterable`<`T`\> \| [`Traverser`](../index.md#Traverser)<`T`, `T`[]\> \| [`Traverser`](../index.md#Traverser)<`T`, `T`[]\>[] |
-| `options?` | `Object` |
-| `options.bail?` | `boolean` |
-
-#### Returns
-
-[`Grid`](Grid.md)<`T`\>
-
-#### Defined in
-
-[grid/grid.ts:129](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L129)
-
-## Properties
-
-### <a id="[toStringTag]" name="[toStringTag]"></a> [toStringTag]
-
- `Readonly` **[toStringTag]**: ``"Grid"``
-
-#### Defined in
-
-[grid/grid.ts:27](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L27)
-
-___
-
-### <a id="hexPrototype" name="hexPrototype"></a> hexPrototype
-
- `Readonly` **hexPrototype**: `T`
-
-#### Defined in
-
-[grid/grid.ts:67](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L67)
+[grid/grid.ts:130](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L130)
 
 ## Constructors
 
 ### <a id="constructor" name="constructor"></a> constructor
 
-**new Grid**<`T`\>(`hexPrototype`)
+**new Grid**<`T`\>(`hexClass`)
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](../interfaces/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](Hex.md)<`T`\> |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `hexPrototype` | `T` |
-
-#### Defined in
-
-[grid/grid.ts:71](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L71)
-
-**new Grid**<`T`\>(`hexPrototype`, `traversers`)
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | extends [`Hex`](../interfaces/Hex.md)<`T`\> |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `hexPrototype` | `T` |
-| `traversers` | [`Traverser`](../index.md#Traverser)<`T`, `T`[]\> \| [`Traverser`](../index.md#Traverser)<`T`, `T`[]\>[] |
-
-#### Defined in
-
-[grid/grid.ts:72](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L72)
-
-**new Grid**<`T`\>(`hexPrototype`, `hexes`)
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | extends [`Hex`](../interfaces/Hex.md)<`T`\> |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `hexPrototype` | `T` |
-| `hexes` | `Iterable`<`T`\> |
+| `hexClass` | [`HexConstructor`](../index.md#HexConstructor)<`T`\> |
 
 #### Defined in
 
 [grid/grid.ts:73](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L73)
+
+**new Grid**<`T`\>(`hexClass`, `traversers`)
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](Hex.md)<`T`\> |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `hexClass` | [`HexConstructor`](../index.md#HexConstructor)<`T`\> |
+| `traversers` | [`Traverser`](../index.md#Traverser)<`T`, `T`[]\> \| [`Traverser`](../index.md#Traverser)<`T`, `T`[]\>[] |
+
+#### Defined in
+
+[grid/grid.ts:74](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L74)
+
+**new Grid**<`T`\>(`hexClass`, `hexes`)
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](Hex.md)<`T`\> |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `hexClass` | [`HexConstructor`](../index.md#HexConstructor)<`T`\> |
+| `hexes` | `Iterable`<`T`\> |
+
+#### Defined in
+
+[grid/grid.ts:75](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L75)
 
 **new Grid**<`T`\>(`grid`)
 
@@ -646,7 +597,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](../interfaces/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](Hex.md)<`T`\> |
 
 #### Parameters
 
@@ -656,7 +607,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:74](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L74)
+[grid/grid.ts:76](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L76)
 
 ## Accessors
 
@@ -670,7 +621,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:48](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L48)
+[grid/grid.ts:46](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L46)
 
 ___
 
@@ -684,7 +635,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:33](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L33)
+[grid/grid.ts:31](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L31)
 
 ___
 
@@ -698,4 +649,4 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:29](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L29)
+[grid/grid.ts:27](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L27)

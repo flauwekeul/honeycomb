@@ -4,28 +4,20 @@ In JavaScript, serializing is usually done with [`JSON.stringify()`](https://dev
 
 ## Serializing
 
-`Grid` has a `toJSON()` method that's automatically called when passing a grid to `JSON.stringify()`. `toJSON()` returns an object with the *identifying properties* of the grid instance: the hex prototype and all its hexes. When this object is *stringified* by `JSON.stringify()`, the resulting string contains only the essential information to represent the grid.
+`Grid` has a `toJSON()` method that's automatically called when passing a grid to `JSON.stringify()`. `toJSON()` returns an object with the [hex settings](/api/interfaces/HexSettings) (dimensions, orientation, origin and offset) and all its hexes. When this object is *stringified* by `JSON.stringify()`, the resulting string contains only the essential information to represent the grid.
 
 ```typescript
-interface CustomHex extends Hex {
-  custom: string
-}
-
-const hexPrototype = createHexPrototype<CustomHex>({
-  custom: 'test',
-  dimensions: 50,
-  orientation: 'flat'
-})
-const grid = new Grid(hexPrototype, rectangle({ width: 2, height: 2 }))
+const Hex = defineHex({ dimensions: 50, orientation: Orientation.FLAT })
+const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
 
 grid.toJSON()
 // {
-//    hexSettings: Hex {dimensions: {…}, orientation: 'FLAT', origin: {…}, offset: -1, clone: ƒ, …}
+//    hexSettings: {dimensions: {…}, orientation: 'FLAT', origin: {…}, offset: -1}
 //    coordinates: (4) [Hex, Hex, Hex, Hex]
 // }
 
 JSON.stringify(grid)
-// {"hexSettings":{"dimensions":{"xRadius":50,"yRadius":50},"orientation":"FLAT","origin":{"x":0,"y":0},"offset":-1,"custom":"test"},"coordinates":[{"q":0,"r":0},{"q":1,"r":0},{"q":0,"r":1},{"q":1,"r":1}]}
+// {"hexSettings":{"dimensions":{"xRadius":50,"yRadius":50},"orientation":"FLAT","origin":{"x":0,"y":0},"offset":-1},"coordinates":[{"q":0,"r":0},{"q":1,"r":0},{"q":0,"r":1},{"q":1,"r":1}]}
 ```
 
 ## Deserializing
@@ -33,11 +25,11 @@ JSON.stringify(grid)
 When you want to turn a string returned by `JSON.stringify(grid)` into a grid again, you have to pass it to `JSON.parse()` first and then to the `fromJSON()` static method of `Grid`:
 
 ```typescript
-const grid1 = new Grid(hexPrototype, rectangle({ width: 2, height: 2 }))
+const grid1 = new Grid(Hex, rectangle({ width: 2, height: 2 }))
 const serializedGrid = JSON.stringify(grid1)
 
 const deserializedGrid = JSON.parse(serializedGrid)
 
-// this returns a grid with the same hex prototype and hexes as grid1
+// this returns a grid with the same Hex class and hexes as grid1
 const grid2 = Grid.fromJSON(deserializedGrid)
 ```

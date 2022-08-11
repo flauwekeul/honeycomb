@@ -15,7 +15,7 @@
 
 #### Defined in
 
-[grid/types.ts:17](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L17)
+[grid/types.ts:20](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L20)
 
 ___
 
@@ -25,4 +25,4 @@ ___
 
 #### Defined in
 
-[grid/types.ts:18](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L18)
+[grid/types.ts:21](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L21)

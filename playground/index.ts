@@ -24,7 +24,7 @@ class CustomHex extends defineHex({ dimensions: 30, origin: 'topLeft' }) {
 // }
 const grid = new Grid(CustomHex, rectangle({ width: 10, height: 10 }))
 
-let i = 0
+// let i = 0
 for (const hex of grid) {
-  render(hex, i++)
+  render(hex)
 }
