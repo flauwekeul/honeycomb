@@ -323,7 +323,7 @@ describe('toJSON()', () => {
 
     expect(result).toStrictEqual({ hexSettings, coordinates })
     expect(JSON.stringify(grid)).toBe(
-      '{"hexSettings":{"dimensions":{"xRadius":10,"yRadius":10},"orientation":"FLAT","origin":{"x":0,"y":0},"offset":1},"coordinates":[{"q":0,"r":0,"s":0},{"q":1,"r":0,"s":-1}]}',
+      '{"hexSettings":{"dimensions":{"xRadius":10,"yRadius":10},"orientation":"FLAT","origin":{"x":0,"y":0},"offset":1},"coordinates":[{"q":0,"r":0},{"q":1,"r":0}]}',
     )
   })
 })

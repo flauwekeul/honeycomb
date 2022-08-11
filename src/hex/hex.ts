@@ -87,16 +87,18 @@ export class Hex
     return hexToPoint(this).y
   }
 
+  get s(): number {
+    return -this.q - this.r
+  }
+
   readonly q: number
   readonly r: number
-  readonly s: number
 
   // todo: also accept q, r and optional s as arguments?
   constructor(coordinates: HexCoordinates = [0, 0]) {
-    const { q, r, s } = toCube(this, coordinates)
+    const { q, r } = toCube(this, coordinates)
     this.q = q
     this.r = r
-    this.s = s
   }
 
   clone<T extends Hex>(newProps: HexCoordinates = this): T {

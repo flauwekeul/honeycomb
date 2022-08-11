@@ -11,6 +11,8 @@ describe('creation', () => {
     expect(new Hex([1, 2])).toContain<CubeCoordinates>({ q: 1, r: 2, s: -3 })
     expect(new Hex({ col: 1, row: 2 })).toContain<CubeCoordinates>({ q: 0, r: 2, s: -2 })
     expect(new Hex({ q: 1, r: 2 })).toContain<CubeCoordinates>({ q: 1, r: 2, s: -3 })
+    expect(new Hex({ r: 3, s: 0 })).toContain<CubeCoordinates>({ q: -3, r: 3, s: 0 })
+    expect(new Hex({ q: -3, r: 4, s: -1 })).toContain<CubeCoordinates>({ q: -3, r: 4, s: -1 })
   })
 })
 
@@ -119,15 +121,15 @@ test('implements a point in the prototype', () => {
   expect(Object.hasOwn(hex, 'y')).toBe(false)
 })
 
-test('implements cube coordinates in the instance', () => {
+test('implements axial coordinates in the instance and the s coordinate in the prototype', () => {
   const hex = new Hex([3, -1])
 
   expect(hex.q).toBe(3)
   expect(hex.r).toBe(-1)
   expect(hex.s).toBe(-2)
-  ;['q', 'r', 's'].forEach((coordinate) => {
-    expect(Object.hasOwn(hex, coordinate)).toBe(true)
-  })
+  expect(Object.hasOwn(hex, 'q')).toBe(true)
+  expect(Object.hasOwn(hex, 'r')).toBe(true)
+  expect(Object.hasOwn(hex, 's')).toBe(false)
 })
 
 describe('clone()', () => {
