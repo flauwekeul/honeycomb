@@ -1,8 +1,7 @@
-import { Color, Polygon } from '@svgdotjs/svg.js'
-import { createHexPrototype, Grid, rectangle } from '../../src'
+import { Color, G, Polygon } from '@svgdotjs/svg.js'
+import { defineHex, Grid, rectangle } from '../../src'
 import { aStar } from './aStar'
 import { getTileFill, render } from './render'
-import { Tile } from './types'
 
 const IMPASSABLE_COST = 999
 const IMPASSABLE_CHANCE = 0.35
@@ -10,15 +9,15 @@ export const MAX_COST = 5
 export const START_COORDINATES = { q: 1, r: 1 }
 export const TARGET_COORDINATES = { q: 17, r: 10 }
 
-const hexPrototype = createHexPrototype<Tile>({
-  dimensions: 30,
-  orientation: 'pointy',
-  origin: 'topLeft',
+export class Tile extends defineHex({ dimensions: 30, origin: 'topLeft' }) {
+  cost!: number // when 999, the tile is impassable
+  svg!: G
+
   isPassable() {
     return this.cost !== IMPASSABLE_COST
-  },
-})
-const grid = new Grid(hexPrototype, rectangle({ width: 24, height: 12 })).forEach((tile) => {
+  }
+}
+const grid = new Grid(Tile, rectangle({ width: 24, height: 12 })).forEach((tile) => {
   if (tile.equals(START_COORDINATES) || tile.equals(TARGET_COORDINATES)) {
     tile.cost = 0
   } else {

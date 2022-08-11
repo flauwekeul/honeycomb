@@ -1,13 +1,4 @@
-import { G } from '@svgdotjs/svg.js'
-import { Hex, HexCoordinates } from '../../src'
-
-export interface BaseTile {
-  terrain: Terrain
-  visibility: tileVisibility
-  element: G
-}
-
-export type Tile = BaseTile & Hex
+import { HexCoordinates } from '../../src'
 
 export type tileVisibility = 'undiscovered' | 'discovered' | 'visible'
 

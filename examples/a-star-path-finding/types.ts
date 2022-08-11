@@ -1,11 +1,4 @@
-import { G } from '@svgdotjs/svg.js'
 import { AxialCoordinates, Grid, Hex, HexCoordinates } from '../../src'
-
-export interface Tile extends Hex {
-  cost: number // when 999, the tile is impassable
-  isPassable(this: this): boolean
-  svg: G
-}
 
 export interface AStarOptions<T extends Hex> {
   grid: Grid<T>

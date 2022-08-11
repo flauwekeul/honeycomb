@@ -1,6 +1,5 @@
 import { Color, Morphable, SVG } from '@svgdotjs/svg.js'
-import { MAX_COST, START_COORDINATES, TARGET_COORDINATES } from './index'
-import { Tile } from './types'
+import { MAX_COST, START_COORDINATES, TARGET_COORDINATES, Tile } from './index'
 
 const draw = SVG().addTo('body').size('100%', '100%')
 const tileFill = new Color('#fff').to('#999')

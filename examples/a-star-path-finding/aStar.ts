@@ -1,5 +1,5 @@
-import { assertCubeCoordinates, AxialCoordinates, equals, Grid, Hex, HexCoordinates, ring } from '../../src'
-import { TARGET_COORDINATES } from './index'
+import { AxialCoordinates, equals, Grid, Hex, HexCoordinates, ring, toCube } from '../../src'
+import { TARGET_COORDINATES, Tile } from './index'
 import { AStarOptions, PathData } from './types'
 
 // todo: maybe use https://github.com/bgrins/javascript-astar/blob/master/astar.js to improve performance
@@ -14,8 +14,8 @@ export function aStar<T extends Hex>({
   // todo: probably better to work with hexes (instead of axial coordinates)?
   const open: PathData[] = []
   const closed: PathData[] = []
-  const _start = assertCubeCoordinates(grid.hexPrototype, start)
-  const _target = assertCubeCoordinates(grid.hexPrototype, target)
+  const _start = toCube(Tile.prototype, start)
+  const _target = toCube(Tile.prototype, target)
   const createPathData = pathDataFactory(getCost, getDistance, _target)
   let targetFound = false
 

@@ -1,15 +1,14 @@
-import { Image, SVG } from '@svgdotjs/svg.js'
+import { G, Image, SVG } from '@svgdotjs/svg.js'
+import { AxialCoordinates } from '../../dist'
 import {
-  assertCubeCoordinates,
-  createHex,
-  createHexPrototype,
-  fromCoordinates,
+  defineHex,
   Grid,
   HexCoordinates,
   hexToPoint,
   line,
   repeatWith,
   ring,
+  toCube,
   translate,
   Traverser,
   TupleCoordinates,
@@ -17,20 +16,29 @@ import {
 import { initialGameState, onUpdate, updateGameState } from './gameState'
 import { renderMap, renderPlayer } from './render'
 import { TILES } from './tiles'
-import { Tile } from './types'
+import { Terrain, tileVisibility } from './types'
 
-const config = {
-  viewDistanceInTiles: 3,
-}
+const VIEW_DISTANCE_IN_TILES = 3
 
 const draw = SVG().addTo('body').size('100%', '100%').id('container')
 
-const hexPrototype = createHexPrototype<Tile>({ dimensions: 50, origin: 'topLeft', visibility: 'undiscovered' })
-const grid = new Grid<Tile>(hexPrototype, fromCoordinates(...TILES))
+export class Tile extends defineHex({ dimensions: 50, origin: 'topLeft' }) {
+  static from(config: AxialCoordinates & { terrain: Terrain }) {
+    const tile = new Tile(config)
+    tile.terrain = config.terrain
+    return tile
+  }
+
+  visibility: tileVisibility = 'undiscovered'
+  terrain!: Terrain
+  element!: G
+}
+
+const grid = new Grid(Tile, TILES.map(Tile.from))
 
 renderMap(draw, grid)
 
-const playerElement = renderPlayer(draw, hexPrototype.width, hexPrototype.height)
+const playerElement = renderPlayer(draw, Tile.prototype.width, Tile.prototype.height)
 
 onUpdate(['playerCoordinates'], ({ playerCoordinates }) => {
   movePlayer(playerElement, playerCoordinates)
@@ -68,11 +76,11 @@ function updateFieldOfView(grid: Grid<Tile>, start: HexCoordinates) {
 }
 
 function fieldOfView(start: HexCoordinates): Traverser<Tile> {
-  const startTile = assertCubeCoordinates(grid.hexPrototype, start)
+  const startTile = toCube(Tile.prototype, start)
   return repeatWith(
     ring({
       center: start,
-      start: translate(startTile, { q: startTile.q, r: -config.viewDistanceInTiles }),
+      start: translate(startTile, { q: startTile.q, r: -VIEW_DISTANCE_IN_TILES }),
     }),
     lineOfSight(start),
     { includeSource: false },
@@ -95,7 +103,7 @@ function lineOfSight(start: HexCoordinates): Traverser<Tile> {
 }
 
 function movePlayer(element: Image, playerCoordinates: HexCoordinates) {
-  const { x, y } = hexToPoint(createHex(hexPrototype, playerCoordinates))
+  const { x, y } = hexToPoint(new Tile(playerCoordinates))
   element.center(x, y)
 }
 

@@ -1,6 +1,6 @@
 import { Svg } from '@svgdotjs/svg.js'
+import { Tile } from '.'
 import { Grid } from '../../src'
-import { Tile } from './types'
 
 export function renderMap(draw: Svg, grid: Grid<Tile>) {
   grid.setHexes(
@@ -21,5 +21,8 @@ export function renderPlayer(draw: Svg, width: number, height: number) {
 function renderTile(draw: Svg, tile: Tile) {
   const classNames = ['tile', tile.terrain.type.toLowerCase(), tile.visibility].join(' ')
   const polygon = draw.polygon(tile.corners.map(({ x, y }) => `${x},${y}`).join(',')).addClass(classNames)
-  return draw.group().add(polygon).data({ id: tile.toString() })
+  return draw
+    .group()
+    .add(polygon)
+    .data({ id: `${tile.q},${tile.r}` })
 }
