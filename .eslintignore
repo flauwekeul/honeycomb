@@ -1,8 +1,5 @@
 dist/
 node_modules/
-# todo: don't ignore tests
-src/grid/functions/*.test.ts
-src/grid/traversers/*.test.ts
 playground/
 examples/
 benchmark.ts

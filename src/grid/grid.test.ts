@@ -133,7 +133,26 @@ test('iterable', () => {
   const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
 
   expect(grid[Symbol.iterator]).toBeTypeOf('function')
-  expect([...grid]).toStrictEqual([new Hex([0, 0]), new Hex([1, 0]), new Hex([0, 1]), new Hex([1, 1])])
+  expect([...grid]).toMatchInlineSnapshot(`
+    [
+      Hex {
+        "q": 0,
+        "r": 0,
+      },
+      Hex {
+        "q": 1,
+        "r": 0,
+      },
+      Hex {
+        "q": 0,
+        "r": 1,
+      },
+      Hex {
+        "q": 1,
+        "r": 1,
+      },
+    ]
+  `)
 })
 
 describe('createHex()', () => {
@@ -182,13 +201,27 @@ describe('filter()', () => {
     const result = grid.filter(predicate)
 
     expect(predicate).toBeCalledTimes(25)
-    expect(result).toStrictEqual(
-      new Grid(Hex, [new Hex([-1, 2]), new Hex([-1, 3]), new Hex([-2, 4]), new Hex([-1, 4])]),
-    )
+    expect(result.toArray()).toMatchInlineSnapshot(`
+      [
+        Hex {
+          "q": -1,
+          "r": 2,
+        },
+        Hex {
+          "q": -1,
+          "r": 3,
+        },
+        Hex {
+          "q": -2,
+          "r": 4,
+        },
+        Hex {
+          "q": -1,
+          "r": 4,
+        },
+      ]
+    `)
     expect(result).not.toBe(grid)
-    for (const hex of result) {
-      expect(hex).toBe(grid.getHex(hex))
-    }
   })
 })
 
@@ -199,11 +232,27 @@ describe('map()', () => {
     const result = grid.map(fn)
 
     expect(fn).toBeCalledTimes(4)
-    expect(result).toStrictEqual(new Grid(Hex, [new Hex([1, 0]), new Hex([2, 0]), new Hex([1, 1]), new Hex([2, 1])]))
+    expect(result.toArray()).toMatchInlineSnapshot(`
+      [
+        Hex {
+          "q": 1,
+          "r": 0,
+        },
+        Hex {
+          "q": 2,
+          "r": 0,
+        },
+        Hex {
+          "q": 1,
+          "r": 1,
+        },
+        Hex {
+          "q": 2,
+          "r": 1,
+        },
+      ]
+    `)
     expect(result).not.toBe(grid)
-    for (const hex of result) {
-      expect(hex).not.toBe(grid.getHex(hex))
-    }
   })
 })
 
@@ -215,11 +264,19 @@ describe('traverse()', () => {
     const result = grid.traverse(traverser)
 
     expect(getHex).toBeCalledTimes(4)
-    expect(result).toStrictEqual(new Grid(Hex, [new Hex([1, 0]), new Hex([1, 1])]))
+    expect(result.toArray()).toMatchInlineSnapshot(`
+      [
+        Hex {
+          "q": 1,
+          "r": 0,
+        },
+        Hex {
+          "q": 1,
+          "r": 1,
+        },
+      ]
+    `)
     expect(result).not.toBe(grid)
-    for (const hex of result) {
-      expect(hex).toBe(grid.getHex(hex))
-    }
   })
 
   test(`stops iteration early when bail is true and a hex isn't present in the source grid`, () => {
@@ -237,10 +294,18 @@ describe('traverse()', () => {
     const iterable = [new Hex([1, 0]), new Hex([0, 1])]
     const result = grid.traverse(iterable)
 
-    expect(result).toStrictEqual(new Grid(Hex, [new Hex([1, 0]), new Hex([0, 1])]))
-    for (const hex of result) {
-      expect(hex).toBe(grid.getHex(hex))
-    }
+    expect(result.toArray()).toMatchInlineSnapshot(`
+      [
+        Hex {
+          "q": 1,
+          "r": 0,
+        },
+        Hex {
+          "q": 0,
+          "r": 1,
+        },
+      ]
+    `)
   })
 
   test('iterates over the hexes from the passed grid and returns a new grid with hexes present in the source grid', () => {
@@ -248,10 +313,18 @@ describe('traverse()', () => {
     const otherGrid = new Grid(Hex, rectangle({ start: [0, 1], width: 2, height: 2 }))
     const result = grid.traverse(otherGrid)
 
-    expect(result).toStrictEqual(new Grid(Hex, [new Hex([0, 1]), new Hex([1, 1])]))
-    for (const hex of result) {
-      expect(hex).toBe(grid.getHex(hex))
-    }
+    expect(result.toArray()).toMatchInlineSnapshot(`
+      [
+        Hex {
+          "q": 0,
+          "r": 1,
+        },
+        Hex {
+          "q": 1,
+          "r": 1,
+        },
+      ]
+    `)
   })
 })
 
@@ -262,10 +335,27 @@ describe('forEach()', () => {
     const result = grid.forEach(fn)
 
     expect(fn).toBeCalledTimes(4)
+    expect(result.toArray()).toMatchInlineSnapshot(`
+      [
+        Hex {
+          "q": 0,
+          "r": 0,
+        },
+        Hex {
+          "q": 1,
+          "r": 0,
+        },
+        Hex {
+          "q": 0,
+          "r": 1,
+        },
+        Hex {
+          "q": 1,
+          "r": 1,
+        },
+      ]
+    `)
     expect(result).toBe(grid)
-    for (const hex of result) {
-      expect(hex).toBe(grid.getHex(hex))
-    }
   })
 })
 
@@ -304,7 +394,26 @@ describe('toArray()', () => {
     const result = grid.toArray()
 
     expect(result).toBeInstanceOf(Array)
-    expect(result).toStrictEqual([new Hex([0, 0]), new Hex([1, 0]), new Hex([0, 1]), new Hex([1, 1])])
+    expect(result).toMatchInlineSnapshot(`
+      [
+        Hex {
+          "q": 0,
+          "r": 0,
+        },
+        Hex {
+          "q": 1,
+          "r": 0,
+        },
+        Hex {
+          "q": 0,
+          "r": 1,
+        },
+        Hex {
+          "q": 1,
+          "r": 1,
+        },
+      ]
+    `)
   })
 })
 
@@ -322,8 +431,8 @@ describe('toJSON()', () => {
     const result = grid.toJSON()
 
     expect(result).toStrictEqual({ hexSettings, coordinates })
-    expect(JSON.stringify(grid)).toBe(
-      '{"hexSettings":{"dimensions":{"xRadius":10,"yRadius":10},"orientation":"FLAT","origin":{"x":0,"y":0},"offset":1},"coordinates":[{"q":0,"r":0},{"q":1,"r":0}]}',
+    expect(JSON.stringify(grid)).toMatchInlineSnapshot(
+      '"{\\"hexSettings\\":{\\"dimensions\\":{\\"xRadius\\":10,\\"yRadius\\":10},\\"orientation\\":\\"FLAT\\",\\"origin\\":{\\"x\\":0,\\"y\\":0},\\"offset\\":1},\\"coordinates\\":[{\\"q\\":0,\\"r\\":0},{\\"q\\":1,\\"r\\":0}]}"',
     )
   })
 })

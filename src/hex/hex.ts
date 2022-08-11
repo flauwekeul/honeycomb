@@ -94,7 +94,6 @@ export class Hex
   readonly q: number
   readonly r: number
 
-  // todo: also accept q, r and optional s as arguments?
   constructor(coordinates: HexCoordinates = [0, 0]) {
     const { q, r } = toCube(this, coordinates)
     this.q = q

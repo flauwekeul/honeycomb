@@ -1,18 +1,24 @@
 import { expect, test } from 'vitest'
-import { createHexPrototype, Hex } from '../../hex'
-import { Grid } from '../grid'
+import { Hex, HexCoordinates } from '../../hex'
 import { fromCoordinates } from './fromCoordinates'
 
-test('accepts coordinates and returns a traverser that returns the hexes with those coordinates', () => {
-  const hexPrototype = createHexPrototype()
-  const grid = new Grid(hexPrototype)
-  const actual = fromCoordinates({ q: 1, r: 2 }, { q: 3, r: 4 })(grid.createHex, {} as Hex)
+const createHex = (coordinates?: HexCoordinates) => new Hex(coordinates)
 
-  expect(actual).toMatchObject([
-    { q: 1, r: 2 },
-    { q: 3, r: 4 },
-  ])
-  actual.forEach((hex) => {
-    expect(Object.getPrototypeOf(hex)).toBe(hexPrototype)
-  })
+test('accepts coordinates and returns a traverser that returns the hexes with those coordinates', () => {
+  expect(fromCoordinates([1, 2], [3, 4])(createHex)).toMatchInlineSnapshot(`
+    [
+      Hex {
+        "q": 1,
+        "r": 2,
+      },
+      Hex {
+        "q": 3,
+        "r": 4,
+      },
+    ]
+  `)
+})
+
+test('ignores the cursor', () => {
+  expect(fromCoordinates([1, 2], [3, 4])(createHex, [20, 10])).not.toContain(new Hex([20, 10]))
 })

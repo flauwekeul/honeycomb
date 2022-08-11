@@ -1,108 +1,192 @@
 import { describe, expect, test, vi } from 'vitest'
-import { createHex, createHexPrototype } from '../../hex'
+import { Hex, HexCoordinates } from '../../hex'
+import { Rotation } from '../types'
 import { spiral } from './spiral'
 
-const hexPrototype = createHexPrototype()
-const getHex = vi.fn((coordinates) => createHex(hexPrototype, coordinates))
-const cursor = createHex(hexPrototype, { q: 1, r: 2 })
+const cursor = new Hex([1, 2])
+const createHex = vi.fn((coordinates?: HexCoordinates) => new Hex(coordinates))
 
 describe('when called with a radius', () => {
-  test('returns a traverser that returns hexes in a spiral around but excluding the cursor', () => {
-    expect(spiral({ radius: 2 })(cursor, getHex)).toEqual([
-      cursor.clone({ q: 2, r: 1 }),
-      cursor.clone({ q: 2, r: 2 }),
-      cursor.clone({ q: 1, r: 3 }),
-      cursor.clone({ q: 0, r: 3 }),
-      cursor.clone({ q: 0, r: 2 }),
-      cursor.clone({ q: 1, r: 1 }),
-      cursor.clone({ q: 2, r: 0 }),
-      cursor.clone({ q: 3, r: 0 }),
-      cursor.clone({ q: 3, r: 1 }),
-      cursor.clone({ q: 3, r: 2 }),
-      cursor.clone({ q: 2, r: 3 }),
-      cursor.clone({ q: 1, r: 4 }),
-      cursor.clone({ q: 0, r: 4 }),
-      cursor.clone({ q: -1, r: 4 }),
-      cursor.clone({ q: -1, r: 3 }),
-      cursor.clone({ q: -1, r: 2 }),
-      cursor.clone({ q: 0, r: 1 }),
-      cursor.clone({ q: 1, r: 0 }),
-    ])
+  describe('without cursor', () => {
+    test('returns a traverser that returns hexes in a spiral starting at [0, 0]', () => {
+      expect(spiral({ radius: 2 })(createHex)).toMatchInlineSnapshot(`
+        [
+          Hex {
+            "q": 0,
+            "r": 0,
+          },
+          Hex {
+            "q": 1,
+            "r": -1,
+          },
+          Hex {
+            "q": 1,
+            "r": 0,
+          },
+          Hex {
+            "q": 0,
+            "r": 1,
+          },
+          Hex {
+            "q": -1,
+            "r": 1,
+          },
+          Hex {
+            "q": -1,
+            "r": 0,
+          },
+          Hex {
+            "q": 0,
+            "r": -1,
+          },
+        ]
+      `)
+    })
+  })
+
+  describe('with cursor', () => {
+    test('returns a traverser that returns hexes in a spiral starting at the cursor, excluding the cursor', () => {
+      expect(spiral({ radius: 1 })(createHex, cursor)).toMatchInlineSnapshot(`
+        [
+          Hex {
+            "q": 2,
+            "r": 1,
+          },
+          Hex {
+            "q": 2,
+            "r": 2,
+          },
+          Hex {
+            "q": 1,
+            "r": 3,
+          },
+          Hex {
+            "q": 0,
+            "r": 3,
+          },
+          Hex {
+            "q": 0,
+            "r": 2,
+          },
+          Hex {
+            "q": 1,
+            "r": 1,
+          },
+        ]
+      `)
+    })
   })
 })
 
-describe('when called with at coordinates', () => {
-  test('returns a traverser that returns hexes in a spiral around but excluding the "at" coordinates', () => {
-    expect(spiral({ at: { q: 1, r: 3 }, radius: 2 })(cursor, getHex)).toEqual([
-      cursor.clone({ q: 1, r: 2 }),
-      cursor.clone({ q: 2, r: 2 }),
-      cursor.clone({ q: 2, r: 3 }),
-      cursor.clone({ q: 1, r: 4 }),
-      cursor.clone({ q: 0, r: 4 }),
-      cursor.clone({ q: 0, r: 3 }),
-      cursor.clone({ q: 2, r: 1 }),
-      cursor.clone({ q: 3, r: 1 }),
-      cursor.clone({ q: 3, r: 2 }),
-      cursor.clone({ q: 3, r: 3 }),
-      cursor.clone({ q: 2, r: 4 }),
-      cursor.clone({ q: 1, r: 5 }),
-      cursor.clone({ q: 0, r: 5 }),
-      cursor.clone({ q: -1, r: 5 }),
-      cursor.clone({ q: -1, r: 4 }),
-      cursor.clone({ q: -1, r: 3 }),
-      cursor.clone({ q: 0, r: 2 }),
-      cursor.clone({ q: 1, r: 1 }),
-    ])
+describe('when called with a radius and start', () => {
+  describe('without cursor', () => {
+    test('returns a traverser that returns hexes in a spiral starting at start', () => {
+      expect(spiral({ radius: 2, start: [1, 0] })(createHex)).toMatchInlineSnapshot(`
+        [
+          Hex {
+            "q": 1,
+            "r": 0,
+          },
+          Hex {
+            "q": 2,
+            "r": -1,
+          },
+          Hex {
+            "q": 2,
+            "r": 0,
+          },
+          Hex {
+            "q": 1,
+            "r": 1,
+          },
+          Hex {
+            "q": 0,
+            "r": 1,
+          },
+          Hex {
+            "q": 0,
+            "r": 0,
+          },
+          Hex {
+            "q": 1,
+            "r": -1,
+          },
+        ]
+      `)
+    })
+  })
+
+  describe('with cursor', () => {
+    test('returns a traverser that returns hexes in a spiral starting at start', () => {
+      expect(spiral({ radius: 2, start: [1, 1] })(createHex, cursor)).toMatchInlineSnapshot(`
+        [
+          Hex {
+            "q": 1,
+            "r": 1,
+          },
+          Hex {
+            "q": 1,
+            "r": 0,
+          },
+          Hex {
+            "q": 2,
+            "r": 0,
+          },
+          Hex {
+            "q": 2,
+            "r": 1,
+          },
+          Hex {
+            "q": 1,
+            "r": 2,
+          },
+          Hex {
+            "q": 0,
+            "r": 2,
+          },
+          Hex {
+            "q": 0,
+            "r": 1,
+          },
+        ]
+      `)
+    })
   })
 })
 
-describe('when called with start coordinates', () => {
-  test('returns a traverser that returns hexes in a spiral around and including the "start" coordinates', () => {
-    expect(spiral({ start: { q: 2, r: 1 }, radius: 2 })(cursor, getHex)).toEqual([
-      cursor.clone({ q: 2, r: 1 }),
-      cursor.clone({ q: 2, r: 0 }),
-      cursor.clone({ q: 3, r: 0 }),
-      cursor.clone({ q: 3, r: 1 }),
-      cursor.clone({ q: 2, r: 2 }),
-      cursor.clone({ q: 1, r: 2 }),
-      cursor.clone({ q: 1, r: 1 }),
-      cursor.clone({ q: 3, r: -1 }),
-      cursor.clone({ q: 4, r: -1 }),
-      cursor.clone({ q: 4, r: 0 }),
-      cursor.clone({ q: 4, r: 1 }),
-      cursor.clone({ q: 3, r: 2 }),
-      cursor.clone({ q: 2, r: 3 }),
-      cursor.clone({ q: 1, r: 3 }),
-      cursor.clone({ q: 0, r: 3 }),
-      cursor.clone({ q: 0, r: 2 }),
-      cursor.clone({ q: 0, r: 1 }),
-      cursor.clone({ q: 1, r: 0 }),
-      cursor.clone({ q: 2, r: -1 }),
-    ])
-  })
-})
-
-describe('when called with a counterclockwise rotation', () => {
-  test('returns a traverser that returns hexes in a spiral around the cursor in a counterclockwise rotation', () => {
-    expect(spiral({ radius: 2, rotation: 'counterclockwise' })(cursor, getHex)).toEqual([
-      cursor.clone({ q: 2, r: 1 }),
-      cursor.clone({ q: 1, r: 1 }),
-      cursor.clone({ q: 0, r: 2 }),
-      cursor.clone({ q: 0, r: 3 }),
-      cursor.clone({ q: 1, r: 3 }),
-      cursor.clone({ q: 2, r: 2 }),
-      cursor.clone({ q: 2, r: 0 }),
-      cursor.clone({ q: 1, r: 0 }),
-      cursor.clone({ q: 0, r: 1 }),
-      cursor.clone({ q: -1, r: 2 }),
-      cursor.clone({ q: -1, r: 3 }),
-      cursor.clone({ q: -1, r: 4 }),
-      cursor.clone({ q: 0, r: 4 }),
-      cursor.clone({ q: 1, r: 4 }),
-      cursor.clone({ q: 2, r: 3 }),
-      cursor.clone({ q: 3, r: 2 }),
-      cursor.clone({ q: 3, r: 1 }),
-      cursor.clone({ q: 3, r: 0 }),
-    ])
+describe('when called with a radius and rotation', () => {
+  test('returns a traverser that returns hexes in a spiral with the given rotation', () => {
+    expect(spiral({ radius: 2, rotation: Rotation.COUNTERCLOCKWISE })(createHex)).toMatchInlineSnapshot(`
+      [
+        Hex {
+          "q": 0,
+          "r": 0,
+        },
+        Hex {
+          "q": 1,
+          "r": -1,
+        },
+        Hex {
+          "q": 0,
+          "r": -1,
+        },
+        Hex {
+          "q": -1,
+          "r": 0,
+        },
+        Hex {
+          "q": -1,
+          "r": 1,
+        },
+        Hex {
+          "q": 0,
+          "r": 1,
+        },
+        Hex {
+          "q": 1,
+          "r": 0,
+        },
+      ]
+    `)
   })
 })

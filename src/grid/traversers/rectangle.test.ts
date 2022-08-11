@@ -1,70 +1,208 @@
 import { describe, expect, test, vi } from 'vitest'
 import { CompassDirection } from '../../compass'
-import { createHex, createHexPrototype } from '../../hex'
+import { Hex, HexCoordinates } from '../../hex'
 import { rectangle } from './rectangle'
 
-const hexPrototype = createHexPrototype()
-const cursor = createHex(hexPrototype, { q: 1, r: 2 })
-const getHex = vi.fn((coordinates) => createHex(hexPrototype, coordinates))
+const cursor = new Hex([1, 2])
+const createHex = vi.fn((coordinates?: HexCoordinates) => new Hex(coordinates))
 
-describe('when only passed width and height', () => {
-  test('returns a traverser that returns hexes in a rectangular shape without the cursor', () => {
-    expect(rectangle({ width: 2, height: 2 })(cursor, getHex)).toMatchObject([
-      { q: 2, r: 2 },
-      { q: 1, r: 3 },
-      { q: 2, r: 3 },
-    ])
+describe('when called with width and height', () => {
+  describe('without cursor', () => {
+    test('returns a traverser that returns hexes in a rectangular shape starting at [0, 0]', () => {
+      expect(rectangle({ width: 2, height: 2 })(createHex)).toMatchInlineSnapshot(`
+        [
+          Hex {
+            "q": 0,
+            "r": 0,
+          },
+          Hex {
+            "q": 1,
+            "r": 0,
+          },
+          Hex {
+            "q": 0,
+            "r": 1,
+          },
+          Hex {
+            "q": 1,
+            "r": 1,
+          },
+        ]
+      `)
+    })
+  })
+
+  describe('with cursor', () => {
+    test('returns a traverser that returns hexes in a rectangular shape starting at the cursor, excluding the cursor', () => {
+      expect(rectangle({ width: 2, height: 2 })(createHex, cursor)).toMatchInlineSnapshot(`
+        [
+          Hex {
+            "q": 2,
+            "r": 2,
+          },
+          Hex {
+            "q": 1,
+            "r": 3,
+          },
+          Hex {
+            "q": 2,
+            "r": 3,
+          },
+        ]
+      `)
+    })
   })
 })
 
-describe('when passed at', () => {
-  test('returns a traverser that returns hexes in a rectangular shape at the "at" coordinates', () => {
-    expect(rectangle({ at: { q: 0, r: 0 }, width: 2, height: 2 })(cursor, getHex)).toMatchObject([
-      { q: 1, r: 0 },
-      { q: 0, r: 1 },
-      { q: 1, r: 1 },
-    ])
+describe('when called with width, height and start', () => {
+  describe('without cursor', () => {
+    test('returns a traverser that returns hexes in a rectangular shape starting at start', () => {
+      expect(rectangle({ width: 2, height: 2, start: [1, 2] })(createHex)).toMatchInlineSnapshot(`
+        [
+          Hex {
+            "q": 1,
+            "r": 2,
+          },
+          Hex {
+            "q": 2,
+            "r": 2,
+          },
+          Hex {
+            "q": 1,
+            "r": 3,
+          },
+          Hex {
+            "q": 2,
+            "r": 3,
+          },
+        ]
+      `)
+    })
+  })
+
+  describe('with cursor', () => {
+    test('returns a traverser that returns hexes in a rectangular shape starting at start', () => {
+      expect(rectangle({ width: 2, height: 2, start: [1, 2] })(createHex, cursor)).toMatchInlineSnapshot(`
+        [
+          Hex {
+            "q": 1,
+            "r": 2,
+          },
+          Hex {
+            "q": 2,
+            "r": 2,
+          },
+          Hex {
+            "q": 1,
+            "r": 3,
+          },
+          Hex {
+            "q": 2,
+            "r": 3,
+          },
+        ]
+      `)
+    })
   })
 })
 
-describe('when passed start', () => {
-  test('returns a traverser that returns hexes in a rectangular shape at and including the "start" coordinates', () => {
-    expect(rectangle({ start: { q: 0, r: 0 }, width: 2, height: 2 })(cursor, getHex)).toMatchObject([
-      { q: 0, r: 0 },
-      { q: 1, r: 0 },
-      { q: 0, r: 1 },
-      { q: 1, r: 1 },
-    ])
+describe('when called with width, height and direction', () => {
+  describe('without cursor', () => {
+    test('returns a traverser that returns hexes in a rectangular shape in the given direction starting at [0, 0]', () => {
+      expect(rectangle({ width: 2, height: 2, direction: CompassDirection.S })(createHex)).toMatchInlineSnapshot(`
+        [
+          Hex {
+            "q": 0,
+            "r": 0,
+          },
+          Hex {
+            "q": 0,
+            "r": 1,
+          },
+          Hex {
+            "q": -1,
+            "r": 0,
+          },
+          Hex {
+            "q": -1,
+            "r": 1,
+          },
+        ]
+      `)
+    })
+  })
+
+  describe('with cursor', () => {
+    test('returns a traverser that returns hexes in a rectangular shape in the given direction starting at the cursor, excluding the cursor', () => {
+      expect(rectangle({ width: 2, height: 2, direction: CompassDirection.S })(createHex, cursor))
+        .toMatchInlineSnapshot(`
+        [
+          Hex {
+            "q": 1,
+            "r": 3,
+          },
+          Hex {
+            "q": 0,
+            "r": 2,
+          },
+          Hex {
+            "q": 0,
+            "r": 3,
+          },
+        ]
+      `)
+    })
   })
 })
 
-describe('when passed direction', () => {
-  test('returns a traverser that returns hexes in a rectangular shape in order of the passed direction', () => {
-    expect(rectangle({ width: 2, height: 2, direction: CompassDirection.S })(cursor, getHex)).toMatchObject([
-      { q: 1, r: 3 },
-      { q: 0, r: 2 },
-      { q: 0, r: 3 },
-    ])
+describe('when called with opposing corners', () => {
+  describe('without cursor', () => {
+    test('returns a traverser that returns hexes in a rectangular shape from one corner to the other, inclusive', () => {
+      expect(rectangle([1, 4], [3, 3])(createHex)).toMatchInlineSnapshot(`
+        [
+          Hex {
+            "q": 1,
+            "r": 4,
+          },
+          Hex {
+            "q": 2,
+            "r": 3,
+          },
+          Hex {
+            "q": 2,
+            "r": 4,
+          },
+          Hex {
+            "q": 3,
+            "r": 3,
+          },
+        ]
+      `)
+    })
   })
-})
 
-describe('when passed two opposing corners', () => {
-  test('returns a traverser that returns hexes in a rectangular shape within those corners', () => {
-    expect(rectangle({ q: 1, r: 2 }, { q: 2, r: 3 })(cursor, getHex)).toMatchObject([
-      { q: 1, r: 2 },
-      { q: 2, r: 2 },
-      { q: 1, r: 3 },
-      { q: 2, r: 3 },
-    ])
-  })
-})
-
-describe('when passed two opposing corners and false', () => {
-  test('returns a traverser that returns hexes in a rectangular shape within those corners, excluding the first corner', () => {
-    expect(rectangle({ q: 1, r: 2 }, { q: 2, r: 3 }, false)(cursor, getHex)).toMatchObject([
-      { q: 2, r: 2 },
-      { q: 1, r: 3 },
-      { q: 2, r: 3 },
-    ])
+  describe('with cursor', () => {
+    test('returns a traverser that returns hexes in a rectangular shape from one corner to the other, ignoring the cursor', () => {
+      expect(rectangle([0, -1], [0, 0])(createHex, cursor)).toMatchInlineSnapshot(`
+        [
+          Hex {
+            "q": 0,
+            "r": -1,
+          },
+          Hex {
+            "q": 1,
+            "r": -1,
+          },
+          Hex {
+            "q": -1,
+            "r": 0,
+          },
+          Hex {
+            "q": 0,
+            "r": 0,
+          },
+        ]
+      `)
+    })
   })
 })
