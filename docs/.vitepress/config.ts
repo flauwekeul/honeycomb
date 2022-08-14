@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  title: 'Honeycomb',
+  title: '⬡ Honeycomb',
   description: `A hexagon grid library made in TypeScript.`,
   lastUpdated: true,
   base: '/honeycomb/',

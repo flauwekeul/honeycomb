@@ -21,4 +21,6 @@
   --vp-c-brand: var(--yellow-400);
   --vp-c-brand-dark: var(--yellow-500);
   --vp-c-brand-darker: var(--yellow-600);
+  --vp-button-brand-text: var(--vp-c-black);
+  --vp-button-brand-hover-text: var(--vp-c-gray-dark-4);
 }

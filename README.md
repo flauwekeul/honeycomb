@@ -1,4 +1,4 @@
-# Honeycomb [![NPM version](https://img.shields.io/npm/v/honeycomb-grid.svg)](https://www.npmjs.com/package/honeycomb-grid) [![Minified size](https://img.shields.io/bundlephobia/min/honeycomb-grid.svg)](https://www.npmjs.com/package/honeycomb-grid) [![Gitter](https://img.shields.io/gitter/room/flauwekeul/honeycomb.svg)](https://gitter.im/honeycomb-grid)
+# ⬡ Honeycomb [![NPM version](https://img.shields.io/npm/v/honeycomb-grid.svg)](https://www.npmjs.com/package/honeycomb-grid) [![Minified size](https://img.shields.io/bundlephobia/min/honeycomb-grid.svg)](https://www.npmjs.com/package/honeycomb-grid) [![Gitter](https://img.shields.io/gitter/room/flauwekeul/honeycomb.svg)](https://gitter.im/honeycomb-grid)
 
 **⚠️ This is an experimental version and the API ~~is likely to~~ may change. I encourage anyone to try it out and open an [issues](https://github.com/flauwekeul/honeycomb/issues/new) if you have any suggestions or questions ⚠️**
 
