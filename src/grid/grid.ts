@@ -3,9 +3,9 @@ import { defineHex, Hex, HexConstructor, HexCoordinates, Point, pointToCube } fr
 import { isFunction } from '../utils'
 import { distance, neighborOf } from './functions'
 import { concat } from './traversers'
-import { GridAsJSON, Traverser } from './types'
+import { GridAsJSON, HexIterable, HexTraversable, Traverser } from './types'
 
-export class Grid<T extends Hex> implements Iterable<T> {
+export class Grid<T extends Hex> implements HexIterable<T>, HexTraversable<T> {
   static fromIterable<T extends Hex>(hexes: Iterable<T>): Grid<T> {
     const firstHex = hexes[Symbol.iterator]().next().value as T | undefined
 
@@ -16,7 +16,7 @@ export class Grid<T extends Hex> implements Iterable<T> {
     return new Grid(firstHex.constructor as HexConstructor<T>, hexes)
   }
 
-  static fromJSON({ hexSettings, coordinates }: GridAsJSON) {
+  static fromJSON({ hexSettings, coordinates }: GridAsJSON): Grid<Hex> {
     const HexClass = defineHex(hexSettings)
     return new Grid(
       HexClass,
@@ -24,11 +24,11 @@ export class Grid<T extends Hex> implements Iterable<T> {
     )
   }
 
-  get size() {
+  get size(): number {
     return this.#hexes.size
   }
 
-  get pixelWidth() {
+  get pixelWidth(): number {
     if (this.size === 0) return 0
 
     const { isPointy, width } = this.#hexPrototype
@@ -43,7 +43,7 @@ export class Grid<T extends Hex> implements Iterable<T> {
     return mostRight.x - mostLeft.x + width
   }
 
-  get pixelHeight() {
+  get pixelHeight(): number {
     if (this.size === 0) return 0
 
     const { isPointy, height } = this.#hexPrototype
@@ -58,11 +58,11 @@ export class Grid<T extends Hex> implements Iterable<T> {
     return mostBottom.y - mostTop.y + height
   }
 
-  [Symbol.iterator]() {
+  [Symbol.iterator](): IterableIterator<T> {
     return this.#hexes.values()
   }
 
-  get #hexPrototype() {
+  get #hexPrototype(): T {
     return this.#hexClass.prototype as T
   }
 

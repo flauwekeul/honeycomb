@@ -8,7 +8,8 @@
 
 ## Implements
 
-- `Iterable`<`T`\>
+- [`HexIterable`](../interfaces/HexIterable.md)<`T`\>
+- [`HexTraversable`](../interfaces/HexTraversable.md)<`T`\>
 
 ## Table of contents
 
@@ -55,7 +56,7 @@
 
 #### Implementation of
 
-Iterable.\_\_@iterator@101
+[HexIterable](../interfaces/HexIterable.md).[[iterator]](../interfaces/HexIterable.md#[iterator])
 
 #### Defined in
 
@@ -76,6 +77,10 @@ ___
 #### Returns
 
 `T`
+
+#### Implementation of
+
+[HexTraversable](../interfaces/HexTraversable.md).[createHex](../interfaces/HexTraversable.md#createHex)
 
 #### Defined in
 
@@ -139,6 +144,10 @@ ___
 
 [`Grid`](Grid.md)<`T`\>
 
+#### Implementation of
+
+[HexIterable](../interfaces/HexIterable.md).[filter](../interfaces/HexIterable.md#filter)
+
 #### Defined in
 
 [grid/grid.ts:108](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L108)
@@ -158,6 +167,10 @@ ___
 #### Returns
 
 [`Grid`](Grid.md)<`T`\>
+
+#### Implementation of
+
+[HexIterable](../interfaces/HexIterable.md).[forEach](../interfaces/HexIterable.md#forEach)
 
 #### Defined in
 
@@ -225,6 +238,10 @@ ___
 
 `undefined` \| `T`
 
+#### Implementation of
+
+[HexTraversable](../interfaces/HexTraversable.md).[getHex](../interfaces/HexTraversable.md#getHex)
+
 #### Defined in
 
 [grid/grid.ts:92](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L92)
@@ -245,6 +262,10 @@ ___
 
 `boolean`
 
+#### Implementation of
+
+[HexTraversable](../interfaces/HexTraversable.md).[hasHex](../interfaces/HexTraversable.md#hasHex)
+
 #### Defined in
 
 [grid/grid.ts:97](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L97)
@@ -264,6 +285,10 @@ ___
 #### Returns
 
 [`Grid`](Grid.md)<`T`\>
+
+#### Implementation of
+
+[HexIterable](../interfaces/HexIterable.md).[map](../interfaces/HexIterable.md#map)
 
 #### Defined in
 
@@ -367,6 +392,10 @@ ___
 
 `T`
 
+#### Implementation of
+
+[HexIterable](../interfaces/HexIterable.md).[reduce](../interfaces/HexIterable.md#reduce)
+
 #### Defined in
 
 [grid/grid.ts:153](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L153)
@@ -383,6 +412,10 @@ ___
 #### Returns
 
 `T`
+
+#### Implementation of
+
+[HexIterable](../interfaces/HexIterable.md).[reduce](../interfaces/HexIterable.md#reduce)
 
 #### Defined in
 
@@ -407,6 +440,10 @@ ___
 
 `R`
 
+#### Implementation of
+
+[HexIterable](../interfaces/HexIterable.md).[reduce](../interfaces/HexIterable.md#reduce)
+
 #### Defined in
 
 [grid/grid.ts:155](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L155)
@@ -427,6 +464,10 @@ ___
 
 [`Grid`](Grid.md)<`T`\>
 
+#### Implementation of
+
+[HexTraversable](../interfaces/HexTraversable.md).[setHexes](../interfaces/HexTraversable.md#setHexes)
+
 #### Defined in
 
 [grid/grid.ts:101](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L101)
@@ -440,6 +481,10 @@ ___
 #### Returns
 
 `T`[]
+
+#### Implementation of
+
+[HexIterable](../interfaces/HexIterable.md).[toArray](../interfaces/HexIterable.md#toArray)
 
 #### Defined in
 
@@ -491,6 +536,10 @@ ___
 
 [`Grid`](Grid.md)<`T`\>
 
+#### Implementation of
+
+[HexTraversable](../interfaces/HexTraversable.md).[traverse](../interfaces/HexTraversable.md#traverse)
+
 #### Defined in
 
 [grid/grid.ts:128](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L128)
@@ -509,6 +558,10 @@ ___
 
 [`Grid`](Grid.md)<`T`\>
 
+#### Implementation of
+
+[HexTraversable](../interfaces/HexTraversable.md).[traverse](../interfaces/HexTraversable.md#traverse)
+
 #### Defined in
 
 [grid/grid.ts:129](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/grid.ts#L129)
@@ -526,6 +579,10 @@ ___
 #### Returns
 
 [`Grid`](Grid.md)<`T`\>
+
+#### Implementation of
+
+[HexTraversable](../interfaces/HexTraversable.md).[traverse](../interfaces/HexTraversable.md#traverse)
 
 #### Defined in
 
@@ -646,6 +703,10 @@ ___
 #### Returns
 
 `number`
+
+#### Implementation of
+
+[HexTraversable](../interfaces/HexTraversable.md).[size](../interfaces/HexTraversable.md#size)
 
 #### Defined in
 

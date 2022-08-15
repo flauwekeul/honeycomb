@@ -23,11 +23,17 @@
 - [RingOptions](interfaces/RingOptions.md)
 - [SpiralOptions](interfaces/SpiralOptions.md)
 
+### Grid Interfaces
+
+- [GridAsJSON](interfaces/GridAsJSON.md)
+- [HexIterable](interfaces/HexIterable.md)
+- [HexStore](interfaces/HexStore.md)
+- [HexTraversable](interfaces/HexTraversable.md)
+
 ### Other Interfaces
 
 - [BoundingBox](interfaces/BoundingBox.md)
 - [Ellipse](interfaces/Ellipse.md)
-- [GridAsJSON](interfaces/GridAsJSON.md)
 
 ### Classes
 
@@ -190,7 +196,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:27](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L27)
+[grid/types.ts:30](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L30)
 
 ___
 
