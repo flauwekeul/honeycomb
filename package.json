@@ -13,7 +13,6 @@
     }
   },
   "scripts": {
-    "benchmark": "npm run build && ts-node --project tsconfig.node.json benchmark.ts",
     "build": "tsc --project tsconfig.build.json && vite build",
     "coverage": "vitest run --coverage",
     "dev": "vite",
@@ -35,7 +34,6 @@
     "@types/node": "~16.11.48",
     "@typescript-eslint/eslint-plugin": "5.33.0",
     "@typescript-eslint/parser": "5.33.0",
-    "benny": "3.7.1",
     "concurrently": "7.3.0",
     "eslint": "8.22.0",
     "eslint-config-prettier": "8.5.0",
@@ -44,7 +42,6 @@
     "precise-commits": "1.0.2",
     "prettier": "2.7.1",
     "standard-version": "9.5.0",
-    "ts-node": "10.9.1",
     "tslib": "2.4.0",
     "typedoc": "0.23.10",
     "typedoc-plugin-markdown": "3.13.4",
