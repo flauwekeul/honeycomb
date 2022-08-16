@@ -9,14 +9,6 @@ export type Traverser<T extends Hex, R extends Iterable<T> = T[]> = (
 ) => R
 
 /**
- * @category Grid
- */
-export interface GridAsJSON {
-  hexSettings: HexSettings
-  coordinates: AxialCoordinates[]
-}
-
-/**
  * @category Traverser
  */
 export enum Rotation {
@@ -25,9 +17,12 @@ export enum Rotation {
 }
 
 /**
- * @category Traverser
+ * @category Grid
  */
-export type RotationLike = Rotation | 'CLOCKWISE' | 'clockwise' | 'COUNTERCLOCKWISE' | 'counterclockwise'
+export interface GridAsJSON {
+  hexSettings: HexSettings
+  coordinates: AxialCoordinates[]
+}
 
 /**
  * @category Grid

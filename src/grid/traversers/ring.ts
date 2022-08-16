@@ -1,7 +1,7 @@
 import { Hex, HexCoordinates, toCube } from '../../hex'
 import { isNumber } from '../../utils'
 import { distance } from '../functions'
-import { Rotation, RotationLike, Traverser } from '../types'
+import { Rotation, Traverser } from '../types'
 
 /**
  * @category Traverser
@@ -59,7 +59,7 @@ export function ring<T extends Hex>(options: RingOptions | RingFromRadiusOptions
 export interface RingOptions {
   start?: HexCoordinates
   center: HexCoordinates
-  rotation?: RotationLike
+  rotation?: Rotation
 }
 
 /**
@@ -68,7 +68,7 @@ export interface RingOptions {
 export interface RingFromRadiusOptions {
   center: HexCoordinates
   radius: number
-  rotation?: RotationLike
+  rotation?: Rotation
 }
 
 const DIRECTION_COORDINATES = [

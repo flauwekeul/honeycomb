@@ -1,5 +1,5 @@
 import { Hex, HexCoordinates } from '../../hex'
-import { Direction, RotationLike, Traverser } from '../types'
+import { Direction, Rotation, Traverser } from '../types'
 import { line } from './line'
 import { repeatWith } from './repeatWith'
 import { ring } from './ring'
@@ -23,5 +23,5 @@ export function spiral<T extends Hex>({ radius, start, rotation }: SpiralOptions
 export interface SpiralOptions {
   start?: HexCoordinates
   radius: number
-  rotation?: RotationLike
+  rotation?: Rotation
 }

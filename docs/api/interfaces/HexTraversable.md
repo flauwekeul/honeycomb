@@ -48,7 +48,7 @@
 
 #### Defined in
 
-[grid/types.ts:74](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L74)
+[grid/types.ts:69](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L69)
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:51](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L51)
+[grid/types.ts:46](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L46)
 
 ___
 
@@ -96,7 +96,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:52](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L52)
+[grid/types.ts:47](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L47)
 
 ___
 
@@ -120,7 +120,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:53](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L53)
+[grid/types.ts:48](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L48)
 
 ___
 
@@ -142,7 +142,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:75](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L75)
+[grid/types.ts:70](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L70)
 
 **traverse**(`hexes`, `options?`): [`HexTraversable`](HexTraversable.md)<`T`\>
 
@@ -160,7 +160,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:76](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L76)
+[grid/types.ts:71](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L71)
 
 **traverse**(`grid`, `options?`): [`HexTraversable`](HexTraversable.md)<`T`\>
 
@@ -178,7 +178,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:77](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L77)
+[grid/types.ts:72](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L72)
 
 ## Properties
 
@@ -192,4 +192,4 @@ ___
 
 #### Defined in
 
-[grid/types.ts:50](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L50)
+[grid/types.ts:45](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L45)

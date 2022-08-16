@@ -65,7 +65,6 @@
 
 ### Traverser Type Aliases
 
-- [RotationLike](index.md#RotationLike)
 - [Traverser](index.md#Traverser)
 
 ### Coordinates Functions
@@ -184,16 +183,6 @@ ___
 ___
 
 ## Traverser Type Aliases
-
-### <a id="RotationLike" name="RotationLike"></a> RotationLike
-
- **RotationLike**: [`Rotation`](enums/Rotation.md) \| ``"CLOCKWISE"`` \| ``"clockwise"`` \| ``"COUNTERCLOCKWISE"`` \| ``"counterclockwise"``
-
-#### Defined in
-
-[grid/types.ts:30](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L30)
-
-___
 
 ### <a id="Traverser" name="Traverser"></a> Traverser
 
