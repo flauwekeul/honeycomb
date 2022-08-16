@@ -21,10 +21,8 @@
     "docs:serve": "vitepress serve docs --port 5001",
     "lint": "eslint . --fix",
     "postinstall": "husky install",
-    "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",
     "preview": "vite preview",
-    "release": "git add --patch && standard-version --commit-all",
-    "test:watch": "npm test -- --watch",
+    "semantic-release": "semantic-release",
     "test": "vitest"
   },
   "author": "Abbe Keultjes <flauwekeul@gmail.com>",
@@ -41,7 +39,7 @@
     "husky": "8.0.1",
     "precise-commits": "1.0.2",
     "prettier": "2.7.1",
-    "standard-version": "9.5.0",
+    "semantic-release": "^19.0.3",
     "tslib": "2.4.0",
     "typedoc": "0.23.10",
     "typedoc-plugin-markdown": "3.13.4",
@@ -57,7 +55,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/flauwekeul/honeycomb.git"
+    "url": "https://github.com/flauwekeul/honeycomb.git"
   },
   "keywords": [
     "grid",
