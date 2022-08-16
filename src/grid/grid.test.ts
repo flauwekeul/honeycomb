@@ -1,8 +1,8 @@
 import { describe, expect, Mock, test, vi } from 'vitest'
-import { CompassDirection } from '../compass'
 import { AxialCoordinates, defineHex, Hex, HexSettings, Orientation } from '../hex'
 import { Grid } from './grid'
 import { fromCoordinates, rectangle } from './traversers'
+import { Direction } from './types'
 
 describe('creation', () => {
   test('creates a grid from a hex constructor', () => {
@@ -482,16 +482,16 @@ describe('neighborOf()', () => {
   test('returns the neighbor of the hex with the given coordinates in the given direction, even outside the grid', () => {
     const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
 
-    expect(grid.neighborOf([0, 0], CompassDirection.E)).toStrictEqual(new Hex([1, 0]))
-    expect(grid.neighborOf([100, 100], CompassDirection.E)).toStrictEqual(new Hex([101, 100]))
+    expect(grid.neighborOf([0, 0], Direction.E)).toStrictEqual(new Hex([1, 0]))
+    expect(grid.neighborOf([100, 100], Direction.E)).toStrictEqual(new Hex([101, 100]))
   })
 
   test(`when allowOutside is false, returns the neighbor of the hex with the given coordinates in the given direction if they're present in the grid`, () => {
     const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
 
     // hex with coordinates doesn't exist
-    expect(grid.neighborOf([100, 100], CompassDirection.E, { allowOutside: false })).toBeUndefined()
+    expect(grid.neighborOf([100, 100], Direction.E, { allowOutside: false })).toBeUndefined()
     // neighbor doesn't exist
-    expect(grid.neighborOf([1, 1], CompassDirection.E, { allowOutside: false })).toBeUndefined()
+    expect(grid.neighborOf([1, 1], Direction.E, { allowOutside: false })).toBeUndefined()
   })
 })

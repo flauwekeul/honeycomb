@@ -1,7 +1,6 @@
-import { Compass, CompassDirection } from '../../compass'
 import { completeCube, Hex, HexCoordinates, HexOffset, hexToOffset, OffsetCoordinates } from '../../hex'
-import { isOffset, isTuple, tupleToCube } from '../../utils'
-import { Traverser } from '../types'
+import { isOffset, isTuple, rotate, tupleToCube } from '../../utils'
+import { Direction, Traverser } from '../types'
 import { line } from './line'
 import { repeatWith } from './repeatWith'
 
@@ -23,13 +22,13 @@ export function rectangle<T extends Hex>(
       width,
       height,
       start,
-      direction = CompassDirection.E,
+      direction = Direction.E,
     } = cornerB
       ? optionsFromOpposingCorners(optionsOrCornerA as HexCoordinates, cornerB, createHex())
       : (optionsOrCornerA as RectangleOptions)
     const firstHex = createHex(start ?? cursor)
     const hexes = repeatWith<T>(
-      line({ start: firstHex, direction: Compass.rotate(direction, 2), length: height }),
+      line({ start: firstHex, direction: rotate(direction, 2), length: height }),
       line({ direction, length: width - 1 }),
     )(createHex, firstHex)
 
@@ -45,7 +44,7 @@ export interface RectangleOptions {
   start?: HexCoordinates
   width: number
   height: number
-  direction?: CompassDirection
+  direction?: Direction
 }
 
 function optionsFromOpposingCorners(
@@ -81,19 +80,19 @@ function assertOffsetCoordinates(coordinates: HexCoordinates, isPointy: boolean,
 const RULES_FOR_SMALLEST_COL_ROW = {
   AA: {
     swapWidthHeight: false,
-    direction: CompassDirection.E,
+    direction: Direction.E,
   },
   AB: {
     swapWidthHeight: true,
-    direction: CompassDirection.N,
+    direction: Direction.N,
   },
   BA: {
     swapWidthHeight: true,
-    direction: CompassDirection.S,
+    direction: Direction.S,
   },
   BB: {
     swapWidthHeight: false,
-    direction: CompassDirection.W,
+    direction: Direction.W,
   },
 }
 

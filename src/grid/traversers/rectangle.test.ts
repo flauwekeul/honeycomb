@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from 'vitest'
-import { CompassDirection } from '../../compass'
 import { Hex, HexCoordinates } from '../../hex'
+import { Direction } from '../types'
 import { rectangle } from './rectangle'
 
 const cursor = new Hex([1, 2])
@@ -109,7 +109,7 @@ describe('when called with width, height and start', () => {
 describe('when called with width, height and direction', () => {
   describe('without cursor', () => {
     test('returns a traverser that returns hexes in a rectangular shape in the given direction starting at [0, 0]', () => {
-      expect(rectangle({ width: 2, height: 2, direction: CompassDirection.S })(createHex)).toMatchInlineSnapshot(`
+      expect(rectangle({ width: 2, height: 2, direction: Direction.S })(createHex)).toMatchInlineSnapshot(`
         [
           Hex {
             "q": 0,
@@ -134,8 +134,7 @@ describe('when called with width, height and direction', () => {
 
   describe('with cursor', () => {
     test('returns a traverser that returns hexes in a rectangular shape in the given direction starting at the cursor, excluding the cursor', () => {
-      expect(rectangle({ width: 2, height: 2, direction: CompassDirection.S })(createHex, cursor))
-        .toMatchInlineSnapshot(`
+      expect(rectangle({ width: 2, height: 2, direction: Direction.S })(createHex, cursor)).toMatchInlineSnapshot(`
         [
           Hex {
             "q": 1,

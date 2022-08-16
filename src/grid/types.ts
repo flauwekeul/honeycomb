@@ -32,6 +32,20 @@ export type RotationLike = Rotation | 'CLOCKWISE' | 'clockwise' | 'COUNTERCLOCKW
 /**
  * @category Grid
  */
+export enum Direction {
+  N,
+  NE,
+  E,
+  SE,
+  S,
+  SW,
+  W,
+  NW,
+}
+
+/**
+ * @category Grid
+ */
 export interface HexStore<T extends Hex> {
   readonly size: number
   getHex(coordinates: HexCoordinates): T | undefined

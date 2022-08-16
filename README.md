@@ -50,12 +50,7 @@ Documentation is available at [abbekeultjes.nl/honeycomb](https://abbekeultjes.n
 These are ideas that may require further investigation 🕵️. Don't hesitate to [open an issue](https://github.com/flauwekeul/honeycomb/issues) or [start a discussion](https://github.com/flauwekeul/honeycomb/discussions).
 
 - [ ] Increase test coverage!
-- [ ] Replace compass class with util functions:
-  - [ ]  `vector()`: accepts start coordinates, a direction and length and returns coordinates (`length` can also be a function?)
-  - [ ]  `turn()`: accepts start coordinates, a direction and an amount to turn (in degrees or "compass steps"?)
-  - [ ]  functions to convert between degrees and compass directions
 - [ ] Directions should also be given in degrees (in steps of 30°)?
-- [ ] Functions/methods should also accept strings for compass directions.
 - [ ] Add functionality related to [edges](https://github.com/flauwekeul/honeycomb/issues/58#issuecomment-642099947) and/or corners. Use https://www.redblobgames.com/grids/parts/#hexagons.
 - [ ] Use [semantic-release](https://semantic-release.gitbook.io/semantic-release/)
 - [ ] Add path finding (e.g. A*) functionality.

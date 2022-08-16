@@ -17,11 +17,11 @@ The rectangle will only have 90° corners for the directions North, East, South 
 
 ### <a id="direction" name="direction"></a> direction
 
- `Optional` **direction**: [`CompassDirection`](../enums/CompassDirection.md)
+ `Optional` **direction**: [`Direction`](../enums/Direction.md)
 
 #### Defined in
 
-[grid/traversers/rectangle.ts:48](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/rectangle.ts#L48)
+[grid/traversers/rectangle.ts:47](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/rectangle.ts#L47)
 
 ___
 
@@ -31,7 +31,7 @@ ___
 
 #### Defined in
 
-[grid/traversers/rectangle.ts:47](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/rectangle.ts#L47)
+[grid/traversers/rectangle.ts:46](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/rectangle.ts#L46)
 
 ___
 
@@ -41,7 +41,7 @@ ___
 
 #### Defined in
 
-[grid/traversers/rectangle.ts:45](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/rectangle.ts#L45)
+[grid/traversers/rectangle.ts:44](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/rectangle.ts#L44)
 
 ___
 
@@ -51,4 +51,4 @@ ___
 
 #### Defined in
 
-[grid/traversers/rectangle.ts:46](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/rectangle.ts#L46)
+[grid/traversers/rectangle.ts:45](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/rectangle.ts#L45)

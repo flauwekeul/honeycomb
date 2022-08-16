@@ -1,5 +1,5 @@
-import { CompassDirection } from '../../compass'
 import { AxialCoordinates, Hex, offsetToCubeFlat, offsetToCubePointy, PartialCubeCoordinates } from '../../hex'
+import { Direction } from '../types'
 
 const DIRECTIONS_POINTY = [
   null, // ambiguous
@@ -24,22 +24,19 @@ const DIRECTIONS_FLAT = [
 
 const neighborOfPointy = <T extends Hex>(
   { offset, q, r, col, row }: T,
-  direction: CompassDirection,
+  direction: Direction,
 ): PartialCubeCoordinates => {
-  if (direction === CompassDirection.S || direction === CompassDirection.N) {
-    const nextRow = direction === CompassDirection.S ? row + 1 : row - 1
+  if (direction === Direction.S || direction === Direction.N) {
+    const nextRow = direction === Direction.S ? row + 1 : row - 1
     return offsetToCubePointy(col, nextRow, offset)
   }
   const neighbor = DIRECTIONS_POINTY[direction]
   return { q: q + neighbor.q, r: r + neighbor.r }
 }
 
-const neighborOfFlat = <T extends Hex>(
-  { offset, q, r, col, row }: T,
-  direction: CompassDirection,
-): PartialCubeCoordinates => {
-  if (direction === CompassDirection.E || direction === CompassDirection.W) {
-    const nextCol = direction === CompassDirection.E ? col + 1 : col - 1
+const neighborOfFlat = <T extends Hex>({ offset, q, r, col, row }: T, direction: Direction): PartialCubeCoordinates => {
+  if (direction === Direction.E || direction === Direction.W) {
+    const nextCol = direction === Direction.E ? col + 1 : col - 1
     return offsetToCubeFlat(nextCol, row, offset)
   }
   const neighbor = DIRECTIONS_FLAT[direction]
@@ -47,5 +44,5 @@ const neighborOfFlat = <T extends Hex>(
 }
 
 // todo: add option that makes it possible to return 2 hexes for ambiguous directions
-export const neighborOf = <T extends Hex>(hex: T, direction: CompassDirection): T =>
+export const neighborOf = <T extends Hex>(hex: T, direction: Direction): T =>
   hex.clone(hex.isPointy ? neighborOfPointy(hex, direction) : neighborOfFlat(hex, direction))

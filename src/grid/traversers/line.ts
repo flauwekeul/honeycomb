@@ -1,7 +1,6 @@
-import { CompassDirection } from '../../compass'
 import { AxialCoordinates, CubeCoordinates, Hex, HexCoordinates, round, toCube } from '../../hex'
 import { distance, neighborOf } from '../functions'
-import { Traverser } from '../types'
+import { Direction, Traverser } from '../types'
 
 /**
  * @category Traverser
@@ -17,7 +16,7 @@ export function line<T extends Hex>(options: LineAsVectorOptions | LineBetweenOp
  */
 export interface LineAsVectorOptions {
   start?: HexCoordinates
-  direction: CompassDirection
+  direction: Direction
   length: number
 }
 
@@ -33,7 +32,7 @@ export interface LineBetweenOptions {
 }
 
 function isLineVectorOptions(value: unknown): value is LineAsVectorOptions {
-  return (value as LineAsVectorOptions).direction in CompassDirection
+  return (value as LineAsVectorOptions).direction in Direction
 }
 
 function lineFromVectorOptions<T extends Hex>({ start, direction, length }: LineAsVectorOptions): Traverser<T> {

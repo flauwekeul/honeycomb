@@ -12,11 +12,11 @@
 
 ### <a id="direction" name="direction"></a> direction
 
- **direction**: [`CompassDirection`](../enums/CompassDirection.md)
+ **direction**: [`Direction`](../enums/Direction.md)
 
 #### Defined in
 
-[grid/traversers/line.ts:20](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/line.ts#L20)
+[grid/traversers/line.ts:19](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/line.ts#L19)
 
 ___
 
@@ -26,7 +26,7 @@ ___
 
 #### Defined in
 
-[grid/traversers/line.ts:21](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/line.ts#L21)
+[grid/traversers/line.ts:20](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/line.ts#L20)
 
 ___
 
@@ -36,4 +36,4 @@ ___
 
 #### Defined in
 
-[grid/traversers/line.ts:19](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/line.ts#L19)
+[grid/traversers/line.ts:18](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/line.ts#L18)

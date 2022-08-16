@@ -1,9 +1,8 @@
-import { CompassDirection } from '../compass'
 import { defineHex, Hex, HexConstructor, HexCoordinates, Point, pointToCube } from '../hex'
 import { isFunction } from '../utils'
 import { distance, neighborOf } from './functions'
 import { concat } from './traversers'
-import { GridAsJSON, HexIterable, HexTraversable, Traverser } from './types'
+import { Direction, GridAsJSON, HexIterable, HexTraversable, Traverser } from './types'
 
 export class Grid<T extends Hex> implements HexIterable<T>, HexTraversable<T> {
   static fromIterable<T extends Hex>(hexes: Iterable<T>): Grid<T> {
@@ -210,9 +209,9 @@ export class Grid<T extends Hex> implements HexIterable<T>, HexTraversable<T> {
     return distance(this.#hexPrototype, fromHex, toHex)
   }
 
-  neighborOf(coordinates: HexCoordinates, direction: CompassDirection, options?: { allowOutside: true }): T
-  neighborOf(coordinates: HexCoordinates, direction: CompassDirection, options: { allowOutside: false }): T | undefined
-  neighborOf(coordinates: HexCoordinates, direction: CompassDirection, { allowOutside = true } = {}): T | undefined {
+  neighborOf(coordinates: HexCoordinates, direction: Direction, options?: { allowOutside: true }): T
+  neighborOf(coordinates: HexCoordinates, direction: Direction, options: { allowOutside: false }): T | undefined
+  neighborOf(coordinates: HexCoordinates, direction: Direction, { allowOutside = true } = {}): T | undefined {
     if (allowOutside) return neighborOf(this.createHex(coordinates), direction)
 
     const foundHex = this.getHex(coordinates)

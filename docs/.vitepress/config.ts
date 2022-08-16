@@ -39,11 +39,6 @@ export default defineConfig({
           ],
         },
         {
-          text: 'Directions',
-          collapsible: true,
-          items: [{ text: 'Compass', link: '/guide/compass-directions' }],
-        },
-        {
           text: 'Recipes',
           collapsible: true,
           items: [

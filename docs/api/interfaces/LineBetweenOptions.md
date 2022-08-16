@@ -15,7 +15,7 @@
 
 #### Defined in
 
-[grid/traversers/line.ts:28](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/line.ts#L28)
+[grid/traversers/line.ts:27](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/line.ts#L27)
 
 ___
 
@@ -27,4 +27,4 @@ These coordinates are included in the line.
 
 #### Defined in
 
-[grid/traversers/line.ts:32](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/line.ts#L32)
+[grid/traversers/line.ts:31](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/line.ts#L31)

@@ -35,12 +35,6 @@
 - [BoundingBox](interfaces/BoundingBox.md)
 - [Ellipse](interfaces/Ellipse.md)
 
-### Classes
-
-- [Compass](classes/Compass.md)
-- [Grid](classes/Grid.md)
-- [Hex](classes/Hex.md)
-
 ### Hex Enumerations
 
 - [Orientation](enums/Orientation.md)
@@ -49,9 +43,14 @@
 
 - [Rotation](enums/Rotation.md)
 
-### Other Enumerations
+### Grid Enumerations
 
-- [CompassDirection](enums/CompassDirection.md)
+- [Direction](enums/Direction.md)
+
+### Classes
+
+- [Grid](classes/Grid.md)
+- [Hex](classes/Hex.md)
 
 ### Coordinates Type Aliases
 
@@ -68,10 +67,6 @@
 
 - [RotationLike](index.md#RotationLike)
 - [Traverser](index.md#Traverser)
-
-### Other Type Aliases
-
-- [CompassDirectionLike](index.md#CompassDirectionLike)
 
 ### Coordinates Functions
 
@@ -229,18 +224,6 @@ ___
 #### Defined in
 
 [grid/types.ts:6](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/types.ts#L6)
-
-___
-
-## Other Type Aliases
-
-### <a id="CompassDirectionLike" name="CompassDirectionLike"></a> CompassDirectionLike
-
- **CompassDirectionLike**: keyof typeof [`CompassDirection`](enums/CompassDirection.md) \| `number`
-
-#### Defined in
-
-[compass/compass.ts:16](https://github.com/flauwekeul/honeycomb/blob/next/src/compass/compass.ts#L16)
 
 ## Coordinates Functions
 
@@ -493,8 +476,8 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `a` | [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) \| [`TupleCoordinates`](index.md#TupleCoordinates) |
-| `b` | [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) \| [`TupleCoordinates`](index.md#TupleCoordinates) |
+| `a` | [`TupleCoordinates`](index.md#TupleCoordinates) \| [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) |
+| `b` | [`TupleCoordinates`](index.md#TupleCoordinates) \| [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) |
 
 #### Returns
 
@@ -745,7 +728,7 @@ ___
 
 #### Defined in
 
-[grid/traversers/line.ts:9](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/line.ts#L9)
+[grid/traversers/line.ts:8](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/line.ts#L8)
 
 **line**<`T`\>(`options`): [`Traverser`](index.md#Traverser)<`T`\>
 
@@ -767,7 +750,7 @@ ___
 
 #### Defined in
 
-[grid/traversers/line.ts:10](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/line.ts#L10)
+[grid/traversers/line.ts:9](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/line.ts#L9)
 
 ___
 
@@ -785,7 +768,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `direction` | [`CompassDirection`](enums/CompassDirection.md) |
+| `direction` | [`Direction`](enums/Direction.md) |
 
 #### Returns
 
@@ -793,7 +776,7 @@ ___
 
 #### Defined in
 
-[grid/traversers/move.ts:10](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/move.ts#L10)
+[grid/traversers/move.ts:9](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/move.ts#L9)
 
 ___
 
@@ -823,7 +806,7 @@ The rectangle will only have 90° corners for the directions North, East, South 
 
 #### Defined in
 
-[grid/traversers/rectangle.ts:15](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/rectangle.ts#L15)
+[grid/traversers/rectangle.ts:14](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/rectangle.ts#L14)
 
 **rectangle**<`T`\>(`cornerA`, `cornerB`): [`Traverser`](index.md#Traverser)<`T`\>
 
@@ -846,7 +829,7 @@ The rectangle will only have 90° corners for the directions North, East, South 
 
 #### Defined in
 
-[grid/traversers/rectangle.ts:16](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/rectangle.ts#L16)
+[grid/traversers/rectangle.ts:15](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/rectangle.ts#L15)
 
 ___
 
@@ -976,7 +959,7 @@ ___
 
 #### Defined in
 
-[grid/traversers/spiral.ts:11](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/spiral.ts#L11)
+[grid/traversers/spiral.ts:10](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/traversers/spiral.ts#L10)
 
 ___
 
@@ -1039,7 +1022,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `hex` | `T` |
-| `direction` | [`CompassDirection`](enums/CompassDirection.md) |
+| `direction` | [`Direction`](enums/Direction.md) |
 
 #### Returns
 
@@ -1047,7 +1030,7 @@ ___
 
 #### Defined in
 
-[grid/functions/neighborOf.ts:50](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/functions/neighborOf.ts#L50)
+[grid/functions/neighborOf.ts:47](https://github.com/flauwekeul/honeycomb/blob/next/src/grid/functions/neighborOf.ts#L47)
 
 ___
 
