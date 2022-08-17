@@ -19,6 +19,8 @@ jobs:
         run: HUSKY=0 npm ci
       - name: Run tests
         run: npm test
+      - name: Build
+        run: npm run build
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
