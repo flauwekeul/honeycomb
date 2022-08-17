@@ -1,0 +1,32 @@
+import { ConverterComponent } from "../components";
+/**
+ * A plugin that handles `@inheritDoc` tags by copying documentation from another API item.
+ * It is NOT responsible for handling bare JSDoc style `@inheritDoc` tags which do not specify
+ * a target to inherit from. Those are handled by the ImplementsPlugin class.
+ *
+ * What gets copied:
+ * - short text
+ * - text
+ * - `@remarks` block
+ * - `@params` block
+ * - `@typeParam` block
+ * - `@return` block
+ */
+export declare class InheritDocPlugin extends ConverterComponent {
+    private dependencies;
+    /**
+     * Create a new InheritDocPlugin instance.
+     */
+    initialize(): void;
+    /**
+     * Traverse through reflection descendant to check for `inheritDoc` tag.
+     * If encountered, the parameter of the tag is used to determine a source reflection
+     * that will provide actual comment.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param reflection  The reflection that is currently resolved.
+     */
+    private processInheritDoc;
+    private copyComment;
+    private createCircularDependencyWarnings;
+}

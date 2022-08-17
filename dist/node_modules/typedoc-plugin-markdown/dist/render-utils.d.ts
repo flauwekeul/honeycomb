@@ -1,0 +1,6 @@
+import { MarkdownTheme } from './theme';
+export declare const indexTemplate: HandlebarsTemplateDelegate<any>;
+export declare const reflectionTemplate: HandlebarsTemplateDelegate<any>;
+export declare const reflectionMemberTemplate: HandlebarsTemplateDelegate<any>;
+export declare function registerPartials(): void;
+export declare function registerHelpers(theme: MarkdownTheme): void;

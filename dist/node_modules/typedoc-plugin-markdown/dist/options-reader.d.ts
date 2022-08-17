@@ -1,0 +1,6 @@
+import { Options, OptionsReader } from 'typedoc';
+export declare class MarkdownThemeOptionsReader implements OptionsReader {
+    priority: number;
+    name: string;
+    read(container: Options): void;
+}

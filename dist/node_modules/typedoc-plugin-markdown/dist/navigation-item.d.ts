@@ -1,0 +1,16 @@
+import { Reflection } from 'typedoc';
+export declare class NavigationItem {
+    title: string;
+    url: string;
+    dedicatedUrls?: string[];
+    parent?: NavigationItem;
+    children?: NavigationItem[];
+    isLabel?: boolean;
+    isVisible?: boolean;
+    isCurrent?: boolean;
+    isModules?: boolean;
+    isInPath?: boolean;
+    reflection?: Reflection;
+    constructor(title?: string, url?: string, parent?: NavigationItem, reflection?: Reflection);
+    static create(reflection: Reflection, parent?: NavigationItem, useShortNames?: boolean): NavigationItem;
+}

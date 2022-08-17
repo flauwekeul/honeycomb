@@ -1,0 +1,6 @@
+import { PageEvent } from 'typedoc/dist/lib/output/events';
+export interface FrontMatterVars {
+    [key: string]: string | number | boolean;
+}
+export declare const prependYAML: (contents: string, vars: FrontMatterVars) => string;
+export declare const getPageTitle: (page: PageEvent) => any;

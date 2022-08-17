@@ -1,0 +1,6 @@
+import { DeclarationReflection, ReflectionType, SignatureReflection } from 'typedoc';
+declare type Collapse = 'object' | 'function' | 'all' | 'none';
+export default function (): void;
+export declare function getReflectionType(model: DeclarationReflection | ReflectionType, collapse: Collapse): string;
+export declare function getFunctionType(modelSignatures: SignatureReflection[]): string;
+export {};
