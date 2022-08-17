@@ -41,8 +41,7 @@ module.exports = {
     [
       '@semantic-release/git',
       {
-        // todo: not sure why there's a node_modules in dist 🤔
-        assets: ['dist/!(node_modules)/**/*.{js,mjs,ts}', 'docs', 'package.json'],
+        assets: ['docs', 'package.json'],
         message: ':bookmark: ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}',
       },
     ],

@@ -1,2 +1,0 @@
-import { MarkdownTheme } from '../../theme';
-export default function (theme: MarkdownTheme): void;

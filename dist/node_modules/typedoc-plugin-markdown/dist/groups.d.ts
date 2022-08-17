@@ -1,2 +1,0 @@
-import { ReflectionKind } from 'typedoc';
-export declare function getKindPlural(kind: ReflectionKind): string;

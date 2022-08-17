@@ -1,4 +1,0 @@
-import { Application } from 'typedoc';
-import { MarkdownTheme } from './theme';
-export declare function load(app: Application): void;
-export { MarkdownTheme };
