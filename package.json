@@ -22,7 +22,6 @@
     "lint": "eslint . --fix",
     "postinstall": "husky install",
     "preview": "vite preview",
-    "semantic-release": "semantic-release",
     "test": "vitest"
   },
   "author": "Abbe Keultjes <flauwekeul@gmail.com>",
@@ -51,7 +50,8 @@
     "vue": "3.2.37"
   },
   "files": [
-    "dist"
+    "dist",
+    "FUNDING.yml"
   ],
   "repository": {
     "type": "git",
