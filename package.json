@@ -20,7 +20,7 @@
     "docs:dev": "concurrently -n typedoc,vitepress \"typedoc --watch\" \"vitepress dev docs\"",
     "docs:serve": "vitepress serve docs --port 5001",
     "lint": "eslint . --fix",
-    "postinstall": "husky install",
+    "prepare": "husky install",
     "preview": "vite preview",
     "test": "vitest"
   },
