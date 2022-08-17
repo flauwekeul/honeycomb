@@ -14,7 +14,7 @@ Yarn:
 yarn add honeycomb-grid@beta
 ```
 
-Or download the distribution from [unpkg.com](https://unpkg.com/honeycomb-grid@beta).
+Or download the distribution from [jsdelivr](https://cdn.jsdelivr.net/npm/honeycomb-grid@beta) or [unpkg.com](https://unpkg.com/honeycomb-grid@beta).
 
 ## Basic example
 
