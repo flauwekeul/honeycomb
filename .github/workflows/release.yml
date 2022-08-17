@@ -16,9 +16,14 @@ jobs:
         with:
           node-version: '16'
       - name: Install dependencies
-        run: npm ci
+        run: HUSKY=0 npm ci
       - name: Run tests
         run: npm test
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
       - name: Build docs
         run: npm run docs:build
       - name: Deploy docs
@@ -26,8 +31,3 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: docs/.vitepress/dist
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
