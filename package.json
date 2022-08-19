@@ -16,7 +16,7 @@
     "build": "tsc --project tsconfig.build.json && vite build",
     "coverage": "vitest run --coverage",
     "dev": "vite",
-    "docs:build": "concurrently -n typedoc,vitepress \"typedoc\" \"vitepress build docs\"",
+    "docs:build": "typedoc && vitepress build docs",
     "docs:dev": "concurrently -n typedoc,vitepress \"typedoc --watch\" \"vitepress dev docs\"",
     "docs:serve": "vitepress serve docs --port 5001",
     "lint": "eslint . --fix",

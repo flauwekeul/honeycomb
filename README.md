@@ -54,4 +54,3 @@ These are ideas that may require further investigation 🕵️. Don't hesitate t
 - [ ] Add functionality related to [edges](https://github.com/flauwekeul/honeycomb/issues/58#issuecomment-642099947) and/or corners. Use https://www.redblobgames.com/grids/parts/#hexagons.
 - [ ] Add path finding (e.g. A*) functionality.
 - [ ] Add examples made in Vue
-- [ ] Reference https://youtu.be/thOifuHs6eY
