@@ -1,5 +1,5 @@
 import { describe, expect, Mock, test, vi } from 'vitest'
-import { AxialCoordinates, defineHex, Hex, HexSettings, Orientation } from '../hex'
+import { AxialCoordinates, defineHex, Hex, HexCoordinates, HexSettings, Orientation } from '../hex'
 import { Grid } from './grid'
 import { fromCoordinates, rectangle } from './traversers'
 import { Direction } from './types'
@@ -21,6 +21,24 @@ describe('creation', () => {
 
     expect(multiTraverserGrid).toBeInstanceOf(Grid)
     expect(multiTraverserGrid.size).toBe(2)
+  })
+
+  test('creates a grid from an iterable of hex coordinates', () => {
+    const generator = function* (): Generator<HexCoordinates> {
+      yield [1, 2]
+    }
+    const gridFromArray = new Grid(Hex, [[3, 4]])
+    const gridFromSet = new Grid(Hex, new Set<HexCoordinates>([[5, 6]]))
+    const gridFromGenerator = new Grid(Hex, generator())
+
+    expect(gridFromArray).toBeInstanceOf(Grid)
+    expect(gridFromArray.size).toBe(1)
+
+    expect(gridFromSet).toBeInstanceOf(Grid)
+    expect(gridFromSet.size).toBe(1)
+
+    expect(gridFromGenerator).toBeInstanceOf(Grid)
+    expect(gridFromGenerator.size).toBe(1)
   })
 
   test('creates a grid from an iterable of hexes', () => {
@@ -187,7 +205,7 @@ describe('setHexes()', () => {
     const grid = new Grid(Hex)
     expect(grid.size).toBe(0)
 
-    const hexes = [new Hex([2, 3]), new Hex([1, -4])]
+    const hexes = [new Hex([2, 3]), [1, -4] as HexCoordinates]
     const result = grid.setHexes(hexes)
     expect(result).toStrictEqual(new Grid(Hex, hexes))
     expect(result).toBe(grid)
@@ -286,12 +304,12 @@ describe('traverse()', () => {
     const result = grid.traverse(traverser, { bail: true })
 
     expect(getHex).toBeCalledTimes(2) // *after* getHex() returns undefined it can bail
-    expect(result).toStrictEqual(new Grid(Hex, [new Hex([1, 0])]))
+    expect(result).toStrictEqual(new Grid(Hex, [[1, 0]]))
   })
 
   test('iterates over the hexes from the passed iterable and returns a new grid with hexes present in the source grid', () => {
     const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
-    const iterable = [new Hex([1, 0]), new Hex([0, 1])]
+    const iterable = [new Hex([1, 0]), [0, 1] as HexCoordinates]
     const result = grid.traverse(iterable)
 
     expect(result.toArray()).toMatchInlineSnapshot(`

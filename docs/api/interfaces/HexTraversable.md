@@ -102,13 +102,13 @@ ___
 
 ### <a id="setHexes" name="setHexes"></a> setHexes
 
-**setHexes**(`hexes`): [`HexTraversable`](HexTraversable.md)<`T`\>
+**setHexes**(`hexesOrCoordinates`): [`HexTraversable`](HexTraversable.md)<`T`\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `hexes` | `Iterable`<`T`\> |
+| `hexesOrCoordinates` | `Iterable`<[`HexCoordinates`](../index.md#HexCoordinates) \| `T`\> |
 
 #### Returns
 

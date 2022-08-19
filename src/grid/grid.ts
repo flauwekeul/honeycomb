@@ -71,9 +71,12 @@ export class Grid<T extends Hex> implements HexIterable<T>, HexTraversable<T> {
 
   constructor(hexClass: HexConstructor<T>)
   constructor(hexClass: HexConstructor<T>, traversers: Traverser<T> | Traverser<T>[])
-  constructor(hexClass: HexConstructor<T>, hexes: Iterable<T>)
+  constructor(hexClass: HexConstructor<T>, hexes: Iterable<T | HexCoordinates>)
   constructor(grid: Grid<T>)
-  constructor(hexClassOrGrid: HexConstructor<T> | Grid<T>, input: Traverser<T> | Traverser<T>[] | Iterable<T> = []) {
+  constructor(
+    hexClassOrGrid: HexConstructor<T> | Grid<T>,
+    input: Traverser<T> | Traverser<T>[] | Iterable<T | HexCoordinates> = [],
+  ) {
     if (hexClassOrGrid instanceof Grid<T>) {
       this.#hexClass = hexClassOrGrid.#hexClass
       this.setHexes(hexClassOrGrid)
@@ -97,8 +100,9 @@ export class Grid<T extends Hex> implements HexIterable<T>, HexTraversable<T> {
     return this.#hexes.has(hex.toString())
   }
 
-  setHexes(hexes: Iterable<T>): this {
-    for (const hex of hexes) {
+  setHexes(hexesOrCoordinates: Iterable<T | HexCoordinates>): this {
+    for (const hexOrCoordinates of hexesOrCoordinates) {
+      const hex = hexOrCoordinates instanceof Hex ? hexOrCoordinates : new this.#hexClass(hexOrCoordinates)
       this.#setHex(hex)
     }
     return this
@@ -125,9 +129,12 @@ export class Grid<T extends Hex> implements HexIterable<T>, HexTraversable<T> {
   }
 
   traverse(traversers: Traverser<T> | Traverser<T>[], options?: { bail?: boolean }): Grid<T>
-  traverse(hexes: Iterable<T>, options?: { bail?: boolean }): Grid<T>
+  traverse(hexes: Iterable<T | HexCoordinates>, options?: { bail?: boolean }): Grid<T>
   traverse(grid: Grid<T>, options?: { bail?: boolean }): Grid<T>
-  traverse(input: Traverser<T> | Traverser<T>[] | Iterable<T> | Grid<T>, { bail = false } = {}): Grid<T> {
+  traverse(
+    input: Traverser<T> | Traverser<T>[] | Iterable<T | HexCoordinates> | Grid<T>,
+    { bail = false } = {},
+  ): Grid<T> {
     const result = new Grid(this.#hexClass)
 
     for (const hex of this.#createHexesFromIterableOrTraversers(input)) {
@@ -224,12 +231,14 @@ export class Grid<T extends Hex> implements HexIterable<T>, HexTraversable<T> {
     this.#hexes.set(hex.toString(), hex)
   }
 
-  #createHexesFromIterableOrTraversers(input: Traverser<T> | Traverser<T>[] | Iterable<T>): Iterable<T> {
+  #createHexesFromIterableOrTraversers(
+    input: Traverser<T> | Traverser<T>[] | Iterable<T | HexCoordinates>,
+  ): Iterable<T | HexCoordinates> {
     return this.#isTraverser(input)
       ? this.#callTraverser(input)
       : Array.isArray(input) && this.#isTraverser(input[0])
       ? this.#callTraverser(concat(input))
-      : (input as Iterable<T>)
+      : (input as Iterable<T | HexCoordinates>)
   }
 
   #isTraverser(value: unknown): value is Traverser<T> {

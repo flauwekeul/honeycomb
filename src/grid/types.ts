@@ -45,7 +45,7 @@ export interface HexStore<T extends Hex> {
   readonly size: number
   getHex(coordinates: HexCoordinates): T | undefined
   hasHex(hex: T): boolean
-  setHexes(hexes: Iterable<T>): this
+  setHexes(hexesOrCoordinates: Iterable<T | HexCoordinates>): this
 }
 
 /**

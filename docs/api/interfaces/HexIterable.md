@@ -226,13 +226,13 @@ ___
 
 ### <a id="setHexes" name="setHexes"></a> setHexes
 
-**setHexes**(`hexes`): [`HexIterable`](HexIterable.md)<`T`\>
+**setHexes**(`hexesOrCoordinates`): [`HexIterable`](HexIterable.md)<`T`\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `hexes` | `Iterable`<`T`\> |
+| `hexesOrCoordinates` | `Iterable`<[`HexCoordinates`](../index.md#HexCoordinates) \| `T`\> |
 
 #### Returns
 

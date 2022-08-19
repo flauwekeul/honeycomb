@@ -70,13 +70,13 @@ ___
 
 ### <a id="setHexes" name="setHexes"></a> setHexes
 
-**setHexes**(`hexes`): [`HexStore`](HexStore.md)<`T`\>
+**setHexes**(`hexesOrCoordinates`): [`HexStore`](HexStore.md)<`T`\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `hexes` | `Iterable`<`T`\> |
+| `hexesOrCoordinates` | `Iterable`<[`HexCoordinates`](../index.md#HexCoordinates) \| `T`\> |
 
 #### Returns
 
