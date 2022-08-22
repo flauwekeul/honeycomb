@@ -5,6 +5,9 @@ export default defineConfig({
   description: `A hexagon grid library made in TypeScript.`,
   lastUpdated: true,
   base: '/honeycomb/',
+  markdown: {
+    lineNumbers: true,
+  },
 
   themeConfig: {
     socialLinks: [{ icon: 'github', link: 'https://github.com/flauwekeul/honeycomb' }],
