@@ -15,7 +15,7 @@ const defaultHexSettings: HexSettings = {
 
 You can configure these settings using the [`defineHex()`](/api/#defineHex) helper or extending the [`Hex`](/api/classes/Hex) class yourself.
 
-:::info
+::: info
 In JavaScript a class is actually a function that should be called with the `new` keyword. It then returns an object (an "instance") with the methods defined in the class in its prototype. Read more on [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain).
 :::
 
@@ -68,7 +68,7 @@ class CustomHex extends defineHex({ dimensions: 30, origin: 'topLeft' }) {
 
 Methods and getters/setters exist in the prototype; they're shared by all hexes. It's recommended to use **instance properties** only for things specific to a single hex. For example, a hex's axial coordinates (`q` and `r`) are the only instance properties on the built-in `Hex` class.
 
-:::tip
+::: tip
 If you have `strictPropertyInitialization` (or `strict`) enabled in your tsconfig, you'll get this typescript error:
 
 > Property 'instanceProp' has no initializer and is not definitely assigned in the constructor.

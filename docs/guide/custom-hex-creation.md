@@ -1,6 +1,6 @@
 # Custom hex creation
 
-:::tip
+::: tip
 **TL;DR** Don't extend the `Hex` constructor, but add a static method for custom hex creation instead.
 :::
 

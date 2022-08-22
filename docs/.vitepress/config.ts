@@ -37,7 +37,7 @@ export default defineConfig({
           items: [
             { text: 'Creating grids', link: '/guide/creating-grids' },
             { text: 'Iterating grids', link: '/guide/iterating-grids' },
-            { text: 'Traversing grids', link: '/guide/traversing' },
+            { text: 'Traversing grids', link: '/guide/traversing-grids' },
             { text: 'Other grid methods', link: '/guide/other-grid-methods' },
           ],
         },
@@ -50,6 +50,7 @@ export default defineConfig({
             { text: 'Hex → point', link: '/guide/hex-to-point' },
             { text: '(De)serializing', link: '/guide/serializing' },
             { text: 'Custom traverser', link: '/guide/custom-traverser' },
+            { text: 'Custom Grid', link: '/guide/custom-grid' },
           ],
         },
       ],

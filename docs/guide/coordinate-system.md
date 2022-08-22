@@ -8,12 +8,39 @@
 
 There are four types of coordinates:
 
-1. [Axial coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-axial), e.g.: `{ q: 1, r: 2 }`
-2. [Cube coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-cube), e.g.: `{ q: 1, r: 2, s: -3 }` (the sum of all three coordinates must always be 0)
-3. [Offset coordinates](https://www.redblobgames.com/grids/hexagons/#coordinates-offset), e.g.: `{ col: 1, row: 2 }`
-4. Tuple coordinates, e.g.: `[1, 2]` or `[1, 2, -3]` which is an array of 2 numbers (axial coordinates) or 3 numbers (cube coordinates)
+1. **Cube**
 
-Internally, Honeycomb uses axial or cube coordinates mostly. Tuple coordinates are the most convenient, so they're used primarily in the documentation.
+  The most verbose type, but also the most explicit. All three coordinates must add up to 0.
+
+  Example: `{ q: 1, r: 2, s: -3 }`.
+
+  Inspired by [redblobgames](https://www.redblobgames.com/grids/hexagons/#coordinates-cube).
+
+2. **Axial**
+
+  The same as cube coordinates, but without the `s` coordinate. `s` is redundant (or any *one* of the coordinates); any combination of `q` and `r` (or any *two* coordinates) still represents a unique hex.
+
+  Example: `{ q: 1, r: 2 }`.
+
+  Inspired by [redblobgames](https://www.redblobgames.com/grids/hexagons/#coordinates-axial).
+
+3. **Offset**
+
+  This system has different coordinates depending on the hex's [`offset` setting](/api/interfaces/HexSettings#offset).
+
+  Example: `{ col: 1, row: 2 }`.
+
+  Inspired by [redblobgames](https://www.redblobgames.com/grids/hexagons/#coordinates-offset).
+
+4. **Tuple**
+
+  The same as cube or axial coordinates, but in a [tuple](https://www.typescriptlang.org/docs/handbook/2/objects.html#tuple-types)
+
+  Example: `[1, 2]` or `[1, 2, -3]`.
+
+---
+
+Internally, Honeycomb uses axial or cube coordinates mostly. Tuple coordinates are the most terse and convenient, so they're used primarily in the documentation.
 
 You may also find points (e.g.: `{ x: 1, y: 2 }`) in the library. For example, a hex's `corners` property returns an array of the hex's six corner points.
 
