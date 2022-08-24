@@ -851,7 +851,7 @@ ___
 
 ### <a id="repeatWith" name="repeatWith"></a> repeatWith
 
-**repeatWith**<`T`\>(`sources`, `targets`, `__namedParameters?`): [`Traverser`](index.md#Traverser)<`T`\>
+**repeatWith**<`T`\>(`sources`, `branches`, `__namedParameters?`): [`Traverser`](index.md#Traverser)<`T`\>
 
 #### Type parameters
 
@@ -864,7 +864,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `sources` | [`Traverser`](index.md#Traverser)<`T`, `T`[]\> \| [`Traverser`](index.md#Traverser)<`T`, `T`[]\>[] |
-| `targets` | [`Traverser`](index.md#Traverser)<`T`, `T`[]\> \| [`Traverser`](index.md#Traverser)<`T`, `T`[]\>[] |
+| `branches` | [`Traverser`](index.md#Traverser)<`T`, `T`[]\> \| [`Traverser`](index.md#Traverser)<`T`, `T`[]\>[] |
 | `__namedParameters` | `Object` |
 | `__namedParameters.includeSource` | `undefined` \| `boolean` |
 
@@ -874,7 +874,7 @@ ___
 
 #### Defined in
 
-[grid/traversers/repeatWith.ts:9](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/traversers/repeatWith.ts#L9)
+[grid/traversers/repeatWith.ts:8](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/traversers/repeatWith.ts#L8)
 
 ___
 

@@ -2,13 +2,12 @@ import { Hex } from '../../hex'
 import { Traverser } from '../types'
 import { concat } from './concat'
 
-// todo: use in rays (if it still has right to exist)
 /**
  * @category Traverser
  */
 export function repeatWith<T extends Hex>(
   sources: Traverser<T> | Traverser<T>[],
-  targets: Traverser<T> | Traverser<T>[],
+  branches: Traverser<T> | Traverser<T>[],
   // todo: isn't there a more elegant way than a config?
   { includeSource = true } = {},
 ): Traverser<T> {
@@ -17,7 +16,7 @@ export function repeatWith<T extends Hex>(
 
     for (const sourceCursor of concat(sources)(createHex, cursor)) {
       if (includeSource) hexes.push(sourceCursor)
-      for (const hex of concat(targets)(createHex, sourceCursor)) {
+      for (const hex of concat(branches)(createHex, sourceCursor)) {
         hexes.push(hex)
       }
     }
