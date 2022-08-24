@@ -30,7 +30,7 @@ export class Grid<T extends Hex> implements HexIterable<T>, HexTraversable<T> {
   get pixelWidth(): number {
     if (this.size === 0) return 0
 
-    const { isPointy, width } = this.#hexPrototype
+    const { isPointy, width } = this.hexPrototype
     const hexes = this.toArray()
     // sort hexes from left to right and take the first and last
     const {
@@ -45,7 +45,7 @@ export class Grid<T extends Hex> implements HexIterable<T>, HexTraversable<T> {
   get pixelHeight(): number {
     if (this.size === 0) return 0
 
-    const { isPointy, height } = this.#hexPrototype
+    const { isPointy, height } = this.hexPrototype
     const hexes = this.toArray()
     // sort hexes from left to right and take the first and last
     const {
@@ -61,7 +61,7 @@ export class Grid<T extends Hex> implements HexIterable<T>, HexTraversable<T> {
     return this.#hexes.values()
   }
 
-  get #hexPrototype(): T {
+  get hexPrototype(): T {
     return this.#hexClass.prototype as T
   }
 
@@ -186,7 +186,7 @@ export class Grid<T extends Hex> implements HexIterable<T>, HexTraversable<T> {
   toJSON(): GridAsJSON {
     // these four properties are getters that may be present further up the prototype chain
     // JSON.stringify() ignores properties in the prototype chain
-    const { dimensions, orientation, origin, offset } = this.#hexPrototype
+    const { dimensions, orientation, origin, offset } = this.hexPrototype
     return { hexSettings: { dimensions, orientation, origin, offset }, coordinates: this.toArray() }
   }
 
@@ -197,7 +197,7 @@ export class Grid<T extends Hex> implements HexIterable<T>, HexTraversable<T> {
   pointToHex(point: Point, options?: { allowOutside: true }): T
   pointToHex(point: Point, options: { allowOutside: false }): T | undefined
   pointToHex(point: Point, { allowOutside = true } = {}): T | undefined {
-    const coordinates = pointToCube(this.#hexPrototype, point)
+    const coordinates = pointToCube(this.hexPrototype, point)
 
     if (allowOutside) return this.createHex(coordinates)
 
@@ -207,13 +207,13 @@ export class Grid<T extends Hex> implements HexIterable<T>, HexTraversable<T> {
   distance(from: HexCoordinates, to: HexCoordinates, options?: { allowOutside: true }): number
   distance(from: HexCoordinates, to: HexCoordinates, options: { allowOutside: false }): number | undefined
   distance(from: HexCoordinates, to: HexCoordinates, { allowOutside = true } = {}): number | undefined {
-    if (allowOutside) return distance(this.#hexPrototype, from, to)
+    if (allowOutside) return distance(this.hexPrototype, from, to)
 
     const fromHex = this.getHex(from)
     const toHex = this.getHex(to)
     if (!fromHex || !toHex) return
 
-    return distance(this.#hexPrototype, fromHex, toHex)
+    return distance(this.hexPrototype, fromHex, toHex)
   }
 
   neighborOf(coordinates: HexCoordinates, direction: Direction, options?: { allowOutside: true }): T

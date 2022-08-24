@@ -40,6 +40,7 @@
 
 ### Accessors
 
+- [hexPrototype](Grid.md#hexPrototype)
 - [pixelHeight](Grid.md#pixelHeight)
 - [pixelWidth](Grid.md#pixelWidth)
 - [size](Grid.md#size)
@@ -667,6 +668,20 @@ ___
 [grid/grid.ts:75](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/grid.ts#L75)
 
 ## Accessors
+
+### <a id="hexPrototype" name="hexPrototype"></a> hexPrototype
+
+`get` **hexPrototype**(): `T`
+
+#### Returns
+
+`T`
+
+#### Defined in
+
+[grid/grid.ts:64](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/grid.ts#L64)
+
+___
 
 ### <a id="pixelHeight" name="pixelHeight"></a> pixelHeight
 
