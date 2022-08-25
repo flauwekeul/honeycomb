@@ -24,20 +24,20 @@ An example:
 ```typescript
 const Hex = defineHex({ dimensions: 30 })
 const grid = new Grid(Hex, rectangle({ width: 5, height: 5 }))
-const spiralTraverser = spiral({ start: [0, 2], radius: 2 })
+const spiralTraverser = spiral({ start: [0, 2], radius: 1 })
 
 grid.traverse(spiralTraverser)
 ```
 
 * Line 2: create a rectangular grid of 5⨉5 hexes.
-* Line 3: create a traverser with the built-in `spiral()` function (`spiral()` *returns* a traverser). The spiral starts at the hex with coordinates `[0, 2]` and runs outward until its radius of 2 hexes (including the center hex) is reached for a total of 7 hexes.
+* Line 3: create a traverser with the built-in `spiral()` function (`spiral()` *returns* a traverser). The spiral starts at the hex with coordinates `[0, 2]` and runs outward until its radius of 1 hex (excluding the center hex) is reached for a total of 7 hexes.
 * Line 5: [`grid.traverse()`](/api/classes/Grid#traverse) internally calls `spiralTraverser` and loops over the hexes it produces. Only the hexes that are present in `grid` are returned in a new grid. In this example all hexes produced by the traverser are also present in `grid`.
 
 This can be visualized like so:
 
 <TileGrid :grid="grid" :traversal="spiral1" />
 
-When the radius is increased from `2` to `3` it becomes apparent that only the hexes present in `grid` are traversed. You see that the traversal "jumps" from `[-2, 4]` to `[0, 0]`:
+When the radius is increased from `1` to `2` it becomes apparent that only the hexes present in `grid` are traversed. You see that the traversal "jumps" from `[-2, 4]` to `[0, 0]`:
 
 <TileGrid :grid="grid" :traversal="spiral2" />
 
@@ -294,9 +294,9 @@ import TileGrid from '../components/TileGrid.vue';
 
 const Hex = defineHex({ dimensions: 30 })
 const grid = new Grid(Hex, rectangle({ width: 5, height: 5 }))
-const spiral1 = grid.traverse(spiral({ start: [0, 2], radius: 2 }))
-const spiral2 = grid.traverse(spiral({ start: [0, 2], radius: 3 }))
-const spiral3 = grid.traverse(spiral({ start: [0, 2], radius: 3 }), { bail: true })
+const spiral1 = grid.traverse(spiral({ start: [0, 2], radius: 1 }))
+const spiral2 = grid.traverse(spiral({ start: [0, 2], radius: 2 }))
+const spiral3 = grid.traverse(spiral({ start: [0, 2], radius: 2 }), { bail: true })
 const squareOutline1 = grid.traverse([
   line({ direction: Direction.E, length: 4 }),
   line({ direction: Direction.S, length: 3 }),

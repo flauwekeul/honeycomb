@@ -9,7 +9,7 @@ const createHex = vi.fn((coordinates?: HexCoordinates) => new Hex(coordinates))
 describe('when called with a radius', () => {
   describe('without cursor', () => {
     test('returns a traverser that returns hexes in a spiral starting at [0, 0]', () => {
-      expect(spiral({ radius: 2 })(createHex)).toMatchInlineSnapshot(`
+      expect(spiral({ radius: 1 })(createHex)).toMatchInlineSnapshot(`
         [
           Hex {
             "q": 0,
@@ -81,7 +81,7 @@ describe('when called with a radius', () => {
 describe('when called with a radius and start', () => {
   describe('without cursor', () => {
     test('returns a traverser that returns hexes in a spiral starting at start', () => {
-      expect(spiral({ radius: 2, start: [1, 0] })(createHex)).toMatchInlineSnapshot(`
+      expect(spiral({ radius: 1, start: [1, 0] })(createHex)).toMatchInlineSnapshot(`
         [
           Hex {
             "q": 1,
@@ -118,7 +118,7 @@ describe('when called with a radius and start', () => {
 
   describe('with cursor', () => {
     test('returns a traverser that returns hexes in a spiral starting at start', () => {
-      expect(spiral({ radius: 2, start: [1, 1] })(createHex, cursor)).toMatchInlineSnapshot(`
+      expect(spiral({ radius: 1, start: [1, 1] })(createHex, cursor)).toMatchInlineSnapshot(`
         [
           Hex {
             "q": 1,
@@ -156,7 +156,7 @@ describe('when called with a radius and start', () => {
 
 describe('when called with a radius and rotation', () => {
   test('returns a traverser that returns hexes in a spiral with the given rotation', () => {
-    expect(spiral({ radius: 2, rotation: Rotation.COUNTERCLOCKWISE })(createHex)).toMatchInlineSnapshot(`
+    expect(spiral({ radius: 1, rotation: Rotation.COUNTERCLOCKWISE })(createHex)).toMatchInlineSnapshot(`
       [
         Hex {
           "q": 0,
