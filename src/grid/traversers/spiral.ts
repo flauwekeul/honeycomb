@@ -10,10 +10,10 @@ import { ring } from './ring'
 export function spiral<T extends Hex>({ radius, start, rotation }: SpiralOptions): Traverser<T> {
   return function spiralTraverser(createHex, cursor) {
     const center = createHex(start ?? cursor)
-    return repeatWith<T>(line({ start, direction: Direction.N, length: radius }), ring({ center, rotation }))(
-      createHex,
-      cursor,
-    )
+    // radius excludes the center, so 1 is added to radius
+    // only when there's a cursor but no start, radius can be used as-is, because then line() already increases its length by 1
+    const length = !start && cursor ? radius : radius + 1
+    return repeatWith<T>(line({ start, direction: Direction.N, length }), ring({ center, rotation }))(createHex, cursor)
   }
 }
 
