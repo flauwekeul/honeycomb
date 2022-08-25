@@ -125,7 +125,7 @@ grid.traverse(someHexes)
 
 A line traverser can be created in two ways:
 
-* With ["vector options"](/api/interfaces/LineAsVectorOptions):
+1. With ["vector options"](/api/interfaces/LineAsVectorOptions):
 
   ```typescript
   const vector = line({ start: [1, 0], direction: Direction.SE, length: 4 })
@@ -136,7 +136,7 @@ A line traverser can be created in two ways:
 
   When the direction is ambiguous (North and South for pointy hexes, West and East for flat hexes), the next hex is chosen based on the [offset setting](/api/interfaces/HexSettings#offset).
 
-* With ["between hexes options"](/api/interfaces/LineBetweenOptions):
+2. With ["between hexes options"](/api/interfaces/LineBetweenOptions):
 
   ```typescript
   const lineBetween = line({ start: [2, 0], stop: [1, 4] })
@@ -171,7 +171,7 @@ When the direction is ambiguous (North and South for pointy hexes, West and East
 
 A rectangle traverser can be created in two ways:
 
-* With ["rectangle options"](/api/interfaces/RectangleOptions):
+1. With ["rectangle options"](/api/interfaces/RectangleOptions):
 
   ```typescript
   const square = rectangle({ start: [1, 1], width: 3, height: 3 })
@@ -208,7 +208,7 @@ A rectangle traverser can be created in two ways:
   <TileGrid :grid="grid" :traversal="diamond1" />
   :::
 
-* With opposing corners:
+2. With opposing corners:
 
   ```typescript
   const rect = rectangle([-1, 4], [3, 1])
@@ -285,10 +285,45 @@ Apart from the added third argument, two other things are different from the pre
 
 ### [`ring()`](/api/#ring)
 
+A ring traverser can be created in two ways:
+
+1. With ["ring options"](/api/interfaces/RingOptions):
+
+  ```typescript
+  const someRing = ring({ start: [1, 4], center: [1, 2] })
+  grid.traverse(someRing)
+  ```
+
+  <TileGrid :grid="grid" :traversal="ring1" />
+
+  The direction of rotation can be changed as well:
+
+  ```typescript
+  const ccwRing = ring({
+    start: [1, 4],
+    center: [1, 2],
+    rotation: Rotation.COUNTERCLOCKWISE
+  })
+  grid.traverse(ccwRing)
+  ```
+
+  <TileGrid :grid="grid" :traversal="ring2" />
+
+2. With ["radius options"](/api/interfaces/RingFromRadiusOptions):
+
+  ```typescript
+  const radiusRing = ring({ center: [1, 2], radius: 2 })
+  grid.traverse(radiusRing)
+  ```
+
+  <TileGrid :grid="grid" :traversal="ring3" />
+
+  Note that when passing a radius, it's not possible to control where the ring starts (it'll always start East of the center).
+
 ### [`spiral()`](/api/#spiral)
 
 <script setup>
-import { defineHex, Direction, fromCoordinates, Grid, line, move, rectangle, repeat, repeatWith, spiral } from '../../src';
+import { defineHex, Direction, fromCoordinates, Grid, line, move, rectangle, repeat, repeatWith, ring, Rotation, spiral } from '../../src';
 import Line from '../components/Line.vue';
 import TileGrid from '../components/TileGrid.vue';
 
@@ -337,4 +372,7 @@ const repeatWith2 = grid.traverse(repeatWith(
   line({ direction: Direction.E, length: 3 }),
   { includeSource: false },
 ))
+const ring1 = grid.traverse(ring({ start: [1, 4], center: [1, 2] }))
+const ring2 = grid.traverse(ring({ start: [1, 4], center: [1, 2], rotation: Rotation.COUNTERCLOCKWISE }))
+const ring3 = grid.traverse(ring({ center: [1, 2], radius: 2 }))
 </script>

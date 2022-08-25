@@ -3,8 +3,8 @@ import { Hex, HexCoordinates } from '../../hex'
 import { Rotation } from '../types'
 import { ring } from './ring'
 
+const cursor: HexCoordinates = [1, 2]
 const createHex = vi.fn((coordinates?: HexCoordinates) => new Hex(coordinates))
-const cursor = new Hex([1, 2])
 
 describe('when called with a center', () => {
   describe('without cursor', () => {
