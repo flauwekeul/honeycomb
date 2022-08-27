@@ -3,7 +3,7 @@ import { Hex, HexCoordinates } from '../../hex'
 import { Rotation } from '../types'
 import { spiral } from './spiral'
 
-const cursor = new Hex([1, 2])
+const cursor: HexCoordinates = [1, 2]
 const createHex = vi.fn((coordinates?: HexCoordinates) => new Hex(coordinates))
 
 describe('when called with a radius', () => {
