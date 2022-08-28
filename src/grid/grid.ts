@@ -198,10 +198,9 @@ export class Grid<T extends Hex> implements HexIterable<T>, HexTraversable<T> {
   pointToHex(point: Point, options: { allowOutside: false }): T | undefined
   pointToHex(point: Point, { allowOutside = true } = {}): T | undefined {
     const coordinates = pointToCube(this.hexPrototype, point)
+    const foundHex = this.getHex(coordinates)
 
-    if (allowOutside) return this.createHex(coordinates)
-
-    return this.getHex(coordinates)
+    return allowOutside ? foundHex ?? this.createHex(coordinates) : foundHex
   }
 
   distance(from: HexCoordinates, to: HexCoordinates, options?: { allowOutside: true }): number

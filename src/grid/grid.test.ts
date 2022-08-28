@@ -470,7 +470,7 @@ describe('pointToHex()', () => {
     const TestHex = defineHex({ dimensions: 10 })
     const grid = new Grid(TestHex, rectangle({ width: 2, height: 2 }))
 
-    expect(grid.pointToHex({ x: 20, y: 20 })).toStrictEqual(new TestHex([1, 1]))
+    expect(grid.pointToHex({ x: 20, y: 20 })).toBe(grid.getHex([1, 1]))
     expect(grid.pointToHex({ x: 1000, y: 1000 })).toBeInstanceOf(TestHex)
   })
 
