@@ -26,11 +26,11 @@ export function rectangle<T extends Hex>(
     } = cornerB
       ? optionsFromOpposingCorners(optionsOrCornerA as HexCoordinates, cornerB, createHex())
       : (optionsOrCornerA as RectangleOptions)
-    const firstHex = createHex(start ?? cursor)
+    const startCoordinates = start ?? cursor ?? [0, 0]
     const hexes = repeatWith<T>(
-      line({ start: firstHex, direction: rotate(direction, 2), length: height }),
+      line({ start: startCoordinates, direction: rotate(direction, 2), length: height }),
       line({ direction, length: width - 1 }),
-    )(createHex, firstHex)
+    )(createHex, startCoordinates)
 
     return !start && cursor ? hexes.slice(1) : hexes
   }
