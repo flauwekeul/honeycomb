@@ -108,7 +108,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:207](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/grid.ts#L207)
+[grid/grid.ts:206](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/grid.ts#L206)
 
 **distance**(`from`, `to`, `options`): `undefined` \| `number`
 
@@ -127,7 +127,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:208](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/grid.ts#L208)
+[grid/grid.ts:207](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/grid.ts#L207)
 
 ___
 
@@ -316,7 +316,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:219](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/grid.ts#L219)
+[grid/grid.ts:218](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/grid.ts#L218)
 
 **neighborOf**(`coordinates`, `direction`, `options`): `undefined` \| `T`
 
@@ -335,7 +335,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:220](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/grid.ts#L220)
+[grid/grid.ts:219](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/grid.ts#L219)
 
 ___
 
