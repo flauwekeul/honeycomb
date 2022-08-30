@@ -56,23 +56,19 @@ draw.click((event: MouseEvent) => {
 updateGameState(initialGameState)
 
 function updateDiscoveredTiles(grid: Grid<Tile>) {
-  grid.setHexes(
-    grid
-      .filter((tile) => tile.visibility === 'visible')
-      .forEach((tile) => {
-        tile.element.first().addClass('discovered')
-      }),
-  )
+  grid
+    .filter((tile) => tile.visibility === 'visible')
+    .forEach((tile) => {
+      tile.element.first().addClass('discovered')
+    })
 }
 
 function updateFieldOfView(grid: Grid<Tile>, start: HexCoordinates) {
-  grid.setHexes(
-    grid.traverse(fieldOfView(start)).forEach((tile) => {
-      tile.visibility = 'visible'
-      tile.element.first().removeClass('discovered')
-      tile.element.first().removeClass('undiscovered')
-    }),
-  )
+  grid.traverse(fieldOfView(start)).forEach((tile) => {
+    tile.visibility = 'visible'
+    tile.element.first().removeClass('discovered')
+    tile.element.first().removeClass('undiscovered')
+  })
 }
 
 function fieldOfView(start: HexCoordinates): Traverser<Tile> {

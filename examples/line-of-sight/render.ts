@@ -3,11 +3,9 @@ import { Tile } from '.'
 import { Grid } from '../../src'
 
 export function renderMap(draw: Svg, grid: Grid<Tile>) {
-  grid.setHexes(
-    grid.forEach((tile) => {
-      tile.element = renderTile(draw, tile)
-    }),
-  )
+  grid.forEach((tile) => {
+    tile.element = renderTile(draw, tile)
+  })
 }
 
 export function renderPlayer(draw: Svg, width: number, height: number) {

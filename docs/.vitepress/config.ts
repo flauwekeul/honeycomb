@@ -47,7 +47,6 @@ export default defineConfig({
           items: [
             { text: 'Rendering', link: '/guide/rendering' },
             { text: 'Point → hex', link: '/guide/point-to-hex' },
-            { text: 'Hex → point', link: '/guide/hex-to-point' },
             { text: '(De)serializing', link: '/guide/serializing' },
             { text: 'Custom traverser', link: '/guide/custom-traverser' },
             { text: 'Custom Grid', link: '/guide/custom-grid' },

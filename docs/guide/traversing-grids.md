@@ -344,7 +344,7 @@ grid.traverse(ccwSpiral)
 
 <TileGrid :grid="grid" :traversal="spiral5" />
 
-<script setup>
+<script setup lang="ts">
 import { defineHex, Direction, fromCoordinates, Grid, line, move, rectangle, repeat, repeatWith, ring, Rotation, spiral } from '../../src';
 import Line from '../components/Line.vue';
 import TileGrid from '../components/TileGrid.vue';
