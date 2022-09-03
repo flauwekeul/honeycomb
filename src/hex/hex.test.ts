@@ -16,6 +16,10 @@ describe('creation', () => {
   })
 })
 
+test('has static settings property', () => {
+  expect(Hex.settings).toEqual(defaultHexSettings)
+})
+
 test('has center property in the prototype', () => {
   const hex = new Hex()
 

@@ -298,7 +298,7 @@ ___
 
 ### <a id="toCube" name="toCube"></a> toCube
 
-**toCube**(`hex`, `coordinates`): [`CubeCoordinates`](interfaces/CubeCoordinates.md)
+**toCube**(`hexSettings`, `coordinates`): [`CubeCoordinates`](interfaces/CubeCoordinates.md)
 
 Util for converting offset/axial/cube/tuple coordinates to cube coordinates.
 
@@ -306,7 +306,7 @@ Util for converting offset/axial/cube/tuple coordinates to cube coordinates.
 
 | Name | Type |
 | :------ | :------ |
-| `hex` | `Pick`<[`Hex`](classes/Hex.md), ``"offset"`` \| ``"isPointy"``\> |
+| `hexSettings` | `Pick`<[`HexSettings`](interfaces/HexSettings.md), ``"orientation"`` \| ``"offset"``\> |
 | `coordinates` | [`HexCoordinates`](index.md#HexCoordinates) |
 
 #### Returns
@@ -543,7 +543,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | `Pick`<[`Hex`](classes/Hex.md), ``"offset"`` \| ``"isPointy"``\> |
+| `__namedParameters` | `Pick`<[`HexSettings`](interfaces/HexSettings.md), ``"orientation"`` \| ``"offset"``\> |
 | `__namedParameters` | [`OffsetCoordinates`](interfaces/OffsetCoordinates.md) |
 
 #### Returns
@@ -552,7 +552,7 @@ ___
 
 #### Defined in
 
-[hex/functions/offsetToCube.ts:28](https://github.com/flauwekeul/honeycomb/blob/beta/src/hex/functions/offsetToCube.ts#L28)
+[hex/functions/offsetToCube.ts:27](https://github.com/flauwekeul/honeycomb/blob/beta/src/hex/functions/offsetToCube.ts#L27)
 
 ___
 
@@ -564,7 +564,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | `Pick`<[`Hex`](classes/Hex.md), ``"isPointy"`` \| ``"dimensions"`` \| ``"origin"``\> |
+| `__namedParameters` | `Pick`<[`HexSettings`](interfaces/HexSettings.md), ``"dimensions"`` \| ``"orientation"`` \| ``"origin"``\> |
 | `__namedParameters` | [`Point`](interfaces/Point.md) |
 
 #### Returns
@@ -573,7 +573,7 @@ ___
 
 #### Defined in
 
-[hex/functions/pointToCube.ts:11](https://github.com/flauwekeul/honeycomb/blob/beta/src/hex/functions/pointToCube.ts#L11)
+[hex/functions/pointToCube.ts:10](https://github.com/flauwekeul/honeycomb/blob/beta/src/hex/functions/pointToCube.ts#L10)
 
 ___
 
@@ -956,13 +956,13 @@ ___
 
 ### <a id="distance" name="distance"></a> distance
 
-**distance**(`hex`, `from`, `to`): `number`
+**distance**(`hexSettings`, `from`, `to`): `number`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `hex` | `Pick`<[`Hex`](classes/Hex.md), ``"offset"`` \| ``"isPointy"``\> |
+| `hexSettings` | `Pick`<[`HexSettings`](interfaces/HexSettings.md), ``"orientation"`` \| ``"offset"``\> |
 | `from` | [`HexCoordinates`](index.md#HexCoordinates) |
 | `to` | [`HexCoordinates`](index.md#HexCoordinates) |
 
@@ -1050,4 +1050,4 @@ ___
 
 #### Defined in
 
-[hex/hex.ts:123](https://github.com/flauwekeul/honeycomb/blob/beta/src/hex/hex.ts#L123)
+[hex/hex.ts:128](https://github.com/flauwekeul/honeycomb/blob/beta/src/hex/hex.ts#L128)

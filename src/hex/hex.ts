@@ -19,6 +19,11 @@ import {
 export class Hex
   implements Readonly<CubeCoordinates>, Readonly<OffsetCoordinates>, Readonly<Point>, Readonly<BoundingBox>
 {
+  static get settings(): HexSettings {
+    const { dimensions, orientation, origin, offset } = this.prototype
+    return { dimensions, orientation, origin, offset }
+  }
+
   // todo: add to docs that this always returns a point relative to Hex(0, 0)
   get center(): Point {
     const { width, height, x, y } = this

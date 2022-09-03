@@ -1,6 +1,5 @@
 import { offsetFromZero } from '../../utils'
-import { Hex } from '../hex'
-import { CubeCoordinates, HexOffset, OffsetCoordinates } from '../types'
+import { CubeCoordinates, HexOffset, HexSettings, OffsetCoordinates, Orientation } from '../types'
 
 /**
  * @hidden
@@ -25,5 +24,7 @@ export const offsetToCubeFlat = (col: number, row: number, offset: HexOffset): C
 /**
  * @category Hex
  */
-export const offsetToCube = ({ offset, isPointy }: Pick<Hex, 'offset' | 'isPointy'>, { col, row }: OffsetCoordinates) =>
-  isPointy ? offsetToCubePointy(col, row, offset) : offsetToCubeFlat(col, row, offset)
+export const offsetToCube = (
+  { offset, orientation }: Pick<HexSettings, 'offset' | 'orientation'>,
+  { col, row }: OffsetCoordinates,
+) => (orientation === Orientation.POINTY ? offsetToCubePointy(col, row, offset) : offsetToCubeFlat(col, row, offset))
