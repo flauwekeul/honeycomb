@@ -14,8 +14,8 @@ export function aStar<T extends Hex>({
   // todo: probably better to work with hexes (instead of axial coordinates)?
   const open: PathData[] = []
   const closed: PathData[] = []
-  const _start = toCube(Tile.prototype, start)
-  const _target = toCube(Tile.prototype, target)
+  const _start = toCube(Tile.settings, start)
+  const _target = toCube(Tile.settings, target)
   const createPathData = pathDataFactory(getCost, getDistance, _target)
   let targetFound = false
 

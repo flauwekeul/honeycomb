@@ -171,7 +171,7 @@ export class Grid<T extends Hex> implements HexIterable<T>, HexTraversable<T> {
       return result
     }
 
-    let result = initialValue
+    let result: T | R = initialValue
     for (const hex of this) {
       result = reducer(result, hex)
     }

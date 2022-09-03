@@ -48,6 +48,8 @@ As you can see, for `dimensions` you can pass a number, which is interpreted as 
 
 For `origin` the string `'topLeft'` is also valid, meaning the origin of the hex will be in the very top left corner. This is convenient when rendering hexes on screen and you treat a hex as a DOM element. DOM elements have their origin in their top left corner.
 
+For convenience, `Hex` has a static property `settings` that returns the settings of the (custom) Hex class.
+
 ## Custom properties
 
 Because `defineHex()` returns a class, you can simply extend that class to add your own properties and methods:

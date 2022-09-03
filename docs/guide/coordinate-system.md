@@ -77,9 +77,9 @@ Most functions/methods that require coordinates accept `HexCoordinates`, which i
 Because `HexCoordinates` can be any of the four types, you may use `toCube()` to convert `HexCoordinates` to `CubeCoordinates`:
 
 ```typescript
-toCube(Hex.prototype, [1, 2])             // { q: 1, r: 2, s: -3 }
-toCube(Hex.prototype, { col: 1, row: 2 }) // { q: 0, r: 2, s: -2 }
-toCube(Hex.prototype, { s: 3, r: 4 })     // { q: -7, r: 4, s: 3 }
+toCube(Hex.settings, [1, 2])             // { q: 1, r: 2, s: -3 }
+toCube(Hex.settings, { col: 1, row: 2 }) // { q: 0, r: 2, s: -2 }
+toCube(Hex.settings, { s: 3, r: 4 })     // { q: -7, r: 4, s: 3 }
 ```
 
 ## Converting
@@ -89,8 +89,8 @@ There are some functions for converting between types of coordinates.
 Converting to cube coordinates:
 
 ```typescript
-offsetToCube(Hex.prototype, { col: 1, row: 2 })  // { q: 0, r: 2, s: -2 }
-pointToCube(Hex.prototype, { x: 10, y: 20 })     // { q: -1, r: 13, s: -12 }
+offsetToCube(Hex.settings, { col: 1, row: 2 })  // { q: 0, r: 2, s: -2 }
+pointToCube(Hex.settings, { x: 10, y: 20 })     // { q: -1, r: 13, s: -12 }
 tupleToCube([1, 2])                             // { q: 1, r: 2, s: -3 }
 ```
 
@@ -104,3 +104,7 @@ const hex = new Hex([1, 2])
 hexToOffset(hex)  // { col: 2, row: 2 }
 hexToPoint(hex)   // { x: 103.92304845413263, y: 90 }
 ```
+
+::: details
+`pointToCube()`, `offsetToCube()`, `toCube()` and [`distance()`](/api/#distance) require [hex settings](/api/interfaces/HexSettings) to work. See [Custom hexes](/guide/custom-hexes) to learn more about this.
+:::
