@@ -1,13 +1,4 @@
-import { AxialCoordinates, Grid, Hex, HexCoordinates } from '../../src'
-
-export interface AStarOptions<T extends Hex> {
-  grid: Grid<T>
-  start: HexCoordinates
-  target: HexCoordinates
-  isPassable: (hex: T) => boolean
-  getCost?: (coordinates: AxialCoordinates) => number
-  getDistance?: (from: HexCoordinates, to: HexCoordinates) => number
-}
+import { AxialCoordinates } from '../../src'
 
 export interface PathData {
   coordinates: AxialCoordinates

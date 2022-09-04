@@ -1,15 +1,14 @@
-import { Color, Morphable, SVG } from '@svgdotjs/svg.js'
-import { MAX_COST, START_COORDINATES, TARGET_COORDINATES, Tile } from './index'
+import { Color, Morphable, Svg } from '@svgdotjs/svg.js'
+import { MAX_COST, START_COORDINATES, TARGET_COORDINATES } from './settings'
+import { Tile } from './Tile'
 
-const draw = SVG().addTo('body').size('100%', '100%')
-const tileFill = new Color('#fff').to('#999')
-
-export function render(tile: Tile) {
+export function render(draw: Svg, tile: Tile) {
+  const tileFill = new Color('#fff').to('#999')
   const fill = tile.equals(START_COORDINATES)
     ? '#c33'
     : tile.equals(TARGET_COORDINATES)
     ? '#36c'
-    : tile.isPassable()
+    : tile.isPassable
     ? getTileFill(tile, tileFill)
     : '#333'
   const polygon = draw
@@ -17,7 +16,7 @@ export function render(tile: Tile) {
     .fill(fill)
     .stroke({ width: 1, color: '#999' })
   const text = draw
-    .text(`${tile.isPassable() ? tile.cost : 'wall'}`)
+    .text(`${tile.isPassable ? tile.cost : 'wall'}`)
     // .text(`${tile.q},${tile.r},${tile.s}`)
     // .text(`${tile.col},${tile.row}`)
     .font({
@@ -25,7 +24,7 @@ export function render(tile: Tile) {
       anchor: 'middle',
       'dominant-baseline': 'central',
       leading: 0,
-      color: tile.isPassable() ? '#000' : '#fff',
+      color: tile.isPassable ? '#000' : '#fff',
     })
     .translate(tile.x, tile.y)
 

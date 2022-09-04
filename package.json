@@ -32,6 +32,7 @@
     "@types/node": "~16.11.52",
     "@typescript-eslint/eslint-plugin": "5.33.1",
     "@typescript-eslint/parser": "5.33.1",
+    "abstract-astar": "0.2.0",
     "concurrently": "7.3.0",
     "eslint": "8.22.0",
     "eslint-config-prettier": "8.5.0",
