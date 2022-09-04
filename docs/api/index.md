@@ -1,4 +1,4 @@
-# API - v4.0.0-beta.6
+# API - v4.0.0-beta.8
 
 ## Table of contents
 
