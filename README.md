@@ -49,8 +49,8 @@ Documentation is available at [abbekeultjes.nl/honeycomb](https://abbekeultjes.n
 
 These are ideas that may require further investigation 🕵️. Don't hesitate to [open an issue](https://github.com/flauwekeul/honeycomb/issues) or [start a discussion](https://github.com/flauwekeul/honeycomb/discussions).
 
-- [ ] Increase test coverage!
 - [ ] Directions should also be given in degrees (in steps of 30°)?
 - [ ] Add functionality related to [edges](https://github.com/flauwekeul/honeycomb/issues/58#issuecomment-642099947) and/or corners. Use https://www.redblobgames.com/grids/parts/#hexagons.
-- [ ] Add path finding (e.g. A*) functionality.
-- [ ] Add examples made in Vue
+- [x] Add path finding (e.g. A*) functionality. Currently available as an example, see `/examples/a-star-path-finding/`.
+- [ ] Clarify the "Line of sight" example (and rename to "Field of view"). Maybe add animations and some enemies as well?
+- [ ] Add examples for (procedural) map generation (from a seed).
