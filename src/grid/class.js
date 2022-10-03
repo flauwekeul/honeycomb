@@ -180,6 +180,32 @@ export default class Grid extends Array {
   }
 
   /**
+   * Push multiple hexes in the grid filtering out any passed invalid hexes.
+   *
+   * @memberof Grid#
+   * @override
+   *
+   * @param {hexes} [hexes]  Hexes to add to the end of the grid. Invalid hexes are ignored.
+   *
+   * @returns {number}        The new length of the grid.
+   *
+   * @example
+   * const Grid = Honeycomb.defineGrid()
+   * const Hex = Grid.Hex
+   *
+   * const grid = Grid(Hex(0))    // [{ x: 0, y: 0 }]
+   * grid.pushAll([Hex(1)])       // 2
+   * grid                         // [{ x: 0, y: 0 }, { x: 1, y: 1 }]
+   *
+   * grid.pushAll(['invalid'])    // 2
+   * grid                         // [{ x: 0, y: 0 }, { x: 1, y: 1 }]
+   */
+  pushAll(hexes) {
+    hexes.filter(Grid.isValidHex).forEach(hex => super.push(hex))
+    return this.length
+  }
+
+  /**
    * Identical to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice|Array#splice},
    * but filters out any passed invalid hexes.
    *
