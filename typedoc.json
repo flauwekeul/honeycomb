@@ -1,0 +1,19 @@
+{
+  "entryPoints": ["src/index.ts"],
+  "out": "docs/api",
+  "readme": "none",
+  "name": "API",
+  "includeVersion": true,
+  "githubPages": false,
+  "excludePrivate": true,
+  "gitRevision": "beta", // todo: remove this once merged to master
+  "categoryOrder": ["Coordinates", "Hex", "Traverser", "*"],
+  "sort": ["alphabetical"],
+
+  "plugin": ["typedoc-plugin-markdown"],
+  "entryDocument": "index.md",
+  "hideBreadcrumbs": true,
+  "hideMembersSymbol": true,
+  "namedAnchors": true,
+  "preserveAnchorCasing": true
+}

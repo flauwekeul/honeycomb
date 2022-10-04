@@ -1,0 +1,27 @@
+body {
+  background-color: #222;
+  color: antiquewhite;
+  font-size: 1.5rem;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+a {
+  color: aquamarine;
+}
+
+.container {
+  margin: 20vmin auto;
+  max-width: 90vmin;
+}
+
+.header {
+  font-size: 5rem;
+  font-weight: normal;
+}
+
+.toc {
+  padding: 0;
+}
+.toc__item {
+  margin-bottom: 1rem;
+}
