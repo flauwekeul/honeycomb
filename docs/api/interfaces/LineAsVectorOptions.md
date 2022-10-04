@@ -16,7 +16,7 @@
 
 #### Defined in
 
-[grid/traversers/line.ts:19](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/traversers/line.ts#L19)
+[grid/traversers/line.ts:19](https://github.com/flauwekeul/honeycomb/blob/3ee146b/src/grid/traversers/line.ts#L19)
 
 ___
 
@@ -26,7 +26,7 @@ ___
 
 #### Defined in
 
-[grid/traversers/line.ts:20](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/traversers/line.ts#L20)
+[grid/traversers/line.ts:20](https://github.com/flauwekeul/honeycomb/blob/3ee146b/src/grid/traversers/line.ts#L20)
 
 ___
 
@@ -36,4 +36,4 @@ ___
 
 #### Defined in
 
-[grid/traversers/line.ts:18](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/traversers/line.ts#L18)
+[grid/traversers/line.ts:18](https://github.com/flauwekeul/honeycomb/blob/3ee146b/src/grid/traversers/line.ts#L18)

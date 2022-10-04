@@ -48,11 +48,11 @@
 
 #### Overrides
 
-Iterable.\_\_@iterator@101
+Iterable.\_\_@iterator@102
 
 #### Defined in
 
-[grid/types.ts:55](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/types.ts#L55)
+[grid/types.ts:55](https://github.com/flauwekeul/honeycomb/blob/3ee146b/src/grid/types.ts#L55)
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:56](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/types.ts#L56)
+[grid/types.ts:56](https://github.com/flauwekeul/honeycomb/blob/3ee146b/src/grid/types.ts#L56)
 
 ___
 
@@ -92,7 +92,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:58](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/types.ts#L58)
+[grid/types.ts:58](https://github.com/flauwekeul/honeycomb/blob/3ee146b/src/grid/types.ts#L58)
 
 ___
 
@@ -116,7 +116,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:46](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/types.ts#L46)
+[grid/types.ts:46](https://github.com/flauwekeul/honeycomb/blob/3ee146b/src/grid/types.ts#L46)
 
 ___
 
@@ -140,7 +140,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:47](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/types.ts#L47)
+[grid/types.ts:47](https://github.com/flauwekeul/honeycomb/blob/3ee146b/src/grid/types.ts#L47)
 
 ___
 
@@ -160,7 +160,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:57](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/types.ts#L57)
+[grid/types.ts:57](https://github.com/flauwekeul/honeycomb/blob/3ee146b/src/grid/types.ts#L57)
 
 ___
 
@@ -180,7 +180,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:59](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/types.ts#L59)
+[grid/types.ts:59](https://github.com/flauwekeul/honeycomb/blob/3ee146b/src/grid/types.ts#L59)
 
 **reduce**(`reducer`, `initialValue`): `T`
 
@@ -197,7 +197,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:60](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/types.ts#L60)
+[grid/types.ts:60](https://github.com/flauwekeul/honeycomb/blob/3ee146b/src/grid/types.ts#L60)
 
 **reduce**<`R`\>(`reducer`, `initialValue`): `R`
 
@@ -220,7 +220,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:61](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/types.ts#L61)
+[grid/types.ts:61](https://github.com/flauwekeul/honeycomb/blob/3ee146b/src/grid/types.ts#L61)
 
 ___
 
@@ -244,7 +244,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:48](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/types.ts#L48)
+[grid/types.ts:48](https://github.com/flauwekeul/honeycomb/blob/3ee146b/src/grid/types.ts#L48)
 
 ___
 
@@ -258,7 +258,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:62](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/types.ts#L62)
+[grid/types.ts:62](https://github.com/flauwekeul/honeycomb/blob/3ee146b/src/grid/types.ts#L62)
 
 ## Properties
 
@@ -272,4 +272,4 @@ ___
 
 #### Defined in
 
-[grid/types.ts:45](https://github.com/flauwekeul/honeycomb/blob/beta/src/grid/types.ts#L45)
+[grid/types.ts:45](https://github.com/flauwekeul/honeycomb/blob/3ee146b/src/grid/types.ts#L45)
