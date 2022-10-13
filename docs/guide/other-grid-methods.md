@@ -56,7 +56,7 @@ grid.distance([-1, 3], [10, 0], { allowOutside: false }) // undefined
 
 ## [`neighborOf()`](/api/classes/Grid#neighborOf)
 
-This method returns the adjacent hex from hex coordinates in a particular direction. When the direction is ambiguous (North and South for pointy hexes, West and East for flat hexes), the neighboring hex is chosen based on the [offset setting](/api/interfaces/HexSettings#offset). It accepts an optional `{ allowOutside }` option to limit the result to hexes in the grid.
+This method returns the adjacent hex from hex coordinates in a particular direction. When the direction is ambiguous (North and South for pointy hexes, West and East for flat hexes), the neighboring hex is chosen based on the [offset setting](/api/interfaces/HexSettings#offset). It accepts an optional `{ allowOutside }` option to limit the result to hexes in the grid. By default `allowOutside` is `true` and when the neighboring hex isn't present in the grid, a new hex is created and returned. When `allowOutside` is `false` and the neighboring hex isn't present in the grid, `undefined` is returned instead.
 
 ```typescript
 const grid = new Grid(Hex, rectangle({ width: 5, height: 5 }))

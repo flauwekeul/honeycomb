@@ -500,8 +500,12 @@ describe('neighborOf()', () => {
   test('returns the neighbor of the hex with the given coordinates in the given direction, even outside the grid', () => {
     const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
 
-    expect(grid.neighborOf([0, 0], Direction.E)).toStrictEqual(new Hex([1, 0]))
-    expect(grid.neighborOf([100, 100], Direction.E)).toStrictEqual(new Hex([101, 100]))
+    const neighborInGrid = grid.neighborOf([0, 0], Direction.E)
+    const neighborOutsideGrid = grid.neighborOf([100, 100], Direction.E)
+
+    expect(neighborInGrid).toBe(grid.getHex([1, 0]))
+    expect(neighborOutsideGrid).not.toBe(grid.getHex([101, 100]))
+    expect(neighborOutsideGrid).toStrictEqual(new Hex([101, 100]))
   })
 
   test(`when allowOutside is false, returns the neighbor of the hex with the given coordinates in the given direction if they're present in the grid`, () => {

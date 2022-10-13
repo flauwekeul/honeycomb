@@ -218,12 +218,10 @@ export class Grid<T extends Hex> implements HexIterable<T>, HexTraversable<T> {
   neighborOf(coordinates: HexCoordinates, direction: Direction, options?: { allowOutside: true }): T
   neighborOf(coordinates: HexCoordinates, direction: Direction, options: { allowOutside: false }): T | undefined
   neighborOf(coordinates: HexCoordinates, direction: Direction, { allowOutside = true } = {}): T | undefined {
-    if (allowOutside) return neighborOf(this.createHex(coordinates), direction)
+    const neighbor = neighborOf(this.createHex(coordinates), direction)
+    const foundHex = this.getHex(neighbor)
 
-    const foundHex = this.getHex(coordinates)
-    if (!foundHex) return
-
-    return this.getHex(neighborOf(foundHex, direction))
+    return allowOutside ? foundHex ?? neighbor : foundHex
   }
 
   #setHex(hex: T): void {
