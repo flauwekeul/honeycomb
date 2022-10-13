@@ -61,7 +61,7 @@
 
 #### Defined in
 
-[grid/grid.ts:60](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L60)
+[grid/grid.ts:60](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L60)
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:90](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L90)
+[grid/grid.ts:90](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L90)
 
 ___
 
@@ -108,7 +108,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:206](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L206)
+[grid/grid.ts:206](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L206)
 
 **distance**(`from`, `to`, `options`): `undefined` \| `number`
 
@@ -127,7 +127,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:207](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L207)
+[grid/grid.ts:207](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L207)
 
 ___
 
@@ -151,7 +151,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:111](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L111)
+[grid/grid.ts:111](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L111)
 
 ___
 
@@ -175,7 +175,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:152](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L152)
+[grid/grid.ts:152](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L152)
 
 ___
 
@@ -201,7 +201,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:8](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L8)
+[grid/grid.ts:8](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L8)
 
 ___
 
@@ -221,7 +221,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:18](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L18)
+[grid/grid.ts:18](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L18)
 
 ___
 
@@ -245,7 +245,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:94](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L94)
+[grid/grid.ts:94](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L94)
 
 ___
 
@@ -269,7 +269,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:99](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L99)
+[grid/grid.ts:99](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L99)
 
 ___
 
@@ -293,7 +293,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:121](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L121)
+[grid/grid.ts:121](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L121)
 
 ___
 
@@ -316,7 +316,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:218](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L218)
+[grid/grid.ts:218](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L218)
 
 **neighborOf**(`coordinates`, `direction`, `options`): `undefined` \| `T`
 
@@ -335,7 +335,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:219](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L219)
+[grid/grid.ts:219](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L219)
 
 ___
 
@@ -357,7 +357,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:197](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L197)
+[grid/grid.ts:197](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L197)
 
 **pointToHex**(`point`, `options`): `undefined` \| `T`
 
@@ -375,7 +375,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:198](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L198)
+[grid/grid.ts:198](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L198)
 
 ___
 
@@ -399,7 +399,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:159](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L159)
+[grid/grid.ts:159](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L159)
 
 **reduce**(`reducer`, `initialValue`): `T`
 
@@ -420,7 +420,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:160](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L160)
+[grid/grid.ts:160](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L160)
 
 **reduce**<`R`\>(`reducer`, `initialValue`): `R`
 
@@ -447,7 +447,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:161](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L161)
+[grid/grid.ts:161](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L161)
 
 ___
 
@@ -471,7 +471,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:103](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L103)
+[grid/grid.ts:103](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L103)
 
 ___
 
@@ -489,7 +489,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:181](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L181)
+[grid/grid.ts:181](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L181)
 
 ___
 
@@ -503,7 +503,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:186](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L186)
+[grid/grid.ts:186](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L186)
 
 ___
 
@@ -517,7 +517,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:193](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L193)
+[grid/grid.ts:193](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L193)
 
 ___
 
@@ -543,7 +543,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:131](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L131)
+[grid/grid.ts:131](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L131)
 
 **traverse**(`hexes`, `options?`): [`Grid`](Grid.md)<`T`\>
 
@@ -565,7 +565,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:132](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L132)
+[grid/grid.ts:132](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L132)
 
 **traverse**(`grid`, `options?`): [`Grid`](Grid.md)<`T`\>
 
@@ -587,7 +587,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:133](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L133)
+[grid/grid.ts:133](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L133)
 
 ## Constructors
 
@@ -609,7 +609,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:72](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L72)
+[grid/grid.ts:72](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L72)
 
 **new Grid**<`T`\>(`hexClass`, `traversers`)
 
@@ -628,7 +628,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:73](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L73)
+[grid/grid.ts:73](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L73)
 
 **new Grid**<`T`\>(`hexClass`, `hexes`)
 
@@ -647,7 +647,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:74](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L74)
+[grid/grid.ts:74](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L74)
 
 **new Grid**<`T`\>(`grid`)
 
@@ -665,7 +665,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:75](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L75)
+[grid/grid.ts:75](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L75)
 
 ## Accessors
 
@@ -679,7 +679,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:64](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L64)
+[grid/grid.ts:64](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L64)
 
 ___
 
@@ -693,7 +693,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:45](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L45)
+[grid/grid.ts:45](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L45)
 
 ___
 
@@ -707,7 +707,7 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:30](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L30)
+[grid/grid.ts:30](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L30)
 
 ___
 
@@ -725,4 +725,4 @@ ___
 
 #### Defined in
 
-[grid/grid.ts:26](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/grid.ts#L26)
+[grid/grid.ts:26](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/grid.ts#L26)

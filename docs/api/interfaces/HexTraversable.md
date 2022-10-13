@@ -48,7 +48,7 @@
 
 #### Defined in
 
-[grid/types.ts:69](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/types.ts#L69)
+[grid/types.ts:69](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/types.ts#L69)
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:46](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/types.ts#L46)
+[grid/types.ts:46](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/types.ts#L46)
 
 ___
 
@@ -96,7 +96,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:47](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/types.ts#L47)
+[grid/types.ts:47](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/types.ts#L47)
 
 ___
 
@@ -120,7 +120,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:48](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/types.ts#L48)
+[grid/types.ts:48](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/types.ts#L48)
 
 ___
 
@@ -142,7 +142,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:70](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/types.ts#L70)
+[grid/types.ts:70](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/types.ts#L70)
 
 **traverse**(`hexes`, `options?`): [`HexTraversable`](HexTraversable.md)<`T`\>
 
@@ -160,7 +160,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:71](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/types.ts#L71)
+[grid/types.ts:71](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/types.ts#L71)
 
 **traverse**(`grid`, `options?`): [`HexTraversable`](HexTraversable.md)<`T`\>
 
@@ -178,7 +178,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:72](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/types.ts#L72)
+[grid/types.ts:72](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/types.ts#L72)
 
 ## Properties
 
@@ -192,4 +192,4 @@ ___
 
 #### Defined in
 
-[grid/types.ts:45](https://github.com/flauwekeul/honeycomb/blob/d2d905f/src/grid/types.ts#L45)
+[grid/types.ts:45](https://github.com/flauwekeul/honeycomb/blob/a51ed9c/src/grid/types.ts#L45)
