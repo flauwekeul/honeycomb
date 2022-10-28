@@ -2,7 +2,7 @@
 
 Honeycomb comes *without* the ability to render hexes to screen. Fortunately, it isn't very hard. Especially if you use a dedicated rendering library.
 
-## With [SVG.js](http://svgjs.com/)
+## With [SVG.js](https://svgjs.dev/)
 
 ```typescript
 import { SVG } from '@svgdotjs/svg.js'
