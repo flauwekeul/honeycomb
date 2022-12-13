@@ -1,0 +1,1 @@
+import{_ as s,c as n,o as a,a as l}from"./app.1604f65b.js";const A=JSON.parse('{"title":"Custom Grid","description":"","frontmatter":{},"headers":[],"relativePath":"guide/custom-grid.md","lastUpdated":1661890287000}'),p={name:"guide/custom-grid.md"},o=l("",7),e=[o];function r(t,c,F,y,D,i){return a(),n("div",null,e)}const b=s(p,[["render",r]]);export{A as __pageData,b as default};
