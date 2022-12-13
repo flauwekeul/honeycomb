@@ -8,6 +8,7 @@ export default defineConfig({
   markdown: {
     lineNumbers: true,
   },
+  appearance: 'dark',
 
   themeConfig: {
     socialLinks: [{ icon: 'github', link: 'https://github.com/flauwekeul/honeycomb' }],
