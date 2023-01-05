@@ -83,7 +83,7 @@ Or add a *definite assignment assertion* to tell TypeScript that the property wo
 ```typescript
 instanceProp!: string
 ```
-See [Custom hex creation](#custom-hex-creation) below to make sure the property will actually have a value.
+See [Custom hex creation](/guide/custom-hex-creation) below to make sure the property will actually have a value.
 :::
 
 ## Extending `Hex` manually
