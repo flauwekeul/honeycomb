@@ -1,3 +1,4 @@
+import { generateSitemap as sitemap } from 'sitemap-ts'
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
@@ -9,6 +10,10 @@ export default defineConfig({
     lineNumbers: true,
   },
   appearance: 'dark',
+
+  buildEnd: ({ outDir }) => {
+    sitemap({ hostname: 'https://abbekeultjes.nl/honeycomb/', basePath: 'honeycomb', outDir })
+  },
 
   themeConfig: {
     socialLinks: [{ icon: 'github', link: 'https://github.com/flauwekeul/honeycomb' }],
