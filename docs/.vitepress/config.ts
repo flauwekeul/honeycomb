@@ -16,6 +16,11 @@ export default defineConfig({
   },
 
   themeConfig: {
+    algolia: {
+      appId: 'AF859G6W5B',
+      apiKey: '147ebb46c4c31e0ffbce1ae7961148e7',
+      indexName: 'abbekeultjes',
+    },
     socialLinks: [{ icon: 'github', link: 'https://github.com/flauwekeul/honeycomb' }],
     nav: [
       { text: 'Guide', link: '/guide/getting-started', activeMatch: '/guide/' },
