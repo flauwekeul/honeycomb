@@ -1,18 +1,18 @@
 {
-  "entryPoints": ["src/index.ts"],
-  "out": "docs/api",
-  "readme": "none",
-  "name": "API",
-  "includeVersion": true,
-  "githubPages": false,
-  "excludePrivate": true,
   "categoryOrder": ["Coordinates", "Hex", "Traverser", "*"],
-  "sort": ["alphabetical"],
-
-  "plugin": ["typedoc-plugin-markdown"],
   "entryDocument": "index.md",
+  "entryPoints": ["src/index.ts"],
+  "excludePrivate": true,
+  "githubPages": false,
+  "gitRevision": "master",
   "hideBreadcrumbs": true,
   "hideMembersSymbol": true,
+  "includeVersion": true,
+  "name": "API",
   "namedAnchors": true,
-  "preserveAnchorCasing": true
+  "out": "docs/api",
+  "plugin": ["typedoc-plugin-markdown"],
+  "preserveAnchorCasing": true,
+  "readme": "none",
+  "sort": ["alphabetical"]
 }
