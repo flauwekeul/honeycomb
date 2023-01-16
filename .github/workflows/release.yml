@@ -18,6 +18,8 @@ jobs:
           node-version: '16'
       - name: Install dependencies
         run: HUSKY=0 npm ci
+      - name: Run linting
+        run: npm run lint
       - name: Run tests
         run: npm test
       - name: Build
