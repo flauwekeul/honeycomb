@@ -45,18 +45,13 @@ const graphics = new PIXI.Graphics()
 document.body.appendChild(app.view)
 graphics.lineStyle(1, 0x999999)
 
-grid.forEach(renderCanvas)
+grid.forEach(renderHex)
+app.stage.addChild(graphics)
 
-function renderCanvas(hex: Hex) {
-  const [firstCorner, ...otherCorners] = hex.corners
-
-  // move the "pen" to the first corner
-  graphics.moveTo(firstCorner.x, firstCorner.y)
-  // draw lines to the other corners
-  otherCorners.forEach(({ x, y }) => graphics.lineTo(x, y))
-  // finish at the first corner
-  graphics.lineTo(firstCorner.x, firstCorner.y)
-
-  app.stage.addChild(graphics)
+function renderHex(hex: Hex) {
+    // PIXI.Polygon happens to be compatible with hex.corners
+    graphics.drawShape(
+        new PIXI.Polygon(hex.corners)
+    )
 }
 ```
