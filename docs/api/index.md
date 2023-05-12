@@ -1050,4 +1050,4 @@ ___
 
 #### Defined in
 
-[hex/hex.ts:128](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L128)
+[hex/hex.ts:129](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L129)

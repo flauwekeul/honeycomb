@@ -56,7 +56,7 @@
 
 #### Defined in
 
-[hex/hex.ts:28](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L28)
+[hex/hex.ts:29](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L29)
 
 ___
 
@@ -74,7 +74,7 @@ Readonly.col
 
 #### Defined in
 
-[hex/hex.ts:33](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L33)
+[hex/hex.ts:34](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L34)
 
 ___
 
@@ -88,7 +88,7 @@ ___
 
 #### Defined in
 
-[hex/hex.ts:38](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L38)
+[hex/hex.ts:39](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L39)
 
 ___
 
@@ -102,7 +102,7 @@ ___
 
 #### Defined in
 
-[hex/hex.ts:43](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L43)
+[hex/hex.ts:44](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L44)
 
 ___
 
@@ -120,7 +120,7 @@ Readonly.height
 
 #### Defined in
 
-[hex/hex.ts:47](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L47)
+[hex/hex.ts:48](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L48)
 
 ___
 
@@ -134,7 +134,7 @@ ___
 
 #### Defined in
 
-[hex/hex.ts:55](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L55)
+[hex/hex.ts:56](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L56)
 
 ___
 
@@ -148,7 +148,7 @@ ___
 
 #### Defined in
 
-[hex/hex.ts:59](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L59)
+[hex/hex.ts:60](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L60)
 
 ___
 
@@ -162,7 +162,7 @@ ___
 
 #### Defined in
 
-[hex/hex.ts:71](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L71)
+[hex/hex.ts:72](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L72)
 
 ___
 
@@ -176,7 +176,7 @@ ___
 
 #### Defined in
 
-[hex/hex.ts:63](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L63)
+[hex/hex.ts:64](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L64)
 
 ___
 
@@ -190,7 +190,7 @@ ___
 
 #### Defined in
 
-[hex/hex.ts:67](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L67)
+[hex/hex.ts:68](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L68)
 
 ___
 
@@ -208,7 +208,7 @@ Readonly.row
 
 #### Defined in
 
-[hex/hex.ts:75](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L75)
+[hex/hex.ts:76](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L76)
 
 ___
 
@@ -226,7 +226,7 @@ Readonly.s
 
 #### Defined in
 
-[hex/hex.ts:95](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L95)
+[hex/hex.ts:96](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L96)
 
 ___
 
@@ -258,7 +258,7 @@ Readonly.width
 
 #### Defined in
 
-[hex/hex.ts:79](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L79)
+[hex/hex.ts:80](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L80)
 
 ___
 
@@ -276,7 +276,7 @@ Readonly.x
 
 #### Defined in
 
-[hex/hex.ts:87](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L87)
+[hex/hex.ts:88](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L88)
 
 ___
 
@@ -294,7 +294,7 @@ Readonly.y
 
 #### Defined in
 
-[hex/hex.ts:91](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L91)
+[hex/hex.ts:92](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L92)
 
 ## Methods
 
@@ -320,7 +320,7 @@ Readonly.y
 
 #### Defined in
 
-[hex/hex.ts:108](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L108)
+[hex/hex.ts:109](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L109)
 
 ___
 
@@ -340,7 +340,7 @@ ___
 
 #### Defined in
 
-[hex/hex.ts:112](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L112)
+[hex/hex.ts:113](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L113)
 
 ___
 
@@ -354,7 +354,7 @@ ___
 
 #### Defined in
 
-[hex/hex.ts:116](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L116)
+[hex/hex.ts:117](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L117)
 
 ___
 
@@ -374,7 +374,7 @@ ___
 
 #### Defined in
 
-[hex/hex.ts:120](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L120)
+[hex/hex.ts:121](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L121)
 
 ## Constructors
 
@@ -390,7 +390,7 @@ ___
 
 #### Defined in
 
-[hex/hex.ts:102](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L102)
+[hex/hex.ts:103](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L103)
 
 ## Properties
 
@@ -404,7 +404,7 @@ Readonly.q
 
 #### Defined in
 
-[hex/hex.ts:99](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L99)
+[hex/hex.ts:100](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L100)
 
 ___
 
@@ -418,4 +418,4 @@ Readonly.r
 
 #### Defined in
 
-[hex/hex.ts:100](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L100)
+[hex/hex.ts:101](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L101)

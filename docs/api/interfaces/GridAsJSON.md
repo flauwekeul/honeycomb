@@ -1,4 +1,10 @@
-# Interface: GridAsJSON
+# Interface: GridAsJSON<T\>
+
+## Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`AxialCoordinates`](AxialCoordinates.md) = [`AxialCoordinates`](AxialCoordinates.md) |
 
 ## Table of contents
 
@@ -11,7 +17,7 @@
 
 ### <a id="coordinates" name="coordinates"></a> coordinates
 
- **coordinates**: [`AxialCoordinates`](AxialCoordinates.md)[]
+ **coordinates**: `T`[]
 
 #### Defined in
 

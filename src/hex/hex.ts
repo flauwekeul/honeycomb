@@ -24,7 +24,8 @@ export class Hex
     return { dimensions, orientation, origin, offset }
   }
 
-  // todo: add to docs that this always returns a point relative to Hex(0, 0)
+  // todo: add to docs that this always returns a point relative to Hex(0, 0)'s top left corner!
+  // todo: probably deprecate this, see: https://github.com/flauwekeul/honeycomb/discussions/95#discussioncomment-5158862
   get center(): Point {
     const { width, height, x, y } = this
     return { x: width / 2 - x, y: height / 2 - y }

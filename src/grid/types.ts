@@ -19,9 +19,9 @@ export enum Rotation {
 /**
  * @category Grid
  */
-export interface GridAsJSON {
+export interface GridAsJSON<T extends AxialCoordinates = AxialCoordinates> {
   hexSettings: HexSettings
-  coordinates: AxialCoordinates[]
+  coordinates: T[]
 }
 
 /**

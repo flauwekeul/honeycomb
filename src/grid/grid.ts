@@ -1,4 +1,4 @@
-import { defineHex, Hex, HexConstructor, HexCoordinates, Point, pointToCube } from '../hex'
+import { AxialCoordinates, defineHex, Hex, HexConstructor, HexCoordinates, Point, pointToCube } from '../hex'
 import { isFunction } from '../utils'
 import { distance, neighborOf } from './functions'
 import { concat } from './traversers'
@@ -15,11 +15,26 @@ export class Grid<T extends Hex> implements HexIterable<T>, HexTraversable<T> {
     return new Grid(firstHex.constructor as HexConstructor<T>, hexes)
   }
 
-  static fromJSON({ hexSettings, coordinates }: GridAsJSON): Grid<Hex> {
-    const HexClass = defineHex(hexSettings)
-    return new Grid(
+  static fromJSON<T extends AxialCoordinates, R extends Hex>(
+    { hexSettings, coordinates }: GridAsJSON<T>,
+    hexFactory?: (coordinates: T, index: number, allCoordinates: T[]) => R,
+  ): Grid<R> {
+    if (hexFactory) {
+      const hexes = coordinates.map(hexFactory)
+      // get the constructor from calling the hex factory; if instead `defineHex(hexSettings)` is used to get the constructor,
+      // the constructor will be an anonymous function (constructor.name will be '') and getHex() won't work
+      const HexClass = (
+        hexes.length > 0
+          ? hexes[0].constructor
+          : hexFactory({ q: 0, r: 0 } as T, 0, [{ q: 0, r: 0 }] as T[]).constructor
+      ) as HexConstructor<R>
+      return new Grid<R>(HexClass, hexes)
+    }
+
+    const HexClass = defineHex(hexSettings) as unknown as HexConstructor<R>
+    return new Grid<R>(
       HexClass,
-      coordinates.map((_coordinates) => new HexClass(_coordinates)),
+      coordinates.map((coordinates) => new HexClass(coordinates)),
     )
   }
 
@@ -183,7 +198,7 @@ export class Grid<T extends Hex> implements HexIterable<T>, HexTraversable<T> {
   }
 
   // todo: add to docs that hexSettings don't include any custom properties
-  toJSON(): GridAsJSON {
+  toJSON(): GridAsJSON<T> {
     // these four properties are getters that may be present further up the prototype chain
     // JSON.stringify() ignores properties in the prototype chain
     const { dimensions, orientation, origin, offset } = this.hexPrototype

@@ -1,30 +1,29 @@
-import { defineHex, Grid, rectangle } from '../src'
-import { render } from './render'
+import { defineHex, Grid, GridAsJSON, HexCoordinates } from '../src'
 
-// interface CustomHex extends Hex {
-//   custom: string
-// }
+class CustomHex extends defineHex() {
+  static create(coordinates: HexCoordinates, custom: string) {
+    const hex = new CustomHex(coordinates)
+    hex.custom = custom
+    return hex
+  }
 
-// this creates this prototype chain:
-// CustomHex -> class extends Hex -> Hex -> Object
-// while creating a class that extends Hex has this:
-// CustomHex -> Hex -> Object
-class CustomHex extends defineHex({ dimensions: 30, origin: 'topLeft' }) {
-  custom = 'test'
+  custom!: string
 }
-// class CustomHex extends Hex {
-//   get dimensions(): Ellipse {
-//     return createHexDimensions(30)
-//   }
-//   get origin(): Point {
-//     return createHexOrigin('topLeft', this)
-//   }
 
-//   custom = 'test'
-// }
-const grid = new Grid(CustomHex, rectangle({ width: 10, height: 10 }))
+const hexes = [
+  [0, 0],
+  [1, 0],
+  [0, 1],
+].map((coordinates) => CustomHex.create(coordinates as HexCoordinates, 'custom'))
+const grid1 = new Grid(CustomHex, hexes)
+const serializedGrid = JSON.stringify(grid1)
 
-// let i = 0
-for (const hex of grid) {
-  render(hex)
-}
+// console.log({ serializedGrid })
+
+const deserializedGrid: GridAsJSON<CustomHex> = JSON.parse(serializedGrid)
+
+// console.log({ deserializedGrid })
+
+const grid2 = Grid.fromJSON(deserializedGrid, ({ q, r, custom }) => CustomHex.create([q, r], custom))
+
+console.log(grid2.toArray())
