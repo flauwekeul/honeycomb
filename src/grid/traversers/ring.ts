@@ -15,9 +15,10 @@ export function ring<T extends Hex>(options: RingOptions | RingFromRadiusOptions
     const _rotation = rotation.toUpperCase() as Rotation
     const hexes: T[] = []
     let { radius } = options as RingFromRadiusOptions
+    const hasRadiusOption = isNumber(radius)
     let firstHex: T
 
-    if (isNumber(radius)) {
+    if (hasRadiusOption) {
       firstHex = createHex(center).translate({ q: radius, s: -radius })
     } else {
       firstHex = createHex((options as RingOptions).start ?? cursor)
@@ -46,7 +47,9 @@ export function ring<T extends Hex>(options: RingOptions | RingFromRadiusOptions
       }
     }
 
-    const skipFirstHex = !(options as RingOptions).start && cursor
+    // when a radius is passed in the options, it makes no sense to skip the first hex
+    // see https://github.com/flauwekeul/honeycomb/issues/100
+    const skipFirstHex = hasRadiusOption ? false : !(options as RingOptions).start && cursor
     const startIndex = hexes.findIndex((hex) => hex.equals(firstHex))
     // move part of hexes array to the front so that firstHex is actually the first hex
     return hexes.slice(startIndex + (skipFirstHex ? 1 : 0)).concat(hexes.slice(0, startIndex))

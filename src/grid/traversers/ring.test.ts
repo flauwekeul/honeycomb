@@ -172,34 +172,69 @@ describe('when called with center and rotation', () => {
 })
 
 describe('when called with center and radius', () => {
-  test('returns a traverser that returns hexes in a ring shape around the center with the given radius', () => {
-    expect(ring({ center: [0, 0], radius: 1 })(createHex)).toMatchInlineSnapshot(`
-      [
-        Hex {
-          "q": 1,
-          "r": 0,
-        },
-        Hex {
-          "q": 0,
-          "r": 1,
-        },
-        Hex {
-          "q": -1,
-          "r": 1,
-        },
-        Hex {
-          "q": -1,
-          "r": 0,
-        },
-        Hex {
-          "q": 0,
-          "r": -1,
-        },
-        Hex {
-          "q": 1,
-          "r": -1,
-        },
-      ]
-    `)
+  describe('without cursor', () => {
+    test('returns a traverser that returns hexes in a ring shape around the center with the given radius', () => {
+      expect(ring({ center: [0, 0], radius: 1 })(createHex)).toMatchInlineSnapshot(`
+        [
+          Hex {
+            "q": 1,
+            "r": 0,
+          },
+          Hex {
+            "q": 0,
+            "r": 1,
+          },
+          Hex {
+            "q": -1,
+            "r": 1,
+          },
+          Hex {
+            "q": -1,
+            "r": 0,
+          },
+          Hex {
+            "q": 0,
+            "r": -1,
+          },
+          Hex {
+            "q": 1,
+            "r": -1,
+          },
+        ]
+      `)
+    })
+  })
+
+  describe('with cursor', () => {
+    test('returns a traverser that returns hexes in a ring shape around the center with the given radius', () => {
+      expect(ring({ center: [0, 0], radius: 1 })(createHex, cursor)).toMatchInlineSnapshot(`
+        [
+          Hex {
+            "q": 1,
+            "r": 0,
+          },
+          Hex {
+            "q": 0,
+            "r": 1,
+          },
+          Hex {
+            "q": -1,
+            "r": 1,
+          },
+          Hex {
+            "q": -1,
+            "r": 0,
+          },
+          Hex {
+            "q": 0,
+            "r": -1,
+          },
+          Hex {
+            "q": 1,
+            "r": -1,
+          },
+        ]
+      `)
+    })
   })
 })
