@@ -8,8 +8,14 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/honeycomb-grid.mjs",
-      "require": "./dist/honeycomb-grid.umd.js"
+      "import": {
+        "default": "./dist/honeycomb-grid.mjs",
+        "types": "./dist/index.d.ts"
+      },
+      "require": {
+        "default": "./dist/honeycomb-grid.umd.js",
+        "types": "./dist/index.d.ts"
+      }
     }
   },
   "scripts": {
