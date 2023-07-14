@@ -19,7 +19,7 @@ export function createHexDimensions(input: number | BoundingBox | Ellipse, orien
       : { xRadius: width / 2, yRadius: height / Math.sqrt(3) }
   }
 
-  if (input > 0) {
+  if ((input as number) > 0) {
     return { xRadius: input, yRadius: input } as Ellipse
   }
 

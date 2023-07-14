@@ -20,6 +20,10 @@
 
 ## Table of contents
 
+### Properties
+
+- [size](HexIterable.md#size)
+
 ### Methods
 
 - [[iterator]](HexIterable.md#[iterator])
@@ -32,9 +36,19 @@
 - [setHexes](HexIterable.md#setHexes)
 - [toArray](HexIterable.md#toArray)
 
-### Properties
+## Properties
 
-- [size](HexIterable.md#size)
+### <a id="size" name="size"></a> size
+
+ `Readonly` **size**: `number`
+
+#### Inherited from
+
+[HexStore](HexStore.md).[size](HexStore.md#size)
+
+#### Defined in
+
+[grid/types.ts:45](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L45)
 
 ## Methods
 
@@ -48,7 +62,7 @@
 
 #### Overrides
 
-Iterable.\_\_@iterator@102
+Iterable.[iterator]
 
 #### Defined in
 
@@ -259,17 +273,3 @@ ___
 #### Defined in
 
 [grid/types.ts:62](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L62)
-
-## Properties
-
-### <a id="size" name="size"></a> size
-
- `Readonly` **size**: `number`
-
-#### Inherited from
-
-[HexStore](HexStore.md).[size](HexStore.md#size)
-
-#### Defined in
-
-[grid/types.ts:45](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L45)

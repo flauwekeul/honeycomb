@@ -1,6 +1,23 @@
-# API - v4.1.0
+# API - v4.1.1
 
 ## Table of contents
+
+### Hex Enumerations
+
+- [Orientation](enums/Orientation.md)
+
+### Traverser Enumerations
+
+- [Rotation](enums/Rotation.md)
+
+### Grid Enumerations
+
+- [Direction](enums/Direction.md)
+
+### Classes
+
+- [Grid](classes/Grid.md)
+- [Hex](classes/Hex.md)
 
 ### Coordinates Interfaces
 
@@ -35,23 +52,6 @@
 - [BoundingBox](interfaces/BoundingBox.md)
 - [Ellipse](interfaces/Ellipse.md)
 
-### Hex Enumerations
-
-- [Orientation](enums/Orientation.md)
-
-### Traverser Enumerations
-
-- [Rotation](enums/Rotation.md)
-
-### Grid Enumerations
-
-- [Direction](enums/Direction.md)
-
-### Classes
-
-- [Grid](classes/Grid.md)
-- [Hex](classes/Hex.md)
-
 ### Coordinates Type Aliases
 
 - [HexCoordinates](index.md#HexCoordinates)
@@ -66,6 +66,10 @@
 ### Traverser Type Aliases
 
 - [Traverser](index.md#Traverser)
+
+### Hex Variables
+
+- [defaultHexSettings](index.md#defaultHexSettings)
 
 ### Coordinates Functions
 
@@ -107,10 +111,6 @@
 - [isPoint](index.md#isPoint)
 - [neighborOf](index.md#neighborOf)
 - [offsetFromZero](index.md#offsetFromZero)
-
-### Hex Variables
-
-- [defaultHexSettings](index.md#defaultHexSettings)
 
 ## Coordinates Type Aliases
 
@@ -213,6 +213,16 @@ ___
 #### Defined in
 
 [grid/types.ts:6](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L6)
+
+## Hex Variables
+
+### <a id="defaultHexSettings" name="defaultHexSettings"></a> defaultHexSettings
+
+ `Const` **defaultHexSettings**: [`HexSettings`](interfaces/HexSettings.md)
+
+#### Defined in
+
+[hex/hex.ts:129](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L129)
 
 ## Coordinates Functions
 
@@ -605,7 +615,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
@@ -651,13 +661,13 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `traversers` | [`Traverser`](index.md#Traverser)<`T`, `T`[]\> \| [`Traverser`](index.md#Traverser)<`T`, `T`[]\>[] |
+| `traversers` | [`Traverser`](index.md#Traverser)<`T`\> \| [`Traverser`](index.md#Traverser)<`T`\>[] |
 
 #### Returns
 
@@ -671,13 +681,13 @@ ___
 
 ### <a id="fromCoordinates" name="fromCoordinates"></a> fromCoordinates
 
-**fromCoordinates**<`T`\>(`...coordinates`): [`Traverser`](index.md#Traverser)<`T`, `T`[]\>
+**fromCoordinates**<`T`\>(`...coordinates`): [`Traverser`](index.md#Traverser)<`T`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
@@ -687,7 +697,7 @@ ___
 
 #### Returns
 
-[`Traverser`](index.md#Traverser)<`T`, `T`[]\>
+[`Traverser`](index.md#Traverser)<`T`\>
 
 #### Defined in
 
@@ -703,7 +713,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
@@ -725,7 +735,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
@@ -745,13 +755,13 @@ ___
 
 ### <a id="move" name="move"></a> move
 
-**move**<`T`\>(`direction`): [`Traverser`](index.md#Traverser)<`T`, `T`[]\>
+**move**<`T`\>(`direction`): [`Traverser`](index.md#Traverser)<`T`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
@@ -761,7 +771,7 @@ ___
 
 #### Returns
 
-[`Traverser`](index.md#Traverser)<`T`, `T`[]\>
+[`Traverser`](index.md#Traverser)<`T`\>
 
 #### Defined in
 
@@ -781,7 +791,7 @@ The rectangle will only have 90° corners for the directions North, East, South 
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
@@ -803,7 +813,7 @@ The rectangle will only have 90° corners for the directions North, East, South 
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
@@ -830,14 +840,14 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `times` | `number` |
-| `traversers` | [`Traverser`](index.md#Traverser)<`T`, `T`[]\> \| [`Traverser`](index.md#Traverser)<`T`, `T`[]\>[] |
+| `traversers` | [`Traverser`](index.md#Traverser)<`T`\> \| [`Traverser`](index.md#Traverser)<`T`\>[] |
 
 #### Returns
 
@@ -857,14 +867,14 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `sources` | [`Traverser`](index.md#Traverser)<`T`, `T`[]\> \| [`Traverser`](index.md#Traverser)<`T`, `T`[]\>[] |
-| `branches` | [`Traverser`](index.md#Traverser)<`T`, `T`[]\> \| [`Traverser`](index.md#Traverser)<`T`, `T`[]\>[] |
+| `sources` | [`Traverser`](index.md#Traverser)<`T`\> \| [`Traverser`](index.md#Traverser)<`T`\>[] |
+| `branches` | [`Traverser`](index.md#Traverser)<`T`\> \| [`Traverser`](index.md#Traverser)<`T`\>[] |
 | `«destructured»` | `Object` |
 | › `includeSource` | `undefined` \| `boolean` |
 
@@ -886,7 +896,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
@@ -908,7 +918,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
@@ -934,7 +944,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
@@ -1004,7 +1014,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](classes/Hex.md)<`T`\> |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
@@ -1041,13 +1051,3 @@ ___
 #### Defined in
 
 [utils/offsetFromZero.ts:6](https://github.com/flauwekeul/honeycomb/blob/master/src/utils/offsetFromZero.ts#L6)
-
-## Hex Variables
-
-### <a id="defaultHexSettings" name="defaultHexSettings"></a> defaultHexSettings
-
- `Const` **defaultHexSettings**: [`HexSettings`](interfaces/HexSettings.md)
-
-#### Defined in
-
-[hex/hex.ts:129](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L129)

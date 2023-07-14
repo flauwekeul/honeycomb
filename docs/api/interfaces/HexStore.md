@@ -16,15 +16,25 @@
 
 ## Table of contents
 
+### Properties
+
+- [size](HexStore.md#size)
+
 ### Methods
 
 - [getHex](HexStore.md#getHex)
 - [hasHex](HexStore.md#hasHex)
 - [setHexes](HexStore.md#setHexes)
 
-### Properties
+## Properties
 
-- [size](HexStore.md#size)
+### <a id="size" name="size"></a> size
+
+ `Readonly` **size**: `number`
+
+#### Defined in
+
+[grid/types.ts:45](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L45)
 
 ## Methods
 
@@ -85,13 +95,3 @@ ___
 #### Defined in
 
 [grid/types.ts:48](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L48)
-
-## Properties
-
-### <a id="size" name="size"></a> size
-
- `Readonly` **size**: `number`
-
-#### Defined in
-
-[grid/types.ts:45](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L45)

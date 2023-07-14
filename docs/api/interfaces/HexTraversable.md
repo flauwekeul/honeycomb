@@ -18,6 +18,10 @@
 
 ## Table of contents
 
+### Properties
+
+- [size](HexTraversable.md#size)
+
 ### Methods
 
 - [createHex](HexTraversable.md#createHex)
@@ -26,9 +30,19 @@
 - [setHexes](HexTraversable.md#setHexes)
 - [traverse](HexTraversable.md#traverse)
 
-### Properties
+## Properties
 
-- [size](HexTraversable.md#size)
+### <a id="size" name="size"></a> size
+
+ `Readonly` **size**: `number`
+
+#### Inherited from
+
+[HexStore](HexStore.md).[size](HexStore.md#size)
+
+#### Defined in
+
+[grid/types.ts:45](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L45)
 
 ## Methods
 
@@ -179,17 +193,3 @@ ___
 #### Defined in
 
 [grid/types.ts:72](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L72)
-
-## Properties
-
-### <a id="size" name="size"></a> size
-
- `Readonly` **size**: `number`
-
-#### Inherited from
-
-[HexStore](HexStore.md).[size](HexStore.md#size)
-
-#### Defined in
-
-[grid/types.ts:45](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L45)

@@ -13,6 +13,17 @@
 
 ## Table of contents
 
+### Constructors
+
+- [constructor](Grid.md#constructor)
+
+### Accessors
+
+- [hexPrototype](Grid.md#hexPrototype)
+- [pixelHeight](Grid.md#pixelHeight)
+- [pixelWidth](Grid.md#pixelWidth)
+- [size](Grid.md#size)
+
 ### Methods
 
 - [[iterator]](Grid.md#[iterator])
@@ -34,16 +45,143 @@
 - [toString](Grid.md#toString)
 - [traverse](Grid.md#traverse)
 
-### Constructors
+## Constructors
 
-- [constructor](Grid.md#constructor)
+### <a id="constructor" name="constructor"></a> constructor
 
-### Accessors
+**new Grid**<`T`\>(`hexClass`)
 
-- [hexPrototype](Grid.md#hexPrototype)
-- [pixelHeight](Grid.md#pixelHeight)
-- [pixelWidth](Grid.md#pixelWidth)
-- [size](Grid.md#size)
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](Hex.md) |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `hexClass` | [`HexConstructor`](../index.md#HexConstructor)<`T`\> |
+
+#### Defined in
+
+[grid/grid.ts:87](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/grid.ts#L87)
+
+**new Grid**<`T`\>(`hexClass`, `traversers`)
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](Hex.md) |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `hexClass` | [`HexConstructor`](../index.md#HexConstructor)<`T`\> |
+| `traversers` | [`Traverser`](../index.md#Traverser)<`T`\> \| [`Traverser`](../index.md#Traverser)<`T`\>[] |
+
+#### Defined in
+
+[grid/grid.ts:88](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/grid.ts#L88)
+
+**new Grid**<`T`\>(`hexClass`, `hexes`)
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](Hex.md) |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `hexClass` | [`HexConstructor`](../index.md#HexConstructor)<`T`\> |
+| `hexes` | `Iterable`<[`HexCoordinates`](../index.md#HexCoordinates) \| `T`\> |
+
+#### Defined in
+
+[grid/grid.ts:89](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/grid.ts#L89)
+
+**new Grid**<`T`\>(`grid`)
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](Hex.md) |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `grid` | [`Grid`](Grid.md)<`T`\> |
+
+#### Defined in
+
+[grid/grid.ts:90](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/grid.ts#L90)
+
+## Accessors
+
+### <a id="hexPrototype" name="hexPrototype"></a> hexPrototype
+
+`get` **hexPrototype**(): `T`
+
+#### Returns
+
+`T`
+
+#### Defined in
+
+[grid/grid.ts:79](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/grid.ts#L79)
+
+___
+
+### <a id="pixelHeight" name="pixelHeight"></a> pixelHeight
+
+`get` **pixelHeight**(): `number`
+
+#### Returns
+
+`number`
+
+#### Defined in
+
+[grid/grid.ts:60](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/grid.ts#L60)
+
+___
+
+### <a id="pixelWidth" name="pixelWidth"></a> pixelWidth
+
+`get` **pixelWidth**(): `number`
+
+#### Returns
+
+`number`
+
+#### Defined in
+
+[grid/grid.ts:45](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/grid.ts#L45)
+
+___
+
+### <a id="size" name="size"></a> size
+
+`get` **size**(): `number`
+
+#### Returns
+
+`number`
+
+#### Implementation of
+
+[HexTraversable](../interfaces/HexTraversable.md).[size](../interfaces/HexTraversable.md#size)
+
+#### Defined in
+
+[grid/grid.ts:41](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/grid.ts#L41)
 
 ## Methods
 
@@ -187,7 +325,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](Hex.md)<`T`\> |
+| `T` | extends [`Hex`](Hex.md) |
 
 #### Parameters
 
@@ -214,7 +352,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `T` | extends [`AxialCoordinates`](../interfaces/AxialCoordinates.md) |
-| `R` | extends [`Hex`](Hex.md)<`R`\> |
+| `R` | extends [`Hex`](Hex.md) |
 
 #### Parameters
 
@@ -537,7 +675,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `traversers` | [`Traverser`](../index.md#Traverser)<`T`, `T`[]\> \| [`Traverser`](../index.md#Traverser)<`T`, `T`[]\>[] |
+| `traversers` | [`Traverser`](../index.md#Traverser)<`T`\> \| [`Traverser`](../index.md#Traverser)<`T`\>[] |
 | `options?` | `Object` |
 | `options.bail?` | `boolean` |
 
@@ -596,141 +734,3 @@ ___
 #### Defined in
 
 [grid/grid.ts:148](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/grid.ts#L148)
-
-## Constructors
-
-### <a id="constructor" name="constructor"></a> constructor
-
-**new Grid**<`T`\>(`hexClass`)
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | extends [`Hex`](Hex.md)<`T`\> |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `hexClass` | [`HexConstructor`](../index.md#HexConstructor)<`T`\> |
-
-#### Defined in
-
-[grid/grid.ts:87](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/grid.ts#L87)
-
-**new Grid**<`T`\>(`hexClass`, `traversers`)
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | extends [`Hex`](Hex.md)<`T`\> |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `hexClass` | [`HexConstructor`](../index.md#HexConstructor)<`T`\> |
-| `traversers` | [`Traverser`](../index.md#Traverser)<`T`, `T`[]\> \| [`Traverser`](../index.md#Traverser)<`T`, `T`[]\>[] |
-
-#### Defined in
-
-[grid/grid.ts:88](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/grid.ts#L88)
-
-**new Grid**<`T`\>(`hexClass`, `hexes`)
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | extends [`Hex`](Hex.md)<`T`\> |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `hexClass` | [`HexConstructor`](../index.md#HexConstructor)<`T`\> |
-| `hexes` | `Iterable`<[`HexCoordinates`](../index.md#HexCoordinates) \| `T`\> |
-
-#### Defined in
-
-[grid/grid.ts:89](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/grid.ts#L89)
-
-**new Grid**<`T`\>(`grid`)
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | extends [`Hex`](Hex.md)<`T`\> |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `grid` | [`Grid`](Grid.md)<`T`\> |
-
-#### Defined in
-
-[grid/grid.ts:90](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/grid.ts#L90)
-
-## Accessors
-
-### <a id="hexPrototype" name="hexPrototype"></a> hexPrototype
-
-`get` **hexPrototype**(): `T`
-
-#### Returns
-
-`T`
-
-#### Defined in
-
-[grid/grid.ts:79](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/grid.ts#L79)
-
-___
-
-### <a id="pixelHeight" name="pixelHeight"></a> pixelHeight
-
-`get` **pixelHeight**(): `number`
-
-#### Returns
-
-`number`
-
-#### Defined in
-
-[grid/grid.ts:60](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/grid.ts#L60)
-
-___
-
-### <a id="pixelWidth" name="pixelWidth"></a> pixelWidth
-
-`get` **pixelWidth**(): `number`
-
-#### Returns
-
-`number`
-
-#### Defined in
-
-[grid/grid.ts:45](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/grid.ts#L45)
-
-___
-
-### <a id="size" name="size"></a> size
-
-`get` **size**(): `number`
-
-#### Returns
-
-`number`
-
-#### Implementation of
-
-[HexTraversable](../interfaces/HexTraversable.md).[size](../interfaces/HexTraversable.md#size)
-
-#### Defined in
-
-[grid/grid.ts:41](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/grid.ts#L41)

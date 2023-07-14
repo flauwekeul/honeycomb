@@ -9,6 +9,15 @@
 
 ## Table of contents
 
+### Constructors
+
+- [constructor](Hex.md#constructor)
+
+### Properties
+
+- [q](Hex.md#q)
+- [r](Hex.md#r)
+
 ### Accessors
 
 - [center](Hex.md#center)
@@ -35,14 +44,49 @@
 - [toString](Hex.md#toString)
 - [translate](Hex.md#translate)
 
-### Constructors
+## Constructors
 
-- [constructor](Hex.md#constructor)
+### <a id="constructor" name="constructor"></a> constructor
 
-### Properties
+**new Hex**(`coordinates?`)
 
-- [q](Hex.md#q)
-- [r](Hex.md#r)
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `coordinates` | [`HexCoordinates`](../index.md#HexCoordinates) |
+
+#### Defined in
+
+[hex/hex.ts:103](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L103)
+
+## Properties
+
+### <a id="q" name="q"></a> q
+
+ `Readonly` **q**: `number`
+
+#### Implementation of
+
+Readonly.q
+
+#### Defined in
+
+[hex/hex.ts:100](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L100)
+
+___
+
+### <a id="r" name="r"></a> r
+
+ `Readonly` **r**: `number`
+
+#### Implementation of
+
+Readonly.r
+
+#### Defined in
+
+[hex/hex.ts:101](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L101)
 
 ## Accessors
 
@@ -306,7 +350,7 @@ Readonly.y
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Hex`](Hex.md)<`T`\> |
+| `T` | extends [`Hex`](Hex.md) |
 
 #### Parameters
 
@@ -375,47 +419,3 @@ ___
 #### Defined in
 
 [hex/hex.ts:121](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L121)
-
-## Constructors
-
-### <a id="constructor" name="constructor"></a> constructor
-
-**new Hex**(`coordinates?`)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `coordinates` | [`HexCoordinates`](../index.md#HexCoordinates) |
-
-#### Defined in
-
-[hex/hex.ts:103](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L103)
-
-## Properties
-
-### <a id="q" name="q"></a> q
-
- `Readonly` **q**: `number`
-
-#### Implementation of
-
-Readonly.q
-
-#### Defined in
-
-[hex/hex.ts:100](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L100)
-
-___
-
-### <a id="r" name="r"></a> r
-
- `Readonly` **r**: `number`
-
-#### Implementation of
-
-Readonly.r
-
-#### Defined in
-
-[hex/hex.ts:101](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L101)

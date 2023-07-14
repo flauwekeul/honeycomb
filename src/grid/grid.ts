@@ -92,7 +92,7 @@ export class Grid<T extends Hex> implements HexIterable<T>, HexTraversable<T> {
     hexClassOrGrid: HexConstructor<T> | Grid<T>,
     input: Traverser<T> | Traverser<T>[] | Iterable<T | HexCoordinates> = [],
   ) {
-    if (hexClassOrGrid instanceof Grid<T>) {
+    if (hexClassOrGrid instanceof Grid) {
       this.#hexClass = hexClassOrGrid.#hexClass
       this.setHexes(hexClassOrGrid)
       return
