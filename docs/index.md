@@ -5,7 +5,7 @@ layout: home
 hero:
   name: ⬡ Honeycomb
   text: Because hexagons are the Bestagons
-  tagline: Written in TypeScript. Works in modern browsers and Node (≥16).
+  tagline: Written in TypeScript. Works in modern browsers and Node (≥18).
   actions:
     - theme: brand
       text: Get started
@@ -19,7 +19,7 @@ hero:
 
 features:
   - icon: 🙌
-    title: Works in all browsers and Node.js (≥16)
+    title: Works in all browsers and Node.js (≥18)
     details: Probably also in Deno and Bun… haven't tested it yet.
   - icon: 🚶‍♂️
     title: Traverse grids in different shapes
