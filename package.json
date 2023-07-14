@@ -3,9 +3,9 @@
   "version": "4.1.2",
   "description": "Create hexagon grids easily",
   "source": "src/index.ts",
-  "main": "dist/honeycomb-grid.umd.js",
-  "module": "dist/honeycomb-grid.mjs",
-  "types": "dist/index.d.ts",
+  "main": "./dist/honeycomb-grid.umd.js",
+  "module": "./dist/honeycomb-grid.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": {
@@ -19,7 +19,7 @@
     }
   },
   "scripts": {
-    "build": "tsc --project tsconfig.build.json && vite build",
+    "build": "vite build",
     "coverage": "vitest run --coverage",
     "dev": "vite",
     "docs:build": "typedoc && vitepress build docs",

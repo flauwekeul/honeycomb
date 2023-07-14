@@ -10,5 +10,5 @@ export default defineConfig({
       name: 'Honeycomb',
     },
   },
-  plugins: [dts()],
+  plugins: [dts({ tsconfigPath: 'tsconfig.build.json' })],
 })
