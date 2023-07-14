@@ -2,7 +2,7 @@
 
 A hexagon grid library made in ~~JavaScript~~[TypeScript](https://www.typescriptlang.org/), heavily inspired by [Red Blob Games'](http://www.redblobgames.com/grids/hexagons/) blog posts and code samples.
 
-Honeycomb works in modern browsers and Node (>=16). It's recommended to use Honeycomb with TypeScript, but not required.
+Honeycomb works in modern browsers and Node (>=18). It's recommended to use Honeycomb with TypeScript, but not required.
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I2I24E3QI)
 
