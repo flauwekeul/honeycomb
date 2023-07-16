@@ -9,12 +9,12 @@
   "exports": {
     ".": {
       "import": {
-        "default": "./dist/honeycomb-grid.mjs",
-        "types": "./dist/index.d.ts"
+        "types": "./dist/index.d.ts",
+        "default": "./dist/honeycomb-grid.mjs"
       },
       "require": {
-        "default": "./dist/honeycomb-grid.umd.js",
-        "types": "./dist/index.d.ts"
+        "types": "./dist/index.d.ts",
+        "default": "./dist/honeycomb-grid.umd.js"
       }
     }
   },
