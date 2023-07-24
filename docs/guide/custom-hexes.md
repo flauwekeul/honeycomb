@@ -7,7 +7,7 @@ The [default hex settings](/api/#defaultHexSettings) are probably not what you n
 ```typescript
 const defaultHexSettings: HexSettings = {
   dimensions: { xRadius: 1, yRadius: 1 }, // these make for tiny hexes
-  orientation: Orientation.POINTY, // pointy top
+  orientation: 'pointy',  // pointy top
   origin: { x: 0, y: 0 }, // the center of the hex
   offset: -1, // how rows or columns of hexes are placed relative to each other
 }
@@ -27,7 +27,7 @@ This function accepts [*hex options*](/api/interfaces/HexOptions) and returns a 
 // CustomHex is a class (constructor function)
 const CustomHex = defineHex({
   dimensions: 30,
-  orientation: Orientation.FLAT,
+  orientation: 'flat',
   origin: 'topLeft',
   offset: 1
 })
@@ -97,7 +97,7 @@ class CustomHex extends Hex {
   }
 
   get orientation(): Orientation {
-    return Orientation.FLAT
+    return 'flat'
   }
 
   get origin(): Point {
@@ -119,7 +119,7 @@ class CustomHex extends Hex {
   }
 
   get orientation(): Orientation {
-    return Orientation.FLAT
+    return 'flat'
   }
 
   get origin(): Point {

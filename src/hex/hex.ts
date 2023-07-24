@@ -38,7 +38,7 @@ export class Hex
   // todo: add to docs that this always returns corners relative to Hex(0, 0)
   get corners(): Point[] {
     const { orientation, width, height, x, y } = this
-    return orientation === Orientation.POINTY ? cornersPointy(width, height, x, y) : cornersFlat(width, height, x, y)
+    return orientation === 'pointy' ? cornersPointy(width, height, x, y) : cornersFlat(width, height, x, y)
   }
 
   get dimensions(): Ellipse {
@@ -50,15 +50,15 @@ export class Hex
       orientation,
       dimensions: { yRadius },
     } = this
-    return orientation === Orientation.POINTY ? yRadius * 2 : yRadius * Math.sqrt(3)
+    return orientation === 'pointy' ? yRadius * 2 : yRadius * Math.sqrt(3)
   }
 
   get isFlat(): boolean {
-    return this.orientation === Orientation.FLAT
+    return this.orientation === 'flat'
   }
 
   get isPointy(): boolean {
-    return this.orientation === Orientation.POINTY
+    return this.orientation === 'pointy'
   }
 
   get orientation(): Orientation {
@@ -82,7 +82,7 @@ export class Hex
       orientation,
       dimensions: { xRadius },
     } = this
-    return orientation === Orientation.POINTY ? xRadius * Math.sqrt(3) : xRadius * 2
+    return orientation === 'pointy' ? xRadius * Math.sqrt(3) : xRadius * 2
   }
 
   get x(): number {
@@ -128,7 +128,7 @@ export class Hex
  */
 export const defaultHexSettings: HexSettings = {
   dimensions: { xRadius: 1, yRadius: 1 },
-  orientation: Orientation.POINTY,
+  orientation: 'pointy',
   origin: { x: 0, y: 0 },
   offset: -1,
 }

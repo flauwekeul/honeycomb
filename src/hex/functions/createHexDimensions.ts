@@ -14,7 +14,7 @@ export function createHexDimensions(input: number | BoundingBox | Ellipse, orien
 
   if (isObject<BoundingBox>(input) && input.width > 0 && input.height > 0) {
     const { width, height } = input
-    return orientation === Orientation.POINTY
+    return orientation === 'pointy'
       ? { xRadius: width / Math.sqrt(3), yRadius: height / 2 }
       : { xRadius: width / 2, yRadius: height / Math.sqrt(3) }
   }

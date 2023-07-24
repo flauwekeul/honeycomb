@@ -1,5 +1,4 @@
 import { expect, test } from 'vitest'
-import { Orientation } from '../types'
 import { createHexDimensions } from './createHexDimensions'
 
 test('returns an ellipse with the passed radius', () => {
@@ -7,11 +6,11 @@ test('returns an ellipse with the passed radius', () => {
 })
 
 test('returns an ellipse from the passed bounding box and orientation', () => {
-  expect(createHexDimensions({ width: 20, height: 20 }, Orientation.POINTY)).toEqual({
+  expect(createHexDimensions({ width: 20, height: 20 }, 'pointy')).toEqual({
     xRadius: 11.547005383792516,
     yRadius: 10,
   })
-  expect(createHexDimensions({ width: 20, height: 20 }, Orientation.FLAT)).toEqual({
+  expect(createHexDimensions({ width: 20, height: 20 }, 'flat')).toEqual({
     xRadius: 10,
     yRadius: 11.547005383792516,
   })

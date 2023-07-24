@@ -1,5 +1,5 @@
 import { offsetFromZero } from '../../utils'
-import { CubeCoordinates, HexOffset, HexSettings, OffsetCoordinates, Orientation } from '../types'
+import { CubeCoordinates, HexOffset, HexSettings, OffsetCoordinates } from '../types'
 
 /**
  * @hidden
@@ -27,4 +27,4 @@ export const offsetToCubeFlat = (col: number, row: number, offset: HexOffset): C
 export const offsetToCube = (
   { offset, orientation }: Pick<HexSettings, 'offset' | 'orientation'>,
   { col, row }: OffsetCoordinates,
-) => (orientation === Orientation.POINTY ? offsetToCubePointy(col, row, offset) : offsetToCubeFlat(col, row, offset))
+) => (orientation === 'pointy' ? offsetToCubePointy(col, row, offset) : offsetToCubeFlat(col, row, offset))
