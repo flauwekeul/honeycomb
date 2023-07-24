@@ -1,6 +1,5 @@
 import { describe, expect, test, vi } from 'vitest'
 import { Hex, HexCoordinates } from '../../hex'
-import { Rotation } from '../types'
 import { spiral } from './spiral'
 
 const cursor: HexCoordinates = [1, 2]
@@ -156,7 +155,7 @@ describe('when called with a radius and start', () => {
 
 describe('when called with a radius and rotation', () => {
   test('returns a traverser that returns hexes in a spiral with the given rotation', () => {
-    expect(spiral({ radius: 1, rotation: Rotation.COUNTERCLOCKWISE })(createHex)).toMatchInlineSnapshot(`
+    expect(spiral({ radius: 1, rotation: 'ccw' })(createHex)).toMatchInlineSnapshot(`
       [
         Hex {
           "q": 0,

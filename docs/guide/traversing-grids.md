@@ -302,7 +302,7 @@ A ring traverser can be created in two ways:
   const ccwRing = ring({
     start: [1, 4],
     center: [1, 2],
-    rotation: Rotation.COUNTERCLOCKWISE
+    rotation: 'cw'
   })
   grid.traverse(ccwRing)
   ```
@@ -337,7 +337,7 @@ Just as with `ring()`, the radius excludes the center. And also just as with `ri
 const ccwSpiral = spiral({
   start: [1, 2],
   radius: 2
-  rotation: Rotation.COUNTERCLOCKWISE
+  rotation: 'ccw'
 })
 grid.traverse(ccwSpiral)
 ```
@@ -345,7 +345,7 @@ grid.traverse(ccwSpiral)
 <TileGrid :grid="grid" :traversal="spiral5" />
 
 <script setup lang="ts">
-import { defineHex, Direction, fromCoordinates, Grid, line, move, rectangle, repeat, repeatWith, ring, Rotation, spiral } from '../../src';
+import { defineHex, Direction, fromCoordinates, Grid, line, move, rectangle, repeat, repeatWith, ring, spiral } from '../../src';
 import Line from '../components/Line.vue';
 import TileGrid from '../components/TileGrid.vue';
 
@@ -395,8 +395,8 @@ const repeatWith2 = grid.traverse(repeatWith(
   { includeSource: false },
 ))
 const ring1 = grid.traverse(ring({ start: [1, 4], center: [1, 2] }))
-const ring2 = grid.traverse(ring({ start: [1, 4], center: [1, 2], rotation: Rotation.COUNTERCLOCKWISE }))
+const ring2 = grid.traverse(ring({ start: [1, 4], center: [1, 2], rotation: 'ccw' }))
 const ring3 = grid.traverse(ring({ center: [1, 2], radius: 2 }))
 const spiral4 = grid.traverse(spiral({ start: [1, 2], radius: 2 }))
-const spiral5 = grid.traverse(spiral({ start: [1, 2], radius: 2, rotation: Rotation.COUNTERCLOCKWISE }))
+const spiral5 = grid.traverse(spiral({ start: [1, 2], radius: 2, rotation: 'ccw' }))
 </script>

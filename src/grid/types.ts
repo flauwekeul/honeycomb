@@ -10,11 +10,10 @@ export type Traverser<T extends Hex, R extends Iterable<T> = T[]> = (
 
 /**
  * @category Traverser
+ *
+ * 'cw' for clockwise and 'ccw' for counterclockwise
  */
-export enum Rotation {
-  CLOCKWISE = 'CLOCKWISE',
-  COUNTERCLOCKWISE = 'COUNTERCLOCKWISE',
-}
+export type Rotation = 'cw' | 'ccw'
 
 /**
  * @category Grid
