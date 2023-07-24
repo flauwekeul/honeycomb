@@ -1,5 +1,5 @@
 import { describe, expect, expectTypeOf, Mock, test, vi } from 'vitest'
-import { AxialCoordinates, defineHex, Hex, HexCoordinates, HexSettings, Orientation } from '../hex'
+import { AxialCoordinates, defineHex, Hex, HexCoordinates, HexSettings } from '../hex'
 import { Grid } from './grid'
 import { fromCoordinates, rectangle } from './traversers'
 import { Direction } from './types'
@@ -118,7 +118,7 @@ describe('static fromJSON()', () => {
   test('creates a grid from an object containing hex settings and coordinates', () => {
     const hexSettings: HexSettings = {
       dimensions: { xRadius: 10, yRadius: 10 },
-      orientation: Orientation.FLAT,
+      orientation: 'flat',
       origin: { x: 0, y: 0 },
       offset: 1,
     }
@@ -178,9 +178,9 @@ describe('pixelWidth property', () => {
   })
 
   test('returns the width in pixels', () => {
-    const PointyHex = defineHex({ dimensions: 10, orientation: Orientation.POINTY })
+    const PointyHex = defineHex({ dimensions: 10, orientation: 'pointy' })
     const pointyHexWidth = PointyHex.prototype.width
-    const FlatHex = defineHex({ dimensions: 10, orientation: Orientation.FLAT })
+    const FlatHex = defineHex({ dimensions: 10, orientation: 'flat' })
     const flatHexWidth = FlatHex.prototype.width
 
     expect(new Grid(PointyHex, rectangle({ width: 5, height: 1 })).pixelWidth).toBe(5 * pointyHexWidth)
@@ -195,9 +195,9 @@ describe('pixelHeight property', () => {
   })
 
   test('returns the height in pixels', () => {
-    const PointyHex = defineHex({ dimensions: 10, orientation: Orientation.POINTY })
+    const PointyHex = defineHex({ dimensions: 10, orientation: 'pointy' })
     const pointyHexHeight = PointyHex.prototype.height
-    const FlatHex = defineHex({ dimensions: 10, orientation: Orientation.FLAT })
+    const FlatHex = defineHex({ dimensions: 10, orientation: 'flat' })
     const flatHexHeight = FlatHex.prototype.height
 
     // pointy hexes partially overlap in vertical plane
@@ -500,7 +500,7 @@ describe('toJSON()', () => {
   test('returns an object that can be used to serialize the grid', () => {
     const hexSettings: HexSettings = {
       dimensions: { xRadius: 10, yRadius: 10 },
-      orientation: Orientation.FLAT,
+      orientation: 'flat',
       origin: { x: 0, y: 0 },
       offset: 1,
     }
@@ -511,7 +511,7 @@ describe('toJSON()', () => {
 
     expect(result).toStrictEqual({ hexSettings, coordinates })
     expect(JSON.stringify(grid)).toMatchInlineSnapshot(
-      '"{\\"hexSettings\\":{\\"dimensions\\":{\\"xRadius\\":10,\\"yRadius\\":10},\\"orientation\\":\\"FLAT\\",\\"origin\\":{\\"x\\":0,\\"y\\":0},\\"offset\\":1},\\"coordinates\\":[{\\"q\\":0,\\"r\\":0},{\\"q\\":1,\\"r\\":0}]}"',
+      '"{\\"hexSettings\\":{\\"dimensions\\":{\\"xRadius\\":10,\\"yRadius\\":10},\\"orientation\\":\\"flat\\",\\"origin\\":{\\"x\\":0,\\"y\\":0},\\"offset\\":1},\\"coordinates\\":[{\\"q\\":0,\\"r\\":0},{\\"q\\":1,\\"r\\":0}]}"',
     )
   })
 })

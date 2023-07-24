@@ -11,7 +11,7 @@ The hexes in the serialized grid only contain instance properties, which by defa
 :::
 
 ```typescript
-const Hex = defineHex({ dimensions: 50, orientation: Orientation.FLAT })
+const Hex = defineHex({ dimensions: 50, orientation: 'flat' })
 const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
 
 grid.toJSON()

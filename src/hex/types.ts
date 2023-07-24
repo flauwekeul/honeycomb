@@ -11,10 +11,7 @@ export interface Point {
 /**
  * @category Hex
  */
-export enum Orientation {
-  FLAT = 'FLAT',
-  POINTY = 'POINTY',
-}
+export type Orientation = 'pointy' | 'flat'
 
 /**
  * @category Coordinates

@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { defaultHexSettings, Hex } from './hex'
+import { Hex, defaultHexSettings } from './hex'
 import { CubeCoordinates, Ellipse, HexCoordinates, Orientation, Point } from './types'
 
 describe('creation', () => {
@@ -122,7 +122,7 @@ test('has isFlat property in the prototype', () => {
 
   class FlatHex extends Hex {
     get orientation(): Orientation {
-      return Orientation.FLAT
+      return 'flat'
     }
   }
   expect(new FlatHex().isFlat).toBe(true)
@@ -136,7 +136,7 @@ test('has isPointy property in the prototype', () => {
 
   class FlatHex extends Hex {
     get orientation(): Orientation {
-      return Orientation.FLAT
+      return 'flat'
     }
   }
   expect(new FlatHex().isPointy).toBe(false)
@@ -145,7 +145,7 @@ test('has isPointy property in the prototype', () => {
 test('has orientation property in the prototype', () => {
   const hex = new Hex()
 
-  expect(hex.orientation).toEqual<Orientation>(defaultHexSettings.orientation)
+  expect(hex.orientation).toEqual(defaultHexSettings.orientation)
   expect(Object.hasOwn(hex, 'orientation')).toBe(false)
 })
 

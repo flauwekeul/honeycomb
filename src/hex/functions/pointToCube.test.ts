@@ -1,11 +1,10 @@
 import { describe, expect, test } from 'vitest'
-import { Orientation } from '../types'
 import { pointToCube } from './pointToCube'
 
 describe('pointy hex', () => {
   test('converts a point to cube coordinates', () => {
-    const hexSettings = {
-      orientation: Orientation.POINTY,
+    const hexSettings: Parameters<typeof pointToCube>[0] = {
+      orientation: 'pointy',
       dimensions: { xRadius: 50, yRadius: 30 },
       origin: { x: -30, y: -30 },
     }
@@ -28,8 +27,8 @@ describe('pointy hex', () => {
 
 describe('flat hex', () => {
   test('converts a point to cube coordinates', () => {
-    const hexSettings = {
-      orientation: Orientation.FLAT,
+    const hexSettings: Parameters<typeof pointToCube>[0] = {
+      orientation: 'flat',
       dimensions: { xRadius: 50, yRadius: 30 },
       origin: { x: -30, y: -30 },
     }

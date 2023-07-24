@@ -1,16 +1,15 @@
 import { expect, test } from 'vitest'
-import { Orientation } from '../types'
 import { defineHex } from './defineHex'
 import { hexToPoint } from './hexToPoint'
 
 test('returns the point relative to the origin of the passed hex', () => {
   const PointyHex = defineHex({
-    orientation: Orientation.POINTY,
+    orientation: 'pointy',
     origin: { x: 1, y: 1 },
     dimensions: { xRadius: 1, yRadius: 1 },
   })
   const FlatHex = defineHex({
-    orientation: Orientation.FLAT,
+    orientation: 'flat',
     origin: { x: 1, y: 1 },
     dimensions: { xRadius: 1, yRadius: 1 },
   })
