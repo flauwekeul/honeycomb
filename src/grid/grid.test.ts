@@ -132,8 +132,8 @@ describe('static fromJSON()', () => {
     expect(result).toStrictEqual(
       new Grid(
         Hex,
-        coordinates.map((c) => new Hex(c)),
-      ),
+        coordinates.map((c) => new Hex(c))
+      )
     )
   })
 
@@ -151,7 +151,7 @@ describe('static fromJSON()', () => {
     expect(hexFactory).toBeCalledWith(coordinates[0], 0, coordinates)
     expect(hexFactory).toBeCalledWith(coordinates[1], 1, coordinates)
     expect(result).toStrictEqual(
-      new Grid(CustomHex, [CustomHex.create(coordinates[0], 'a'), CustomHex.create(coordinates[1], 'b')]),
+      new Grid(CustomHex, [CustomHex.create(coordinates[0], 'a'), CustomHex.create(coordinates[1], 'b')])
     )
     expect(result.hexPrototype.constructor).toBe(CustomHex)
   })
@@ -201,7 +201,7 @@ describe('pixelHeight property', () => {
 
     // pointy hexes partially overlap in vertical plane
     expect(new Grid(PointyHex, rectangle({ width: 1, height: 5 })).pixelHeight).toBe(
-      5 * pointyHexHeight - pointyHexHeight,
+      5 * pointyHexHeight - pointyHexHeight
     )
     expect(new Grid(FlatHex, rectangle({ width: 1, height: 5 })).pixelHeight).toBe(5 * flatHexHeight)
   })
@@ -510,7 +510,7 @@ describe('toJSON()', () => {
 
     expect(result).toStrictEqual({ hexSettings, coordinates })
     expect(JSON.stringify(grid)).toMatchInlineSnapshot(
-      '"{\\"hexSettings\\":{\\"dimensions\\":{\\"xRadius\\":10,\\"yRadius\\":10},\\"orientation\\":\\"flat\\",\\"origin\\":{\\"x\\":0,\\"y\\":0},\\"offset\\":1},\\"coordinates\\":[{\\"q\\":0,\\"r\\":0},{\\"q\\":1,\\"r\\":0}]}"',
+      '"{\\"hexSettings\\":{\\"dimensions\\":{\\"xRadius\\":10,\\"yRadius\\":10},\\"orientation\\":\\"flat\\",\\"origin\\":{\\"x\\":0,\\"y\\":0},\\"offset\\":1},\\"coordinates\\":[{\\"q\\":0,\\"r\\":0},{\\"q\\":1,\\"r\\":0}]}"'
     )
   })
 })

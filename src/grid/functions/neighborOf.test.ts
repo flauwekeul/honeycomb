@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { defineHex, Hex } from '../../hex'
+import { Hex, defineHex } from '../../hex'
 import { neighborOf } from './neighborOf'
 
 test('returns a hex', () => {
