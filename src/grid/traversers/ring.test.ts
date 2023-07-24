@@ -1,6 +1,5 @@
 import { describe, expect, test, vi } from 'vitest'
 import { Hex, HexCoordinates } from '../../hex'
-import { Rotation } from '../types'
 import { ring } from './ring'
 
 const cursor: HexCoordinates = [1, 2]
@@ -140,7 +139,7 @@ describe('when called with a center and start', () => {
 
 describe('when called with center and rotation', () => {
   test('returns a traverser that returns hexes in a ring shape around the center with the given rotation', () => {
-    expect(ring({ center: [-1, 1], rotation: Rotation.COUNTERCLOCKWISE })(createHex)).toMatchInlineSnapshot(`
+    expect(ring({ center: [-1, 1], rotation: 'ccw' })(createHex)).toMatchInlineSnapshot(`
       [
         Hex {
           "q": 0,

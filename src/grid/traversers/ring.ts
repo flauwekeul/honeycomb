@@ -9,10 +9,9 @@ import { Rotation, Traverser } from '../types'
 export function ring<T extends Hex>(options: RingOptions): Traverser<T>
 export function ring<T extends Hex>(options: RingFromRadiusOptions): Traverser<T>
 export function ring<T extends Hex>(options: RingOptions | RingFromRadiusOptions): Traverser<T> {
-  const { center, rotation = Rotation.CLOCKWISE } = options
+  const { center, rotation = 'cw' } = options
 
   return function ringTraverser(createHex, cursor) {
-    const _rotation = rotation.toUpperCase() as Rotation
     const hexes: T[] = []
     let { radius } = options as RingFromRadiusOptions
     const hasRadiusOption = isNumber(radius)
@@ -29,7 +28,7 @@ export function ring<T extends Hex>(options: RingOptions | RingFromRadiusOptions
     const { q, r, s } = toCube(firstHex, center)
     let _cursor = createHex({ q, r: r - radius, s: s + radius })
 
-    if (_rotation === Rotation.CLOCKWISE) {
+    if (rotation === 'cw') {
       for (let direction = 0; direction < 6; direction++) {
         for (let i = 0; i < radius; i++) {
           const { q, r } = DIRECTION_COORDINATES[direction]
