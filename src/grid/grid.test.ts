@@ -2,7 +2,6 @@ import { describe, expect, expectTypeOf, Mock, test, vi } from 'vitest'
 import { AxialCoordinates, defineHex, Hex, HexCoordinates, HexSettings } from '../hex'
 import { Grid } from './grid'
 import { fromCoordinates, rectangle } from './traversers'
-import { Direction } from './types'
 
 describe('creation', () => {
   test('creates a grid from a hex constructor', () => {
@@ -561,8 +560,8 @@ describe('neighborOf()', () => {
   test('returns the neighbor of the hex with the given coordinates in the given direction, even outside the grid', () => {
     const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
 
-    const neighborInGrid = grid.neighborOf([0, 0], Direction.E)
-    const neighborOutsideGrid = grid.neighborOf([100, 100], Direction.E)
+    const neighborInGrid = grid.neighborOf([0, 0], 'E')
+    const neighborOutsideGrid = grid.neighborOf([100, 100], 'E')
 
     expect(neighborInGrid).toBe(grid.getHex([1, 0]))
     expect(neighborOutsideGrid).not.toBe(grid.getHex([101, 100]))
@@ -573,8 +572,8 @@ describe('neighborOf()', () => {
     const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
 
     // hex with coordinates doesn't exist
-    expect(grid.neighborOf([100, 100], Direction.E, { allowOutside: false })).toBeUndefined()
+    expect(grid.neighborOf([100, 100], 'E', { allowOutside: false })).toBeUndefined()
     // neighbor doesn't exist
-    expect(grid.neighborOf([1, 1], Direction.E, { allowOutside: false })).toBeUndefined()
+    expect(grid.neighborOf([1, 1], 'E', { allowOutside: false })).toBeUndefined()
   })
 })

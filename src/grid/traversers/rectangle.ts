@@ -22,7 +22,7 @@ export function rectangle<T extends Hex>(
       width,
       height,
       start,
-      direction = Direction.E,
+      direction = 'E',
     } = cornerB
       ? optionsFromOpposingCorners(optionsOrCornerA as HexCoordinates, cornerB, createHex())
       : (optionsOrCornerA as RectangleOptions)
@@ -80,19 +80,19 @@ function assertOffsetCoordinates(coordinates: HexCoordinates, isPointy: boolean,
 const RULES_FOR_SMALLEST_COL_ROW = {
   AA: {
     swapWidthHeight: false,
-    direction: Direction.E,
+    direction: 'E' as Direction,
   },
   AB: {
     swapWidthHeight: true,
-    direction: Direction.N,
+    direction: 'N' as Direction,
   },
   BA: {
     swapWidthHeight: true,
-    direction: Direction.S,
+    direction: 'S' as Direction,
   },
   BB: {
     swapWidthHeight: false,
-    direction: Direction.W,
+    direction: 'W' as Direction,
   },
 }
 

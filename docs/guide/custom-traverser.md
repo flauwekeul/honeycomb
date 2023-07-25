@@ -54,7 +54,7 @@ Let's update the code to use [`ring()`](/guide/traversing-grids#ring), [`line()`
 function spiral<T extends Hex>(options: SpiralOptions): Traverser<T> {
   return function spiralTraverser(createHex, cursor) {
     const center = start ?? cursor ?? [0, 0]
-    const lineTraverser = line({ start, direction: Direction.N, length: radius + 1 })
+    const lineTraverser = line({ start, direction: 'N', length: radius + 1 })
     const ringTraverser = ring({ center, rotation })
     const repeatRingWithLine = repeatWith<T>(lineTraverser, ringTraverser)
 
@@ -76,7 +76,7 @@ function spiral<T extends Hex>(options: SpiralOptions): Traverser<T> {
   return function spiralTraverser(createHex, cursor) {
     // ...
     const length = !start && cursor ? radius : radius + 1
-    const lineTraverser = line({ start, direction: Direction.N, length })
+    const lineTraverser = line({ start, direction: 'N', length })
     // ...
   }
 }

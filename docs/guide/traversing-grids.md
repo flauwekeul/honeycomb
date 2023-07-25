@@ -62,10 +62,10 @@ Any function or method that accepts a traverser, also accepts an array of traver
 ```typescript
 const grid = new Grid(Hex, rectangle({ width: 5, height: 5 }))
 const squareOutlineTraverser = [
-  line({ direction: Direction.E, length: 4 }),
-  line({ direction: Direction.S, length: 3 }),
-  line({ direction: Direction.W, length: 3 }),
-  line({ direction: Direction.N, length: 3 }),
+  line({ direction: 'E', length: 4 }),
+  line({ direction: 'S', length: 3 }),
+  line({ direction: 'W', length: 3 }),
+  line({ direction: 'N', length: 3 }),
 ]
 
 grid.traverse(squareOutlineTraverser)
@@ -79,10 +79,10 @@ This is what happens when `start: [1, 1]` is passed to the first `line()`:
 
 ```typescript{2}
 const squareOutlineTraverser = [
-  line({ start: [1, 1], direction: Direction.E, length: 4 }),
-  line({ direction: Direction.S, length: 3 }),
-  line({ direction: Direction.W, length: 3 }),
-  line({ direction: Direction.N, length: 3 }),
+  line({ start: [1, 1], direction: 'E', length: 4 }),
+  line({ direction: 'S', length: 3 }),
+  line({ direction: 'W', length: 3 }),
+  line({ direction: 'N', length: 3 }),
 ]
 grid.traverse(squareOutlineTraverser)
 ```
@@ -128,7 +128,7 @@ A line traverser can be created in two ways:
 1. With ["vector options"](/api/interfaces/LineAsVectorOptions):
 
   ```typescript
-  const vector = line({ start: [1, 0], direction: Direction.SE, length: 4 })
+  const vector = line({ start: [1, 0], direction: 'SE', length: 4 })
   grid.traverse(vector)
   ```
 
@@ -155,8 +155,8 @@ It only accepts a [direction](/api/enums/Direction) and can be used to "move" th
 
 ```typescript
 const firstHex = fromCoordinates([1, 1])
-const moveSouth = move(Direction.S)
-const moveEast = move(Direction.E)
+const moveSouth = move('S')
+const moveEast = move('E')
 
 grid.traverse([firstHex, moveSouth, moveEast])
 ```
@@ -187,7 +187,7 @@ A rectangle traverser can be created in two ways:
     start: [0, 3],
     width: 3,
     height: 3,
-    direction: Direction.N
+    direction: 'N'
   })
   grid.traverse(square)
   ```
@@ -201,7 +201,7 @@ A rectangle traverser can be created in two ways:
     start: [0, 2],
     width: 3,
     height: 3,
-    direction: Direction.NE
+    direction: 'NE'
   })
   grid.traverse(square)
   ```
@@ -222,7 +222,7 @@ A rectangle traverser can be created in two ways:
 Another "helper" traverser. It accepts a number and a traverser (or multiple traversers) to repeat those traverser(s) the given number of times:
 
 ```typescript
-const fiveStepsSE = repeat(3, move(Direction.SE))
+const fiveStepsSE = repeat(3, move('SE'))
 grid.traverse([fromCoordinates([2, 0]), fiveStepsSE])
 ```
 
@@ -232,17 +232,17 @@ A more complex example:
 
 ```typescript{7}
 const rightLeft = [
-  line({ direction: Direction.E, length: 2 }),
-  move(Direction.S),
-  line({ direction: Direction.W, length: 2 }),
-  move(Direction.S)
+  line({ direction: 'E', length: 2 }),
+  move('S'),
+  line({ direction: 'W', length: 2 }),
+  move('S')
 ]
 const zigZag = repeat(2, rightLeft)
 
 grid.traverse([
   fromCoordinates([1, 0]),
   zigZag,
-  line({ direction: Direction.E, length: 2 })
+  line({ direction: 'E', length: 2 })
 ])
 ```
 
@@ -256,8 +256,8 @@ Similar to `repeat()`, this traverser "multiplies" other traversers. However, `r
 const width = 3
 const height = 3
 const square = repeatWith(
-  line({ start: [1, 1], direction: Direction.S, length: height }),
-  line({ direction: Direction.E, length: width - 1 }),
+  line({ start: [1, 1], direction: 'S', length: height }),
+  line({ direction: 'E', length: width - 1 }),
 )
 
 grid.traverse(square)
@@ -271,8 +271,8 @@ The source traverser (line 4) is a line going South and for each hex it produces
 const width = 3
 const height = 3
 const square = repeatWith(
-  line({ start: [0, 1], direction: Direction.S, length: height }),
-  line({ direction: Direction.E, length: width }),
+  line({ start: [0, 1], direction: 'S', length: height }),
+  line({ direction: 'E', length: width }),
   { includeSource: false },
 )
 
@@ -345,7 +345,7 @@ grid.traverse(ccwSpiral)
 <TileGrid :grid="grid" :traversal="spiral5" />
 
 <script setup lang="ts">
-import { defineHex, Direction, fromCoordinates, Grid, line, move, rectangle, repeat, repeatWith, ring, spiral } from '../../src';
+import { defineHex, fromCoordinates, Grid, line, move, rectangle, repeat, repeatWith, ring, spiral } from '../../src';
 import Line from '../components/Line.vue';
 import TileGrid from '../components/TileGrid.vue';
 
@@ -355,43 +355,43 @@ const spiral1 = grid.traverse(spiral({ start: [0, 2], radius: 1 }))
 const spiral2 = grid.traverse(spiral({ start: [0, 2], radius: 2 }))
 const spiral3 = grid.traverse(spiral({ start: [0, 2], radius: 2 }), { bail: true })
 const squareOutline1 = grid.traverse([
-  line({ direction: Direction.E, length: 4 }),
-  line({ direction: Direction.S, length: 3 }),
-  line({ direction: Direction.W, length: 3 }),
-  line({ direction: Direction.N, length: 3 }),
+  line({ direction: 'E', length: 4 }),
+  line({ direction: 'S', length: 3 }),
+  line({ direction: 'W', length: 3 }),
+  line({ direction: 'N', length: 3 }),
 ])
 const squareOutline2 = grid.traverse([
-  line({ start: [1, 1], direction: Direction.E, length: 4 }),
-  line({ direction: Direction.S, length: 3 }),
-  line({ direction: Direction.W, length: 3 }),
-  line({ direction: Direction.N, length: 3 }),
+  line({ start: [1, 1], direction: 'E', length: 4 }),
+  line({ direction: 'S', length: 3 }),
+  line({ direction: 'W', length: 3 }),
+  line({ direction: 'N', length: 3 }),
 ])
 const someHexes1 = grid.traverse(fromCoordinates([1, 3], { q: 4, r: 0 }, { col: 0, row: 2 }))
-const line1 = grid.traverse(line({ start: [1, 0], direction: Direction.SE, length: 4 }))
+const line1 = grid.traverse(line({ start: [1, 0], direction: 'SE', length: 4 }))
 const line2 = grid.traverse(line({ start: [2, 0], stop: [1, 4] }))
-const move1 = grid.traverse([fromCoordinates([1, 1]), move(Direction.S), move(Direction.E)])
+const move1 = grid.traverse([fromCoordinates([1, 1]), move('S'), move('E')])
 const square1 = grid.traverse(rectangle({ start: [1, 1], width: 3, height: 3 }))
-const square2 = grid.traverse(rectangle({ start: [0, 3], width: 3, height: 3, direction: Direction.N }))
-const diamond1 = grid.traverse(rectangle({ start: [0, 2], width: 3, height: 3, direction: Direction.NE }))
+const square2 = grid.traverse(rectangle({ start: [0, 3], width: 3, height: 3, direction: 'N' }))
+const diamond1 = grid.traverse(rectangle({ start: [0, 2], width: 3, height: 3, direction: 'NE' }))
 const rectangle1 = grid.traverse(rectangle([-1, 4], [3, 1]))
-const repeat1 = grid.traverse([fromCoordinates([2, 0]), repeat(3, move(Direction.SE))])
+const repeat1 = grid.traverse([fromCoordinates([2, 0]), repeat(3, move('SE'))])
 const repeat2 = grid.traverse([
   fromCoordinates([1, 0]),
   repeat(2, [
-    line({ direction: Direction.E, length: 2 }),
-    move(Direction.S),
-    line({ direction: Direction.W, length: 2 }),
-    move(Direction.S)
+    line({ direction: 'E', length: 2 }),
+    move('S'),
+    line({ direction: 'W', length: 2 }),
+    move('S')
   ]),
-  line({ direction: Direction.E, length: 2 })
+  line({ direction: 'E', length: 2 })
 ])
 const repeatWith1 = grid.traverse(repeatWith(
-  line({ start: [1, 1], direction: Direction.S, length: 3 }),
-  line({ direction: Direction.E, length: 2 }),
+  line({ start: [1, 1], direction: 'S', length: 3 }),
+  line({ direction: 'E', length: 2 }),
 ))
 const repeatWith2 = grid.traverse(repeatWith(
-  line({ start: [0, 1], direction: Direction.S, length: 3 }),
-  line({ direction: Direction.E, length: 3 }),
+  line({ start: [0, 1], direction: 'S', length: 3 }),
+  line({ direction: 'E', length: 3 }),
   { includeSource: false },
 ))
 const ring1 = grid.traverse(ring({ start: [1, 4], center: [1, 2] }))
