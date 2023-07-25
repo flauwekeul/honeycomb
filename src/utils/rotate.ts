@@ -1,4 +1,8 @@
-import { Direction } from '../grid'
+import { DIRECTIONS, Direction } from '../grid'
 import { signedModulo } from './signedModulo'
 
-export const rotate = (direction: number, steps: number): Direction => signedModulo(direction + steps, 8)
+export const rotate = (direction: Direction, steps: number): Direction => {
+  const currentIndex = DIRECTIONS.indexOf(direction)
+  const nextIndex = signedModulo(currentIndex + steps, DIRECTIONS.length)
+  return DIRECTIONS[nextIndex]
+}

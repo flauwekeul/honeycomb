@@ -1,6 +1,6 @@
 import { AxialCoordinates, CubeCoordinates, Hex, HexCoordinates, round, toCube } from '../../hex'
 import { distance, neighborOf } from '../functions'
-import { Direction, Traverser } from '../types'
+import { DIRECTIONS, Direction, Traverser } from '../types'
 
 /**
  * @category Traverser
@@ -31,8 +31,8 @@ export interface LineBetweenOptions {
   stop: HexCoordinates
 }
 
-function isLineVectorOptions(value: unknown): value is LineAsVectorOptions {
-  return (value as LineAsVectorOptions).direction in Direction
+function isLineVectorOptions(value: LineAsVectorOptions | LineBetweenOptions): value is LineAsVectorOptions {
+  return DIRECTIONS.includes((value as LineAsVectorOptions).direction)
 }
 
 function lineFromVectorOptions<T extends Hex>({ start, direction, length }: LineAsVectorOptions): Traverser<T> {

@@ -60,7 +60,7 @@ This method returns the adjacent hex from hex coordinates in a particular direct
 
 ```typescript
 const grid = new Grid(Hex, rectangle({ width: 5, height: 5 }))
-grid.neighborOf([1, 2], Direction.SW) // Hex {q: 0, r: 3}
-grid.neighborOf([1, 2], Direction.N)  // Hex {q: 2, r: 1}
-grid.neighborOf([2, 4], Direction.E, { allowOutside: false }) // undefined
+grid.neighborOf([1, 2], 'SW') // Hex {q: 0, r: 3}
+grid.neighborOf([1, 2], 'N')  // Hex {q: 2, r: 1}
+grid.neighborOf([2, 4], 'E', { allowOutside: false }) // undefined
 ```

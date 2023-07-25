@@ -26,16 +26,8 @@ export interface GridAsJSON<T extends AxialCoordinates = AxialCoordinates> {
 /**
  * @category Grid
  */
-export enum Direction {
-  N,
-  NE,
-  E,
-  SE,
-  S,
-  SW,
-  W,
-  NW,
-}
+export const DIRECTIONS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'] as const
+export type Direction = (typeof DIRECTIONS)[number]
 
 /**
  * @category Grid

@@ -1,6 +1,5 @@
 import { describe, expect, test, vi } from 'vitest'
 import { Hex, HexCoordinates } from '../../hex'
-import { Direction } from '../types'
 import { line } from './line'
 
 const cursor: HexCoordinates = [1, 2]
@@ -9,7 +8,7 @@ const createHex = vi.fn((coordinates?: HexCoordinates) => new Hex(coordinates))
 describe('when called with a direction and length', () => {
   describe('without cursor', () => {
     test('returns a traverser that returns length hexes in passed direction starting at [0, 0]', () => {
-      expect(line({ direction: Direction.SE, length: 3 })(createHex)).toMatchInlineSnapshot(`
+      expect(line({ direction: 'SE', length: 3 })(createHex)).toMatchInlineSnapshot(`
         [
           Hex {
             "q": 0,
@@ -30,7 +29,7 @@ describe('when called with a direction and length', () => {
 
   describe('with cursor', () => {
     test('returns a traverser that returns length hexes in passed direction starting at the cursor, excluding the cursor', () => {
-      expect(line({ direction: Direction.NW, length: 3 })(createHex, cursor)).toMatchInlineSnapshot(`
+      expect(line({ direction: 'NW', length: 3 })(createHex, cursor)).toMatchInlineSnapshot(`
         [
           Hex {
             "q": 1,
@@ -53,7 +52,7 @@ describe('when called with a direction and length', () => {
 describe('when called with a direction, length and start', () => {
   describe('without cursor', () => {
     test('returns a traverser that returns length hexes in passed direction relative to start, including start', () => {
-      expect(line({ direction: Direction.S, length: 3, start: [2, 0] })(createHex)).toMatchInlineSnapshot(`
+      expect(line({ direction: 'S', length: 3, start: [2, 0] })(createHex)).toMatchInlineSnapshot(`
         [
           Hex {
             "q": 2,
@@ -74,7 +73,7 @@ describe('when called with a direction, length and start', () => {
 
   describe('with cursor', () => {
     test('returns a traverser that returns length hexes in passed direction relative to start, including start', () => {
-      expect(line({ direction: Direction.E, length: 3, start: [3, 4] })(createHex, cursor)).toMatchInlineSnapshot(`
+      expect(line({ direction: 'E', length: 3, start: [3, 4] })(createHex, cursor)).toMatchInlineSnapshot(`
         [
           Hex {
             "q": 3,
