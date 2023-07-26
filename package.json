@@ -36,26 +36,26 @@
     "@semantic-release/git": "10.0.1",
     "@svgdotjs/svg.js": "3.2.0",
     "@types/node": "~18.11.19",
-    "@typescript-eslint/eslint-plugin": "6.0.0",
-    "@typescript-eslint/parser": "6.0.0",
+    "@typescript-eslint/eslint-plugin": "6.2.0",
+    "@typescript-eslint/parser": "6.2.0",
     "abstract-astar": "0.2.0",
     "concurrently": "8.2.0",
-    "eslint": "8.44.0",
+    "eslint": "8.45.0",
     "eslint-config-prettier": "8.8.0",
     "gitmoji-cli": "8.4.0",
     "husky": "8.0.3",
-    "precise-commits": "1.0.2",
-    "prettier": "2.8.8",
+    "lint-staged": "13.2.3",
+    "prettier": "3.0.0",
     "semantic-release": "21.0.7",
     "semantic-release-gitmoji": "1.6.4",
     "sitemap-ts": "1.4.0",
-    "tslib": "2.6.0",
+    "tslib": "2.6.1",
     "typedoc": "0.24.8",
-    "typedoc-plugin-markdown": "3.15.3",
+    "typedoc-plugin-markdown": "3.15.4",
     "typescript": "5.1.6",
-    "vite": "4.4.4",
-    "vite-plugin-dts": "3.2.0",
-    "vitepress": "1.0.0-beta.5",
+    "vite": "4.4.7",
+    "vite-plugin-dts": "3.3.1",
+    "vitepress": "1.0.0-beta.6",
     "vitest": "0.33.0",
     "vue": "3.3.4"
   },
@@ -82,5 +82,9 @@
   "homepage": "http://abbekeultjes.nl/honeycomb",
   "engines": {
     "node": ">=18"
+  },
+  "lint-staged": {
+    "*.{js,ts}": "eslint --cache --fix",
+    "*.{css,js,md,ts}": "prettier --write"
   }
 }

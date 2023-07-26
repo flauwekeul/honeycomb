@@ -13,6 +13,7 @@ dist-ssr
 *.local
 coverage/
 docs/.vitepress/cache
+.eslintcache
 
 # Editor directories and files
 .vscode/*

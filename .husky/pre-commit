@@ -1,5 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npx --no-install precise-commits
-npm run lint
+npx --no-install lint-staged
