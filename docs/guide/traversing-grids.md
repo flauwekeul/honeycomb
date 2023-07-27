@@ -151,7 +151,7 @@ A line traverser can be created in two ways:
 
 ### [`move()`](/api/#move)
 
-It only accepts a [direction](/api/enums/Direction) and can be used to "move" the cursor a single hex in that direction:
+It only accepts a [direction](/api/#Direction) and can be used to "move" the cursor a single hex in that direction:
 
 ```typescript
 const firstHex = fromCoordinates([1, 1])

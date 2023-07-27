@@ -22,7 +22,7 @@ ___
 
 ### <a id="rotation" name="rotation"></a> rotation
 
- `Optional` **rotation**: [`Rotation`](../enums/Rotation.md)
+ `Optional` **rotation**: [`Rotation`](../index.md#Rotation)
 
 #### Defined in
 

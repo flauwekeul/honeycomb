@@ -17,7 +17,7 @@ The rectangle will only have 90° corners for the directions North, East, South 
 
 ### <a id="direction" name="direction"></a> direction
 
- `Optional` **direction**: [`Direction`](../enums/Direction.md)
+ `Optional` **direction**: ``"N"`` \| ``"NE"`` \| ``"E"`` \| ``"SE"`` \| ``"S"`` \| ``"SW"`` \| ``"W"`` \| ``"NW"``
 
 #### Defined in
 
