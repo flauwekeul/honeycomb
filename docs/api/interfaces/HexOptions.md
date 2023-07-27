@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[hex/types.ts:110](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L110)
+[hex/types.ts:107](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L107)
 
 ___
 
@@ -27,17 +27,17 @@ ___
 
 #### Defined in
 
-[hex/types.ts:113](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L113)
+[hex/types.ts:110](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L110)
 
 ___
 
 ### <a id="orientation" name="orientation"></a> orientation
 
- **orientation**: [`Orientation`](../enums/Orientation.md)
+ **orientation**: [`Orientation`](../index.md#Orientation)
 
 #### Defined in
 
-[hex/types.ts:111](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L111)
+[hex/types.ts:108](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L108)
 
 ___
 
@@ -47,4 +47,4 @@ ___
 
 #### Defined in
 
-[hex/types.ts:112](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L112)
+[hex/types.ts:109](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L109)

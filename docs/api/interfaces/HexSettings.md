@@ -19,7 +19,7 @@ An object with an `xRadius` and `yRadius`. There are two radiuses to make it pos
 
 #### Defined in
 
-[hex/types.ts:85](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L85)
+[hex/types.ts:82](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L82)
 
 ___
 
@@ -34,19 +34,19 @@ Set the offset property to `1` or `-1` (the default) to control whether the even
 
 #### Defined in
 
-[hex/types.ts:103](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L103)
+[hex/types.ts:100](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L100)
 
 ___
 
 ### <a id="orientation" name="orientation"></a> orientation
 
- **orientation**: [`Orientation`](../enums/Orientation.md)
+ **orientation**: [`Orientation`](../index.md#Orientation)
 
 Either pointy ⬢ (the default) or flat ⬣.
 
 #### Defined in
 
-[hex/types.ts:89](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L89)
+[hex/types.ts:86](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L86)
 
 ___
 
@@ -61,4 +61,4 @@ You get the `Point` 🙃.
 
 #### Defined in
 
-[hex/types.ts:96](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L96)
+[hex/types.ts:93](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L93)

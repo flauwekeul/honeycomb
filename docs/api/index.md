@@ -2,18 +2,6 @@
 
 ## Table of contents
 
-### Hex Enumerations
-
-- [Orientation](enums/Orientation.md)
-
-### Traverser Enumerations
-
-- [Rotation](enums/Rotation.md)
-
-### Grid Enumerations
-
-- [Direction](enums/Direction.md)
-
 ### Classes
 
 - [Grid](classes/Grid.md)
@@ -62,14 +50,29 @@
 
 - [HexConstructor](index.md#HexConstructor)
 - [HexOffset](index.md#HexOffset)
+- [Orientation](index.md#Orientation)
 
 ### Traverser Type Aliases
 
 - [Traverser](index.md#Traverser)
 
+### Other Type Aliases
+
+- [Direction](index.md#Direction)
+
+### Traverser
+
+&#x27;cw&#x27; for clockwise and &#x27;ccw&#x27; for counterclockwise Type Aliases
+
+- [Rotation](index.md#Rotation)
+
 ### Hex Variables
 
 - [defaultHexSettings](index.md#defaultHexSettings)
+
+### Grid Variables
+
+- [DIRECTIONS](index.md#DIRECTIONS)
 
 ### Coordinates Functions
 
@@ -120,7 +123,7 @@
 
 #### Defined in
 
-[hex/types.ts:61](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L61)
+[hex/types.ts:58](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L58)
 
 ___
 
@@ -130,7 +133,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:48](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L48)
+[hex/types.ts:45](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L45)
 
 ___
 
@@ -140,7 +143,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:56](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L56)
+[hex/types.ts:53](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L53)
 
 ___
 
@@ -168,7 +171,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:119](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L119)
+[hex/types.ts:116](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L116)
 
 ___
 
@@ -178,7 +181,17 @@ ___
 
 #### Defined in
 
-[hex/types.ts:76](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L76)
+[hex/types.ts:73](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L73)
+
+___
+
+### <a id="Orientation" name="Orientation"></a> Orientation
+
+ **Orientation**: ``"pointy"`` \| ``"flat"``
+
+#### Defined in
+
+[hex/types.ts:14](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L14)
 
 ___
 
@@ -214,6 +227,32 @@ ___
 
 [grid/types.ts:6](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L6)
 
+___
+
+## Other Type Aliases
+
+### <a id="Direction" name="Direction"></a> Direction
+
+ **Direction**: typeof [`DIRECTIONS`](index.md#DIRECTIONS)[`number`]
+
+#### Defined in
+
+[grid/types.ts:30](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L30)
+
+___
+
+## Traverser
+
+&#x27;cw&#x27; for clockwise and &#x27;ccw&#x27; for counterclockwise Type Aliases
+
+### <a id="Rotation" name="Rotation"></a> Rotation
+
+ **Rotation**: ``"cw"`` \| ``"ccw"``
+
+#### Defined in
+
+[grid/types.ts:16](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L16)
+
 ## Hex Variables
 
 ### <a id="defaultHexSettings" name="defaultHexSettings"></a> defaultHexSettings
@@ -223,6 +262,18 @@ ___
 #### Defined in
 
 [hex/hex.ts:133](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L133)
+
+___
+
+## Grid Variables
+
+### <a id="DIRECTIONS" name="DIRECTIONS"></a> DIRECTIONS
+
+ `Const` **DIRECTIONS**: readonly [``"N"``, ``"NE"``, ``"E"``, ``"SE"``, ``"S"``, ``"SW"``, ``"W"``, ``"NW"``]
+
+#### Defined in
+
+[grid/types.ts:29](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L29)
 
 ## Coordinates Functions
 
@@ -382,7 +433,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `boundingBox` | [`BoundingBox`](interfaces/BoundingBox.md) |
-| `orientation` | [`Orientation`](enums/Orientation.md) |
+| `orientation` | [`Orientation`](index.md#Orientation) |
 
 #### Returns
 
@@ -767,7 +818,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `direction` | [`Direction`](enums/Direction.md) |
+| `direction` | ``"N"`` \| ``"NE"`` \| ``"E"`` \| ``"SE"`` \| ``"S"`` \| ``"SW"`` \| ``"W"`` \| ``"NW"`` |
 
 #### Returns
 
@@ -782,10 +833,6 @@ ___
 ### <a id="rectangle" name="rectangle"></a> rectangle
 
 **rectangle**<`T`\>(`options`): [`Traverser`](index.md#Traverser)<`T`\>
-
-**`Remarks`**
-
-The rectangle will only have 90° corners for the directions North, East, South and West.
 
 #### Type parameters
 
@@ -802,6 +849,10 @@ The rectangle will only have 90° corners for the directions North, East, South 
 #### Returns
 
 [`Traverser`](index.md#Traverser)<`T`\>
+
+**`Remarks`**
+
+The rectangle will only have 90° corners for the directions North, East, South and West.
 
 #### Defined in
 
@@ -1021,7 +1072,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `hex` | `T` |
-| `direction` | [`Direction`](enums/Direction.md) |
+| `direction` | ``"N"`` \| ``"NE"`` \| ``"E"`` \| ``"SE"`` \| ``"S"`` \| ``"SW"`` \| ``"W"`` \| ``"NW"`` |
 
 #### Returns
 

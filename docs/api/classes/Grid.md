@@ -452,7 +452,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `coordinates` | [`HexCoordinates`](../index.md#HexCoordinates) |
-| `direction` | [`Direction`](../enums/Direction.md) |
+| `direction` | ``"N"`` \| ``"NE"`` \| ``"E"`` \| ``"SE"`` \| ``"S"`` \| ``"SW"`` \| ``"W"`` \| ``"NW"`` |
 | `options?` | `Object` |
 | `options.allowOutside` | ``true`` |
 
@@ -471,7 +471,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `coordinates` | [`HexCoordinates`](../index.md#HexCoordinates) |
-| `direction` | [`Direction`](../enums/Direction.md) |
+| `direction` | ``"N"`` \| ``"NE"`` \| ``"E"`` \| ``"SE"`` \| ``"S"`` \| ``"SW"`` \| ``"W"`` \| ``"NW"`` |
 | `options` | `Object` |
 | `options.allowOutside` | ``false`` |
 

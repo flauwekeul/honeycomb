@@ -16,7 +16,7 @@
 
 #### Defined in
 
-[grid/traversers/ring.ts:72](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/traversers/ring.ts#L72)
+[grid/traversers/ring.ts:71](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/traversers/ring.ts#L71)
 
 ___
 
@@ -26,14 +26,14 @@ ___
 
 #### Defined in
 
-[grid/traversers/ring.ts:73](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/traversers/ring.ts#L73)
+[grid/traversers/ring.ts:72](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/traversers/ring.ts#L72)
 
 ___
 
 ### <a id="rotation" name="rotation"></a> rotation
 
- `Optional` **rotation**: [`Rotation`](../enums/Rotation.md)
+ `Optional` **rotation**: [`Rotation`](../index.md#Rotation)
 
 #### Defined in
 
-[grid/traversers/ring.ts:74](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/traversers/ring.ts#L74)
+[grid/traversers/ring.ts:73](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/traversers/ring.ts#L73)

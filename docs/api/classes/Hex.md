@@ -219,11 +219,11 @@ ___
 
 ### <a id="orientation" name="orientation"></a> orientation
 
-`get` **orientation**(): [`Orientation`](../enums/Orientation.md)
+`get` **orientation**(): [`Orientation`](../index.md#Orientation)
 
 #### Returns
 
-[`Orientation`](../enums/Orientation.md)
+[`Orientation`](../index.md#Orientation)
 
 #### Defined in
 

@@ -12,7 +12,7 @@
 
 ### <a id="direction" name="direction"></a> direction
 
- **direction**: [`Direction`](../enums/Direction.md)
+ **direction**: ``"N"`` \| ``"NE"`` \| ``"E"`` \| ``"SE"`` \| ``"S"`` \| ``"SW"`` \| ``"W"`` \| ``"NW"``
 
 #### Defined in
 
