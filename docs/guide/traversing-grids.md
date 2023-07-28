@@ -1,3 +1,7 @@
+---
+outline: [2, 3]
+---
+
 # Traversing grids
 
 The order in which hexes in a grid are iterated is the same as the order in which they were added to the grid. And because a grid represents a 2D map of hexes in contrast with a 1D list of things (like an array), it makes sense to iterate over a *portion* of the grid and in a *specific order*. This is why Honeycomb has traversers.
