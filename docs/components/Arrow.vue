@@ -11,8 +11,8 @@ export interface ArrowProps {
   to: Point
 }
 
+defineProps<ArrowProps>()
 // const { center, length, rotation } = defineProps<ArrowProps>()
-const { from, to } = defineProps<ArrowProps>()
 // const halfLength = length / 2
 // const toRadians = (rotation: number) => (rotation * Math.PI) / 180
 // const from = {
