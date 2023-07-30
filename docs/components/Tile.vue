@@ -7,7 +7,10 @@ export interface HexProps {
   isTraversed?: boolean
 }
 
-const { tile, isTraversed } = defineProps<HexProps>()
+const { tile, isTraversed } = withDefaults(defineProps<HexProps>(), {
+  isTraversed: false,
+})
+
 // const transform = computed(() => `translate(${tile.width / 2},${tile.height / 2})`)
 const points = tile.corners.map(({ x, y }) => `${x},${y}`).join(' ')
 const fontSize = computed(() => tile.height / 4)

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Grid, Hex, Point } from '../../src'
-import Arrow from './Arrow.vue'
+import { Grid, Hex } from '../../src'
+import Arrow, { ArrowProps } from './Arrow.vue'
 import Tile from './Tile.vue'
 
 export interface GridProps {
@@ -9,10 +9,15 @@ export interface GridProps {
   traversal?: Grid<Hex>
 }
 
-const { grid, traversal } = defineProps<GridProps>()
+const { grid, traversal } = withDefaults(defineProps<GridProps>(), {
+  traversal: () => new Grid(Hex),
+})
+
+// it may seem more obvious to use `{ origin: 'topLeft' }` as a hex setting instead of this manual transform
+// but this breaks the example on the point-to-hex page
 const transform = computed(() => `translate(${grid.hexPrototype.width / 2},${grid.hexPrototype.height / 2})`)
 const arrowData = computed(() =>
-  (traversal?.toArray() ?? []).reduce((acc, currentTile, index, tiles) => {
+  traversal.toArray().reduce((acc, currentTile, index, tiles) => {
     const nextTile = tiles[index + 1]
 
     if (!nextTile) return acc
@@ -25,7 +30,7 @@ const arrowData = computed(() =>
     const to = { x: toX - Math.cos(rotation) * 26, y: toY - Math.sin(rotation) * 26 }
 
     return acc.concat({ from, to })
-  }, [] as { from: Point; to: Point }[]),
+  }, [] as ArrowProps[]),
 )
 </script>
 

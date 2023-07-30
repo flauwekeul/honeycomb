@@ -6,7 +6,7 @@ export interface LineProps {
   to: Point
 }
 
-const { from, to } = defineProps<LineProps>()
+defineProps<LineProps>()
 </script>
 
 <template>
