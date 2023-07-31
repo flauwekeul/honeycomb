@@ -40,7 +40,7 @@ const arrowData = computed(() =>
     version="1.1"
     :width="grid.pixelWidth"
     :height="grid.pixelHeight"
-    class="container"
+    class="tile-grid"
   >
     <defs>
       <marker id="arrow-head" markerWidth="10" markerHeight="10" refX="0" refY="1.5" orient="auto">
@@ -60,12 +60,16 @@ const arrowData = computed(() =>
 </template>
 
 <style scoped>
-.container {
+.tile-grid {
   overflow: visible;
   margin: 32px auto;
 }
 
 .arrow-head {
   fill: var(--vp-c-text-light-2);
+}
+
+.dark .arrow-head {
+  fill: var(--vp-c-text-dark-2);
 }
 </style>

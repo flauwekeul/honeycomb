@@ -15,8 +15,8 @@ defineProps<LineProps>()
 
 <style scoped>
 .line {
-  stroke: var(--vp-c-text-light-1);
-  stroke-width: 4;
+  stroke: var(--vp-c-red-dark);
+  stroke-width: 3;
   stroke-dasharray: 12 8;
   stroke-linecap: round;
 }

@@ -34,4 +34,8 @@ defineProps<ArrowProps>()
   stroke: var(--vp-c-text-light-2);
   stroke-width: 6;
 }
+
+.dark .line {
+  stroke: var(--vp-c-text-dark-2);
+}
 </style>
