@@ -1,5 +1,9 @@
 import { generateSitemap as sitemap } from 'sitemap-ts'
+import AutoImport from 'unplugin-auto-import/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vitepress'
+
 const pkg = require('../../package.json')
 
 export default defineConfig({
@@ -36,6 +40,7 @@ export default defineConfig({
     nav: [
       { text: 'Guide', link: '/guide/getting-started', activeMatch: '/guide/' },
       { text: 'API', link: '/api/index', activeMatch: '/api/' },
+      { text: 'Playground', link: '/playground.md', activeMatch: '/playground/' },
       {
         text: pkg.version,
         items: [{ text: 'Changelog', link: 'https://github.com/flauwekeul/honeycomb/releases' }],
@@ -118,5 +123,17 @@ export default defineConfig({
       message: 'Released under the MIT License.',
       copyright: 'Copyright © 2016-present Abbe Keultjes',
     },
+  },
+
+  vite: {
+    plugins: [
+      AutoImport({
+        resolvers: [ElementPlusResolver()],
+      }),
+      Components({
+        resolvers: [ElementPlusResolver()],
+      }),
+    ],
+    ssr: { noExternal: ['element-plus'] },
   },
 })
