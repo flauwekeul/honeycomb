@@ -28,29 +28,33 @@ const fontSize = computed(() => tile.height / 4)
 
 <style scoped>
 .polygon {
-  fill: var(--vp-c-brand-lighter);
-  stroke: var(--vp-c-brand);
+  fill: var(--slate-300);
+  stroke: var(--slate-400);
   stroke-width: 2;
 }
 
-.dark .polygon {
-  fill: var(--vp-c-brand);
-  stroke: var(--vp-c-brand-darker);
-}
-
 .is-traversed .polygon {
-  fill: var(--vp-c-brand);
-  stroke: var(--vp-c-brand-light);
-}
-
-.dark .is-traversed .polygon {
-  fill: var(--vp-c-brand-darker);
-  stroke: var(--vp-c-brand-dark);
+  fill: var(--slate-400);
+  stroke: var(--slate-500);
 }
 
 .coordinates {
   text-anchor: middle;
   dominant-baseline: central;
-  fill: var(--vp-c-text-light-1);
+  fill: var(--vp-c-black);
+}
+
+.dark .polygon {
+  fill: var(--slate-600);
+  stroke: var(--slate-800);
+}
+
+.dark .is-traversed .polygon {
+  fill: var(--slate-700);
+  stroke: var(--slate-800);
+}
+
+.dark .coordinates {
+  fill: var(--vp-c-white);
 }
 </style>

@@ -8,6 +8,18 @@
   --yellow-700: rgb(161 98 7);
   --yellow-800: rgb(133 77 14);
 
+  --slate-50: rgb(248 250 252);
+  --slate-100: rgb(241 245 249);
+  --slate-200: rgb(226 232 240);
+  --slate-300: rgb(203 213 225);
+  --slate-400: rgb(148 163 184);
+  --slate-500: rgb(100 116 139);
+  --slate-600: rgb(71 85 105);
+  --slate-700: rgb(51 65 85);
+  --slate-800: rgb(30 41 59);
+  --slate-900: rgb(15 23 42);
+  --slate-950: rgb(2 6 23);
+
   --vp-c-brand-lighter: var(--yellow-400);
   --vp-c-brand-light: var(--yellow-500);
   --vp-c-brand: var(--yellow-600);
