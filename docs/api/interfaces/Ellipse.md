@@ -1,12 +1,5 @@
 # Interface: Ellipse
 
-## Table of contents
-
-### Properties
-
-- [xRadius](Ellipse.md#xRadius)
-- [yRadius](Ellipse.md#yRadius)
-
 ## Properties
 
 ### <a id="xRadius" name="xRadius"></a> xRadius

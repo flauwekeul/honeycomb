@@ -1,12 +1,5 @@
 # Interface: Point
 
-## Table of contents
-
-### Properties
-
-- [x](Point.md#x)
-- [y](Point.md#y)
-
 ## Properties
 
 ### <a id="x" name="x"></a> x

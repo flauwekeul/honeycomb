@@ -1,13 +1,5 @@
 # Interface: RingOptions
 
-## Table of contents
-
-### Properties
-
-- [center](RingOptions.md#center)
-- [rotation](RingOptions.md#rotation)
-- [start](RingOptions.md#start)
-
 ## Properties
 
 ### <a id="center" name="center"></a> center

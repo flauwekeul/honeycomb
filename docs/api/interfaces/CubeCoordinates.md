@@ -1,13 +1,5 @@
 # Interface: CubeCoordinates
 
-## Table of contents
-
-### Properties
-
-- [q](CubeCoordinates.md#q)
-- [r](CubeCoordinates.md#r)
-- [s](CubeCoordinates.md#s)
-
 ## Properties
 
 ### <a id="q" name="q"></a> q

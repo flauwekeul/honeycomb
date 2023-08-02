@@ -17,6 +17,7 @@ export default defineConfig({
   },
 
   themeConfig: {
+    outline: [2, 3],
     algolia: {
       appId: 'AF859G6W5B',
       apiKey: '147ebb46c4c31e0ffbce1ae7961148e7',
@@ -76,7 +77,22 @@ export default defineConfig({
       ],
       '/api/': [
         {
-          items: [{ text: 'Table of contents', link: '/api/#table-of-contents' }],
+          text: 'Coordinates',
+          items: [
+            { text: 'Axial', link: '/api/interfaces/AxialCoordinates' },
+            { text: 'Cube', link: '/api/interfaces/CubeCoordinates' },
+            { text: 'Offset', link: '/api/interfaces/OffsetCoordinates' },
+            { text: 'Tuple', link: '/api/#TupleCoordinates' },
+            { text: 'HexCoordinates', link: '/api/#HexCoordinates' },
+            { text: 'Point', link: '/api/interfaces/Point' },
+          ],
+        },
+        {
+          text: 'Hex',
+          items: [
+            { text: 'Hex class', link: '/api/classes/Hex' },
+            { text: 'defineHex', link: '/api/#defineHex' },
+          ],
         },
         {
           text: 'Grid',
@@ -94,24 +110,6 @@ export default defineConfig({
             { text: 'repeatWith', link: '/api/#repeatWith' },
             { text: 'ring', link: '/api/#ring' },
             { text: 'spiral', link: '/api/#spiral' },
-          ],
-        },
-        {
-          text: 'Hex',
-          items: [
-            { text: 'Hex class', link: '/api/classes/Hex' },
-            { text: 'defineHex', link: '/api/#defineHex' },
-          ],
-        },
-        {
-          text: 'Coordinates',
-          items: [
-            { text: 'Axial', link: '/api/interfaces/AxialCoordinates' },
-            { text: 'Cube', link: '/api/interfaces/CubeCoordinates' },
-            { text: 'Offset', link: '/api/interfaces/OffsetCoordinates' },
-            { text: 'Tuple', link: '/api/#TupleCoordinates' },
-            { text: 'HexCoordinates', link: '/api/#HexCoordinates' },
-            { text: 'Point', link: '/api/interfaces/Point' },
           ],
         },
       ],

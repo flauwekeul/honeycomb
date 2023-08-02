@@ -6,8 +6,10 @@ import { offsetToCube } from './offsetToCube'
 // todo: make overloads to only require hexSettings when coordinates are offset
 /**
  * Util for converting offset/axial/cube/tuple coordinates to cube coordinates.
- * @category Coordinates
+ *
  * @privateRemarks It's not placed in /src/utils because that causes circular dependencies.
+ *
+ * @category Coordinates
  */
 export function toCube(
   hexSettings: Pick<HexSettings, 'offset' | 'orientation'>,

@@ -1,12 +1,5 @@
 # Interface: AxialCoordinates
 
-## Table of contents
-
-### Properties
-
-- [q](AxialCoordinates.md#q)
-- [r](AxialCoordinates.md#r)
-
 ## Properties
 
 ### <a id="q" name="q"></a> q

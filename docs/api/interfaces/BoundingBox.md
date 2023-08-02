@@ -1,12 +1,5 @@
 # Interface: BoundingBox
 
-## Table of contents
-
-### Properties
-
-- [height](BoundingBox.md#height)
-- [width](BoundingBox.md#width)
-
 ## Properties
 
 ### <a id="height" name="height"></a> height

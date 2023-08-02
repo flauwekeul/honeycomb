@@ -1,13 +1,5 @@
 # Interface: LineAsVectorOptions
 
-## Table of contents
-
-### Properties
-
-- [direction](LineAsVectorOptions.md#direction)
-- [length](LineAsVectorOptions.md#length)
-- [start](LineAsVectorOptions.md#start)
-
 ## Properties
 
 ### <a id="direction" name="direction"></a> direction

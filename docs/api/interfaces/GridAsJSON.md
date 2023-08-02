@@ -6,13 +6,6 @@
 | :------ | :------ |
 | `T` | extends [`AxialCoordinates`](AxialCoordinates.md) = [`AxialCoordinates`](AxialCoordinates.md) |
 
-## Table of contents
-
-### Properties
-
-- [coordinates](GridAsJSON.md#coordinates)
-- [hexSettings](GridAsJSON.md#hexSettings)
-
 ## Properties
 
 ### <a id="coordinates" name="coordinates"></a> coordinates

@@ -1,25 +1,30 @@
 # API - v4.1.4
 
-## Table of contents
-
-### Classes
+## Classes
 
 - [Grid](classes/Grid.md)
 - [Hex](classes/Hex.md)
 
-### Coordinates Interfaces
+## Coordinates Interfaces
 
 - [AxialCoordinates](interfaces/AxialCoordinates.md)
 - [CubeCoordinates](interfaces/CubeCoordinates.md)
 - [OffsetCoordinates](interfaces/OffsetCoordinates.md)
 - [Point](interfaces/Point.md)
 
-### Hex Interfaces
+## Hex Interfaces
 
 - [HexOptions](interfaces/HexOptions.md)
 - [HexSettings](interfaces/HexSettings.md)
 
-### Traverser Interfaces
+## Grid Interfaces
+
+- [GridAsJSON](interfaces/GridAsJSON.md)
+- [HexIterable](interfaces/HexIterable.md)
+- [HexStore](interfaces/HexStore.md)
+- [HexTraversable](interfaces/HexTraversable.md)
+
+## Traverser Interfaces
 
 - [LineAsVectorOptions](interfaces/LineAsVectorOptions.md)
 - [LineBetweenOptions](interfaces/LineBetweenOptions.md)
@@ -28,62 +33,55 @@
 - [RingOptions](interfaces/RingOptions.md)
 - [SpiralOptions](interfaces/SpiralOptions.md)
 
-### Grid Interfaces
-
-- [GridAsJSON](interfaces/GridAsJSON.md)
-- [HexIterable](interfaces/HexIterable.md)
-- [HexStore](interfaces/HexStore.md)
-- [HexTraversable](interfaces/HexTraversable.md)
-
-### Other Interfaces
+## Other Interfaces
 
 - [BoundingBox](interfaces/BoundingBox.md)
 - [Ellipse](interfaces/Ellipse.md)
 
-### Coordinates Type Aliases
+## Coordinates Type Aliases
 
 - [HexCoordinates](index.md#HexCoordinates)
 - [PartialCubeCoordinates](index.md#PartialCubeCoordinates)
 - [TupleCoordinates](index.md#TupleCoordinates)
 
-### Hex Type Aliases
+## Hex Type Aliases
 
 - [HexConstructor](index.md#HexConstructor)
 - [HexOffset](index.md#HexOffset)
 - [Orientation](index.md#Orientation)
 
-### Traverser Type Aliases
-
-- [Traverser](index.md#Traverser)
-
-### Other Type Aliases
+## Grid Type Aliases
 
 - [Direction](index.md#Direction)
 
-### Traverser
-
-&#x27;cw&#x27; for clockwise and &#x27;ccw&#x27; for counterclockwise Type Aliases
+## Traverser Type Aliases
 
 - [Rotation](index.md#Rotation)
+- [Traverser](index.md#Traverser)
 
-### Hex Variables
+## Util Type Aliases
+
+- [UnknownFunction](index.md#UnknownFunction)
+
+## Hex Variables
 
 - [defaultHexSettings](index.md#defaultHexSettings)
 
-### Grid Variables
+## Grid Variables
 
 - [DIRECTIONS](index.md#DIRECTIONS)
 
-### Coordinates Functions
+## Coordinates Functions
 
 - [completeCube](index.md#completeCube)
 - [isAxial](index.md#isAxial)
 - [isOffset](index.md#isOffset)
+- [isPoint](index.md#isPoint)
 - [isTuple](index.md#isTuple)
 - [toCube](index.md#toCube)
 - [tupleToCube](index.md#tupleToCube)
 
-### Hex Functions
+## Hex Functions
 
 - [createHexDimensions](index.md#createHexDimensions)
 - [createHexOrigin](index.md#createHexOrigin)
@@ -96,7 +94,7 @@
 - [round](index.md#round)
 - [translate](index.md#translate)
 
-### Traverser Functions
+## Traverser Functions
 
 - [concat](index.md#concat)
 - [fromCoordinates](index.md#fromCoordinates)
@@ -108,12 +106,18 @@
 - [ring](index.md#ring)
 - [spiral](index.md#spiral)
 
-### Other Functions
+## Other Functions
 
 - [distance](index.md#distance)
-- [isPoint](index.md#isPoint)
 - [neighborOf](index.md#neighborOf)
-- [offsetFromZero](index.md#offsetFromZero)
+
+## Util Functions
+
+- [isFunction](index.md#isFunction)
+- [isNumber](index.md#isNumber)
+- [isObject](index.md#isObject)
+- [rotate](index.md#rotate)
+- [signedModulo](index.md#signedModulo)
 
 ## Coordinates Type Aliases
 
@@ -195,7 +199,31 @@ ___
 
 ___
 
+## Grid Type Aliases
+
+### <a id="Direction" name="Direction"></a> Direction
+
+ **Direction**: typeof [`DIRECTIONS`](index.md#DIRECTIONS)[`number`]
+
+#### Defined in
+
+[grid/types.ts:34](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L34)
+
+___
+
 ## Traverser Type Aliases
+
+### <a id="Rotation" name="Rotation"></a> Rotation
+
+ **Rotation**: ``"cw"`` \| ``"ccw"``
+
+'cw' for clockwise and 'ccw' for counterclockwise
+
+#### Defined in
+
+[grid/types.ts:16](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L16)
+
+___
 
 ### <a id="Traverser" name="Traverser"></a> Traverser
 
@@ -229,29 +257,29 @@ ___
 
 ___
 
-## Other Type Aliases
+## Util Type Aliases
 
-### <a id="Direction" name="Direction"></a> Direction
+### <a id="UnknownFunction" name="UnknownFunction"></a> UnknownFunction
 
- **Direction**: typeof [`DIRECTIONS`](index.md#DIRECTIONS)[`number`]
+ **UnknownFunction**: (...`args`: `unknown`[]) => `unknown`
+
+#### Type declaration
+
+(`...args`): `unknown`
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `...args` | `unknown`[] |
+
+##### Returns
+
+`unknown`
 
 #### Defined in
 
-[grid/types.ts:30](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L30)
-
-___
-
-## Traverser
-
-&#x27;cw&#x27; for clockwise and &#x27;ccw&#x27; for counterclockwise Type Aliases
-
-### <a id="Rotation" name="Rotation"></a> Rotation
-
- **Rotation**: ``"cw"`` \| ``"ccw"``
-
-#### Defined in
-
-[grid/types.ts:16](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L16)
+[utils/isFunction.ts:4](https://github.com/flauwekeul/honeycomb/blob/master/src/utils/isFunction.ts#L4)
 
 ## Hex Variables
 
@@ -301,6 +329,8 @@ ___
 
 **isAxial**(`value`): value is AxialCoordinates
 
+Determines whether the passed value is an object with axial coordinates, e.g.: `{ q: 1, r: 2 }`.
+
 #### Parameters
 
 | Name | Type |
@@ -313,13 +343,15 @@ value is AxialCoordinates
 
 #### Defined in
 
-[utils/isAxial.ts:8](https://github.com/flauwekeul/honeycomb/blob/master/src/utils/isAxial.ts#L8)
+[utils/isAxial.ts:10](https://github.com/flauwekeul/honeycomb/blob/master/src/utils/isAxial.ts#L10)
 
 ___
 
 ### <a id="isOffset" name="isOffset"></a> isOffset
 
 **isOffset**(`value`): value is OffsetCoordinates
+
+Determines whether the passed value is an object with offset coordinates, e.g.: `{ col: 1, row: 2 }`.
 
 #### Parameters
 
@@ -333,13 +365,37 @@ value is OffsetCoordinates
 
 #### Defined in
 
-[utils/isOffset.ts:8](https://github.com/flauwekeul/honeycomb/blob/master/src/utils/isOffset.ts#L8)
+[utils/isOffset.ts:10](https://github.com/flauwekeul/honeycomb/blob/master/src/utils/isOffset.ts#L10)
+
+___
+
+### <a id="isPoint" name="isPoint"></a> isPoint
+
+**isPoint**(`value`): value is Point
+
+Determines whether the passed value is an object with point coordinates, e.g.: `{ x: 1, y: 2 }`.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `value` | `unknown` |
+
+#### Returns
+
+value is Point
+
+#### Defined in
+
+[utils/isPoint.ts:10](https://github.com/flauwekeul/honeycomb/blob/master/src/utils/isPoint.ts#L10)
 
 ___
 
 ### <a id="isTuple" name="isTuple"></a> isTuple
 
 **isTuple**(`value`): value is TupleCoordinates
+
+Determines whether the passed value are tuple coordinates (an array containing exactly 2 numbers), e.g.: `[1, 2]`.
 
 #### Parameters
 
@@ -353,7 +409,7 @@ value is TupleCoordinates
 
 #### Defined in
 
-[utils/isTuple.ts:7](https://github.com/flauwekeul/honeycomb/blob/master/src/utils/isTuple.ts#L7)
+[utils/isTuple.ts:9](https://github.com/flauwekeul/honeycomb/blob/master/src/utils/isTuple.ts#L9)
 
 ___
 
@@ -376,7 +432,7 @@ Util for converting offset/axial/cube/tuple coordinates to cube coordinates.
 
 #### Defined in
 
-[hex/functions/toCube.ts:12](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/functions/toCube.ts#L12)
+[hex/functions/toCube.ts:14](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/functions/toCube.ts#L14)
 
 ___
 
@@ -1037,26 +1093,6 @@ ___
 
 ___
 
-### <a id="isPoint" name="isPoint"></a> isPoint
-
-**isPoint**(`value`): value is Point
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `value` | `unknown` |
-
-#### Returns
-
-value is Point
-
-#### Defined in
-
-[utils/isPoint.ts:5](https://github.com/flauwekeul/honeycomb/blob/master/src/utils/isPoint.ts#L5)
-
-___
-
 ### <a id="neighborOf" name="neighborOf"></a> neighborOf
 
 **neighborOf**<`T`\>(`hex`, `direction`): `T`
@@ -1084,16 +1120,159 @@ ___
 
 ___
 
-### <a id="offsetFromZero" name="offsetFromZero"></a> offsetFromZero
+## Util Functions
 
-**offsetFromZero**(`offset`, `distance`): `number`
+### <a id="isFunction" name="isFunction"></a> isFunction
+
+**isFunction**<`T`\>(`value`): value is T
+
+Determines whether the passed value is a function.
+
+Optionally pass a type variable, e.g.:
+```ts
+type MyFunction = (arg: number) => void
+
+isFunction<MyFunction>(value)
+```
+
+The type of the arguments and return type aren't checked though.
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | [`UnknownFunction`](index.md#UnknownFunction) |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `offset` | [`HexOffset`](index.md#HexOffset) |
-| `distance` | `number` |
+| `value` | `unknown` |
+
+#### Returns
+
+value is T
+
+#### Defined in
+
+[utils/isFunction.ts:20](https://github.com/flauwekeul/honeycomb/blob/master/src/utils/isFunction.ts#L20)
+
+___
+
+### <a id="isNumber" name="isNumber"></a> isNumber
+
+**isNumber**(`value`): value is number
+
+Determines whether the passed value is a finite number (excluding `NaN`).
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `value` | `unknown` |
+
+#### Returns
+
+value is number
+
+#### Defined in
+
+[utils/isNumber.ts:6](https://github.com/flauwekeul/honeycomb/blob/master/src/utils/isNumber.ts#L6)
+
+___
+
+### <a id="isObject" name="isObject"></a> isObject
+
+**isObject**<`T`\>(`value`): value is T
+
+Determines whether the passed value is an object.
+
+Optionally pass a type variable, e.g.:
+```ts
+interface MyObject {
+  a: number
+  b: string
+}
+
+isObject<MyObject>(value)
+```
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `Record`<`PropertyKey`, `unknown`\> |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `value` | `unknown` |
+
+#### Returns
+
+value is T
+
+#### Defined in
+
+[utils/isObject.ts:16](https://github.com/flauwekeul/honeycomb/blob/master/src/utils/isObject.ts#L16)
+
+___
+
+### <a id="rotate" name="rotate"></a> rotate
+
+**rotate**(`direction`, `steps`): ``"N"`` \| ``"NE"`` \| ``"E"`` \| ``"SE"`` \| ``"S"`` \| ``"SW"`` \| ``"W"`` \| ``"NW"``
+
+Takes a current direction and an amount of steps and returns a new direction.
+
+A positive amount of steps rotates clockwise, a negative amount of steps rotates counterclockwise.
+
+It takes 8 steps to make a full rotation (see [DIRECTIONS](index.md#DIRECTIONS)). If `steps` is greater than `8` or less than `-8`,
+it "wraps around" and its remainder is used.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `direction` | ``"N"`` \| ``"NE"`` \| ``"E"`` \| ``"SE"`` \| ``"S"`` \| ``"SW"`` \| ``"W"`` \| ``"NW"`` |
+| `steps` | `number` |
+
+#### Returns
+
+``"N"`` \| ``"NE"`` \| ``"E"`` \| ``"SE"`` \| ``"S"`` \| ``"SW"`` \| ``"W"`` \| ``"NW"``
+
+**`Example`**
+
+```ts
+// rotate 2 steps clockwise
+rotate('N', 2) // returns 'E'
+
+// rotate 4 steps counterclockwise
+rotate('N', -4) // returns 'S'
+
+// rotate 3 steps clockwise
+rotate('N', 11) // returns 'SE'
+```
+
+#### Defined in
+
+[utils/rotate.ts:26](https://github.com/flauwekeul/honeycomb/blob/master/src/utils/rotate.ts#L26)
+
+___
+
+### <a id="signedModulo" name="signedModulo"></a> signedModulo
+
+**signedModulo**(`dividend`, `divisor`): `number`
+
+Modulo operator (instead of remainder operator `%`).
+See the [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Remainder#:~:text=To%20obtain%20a%20modulo%20in%20JavaScript%2C%20in%20place%20of%20n%20%25%20d%2C%20use%20((n%20%25%20d)%20%2B%20d)%20%25%20d.) for more information.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `dividend` | `number` |
+| `divisor` | `number` |
 
 #### Returns
 
@@ -1101,4 +1280,4 @@ ___
 
 #### Defined in
 
-[utils/offsetFromZero.ts:6](https://github.com/flauwekeul/honeycomb/blob/master/src/utils/offsetFromZero.ts#L6)
+[utils/signedModulo.ts:7](https://github.com/flauwekeul/honeycomb/blob/master/src/utils/signedModulo.ts#L7)

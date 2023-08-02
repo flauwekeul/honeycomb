@@ -16,20 +16,6 @@
 
 - [`Grid`](../classes/Grid.md)
 
-## Table of contents
-
-### Properties
-
-- [size](HexTraversable.md#size)
-
-### Methods
-
-- [createHex](HexTraversable.md#createHex)
-- [getHex](HexTraversable.md#getHex)
-- [hasHex](HexTraversable.md#hasHex)
-- [setHexes](HexTraversable.md#setHexes)
-- [traverse](HexTraversable.md#traverse)
-
 ## Properties
 
 ### <a id="size" name="size"></a> size
@@ -42,7 +28,7 @@
 
 #### Defined in
 
-[grid/types.ts:36](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L36)
+[grid/types.ts:40](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L40)
 
 ## Methods
 
@@ -62,7 +48,7 @@
 
 #### Defined in
 
-[grid/types.ts:60](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L60)
+[grid/types.ts:64](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L64)
 
 ___
 
@@ -86,7 +72,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:37](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L37)
+[grid/types.ts:41](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L41)
 
 ___
 
@@ -110,7 +96,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:38](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L38)
+[grid/types.ts:42](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L42)
 
 ___
 
@@ -134,7 +120,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:39](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L39)
+[grid/types.ts:43](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L43)
 
 ___
 
@@ -156,7 +142,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:61](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L61)
+[grid/types.ts:65](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L65)
 
 **traverse**(`hexes`, `options?`): [`HexTraversable`](HexTraversable.md)<`T`\>
 
@@ -174,7 +160,7 @@ ___
 
 #### Defined in
 
-[grid/types.ts:62](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L62)
+[grid/types.ts:66](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L66)
 
 **traverse**(`grid`, `options?`): [`HexTraversable`](HexTraversable.md)<`T`\>
 
@@ -192,4 +178,4 @@ ___
 
 #### Defined in
 
-[grid/types.ts:63](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L63)
+[grid/types.ts:67](https://github.com/flauwekeul/honeycomb/blob/master/src/grid/types.ts#L67)

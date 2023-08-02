@@ -1,13 +1,5 @@
 # Interface: SpiralOptions
 
-## Table of contents
-
-### Properties
-
-- [radius](SpiralOptions.md#radius)
-- [rotation](SpiralOptions.md#rotation)
-- [start](SpiralOptions.md#start)
-
 ## Properties
 
 ### <a id="radius" name="radius"></a> radius

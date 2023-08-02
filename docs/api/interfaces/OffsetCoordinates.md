@@ -1,12 +1,5 @@
 # Interface: OffsetCoordinates
 
-## Table of contents
-
-### Properties
-
-- [col](OffsetCoordinates.md#col)
-- [row](OffsetCoordinates.md#row)
-
 ## Properties
 
 ### <a id="col" name="col"></a> col
