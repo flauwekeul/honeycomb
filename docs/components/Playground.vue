@@ -1,28 +1,37 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { defaultHexSettings, defineHex, Grid, HexOptions, rectangle } from '../../src'
-import TileControls, { TileControlsProps } from '../components/TileControls.vue'
+import TileControls, { RectangleTraverserOptions, TileControlsProps } from '../components/TileControls.vue'
 import TileGrid from '../components/TileGrid.vue'
 
-const hexSettings = ref<HexOptions>({ ...defaultHexSettings, dimensions: 30 })
-const Hex = defineHex(hexSettings.value)
-const initialHexes = rectangle({ width: 10, height: 10 })
+const hexSettings: HexOptions = { ...defaultHexSettings, dimensions: 30 }
+const initialHexes: RectangleTraverserOptions = {
+  name: 'rectangle',
+  width: 10,
+  height: 10,
+  start: { q: 0, r: 0 },
+  direction: 'E',
+}
 // grid can't be a ref because Proxies don't work with private class field
 // see: https://lea.verou.me/blog/2023/04/private-fields-considered-harmful/
-let grid = new Grid(Hex, initialHexes)
-const key = ref(Math.random())
+let grid = new Grid(defineHex(hexSettings), rectangle(initialHexes))
+const gridKey = ref(0)
 
-const update = (value: TileControlsProps) => {
-  hexSettings.value = value.hexSettings
-  grid = new Grid(defineHex(value.hexSettings), initialHexes)
-  key.value = Math.random()
+// todo: debounce with requestAnimationFrame?
+const update = ({ hexSettings, initialHexes }: TileControlsProps) => {
+  try {
+    grid = new Grid(defineHex(hexSettings), rectangle(initialHexes))
+    gridKey.value = Math.random()
+  } catch (error) {
+    console.error(error)
+  }
 }
 </script>
 
 <template>
   <div class="playground">
-    <TileGrid :grid="grid" :key="key" />
-    <TileControls :hex-settings="hexSettings" @update="update" class="controls" />
+    <TileGrid :grid="grid" :key="gridKey" />
+    <TileControls :hex-settings="hexSettings" :initial-hexes="initialHexes" @update="update" class="controls" />
   </div>
 </template>
 
