@@ -4,15 +4,6 @@
 
 The rectangle will only have 90° corners for the directions North, East, South and West.
 
-## Table of contents
-
-### Properties
-
-- [direction](RectangleOptions.md#direction)
-- [height](RectangleOptions.md#height)
-- [start](RectangleOptions.md#start)
-- [width](RectangleOptions.md#width)
-
 ## Properties
 
 ### <a id="direction" name="direction"></a> direction

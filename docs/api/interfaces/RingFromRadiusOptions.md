@@ -1,13 +1,5 @@
 # Interface: RingFromRadiusOptions
 
-## Table of contents
-
-### Properties
-
-- [center](RingFromRadiusOptions.md#center)
-- [radius](RingFromRadiusOptions.md#radius)
-- [rotation](RingFromRadiusOptions.md#rotation)
-
 ## Properties
 
 ### <a id="center" name="center"></a> center

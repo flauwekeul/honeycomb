@@ -8,8 +8,8 @@ import { repeatWith } from './repeatWith'
 //       maybe add option to determine if row or col is traversed first
 //       maybe accept an object: { start, stop }, similar to line()
 /**
- * @category Traverser
  * @remarks The rectangle will only have 90° corners for the directions North, East, South and West.
+ * @category Traverser
  */
 export function rectangle<T extends Hex>(options: RectangleOptions): Traverser<T>
 export function rectangle<T extends Hex>(cornerA: HexCoordinates, cornerB: HexCoordinates): Traverser<T>
@@ -37,8 +37,8 @@ export function rectangle<T extends Hex>(
 }
 
 /**
- * @category Traverser
  * @remarks The rectangle will only have 90° corners for the directions North, East, South and West.
+ * @category Traverser
  */
 export interface RectangleOptions {
   start?: HexCoordinates

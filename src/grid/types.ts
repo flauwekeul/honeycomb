@@ -9,9 +9,9 @@ export type Traverser<T extends Hex, R extends Iterable<T> = T[]> = (
 ) => R
 
 /**
- * @category Traverser
- *
  * 'cw' for clockwise and 'ccw' for counterclockwise
+ *
+ * @category Traverser
  */
 export type Rotation = 'cw' | 'ccw'
 
@@ -27,6 +27,10 @@ export interface GridAsJSON<T extends AxialCoordinates = AxialCoordinates> {
  * @category Grid
  */
 export const DIRECTIONS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'] as const
+
+/**
+ * @category Grid
+ */
 export type Direction = (typeof DIRECTIONS)[number]
 
 /**

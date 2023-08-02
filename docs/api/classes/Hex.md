@@ -7,43 +7,6 @@
 - `Readonly`<[`Point`](../interfaces/Point.md)\>
 - `Readonly`<[`BoundingBox`](../interfaces/BoundingBox.md)\>
 
-## Table of contents
-
-### Constructors
-
-- [constructor](Hex.md#constructor)
-
-### Properties
-
-- [q](Hex.md#q)
-- [r](Hex.md#r)
-
-### Accessors
-
-- [center](Hex.md#center)
-- [col](Hex.md#col)
-- [corners](Hex.md#corners)
-- [dimensions](Hex.md#dimensions)
-- [height](Hex.md#height)
-- [isFlat](Hex.md#isFlat)
-- [isPointy](Hex.md#isPointy)
-- [offset](Hex.md#offset)
-- [orientation](Hex.md#orientation)
-- [origin](Hex.md#origin)
-- [row](Hex.md#row)
-- [s](Hex.md#s)
-- [settings](Hex.md#settings)
-- [width](Hex.md#width)
-- [x](Hex.md#x)
-- [y](Hex.md#y)
-
-### Methods
-
-- [clone](Hex.md#clone)
-- [equals](Hex.md#equals)
-- [toString](Hex.md#toString)
-- [translate](Hex.md#translate)
-
 ## Constructors
 
 ### <a id="constructor" name="constructor"></a> constructor

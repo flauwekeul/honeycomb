@@ -11,40 +11,6 @@
 - [`HexIterable`](../interfaces/HexIterable.md)<`T`\>
 - [`HexTraversable`](../interfaces/HexTraversable.md)<`T`\>
 
-## Table of contents
-
-### Constructors
-
-- [constructor](Grid.md#constructor)
-
-### Accessors
-
-- [hexPrototype](Grid.md#hexPrototype)
-- [pixelHeight](Grid.md#pixelHeight)
-- [pixelWidth](Grid.md#pixelWidth)
-- [size](Grid.md#size)
-
-### Methods
-
-- [[iterator]](Grid.md#[iterator])
-- [createHex](Grid.md#createHex)
-- [distance](Grid.md#distance)
-- [filter](Grid.md#filter)
-- [forEach](Grid.md#forEach)
-- [fromIterable](Grid.md#fromIterable)
-- [fromJSON](Grid.md#fromJSON)
-- [getHex](Grid.md#getHex)
-- [hasHex](Grid.md#hasHex)
-- [map](Grid.md#map)
-- [neighborOf](Grid.md#neighborOf)
-- [pointToHex](Grid.md#pointToHex)
-- [reduce](Grid.md#reduce)
-- [setHexes](Grid.md#setHexes)
-- [toArray](Grid.md#toArray)
-- [toJSON](Grid.md#toJSON)
-- [toString](Grid.md#toString)
-- [traverse](Grid.md#traverse)
-
 ## Constructors
 
 ### <a id="constructor" name="constructor"></a> constructor

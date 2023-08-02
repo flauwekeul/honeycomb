@@ -1,14 +1,5 @@
 # Interface: HexOptions
 
-## Table of contents
-
-### Properties
-
-- [dimensions](HexOptions.md#dimensions)
-- [offset](HexOptions.md#offset)
-- [orientation](HexOptions.md#orientation)
-- [origin](HexOptions.md#origin)
-
 ## Properties
 
 ### <a id="dimensions" name="dimensions"></a> dimensions

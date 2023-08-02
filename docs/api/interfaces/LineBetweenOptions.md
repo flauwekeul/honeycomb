@@ -1,12 +1,5 @@
 # Interface: LineBetweenOptions
 
-## Table of contents
-
-### Properties
-
-- [start](LineBetweenOptions.md#start)
-- [stop](LineBetweenOptions.md#stop)
-
 ## Properties
 
 ### <a id="start" name="start"></a> start
