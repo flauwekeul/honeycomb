@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import 'element-plus/theme-chalk/dark/css-vars.css'
-import { AxialCoordinates, DIRECTIONS, Direction, HexOptions, RectangleOptions, isPoint } from '../../src'
-import { isNumber } from '../../src/utils'
+import { AxialCoordinates, DIRECTIONS, Direction, HexOptions, RectangleOptions, isNumber, isPoint } from '../../../src'
 import CoordinatesControl from './CoordinatesControl.vue'
 
 export interface RectangleTraverserOptions extends RectangleOptions {
@@ -10,17 +9,17 @@ export interface RectangleTraverserOptions extends RectangleOptions {
   direction: Direction
 }
 
-export interface TileControlsProps {
+export interface ControlsProps {
   hexSettings: HexOptions
   initialHexes: RectangleTraverserOptions
 }
 
-export type TileControlsEmits = {
-  update: [value: TileControlsProps]
+export type ControlsEmits = {
+  update: [value: ControlsProps]
 }
 
-const props = defineProps<TileControlsProps>()
-const emit = defineEmits<TileControlsEmits>()
+const props = defineProps<ControlsProps>()
+const emit = defineEmits<ControlsEmits>()
 
 const updateHexSettings = <T,>(propName: keyof HexOptions, value: T) => {
   emit('update', {
@@ -44,7 +43,7 @@ const updateInitialHexes = <T,>(propName: keyof RectangleTraverserOptions, value
 </script>
 
 <template>
-  <el-card class="tile-controls">
+  <el-card class="controls">
     <el-form label-width="auto" class="form">
       <el-tabs>
         <el-tab-pane label="Hex settings">
@@ -132,7 +131,7 @@ const updateInitialHexes = <T,>(propName: keyof RectangleTraverserOptions, value
 </template>
 
 <style>
-.tile-controls {
+.controls {
   --el-color-primary: var(--vp-c-brand);
   --el-color-primary-light-3: var(--vp-c-brand-dark);
   --el-color-primary-light-5: var(--vp-c-brand-darker);

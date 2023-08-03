@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { defaultHexSettings, defineHex, Grid, HexOptions, rectangle } from '../../src'
-import TileControls, { RectangleTraverserOptions, TileControlsProps } from '../components/TileControls.vue'
-import TileGrid from '../components/TileGrid.vue'
+import { defaultHexSettings, defineHex, Grid, HexOptions, rectangle } from '../../../src'
+import TileGrid from '../TileGrid.vue'
+import Controls, { ControlsProps, RectangleTraverserOptions } from './Controls.vue'
 
 const hexSettings: HexOptions = { ...defaultHexSettings, dimensions: 30 }
 const initialHexes: RectangleTraverserOptions = {
@@ -18,7 +18,7 @@ let grid = new Grid(defineHex(hexSettings), rectangle(initialHexes))
 const gridKey = ref(0)
 
 // todo: debounce with requestAnimationFrame?
-const update = ({ hexSettings, initialHexes }: TileControlsProps) => {
+const update = ({ hexSettings, initialHexes }: ControlsProps) => {
   try {
     grid = new Grid(defineHex(hexSettings), rectangle(initialHexes))
     gridKey.value = Math.random()
@@ -31,7 +31,7 @@ const update = ({ hexSettings, initialHexes }: TileControlsProps) => {
 <template>
   <div class="playground">
     <TileGrid :grid="grid" :key="gridKey" />
-    <TileControls :hex-settings="hexSettings" :initial-hexes="initialHexes" @update="update" class="controls" />
+    <Controls :hex-settings="hexSettings" :initial-hexes="initialHexes" @update="update" class="controls" />
   </div>
 </template>
 
