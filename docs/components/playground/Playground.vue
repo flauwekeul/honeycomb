@@ -1,31 +1,34 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { defaultHexSettings, defineHex, Grid, HexOptions, rectangle } from '../../../src'
+import { defaultHexSettings, defineHex, Grid, HexOptions, rectangle, RectangleOptions, ring } from '../../../src'
 import TileGrid from '../TileGrid.vue'
-import Controls, { ControlsProps, RectangleTraverserOptions } from './Controls.vue'
+import Controls, { ControlsProps } from './Controls.vue'
+import { defaultRectangleOptions, traverserName } from './shared'
+import { TraverserControlProps } from './TraverserControl.vue'
 
-const hexSettings: HexOptions = { ...defaultHexSettings, dimensions: 30 }
-const initialHexes: RectangleTraverserOptions = {
-  name: 'rectangle',
-  width: 10,
-  height: 10,
-  start: { q: 0, r: 0 },
-  direction: 'E',
-}
+const hexSettings = ref<HexOptions>({ ...defaultHexSettings, dimensions: 30 })
+const initialHexes = ref<TraverserControlProps>({ name: 'rectangle', ...defaultRectangleOptions })
 // grid can't be a ref because Proxies don't work with private class field
 // see: https://lea.verou.me/blog/2023/04/private-fields-considered-harmful/
-let grid = new Grid(defineHex(hexSettings), rectangle(initialHexes))
+let grid = new Grid(defineHex(hexSettings.value), rectangle(initialHexes.value as RectangleOptions))
 const gridKey = ref(0)
 
 // todo: debounce with requestAnimationFrame?
-const update = ({ hexSettings, initialHexes }: ControlsProps) => {
+const update = (controls: ControlsProps) => {
   try {
-    grid = new Grid(defineHex(hexSettings), rectangle(initialHexes))
+    hexSettings.value = controls.hexSettings
+    initialHexes.value = controls.initialHexes
+
+    // todo: improve type
+    const traverser = getTraverser(controls.initialHexes.name) as Function
+    grid = new Grid(defineHex(controls.hexSettings), traverser(controls.initialHexes))
     gridKey.value = Math.random()
   } catch (error) {
     console.error(error)
   }
 }
+
+const getTraverser = (name: traverserName) => ({ rectangle, ring })[name]
 </script>
 
 <template>
