@@ -36,6 +36,7 @@ export default defineConfig({
     nav: [
       { text: 'Guide', link: '/guide/getting-started', activeMatch: '/guide/' },
       { text: 'API', link: '/api/index', activeMatch: '/api/' },
+      { text: 'Playground', link: '/playground.md', activeMatch: '/playground/' },
       {
         text: pkg.version,
         items: [{ text: 'Changelog', link: 'https://github.com/flauwekeul/honeycomb/releases' }],
