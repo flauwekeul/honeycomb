@@ -322,7 +322,7 @@ A ring traverser can be created in two ways:
 
 ### [`spiral()`](/api/#spiral)
 
-A has one required option: `radius`. But you may want to pass `start` as well. If you don't, like most traversers, it'll start where the previous traverser left off, or at `[0, 0]` if there is no previous traverser.
+A spiral has one required option: `radius`. But you may want to pass `start` as well. If you don't it'll start where the previous traverser left off, or at `[0, 0]` if there is no previous traverser.
 
 ```typescript
 const spiralFrom1_2 = spiral({ start: [1, 2], radius: 2 })

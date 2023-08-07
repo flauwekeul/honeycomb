@@ -5,16 +5,16 @@
 NPM:
 
 ```bash
-npm i honeycomb-grid@beta
+npm i honeycomb-grid
 ```
 
 Yarn:
 
 ```bash
-yarn add honeycomb-grid@beta
+yarn add honeycomb-grid
 ```
 
-Or download the distribution from [jsdelivr](https://cdn.jsdelivr.net/npm/honeycomb-grid@beta) or [unpkg.com](https://unpkg.com/honeycomb-grid@beta).
+Or download the distribution from [jsdelivr](https://cdn.jsdelivr.net/npm/honeycomb-grid) or [unpkg.com](https://unpkg.com/honeycomb-grid).
 
 ## Basic example
 
