@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { defaultHexSettings, defineHex, Grid, HexOptions, rectangle, RectangleOptions, ring } from '../../../src'
+import { defaultHexSettings, defineHex, Grid, HexOptions, line, rectangle, RectangleOptions, ring } from '../../../src'
 import TileGrid from '../TileGrid.vue'
 import Controls, { ControlsProps } from './Controls.vue'
 import { defaultRectangleOptions, traverserName } from './shared'
@@ -28,7 +28,7 @@ const update = (controls: ControlsProps) => {
   }
 }
 
-const getTraverser = (name: traverserName) => ({ rectangle, ring })[name]
+const getTraverser = (name: traverserName) => ({ line, rectangle, ring })[name]
 </script>
 
 <template>

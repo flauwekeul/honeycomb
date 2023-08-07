@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import {
+  LineControlProps,
   RectangleControlProps,
   RingControlProps,
   TRAVERSER_NAMES,
+  defaultLineOptions,
   defaultRectangleOptions,
   defaultRingOptions,
   traverserName,
 } from './shared'
+import LineControl from './traverser-controls/LineControl.vue'
 import RectangleControl from './traverser-controls/RectangleControl.vue'
 import RingControl from './traverser-controls/RingControl.vue'
 
@@ -16,6 +19,10 @@ interface BaseTraverserOptions {
 
 // Make all props partial (except name), because Vue can't handle discriminated unions as props (yet)
 
+export interface LineTraverserOptions extends BaseTraverserOptions, LineControlProps {
+  name: 'line'
+}
+
 export interface RectangleTraverserOptions extends BaseTraverserOptions, RectangleControlProps {
   name: 'rectangle'
 }
@@ -24,7 +31,9 @@ export interface RingTraverserOptions extends BaseTraverserOptions, RingControlP
   name: 'ring'
 }
 
-export type TraverserControlProps = RectangleTraverserOptions | RingTraverserOptions
+type ControlProps = LineControlProps | RectangleControlProps | RingControlProps
+
+export type TraverserControlProps = LineTraverserOptions | RectangleTraverserOptions | RingTraverserOptions
 
 export type TraverserControlEmits = {
   change: [value: TraverserControlProps]
@@ -33,12 +42,17 @@ export type TraverserControlEmits = {
 defineProps<TraverserControlProps>()
 const emit = defineEmits<TraverserControlEmits>()
 
-const DEFAULT_OPTIONS: Record<string, RectangleControlProps | RingControlProps> = {
+const DEFAULT_OPTIONS: Record<traverserName, ControlProps> = {
+  line: defaultLineOptions,
   rectangle: defaultRectangleOptions,
   ring: defaultRingOptions,
 } as const
 
-const update = <T,>(name: traverserName, options: T) => {
+const updateTraverser = (name: traverserName) => {
+  emit('change', { name, ...DEFAULT_OPTIONS[name] })
+}
+
+const update = (name: traverserName, options: ControlProps) => {
   emit('change', { name, ...options })
 }
 </script>
@@ -46,7 +60,7 @@ const update = <T,>(name: traverserName, options: T) => {
 <template>
   <el-form-item label="Shape">
     <!-- todo: don't always use defaults, use previous options instead -->
-    <el-select :model-value="name" @change="update($event, DEFAULT_OPTIONS[$event])">
+    <el-select :model-value="name" @change="updateTraverser($event)">
       <el-option
         v-for="type in TRAVERSER_NAMES"
         :key="type"
@@ -57,6 +71,7 @@ const update = <T,>(name: traverserName, options: T) => {
     </el-select>
   </el-form-item>
   <el-divider />
+  <LineControl v-if="name === 'line'" :start="start" :stop="stop" @change="update('line', $event)" />
   <RectangleControl
     v-if="name === 'rectangle'"
     :start="start"
