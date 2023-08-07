@@ -1,4 +1,4 @@
-import { describe, expect, Mock, test, vi } from 'vitest'
+import { describe, expect, expectTypeOf, Mock, test, vi } from 'vitest'
 import { AxialCoordinates, defineHex, Hex, HexCoordinates, HexSettings, Orientation } from '../hex'
 import { Grid } from './grid'
 import { fromCoordinates, rectangle } from './traversers'
@@ -8,8 +8,29 @@ describe('creation', () => {
   test('creates a grid from a hex constructor', () => {
     const grid = new Grid(Hex)
 
+    expectTypeOf(grid).toMatchTypeOf<Grid<Hex>>()
     expect(grid).toBeInstanceOf(Grid)
     expect(grid.size).toBe(0)
+  })
+
+  test('creates a grid using a class extending from Hex', () => {
+    class CustomHex extends Hex {
+      customProp = 1
+    }
+    const grid = new Grid(CustomHex)
+
+    expectTypeOf(grid).toMatchTypeOf<Grid<CustomHex>>()
+    expect(grid.createHex()).toHaveProperty('customProp', 1)
+  })
+
+  test('creates a grid using a class extending from defineHex()', () => {
+    class CustomHex extends defineHex() {
+      customProp = 1
+    }
+    const grid = new Grid(CustomHex)
+
+    expectTypeOf(grid).toMatchTypeOf<Grid<CustomHex>>()
+    expect(grid.createHex()).toHaveProperty('customProp', 1)
   })
 
   test('creates a grid from a hex constructor and one or more traversers', () => {
