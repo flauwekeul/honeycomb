@@ -159,9 +159,9 @@ ___
 
 #### Type parameters
 
-| Name | Type                            |
-| :--- | :------------------------------ |
-| `T`  | extends [`Hex`](classes/Hex.md) |
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Type declaration
 
@@ -169,8 +169,8 @@ ___
 
 ##### Parameters
 
-| Name           | Type                                        |
-| :------------- | :------------------------------------------ |
+| Name | Type |
+| :------ | :------ |
 | `coordinates?` | [`HexCoordinates`](index.md#HexCoordinates) |
 
 #### Defined in
@@ -231,10 +231,10 @@ ___
 
 #### Type parameters
 
-| Name | Type                             |
-| :--- | :------------------------------- |
-| `T`  | extends [`Hex`](classes/Hex.md)  |
-| `R`  | extends `Iterable`<`T`\> = `T`[] |
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](classes/Hex.md) |
+| `R` | extends `Iterable`<`T`\> = `T`[] |
 
 #### Type declaration
 
@@ -242,10 +242,10 @@ ___
 
 ##### Parameters
 
-| Name        | Type                                                                 |
-| :---------- | :------------------------------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `createHex` | (`coordinates?`: [`HexCoordinates`](index.md#HexCoordinates)) => `T` |
-| `cursor?`   | [`HexCoordinates`](index.md#HexCoordinates)                          |
+| `cursor?` | [`HexCoordinates`](index.md#HexCoordinates) |
 
 ##### Returns
 
@@ -269,8 +269,8 @@ ___
 
 ##### Parameters
 
-| Name      | Type        |
-| :-------- | :---------- |
+| Name | Type |
+| :------ | :------ |
 | `...args` | `unknown`[] |
 
 ##### Returns
@@ -311,8 +311,8 @@ ___
 
 #### Parameters
 
-| Name             | Type                                                        |
-| :--------------- | :---------------------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `«destructured»` | [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) |
 
 #### Returns
@@ -333,8 +333,8 @@ Determines whether the passed value is an object with axial coordinates, e.g.: `
 
 #### Parameters
 
-| Name    | Type      |
-| :------ | :-------- |
+| Name | Type |
+| :------ | :------ |
 | `value` | `unknown` |
 
 #### Returns
@@ -355,8 +355,8 @@ Determines whether the passed value is an object with offset coordinates, e.g.: 
 
 #### Parameters
 
-| Name    | Type      |
-| :------ | :-------- |
+| Name | Type |
+| :------ | :------ |
 | `value` | `unknown` |
 
 #### Returns
@@ -377,8 +377,8 @@ Determines whether the passed value is an object with point coordinates, e.g.: `
 
 #### Parameters
 
-| Name    | Type      |
-| :------ | :-------- |
+| Name | Type |
+| :------ | :------ |
 | `value` | `unknown` |
 
 #### Returns
@@ -399,8 +399,8 @@ Determines whether the passed value are tuple coordinates (an array containing e
 
 #### Parameters
 
-| Name    | Type      |
-| :------ | :-------- |
+| Name | Type |
+| :------ | :------ |
 | `value` | `unknown` |
 
 #### Returns
@@ -421,10 +421,10 @@ Util for converting offset/axial/cube/tuple coordinates to cube coordinates.
 
 #### Parameters
 
-| Name          | Type                                                                                   |
-| :------------ | :------------------------------------------------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `hexSettings` | `Pick`<[`HexSettings`](interfaces/HexSettings.md), ``"orientation"`` \| ``"offset"``\> |
-| `coordinates` | [`HexCoordinates`](index.md#HexCoordinates)                                            |
+| `coordinates` | [`HexCoordinates`](index.md#HexCoordinates) |
 
 #### Returns
 
@@ -442,19 +442,19 @@ ___
 
 #### Parameters
 
-| Name             | Type                                            |
-| :--------------- | :---------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `«destructured»` | [`TupleCoordinates`](index.md#TupleCoordinates) |
 
 #### Returns
 
 `Object`
 
-| Name | Type     |
-| :--- | :------- |
-| `q`  | `number` |
-| `r`  | `number` |
-| `s`  | `number` |
+| Name | Type |
+| :------ | :------ |
+| `q` | `number` |
+| `r` | `number` |
+| `s` | `number` |
 
 #### Defined in
 
@@ -470,8 +470,8 @@ ___
 
 #### Parameters
 
-| Name     | Type     |
-| :------- | :------- |
+| Name | Type |
+| :------ | :------ |
 | `radius` | `number` |
 
 #### Returns
@@ -486,10 +486,10 @@ ___
 
 #### Parameters
 
-| Name          | Type                                       |
-| :------------ | :----------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `boundingBox` | [`BoundingBox`](interfaces/BoundingBox.md) |
-| `orientation` | [`Orientation`](index.md#Orientation)      |
+| `orientation` | [`Orientation`](index.md#Orientation) |
 
 #### Returns
 
@@ -503,8 +503,8 @@ ___
 
 #### Parameters
 
-| Name      | Type                               |
-| :-------- | :--------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `ellipse` | [`Ellipse`](interfaces/Ellipse.md) |
 
 #### Returns
@@ -523,9 +523,9 @@ ___
 
 #### Parameters
 
-| Name          | Type                                       |
-| :------------ | :----------------------------------------- |
-| `input`       | ``"topLeft"``                              |
+| Name | Type |
+| :------ | :------ |
+| `input` | ``"topLeft"`` |
 | `boundingBox` | [`BoundingBox`](interfaces/BoundingBox.md) |
 
 #### Returns
@@ -540,8 +540,8 @@ ___
 
 #### Parameters
 
-| Name    | Type                           |
-| :------ | :----------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `input` | [`Point`](interfaces/Point.md) |
 
 #### Returns
@@ -560,8 +560,8 @@ ___
 
 #### Parameters
 
-| Name          | Type                                                 |
-| :------------ | :--------------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `hexOptions?` | `Partial`<[`HexOptions`](interfaces/HexOptions.md)\> |
 
 #### Returns
@@ -580,10 +580,10 @@ ___
 
 #### Parameters
 
-| Name | Type                                                                                                           |
-| :--- | :------------------------------------------------------------------------------------------------------------- |
-| `a`  | [`TupleCoordinates`](index.md#TupleCoordinates) \| [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) |
-| `b`  | [`TupleCoordinates`](index.md#TupleCoordinates) \| [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) |
+| Name | Type |
+| :------ | :------ |
+| `a` | [`TupleCoordinates`](index.md#TupleCoordinates) \| [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) |
+| `b` | [`TupleCoordinates`](index.md#TupleCoordinates) \| [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) |
 
 #### Returns
 
@@ -597,10 +597,10 @@ ___
 
 #### Parameters
 
-| Name | Type                                                   |
-| :--- | :----------------------------------------------------- |
-| `a`  | [`OffsetCoordinates`](interfaces/OffsetCoordinates.md) |
-| `b`  | [`OffsetCoordinates`](interfaces/OffsetCoordinates.md) |
+| Name | Type |
+| :------ | :------ |
+| `a` | [`OffsetCoordinates`](interfaces/OffsetCoordinates.md) |
+| `b` | [`OffsetCoordinates`](interfaces/OffsetCoordinates.md) |
 
 #### Returns
 
@@ -618,8 +618,8 @@ ___
 
 #### Parameters
 
-| Name             | Type                                                                                   |
-| :--------------- | :------------------------------------------------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `«destructured»` | `Pick`<[`Hex`](classes/Hex.md), ``"q"`` \| ``"r"`` \| ``"offset"`` \| ``"isPointy"``\> |
 
 #### Returns
@@ -638,8 +638,8 @@ ___
 
 #### Parameters
 
-| Name             | Type                    |
-| :--------------- | :---------------------- |
+| Name | Type |
+| :------ | :------ |
 | `«destructured»` | [`Hex`](classes/Hex.md) |
 
 #### Returns
@@ -658,10 +658,10 @@ ___
 
 #### Parameters
 
-| Name             | Type                                                                                   |
-| :--------------- | :------------------------------------------------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `«destructured»` | `Pick`<[`HexSettings`](interfaces/HexSettings.md), ``"orientation"`` \| ``"offset"``\> |
-| `«destructured»` | [`OffsetCoordinates`](interfaces/OffsetCoordinates.md)                                 |
+| `«destructured»` | [`OffsetCoordinates`](interfaces/OffsetCoordinates.md) |
 
 #### Returns
 
@@ -679,10 +679,10 @@ ___
 
 #### Parameters
 
-| Name             | Type                                                                                                       |
-| :--------------- | :--------------------------------------------------------------------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `«destructured»` | `Pick`<[`HexSettings`](interfaces/HexSettings.md), ``"dimensions"`` \| ``"orientation"`` \| ``"origin"``\> |
-| `«destructured»` | [`Point`](interfaces/Point.md)                                                                             |
+| `«destructured»` | [`Point`](interfaces/Point.md) |
 
 #### Returns
 
@@ -700,8 +700,8 @@ ___
 
 #### Parameters
 
-| Name          | Type                                                        |
-| :------------ | :---------------------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `coordinates` | [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) |
 
 #### Returns
@@ -720,15 +720,15 @@ ___
 
 #### Type parameters
 
-| Name | Type                            |
-| :--- | :------------------------------ |
-| `T`  | extends [`Hex`](classes/Hex.md) |
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
-| Name    | Type                                                        |
-| :------ | :---------------------------------------------------------- |
-| `hex`   | `T`                                                         |
+| Name | Type |
+| :------ | :------ |
+| `hex` | `T` |
 | `delta` | [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) |
 
 #### Returns
@@ -743,10 +743,10 @@ ___
 
 #### Parameters
 
-| Name          | Type                                                        |
-| :------------ | :---------------------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `coordinates` | [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) |
-| `delta`       | [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) |
+| `delta` | [`PartialCubeCoordinates`](index.md#PartialCubeCoordinates) |
 
 #### Returns
 
@@ -766,14 +766,14 @@ ___
 
 #### Type parameters
 
-| Name | Type                            |
-| :--- | :------------------------------ |
-| `T`  | extends [`Hex`](classes/Hex.md) |
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
-| Name         | Type                                                                                 |
-| :----------- | :----------------------------------------------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `traversers` | [`Traverser`](index.md#Traverser)<`T`\> \| [`Traverser`](index.md#Traverser)<`T`\>[] |
 
 #### Returns
@@ -792,14 +792,14 @@ ___
 
 #### Type parameters
 
-| Name | Type                            |
-| :--- | :------------------------------ |
-| `T`  | extends [`Hex`](classes/Hex.md) |
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
-| Name             | Type                                          |
-| :--------------- | :-------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `...coordinates` | [`HexCoordinates`](index.md#HexCoordinates)[] |
 
 #### Returns
@@ -818,14 +818,14 @@ ___
 
 #### Type parameters
 
-| Name | Type                            |
-| :--- | :------------------------------ |
-| `T`  | extends [`Hex`](classes/Hex.md) |
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
-| Name      | Type                                                       |
-| :-------- | :--------------------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `options` | [`LineAsVectorOptions`](interfaces/LineAsVectorOptions.md) |
 
 #### Returns
@@ -840,14 +840,14 @@ ___
 
 #### Type parameters
 
-| Name | Type                            |
-| :--- | :------------------------------ |
-| `T`  | extends [`Hex`](classes/Hex.md) |
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
-| Name      | Type                                                     |
-| :-------- | :------------------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `options` | [`LineBetweenOptions`](interfaces/LineBetweenOptions.md) |
 
 #### Returns
@@ -866,14 +866,14 @@ ___
 
 #### Type parameters
 
-| Name | Type                            |
-| :--- | :------------------------------ |
-| `T`  | extends [`Hex`](classes/Hex.md) |
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
-| Name        | Type                                                                                     |
-| :---------- | :--------------------------------------------------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `direction` | ``"N"`` \| ``"NE"`` \| ``"E"`` \| ``"SE"`` \| ``"S"`` \| ``"SW"`` \| ``"W"`` \| ``"NW"`` |
 
 #### Returns
@@ -892,14 +892,14 @@ ___
 
 #### Type parameters
 
-| Name | Type                            |
-| :--- | :------------------------------ |
-| `T`  | extends [`Hex`](classes/Hex.md) |
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
-| Name      | Type                                                 |
-| :-------- | :--------------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `options` | [`RectangleOptions`](interfaces/RectangleOptions.md) |
 
 #### Returns
@@ -918,14 +918,14 @@ The rectangle will only have 90° corners for the directions North, East, South 
 
 #### Type parameters
 
-| Name | Type                            |
-| :--- | :------------------------------ |
-| `T`  | extends [`Hex`](classes/Hex.md) |
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
-| Name      | Type                                        |
-| :-------- | :------------------------------------------ |
+| Name | Type |
+| :------ | :------ |
 | `cornerA` | [`HexCoordinates`](index.md#HexCoordinates) |
 | `cornerB` | [`HexCoordinates`](index.md#HexCoordinates) |
 
@@ -945,15 +945,15 @@ ___
 
 #### Type parameters
 
-| Name | Type                            |
-| :--- | :------------------------------ |
-| `T`  | extends [`Hex`](classes/Hex.md) |
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
-| Name         | Type                                                                                 |
-| :----------- | :----------------------------------------------------------------------------------- |
-| `times`      | `number`                                                                             |
+| Name | Type |
+| :------ | :------ |
+| `times` | `number` |
 | `traversers` | [`Traverser`](index.md#Traverser)<`T`\> \| [`Traverser`](index.md#Traverser)<`T`\>[] |
 
 #### Returns
@@ -972,18 +972,18 @@ ___
 
 #### Type parameters
 
-| Name | Type                            |
-| :--- | :------------------------------ |
-| `T`  | extends [`Hex`](classes/Hex.md) |
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
-| Name              | Type                                                                                 |
-| :---------------- | :----------------------------------------------------------------------------------- |
-| `sources`         | [`Traverser`](index.md#Traverser)<`T`\> \| [`Traverser`](index.md#Traverser)<`T`\>[] |
-| `branches`        | [`Traverser`](index.md#Traverser)<`T`\> \| [`Traverser`](index.md#Traverser)<`T`\>[] |
-| `«destructured»`  | `Object`                                                                             |
-| › `includeSource` | `undefined` \| `boolean`                                                             |
+| Name | Type |
+| :------ | :------ |
+| `sources` | [`Traverser`](index.md#Traverser)<`T`\> \| [`Traverser`](index.md#Traverser)<`T`\>[] |
+| `branches` | [`Traverser`](index.md#Traverser)<`T`\> \| [`Traverser`](index.md#Traverser)<`T`\>[] |
+| `«destructured»` | `Object` |
+| › `includeSource` | `undefined` \| `boolean` |
 
 #### Returns
 
@@ -1001,14 +1001,14 @@ ___
 
 #### Type parameters
 
-| Name | Type                            |
-| :--- | :------------------------------ |
-| `T`  | extends [`Hex`](classes/Hex.md) |
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
-| Name      | Type                                       |
-| :-------- | :----------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `options` | [`RingOptions`](interfaces/RingOptions.md) |
 
 #### Returns
@@ -1023,14 +1023,14 @@ ___
 
 #### Type parameters
 
-| Name | Type                            |
-| :--- | :------------------------------ |
-| `T`  | extends [`Hex`](classes/Hex.md) |
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
-| Name      | Type                                                           |
-| :-------- | :------------------------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `options` | [`RingFromRadiusOptions`](interfaces/RingFromRadiusOptions.md) |
 
 #### Returns
@@ -1049,14 +1049,14 @@ ___
 
 #### Type parameters
 
-| Name | Type                            |
-| :--- | :------------------------------ |
-| `T`  | extends [`Hex`](classes/Hex.md) |
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
-| Name             | Type                                           |
-| :--------------- | :--------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `«destructured»` | [`SpiralOptions`](interfaces/SpiralOptions.md) |
 
 #### Returns
@@ -1077,11 +1077,11 @@ ___
 
 #### Parameters
 
-| Name          | Type                                                                                   |
-| :------------ | :------------------------------------------------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `hexSettings` | `Pick`<[`HexSettings`](interfaces/HexSettings.md), ``"orientation"`` \| ``"offset"``\> |
-| `from`        | [`HexCoordinates`](index.md#HexCoordinates)                                            |
-| `to`          | [`HexCoordinates`](index.md#HexCoordinates)                                            |
+| `from` | [`HexCoordinates`](index.md#HexCoordinates) |
+| `to` | [`HexCoordinates`](index.md#HexCoordinates) |
 
 #### Returns
 
@@ -1099,15 +1099,15 @@ ___
 
 #### Type parameters
 
-| Name | Type                            |
-| :--- | :------------------------------ |
-| `T`  | extends [`Hex`](classes/Hex.md) |
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`Hex`](classes/Hex.md) |
 
 #### Parameters
 
-| Name        | Type                                                                                     |
-| :---------- | :--------------------------------------------------------------------------------------- |
-| `hex`       | `T`                                                                                      |
+| Name | Type |
+| :------ | :------ |
+| `hex` | `T` |
 | `direction` | ``"N"`` \| ``"NE"`` \| ``"E"`` \| ``"SE"`` \| ``"S"`` \| ``"SW"`` \| ``"W"`` \| ``"NW"`` |
 
 #### Returns
@@ -1139,14 +1139,14 @@ The type of the arguments and return type aren't checked though.
 
 #### Type parameters
 
-| Name | Type                                          |
-| :--- | :-------------------------------------------- |
-| `T`  | [`UnknownFunction`](index.md#UnknownFunction) |
+| Name | Type |
+| :------ | :------ |
+| `T` | [`UnknownFunction`](index.md#UnknownFunction) |
 
 #### Parameters
 
-| Name    | Type      |
-| :------ | :-------- |
+| Name | Type |
+| :------ | :------ |
 | `value` | `unknown` |
 
 #### Returns
@@ -1167,8 +1167,8 @@ Determines whether the passed value is a finite number (excluding `NaN`).
 
 #### Parameters
 
-| Name    | Type      |
-| :------ | :-------- |
+| Name | Type |
+| :------ | :------ |
 | `value` | `unknown` |
 
 #### Returns
@@ -1199,14 +1199,14 @@ isObject<MyObject>(value)
 
 #### Type parameters
 
-| Name | Type                                |
-| :--- | :---------------------------------- |
-| `T`  | `Record`<`PropertyKey`, `unknown`\> |
+| Name | Type |
+| :------ | :------ |
+| `T` | `Record`<`PropertyKey`, `unknown`\> |
 
 #### Parameters
 
-| Name    | Type      |
-| :------ | :-------- |
+| Name | Type |
+| :------ | :------ |
 | `value` | `unknown` |
 
 #### Returns
@@ -1232,10 +1232,10 @@ it "wraps around" and its remainder is used.
 
 #### Parameters
 
-| Name        | Type                                                                                     |
-| :---------- | :--------------------------------------------------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `direction` | ``"N"`` \| ``"NE"`` \| ``"E"`` \| ``"SE"`` \| ``"S"`` \| ``"SW"`` \| ``"W"`` \| ``"NW"`` |
-| `steps`     | `number`                                                                                 |
+| `steps` | `number` |
 
 #### Returns
 
@@ -1269,10 +1269,10 @@ See the [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/R
 
 #### Parameters
 
-| Name       | Type     |
-| :--------- | :------- |
+| Name | Type |
+| :------ | :------ |
 | `dividend` | `number` |
-| `divisor`  | `number` |
+| `divisor` | `number` |
 
 #### Returns
 

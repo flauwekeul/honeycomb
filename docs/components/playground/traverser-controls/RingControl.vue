@@ -23,8 +23,8 @@ const update = <T,>(propName: keyof RingControlProps, value: T) => {
   </el-form-item>
   <el-form-item label="Rotation">
     <el-select :model-value="rotation" @change="update('rotation', $event)">
-      <el-option label="Clockwise" value="cw" style="--el-color-primary: var(--vp-c-brand)" />
-      <el-option label="Counterclockwise" value="ccw" style="--el-color-primary: var(--vp-c-brand)" />
+      <el-option label="↻ Clockwise" value="cw" style="--el-color-primary: var(--vp-c-brand)" />
+      <el-option label="↺ Counterclockwise" value="ccw" style="--el-color-primary: var(--vp-c-brand)" />
     </el-select>
   </el-form-item>
 </template>

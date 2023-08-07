@@ -61,8 +61,8 @@ const arrowData = computed(() =>
 
 <style scoped>
 .tile-grid {
+  display: block;
   overflow: visible;
-  margin: 32px auto;
 }
 
 .arrow-head {

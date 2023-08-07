@@ -60,6 +60,7 @@ const updateClickedTile = ({ offsetX, offsetY }: MouseEvent) => {
 <style scoped>
 .grid {
   background-color: var(--vp-c-text-light-3);
+  margin: 2rem auto;
 }
 
 .controls {

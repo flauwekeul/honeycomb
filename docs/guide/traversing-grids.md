@@ -39,11 +39,11 @@ grid.traverse(spiralTraverser)
 
 This can be visualized like so:
 
-<TileGrid :grid="grid" :traversal="spiral1" />
+<TileGrid :grid="grid" :traversal="spiral1" class="grid" />
 
 When the radius is increased from `1` to `2` it becomes apparent that only the hexes present in `grid` are traversed. You see that the traversal "jumps" from `[-2, 4]` to `[0, 0]`:
 
-<TileGrid :grid="grid" :traversal="spiral2" />
+<TileGrid :grid="grid" :traversal="spiral2" class="grid" />
 
 After `[-2, 4]` the traverser would've wanted to go to `[-2, 3]` (North West of `[-2, 4]`) and then to `[-2, 2]` (another step NW), but these hexes don't exist in `grid` and are skipped. That's until `[0, 0]` is traversed, which *is* present and that also happens to finish the spiral.
 
@@ -55,7 +55,7 @@ After `[-2, 4]` the traverser would've wanted to go to `[-2, 3]` (North West of 
 grid.traverse(spiralTraverser, { bail: true })
 ```
 
-<TileGrid :grid="grid" :traversal="spiral3" />
+<TileGrid :grid="grid" :traversal="spiral3" class="grid" />
 
 Note that it didn't "jump" from `[-2, 4]` to `[0, 0]` this time. After `[-2, 4]` the traverser would've wanted to go to `[-2, 3]` (which is North West of `[-2, 4]` and not present in `grid`) and bailed.
 
@@ -75,7 +75,7 @@ const squareOutlineTraverser = [
 grid.traverse(squareOutlineTraverser)
 ```
 
-<TileGrid :grid="grid" :traversal="squareOutline1" />
+<TileGrid :grid="grid" :traversal="squareOutline1" class="grid" />
 
 Note that `line()` is never called with a `start` option. Most functions that create traversers, including `line()` and `rectangle()`, accept a `start` option. But it's optional. When it's not passed it either starts where the previous traverser left off (this happens on lines 4, 5, and 6 in the example above, that's why they have a length of `3`). Or if it's the first traverser (line 3 in the example above), `start` defaults to `[0, 0]`.
 
@@ -91,7 +91,7 @@ const squareOutlineTraverser = [
 grid.traverse(squareOutlineTraverser)
 ```
 
-<TileGrid :grid="grid" :traversal="squareOutline2" />
+<TileGrid :grid="grid" :traversal="squareOutline2" class="grid" />
 
 ## Built-in traversers
 
@@ -123,7 +123,7 @@ const someHexes = fromCoordinates(
 grid.traverse(someHexes)
 ```
 
-<TileGrid :grid="grid" :traversal="someHexes1" />
+<TileGrid :grid="grid" :traversal="someHexes1" class="grid" />
 
 ### [`line()`](/api/#line)
 
@@ -136,7 +136,7 @@ A line traverser can be created in two ways:
   grid.traverse(vector)
   ```
 
-  <TileGrid :grid="grid" :traversal="line1" />
+  <TileGrid :grid="grid" :traversal="line1" class="grid" />
 
   When the direction is ambiguous (North and South for pointy hexes, West and East for flat hexes), the next hex is chosen based on the [offset setting](/api/interfaces/HexSettings#offset).
 
@@ -147,7 +147,7 @@ A line traverser can be created in two ways:
   grid.traverse(lineBetween)
   ```
 
-  <TileGrid :grid="grid" :traversal="line2">
+  <TileGrid :grid="grid" :traversal="line2" class="grid">
     <Line #before :from="line2.getHex([2, 0])" :to="line2.getHex([1, 4])" />
   </TileGrid>
 
@@ -165,7 +165,7 @@ const moveEast = move('E')
 grid.traverse([firstHex, moveSouth, moveEast])
 ```
 
-<TileGrid :grid="grid" :traversal="move1" />
+<TileGrid :grid="grid" :traversal="move1" class="grid" />
 
 It's equivalent to `line({ direction, length: 1 })` and can be used to make more complex traversers.
 
@@ -182,7 +182,7 @@ A rectangle traverser can be created in two ways:
   grid.traverse(square)
   ```
 
-  <TileGrid :grid="grid" :traversal="square1" />
+  <TileGrid :grid="grid" :traversal="square1" class="grid" />
 
   It's possible to change the direction of the "rows":
 
@@ -196,7 +196,7 @@ A rectangle traverser can be created in two ways:
   grid.traverse(square)
   ```
 
-  <TileGrid :grid="grid" :traversal="square2" />
+  <TileGrid :grid="grid" :traversal="square2" class="grid" />
 
   ::: warning
   When you pass an ordinal direction (NE, SE, SW or NW), you get a diamond shape:
@@ -209,7 +209,7 @@ A rectangle traverser can be created in two ways:
   })
   grid.traverse(square)
   ```
-  <TileGrid :grid="grid" :traversal="diamond1" />
+  <TileGrid :grid="grid" :traversal="diamond1" class="grid" />
   :::
 
 2. With opposing corners:
@@ -219,7 +219,7 @@ A rectangle traverser can be created in two ways:
   grid.traverse(rect)
   ```
 
-  <TileGrid :grid="grid" :traversal="rectangle1" />
+  <TileGrid :grid="grid" :traversal="rectangle1" class="grid" />
 
 ### [`repeat()`](/api/#repeat)
 
@@ -230,7 +230,7 @@ const fiveStepsSE = repeat(3, move('SE'))
 grid.traverse([fromCoordinates([2, 0]), fiveStepsSE])
 ```
 
-<TileGrid :grid="grid" :traversal="repeat1" />
+<TileGrid :grid="grid" :traversal="repeat1" class="grid" />
 
 A more complex example:
 
@@ -250,7 +250,7 @@ grid.traverse([
 ])
 ```
 
-<TileGrid :grid="grid" :traversal="repeat2" />
+<TileGrid :grid="grid" :traversal="repeat2" class="grid" />
 
 ### [`repeatWith()`](/api/#repeatWith)
 
@@ -267,7 +267,7 @@ const square = repeatWith(
 grid.traverse(square)
 ```
 
-<TileGrid :grid="grid" :traversal="repeatWith1" />
+<TileGrid :grid="grid" :traversal="repeatWith1" class="grid" />
 
 The source traverser (line 4) is a line going South and for each hex it produces, a line in a perpendicular direction (East) is created. Because the hexes from the source traverser are included, the branch traverser can be one hex shorter. `repeatWith()` accepts a third argument to exclude the hexes created by the source traverser(s). Here's the same square, but with `{ includeSource: false }`:
 
@@ -283,7 +283,7 @@ const square = repeatWith(
 grid.traverse(square)
 ```
 
-<TileGrid :grid="grid" :traversal="repeatWith2" />
+<TileGrid :grid="grid" :traversal="repeatWith2" class="grid" />
 
 Apart from the added third argument, two other things are different from the previous example. `start` on line 4 is shifted one hex to the West, because no hex from that `line()` is included in the result anymore. And `length` on line 5 can now just be `width`, again, because the first "column" of hexes from the source traverser is missing.
 
@@ -298,7 +298,7 @@ A ring traverser can be created in two ways:
   grid.traverse(someRing)
   ```
 
-  <TileGrid :grid="grid" :traversal="ring1" />
+  <TileGrid :grid="grid" :traversal="ring1" class="grid" />
 
   The direction of rotation can be changed as well:
 
@@ -311,7 +311,7 @@ A ring traverser can be created in two ways:
   grid.traverse(ccwRing)
   ```
 
-  <TileGrid :grid="grid" :traversal="ring2" />
+  <TileGrid :grid="grid" :traversal="ring2" class="grid" />
 
 2. With ["radius options"](/api/interfaces/RingFromRadiusOptions):
 
@@ -320,7 +320,7 @@ A ring traverser can be created in two ways:
   grid.traverse(radiusRing)
   ```
 
-  <TileGrid :grid="grid" :traversal="ring3" />
+  <TileGrid :grid="grid" :traversal="ring3" class="grid" />
 
   Note that when passing a radius, it's not possible to control where the ring starts (it'll always start East of the center).
 
@@ -333,7 +333,7 @@ const spiralFrom1_2 = spiral({ start: [1, 2], radius: 2 })
 grid.traverse(spiralFrom1_2)
 ```
 
-<TileGrid :grid="grid" :traversal="spiral4" />
+<TileGrid :grid="grid" :traversal="spiral4" class="grid" />
 
 Just as with `ring()`, the radius excludes the center. And also just as with `ring()`, the rotation can be counterclockwise:
 
@@ -346,7 +346,7 @@ const ccwSpiral = spiral({
 grid.traverse(ccwSpiral)
 ```
 
-<TileGrid :grid="grid" :traversal="spiral5" />
+<TileGrid :grid="grid" :traversal="spiral5" class="grid" />
 
 <script setup lang="ts">
 import { defineHex, fromCoordinates, Grid, line, move, rectangle, repeat, repeatWith, ring, spiral } from '../../src';
@@ -404,3 +404,9 @@ const ring3 = grid.traverse(ring({ center: [1, 2], radius: 2 }))
 const spiral4 = grid.traverse(spiral({ start: [1, 2], radius: 2 }))
 const spiral5 = grid.traverse(spiral({ start: [1, 2], radius: 2, rotation: 'ccw' }))
 </script>
+
+<style scope>
+.grid {
+  margin: 2rem auto;
+}
+</style>

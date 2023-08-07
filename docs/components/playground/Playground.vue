@@ -33,20 +33,25 @@ const getTraverser = (name: traverserName) => ({ rectangle, ring })[name]
 
 <template>
   <div class="playground">
-    <TileGrid :grid="grid" :key="gridKey" />
     <Controls :hex-settings="hexSettings" :initial-hexes="initialHexes" @update="update" class="controls" />
+    <TileGrid :grid="grid" :key="gridKey" class="tile-grid" />
   </div>
 </template>
 
 <style scoped>
 .playground {
-  position: relative;
-  margin: 32px;
+  display: flex;
+  min-height: 100vh;
 }
 
 .controls {
-  position: absolute;
-  top: 0;
-  left: 0;
+  width: 20vw;
+  opacity: 0.9;
+  z-index: 1;
+}
+
+.tile-grid {
+  margin: 2rem;
+  width: 80vw;
 }
 </style>
