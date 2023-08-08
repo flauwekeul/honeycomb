@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import 'element-plus/theme-chalk/dark/css-vars.css'
-import { HexOptions, isNumber, isPoint } from '../../../src'
-import CoordinatesControl from './CoordinatesControl.vue'
+import { HexOptions } from '../../../src'
+import HexSettings, { HexSettingsProps } from './HexSettings.vue'
 import TraverserControl, { TraverserControlProps } from './TraverserControl.vue'
 
 export interface ControlsProps {
@@ -10,24 +10,18 @@ export interface ControlsProps {
 }
 
 export type ControlsEmits = {
-  update: [value: ControlsProps]
+  change: [value: ControlsProps]
 }
 
 const props = defineProps<ControlsProps>()
 const emit = defineEmits<ControlsEmits>()
 
-const updateHexSettings = <T,>(propName: keyof HexOptions, value: T) => {
-  emit('update', {
-    ...props,
-    hexSettings: {
-      ...props.hexSettings,
-      [propName]: value,
-    },
-  })
+const updateHexSettings = (hexSettings: HexSettingsProps) => {
+  emit('change', { ...props, hexSettings })
 }
 
 const updateInitialHexes = (initialHexes: TraverserControlProps) => {
-  emit('update', { ...props, initialHexes })
+  emit('change', { ...props, initialHexes })
 }
 </script>
 
@@ -36,38 +30,7 @@ const updateInitialHexes = (initialHexes: TraverserControlProps) => {
     <el-form label-width="auto" class="form">
       <el-tabs>
         <el-tab-pane label="Hex settings">
-          <el-form-item label="Orientation">
-            <el-radio-group :model-value="hexSettings.orientation" @change="updateHexSettings('orientation', $event)">
-              <el-radio-button label="pointy" />
-              <el-radio-button label="flat" />
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item label="Dimensions">
-            <!-- todo: also support BoundingBox and Ellipse -->
-            <el-input-number
-              v-if="isNumber(hexSettings.dimensions)"
-              :model-value="hexSettings.dimensions"
-              @change="updateHexSettings('dimensions', $event)"
-              :min="10"
-              :max="100"
-              :step="5"
-              value-on-clear="min"
-            />
-          </el-form-item>
-          <el-form-item label="Origin">
-            <CoordinatesControl
-              v-if="isPoint(hexSettings.origin)"
-              :values="[hexSettings.origin.x, hexSettings.origin.y]"
-              @change="updateHexSettings('origin', { x: $event[0], y: $event[1] })"
-            />
-          </el-form-item>
-          <!-- todo: support origin: 'topLeft' -->
-          <el-form-item label="Offset">
-            <el-radio-group :model-value="hexSettings.offset" @change="updateHexSettings('offset', $event)">
-              <el-radio-button :label="-1" />
-              <el-radio-button :label="1" />
-            </el-radio-group>
-          </el-form-item>
+          <HexSettings v-bind="hexSettings" @change="updateHexSettings" />
         </el-tab-pane>
         <el-tab-pane label="Grid">
           <TraverserControl v-bind="initialHexes" @change="updateInitialHexes" />

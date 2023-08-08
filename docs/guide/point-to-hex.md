@@ -35,7 +35,7 @@ document.addEventListener('click', ({ offsetX, offsetY }) => {
 
 <script setup lang="ts">
 import { defineHex, Grid, rectangle } from '../../src';
-import TileGrid from '../components/TileGrid.vue';
+import TileGrid from '../components/tile-grid/TileGrid.vue';
 import { ref } from 'vue';
 
 const Hex = defineHex({ dimensions: { xRadius: 50, yRadius: 30 } })

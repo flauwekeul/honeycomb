@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Point } from '../../src'
+import { Point } from '../../../src'
 
 // export interface ArrowProps {
 //   center: Point

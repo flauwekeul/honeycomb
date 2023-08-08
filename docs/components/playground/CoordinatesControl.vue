@@ -4,6 +4,7 @@ import { computed } from 'vue'
 export interface CoordinatesControlProps {
   values: [first: number, second: number]
   labels?: [first: string, second: string]
+  step?: number
 }
 
 export type CoordinatesControlEmits = {
@@ -11,7 +12,8 @@ export type CoordinatesControlEmits = {
 }
 
 const props = withDefaults(defineProps<CoordinatesControlProps>(), {
-  labels: () => ['x', 'y'],
+  labels: () => ['q', 'r'],
+  step: undefined,
 })
 const emit = defineEmits<CoordinatesControlEmits>()
 
@@ -29,6 +31,7 @@ const change = (first: number, second: number) => {
       <el-input-number
         :model-value="first"
         @change="change($event as number, second)"
+        :step="step"
         :value-on-clear="0"
         class="input-number"
       />
@@ -37,6 +40,7 @@ const change = (first: number, second: number) => {
       <el-input-number
         :model-value="second"
         @change="change(first, $event as number)"
+        :step="step"
         :value-on-clear="0"
         class="input-number"
       />

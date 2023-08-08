@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Grid, Hex } from '../../src'
+import { Grid, Hex } from '../../../src'
 import Arrow, { ArrowProps } from './Arrow.vue'
 import Tile from './Tile.vue'
 

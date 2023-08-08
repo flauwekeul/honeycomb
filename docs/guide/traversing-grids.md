@@ -350,8 +350,8 @@ grid.traverse(ccwSpiral)
 
 <script setup lang="ts">
 import { defineHex, fromCoordinates, Grid, line, move, rectangle, repeat, repeatWith, ring, spiral } from '../../src';
-import Line from '../components/Line.vue';
-import TileGrid from '../components/TileGrid.vue';
+import Line from '../components/tile-grid/Line.vue';
+import TileGrid from '../components/tile-grid/TileGrid.vue';
 
 const Hex = defineHex({ dimensions: 30 })
 const grid = new Grid(Hex, rectangle({ width: 5, height: 5 }))

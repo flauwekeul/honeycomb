@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Hex } from '../../src'
+import { Hex } from '../../../src'
 
 export interface HexProps {
   tile: Hex

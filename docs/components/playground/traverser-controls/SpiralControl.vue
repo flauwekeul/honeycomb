@@ -12,11 +12,7 @@ const update = <T,>(propName: keyof SpiralControlProps, value: T) => {
 
 <template>
   <el-form-item label="Start">
-    <CoordinatesControl
-      :values="[start.q, start.r]"
-      :labels="['q', 'r']"
-      @change="update('start', { q: $event[0], r: $event[1] })"
-    />
+    <CoordinatesControl :values="[start.q, start.r]" @change="update('start', { q: $event[0], r: $event[1] })" />
   </el-form-item>
   <el-form-item label="Radius">
     <el-input-number :model-value="radius" @change="update('radius', $event)" :min="1" :max="50" value-on-clear="min" />

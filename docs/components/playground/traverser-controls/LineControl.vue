@@ -12,17 +12,9 @@ const update = <T,>(propName: keyof LineControlProps, value: T) => {
 
 <template>
   <el-form-item label="Start">
-    <CoordinatesControl
-      :values="[start.q, start.r]"
-      :labels="['q', 'r']"
-      @change="update('start', { q: $event[0], r: $event[1] })"
-    />
+    <CoordinatesControl :values="[start.q, start.r]" @change="update('start', { q: $event[0], r: $event[1] })" />
   </el-form-item>
   <el-form-item label="Stop">
-    <CoordinatesControl
-      :values="[stop.q, stop.r]"
-      :labels="['q', 'r']"
-      @change="update('stop', { q: $event[0], r: $event[1] })"
-    />
+    <CoordinatesControl :values="[stop.q, stop.r]" @change="update('stop', { q: $event[0], r: $event[1] })" />
   </el-form-item>
 </template>

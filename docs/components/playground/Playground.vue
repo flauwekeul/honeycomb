@@ -11,7 +11,7 @@ import {
   ring,
   spiral,
 } from '../../../src'
-import TileGrid from '../TileGrid.vue'
+import TileGrid from '../tile-grid/TileGrid.vue'
 import Controls, { ControlsProps } from './Controls.vue'
 import { defaultRectangleOptions, traverserName } from './shared'
 import { TraverserControlProps } from './TraverserControl.vue'
@@ -43,7 +43,7 @@ const getTraverser = (name: traverserName) => ({ line, rectangle, ring, spiral }
 
 <template>
   <div class="playground">
-    <Controls :hex-settings="hexSettings" :initial-hexes="initialHexes" @update="update" class="controls" />
+    <Controls :hex-settings="hexSettings" :initial-hexes="initialHexes" @change="update" class="controls" />
     <TileGrid :grid="grid" :key="gridKey" class="tile-grid" />
   </div>
 </template>
