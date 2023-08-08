@@ -1,6 +1,12 @@
-import { AxialCoordinates, LineBetweenOptions, RectangleOptions, RingFromRadiusOptions } from '../../../src'
+import {
+  AxialCoordinates,
+  LineBetweenOptions,
+  RectangleOptions,
+  RingFromRadiusOptions,
+  SpiralOptions,
+} from '../../../src'
 
-export const TRAVERSER_NAMES = ['line', 'rectangle', 'ring'] as const
+export const TRAVERSER_NAMES = ['line', 'rectangle', 'ring', 'spiral'] as const
 export type traverserName = (typeof TRAVERSER_NAMES)[number]
 
 type ControlEmits<T> = {
@@ -38,11 +44,23 @@ export interface RingControlProps extends Partial<RingFromRadiusOptions> {
   center?: AxialCoordinates
 }
 export const defaultRingOptions: RingControlProps = {
-  center: { q: 3, r: 3 },
+  center: { q: 1, r: 3 },
   radius: 3,
   rotation: 'cw',
 }
 export type RingControlEmits = ControlEmits<RingControlProps>
+
+// Spiral
+
+export interface SpiralControlProps extends Partial<SpiralOptions> {
+  start?: AxialCoordinates
+}
+export const defaultSpiralOptions: SpiralControlProps = {
+  start: { q: 1, r: 3 },
+  radius: 3,
+  rotation: 'cw',
+}
+export type SpiralControlEmits = ControlEmits<SpiralControlProps>
 
 // Utils
 

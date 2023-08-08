@@ -3,15 +3,18 @@ import {
   LineControlProps,
   RectangleControlProps,
   RingControlProps,
+  SpiralControlProps,
   TRAVERSER_NAMES,
   defaultLineOptions,
   defaultRectangleOptions,
   defaultRingOptions,
+  defaultSpiralOptions,
   traverserName,
 } from './shared'
 import LineControl from './traverser-controls/LineControl.vue'
 import RectangleControl from './traverser-controls/RectangleControl.vue'
 import RingControl from './traverser-controls/RingControl.vue'
+import SpiralControl from './traverser-controls/SpiralControl.vue'
 
 interface BaseTraverserOptions {
   name: traverserName
@@ -31,9 +34,17 @@ export interface RingTraverserOptions extends BaseTraverserOptions, RingControlP
   name: 'ring'
 }
 
-type ControlProps = LineControlProps | RectangleControlProps | RingControlProps
+export interface SpiralTraverserOptions extends BaseTraverserOptions, SpiralControlProps {
+  name: 'spiral'
+}
 
-export type TraverserControlProps = LineTraverserOptions | RectangleTraverserOptions | RingTraverserOptions
+type ControlProps = LineControlProps | RectangleControlProps | RingControlProps | SpiralControlProps
+
+export type TraverserControlProps =
+  | LineTraverserOptions
+  | RectangleTraverserOptions
+  | RingTraverserOptions
+  | SpiralTraverserOptions
 
 export type TraverserControlEmits = {
   change: [value: TraverserControlProps]
@@ -46,6 +57,7 @@ const DEFAULT_OPTIONS: Record<traverserName, ControlProps> = {
   line: defaultLineOptions,
   rectangle: defaultRectangleOptions,
   ring: defaultRingOptions,
+  spiral: defaultSpiralOptions,
 } as const
 
 const updateTraverser = (name: traverserName) => {
@@ -86,5 +98,12 @@ const update = (name: traverserName, options: ControlProps) => {
     :radius="radius"
     :rotation="rotation"
     @change="update('ring', $event)"
+  />
+  <SpiralControl
+    v-if="name === 'spiral'"
+    :start="start"
+    :radius="radius"
+    :rotation="rotation"
+    @change="update('spiral', $event)"
   />
 </template>
