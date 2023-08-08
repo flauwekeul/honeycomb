@@ -13,9 +13,6 @@ const { grid, traversal } = withDefaults(defineProps<GridProps>(), {
   traversal: () => new Grid(Hex),
 })
 
-// it may seem more obvious to use `{ origin: 'topLeft' }` as a hex setting instead of this manual transform
-// but this breaks the example on the point-to-hex page
-const transform = computed(() => `translate(${grid.hexPrototype.width / 2},${grid.hexPrototype.height / 2})`)
 const arrowData = computed(() =>
   traversal.toArray().reduce((acc, currentTile, index, tiles) => {
     const nextTile = tiles[index + 1]
@@ -48,14 +45,12 @@ const arrowData = computed(() =>
       </marker>
     </defs>
 
-    <g :transform="transform">
-      <slot name="before"></slot>
+    <slot name="before"></slot>
 
-      <Tile v-for="tile of grid" :key="tile.toString()" :tile="tile" :is-traversed="traversal?.hasHex(tile)" />
-      <Arrow v-for="{ from, to } of arrowData" :from="from" :to="to" />
+    <Tile v-for="tile of grid" :key="tile.toString()" :tile="tile" :is-traversed="traversal?.hasHex(tile)" />
+    <Arrow v-for="{ from, to } of arrowData" :from="from" :to="to" />
 
-      <slot></slot>
-    </g>
+    <slot></slot>
   </svg>
 </template>
 

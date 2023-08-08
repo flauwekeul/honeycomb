@@ -1,6 +1,7 @@
 import {
   AxialCoordinates,
   LineBetweenOptions,
+  Point,
   RectangleOptions,
   RingFromRadiusOptions,
   SpiralOptions,
@@ -73,3 +74,7 @@ export const toVueDefaults = <T extends {}>(props: T) =>
       return [key, value]
     }),
   )
+
+export const pointToTuple = ({ x, y }: Point): [number, number] => [x, y]
+
+export const tupleToPoint = ([x, y]: [number, number]): Point => ({ x, y })

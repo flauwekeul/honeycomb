@@ -1,22 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import {
-  defaultHexSettings,
-  defineHex,
-  Grid,
-  HexOptions,
-  line,
-  rectangle,
-  RectangleOptions,
-  ring,
-  spiral,
-} from '../../../src'
+import { defineHex, Grid, HexOptions, line, rectangle, RectangleOptions, ring, spiral } from '../../../src'
 import TileGrid from '../tile-grid/TileGrid.vue'
 import Controls, { ControlsProps } from './Controls.vue'
 import { defaultRectangleOptions, traverserName } from './shared'
 import { TraverserControlProps } from './TraverserControl.vue'
 
-const hexSettings = ref<HexOptions>({ ...defaultHexSettings, dimensions: 30 })
+const hexSettings = ref<HexOptions>({ orientation: 'pointy', dimensions: 30, origin: 'topLeft', offset: -1 })
 const initialHexes = ref<TraverserControlProps>({ name: 'rectangle', ...defaultRectangleOptions })
 // grid can't be a ref because Proxies don't work with private class field
 // see: https://lea.verou.me/blog/2023/04/private-fields-considered-harmful/

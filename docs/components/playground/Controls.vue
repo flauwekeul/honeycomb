@@ -47,6 +47,8 @@ const updateInitialHexes = (initialHexes: TraverserControlProps) => {
   --el-color-primary-light-5: var(--vp-c-brand-darker);
   --el-color-primary-dark-2: var(--vp-c-brand-light);
   --el-text-color-regular: var(--vp-c-text-1);
+
+  margin: 2rem 0;
 }
 
 .dark .el-radio-button {

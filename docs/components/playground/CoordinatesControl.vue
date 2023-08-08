@@ -26,8 +26,8 @@ const change = (first: number, second: number) => {
 </script>
 
 <template>
-  <el-space direction="vertical">
-    <el-form-item :label="labels[0]" label-width="32px">
+  <div class="coordinates-control">
+    <el-form-item :label="labels[0]" label-width="24px">
       <el-input-number
         :model-value="first"
         @change="change($event as number, second)"
@@ -36,7 +36,7 @@ const change = (first: number, second: number) => {
         class="input-number"
       />
     </el-form-item>
-    <el-form-item :label="labels[1]" label-width="32px">
+    <el-form-item :label="labels[1]" label-width="24px">
       <el-input-number
         :model-value="second"
         @change="change(first, $event as number)"
@@ -45,12 +45,18 @@ const change = (first: number, second: number) => {
         class="input-number"
       />
     </el-form-item>
-  </el-space>
+  </div>
 </template>
 
 <style scoped>
+.coordinates-control {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .input-number {
-  /* 150px - 32px: default width - label width */
-  max-width: 118px;
+  /* 150px - 24px: default width - label width */
+  max-width: 126px;
 }
 </style>
