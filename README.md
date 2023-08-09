@@ -47,6 +47,23 @@ Documentation is available at [abbekeultjes.nl/honeycomb](https://abbekeultjes.n
 
 These are ideas that may require further investigation 🕵️. Don't hesitate to [open an issue](https://github.com/flauwekeul/honeycomb/issues) or [start a discussion](https://github.com/flauwekeul/honeycomb/discussions).
 
+- [ ] Playground:
+  - [ ] Use [Pinia](https://pinia.vuejs.org/) instead of prop drilling
+  - [ ] Toggle visibility of points, boundaries and coordinates
+  - [ ] Support traversing (`grid.traverse(…)`)
+  - [ ] Support multiple traverser options (e.g. `RingOptions` and `RingFromRadiusOptions`)
+  - [ ] Support list of traversers
+  - [ ] Show "infinite" background grid
+  - [ ] Make the grid draggable
+  - [ ] Persist state (in localStorage)
+  - [ ] Integrate code editor ([Sandpack](https://sandpack.codesandbox.io/))
+  - [ ] Add examples (A* path finding, Perlin noise (?) for map generation, "chunking")
+- [ ] Release both stable and next version of docs
+- [ ] Write migration guide from v4 to v5
+- [ ] Investigate API without classes
+- [ ] Add https://lea.verou.me/2023/04/private-fields-considered-harmful/ to docs?
+- [ ] Add `"type": "module"` to package.json?
+- [ ] Implement https://stackoverflow.com/a/3234074/660260?
 - [ ] Directions should also be given in degrees (in steps of 30°)?
 - [ ] Add functionality related to [edges](https://github.com/flauwekeul/honeycomb/issues/58#issuecomment-642099947) and/or corners. Use https://www.redblobgames.com/grids/parts/#hexagons.
 - [x] Add path finding (e.g. A*) functionality. Currently available as an example, see `/examples/a-star-path-finding/`.
