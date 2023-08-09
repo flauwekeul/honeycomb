@@ -5,6 +5,7 @@ export interface CoordinatesControlProps {
   values: [first: number, second: number]
   labels?: [first: string, second: string]
   step?: number
+  labelWidth?: string
 }
 
 export type CoordinatesControlEmits = {
@@ -14,6 +15,7 @@ export type CoordinatesControlEmits = {
 const props = withDefaults(defineProps<CoordinatesControlProps>(), {
   labels: () => ['q', 'r'],
   step: undefined,
+  labelWidth: '24px',
 })
 const emit = defineEmits<CoordinatesControlEmits>()
 
@@ -27,7 +29,7 @@ const change = (first: number, second: number) => {
 
 <template>
   <div class="coordinates-control">
-    <el-form-item :label="labels[0]" label-width="24px">
+    <el-form-item :label="labels[0]" :label-width="labelWidth">
       <el-input-number
         :model-value="first"
         @change="change($event as number, second)"
@@ -36,7 +38,7 @@ const change = (first: number, second: number) => {
         class="input-number"
       />
     </el-form-item>
-    <el-form-item :label="labels[1]" label-width="24px">
+    <el-form-item :label="labels[1]" :label-width="labelWidth">
       <el-input-number
         :model-value="second"
         @change="change(first, $event as number)"
@@ -56,7 +58,7 @@ const change = (first: number, second: number) => {
 }
 
 .input-number {
-  /* 150px - 24px: default width - label width */
+  /* 150px - 24px: default width - default label width */
   max-width: 126px;
 }
 </style>
