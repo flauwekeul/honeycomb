@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import 'element-plus/theme-chalk/dark/css-vars.css'
-import { HexOptions } from '../../../src'
 import HexSettings, { HexSettingsProps } from './HexSettings.vue'
+import Settings, { SettingsProps } from './Settings.vue'
 import TraverserControl, { TraverserControlProps } from './TraverserControl.vue'
 
 export interface ControlsProps {
-  hexSettings: HexOptions
+  hexSettings: HexSettingsProps
   initialHexes: TraverserControlProps
+  settings: SettingsProps
 }
 
 export type ControlsEmits = {
@@ -16,12 +17,8 @@ export type ControlsEmits = {
 const props = defineProps<ControlsProps>()
 const emit = defineEmits<ControlsEmits>()
 
-const updateHexSettings = (hexSettings: HexSettingsProps) => {
-  emit('change', { ...props, hexSettings })
-}
-
-const updateInitialHexes = (initialHexes: TraverserControlProps) => {
-  emit('change', { ...props, initialHexes })
+const update = (value: Partial<ControlsProps>) => {
+  emit('change', { ...props, ...value })
 }
 </script>
 
@@ -29,11 +26,14 @@ const updateInitialHexes = (initialHexes: TraverserControlProps) => {
   <el-card class="controls">
     <el-form label-width="auto" class="form">
       <el-tabs>
-        <el-tab-pane label="Hex settings">
-          <HexSettings v-bind="hexSettings" @change="updateHexSettings" />
+        <el-tab-pane label="Hex">
+          <HexSettings v-bind="hexSettings" @change="update({ hexSettings: $event })" />
         </el-tab-pane>
         <el-tab-pane label="Grid">
-          <TraverserControl v-bind="initialHexes" @change="updateInitialHexes" />
+          <TraverserControl v-bind="initialHexes" @change="update({ initialHexes: $event })" />
+        </el-tab-pane>
+        <el-tab-pane label="Settings">
+          <Settings v-bind="settings" @change="update({ settings: $event })" />
         </el-tab-pane>
       </el-tabs>
     </el-form>

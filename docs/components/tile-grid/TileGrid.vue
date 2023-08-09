@@ -4,13 +4,17 @@ import { Grid, Hex } from '../../../src'
 import Arrow, { ArrowProps } from './Arrow.vue'
 import Tile from './Tile.vue'
 
+export type CoordinatesType = 'hide' | 'axial' | 'offset'
+
 export interface GridProps {
   grid: Grid<Hex>
   traversal?: Grid<Hex>
+  coordinates?: CoordinatesType
 }
 
 const { grid, traversal } = withDefaults(defineProps<GridProps>(), {
   traversal: () => new Grid(Hex),
+  coordinates: 'axial',
 })
 
 const arrowData = computed(() =>
@@ -47,7 +51,13 @@ const arrowData = computed(() =>
 
     <slot name="before"></slot>
 
-    <Tile v-for="tile of grid" :key="tile.toString()" :tile="tile" :is-traversed="traversal?.hasHex(tile)" />
+    <Tile
+      v-for="tile of grid"
+      :key="tile.toString()"
+      :tile="tile"
+      :is-traversed="traversal?.hasHex(tile)"
+      :coordinates="coordinates"
+    />
     <Arrow v-for="{ from, to } of arrowData" :from="from" :to="to" />
 
     <slot></slot>

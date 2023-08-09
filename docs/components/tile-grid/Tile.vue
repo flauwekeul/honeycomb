@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Hex } from '../../../src'
+import { CoordinatesType } from './TileGrid.vue'
 
 export interface HexProps {
   tile: Hex
   isTraversed?: boolean
+  coordinates: CoordinatesType
 }
 
 const { tile, isTraversed } = withDefaults(defineProps<HexProps>(), {
@@ -20,8 +22,9 @@ const fontSize = computed(() => tile.height / 4)
   <g :class="{ 'is-traversed': isTraversed }">
     <!-- <g :transform="transform" :class="{ 'is-traversed': isTraversed }"> -->
     <polygon :points="points" class="polygon"></polygon>
-    <text :x="tile.x" :y="tile.y" :font-size="fontSize" class="coordinates">
-      <tspan>{{ tile.q }},{{ tile.r }}</tspan>
+    <text v-if="coordinates !== 'hide'" :x="tile.x" :y="tile.y" :font-size="fontSize" class="coordinates">
+      <tspan v-if="coordinates === 'axial'">{{ tile.q }},{{ tile.r }}</tspan>
+      <tspan v-if="coordinates === 'offset'">{{ tile.col }},{{ tile.row }}</tspan>
     </text>
   </g>
 </template>

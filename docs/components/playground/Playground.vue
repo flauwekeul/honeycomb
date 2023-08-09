@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { defineHex, Grid, HexOptions, line, rectangle, RectangleOptions, ring, spiral } from '../../../src'
 import TileGrid from '../tile-grid/TileGrid.vue'
 import Controls, { ControlsProps } from './Controls.vue'
+import { SettingsProps } from './Settings.vue'
 import { defaultRectangleOptions, traverserName } from './shared'
 import { TraverserControlProps } from './TraverserControl.vue'
 
@@ -12,12 +13,14 @@ const initialHexes = ref<TraverserControlProps>({ name: 'rectangle', ...defaultR
 // see: https://lea.verou.me/blog/2023/04/private-fields-considered-harmful/
 let grid = new Grid(defineHex(hexSettings.value), rectangle(initialHexes.value as RectangleOptions))
 const gridKey = ref(0)
+const settings = ref<SettingsProps>({ coordinates: 'axial' })
 
 // todo: debounce with requestAnimationFrame?
 const update = (controls: ControlsProps) => {
   try {
     hexSettings.value = controls.hexSettings
     initialHexes.value = controls.initialHexes
+    settings.value = controls.settings
 
     // todo: improve type
     const traverser = getTraverser(controls.initialHexes.name) as Function
@@ -33,8 +36,14 @@ const getTraverser = (name: traverserName) => ({ line, rectangle, ring, spiral }
 
 <template>
   <div class="playground">
-    <Controls :hex-settings="hexSettings" :initial-hexes="initialHexes" @change="update" class="controls" />
-    <TileGrid :grid="grid" :key="gridKey" class="tile-grid" />
+    <Controls
+      :hex-settings="hexSettings"
+      :initial-hexes="initialHexes"
+      :settings="settings"
+      @change="update"
+      class="controls"
+    />
+    <TileGrid :grid="grid" :key="gridKey" :coordinates="settings.coordinates" class="tile-grid" />
   </div>
 </template>
 
