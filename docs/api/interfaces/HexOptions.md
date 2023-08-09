@@ -4,11 +4,11 @@
 
 ### <a id="dimensions" name="dimensions"></a> dimensions
 
- **dimensions**: `number` \| [`BoundingBox`](BoundingBox.md) \| [`Ellipse`](Ellipse.md)
+ **dimensions**: [`HexOptionsDimensions`](../index.md#HexOptionsDimensions)
 
 #### Defined in
 
-[hex/types.ts:107](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L107)
+[hex/types.ts:117](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L117)
 
 ___
 
@@ -18,7 +18,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:110](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L110)
+[hex/types.ts:120](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L120)
 
 ___
 
@@ -28,14 +28,14 @@ ___
 
 #### Defined in
 
-[hex/types.ts:108](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L108)
+[hex/types.ts:118](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L118)
 
 ___
 
 ### <a id="origin" name="origin"></a> origin
 
- **origin**: [`Point`](Point.md) \| ``"topLeft"``
+ **origin**: [`HexOptionsOrigin`](../index.md#HexOptionsOrigin)
 
 #### Defined in
 
-[hex/types.ts:109](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L109)
+[hex/types.ts:119](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L119)

@@ -48,6 +48,8 @@
 
 - [HexConstructor](index.md#HexConstructor)
 - [HexOffset](index.md#HexOffset)
+- [HexOptionsDimensions](index.md#HexOptionsDimensions)
+- [HexOptionsOrigin](index.md#HexOptionsOrigin)
 - [Orientation](index.md#Orientation)
 
 ## Grid Type Aliases
@@ -177,7 +179,7 @@ ___
 
 #### Defined in
 
-[hex/types.ts:116](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L116)
+[hex/types.ts:126](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L126)
 
 ___
 
@@ -188,6 +190,26 @@ ___
 #### Defined in
 
 [hex/types.ts:73](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L73)
+
+___
+
+### <a id="HexOptionsDimensions" name="HexOptionsDimensions"></a> HexOptionsDimensions
+
+ **HexOptionsDimensions**: [`Ellipse`](interfaces/Ellipse.md) \| [`BoundingBox`](interfaces/BoundingBox.md) \| `number`
+
+#### Defined in
+
+[hex/types.ts:106](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L106)
+
+___
+
+### <a id="HexOptionsOrigin" name="HexOptionsOrigin"></a> HexOptionsOrigin
+
+ **HexOptionsOrigin**: [`Point`](interfaces/Point.md) \| ``"topLeft"``
+
+#### Defined in
+
+[hex/types.ts:111](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/types.ts#L111)
 
 ___
 

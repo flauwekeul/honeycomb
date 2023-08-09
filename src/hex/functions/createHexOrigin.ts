@@ -1,12 +1,12 @@
 import { isPoint } from '../../utils'
-import { BoundingBox, Point } from '../types'
+import { BoundingBox, HexOptionsOrigin, Point } from '../types'
 
 /**
  * @category Hex
  */
 export function createHexOrigin(input: 'topLeft', boundingBox: BoundingBox): Point
 export function createHexOrigin(input: Point): Point
-export function createHexOrigin(input: Point | 'topLeft', boundingBox?: BoundingBox): Point {
+export function createHexOrigin(input: HexOptionsOrigin, boundingBox?: BoundingBox): Point {
   if (isPoint(input)) return input
 
   if (!boundingBox)

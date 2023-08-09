@@ -103,10 +103,20 @@ export interface HexSettings {
 /**
  * @category Hex
  */
+export type HexOptionsDimensions = Ellipse | BoundingBox | number
+
+/**
+ * @category Hex
+ */
+export type HexOptionsOrigin = Point | 'topLeft'
+
+/**
+ * @category Hex
+ */
 export interface HexOptions {
-  dimensions: Ellipse | BoundingBox | number
+  dimensions: HexOptionsDimensions
   orientation: Orientation
-  origin: Point | 'topLeft'
+  origin: HexOptionsOrigin
   offset: HexOffset
 }
 

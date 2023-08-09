@@ -1,5 +1,5 @@
 import { isBoundingBox, isEllipse } from '../../utils'
-import { BoundingBox, Ellipse, Orientation } from '../types'
+import { BoundingBox, Ellipse, HexOptionsDimensions, Orientation } from '../types'
 
 /**
  * @category Hex
@@ -7,7 +7,7 @@ import { BoundingBox, Ellipse, Orientation } from '../types'
 export function createHexDimensions(radius: number): Ellipse
 export function createHexDimensions(boundingBox: BoundingBox, orientation: Orientation): Ellipse
 export function createHexDimensions(ellipse: Ellipse): Ellipse
-export function createHexDimensions(input: number | BoundingBox | Ellipse, orientation?: Orientation): Ellipse {
+export function createHexDimensions(input: HexOptionsDimensions, orientation?: Orientation): Ellipse {
   if (isEllipse(input)) {
     return input
   }
