@@ -1,4 +1,4 @@
-import { isObject } from '../../utils'
+import { isBoundingBox, isEllipse } from '../../utils'
 import { BoundingBox, Ellipse, Orientation } from '../types'
 
 /**
@@ -8,18 +8,18 @@ export function createHexDimensions(radius: number): Ellipse
 export function createHexDimensions(boundingBox: BoundingBox, orientation: Orientation): Ellipse
 export function createHexDimensions(ellipse: Ellipse): Ellipse
 export function createHexDimensions(input: number | BoundingBox | Ellipse, orientation?: Orientation): Ellipse {
-  if (isObject<Ellipse>(input) && input.xRadius > 0 && input.yRadius > 0) {
+  if (isEllipse(input)) {
     return input
   }
 
-  if (isObject<BoundingBox>(input) && input.width > 0 && input.height > 0) {
+  if (isBoundingBox(input)) {
     const { width, height } = input
     return orientation === 'pointy'
       ? { xRadius: width / Math.sqrt(3), yRadius: height / 2 }
       : { xRadius: width / 2, yRadius: height / Math.sqrt(3) }
   }
 
-  if ((input as number) > 0) {
+  if (input > 0) {
     return { xRadius: input, yRadius: input } as Ellipse
   }
 

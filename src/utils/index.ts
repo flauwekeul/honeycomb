@@ -1,4 +1,6 @@
 export * from './isAxial'
+export * from './isBoundingBox'
+export * from './isEllipse'
 export * from './isFunction'
 export * from './isNumber'
 export * from './isObject'

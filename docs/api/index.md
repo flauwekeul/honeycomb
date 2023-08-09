@@ -113,6 +113,8 @@
 
 ## Util Functions
 
+- [isBoundingBox](index.md#isBoundingBox)
+- [isEllipse](index.md#isEllipse)
 - [isFunction](index.md#isFunction)
 - [isNumber](index.md#isNumber)
 - [isObject](index.md#isObject)
@@ -1121,6 +1123,50 @@ ___
 ___
 
 ## Util Functions
+
+### <a id="isBoundingBox" name="isBoundingBox"></a> isBoundingBox
+
+**isBoundingBox**(`value`): value is BoundingBox
+
+Determines whether the passed value is a valid [BoundingBox](interfaces/BoundingBox.md).
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `value` | `unknown` |
+
+#### Returns
+
+value is BoundingBox
+
+#### Defined in
+
+[utils/isBoundingBox.ts:9](https://github.com/flauwekeul/honeycomb/blob/master/src/utils/isBoundingBox.ts#L9)
+
+___
+
+### <a id="isEllipse" name="isEllipse"></a> isEllipse
+
+**isEllipse**(`value`): value is Ellipse
+
+Determines whether the passed value is a valid [Ellipse](interfaces/Ellipse.md).
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `value` | `unknown` |
+
+#### Returns
+
+value is Ellipse
+
+#### Defined in
+
+[utils/isEllipse.ts:9](https://github.com/flauwekeul/honeycomb/blob/master/src/utils/isEllipse.ts#L9)
+
+___
 
 ### <a id="isFunction" name="isFunction"></a> isFunction
 
