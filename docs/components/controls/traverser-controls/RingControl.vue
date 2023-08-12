@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RingControlProps } from '../../types'
+import { RingControlProps } from '../../../types'
 import CoordinatesControl from '../CoordinatesControl.vue'
 
 type RingControlEmits = {

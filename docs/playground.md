@@ -6,5 +6,5 @@ pageClass: 'playground'
 <Playground />
 
 <script setup lang="ts">
-import Playground from './components/playground/Playground.vue';
+import Playground from './components/Playground.vue';
 </script>

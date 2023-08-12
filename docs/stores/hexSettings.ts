@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { HexOffset, HexOptionsDimensions, HexOptionsOrigin, Orientation } from '../../../src'
+import { HexOffset, HexOptionsDimensions, HexOptionsOrigin, Orientation } from '../../src'
 
 export const useHexSettingsStore = defineStore('hexSettings', () => {
   const orientation = ref<Orientation>('pointy')

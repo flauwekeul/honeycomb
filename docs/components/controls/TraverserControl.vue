@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { useInitialHexesStore } from '../stores'
-import { TRAVERSER_NAMES } from '../types'
+import { useInitialHexesStore } from '../../stores'
+import { TRAVERSER_NAMES } from '../../types'
 import LineControl from './traverser-controls/LineControl.vue'
 import RectangleControl from './traverser-controls/RectangleControl.vue'
 import RingControl from './traverser-controls/RingControl.vue'

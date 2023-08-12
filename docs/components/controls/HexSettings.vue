@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { useHexSettingsStore } from '../stores'
+import { useHexSettingsStore } from '../../stores'
 import DimensionsControl from './hex-settings-controls/DimensionsControl.vue'
 import OriginControl from './hex-settings-controls/OriginControl.vue'
 

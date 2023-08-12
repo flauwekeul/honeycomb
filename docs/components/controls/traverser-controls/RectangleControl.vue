@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { DIRECTIONS, Direction } from '../../../../src'
-import { RectangleControlProps } from '../../types'
+import { RectangleControlProps } from '../../../types'
 import CoordinatesControl from '../CoordinatesControl.vue'
 
 type RectangleControlEmits = {

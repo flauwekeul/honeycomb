@@ -2,7 +2,7 @@
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { Grid, Hex } from '../../../src'
-import { useSettingsStore } from '../stores'
+import { useSettingsStore } from '../../stores'
 import Arrow, { ArrowProps } from './Arrow.vue'
 import Tile from './Tile.vue'
 

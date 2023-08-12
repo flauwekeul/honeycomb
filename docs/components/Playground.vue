@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Grid, RectangleOptions, defineHex, line, rectangle, ring, spiral } from '../../../src'
+import { Grid, RectangleOptions, defineHex, line, rectangle, ring, spiral } from '../../src'
 import { usePlaygroundStore } from '../stores'
-import TileGrid from '../tile-grid/TileGrid.vue'
 import { TraverserName } from '../types'
-import Controls from './Controls.vue'
+import Controls from './controls/Controls.vue'
+import TileGrid from './tile-grid/TileGrid.vue'
 
 const store = usePlaygroundStore()
 // grid can't be a ref because Proxies don't work with private class field

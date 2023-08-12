@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SpiralControlProps } from '../../types'
+import { SpiralControlProps } from '../../../types'
 import CoordinatesControl from '../CoordinatesControl.vue'
 
 type SpiralControlEmits = {

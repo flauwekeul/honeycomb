@@ -1,4 +1,4 @@
-import { AxialCoordinates, LineBetweenOptions, RectangleOptions, RingFromRadiusOptions, SpiralOptions } from '../../src'
+import { AxialCoordinates, LineBetweenOptions, RectangleOptions, RingFromRadiusOptions, SpiralOptions } from '../src'
 
 export type CoordinatesType = 'hide' | 'axial' | 'offset'
 

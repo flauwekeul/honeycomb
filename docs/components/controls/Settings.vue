@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { useSettingsStore } from '../stores'
+import { useSettingsStore } from '../../stores'
 
 const { coordinates } = storeToRefs(useSettingsStore())
 </script>

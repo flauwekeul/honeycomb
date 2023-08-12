@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LineControlProps } from '../../types'
+import { LineControlProps } from '../../../types'
 import CoordinatesControl from '../CoordinatesControl.vue'
 
 type LineControlEmits = {
