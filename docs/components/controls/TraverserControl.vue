@@ -1,18 +1,25 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { useInitialHexesStore } from '../../stores'
-import { TRAVERSER_NAMES } from '../../types'
+import { TRAVERSER_NAMES, TraverserControlProps } from '../../types'
 import LineControl from './traverser-controls/LineControl.vue'
 import RectangleControl from './traverser-controls/RectangleControl.vue'
 import RingControl from './traverser-controls/RingControl.vue'
 import SpiralControl from './traverser-controls/SpiralControl.vue'
 
-const { name, line, rectangle, ring, spiral } = storeToRefs(useInitialHexesStore())
+type TraverserControlEmits = {
+  change: [value: Partial<TraverserControlProps>]
+}
+
+defineProps<TraverserControlProps>()
+const emit = defineEmits<TraverserControlEmits>()
+
+const update = <T,>(propName: keyof TraverserControlProps, value: T) => {
+  emit('change', { [propName]: value })
+}
 </script>
 
 <template>
   <el-form-item label="Shape">
-    <el-select v-model="name">
+    <el-select :model-value="name" @change="update('name', $event)">
       <el-option
         v-for="type in TRAVERSER_NAMES"
         :key="type"
@@ -23,8 +30,8 @@ const { name, line, rectangle, ring, spiral } = storeToRefs(useInitialHexesStore
     </el-select>
   </el-form-item>
   <el-divider />
-  <LineControl v-if="name === 'line'" v-bind="line" @change="line = $event" />
-  <RectangleControl v-if="name === 'rectangle'" v-bind="rectangle" @change="rectangle = $event" />
-  <RingControl v-if="name === 'ring'" v-bind="ring" @change="ring = $event" />
-  <SpiralControl v-if="name === 'spiral'" v-bind="spiral" @change="spiral = $event" />
+  <LineControl v-if="name === 'line'" v-bind="line" @change="update('line', $event)" />
+  <RectangleControl v-if="name === 'rectangle'" v-bind="rectangle" @change="update('rectangle', $event)" />
+  <RingControl v-if="name === 'ring'" v-bind="ring" @change="update('ring', $event)" />
+  <SpiralControl v-if="name === 'spiral'" v-bind="spiral" @change="update('spiral', $event)" />
 </template>

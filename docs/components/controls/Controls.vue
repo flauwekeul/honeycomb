@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import 'element-plus/theme-chalk/dark/css-vars.css'
+import { useInitialHexesStore, useTraversalsStore } from '../../stores'
 import HexSettings from './HexSettings.vue'
 import Settings from './Settings.vue'
 import TraverserControl from './TraverserControl.vue'
+
+const initialHexesStore = useInitialHexesStore()
+const traversalsStore = useTraversalsStore()
 </script>
 
 <template>
@@ -13,7 +17,10 @@ import TraverserControl from './TraverserControl.vue'
           <HexSettings />
         </el-tab-pane>
         <el-tab-pane label="Grid">
-          <TraverserControl />
+          <TraverserControl v-bind="initialHexesStore.$state" @change="initialHexesStore.$patch($event)" />
+        </el-tab-pane>
+        <el-tab-pane label="Traversals">
+          <TraverserControl v-bind="traversalsStore.$state" @change="traversalsStore.$patch($event)" />
         </el-tab-pane>
         <el-tab-pane label="Settings">
           <Settings />

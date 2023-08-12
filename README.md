@@ -50,7 +50,7 @@ These are ideas that may require further investigation 🕵️. Don't hesitate t
 - [ ] Playground:
   - [x] Use [Pinia](https://pinia.vuejs.org/) instead of prop drilling
   - [ ] Toggle visibility of points, boundaries and coordinates
-  - [ ] Support traversing (`grid.traverse(…)`)
+  - [x] Support traversing (`grid.traverse(…)`)
   - [ ] Support multiple traverser options (e.g. `RingOptions` and `RingFromRadiusOptions`)
   - [ ] Support list of traversers
   - [ ] Show "infinite" background grid

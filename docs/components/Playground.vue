@@ -1,35 +1,43 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Grid, RectangleOptions, defineHex, line, rectangle, ring, spiral } from '../../src'
+import { Grid, Hex, Traverser, defineHex, line, rectangle, ring, spiral } from '../../src'
 import { usePlaygroundStore } from '../stores'
-import { TraverserName } from '../types'
+import { TraverserControlProps } from '../types'
 import Controls from './controls/Controls.vue'
 import TileGrid from './tile-grid/TileGrid.vue'
+
+const TRAVERSERS = { line, rectangle, ring, spiral } as const
 
 const store = usePlaygroundStore()
 // grid can't be a ref because Proxies don't work with private class field
 // see: https://lea.verou.me/blog/2023/04/private-fields-considered-harmful/
-let grid = new Grid(defineHex(store.hexSettings), rectangle(store.initialHexes.rectangle as RectangleOptions))
+let grid = new Grid(defineHex(store.hexSettings), createTraverser(store.initialHexes))
+let traversal = grid.traverse(createTraverser(store.traversals))
+
 const gridKey = ref(0)
 
-store.$subscribe((_, { hexSettings, initialHexes }) => {
+store.$subscribe((_, { hexSettings, initialHexes, traversals }) => {
   try {
-    const traverserName = initialHexes.name
-    const traverser = getTraverser(traverserName)
-    grid = new Grid(defineHex(hexSettings), traverser(initialHexes[traverserName]))
+    grid = new Grid(defineHex(hexSettings), createTraverser(initialHexes))
+    traversal = grid.traverse(createTraverser(traversals))
+
     gridKey.value = Math.random()
   } catch (error) {
     console.error(error)
   }
 })
 
-const getTraverser = (name: TraverserName): Function => ({ line, rectangle, ring, spiral })[name]
+function createTraverser({ name, ...traversers }: TraverserControlProps): Traverser<Hex> {
+  const traverser = TRAVERSERS[name] as Function
+  const options = traversers[name]
+  return traverser(options)
+}
 </script>
 
 <template>
   <div class="playground">
     <Controls class="controls" />
-    <TileGrid :grid="grid" :key="gridKey" class="tile-grid" />
+    <TileGrid :grid="grid" :key="gridKey" :traversal="traversal" class="tile-grid" />
   </div>
 </template>
 

@@ -5,6 +5,14 @@ export type CoordinatesType = 'hide' | 'axial' | 'offset'
 export const TRAVERSER_NAMES = ['line', 'rectangle', 'ring', 'spiral'] as const
 export type TraverserName = (typeof TRAVERSER_NAMES)[number]
 
+export interface TraverserControlProps {
+  name: TraverserName
+  line: LineControlProps
+  rectangle: RectangleControlProps
+  ring: RingControlProps
+  spiral: SpiralControlProps
+}
+
 export interface LineControlProps extends LineBetweenOptions {
   start: AxialCoordinates
   stop: AxialCoordinates
