@@ -13,6 +13,8 @@ dist-ssr
 *.local
 coverage/
 docs/.vitepress/cache
+docs/auto-imports.d.ts
+docs/components.d.ts
 .eslintcache
 
 # Editor directories and files
