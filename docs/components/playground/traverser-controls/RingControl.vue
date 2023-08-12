@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import { RingControlProps } from '../../types'
 import CoordinatesControl from '../CoordinatesControl.vue'
-import { RingControlEmits, RingControlProps, defaultRingOptions, toVueDefaults } from '../shared'
 
-const props = withDefaults(defineProps<RingControlProps>(), toVueDefaults(defaultRingOptions))
+type RingControlEmits = {
+  change: [value: RingControlProps]
+}
+
+const props = defineProps<RingControlProps>()
 const emit = defineEmits<RingControlEmits>()
 
 const update = <T,>(propName: keyof RingControlProps, value: T) => {

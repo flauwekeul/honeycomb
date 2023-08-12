@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Point } from '../../../src'
 
-export interface LineProps {
+interface LineProps {
   from: Point
   to: Point
 }

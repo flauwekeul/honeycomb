@@ -1,25 +1,8 @@
 <script setup lang="ts">
 import 'element-plus/theme-chalk/dark/css-vars.css'
-import HexSettings, { HexSettingsProps } from './HexSettings.vue'
-import Settings, { SettingsProps } from './Settings.vue'
-import TraverserControl, { TraverserControlProps } from './TraverserControl.vue'
-
-export interface ControlsProps {
-  hexSettings: HexSettingsProps
-  initialHexes: TraverserControlProps
-  settings: SettingsProps
-}
-
-export type ControlsEmits = {
-  change: [value: ControlsProps]
-}
-
-const props = defineProps<ControlsProps>()
-const emit = defineEmits<ControlsEmits>()
-
-const update = (value: Partial<ControlsProps>) => {
-  emit('change', { ...props, ...value })
-}
+import HexSettings from './HexSettings.vue'
+import Settings from './Settings.vue'
+import TraverserControl from './TraverserControl.vue'
 </script>
 
 <template>
@@ -27,13 +10,13 @@ const update = (value: Partial<ControlsProps>) => {
     <el-form label-width="auto" class="form">
       <el-tabs>
         <el-tab-pane label="Hex">
-          <HexSettings v-bind="hexSettings" @change="update({ hexSettings: $event })" />
+          <HexSettings />
         </el-tab-pane>
         <el-tab-pane label="Grid">
-          <TraverserControl v-bind="initialHexes" @change="update({ initialHexes: $event })" />
+          <TraverserControl />
         </el-tab-pane>
         <el-tab-pane label="Settings">
-          <Settings v-bind="settings" @change="update({ settings: $event })" />
+          <Settings />
         </el-tab-pane>
       </el-tabs>
     </el-form>

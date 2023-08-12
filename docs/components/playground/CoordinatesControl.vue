@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-export interface CoordinatesControlProps {
+interface CoordinatesControlProps {
   values: [first: number, second: number]
   labels?: [first: string, second: string]
   step?: number
   labelWidth?: string
 }
 
-export type CoordinatesControlEmits = {
+type CoordinatesControlEmits = {
   change: [values: CoordinatesControlProps['values']]
 }
 

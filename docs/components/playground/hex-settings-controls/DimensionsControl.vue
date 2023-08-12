@@ -11,13 +11,13 @@ import {
 } from '../../../../src'
 import CoordinatesControl from '../CoordinatesControl.vue'
 
-export interface DimensionsControlProps {
-  dimensions: Dimensions
+interface DimensionsControlProps {
+  modelValue: Dimensions
   orientation: Orientation
 }
 
-export type DimensionsControlEmits = {
-  change: [value: Dimensions]
+type DimensionsControlEmits = {
+  'update:modelValue': [value: Dimensions]
 }
 
 type Dimensions = HexOptions['dimensions']
@@ -27,9 +27,9 @@ const props = defineProps<DimensionsControlProps>()
 const emit = defineEmits<DimensionsControlEmits>()
 
 const dimensionsType = computed<DimensionsType>(() => {
-  if (isNumber(props.dimensions)) {
+  if (isNumber(props.modelValue)) {
     return 'radius'
-  } else if (isEllipse(props.dimensions)) {
+  } else if (isEllipse(props.modelValue)) {
     return 'ellipse'
   } else {
     return 'bbox'
@@ -38,13 +38,13 @@ const dimensionsType = computed<DimensionsType>(() => {
 
 const update = (value: DimensionsType | Dimensions) => {
   if (value === 'radius') {
-    emit('change', dimensionsToNumber(props.dimensions))
+    emit('update:modelValue', dimensionsToNumber(props.modelValue))
   } else if (value === 'ellipse') {
-    emit('change', dimensionsToEllipse(props.dimensions, props.orientation))
+    emit('update:modelValue', dimensionsToEllipse(props.modelValue, props.orientation))
   } else if (value === 'bbox') {
-    emit('change', dimensionsToBBox(props.dimensions, props.orientation))
+    emit('update:modelValue', dimensionsToBBox(props.modelValue, props.orientation))
   } else {
-    emit('change', value)
+    emit('update:modelValue', value)
   }
 }
 
@@ -87,23 +87,23 @@ const dimensionsToBBox = (dimensions: Dimensions, orientation: Orientation): Bou
   </el-radio-group>
   <div class="variable-input">
     <el-input-number
-      v-if="isNumber(dimensions)"
-      :model-value="dimensions"
+      v-if="isNumber(modelValue)"
+      :model-value="modelValue"
       @change="update($event as number)"
       :min="20"
       :max="100"
       value-on-clear="min"
     />
     <CoordinatesControl
-      v-else-if="isEllipse(dimensions)"
-      :values="[dimensions.xRadius, dimensions.yRadius]"
+      v-else-if="isEllipse(modelValue)"
+      :values="[modelValue.xRadius, modelValue.yRadius]"
       :labels="['xRadius', 'yRadius']"
       label-width="64px"
       @change="update({ xRadius: $event[0], yRadius: $event[1] })"
     />
     <CoordinatesControl
       v-else
-      :values="[dimensions.width, dimensions.height]"
+      :values="[modelValue.width, modelValue.height]"
       :labels="['width', 'height']"
       label-width="64px"
       @change="update({ width: $event[0], height: $event[1] })"

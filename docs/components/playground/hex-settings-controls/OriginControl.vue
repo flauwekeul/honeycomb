@@ -2,14 +2,13 @@
 import { computed, ref } from 'vue'
 import { HexOptions, Point } from '../../../../src'
 import CoordinatesControl from '../CoordinatesControl.vue'
-import { pointToTuple, tupleToPoint } from '../shared'
 
-export interface OriginControlProps {
-  origin: Origin
+interface OriginControlProps {
+  modelValue: Origin
 }
 
-export type OriginControlEmits = {
-  change: [value: Origin]
+type OriginControlEmits = {
+  'update:modelValue': [value: Origin]
 }
 
 type Origin = HexOptions['origin']
@@ -18,19 +17,23 @@ type OriginType = 'point' | 'topLeft'
 const props = defineProps<OriginControlProps>()
 const emit = defineEmits<OriginControlEmits>()
 
-const originType = computed<OriginType>(() => (props.origin === 'topLeft' ? 'topLeft' : 'point'))
-const cachedOriginPoint = ref<Point>(props.origin === 'topLeft' ? { x: 0, y: 0 } : props.origin)
+const originType = computed<OriginType>(() => (props.modelValue === 'topLeft' ? 'topLeft' : 'point'))
+const cachedOriginPoint = ref<Point>(props.modelValue === 'topLeft' ? { x: 0, y: 0 } : props.modelValue)
 
 const update = (value: OriginType | Point) => {
   if (value === 'topLeft') {
-    emit('change', 'topLeft')
+    emit('update:modelValue', 'topLeft')
   } else if (value === 'point') {
-    emit('change', cachedOriginPoint.value)
+    emit('update:modelValue', cachedOriginPoint.value)
   } else {
     cachedOriginPoint.value = value
-    emit('change', value)
+    emit('update:modelValue', value)
   }
 }
+
+const pointToTuple = ({ x, y }: Point): [number, number] => [x, y]
+
+const tupleToPoint = ([x, y]: [number, number]): Point => ({ x, y })
 </script>
 
 <template>
@@ -39,10 +42,10 @@ const update = (value: OriginType | Point) => {
     <el-radio-button label="point" />
   </el-radio-group>
   <div class="variable-input">
-    <code v-if="origin === 'topLeft'">'topLeft'</code>
+    <code v-if="modelValue === 'topLeft'">'topLeft'</code>
     <CoordinatesControl
       v-else
-      :values="pointToTuple(origin)"
+      :values="pointToTuple(modelValue)"
       :labels="['x', 'y']"
       :step="10"
       @change="update(tupleToPoint($event))"

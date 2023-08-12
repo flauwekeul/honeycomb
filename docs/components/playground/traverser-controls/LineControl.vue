@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import { LineControlProps } from '../../types'
 import CoordinatesControl from '../CoordinatesControl.vue'
-import { LineControlEmits, LineControlProps, defaultLineOptions, toVueDefaults } from '../shared'
 
-const props = withDefaults(defineProps<LineControlProps>(), toVueDefaults(defaultLineOptions))
+type LineControlEmits = {
+  change: [value: LineControlProps]
+}
+
+const props = defineProps<LineControlProps>()
 const emit = defineEmits<LineControlEmits>()
 
 const update = <T,>(propName: keyof LineControlProps, value: T) => {

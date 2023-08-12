@@ -48,7 +48,7 @@ Documentation is available at [abbekeultjes.nl/honeycomb](https://abbekeultjes.n
 These are ideas that may require further investigation 🕵️. Don't hesitate to [open an issue](https://github.com/flauwekeul/honeycomb/issues) or [start a discussion](https://github.com/flauwekeul/honeycomb/discussions).
 
 - [ ] Playground:
-  - [ ] Use [Pinia](https://pinia.vuejs.org/) instead of prop drilling
+  - [x] Use [Pinia](https://pinia.vuejs.org/) instead of prop drilling
   - [ ] Toggle visibility of points, boundaries and coordinates
   - [ ] Support traversing (`grid.traverse(…)`)
   - [ ] Support multiple traverser options (e.g. `RingOptions` and `RingFromRadiusOptions`)

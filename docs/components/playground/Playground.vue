@@ -1,49 +1,35 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { defineHex, Grid, HexOptions, line, rectangle, RectangleOptions, ring, spiral } from '../../../src'
+import { Grid, RectangleOptions, defineHex, line, rectangle, ring, spiral } from '../../../src'
+import { usePlaygroundStore } from '../stores'
 import TileGrid from '../tile-grid/TileGrid.vue'
-import Controls, { ControlsProps } from './Controls.vue'
-import { SettingsProps } from './Settings.vue'
-import { defaultRectangleOptions, traverserName } from './shared'
-import { TraverserControlProps } from './TraverserControl.vue'
+import { TraverserName } from '../types'
+import Controls from './Controls.vue'
 
-const hexSettings = ref<HexOptions>({ orientation: 'pointy', dimensions: 30, origin: 'topLeft', offset: -1 })
-const initialHexes = ref<TraverserControlProps>({ name: 'rectangle', ...defaultRectangleOptions })
+const store = usePlaygroundStore()
 // grid can't be a ref because Proxies don't work with private class field
 // see: https://lea.verou.me/blog/2023/04/private-fields-considered-harmful/
-let grid = new Grid(defineHex(hexSettings.value), rectangle(initialHexes.value as RectangleOptions))
+let grid = new Grid(defineHex(store.hexSettings), rectangle(store.initialHexes.rectangle as RectangleOptions))
 const gridKey = ref(0)
-const settings = ref<SettingsProps>({ coordinates: 'axial' })
 
-// todo: debounce with requestAnimationFrame?
-const update = (controls: ControlsProps) => {
+store.$subscribe((_, { hexSettings, initialHexes }) => {
   try {
-    hexSettings.value = controls.hexSettings
-    initialHexes.value = controls.initialHexes
-    settings.value = controls.settings
-
-    // todo: improve type
-    const traverser = getTraverser(controls.initialHexes.name) as Function
-    grid = new Grid(defineHex(controls.hexSettings), traverser(controls.initialHexes))
+    const traverserName = initialHexes.name
+    const traverser = getTraverser(traverserName)
+    grid = new Grid(defineHex(hexSettings), traverser(initialHexes[traverserName]))
     gridKey.value = Math.random()
   } catch (error) {
     console.error(error)
   }
-}
+})
 
-const getTraverser = (name: traverserName) => ({ line, rectangle, ring, spiral })[name]
+const getTraverser = (name: TraverserName): Function => ({ line, rectangle, ring, spiral })[name]
 </script>
 
 <template>
   <div class="playground">
-    <Controls
-      :hex-settings="hexSettings"
-      :initial-hexes="initialHexes"
-      :settings="settings"
-      @change="update"
-      class="controls"
-    />
-    <TileGrid :grid="grid" :key="gridKey" :coordinates="settings.coordinates" class="tile-grid" />
+    <Controls class="controls" />
+    <TileGrid :grid="grid" :key="gridKey" class="tile-grid" />
   </div>
 </template>
 

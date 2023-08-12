@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Hex } from '../../../src'
-import { CoordinatesType } from './TileGrid.vue'
+import { CoordinatesType } from '../types'
 
-export interface HexProps {
+interface HexProps {
   tile: Hex
   isTraversed?: boolean
   coordinates: CoordinatesType

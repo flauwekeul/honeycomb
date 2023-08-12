@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { DIRECTIONS, Direction } from '../../../../src'
+import { RectangleControlProps } from '../../types'
 import CoordinatesControl from '../CoordinatesControl.vue'
-import { RectangleControlEmits, RectangleControlProps, defaultRectangleOptions, toVueDefaults } from '../shared'
 
-const props = withDefaults(defineProps<RectangleControlProps>(), toVueDefaults(defaultRectangleOptions))
+type RectangleControlEmits = {
+  change: [value: RectangleControlProps]
+}
+
+const props = defineProps<RectangleControlProps>()
 const emit = defineEmits<RectangleControlEmits>()
 
 const DIRECTION_LABELS: Record<Direction, string> = {
@@ -17,7 +21,6 @@ const DIRECTION_LABELS: Record<Direction, string> = {
   NW: '↖ North West',
 }
 
-// todo: maybe use pinia for state management instead of these event propagation?
 const update = <T,>(propName: keyof RectangleControlProps, value: T) => {
   emit('change', { ...props, [propName]: value })
 }

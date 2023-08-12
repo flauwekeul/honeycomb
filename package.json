@@ -46,6 +46,7 @@
     "gitmoji-cli": "8.4.0",
     "husky": "8.0.3",
     "lint-staged": "13.2.3",
+    "pinia": "2.1.6",
     "prettier": "3.0.0",
     "semantic-release": "21.0.7",
     "semantic-release-gitmoji": "1.6.4",

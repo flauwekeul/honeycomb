@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import { SpiralControlProps } from '../../types'
 import CoordinatesControl from '../CoordinatesControl.vue'
-import { SpiralControlEmits, SpiralControlProps, defaultSpiralOptions, toVueDefaults } from '../shared'
 
-const props = withDefaults(defineProps<SpiralControlProps>(), toVueDefaults(defaultSpiralOptions))
+type SpiralControlEmits = {
+  change: [value: SpiralControlProps]
+}
+
+const props = defineProps<SpiralControlProps>()
 const emit = defineEmits<SpiralControlEmits>()
 
 const update = <T,>(propName: keyof SpiralControlProps, value: T) => {

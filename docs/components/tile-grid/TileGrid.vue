@@ -1,21 +1,20 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { Grid, Hex } from '../../../src'
+import { useSettingsStore } from '../stores'
 import Arrow, { ArrowProps } from './Arrow.vue'
 import Tile from './Tile.vue'
 
-export type CoordinatesType = 'hide' | 'axial' | 'offset'
-
-export interface GridProps {
+interface GridProps {
   grid: Grid<Hex>
   traversal?: Grid<Hex>
-  coordinates?: CoordinatesType
 }
 
 const { grid, traversal } = withDefaults(defineProps<GridProps>(), {
-  traversal: () => new Grid(Hex),
-  coordinates: 'axial',
+  traversal: () => new Grid(Hex), // empty grid
 })
+const { coordinates } = storeToRefs(useSettingsStore())
 
 const arrowData = computed(() =>
   traversal.toArray().reduce((acc, currentTile, index, tiles) => {
