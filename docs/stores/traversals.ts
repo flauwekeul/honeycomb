@@ -9,22 +9,19 @@ import {
 } from '../types'
 
 const defaultLineOptions: LineControlProps = {
-  start: { q: 0, r: 0 },
   stop: { q: 3, r: 0 },
 }
 const defaultRectangleOptions: RectangleControlProps = {
-  start: { q: 0, r: 0 },
   width: 3,
   height: 3,
   direction: 'E',
 }
 const defaultRingOptions: RingControlProps = {
-  center: { q: 2, r: 3 },
+  center: { q: 1, r: 2 },
   radius: 2,
   rotation: 'cw',
 }
 const defaultSpiralOptions: SpiralControlProps = {
-  start: { q: 2, r: 3 },
   radius: 2,
   rotation: 'cw',
 }

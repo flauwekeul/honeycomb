@@ -1,49 +1,63 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref } from 'vue'
+
+type Coordinates = [first: number, second: number]
 
 interface CoordinatesControlProps {
-  values: [first: number, second: number]
+  values?: Coordinates
   labels?: [first: string, second: string]
+  allowDefault?: boolean
   step?: number
   labelWidth?: string
 }
 
 type CoordinatesControlEmits = {
-  change: [values: CoordinatesControlProps['values']]
+  change: [values: Coordinates | undefined]
 }
 
 const props = withDefaults(defineProps<CoordinatesControlProps>(), {
   labels: () => ['q', 'r'],
-  step: undefined,
+  allowDefault: false,
   labelWidth: '24px',
 })
 const emit = defineEmits<CoordinatesControlEmits>()
 
-const first = computed(() => props.values[0])
-const second = computed(() => props.values[1])
+const useDefault = ref(!props.values)
+const first = ref(props.values?.[0] ?? 0)
+const second = ref(props.values?.[1] ?? 0)
 
-const change = (first: number, second: number) => {
+const update = (first: number, second: number) => {
   emit('change', [first, second])
 }
 </script>
 
 <template>
-  <div class="coordinates-control">
+  <el-switch
+    v-if="allowDefault"
+    v-model="useDefault"
+    active-text="Use default"
+    size="small"
+    @change="$event ? emit('change', undefined) : update(first, second)"
+    class="switch"
+  />
+  <div v-if="!useDefault" class="coordinates-control">
     <el-form-item :label="labels[0]" :label-width="labelWidth">
       <el-input-number
-        :model-value="first"
-        @change="change($event as number, second)"
+        v-model="first"
+        @change="update($event as number, second)"
         :step="step"
         :value-on-clear="0"
+        :disabled="useDefault"
         class="input-number"
       />
     </el-form-item>
     <el-form-item :label="labels[1]" :label-width="labelWidth">
       <el-input-number
-        :model-value="second"
-        @change="change(first, $event as number)"
+        v-model="second"
+        @change="update(first, $event as number)"
         :step="step"
         :value-on-clear="0"
+        :disabled="useDefault"
         class="input-number"
       />
     </el-form-item>
@@ -55,6 +69,10 @@ const change = (first: number, second: number) => {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.switch {
+  margin: 4px 0 8px;
 }
 
 .input-number {

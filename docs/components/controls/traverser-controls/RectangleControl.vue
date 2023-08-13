@@ -28,7 +28,11 @@ const update = <T,>(propName: keyof RectangleControlProps, value: T) => {
 
 <template>
   <el-form-item label="Start">
-    <CoordinatesControl :values="[start.q, start.r]" @change="update('start', { q: $event[0], r: $event[1] })" />
+    <CoordinatesControl
+      :values="start && [start.q, start.r]"
+      :allow-default="true"
+      @change="update('start', $event && { q: $event[0], r: $event[1] })"
+    />
   </el-form-item>
   <el-form-item label="Width">
     <el-input-number :model-value="width" @change="update('width', $event)" :min="1" :max="1000" value-on-clear="min" />

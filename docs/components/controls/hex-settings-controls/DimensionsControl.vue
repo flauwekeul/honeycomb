@@ -99,14 +99,14 @@ const dimensionsToBBox = (dimensions: Dimensions, orientation: Orientation): Bou
       :values="[modelValue.xRadius, modelValue.yRadius]"
       :labels="['xRadius', 'yRadius']"
       label-width="64px"
-      @change="update({ xRadius: $event[0], yRadius: $event[1] })"
+      @change="update({ xRadius: $event![0], yRadius: $event![1] })"
     />
     <CoordinatesControl
       v-else
       :values="[modelValue.width, modelValue.height]"
       :labels="['width', 'height']"
       label-width="64px"
-      @change="update({ width: $event[0], height: $event[1] })"
+      @change="update({ width: $event![0], height: $event![1] })"
     />
   </div>
 </template>

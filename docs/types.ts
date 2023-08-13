@@ -14,12 +14,12 @@ export interface TraverserControlProps {
 }
 
 export interface LineControlProps extends LineBetweenOptions {
-  start: AxialCoordinates
+  start?: AxialCoordinates
   stop: AxialCoordinates
 }
 
 export interface RectangleControlProps extends RectangleOptions {
-  start: AxialCoordinates
+  start?: AxialCoordinates
 }
 
 export interface RingControlProps extends RingFromRadiusOptions {
@@ -27,5 +27,5 @@ export interface RingControlProps extends RingFromRadiusOptions {
 }
 
 export interface SpiralControlProps extends SpiralOptions {
-  start: AxialCoordinates
+  start?: AxialCoordinates
 }

@@ -10,7 +10,6 @@ const { traversers } = storeToRefs(traversalsStore)
 </script>
 
 <template>
-  <el-button type="primary" @click="add()" class="add-traverser">Add traverser</el-button>
   <template v-if="traversers.length">
     <el-card v-for="(config, index) of traversers" :key="index" shadow="never" class="traverser">
       <template #header>
@@ -32,17 +31,14 @@ const { traversers } = storeToRefs(traversalsStore)
       <TraverserControl v-bind="config" @change="update(index, $event)" />
     </el-card>
   </template>
+  <el-button type="primary" @click="add()">Add traverser</el-button>
 </template>
 
 <style scoped>
-.add-traverser {
-  margin-bottom: 1rem;
-}
-
 .traverser {
   --el-card-padding: 1rem;
 
-  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .traverser-header {

@@ -18,22 +18,22 @@ const props = defineProps<OriginControlProps>()
 const emit = defineEmits<OriginControlEmits>()
 
 const originType = computed<OriginType>(() => (props.modelValue === 'topLeft' ? 'topLeft' : 'point'))
-const cachedOriginPoint = ref<Point>(props.modelValue === 'topLeft' ? { x: 0, y: 0 } : props.modelValue)
+const cachedValue = ref<Point>(props.modelValue === 'topLeft' ? { x: 0, y: 0 } : props.modelValue)
 
 const update = (value: OriginType | Point) => {
   if (value === 'topLeft') {
     emit('update:modelValue', 'topLeft')
   } else if (value === 'point') {
-    emit('update:modelValue', cachedOriginPoint.value)
+    emit('update:modelValue', cachedValue.value)
   } else {
-    cachedOriginPoint.value = value
+    cachedValue.value = value
     emit('update:modelValue', value)
   }
 }
 
 const pointToTuple = ({ x, y }: Point): [number, number] => [x, y]
 
-const tupleToPoint = ([x, y]: [number, number]): Point => ({ x, y })
+const tupleToPoint = ([x, y]: [number, number] = [0, 0]): Point => ({ x, y })
 </script>
 
 <template>
