@@ -12,14 +12,14 @@ const store = usePlaygroundStore()
 // grid can't be a ref because Proxies don't work with private class field
 // see: https://lea.verou.me/blog/2023/04/private-fields-considered-harmful/
 let grid = new Grid(defineHex(store.hexSettings), createTraverser(store.initialHexes))
-let traversal = grid.traverse(createTraverser(store.traversals))
+let traversal: Grid<Hex> | undefined
 
 const gridKey = ref(0)
 
 store.$subscribe((_, { hexSettings, initialHexes, traversals }) => {
   try {
     grid = new Grid(defineHex(hexSettings), createTraverser(initialHexes))
-    traversal = grid.traverse(createTraverser(traversals))
+    traversal = grid.traverse(traversals.traversers.map(createTraverser))
 
     gridKey.value = Math.random()
   } catch (error) {
@@ -43,13 +43,16 @@ function createTraverser({ name, ...traversers }: TraverserControlProps): Traver
 
 <style scoped>
 .playground {
+  position: fixed;
   display: flex;
-  min-height: 100vh;
+  height: calc(100vh - var(--vp-nav-height));
 }
 
 .controls {
+  background-color: color-mix(in srgb, var(--el-card-bg-color) 90%, transparent);
   width: 20vw;
-  opacity: 0.9;
+  max-height: 100%;
+  overflow-y: auto;
   z-index: 1;
 }
 

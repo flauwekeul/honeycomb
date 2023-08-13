@@ -18,7 +18,7 @@ const update = <T,>(propName: keyof TraverserControlProps, value: T) => {
 </script>
 
 <template>
-  <el-form-item label="Shape">
+  <el-form-item label="Shape" class="name">
     <el-select :model-value="name" @change="update('name', $event)">
       <el-option
         v-for="type in TRAVERSER_NAMES"
@@ -29,9 +29,16 @@ const update = <T,>(propName: keyof TraverserControlProps, value: T) => {
       />
     </el-select>
   </el-form-item>
-  <el-divider />
   <LineControl v-if="name === 'line'" v-bind="line" @change="update('line', $event)" />
   <RectangleControl v-if="name === 'rectangle'" v-bind="rectangle" @change="update('rectangle', $event)" />
   <RingControl v-if="name === 'ring'" v-bind="ring" @change="update('ring', $event)" />
   <SpiralControl v-if="name === 'spiral'" v-bind="spiral" @change="update('spiral', $event)" />
 </template>
+
+<style scoped>
+.name {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--el-border-color);
+}
+</style>

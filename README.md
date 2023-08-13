@@ -49,14 +49,17 @@ These are ideas that may require further investigation 🕵️. Don't hesitate t
 
 - [ ] Playground:
   - [x] Use [Pinia](https://pinia.vuejs.org/) instead of prop drilling
-  - [ ] Toggle visibility of points, boundaries and coordinates
+  - [ ] Add visual aids: highlight active tiles, toggle origins, more?
   - [x] Support traversing (`grid.traverse(…)`)
   - [ ] Support multiple traverser options (e.g. `RingOptions` and `RingFromRadiusOptions`)
-  - [ ] Support list of traversers
+  - [x] Support list of traversers
+  - [ ] Don't make all traverser options required. E.g. `start` should be optional and is ignored when it's not the first traverser.
+  - [ ] Add "hex picker" to select hexes in the grid
+  - [ ] Add a way to import/export code
   - [ ] Show "infinite" background grid
   - [ ] Make the grid draggable
   - [ ] Persist state (in localStorage)
-  - [ ] Integrate code editor ([Sandpack](https://sandpack.codesandbox.io/))
+  - [ ] Integrate code editor ([Sandpack](https://sandpack.codesandbox.io/))?
   - [ ] Add examples (A* path finding, Perlin noise (?) for map generation, "chunking")
 - [ ] Release both stable and next version of docs
 - [ ] Write migration guide from v4 to v5

@@ -1,29 +1,76 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { LineControlProps, RectangleControlProps, RingControlProps, SpiralControlProps, TraverserName } from '../types'
+import {
+  LineControlProps,
+  RectangleControlProps,
+  RingControlProps,
+  SpiralControlProps,
+  TraverserControlProps,
+} from '../types'
+
+const defaultLineOptions: LineControlProps = {
+  start: { q: 0, r: 0 },
+  stop: { q: 3, r: 0 },
+}
+const defaultRectangleOptions: RectangleControlProps = {
+  start: { q: 0, r: 0 },
+  width: 3,
+  height: 3,
+  direction: 'E',
+}
+const defaultRingOptions: RingControlProps = {
+  center: { q: 2, r: 3 },
+  radius: 2,
+  rotation: 'cw',
+}
+const defaultSpiralOptions: SpiralControlProps = {
+  start: { q: 2, r: 3 },
+  radius: 2,
+  rotation: 'cw',
+}
 
 export const useTraversalsStore = defineStore('traversals', () => {
-  const name = ref<TraverserName>('line')
-  const line = ref<LineControlProps>({
-    start: { q: 8, r: 1 },
-    stop: { q: -3, r: 8 },
-  })
-  const rectangle = ref<RectangleControlProps>({
-    start: { q: 4, r: 8 },
-    width: 8,
-    height: 8,
-    direction: 'W',
-  })
-  const ring = ref<RingControlProps>({
-    center: { q: 2, r: 4 },
-    radius: 2,
-    rotation: 'cw',
-  })
-  const spiral = ref<SpiralControlProps>({
-    start: { q: 3, r: 6 },
-    radius: 2,
-    rotation: 'ccw',
-  })
+  const traversers = ref<TraverserControlProps[]>([])
 
-  return { name, line, rectangle, ring, spiral }
+  const add = () => {
+    traversers.value.push({
+      name: 'line',
+      line: defaultLineOptions,
+      rectangle: defaultRectangleOptions,
+      ring: defaultRingOptions,
+      spiral: defaultSpiralOptions,
+    })
+  }
+
+  const update = (index: number, config: Partial<TraverserControlProps>) => {
+    traversers.value[index] = { ...traversers.value[index], ...config }
+  }
+
+  const moveUp = (index: number) => {
+    if (index <= 0) {
+      return
+    }
+    ;[traversers.value[index - 1], traversers.value[index]] = [traversers.value[index], traversers.value[index - 1]]
+  }
+
+  const moveDown = (index: number) => {
+    if (index >= traversers.value.length - 1) {
+      return
+    }
+    ;[traversers.value[index + 1], traversers.value[index]] = [traversers.value[index], traversers.value[index + 1]]
+  }
+
+  // `delete` is a reserved keyword
+  const delete_ = (index: number) => {
+    traversers.value.splice(index, 1)
+  }
+
+  return {
+    traversers,
+    add,
+    update,
+    moveUp,
+    moveDown,
+    delete_,
+  }
 })

@@ -1,6 +1,6 @@
 ---
 layout: page
-pageClass: 'playground'
+footer: false
 ---
 
 <Playground />
