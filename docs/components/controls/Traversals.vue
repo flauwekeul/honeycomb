@@ -1,16 +1,25 @@
 <script setup lang="ts">
 import { ArrowDown, ArrowUp, Delete } from '@element-plus/icons-vue'
 import { storeToRefs } from 'pinia'
+import { nextTick, ref, watch } from 'vue'
 import { useTraversalsStore } from '../../stores'
 import TraverserControl from './TraverserControl.vue'
 
 const traversalsStore = useTraversalsStore()
 const { add, update, moveUp, moveDown, delete_ } = traversalsStore
 const { traversers } = storeToRefs(traversalsStore)
+
+const containerEl = ref<HTMLElement | null>(null)
+
+watch(traversalsStore.traversers, async () => {
+  await nextTick()
+  const items = Array.from(containerEl.value?.children ?? [])
+  items.at(-1)?.scrollIntoView({ behavior: 'smooth' })
+})
 </script>
 
 <template>
-  <template v-if="traversers.length">
+  <div v-if="traversers.length" ref="containerEl">
     <el-card v-for="(config, index) of traversers" :key="index" shadow="never" class="traverser">
       <template #header>
         <div class="traverser-header">
@@ -30,7 +39,7 @@ const { traversers } = storeToRefs(traversalsStore)
       </template>
       <TraverserControl v-bind="config" @change="update(index, $event)" />
     </el-card>
-  </template>
+  </div>
   <el-button type="primary" @click="add()">Add traverser</el-button>
 </template>
 

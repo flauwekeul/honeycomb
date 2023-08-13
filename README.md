@@ -56,8 +56,9 @@ These are ideas that may require further investigation 🕵️. Don't hesitate t
   - [x] Don't make all traverser options required. E.g. `start` should be optional and is ignored when it's not the first traverser.
   - [ ] Add "hex picker" to select hexes in the grid
   - [ ] Add a way to import/export code
-  - [ ] Show "infinite" background grid
   - [ ] Make the grid draggable
+  - [ ] Support multiple traversers in Grid tab?
+  - [ ] Show "infinite" background grid
   - [ ] Persist state (in localStorage)
   - [ ] Integrate code editor ([Sandpack](https://sandpack.codesandbox.io/))?
   - [ ] Add examples (A* path finding, Perlin noise (?) for map generation, "chunking")
