@@ -19,10 +19,15 @@ const update = <T,>(propName: keyof LineControlProps, value: T) => {
     <CoordinatesControl
       :values="start && [start.q, start.r]"
       :allow-default="true"
+      :has-picker="true"
       @change="update('start', $event && { q: $event[0], r: $event[1] })"
     />
   </el-form-item>
   <el-form-item label="Stop">
-    <CoordinatesControl :values="[stop.q, stop.r]" @change="update('stop', { q: $event![0], r: $event![1] })" />
+    <CoordinatesControl
+      :values="[stop.q, stop.r]"
+      :has-picker="true"
+      @change="update('stop', { q: $event![0], r: $event![1] })"
+    />
   </el-form-item>
 </template>

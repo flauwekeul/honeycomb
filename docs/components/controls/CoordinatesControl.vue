@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { Aim } from '@element-plus/icons-vue'
+import { computed, ref } from 'vue'
+import { useTilePicker } from '../../composables'
 
 type Coordinates = [first: number, second: number]
 
+type HexCoordinateKey = 'x' | 'y' | 'q' | 'r' | 's' | 'col' | 'row'
+
 interface CoordinatesControlProps {
   values?: Coordinates
-  labels?: [first: string, second: string]
+  labels?: [first: HexCoordinateKey, second: HexCoordinateKey]
   allowDefault?: boolean
+  hasPicker?: boolean
   step?: number
   labelWidth?: string
 }
@@ -18,16 +23,27 @@ type CoordinatesControlEmits = {
 const props = withDefaults(defineProps<CoordinatesControlProps>(), {
   labels: () => ['q', 'r'],
   allowDefault: false,
+  hasPicker: false,
   labelWidth: '24px',
 })
 const emit = defineEmits<CoordinatesControlEmits>()
 
 const useDefault = ref(!props.values)
-const first = ref(props.values?.[0] ?? 0)
-const second = ref(props.values?.[1] ?? 0)
+const first = computed(() => props.values?.[0] ?? 0)
+const second = computed(() => props.values?.[1] ?? 0)
+const isPickerActive = ref(false)
+
+const { togglePicking } = useTilePicker()
 
 const update = (first: number, second: number) => {
   emit('change', [first, second])
+}
+
+const toggleTilePicker = async () => {
+  const tile = await togglePicking(isPickerActive)
+  if (tile) {
+    update(tile[props.labels[0] as HexCoordinateKey], tile[props.labels[1] as HexCoordinateKey])
+  }
 }
 </script>
 
@@ -40,43 +56,64 @@ const update = (first: number, second: number) => {
     @change="$event ? emit('change', undefined) : update(first, second)"
     class="switch"
   />
-  <div v-if="!useDefault" class="coordinates-control">
-    <el-form-item :label="labels[0]" :label-width="labelWidth">
-      <el-input-number
-        v-model="first"
-        @change="update($event as number, second)"
-        :step="step"
-        :value-on-clear="0"
-        :disabled="useDefault"
-        class="input-number"
+  <div v-if="!useDefault" class="coordinates">
+    <div class="coordinates-fields">
+      <el-form-item :label="labels[0]" :label-width="labelWidth">
+        <el-input-number
+          :model-value="first"
+          @change="update($event as number, second)"
+          :step="step"
+          :value-on-clear="0"
+          :disabled="useDefault"
+          class="input-number"
+        />
+      </el-form-item>
+      <el-form-item :label="labels[1]" :label-width="labelWidth">
+        <el-input-number
+          :model-value="second"
+          @change="update(first, $event as number)"
+          :step="step"
+          :value-on-clear="0"
+          :disabled="useDefault"
+          class="input-number"
+        />
+      </el-form-item>
+    </div>
+    <el-tooltip v-if="hasPicker" content="Click on a tile to select" :show-after="500">
+      <el-button
+        :icon="Aim"
+        circle
+        :type="isPickerActive ? 'primary' : undefined"
+        @click="toggleTilePicker()"
+        class="pick-tile"
       />
-    </el-form-item>
-    <el-form-item :label="labels[1]" :label-width="labelWidth">
-      <el-input-number
-        v-model="second"
-        @change="update(first, $event as number)"
-        :step="step"
-        :value-on-clear="0"
-        :disabled="useDefault"
-        class="input-number"
-      />
-    </el-form-item>
+    </el-tooltip>
   </div>
 </template>
 
 <style scoped>
-.coordinates-control {
+.switch {
+  margin: 4px 0 8px;
+}
+
+.coordinates {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.coordinates-fields {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.switch {
-  margin: 4px 0 8px;
-}
-
 .input-number {
   /* 150px - 24px: default width - default label width */
   max-width: 126px;
+}
+
+.pick-tile {
+  --el-button-hover-border-color: var(--vp-c-brand-light);
 }
 </style>

@@ -54,7 +54,7 @@ These are ideas that may require further investigation 🕵️. Don't hesitate t
   - [ ] Support multiple traverser options (e.g. `RingOptions` and `RingFromRadiusOptions`)
   - [x] Support list of traversers
   - [x] Don't make all traverser options required. E.g. `start` should be optional and is ignored when it's not the first traverser.
-  - [ ] Add "hex picker" to select hexes in the grid
+  - [x] Add "hex picker" to select hexes in the grid
   - [ ] Add a way to import/export code
   - [ ] Make the grid draggable
   - [ ] Support multiple traversers in Grid tab?

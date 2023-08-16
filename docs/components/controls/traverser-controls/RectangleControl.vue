@@ -31,6 +31,7 @@ const update = <T,>(propName: keyof RectangleControlProps, value: T) => {
     <CoordinatesControl
       :values="start && [start.q, start.r]"
       :allow-default="true"
+      :has-picker="true"
       @change="update('start', $event && { q: $event[0], r: $event[1] })"
     />
   </el-form-item>
