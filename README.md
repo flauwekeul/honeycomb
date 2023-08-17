@@ -54,10 +54,13 @@ These are ideas that may require further investigation 🕵️. Don't hesitate t
   - [ ] Support multiple traverser options (e.g. `RingOptions` and `RingFromRadiusOptions`)
   - [x] Support list of traversers
   - [x] Don't make all traverser options required. E.g. `start` should be optional and is ignored when it's not the first traverser.
+  - [ ] Support the 2nd argument of `grid.traverse()` (`{ bail: boolean }`)
+  - [ ] Add help buttons that link to the docs
+  - [ ] Implement playground (with limited controls) in guide
   - [x] Add "hex picker" to select hexes in the grid
   - [ ] Add a way to import/export code
   - [ ] Make the grid draggable
-  - [ ] Support multiple traversers in Grid tab?
+  - [x] Support multiple traversers in Grid tab
   - [ ] Show "infinite" background grid
   - [ ] Persist state (in localStorage)
   - [ ] Integrate code editor ([Sandpack](https://sandpack.codesandbox.io/))?

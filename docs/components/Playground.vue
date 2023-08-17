@@ -11,15 +11,15 @@ const TRAVERSERS = { line, rectangle, ring, spiral } as const
 const store = usePlaygroundStore()
 // grid can't be a ref because Proxies don't work with private class field
 // see: https://lea.verou.me/blog/2023/04/private-fields-considered-harmful/
-let grid = new Grid(defineHex(store.hexSettings), createTraverser(store.initialHexes))
+let grid = new Grid(defineHex(store.hexSettings), createTraverser(store.initialHexes.traversers))
 let traversal: Grid<Hex> | undefined
 
 const gridKey = ref(0)
 
 store.$subscribe((_, { hexSettings, initialHexes, traversals }) => {
   try {
-    grid = new Grid(defineHex(hexSettings), createTraverser(initialHexes))
-    traversal = grid.traverse(traversals.traversers.map(createTraverser))
+    grid = new Grid(defineHex(hexSettings), createTraverser(initialHexes.traversers))
+    traversal = grid.traverse(createTraverser(traversals.traversers))
 
     gridKey.value = Math.random()
   } catch (error) {
@@ -27,10 +27,12 @@ store.$subscribe((_, { hexSettings, initialHexes, traversals }) => {
   }
 })
 
-function createTraverser({ name, ...traversers }: TraverserControlProps): Traverser<Hex> {
-  const traverser = TRAVERSERS[name] as Function
-  const options = traversers[name]
-  return traverser(options)
+function createTraverser(traverserConfigs: TraverserControlProps[]): Traverser<Hex>[] {
+  return traverserConfigs.map(({ name, ...traversers }) => {
+    const traverser = TRAVERSERS[name] as Function
+    const options = traversers[name]
+    return traverser(options)
+  })
 }
 </script>
 

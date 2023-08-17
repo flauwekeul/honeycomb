@@ -2,16 +2,20 @@
 import { ArrowDown, ArrowUp, Delete } from '@element-plus/icons-vue'
 import { storeToRefs } from 'pinia'
 import { nextTick, ref, watch } from 'vue'
-import { useTraversalsStore } from '../../stores'
+import { createTraverserStore } from '../../stores/createTraverserStore'
 import TraverserControl from './TraverserControl.vue'
 
-const traversalsStore = useTraversalsStore()
-const { add, update, moveUp, moveDown, delete_ } = traversalsStore
-const { traversers } = storeToRefs(traversalsStore)
+interface TraversalsProps {
+  traversalsStore: ReturnType<ReturnType<typeof createTraverserStore>>
+}
 
+const props = defineProps<TraversalsProps>()
+
+const { add, update, moveUp, moveDown, delete_ } = props.traversalsStore
+const { traversers } = storeToRefs(props.traversalsStore)
 const containerEl = ref<HTMLElement | null>(null)
 
-watch(traversalsStore.traversers, async () => {
+watch(props.traversalsStore.traversers, async () => {
   await nextTick()
   const items = Array.from(containerEl.value?.children ?? [])
   items.at(-1)?.scrollIntoView({ behavior: 'smooth' })
