@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { ArrowDown, ArrowUp, Delete } from '@element-plus/icons-vue'
 import { storeToRefs } from 'pinia'
-import { nextTick, ref, watch } from 'vue'
-import { createTraverserStore } from '../../stores/createTraverserStore'
+import { computed, nextTick, ref, watch } from 'vue'
+import { useInitialHexesStore, useTraversalsStore } from '../../stores'
 import TraverserControl from './TraverserControl.vue'
 
 interface TraversalsProps {
-  traversalsStore: ReturnType<ReturnType<typeof createTraverserStore>>
+  traversalsStore: ReturnType<typeof useInitialHexesStore | typeof useTraversalsStore>
 }
 
 const props = defineProps<TraversalsProps>()
 
 const { add, update, moveUp, moveDown, delete_ } = props.traversalsStore
 const { traversers } = storeToRefs(props.traversalsStore)
+const bail = computed(() => (props.traversalsStore as ReturnType<typeof useTraversalsStore>).bail)
 const containerEl = ref<HTMLElement | null>(null)
 
 watch(props.traversalsStore.traversers, async () => {
@@ -23,6 +24,15 @@ watch(props.traversalsStore.traversers, async () => {
 </script>
 
 <template>
+  <div class="controls">
+    <el-button type="primary" @click="add()">Add traverser</el-button>
+    <el-switch
+      v-if="bail != null"
+      :model-value="bail"
+      active-text="Bail"
+      @change="traversalsStore.$patch({ bail: $event as boolean })"
+    />
+  </div>
   <div v-if="traversers.length" ref="containerEl">
     <el-card v-for="(config, index) of traversers" :key="index" shadow="never" class="traverser">
       <template #header>
@@ -43,11 +53,17 @@ watch(props.traversalsStore.traversers, async () => {
       </template>
       <TraverserControl v-bind="config" @change="update(index, $event)" />
     </el-card>
+    <el-button type="primary" @click="add()">Add traverser</el-button>
   </div>
-  <el-button type="primary" @click="add()">Add traverser</el-button>
 </template>
 
 <style scoped>
+.controls {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
 .traverser {
   --el-card-padding: 1rem;
 

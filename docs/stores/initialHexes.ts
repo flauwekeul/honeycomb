@@ -1,13 +1,18 @@
-import { createTraverserStore } from './createTraverserStore'
+import { defineStore } from 'pinia'
+import { PartialTraverserConfig, createTraverserStore } from '../composables'
 
-export const useInitialHexesStore = createTraverserStore('initialHexes', [
-  {
-    name: 'rectangle',
-    rectangle: {
-      start: { q: 0, r: 0 },
-      width: 10,
-      height: 10,
-      direction: 'E',
-    },
+const initialTraverser: PartialTraverserConfig = {
+  name: 'rectangle',
+  rectangle: {
+    start: { q: 0, r: 0 },
+    width: 10,
+    height: 10,
+    direction: 'E',
   },
-])
+}
+
+export const useInitialHexesStore = defineStore('initialHexes', () => {
+  return {
+    ...createTraverserStore(initialTraverser),
+  }
+})

@@ -19,7 +19,7 @@ const gridKey = ref(0)
 store.$subscribe((_, { hexSettings, initialHexes, traversals }) => {
   try {
     grid = new Grid(defineHex(hexSettings), createTraverser(initialHexes.traversers))
-    traversal = grid.traverse(createTraverser(traversals.traversers))
+    traversal = grid.traverse(createTraverser(traversals.traversers), { bail: traversals.bail })
 
     gridKey.value = Math.random()
   } catch (error) {
