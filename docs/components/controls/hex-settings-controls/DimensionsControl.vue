@@ -9,7 +9,7 @@ import {
   isEllipse,
   isNumber,
 } from '../../../../src'
-import CoordinatesControl from '../CoordinatesControl.vue'
+import PairControl from '../PairControl.vue'
 
 interface DimensionsControlProps {
   modelValue: Dimensions
@@ -94,14 +94,14 @@ const dimensionsToBBox = (dimensions: Dimensions, orientation: Orientation): Bou
       :max="100"
       value-on-clear="min"
     />
-    <CoordinatesControl
+    <PairControl
       v-else-if="isEllipse(modelValue)"
       :values="[modelValue.xRadius, modelValue.yRadius]"
       :labels="['xRadius', 'yRadius']"
       label-width="64px"
       @change="update({ xRadius: $event![0], yRadius: $event![1] })"
     />
-    <CoordinatesControl
+    <PairControl
       v-else
       :values="[modelValue.width, modelValue.height]"
       :labels="['width', 'height']"

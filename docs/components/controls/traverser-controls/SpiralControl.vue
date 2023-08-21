@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { SpiralControlProps } from '../../../types'
-import CoordinatesControl from '../CoordinatesControl.vue'
+import PairControl from '../PairControl.vue'
 
 type SpiralControlEmits = {
   change: [value: SpiralControlProps]
@@ -16,7 +16,7 @@ const update = <T,>(propName: keyof SpiralControlProps, value: T) => {
 
 <template>
   <el-form-item label="Start">
-    <CoordinatesControl
+    <PairControl
       :values="start && [start.q, start.r]"
       :allow-default="true"
       :has-picker="true"

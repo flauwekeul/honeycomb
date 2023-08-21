@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RingControlProps } from '../../../types'
-import CoordinatesControl from '../CoordinatesControl.vue'
+import PairControl from '../PairControl.vue'
 
 type RingControlEmits = {
   change: [value: RingControlProps]
@@ -16,7 +16,7 @@ const update = <T,>(propName: keyof RingControlProps, value: T) => {
 
 <template>
   <el-form-item label="Center">
-    <CoordinatesControl
+    <PairControl
       :values="[center.q, center.r]"
       :has-picker="true"
       @change="update('center', { q: $event![0], r: $event![1] })"

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { HexOptions, Point } from '../../../../src'
-import CoordinatesControl from '../CoordinatesControl.vue'
+import PairControl from '../PairControl.vue'
 
 interface OriginControlProps {
   modelValue: Origin
@@ -43,7 +43,7 @@ const tupleToPoint = ([x, y]: [number, number] = [0, 0]): Point => ({ x, y })
   </el-radio-group>
   <div class="variable-input">
     <code v-if="modelValue === 'topLeft'">'topLeft'</code>
-    <CoordinatesControl
+    <PairControl
       v-else
       :values="pointToTuple(modelValue)"
       :labels="['x', 'y']"

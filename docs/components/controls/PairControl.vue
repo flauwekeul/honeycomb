@@ -1,32 +1,33 @@
 <script setup lang="ts">
 import { Aim } from '@element-plus/icons-vue'
 import { computed, ref } from 'vue'
+import { BoundingBox, Ellipse, Hex } from '../../../src'
 import { useTilePicker } from '../../composables'
 
-type Coordinates = [first: number, second: number]
+type Pair = [first: number, second: number]
 
-type HexCoordinateKey = 'x' | 'y' | 'q' | 'r' | 's' | 'col' | 'row'
+type Label = keyof Hex | keyof Ellipse | keyof BoundingBox
 
-interface CoordinatesControlProps {
-  values?: Coordinates
-  labels?: [first: HexCoordinateKey, second: HexCoordinateKey]
+interface PairControlProps {
+  values?: Pair
+  labels?: [first: Label, second: Label]
   allowDefault?: boolean
   hasPicker?: boolean
   step?: number
   labelWidth?: string
 }
 
-type CoordinatesControlEmits = {
-  change: [values: Coordinates | undefined]
+type PairControlEmits = {
+  change: [values: Pair | undefined]
 }
 
-const props = withDefaults(defineProps<CoordinatesControlProps>(), {
+const props = withDefaults(defineProps<PairControlProps>(), {
   labels: () => ['q', 'r'],
   allowDefault: false,
   hasPicker: false,
   labelWidth: '24px',
 })
-const emit = defineEmits<CoordinatesControlEmits>()
+const emit = defineEmits<PairControlEmits>()
 
 const useDefault = ref(!props.values)
 const first = computed(() => props.values?.[0] ?? 0)
@@ -42,7 +43,8 @@ const update = (first: number, second: number) => {
 const toggleTilePicker = async () => {
   const tile = await togglePicking(isPickerActive)
   if (tile) {
-    update(tile[props.labels[0] as HexCoordinateKey], tile[props.labels[1] as HexCoordinateKey])
+    const [first, second] = props.labels as [keyof Hex, keyof Hex]
+    update(tile[first] as number, tile[second] as number)
   }
 }
 </script>
@@ -56,8 +58,8 @@ const toggleTilePicker = async () => {
     @change="$event ? emit('change', undefined) : update(first, second)"
     class="switch"
   />
-  <div v-if="!useDefault" class="coordinates">
-    <div class="coordinates-fields">
+  <div v-if="!useDefault" class="controls">
+    <div class="inputs">
       <el-form-item :label="labels[0]" :label-width="labelWidth">
         <el-input-number
           :model-value="first"
@@ -96,13 +98,13 @@ const toggleTilePicker = async () => {
   margin: 4px 0 8px;
 }
 
-.coordinates {
+.controls {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.coordinates-fields {
+.inputs {
   display: flex;
   flex-direction: column;
   gap: 8px;

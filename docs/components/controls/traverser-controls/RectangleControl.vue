@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { DIRECTIONS, Direction } from '../../../../src'
 import { RectangleControlProps } from '../../../types'
-import CoordinatesControl from '../CoordinatesControl.vue'
+import PairControl from '../PairControl.vue'
 
 type RectangleControlEmits = {
   change: [value: RectangleControlProps]
@@ -28,7 +28,7 @@ const update = <T,>(propName: keyof RectangleControlProps, value: T) => {
 
 <template>
   <el-form-item label="Start">
-    <CoordinatesControl
+    <PairControl
       :values="start && [start.q, start.r]"
       :allow-default="true"
       :has-picker="true"

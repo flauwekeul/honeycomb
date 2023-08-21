@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { LineControlProps } from '../../../types'
-import CoordinatesControl from '../CoordinatesControl.vue'
+import PairControl from '../PairControl.vue'
 
 type LineControlEmits = {
   change: [value: LineControlProps]
@@ -16,7 +16,7 @@ const update = <T,>(propName: keyof LineControlProps, value: T) => {
 
 <template>
   <el-form-item label="Start">
-    <CoordinatesControl
+    <PairControl
       :values="start && [start.q, start.r]"
       :allow-default="true"
       :has-picker="true"
@@ -24,7 +24,7 @@ const update = <T,>(propName: keyof LineControlProps, value: T) => {
     />
   </el-form-item>
   <el-form-item label="Stop">
-    <CoordinatesControl
+    <PairControl
       :values="[stop.q, stop.r]"
       :has-picker="true"
       @change="update('stop', { q: $event![0], r: $event![1] })"
