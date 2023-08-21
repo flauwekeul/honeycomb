@@ -10,6 +10,7 @@ const TRAVERSERS = {
   lineBetween: line,
   lineAsVector: line,
   rectangle,
+  opposingCorners: rectangle,
   ring,
   spiral,
 } as const
@@ -35,6 +36,10 @@ store.$subscribe((_, { hexSettings, initialHexes, traversals }) => {
 
 function createTraverser(traverserConfigs: TraverserControlProps[]): Traverser<Hex>[] {
   return traverserConfigs.map(({ name, ...traversers }) => {
+    if (name === 'opposingCorners') {
+      return rectangle(traversers.opposingCorners.cornerA, traversers.opposingCorners.cornerB)
+    }
+
     const traverser = TRAVERSERS[name] as Function
     const options = traversers[name]
     return traverser(options)

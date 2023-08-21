@@ -2,6 +2,7 @@
 import { TRAVERSER_NAMES, TraverserControlProps, TraverserName } from '../../types'
 import LineAsVectorControl from './traverser-controls/LineAsVectorControl.vue'
 import LineBetweenControl from './traverser-controls/LineBetweenControl.vue'
+import OpposingCornersControl from './traverser-controls/OpposingCornersControl.vue'
 import RectangleControl from './traverser-controls/RectangleControl.vue'
 import RingControl from './traverser-controls/RingControl.vue'
 import SpiralControl from './traverser-controls/SpiralControl.vue'
@@ -13,7 +14,8 @@ type TraverserControlEmits = {
 const LABELS: Record<TraverserName, string> = {
   lineBetween: 'Line (between coordinates)',
   lineAsVector: 'Line (as vector)',
-  rectangle: 'Rectangle',
+  rectangle: 'Rectangle (width/height)',
+  opposingCorners: 'Rectangle (opposing corners)',
   ring: 'Ring',
   spiral: 'Spiral',
 } as const
@@ -41,6 +43,11 @@ const update = <T,>(propName: keyof TraverserControlProps, value: T) => {
   <LineBetweenControl v-if="name === 'lineBetween'" v-bind="lineBetween" @change="update('lineBetween', $event)" />
   <LineAsVectorControl v-if="name === 'lineAsVector'" v-bind="lineAsVector" @change="update('lineAsVector', $event)" />
   <RectangleControl v-if="name === 'rectangle'" v-bind="rectangle" @change="update('rectangle', $event)" />
+  <OpposingCornersControl
+    v-if="name === 'opposingCorners'"
+    v-bind="opposingCorners"
+    @change="update('opposingCorners', $event)"
+  />
   <RingControl v-if="name === 'ring'" v-bind="ring" @change="update('ring', $event)" />
   <SpiralControl v-if="name === 'spiral'" v-bind="spiral" @change="update('spiral', $event)" />
 </template>

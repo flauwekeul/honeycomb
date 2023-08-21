@@ -25,6 +25,10 @@ const traverserConfig: TraverserControlProps = {
     height: 3,
     direction: 'E',
   },
+  opposingCorners: {
+    cornerA: { q: 0, r: 0 },
+    cornerB: { q: 1, r: 2 },
+  },
   ring: {
     center: { q: 1, r: 2 },
     radius: 2,
