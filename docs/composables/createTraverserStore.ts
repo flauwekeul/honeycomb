@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import {
-  LineControlProps,
+  LineBetweenProps,
   RectangleControlProps,
   RingControlProps,
   SpiralControlProps,
@@ -9,10 +9,15 @@ import {
 } from '../types'
 
 const traverserConfig: TraverserControlProps = {
-  name: 'line',
-  line: {
+  name: 'lineBetween',
+  lineBetween: {
     start: { q: 0, r: 0 },
     stop: { q: 3, r: 0 },
+  },
+  lineAsVector: {
+    start: { q: 0, r: 0 },
+    direction: 'E',
+    length: 4,
   },
   rectangle: {
     start: { q: 0, r: 0 },
@@ -34,7 +39,7 @@ const traverserConfig: TraverserControlProps = {
 
 export interface PartialTraverserConfig {
   name: TraverserName
-  line?: LineControlProps
+  lineBetween?: LineBetweenProps
   rectangle?: RectangleControlProps
   ring?: RingControlProps
   spiral?: SpiralControlProps

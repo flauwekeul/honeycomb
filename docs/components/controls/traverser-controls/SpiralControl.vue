@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { SpiralControlProps } from '../../../types'
-import PairControl from '../PairControl.vue'
+import PairControl from '../shared/PairControl.vue'
 
 type SpiralControlEmits = {
   change: [value: SpiralControlProps]

@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { LineControlProps } from '../../../types'
-import PairControl from '../PairControl.vue'
+import { LineBetweenProps } from '../../../types'
+import PairControl from '../shared/PairControl.vue'
 
 type LineControlEmits = {
-  change: [value: LineControlProps]
+  change: [value: LineBetweenProps]
 }
 
-const props = defineProps<LineControlProps>()
+const props = defineProps<LineBetweenProps>()
 const emit = defineEmits<LineControlEmits>()
 
-const update = <T,>(propName: keyof LineControlProps, value: T) => {
+const update = <T,>(propName: keyof LineBetweenProps, value: T) => {
   emit('change', { ...props, [propName]: value })
 }
 </script>

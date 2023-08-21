@@ -6,7 +6,13 @@ import { TraverserControlProps } from '../types'
 import Controls from './controls/Controls.vue'
 import TileGrid from './tile-grid/TileGrid.vue'
 
-const TRAVERSERS = { line, rectangle, ring, spiral } as const
+const TRAVERSERS = {
+  lineBetween: line,
+  lineAsVector: line,
+  rectangle,
+  ring,
+  spiral,
+} as const
 
 const store = usePlaygroundStore()
 // grid can't be a ref because Proxies don't work with private class field

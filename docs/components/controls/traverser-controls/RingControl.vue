@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RingControlProps } from '../../../types'
-import PairControl from '../PairControl.vue'
+import PairControl from '../shared/PairControl.vue'
 
 type RingControlEmits = {
   change: [value: RingControlProps]

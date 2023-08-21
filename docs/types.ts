@@ -1,21 +1,33 @@
-import { AxialCoordinates, LineBetweenOptions, RectangleOptions, RingFromRadiusOptions, SpiralOptions } from '../src'
+import {
+  AxialCoordinates,
+  LineAsVectorOptions,
+  LineBetweenOptions,
+  RectangleOptions,
+  RingFromRadiusOptions,
+  SpiralOptions,
+} from '../src'
 
 export type CoordinatesType = 'hide' | 'axial' | 'offset'
 
-export const TRAVERSER_NAMES = ['line', 'rectangle', 'ring', 'spiral'] as const
+export const TRAVERSER_NAMES = ['lineBetween', 'lineAsVector', 'rectangle', 'ring', 'spiral'] as const
 export type TraverserName = (typeof TRAVERSER_NAMES)[number]
 
 export interface TraverserControlProps {
   name: TraverserName
-  line: LineControlProps
+  lineBetween: LineBetweenProps
+  lineAsVector: LineAsVectorProps
   rectangle: RectangleControlProps
   ring: RingControlProps
   spiral: SpiralControlProps
 }
 
-export interface LineControlProps extends LineBetweenOptions {
+export interface LineBetweenProps extends LineBetweenOptions {
   start?: AxialCoordinates
   stop: AxialCoordinates
+}
+
+export interface LineAsVectorProps extends LineAsVectorOptions {
+  start?: AxialCoordinates
 }
 
 export interface RectangleControlProps extends RectangleOptions {

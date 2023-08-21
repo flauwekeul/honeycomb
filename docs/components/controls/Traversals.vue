@@ -3,10 +3,19 @@ import { ArrowDown, ArrowUp, Delete } from '@element-plus/icons-vue'
 import { storeToRefs } from 'pinia'
 import { computed, nextTick, ref, watch } from 'vue'
 import { useInitialHexesStore, useTraversalsStore } from '../../stores'
+import { TraverserName } from '../../types'
 import TraverserControl from './TraverserControl.vue'
 
 interface TraversalsProps {
   traversalsStore: ReturnType<typeof useInitialHexesStore | typeof useTraversalsStore>
+}
+
+const TRAVERSER_NAMES: Record<TraverserName, string> = {
+  lineBetween: 'Line',
+  lineAsVector: 'Line',
+  rectangle: 'Rectangle',
+  ring: 'Ring',
+  spiral: 'Spiral',
 }
 
 const props = defineProps<TraversalsProps>()
@@ -37,7 +46,7 @@ watch(props.traversalsStore.traversers, async () => {
     <el-card v-for="(config, index) of traversers" :key="index" shadow="never" class="traverser">
       <template #header>
         <div class="traverser-header">
-          {{ index + 1 }}: {{ config.name }}
+          {{ index + 1 }}: {{ TRAVERSER_NAMES[config.name] }}
           <el-button-group size="small">
             <el-tooltip content="Move up" placement="top">
               <el-button plain :icon="ArrowUp" :disabled="index === 0" @click="moveUp(index)" />

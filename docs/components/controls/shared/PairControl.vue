@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Aim } from '@element-plus/icons-vue'
 import { computed, ref } from 'vue'
-import { BoundingBox, Ellipse, Hex } from '../../../src'
-import { useTilePicker } from '../../composables'
+import { BoundingBox, Ellipse, Hex } from '../../../../src'
+import { useTilePicker } from '../../../composables'
 
 type Pair = [first: number, second: number]
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { HexOptions, Point } from '../../../../src'
-import PairControl from '../PairControl.vue'
+import PairControl from '../shared/PairControl.vue'
 
 interface OriginControlProps {
   modelValue: Origin
