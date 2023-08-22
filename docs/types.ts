@@ -4,6 +4,7 @@ import {
   LineBetweenOptions,
   RectangleOptions,
   RingFromRadiusOptions,
+  RingOptions,
   SpiralOptions,
 } from '../src'
 
@@ -15,6 +16,7 @@ export const TRAVERSER_NAMES = [
   'rectangle',
   'opposingCorners',
   'ring',
+  'ringFromRadius',
   'spiral',
 ] as const
 export type TraverserName = (typeof TRAVERSER_NAMES)[number]
@@ -26,6 +28,7 @@ export interface TraverserControlProps {
   rectangle: RectangleControlProps
   opposingCorners: OpposingCornersControlProps
   ring: RingControlProps
+  ringFromRadius: RingFromRadiusControlProps
   spiral: SpiralControlProps
 }
 
@@ -47,7 +50,12 @@ export interface OpposingCornersControlProps {
   cornerB: AxialCoordinates
 }
 
-export interface RingControlProps extends RingFromRadiusOptions {
+export interface RingControlProps extends RingOptions {
+  start?: AxialCoordinates
+  center: AxialCoordinates
+}
+
+export interface RingFromRadiusControlProps extends RingFromRadiusOptions {
   center: AxialCoordinates
 }
 

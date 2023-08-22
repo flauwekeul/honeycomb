@@ -1,8 +1,11 @@
 import { ref } from 'vue'
 import {
+  LineAsVectorProps,
   LineBetweenProps,
+  OpposingCornersControlProps,
   RectangleControlProps,
   RingControlProps,
+  RingFromRadiusControlProps,
   SpiralControlProps,
   TraverserControlProps,
   TraverserName,
@@ -30,6 +33,11 @@ const traverserConfig: TraverserControlProps = {
     cornerB: { q: 1, r: 2 },
   },
   ring: {
+    start: { q: 3, r: 2 },
+    center: { q: 1, r: 2 },
+    rotation: 'cw',
+  },
+  ringFromRadius: {
     center: { q: 1, r: 2 },
     radius: 2,
     rotation: 'cw',
@@ -44,8 +52,11 @@ const traverserConfig: TraverserControlProps = {
 export interface PartialTraverserConfig {
   name: TraverserName
   lineBetween?: LineBetweenProps
+  lineAsVector?: LineAsVectorProps
   rectangle?: RectangleControlProps
+  opposingCorners?: OpposingCornersControlProps
   ring?: RingControlProps
+  ringFromRadius?: RingFromRadiusControlProps
   spiral?: SpiralControlProps
 }
 

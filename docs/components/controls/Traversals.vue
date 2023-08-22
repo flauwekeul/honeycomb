@@ -16,6 +16,7 @@ const TRAVERSER_NAMES: Record<TraverserName, string> = {
   rectangle: 'Rectangle',
   opposingCorners: 'Rectangle',
   ring: 'Ring',
+  ringFromRadius: 'Ring',
   spiral: 'Spiral',
 }
 

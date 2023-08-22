@@ -51,7 +51,7 @@ These are ideas that may require further investigation 🕵️. Don't hesitate t
   - [x] Use [Pinia](https://pinia.vuejs.org/) instead of prop drilling
   - [ ] Add visual aids: highlight active tiles, toggle origins, more?
   - [x] Support traversing (`grid.traverse(…)`)
-  - [ ] Support multiple traverser options (e.g. `RingOptions` and `RingFromRadiusOptions`)
+  - [x] Support multiple traverser options (e.g. `RingOptions` and `RingFromRadiusOptions`)
   - [x] Support list of traversers
   - [x] Don't make all traverser options required. E.g. `start` should be optional and is ignored when it's not the first traverser.
   - [x] Support the 2nd argument of `grid.traverse()` (`{ bail: boolean }`)

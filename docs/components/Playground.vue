@@ -12,6 +12,7 @@ const TRAVERSERS = {
   rectangle,
   opposingCorners: rectangle,
   ring,
+  ringFromRadius: ring,
   spiral,
 } as const
 
