@@ -7,7 +7,7 @@ import { CoordinatesType } from '../../types'
 interface HexProps {
   tile: Hex
   isTraversed?: boolean
-  coordinates: CoordinatesType
+  coordinatesType: CoordinatesType
 }
 
 const { tile, isTraversed } = withDefaults(defineProps<HexProps>(), {
@@ -22,9 +22,9 @@ const fontSize = computed(() => tile.height / 4)
 <template>
   <g :class="{ 'is-traversed': isTraversed, 'is-selectable': isPicking }" @click="pick(tile)">
     <polygon :points="points" class="polygon"></polygon>
-    <text v-if="coordinates !== 'hide'" :x="tile.x" :y="tile.y" :font-size="fontSize" class="coordinates">
-      <tspan v-if="coordinates === 'axial'">{{ tile.q }},{{ tile.r }}</tspan>
-      <tspan v-if="coordinates === 'offset'">{{ tile.col }},{{ tile.row }}</tspan>
+    <text v-if="coordinatesType !== 'hide'" :x="tile.x" :y="tile.y" :font-size="fontSize" class="coordinates-type">
+      <tspan v-if="coordinatesType === 'axial'">{{ tile.q }},{{ tile.r }}</tspan>
+      <tspan v-if="coordinatesType === 'offset'">{{ tile.col }},{{ tile.row }}</tspan>
     </text>
   </g>
 </template>
@@ -40,8 +40,9 @@ const fontSize = computed(() => tile.height / 4)
 }
 
 .is-traversed .polygon {
-  fill: var(--slate-400);
+  fill: var(--slate-500);
   stroke: var(--slate-500);
+  fill-opacity: 0.4;
 }
 
 .is-selectable:hover {
@@ -53,7 +54,7 @@ const fontSize = computed(() => tile.height / 4)
   stroke: var(--yellow-500);
 }
 
-.coordinates {
+.coordinates-type {
   text-anchor: middle;
   dominant-baseline: central;
   fill: currentColor;
@@ -65,8 +66,8 @@ const fontSize = computed(() => tile.height / 4)
 }
 
 .dark .is-traversed .polygon {
-  fill: var(--slate-700);
-  stroke: var(--slate-800);
+  fill: var(--slate-400);
+  stroke: var(--slate-700);
 }
 
 .dark .is-selectable:hover .polygon {

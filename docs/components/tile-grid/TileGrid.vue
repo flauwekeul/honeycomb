@@ -14,7 +14,7 @@ interface GridProps {
 const { grid, traversal } = withDefaults(defineProps<GridProps>(), {
   traversal: () => new Grid(Hex), // empty grid
 })
-const { coordinates } = storeToRefs(useSettingsStore())
+const { coordinatesType } = storeToRefs(useSettingsStore())
 
 const arrowData = computed(() =>
   traversal.toArray().reduce((acc, currentTile, index, tiles) => {
@@ -54,8 +54,14 @@ const arrowData = computed(() =>
       v-for="tile of grid"
       :key="tile.toString()"
       :tile="tile"
-      :is-traversed="traversal?.hasHex(tile)"
-      :coordinates="coordinates"
+      :coordinates-type="traversal.hasHex(tile) ? 'hide' : coordinatesType"
+    />
+    <Tile
+      v-for="tile of traversal"
+      :key="tile.toString()"
+      :tile="tile"
+      is-traversed
+      :coordinates-type="coordinatesType"
     />
     <Arrow v-for="{ from, to } of arrowData" :from="from" :to="to" />
 

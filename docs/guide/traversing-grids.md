@@ -353,7 +353,7 @@ import { defineHex, fromCoordinates, Grid, line, move, rectangle, repeat, repeat
 import Line from '../components/tile-grid/Line.vue';
 import TileGrid from '../components/tile-grid/TileGrid.vue';
 
-const Hex = defineHex({ dimensions: 30 })
+const Hex = defineHex({ dimensions: 30, origin: 'topLeft' })
 const grid = new Grid(Hex, rectangle({ width: 5, height: 5 }))
 const spiral1 = grid.traverse(spiral({ start: [0, 2], radius: 1 }))
 const spiral2 = grid.traverse(spiral({ start: [0, 2], radius: 2 }))

@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { CoordinatesType } from '../types'
 
 export const useSettingsStore = defineStore('settings', () => {
-  const coordinates = ref<CoordinatesType>('axial')
+  const coordinatesType = ref<CoordinatesType>('axial')
 
-  return { coordinates }
+  return { coordinatesType }
 })
