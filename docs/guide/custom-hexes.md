@@ -37,18 +37,36 @@ const hex = new CustomHex()
 
 // hex instances created with CustomHex now have these hex settings:
 hex.dimensions  // { xRadius: 30, yRadius: 30 }
-hex.orientation // 'FLAT'
+hex.orientation // 'flat'
 hex.origin      // { x: -30, y: -25.98… }, relative to the center of the hex
 hex.offset      // 1
+
+// for convenience, Hex (or any of its subclasses) has a static
+// settings property that contain the four settings:
+CustomHex.settings
+// {
+//   dimensions: { xRadius: 30, yRadius: 30 },
+//   offset: 1,
+//   orientation: 'flat',
+//   origin: { x: -30, y: -25.980762113533157 }
+// }
 ```
 
-As you can see, for `dimensions` you can pass a number, which is interpreted as the radius. A [bounding box](/api/interfaces/BoundingBox) (an object with `width` and `height`) is also accepted.
+### Dimensions
+
+`dimensions` can be a number, which is interpreted as the hex radius (or side).
+
+If you want more control pass an [ellipse](/api/interfaces/Ellipse) (`{ xRadius: number, yRadius: number }`) or a [bounding box](/api/interfaces/BoundingBox) (`{ width: number, height: number }`).
 
 <img src="../hex-dimensions.webp" alt="Hex dimensions" style="background-color: #ccc; padding: 1em; border-radius: 0.5em">
 
-For `origin` the string `'topLeft'` is also valid, meaning the origin of the hex will be in the very top left corner. This is convenient when rendering hexes on screen and you treat a hex as a DOM element. DOM elements have their origin in their top left corner.
+### Origin
 
-For convenience, `Hex` has a static property `settings` that returns the settings of the (custom) Hex class.
+`origin` can be a [point](/api/interfaces/Point) or the string `'topLeft'`. The latter means the origin of the hex will be in the very top left corner. This is convenient when rendering hexes on screen and you treat a hex as a DOM element. DOM elements have their origin in their top left corner.
+
+### Offset
+
+`offset` determines how rows (for pointy hexes) or columns (for flat hexes) are positioned relative to each other. The value can be either `-1` (default) or `1`, but if you don't mind mismatched rows or columns, you can pass any number.
 
 ## Custom properties
 

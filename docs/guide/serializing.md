@@ -16,12 +16,12 @@ const grid = new Grid(Hex, rectangle({ width: 2, height: 2 }))
 
 grid.toJSON()
 // {
-//    hexSettings: {dimensions: {…}, orientation: 'FLAT', origin: {…}, offset: -1}
+//    hexSettings: {dimensions: {…}, orientation: 'flat', origin: {…}, offset: -1}
 //    coordinates: (4) [Hex, Hex, Hex, Hex]
 // }
 
 JSON.stringify(grid)
-// {"hexSettings":{"dimensions":{"xRadius":50,"yRadius":50},"orientation":"FLAT","origin":{"x":0,"y":0},"offset":-1},"coordinates":[{"q":0,"r":0},{"q":1,"r":0},{"q":0,"r":1},{"q":1,"r":1}]}
+// {"hexSettings":{"dimensions":{"xRadius":50,"yRadius":50},"orientation":"flat","origin":{"x":0,"y":0},"offset":-1},"coordinates":[{"q":0,"r":0},{"q":1,"r":0},{"q":0,"r":1},{"q":1,"r":1}]}
 ```
 
 :::tip

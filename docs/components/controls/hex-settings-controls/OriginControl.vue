@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { HexOptions, Point } from '../../../../src'
 import PairControl from '../shared/PairControl.vue'
+import ReadMore from '../shared/ReadMore.vue'
 
 interface OriginControlProps {
   modelValue: Origin
@@ -41,6 +42,7 @@ const tupleToPoint = ([x, y]: [number, number] = [0, 0]): Point => ({ x, y })
     <el-radio-button label="topLeft" />
     <el-radio-button label="point" />
   </el-radio-group>
+  <ReadMore link="/guide/custom-hexes#origin" tooltip="Read more about the hex origin" />
   <div class="variable-input">
     <code v-if="modelValue === 'topLeft'">'topLeft'</code>
     <PairControl

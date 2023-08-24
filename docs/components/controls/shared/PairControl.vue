@@ -3,6 +3,7 @@ import { Aim } from '@element-plus/icons-vue'
 import { computed, ref } from 'vue'
 import { BoundingBox, Ellipse, Hex } from '../../../../src'
 import { useTilePicker } from '../../../composables'
+import ReadMore from './ReadMore.vue'
 
 type Pair = [first: number, second: number]
 
@@ -50,14 +51,20 @@ const toggleTilePicker = async () => {
 </script>
 
 <template>
-  <el-switch
-    v-if="allowDefault"
-    v-model="useDefault"
-    active-text="Use default"
-    size="small"
-    @change="$event ? emit('change', undefined) : update(first, second)"
-    class="switch"
-  />
+  <template v-if="allowDefault">
+    <el-switch
+      v-model="useDefault"
+      active-text="Use default"
+      size="small"
+      @change="$event ? emit('change', undefined) : update(first, second)"
+      class="switch"
+    />
+    <ReadMore
+      link="/guide/traversing-grids#combining-traversers"
+      tooltip="The default value is where the previous traverser left off or { q: 0, r: 0 } if this is the first traverser. Click to read more."
+      margin="0 0 4px 4px"
+    />
+  </template>
   <div v-if="!useDefault" class="controls">
     <div class="inputs">
       <el-form-item :label="labels[0]" :label-width="labelWidth">
@@ -81,7 +88,7 @@ const toggleTilePicker = async () => {
         />
       </el-form-item>
     </div>
-    <el-tooltip v-if="hasPicker" content="Click on a tile to select" :show-after="500">
+    <el-tooltip v-if="hasPicker" content="Click on a tile to select its coordinates" :show-after="500">
       <el-button
         :icon="Aim"
         circle

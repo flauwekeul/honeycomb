@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useSettingsStore } from '../../stores'
+import ReadMore from './shared/ReadMore.vue'
 
 const { coordinatesType } = storeToRefs(useSettingsStore())
 </script>
@@ -12,5 +13,6 @@ const { coordinatesType } = storeToRefs(useSettingsStore())
       <el-radio-button label="offset" />
       <el-radio-button label="hide" />
     </el-radio-group>
+    <ReadMore link="/guide/coordinate-system" tooltip="Read more about the coordinate system" />
   </el-form-item>
 </template>

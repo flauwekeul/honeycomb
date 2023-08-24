@@ -24,6 +24,19 @@ const rectangularGrid = new Grid(Hex, rectangle({ width: 5, height: 5 }))
 rectangularGrid.size // 25
 ```
 
+Like any function that accepts a single traverser, `Grid` also accepts multiple traversers by wrapping them in an array:
+
+```typescript
+const Hex = defineHex()
+const triangularGrid = new Grid(Hex, [
+  line({ stop: [5, 0] }),
+  line({ stop: [0, 5] }),
+  line({ stop: [0, 1] }),
+])
+
+triangularGrid.size // 15
+```
+
 ## `new Grid(Hex, Iterable)`
 
 A Hex class and an [iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#the_iterable_protocol) of hex coordinates produces a grid with hexes created from the coordinates in the iterable. Valid iterables are Arrays, Sets, generators and any object that has a `[Symbol.iterator]()` method.
@@ -51,7 +64,7 @@ The example above uses [tuples](/guide/coordinate-system) for hex coordinates. S
 
 ## `new Grid(Grid)`
 
-Finally, passing an existing grid to the constructor creates a copy of the grid. The hexes it may contain are *not* copied.
+Passing an existing grid to the constructor creates a copy of the grid. Any hexes it contains are *not* copied.
 
 ```typescript
 const Hex = defineHex()

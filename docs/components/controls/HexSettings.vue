@@ -3,6 +3,7 @@ import { storeToRefs } from 'pinia'
 import { useHexSettingsStore } from '../../stores'
 import DimensionsControl from './hex-settings-controls/DimensionsControl.vue'
 import OriginControl from './hex-settings-controls/OriginControl.vue'
+import ReadMore from './shared/ReadMore.vue'
 
 const { orientation, dimensions, origin, offset } = storeToRefs(useHexSettingsStore())
 </script>
@@ -25,5 +26,6 @@ const { orientation, dimensions, origin, offset } = storeToRefs(useHexSettingsSt
       <el-radio-button :label="-1" />
       <el-radio-button :label="1" />
     </el-radio-group>
+    <ReadMore link="/guide/custom-hexes#offset" tooltip="Read more about the hex offset" />
   </el-form-item>
 </template>

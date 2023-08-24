@@ -10,6 +10,7 @@ import {
   isNumber,
 } from '../../../../src'
 import PairControl from '../shared/PairControl.vue'
+import ReadMore from '../shared/ReadMore.vue'
 
 interface DimensionsControlProps {
   modelValue: Dimensions
@@ -85,6 +86,7 @@ const dimensionsToBBox = (dimensions: Dimensions, orientation: Orientation): Bou
     <el-radio-button label="ellipse" />
     <el-radio-button label="bbox" />
   </el-radio-group>
+  <ReadMore link="/guide/custom-hexes#dimensions" tooltip="Read more about hex dimensions" />
   <div class="variable-input">
     <el-input-number
       v-if="isNumber(modelValue)"

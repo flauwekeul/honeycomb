@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { TRAVERSER_NAMES, TraverserControlProps, TraverserName } from '../../types'
+import ReadMore from './shared/ReadMore.vue'
 import LineAsVectorControl from './traverser-controls/LineAsVectorControl.vue'
 import LineBetweenControl from './traverser-controls/LineBetweenControl.vue'
 import OpposingCornersControl from './traverser-controls/OpposingCornersControl.vue'
@@ -32,15 +33,22 @@ const update = <T,>(propName: keyof TraverserControlProps, value: T) => {
 
 <template>
   <el-form-item label="Shape" class="name">
-    <el-select :model-value="name" @change="update('name', $event)">
-      <el-option
-        v-for="type in TRAVERSER_NAMES"
-        :key="type"
-        :label="LABELS[type]"
-        :value="type"
-        style="--el-color-primary: var(--vp-c-brand)"
+    <div class="with-read-more">
+      <el-select :model-value="name" @change="update('name', $event)">
+        <el-option
+          v-for="type in TRAVERSER_NAMES"
+          :key="type"
+          :label="LABELS[type]"
+          :value="type"
+          style="--el-color-primary: var(--vp-c-brand)"
+        />
+      </el-select>
+      <ReadMore
+        link="/guide/traversing-grids#built-in-traversers"
+        tooltip="Read more about the built-in traversers"
+        margin="0 0 0 4px"
       />
-    </el-select>
+    </div>
   </el-form-item>
   <LineBetweenControl v-if="name === 'lineBetween'" v-bind="lineBetween" @change="update('lineBetween', $event)" />
   <LineAsVectorControl v-if="name === 'lineAsVector'" v-bind="lineAsVector" @change="update('lineAsVector', $event)" />
@@ -64,5 +72,9 @@ const update = <T,>(propName: keyof TraverserControlProps, value: T) => {
   margin-bottom: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--el-border-color);
+}
+
+.with-read-more {
+  display: flex;
 }
 </style>

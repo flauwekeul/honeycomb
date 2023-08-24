@@ -55,7 +55,8 @@ These are ideas that may require further investigation 🕵️. Don't hesitate t
   - [x] Support list of traversers
   - [x] Don't make all traverser options required. E.g. `start` should be optional and is ignored when it's not the first traverser.
   - [x] Support the 2nd argument of `grid.traverse()` (`{ bail: boolean }`)
-  - [ ] Add help buttons that link to the docs
+  - [x] Add help buttons that link to the docs
+  - [ ] Update route when switching tabs in playground
   - [ ] Implement playground (with limited controls) in guide
   - [x] Add "hex picker" to select hexes in the grid
   - [ ] Add a way to import/export code

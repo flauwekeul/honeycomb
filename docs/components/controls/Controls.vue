@@ -4,6 +4,7 @@ import { useInitialHexesStore, useTraversalsStore } from '../../stores'
 import HexSettings from './HexSettings.vue'
 import Settings from './Settings.vue'
 import Traversals from './Traversals.vue'
+import ReadMore from './shared/ReadMore.vue'
 
 const traversalsStore = useTraversalsStore()
 const initialHexesStore = useInitialHexesStore()
@@ -17,10 +18,33 @@ const initialHexesStore = useInitialHexesStore()
           <HexSettings />
         </el-tab-pane>
         <el-tab-pane label="Grid">
-          <Traversals :traversals-store="initialHexesStore" />
+          <Traversals :traversals-store="initialHexesStore">
+            <template #controls>
+              <ReadMore
+                link="/guide/creating-grids#new-grid-hex-traverser"
+                tooltip="Read more about creating a grid by passing traversers"
+              />
+            </template>
+          </Traversals>
         </el-tab-pane>
         <el-tab-pane label="Traversals">
-          <Traversals :traversals-store="traversalsStore" />
+          <Traversals :traversals-store="traversalsStore">
+            <template #controls>
+              <div>
+                <el-switch
+                  :model-value="traversalsStore.bail"
+                  active-text="Bail"
+                  @change="traversalsStore.$patch({ bail: $event as boolean })"
+                />
+                <ReadMore
+                  link="/guide/traversing-grids#bail-a-traversal"
+                  tooltip="Read more about bailing a traverser"
+                  margin="0 0 0 4px"
+                />
+              </div>
+              <ReadMore link="/guide/traversing-grids" tooltip="Read more about traversers" />
+            </template>
+          </Traversals>
         </el-tab-pane>
         <el-tab-pane label="Settings">
           <Settings />
