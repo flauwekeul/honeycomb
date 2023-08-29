@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { useSettingsStore } from '../../stores'
+import { usePlaygroundStore, useSettingsStore } from '../../stores'
 import ReadMore from './shared/ReadMore.vue'
 
 const { coordinatesType } = storeToRefs(useSettingsStore())
+const { resetAll } = usePlaygroundStore()
 </script>
 
 <template>
@@ -15,4 +16,5 @@ const { coordinatesType } = storeToRefs(useSettingsStore())
     </el-radio-group>
     <ReadMore link="/guide/coordinate-system" tooltip="Read more about the coordinate system" />
   </el-form-item>
+  <el-button plain type="danger" @click="resetAll">Reset everything</el-button>
 </template>

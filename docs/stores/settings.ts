@@ -2,8 +2,23 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { CoordinatesType } from '../types'
 
-export const useSettingsStore = defineStore('settings', () => {
-  const coordinatesType = ref<CoordinatesType>('axial')
+interface SettingsStore {
+  coordinatesType: CoordinatesType
+}
 
-  return { coordinatesType }
+const defaults: SettingsStore = {
+  coordinatesType: 'axial',
+} as const
+
+export const useSettingsStore = defineStore('settings', () => {
+  const coordinatesType = ref<CoordinatesType>(defaults.coordinatesType)
+
+  const reset = () => {
+    coordinatesType.value = defaults.coordinatesType
+  }
+
+  return {
+    coordinatesType,
+    reset,
+  }
 })

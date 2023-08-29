@@ -56,14 +56,13 @@ These are ideas that may require further investigation 🕵️. Don't hesitate t
   - [x] Don't make all traverser options required. E.g. `start` should be optional and is ignored when it's not the first traverser.
   - [x] Support the 2nd argument of `grid.traverse()` (`{ bail: boolean }`)
   - [x] Add help buttons that link to the docs
-  - [ ] Update route when switching tabs in playground
   - [ ] Implement playground (with limited controls) in guide
   - [x] Add "hex picker" to select hexes in the grid
   - [ ] Add a way to import/export code
   - [ ] Make the grid draggable
   - [x] Support multiple traversers in Grid tab
   - [ ] Show "infinite" background grid
-  - [ ] Persist state (in localStorage)
+  - [x] Persist state (in localStorage)
   - [ ] Integrate code editor ([Sandpack](https://sandpack.codesandbox.io/))?
   - [ ] Add examples (A* path finding, Perlin noise (?) for map generation, "chunking")
 - [ ] Release both stable and next version of docs

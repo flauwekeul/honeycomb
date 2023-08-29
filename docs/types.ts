@@ -62,3 +62,5 @@ export interface RingFromRadiusControlProps extends RingFromRadiusOptions {
 export interface SpiralControlProps extends SpiralOptions {
   start?: AxialCoordinates
 }
+
+export type tabName = 'hex' | 'grid' | 'traversals' | 'settings'

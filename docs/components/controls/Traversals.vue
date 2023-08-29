@@ -26,11 +26,14 @@ const { add, update, moveUp, moveDown, delete_ } = props.traversalsStore
 const { traversers } = storeToRefs(props.traversalsStore)
 const containerEl = ref<HTMLElement | null>(null)
 
-watch(props.traversalsStore.traversers, async () => {
-  await nextTick()
-  const items = Array.from(containerEl.value?.children ?? [])
-  items.at(-1)?.scrollIntoView({ behavior: 'smooth' })
-})
+watch(
+  () => props.traversalsStore.traversers.length,
+  async () => {
+    await nextTick()
+    const items = Array.from(containerEl.value?.children ?? [])
+    items.at(-1)?.scrollIntoView({ behavior: 'smooth' })
+  },
+)
 </script>
 
 <template>

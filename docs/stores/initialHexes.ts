@@ -12,7 +12,12 @@ const initialTraverser: PartialTraverserConfig = {
 }
 
 export const useInitialHexesStore = defineStore('initialHexes', () => {
+  const store = createTraverserStore(initialTraverser)
+
+  const reset = () => store.initialize(initialTraverser)
+
   return {
-    ...createTraverserStore(initialTraverser),
+    ...store,
+    reset,
   }
 })

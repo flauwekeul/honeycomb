@@ -63,10 +63,6 @@ export interface PartialTraverserConfig {
 export const createTraverserStore = (initialTraverser?: PartialTraverserConfig) => {
   const traversers = ref<TraverserControlProps[]>([])
 
-  if (initialTraverser) {
-    traversers.value.push({ ...traverserConfig, ...initialTraverser })
-  }
-
   const add = () => {
     traversers.value.push(traverserConfig)
   }
@@ -94,8 +90,18 @@ export const createTraverserStore = (initialTraverser?: PartialTraverserConfig) 
     traversers.value.splice(index, 1)
   }
 
+  const initialize = (initialTraverser?: PartialTraverserConfig) => {
+    traversers.value = []
+    if (initialTraverser) {
+      traversers.value.push({ ...traverserConfig, ...initialTraverser })
+    }
+  }
+
+  initialize(initialTraverser)
+
   return {
     traversers,
+    initialize,
     add,
     update,
     moveUp,

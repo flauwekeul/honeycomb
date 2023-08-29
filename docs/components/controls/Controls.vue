@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import 'element-plus/theme-chalk/dark/css-vars.css'
-import { useInitialHexesStore, useTraversalsStore } from '../../stores'
+import { storeToRefs } from 'pinia'
+import { useInitialHexesStore, usePlaygroundStore, useTraversalsStore } from '../../stores'
+import { tabName } from '../../types'
 import HexSettings from './HexSettings.vue'
 import Settings from './Settings.vue'
 import Traversals from './Traversals.vue'
@@ -8,16 +10,17 @@ import ReadMore from './shared/ReadMore.vue'
 
 const traversalsStore = useTraversalsStore()
 const initialHexesStore = useInitialHexesStore()
+const { activeTab } = storeToRefs(usePlaygroundStore())
 </script>
 
 <template>
   <el-card class="controls">
     <el-form label-width="auto" class="form">
-      <el-tabs>
-        <el-tab-pane label="Hex">
+      <el-tabs v-model="activeTab" @tab-change="activeTab = $event as tabName">
+        <el-tab-pane label="Hex" name="hex">
           <HexSettings />
         </el-tab-pane>
-        <el-tab-pane label="Grid">
+        <el-tab-pane label="Grid" name="grid">
           <Traversals :traversals-store="initialHexesStore">
             <template #controls>
               <ReadMore
@@ -27,7 +30,7 @@ const initialHexesStore = useInitialHexesStore()
             </template>
           </Traversals>
         </el-tab-pane>
-        <el-tab-pane label="Traversals">
+        <el-tab-pane label="Traversals" name="traversals">
           <Traversals :traversals-store="traversalsStore">
             <template #controls>
               <div>
@@ -46,7 +49,7 @@ const initialHexesStore = useInitialHexesStore()
             </template>
           </Traversals>
         </el-tab-pane>
-        <el-tab-pane label="Settings">
+        <el-tab-pane label="Settings" name="settings">
           <Settings />
         </el-tab-pane>
       </el-tabs>
