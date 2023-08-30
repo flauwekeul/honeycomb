@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useDraggable } from '@vueuse/core'
+import { computed, ref } from 'vue'
 import { Grid, Hex, Traverser, defineHex, line, rectangle, ring, spiral } from '../../src'
+import { useTilePicker } from '../composables'
 import { usePlaygroundStore } from '../stores'
 import { TraverserControlProps } from '../types'
 import Controls from './controls/Controls.vue'
@@ -17,12 +19,29 @@ const TRAVERSERS = {
 } as const
 
 const store = usePlaygroundStore()
+const { isPicking } = useTilePicker()
 // grid can't be a ref because Proxies don't work with private class field
 // see: https://lea.verou.me/blog/2023/04/private-fields-considered-harmful/
 let grid = new Grid(defineHex(store.hexSettings), createTraverser(store.initialHexes.traversers))
 let traversal: Grid<Hex> | undefined
 
 const gridKey = ref(0)
+const dragEl = ref<HTMLElement | null>(null)
+const canDrag = computed(() => !isPicking.value)
+
+const { style, position, isDragging } = useDraggable(dragEl, {
+  initialValue: store.dragPosition,
+  onStart() {
+    if (!canDrag.value) return false
+  },
+  onEnd(position) {
+    store.dragPosition = position
+  },
+})
+
+store.onResetGridPosition(() => {
+  position.value = store.dragPosition
+})
 
 store.$subscribe((_, { hexSettings, initialHexes, traversals }) => {
   try {
@@ -51,7 +70,9 @@ function createTraverser(traverserConfigs: TraverserControlProps[]): Traverser<H
 <template>
   <div class="playground">
     <Controls class="controls" />
-    <TileGrid :grid="grid" :key="gridKey" :traversal="traversal" class="tile-grid" />
+    <div ref="dragEl" :style="style" class="draggable" :class="{ 'can-drag': canDrag, 'is-dragging': isDragging }">
+      <TileGrid :grid="grid" :key="gridKey" :traversal="traversal" />
+    </div>
   </div>
 </template>
 
@@ -70,8 +91,24 @@ function createTraverser(traverserConfigs: TraverserControlProps[]): Traverser<H
   z-index: 1;
 }
 
-.tile-grid {
-  margin: 2rem;
-  width: 80vw;
+.draggable {
+  position: fixed;
+  outline: 1px dashed var(--vp-c-text-light-3);
+  transition:
+    outline-color 0.25s,
+    opacity 0.25s;
+}
+.draggable.can-drag:hover {
+  outline-color: var(--vp-c-brand);
+  cursor: grab;
+}
+.draggable.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+  opacity: 0.7;
+}
+
+.dark .draggable {
+  outline-color: var(--vp-c-text-dark-3);
 }
 </style>

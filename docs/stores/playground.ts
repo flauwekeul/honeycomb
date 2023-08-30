@@ -1,3 +1,4 @@
+import { Position, noop } from '@vueuse/core'
 import { defineStore } from 'pinia'
 import { PersistedStateOptions } from 'pinia-plugin-persistedstate'
 import { ref } from 'vue'
@@ -6,6 +7,17 @@ import { useHexSettingsStore } from './hexSettings'
 import { useInitialHexesStore } from './initialHexes'
 import { useSettingsStore } from './settings'
 import { useTraversalsStore } from './traversals'
+
+const defaults = {
+  dragPosition: {
+    // 20vw (0.2) is the width of the controls
+    x: window.innerWidth * 0.2 + 24,
+    // 64px is the height of the navbar (--vp-nav-height)
+    y: 64 + 24,
+  },
+} as const
+
+let resetGridPositionCallback = noop
 
 export const usePlaygroundStore = defineStore(
   'playground',
@@ -16,12 +28,23 @@ export const usePlaygroundStore = defineStore(
     const settings = useSettingsStore()
 
     const activeTab = ref<tabName>('hex')
+    const dragPosition = ref<Position>({ ...defaults.dragPosition })
 
     const resetAll = () => {
       hexSettings.reset()
       initialHexes.reset()
       traversals.reset()
       settings.reset()
+      resetGridPosition()
+    }
+
+    const resetGridPosition = () => {
+      dragPosition.value = { ...defaults.dragPosition }
+      resetGridPositionCallback()
+    }
+
+    const onResetGridPosition = (fn: () => void) => {
+      resetGridPositionCallback = fn
     }
 
     return {
@@ -30,12 +53,15 @@ export const usePlaygroundStore = defineStore(
       traversals,
       settings,
       activeTab,
+      dragPosition,
       resetAll,
+      resetGridPosition,
+      onResetGridPosition,
     }
   },
   {
     persist: {
-      paths: ['activeTab'],
+      paths: ['activeTab', 'dragPosition'],
     },
   },
 )

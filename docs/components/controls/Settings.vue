@@ -4,7 +4,7 @@ import { usePlaygroundStore, useSettingsStore } from '../../stores'
 import ReadMore from './shared/ReadMore.vue'
 
 const { coordinatesType } = storeToRefs(useSettingsStore())
-const { resetAll } = usePlaygroundStore()
+const { resetAll, resetGridPosition } = usePlaygroundStore()
 </script>
 
 <template>
@@ -16,5 +16,10 @@ const { resetAll } = usePlaygroundStore()
     </el-radio-group>
     <ReadMore link="/guide/coordinate-system" tooltip="Read more about the coordinate system" />
   </el-form-item>
-  <el-button plain type="danger" @click="resetAll">Reset everything</el-button>
+  <el-form-item>
+    <el-button plain @click="resetGridPosition">Reset grid position</el-button>
+  </el-form-item>
+  <el-form-item>
+    <el-button plain type="danger" @click="resetAll">Reset everything</el-button>
+  </el-form-item>
 </template>

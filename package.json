@@ -39,6 +39,7 @@
     "@types/node": "~18.11.19",
     "@typescript-eslint/eslint-plugin": "6.3.0",
     "@typescript-eslint/parser": "6.3.0",
+    "@vueuse/core": "10.4.1",
     "abstract-astar": "0.2.0",
     "concurrently": "8.2.0",
     "element-plus": "2.3.9",

@@ -59,7 +59,7 @@ These are ideas that may require further investigation 🕵️. Don't hesitate t
   - [ ] Implement playground (with limited controls) in guide
   - [x] Add "hex picker" to select hexes in the grid
   - [ ] Add a way to import/export code
-  - [ ] Make the grid draggable
+  - [x] Make the grid draggable
   - [x] Support multiple traversers in Grid tab
   - [ ] Show "infinite" background grid
   - [x] Persist state (in localStorage)
