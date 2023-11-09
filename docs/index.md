@@ -12,7 +12,7 @@ hero:
       link: /guide/getting-started
     - theme: alt
       text: View on GitHub
-      link: /guide/getting-started
+      link: https://github.com/flauwekeul/honeycomb
     - theme: alt
       text: Hexagons are the Bestagons?
       link: https://youtu.be/thOifuHs6eY
