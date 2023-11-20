@@ -24,8 +24,12 @@ export class Hex
     return { dimensions, orientation, origin, offset }
   }
 
-  // todo: add to docs that this always returns a point relative to Hex(0, 0)'s top left corner!
-  // todo: probably deprecate this, see: https://github.com/flauwekeul/honeycomb/discussions/95#discussioncomment-5158862
+  /**
+   * This returns a point relative to the __top left corner__ of the hex with coordinates `[0, 0]`, ignoring any `origin` you may have set.
+   *
+   * @deprecated This probably doesn't do what you expect. If you want the center coordinates of a hex, use `hex.x` and `hex.y` instead.
+   * See https://github.com/flauwekeul/honeycomb/discussions/95#discussioncomment-5158862.
+   */
   get center(): Point {
     const { width, height, x, y } = this
     return { x: width / 2 - x, y: height / 2 - y }

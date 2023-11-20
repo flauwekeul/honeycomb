@@ -222,7 +222,7 @@ ___
 
 #### Defined in
 
-[hex/hex.ts:129](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L129)
+[hex/hex.ts:133](https://github.com/flauwekeul/honeycomb/blob/master/src/hex/hex.ts#L133)
 
 ## Coordinates Functions
 
