@@ -1,6 +1,6 @@
 {
   "name": "honeycomb-grid",
-  "version": "4.1.4",
+  "version": "4.1.5",
   "description": "Create hexagon grids easily",
   "source": "src/index.ts",
   "main": "./dist/honeycomb-grid.umd.js",
