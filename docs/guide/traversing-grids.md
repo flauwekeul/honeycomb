@@ -148,7 +148,7 @@ A line traverser can be created in two ways:
   ```
 
   <TileGrid :grid="grid" :traversal="line2" class="grid">
-    <Line #before :from="line2.getHex([2, 0])" :to="line2.getHex([1, 4])" />
+    <Line :from="line2.getHex([2, 0])" :to="line2.getHex([1, 4])" />
   </TileGrid>
 
   This uses interpolation to determine which hexes are on the line.

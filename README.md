@@ -61,7 +61,7 @@ These are ideas that may require further investigation 🕵️. Don't hesitate t
   - [ ] Add a way to import/export code
   - [x] Make the grid draggable
   - [x] Support multiple traversers in Grid tab
-  - [ ] Show "infinite" background grid
+  - [x] Show "infinite" background grid
   - [x] Persist state (in localStorage)
   - [ ] Integrate code editor ([Sandpack](https://sandpack.codesandbox.io/))?
   - [ ] Add examples (A* path finding, Perlin noise (?) for map generation, "chunking")

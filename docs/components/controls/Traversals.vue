@@ -31,6 +31,7 @@ watch(
   async () => {
     await nextTick()
     const items = Array.from(containerEl.value?.children ?? [])
+    // todo: only scroll down when item is added
     items.at(-1)?.scrollIntoView({ behavior: 'smooth' })
   },
 )
