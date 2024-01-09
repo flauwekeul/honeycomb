@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { Grid, Hex } from '../../../src'
-import { useSettingsStore } from '../../stores'
+import { CoordinatesType } from '../../types'
 import Arrow, { ArrowProps } from './Arrow.vue'
 import Tile from './Tile.vue'
 
-interface GridProps {
+interface TileGridProps {
   grid: Grid<Hex>
   traversal?: Grid<Hex>
+  coordinatesType?: CoordinatesType
 }
 
-const { grid, traversal } = withDefaults(defineProps<GridProps>(), {
+const { grid, traversal } = withDefaults(defineProps<TileGridProps>(), {
   traversal: () => new Grid(Hex), // empty grid
+  coordinatesType: 'axial',
 })
-const { coordinatesType } = storeToRefs(useSettingsStore())
 
 const arrowData = computed(() =>
   traversal.toArray().reduce((acc, currentTile, index, tiles) => {
@@ -47,8 +47,6 @@ const arrowData = computed(() =>
         <path d="M0,0 L0,3 L2.5,1.5 z" class="arrow-head" />
       </marker>
     </defs>
-
-    <slot name="before"></slot>
 
     <Tile
       v-for="tile of grid"

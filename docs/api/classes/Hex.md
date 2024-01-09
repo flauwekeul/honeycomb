@@ -59,14 +59,14 @@ Readonly.r
 
 This returns a point relative to the __top left corner__ of the hex with coordinates `[0, 0]`, ignoring any `origin` you may have set.
 
+#### Returns
+
+[`Point`](../interfaces/Point.md)
+
 **`Deprecated`**
 
 This probably doesn't do what you expect. If you want the center coordinates of a hex, use `hex.x` and `hex.y` instead.
 See https://github.com/flauwekeul/honeycomb/discussions/95#discussioncomment-5158862.
-
-#### Returns
-
-[`Point`](../interfaces/Point.md)
 
 #### Defined in
 
