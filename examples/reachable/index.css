@@ -1,0 +1,21 @@
+html,
+body {
+  width: 100wm;
+  height: 100vh;
+}
+
+body {
+  margin: 2vmin;
+  font-family: sans-serif;
+  color: #333;
+}
+
+svg {
+  display: block;
+  overflow: visible;
+}
+
+svg text {
+  fill: currentColor;
+  pointer-events: none;
+}
