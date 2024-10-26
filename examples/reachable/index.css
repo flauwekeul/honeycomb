@@ -1,5 +1,4 @@
-html,
-body {
+html {
   min-width: 100vw;
   min-height: 100vh;
 }
@@ -16,15 +15,15 @@ svg {
 }
 
 svg .default {
-    fill: #fff;
+  fill: #fff;
 }
 
 svg .obstacle {
-    fill: #777;
+  fill: #777;
 }
 
 svg .reachable {
-    fill: #ddd;
+  fill: #ddd;
 }
 
 svg text {
@@ -35,9 +34,9 @@ svg text {
 }
 
 svg .obstacle > text {
-    fill: #fff;
+  fill: #fff;
 }
 
 svg .reachable > text {
-    fill: #000;
+  fill: #000;
 }
